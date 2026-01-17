@@ -20,9 +20,10 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable, Iterable
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 from warnings import warn
 
+import kfactory as kf
 import numpy as np
 from kfactory import DInstance, ProtoTKCell, VInstance, VKCell
 from kfactory.kcell import AnyKCell, TKCell
@@ -310,7 +311,7 @@ def get_netlist_recursive(
         for ref in references:
             rcell = ref.cell
             grandchildren = get_netlist_recursive(
-                component=rcell,
+                component=cast(kf.ProtoTKCell[Any], rcell),
                 component_suffix=component_suffix,
                 exclude_port_types=exclude_port_types,
                 get_instance_name=get_instance_name,
@@ -393,7 +394,7 @@ def _insert_interface_if_needed(
 
 
 def _extract_connections(
-    port_names: Sequence[str],
+    port_names: Iterable[str],
     ports: dict[str, typings.Port],
     port_type: str,
     allow_multiple: bool = True,

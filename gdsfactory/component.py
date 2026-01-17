@@ -467,7 +467,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
 
         if recursive:
-            return get_netlist_recursive(self, **kwargs)
+            return get_netlist_recursive(self, **kwargs)  # type: ignore[arg-type]
 
         return get_netlist(self, **kwargs)  # type: ignore[arg-type]
 

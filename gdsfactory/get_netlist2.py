@@ -5,7 +5,7 @@ import secrets
 from collections import defaultdict
 from collections.abc import Iterable
 from itertools import chain, combinations, product
-from typing import Protocol
+from typing import Any, Protocol, TypeAlias, cast
 
 import kfactory as kf
 
@@ -13,16 +13,18 @@ import gdsfactory as gf
 import gdsfactory.schematic as scm
 from gdsfactory.component import Component
 
+Instance: TypeAlias = kf.DInstance | kf.VInstance | kf.Instance
+
 
 class ComponentNamer(Protocol):
     """Protocol for naming components in netlists."""
 
-    def __call__(self, cell: kf.ProtoTKCell) -> str:
+    def __call__(self, cell: kf.ProtoTKCell[Any]) -> str:
         """Return the component name for the given cell."""
         ...
 
 
-def factory_namer(cell: kf.ProtoTKCell) -> str:
+def factory_namer(cell: kf.ProtoTKCell[Any]) -> str:
     """Names components using their factory name."""
     try:
         return cell.factory_name
@@ -30,7 +32,7 @@ def factory_namer(cell: kf.ProtoTKCell) -> str:
         return f"unknown_{secrets.token_hex(4)}"
 
 
-def function_namer(cell: kf.ProtoTKCell) -> str:
+def function_namer(cell: kf.ProtoTKCell[Any]) -> str:
     """Names components using their function name, falling back to factory name."""
     try:
         return cell.function_name or cell.factory_name
@@ -41,7 +43,7 @@ def function_namer(cell: kf.ProtoTKCell) -> str:
 class InstanceNamer(Protocol):
     """Protocol for naming instances in netlists."""
 
-    def __call__(self, inst: kf.Instance) -> str:
+    def __call__(self, inst: Instance) -> str:
         """Return the instance name for the given instance."""
         ...
 
@@ -50,10 +52,10 @@ class OriginalNamer:
     """Names instances using their original instance name."""
 
     def __init__(self) -> None:
-        self._instance_names: dict[str, str] = {}
-        self._rev_instance_names: dict[str, str] = {}
+        self._instance_names: dict[str | None, str] = {}
+        self._rev_instance_names: dict[str, str | None] = {}
 
-    def __call__(self, inst: kf.Instance) -> str:
+    def __call__(self, inst: Instance) -> str:
         if inst.name in self._instance_names:
             return self._instance_names[inst.name]
         name = self._instance_names[inst.name] = _clean_instname(inst.name)
@@ -66,13 +68,15 @@ class CountedNamer:
 
     def __init__(self, component_namer: ComponentNamer) -> None:
         self._component_namer = component_namer
-        self._instance_names: dict[str, str] = {}
-        self._rev_instance_names: dict[str, str] = {}
+        self._instance_names: dict[str | None, str] = {}
+        self._rev_instance_names: dict[str, str | None] = {}
 
-    def __call__(self, inst: kf.Instance) -> str:
+    def __call__(self, inst: Instance) -> str:
         if inst.name in self._instance_names:
             return self._instance_names[inst.name]
-        compname = _short_component_name(inst.cell, self._component_namer)
+        compname = _short_component_name(
+            cast(kf.ProtoTKCell[Any], inst.cell), self._component_namer
+        )
         name = _instname_from_compname(
             inst, compname, self._instance_names, self._rev_instance_names
         )
@@ -86,22 +90,24 @@ class SmartNamer:
 
     def __init__(self, component_namer: ComponentNamer) -> None:
         self._component_namer = component_namer
-        self._instance_names: dict[str, str] = {}
-        self._rev_instance_names: dict[str, str] = {}
+        self._instance_names: dict[str | None, str] = {}
+        self._rev_instance_names: dict[str, str | None] = {}
 
-    def __call__(self, inst: kf.Instance) -> str:
+    def __call__(self, inst: Instance) -> str:
         if inst.name in self._instance_names:
             return self._instance_names[inst.name]
-        compname = _short_component_name(inst.cell, self._component_namer)
-        if inst.name.startswith(f"{compname}_"):
-            name = _instname_from_compname(
+        compname = _short_component_name(
+            cast(kf.ProtoTKCell[Any], inst.cell), self._component_namer
+        )
+        if inst.name is not None and inst.name.startswith(f"{compname}_"):
+            name: str | None = _instname_from_compname(
                 inst, compname, self._instance_names, self._rev_instance_names
             )
         else:
             name = inst.name
-        name = self._instance_names[inst.name] = _clean_instname(name)
-        self._rev_instance_names[name] = inst.name
-        return name
+        cleaned = self._instance_names[inst.name] = _clean_instname(name)
+        self._rev_instance_names[cleaned] = inst.name
+        return cleaned
 
 
 class PortMatcher(Protocol):
@@ -124,13 +130,13 @@ def ports_coincident(
 
 
 def get_netlist(
-    cell: kf.ProtoTKCell,
+    cell: kf.ProtoTKCell[Any],
     *,
     allow_multiple: bool = False,
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     port_matcher: PortMatcher = ports_coincident,
-) -> dict:
+) -> dict[str, Any]:
     """Extract netlist from a cell's port connectivity.
 
     Args:
@@ -146,14 +152,12 @@ def get_netlist(
     Returns:
         A dictionary containing instances, placements, and nets.
     """
-    if instance_namer is None:
-        instance_namer = SmartNamer(component_namer)
-    recnet: dict = {}
+    recnet: dict[str, dict[str, Any]] = {}
     _insert_netlist(
         recnet,
         cell,
         allow_multiple,
-        instance_namer,
+        instance_namer or SmartNamer(component_namer),
         component_namer,
         port_matcher,
         recursive=False,
@@ -162,13 +166,13 @@ def get_netlist(
 
 
 def get_netlist_recursive(
-    cell: kf.ProtoTKCell,
+    cell: kf.ProtoTKCell[Any],
     *,
     allow_multiple: bool = False,
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     port_matcher: PortMatcher = ports_coincident,
-) -> dict[str, dict]:
+) -> dict[str, Any]:
     """Extract netlists recursively from a cell and all its subcells.
 
     Args:
@@ -184,14 +188,12 @@ def get_netlist_recursive(
     Returns:
         A dictionary mapping cell names to their netlists.
     """
-    if instance_namer is None:
-        instance_namer = SmartNamer(component_namer)
-    recnet: dict = {}
+    recnet: dict[str, Any] = {}
     _insert_netlist(
         recnet,
         cell,
         allow_multiple,
-        instance_namer,
+        instance_namer or SmartNamer(component_namer),
         component_namer,
         port_matcher,
         recursive=True,
@@ -200,8 +202,8 @@ def get_netlist_recursive(
 
 
 def _insert_netlist(
-    recnet: dict,
-    cell: kf.KCell,
+    recnet: dict[str, Any],
+    cell: kf.ProtoTKCell[Any],
     allow_multiple: bool,
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
@@ -216,8 +218,11 @@ def _insert_netlist(
         "placements": {},
         "nets": {},
     }
-    _instance_ports = {}
-    for inst in sorted(chain(cell.insts, cell.vinsts), key=lambda i: i.name):
+    _instance_ports: dict[str, kf.DPort | kf.Port] = {}
+    for _inst in sorted(
+        chain(cell.insts, cell.vinsts), key=lambda i: getattr(i, "name", "") or ""
+    ):
+        inst = cast(Instance, _inst)
         inst_name = instance_namer(inst)
         if _is_pure_vinst(inst):
             if _is_array_inst(inst):
@@ -234,13 +239,16 @@ def _insert_netlist(
                 msg = (
                     "Cannot export netlist: virtual array instances are not supported."
                 )
-            inst = inst.to_dtype()
+            if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
+                inst = inst.to_dtype()
             array = None
             virtual = True
-            transform = inst.dcplx_trans * inst.cell.vtrans
+            if hasattr(inst.cell, "vtrans"):  # always True - just making mypy happy
+                transform = inst.dcplx_trans * inst.cell.vtrans
             _instance_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_array_inst(inst):
-            inst = inst.to_dtype()
+            if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
+                inst = inst.to_dtype()
             array = _get_array_config(inst)
             virtual = False
             transform = inst.dcplx_trans
@@ -253,7 +261,8 @@ def _insert_netlist(
                 }
             )
         else:
-            inst = inst.to_dtype()
+            if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
+                inst = inst.to_dtype()
             array = None
             virtual = False
             transform = inst.dcplx_trans
@@ -261,7 +270,7 @@ def _insert_netlist(
 
         net["instances"][inst_name] = _dump_instance(
             scm.Instance(
-                component=component_namer(inst.cell),
+                component=component_namer(cast(kf.ProtoTKCell[Any], inst.cell)),
                 array=array,
                 settings=inst.cell.settings.model_dump(),
                 info=inst.cell.info.model_dump(),
@@ -278,7 +287,7 @@ def _insert_netlist(
         if recursive and _has_instances(inst.cell):
             _insert_netlist(
                 recnet,
-                inst.cell,
+                cast(kf.ProtoTKCell[Any], inst.cell),
                 allow_multiple,
                 instance_namer,
                 component_namer,
@@ -287,15 +296,14 @@ def _insert_netlist(
             )
 
     net["nets"] = _get_nets(_instance_ports, allow_multiple, port_matcher)
-    return _instance_ports
 
 
-def _has_instances(cell: kf.KCell) -> bool:
+def _has_instances(cell: Any) -> bool:
     """Return True if the cell has any instances."""
-    return bool(cell.insts) or bool(cell.vinsts)
+    return bool(getattr(cell, "insts", False)) or bool(getattr(cell, "vinsts", False))
 
 
-def _get_array_config(inst: kf.Instance) -> scm.Array:
+def _get_array_config(inst: Instance) -> scm.Array:
     kcl = inst.cell.kcl
     match (
         abs(inst.a.x) == 0,
@@ -325,52 +333,22 @@ def _get_array_config(inst: kf.Instance) -> scm.Array:
     )
 
 
-def _is_array_inst(inst: kf.Instance) -> bool:
+def _is_array_inst(inst: Instance) -> bool:
     return getattr(inst, "na", 0) > 1 or getattr(inst, "nb", 0) > 1
 
 
-def _is_pure_vinst(inst: kf.Instance) -> bool:
+def _is_pure_vinst(inst: Instance) -> bool:
     return isinstance(inst, kf.VInstance)
 
 
-def _is_flattened_vinst(inst: kf.Instance) -> bool:
-    return inst.cell.vtrans is not None
-
-
-def _sample_circuit() -> Component:
-    c = Component()
-    ring = c.add_ref(gf.c.ring_single(), name="ring").move((100, 0))
-    mzi = c.add_ref_off_grid(gf.c.mzi()).rotate(33).move((0, 20))
-    mzi.name = "mzi"
-    s1 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=90 - 33)).connect(
-        "o1", mzi["o1"]
-    )
-    s1.name = "s1"
-    s2 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=33)).connect(
-        "o2", mzi["o2"]
-    )
-    s2.name = "s2"
-    gf.routing.route_bundle(c, [s1["o2"]], [ring["o1"]], cross_section="strip")
-    arr = c.add_ref(gf.c.straight(), columns=1, rows=4, row_pitch=30).move((150, 0))
-    arr.name = "arr"
-    gf.routing.route_bundle(
-        c,
-        [arr["o1", 0, 0], arr["o1", 0, 3]],
-        [ring["o2"], s2["o1"]],
-        cross_section="strip",
-    )
-    gf.routing.route_bundle(
-        c, [arr["o1", 0, 1]], [arr["o1", 0, 2]], cross_section="strip"
-    )
-    for i, p in enumerate(list(arr.ports)[1::2]):
-        c.add_port(name=f"o{i + 1}", port=p)
-    return c
+def _is_flattened_vinst(inst: Instance) -> bool:
+    return getattr(inst.cell, "vtrans", None) is not None
 
 
 def _dump_instance(
     instance: scm.Instance,
     instance_exclude: Iterable[str] = (),
-) -> dict:
+) -> dict[str, Any]:
     instance_exclude = set(instance_exclude)
     dct = {}
     for k in sorted(scm.Instance.model_fields):
@@ -387,7 +365,9 @@ def _dump_instance(
     return dct
 
 
-def _short_component_name(cell: kf.ProtoTKCell, component_namer: ComponentNamer) -> str:
+def _short_component_name(
+    cell: kf.ProtoTKCell[Any], component_namer: ComponentNamer
+) -> str:
     """Get short component name, preferring function_name."""
     try:
         return cell.function_name or component_namer(cell)
@@ -396,10 +376,10 @@ def _short_component_name(cell: kf.ProtoTKCell, component_namer: ComponentNamer)
 
 
 def _instname_from_compname(
-    inst: kf.Instance,
+    inst: Instance,
     compname: str,
-    _instance_names: dict[str, str],
-    _rev_instance_names: dict[str, str],
+    _instance_names: dict[str | None, str],
+    _rev_instance_names: dict[str, str | None],
 ) -> str:
     if compname not in _rev_instance_names:
         _instance_names[inst.name] = compname
@@ -420,7 +400,9 @@ def _instname_from_compname(
     return compname
 
 
-def _clean_instname(name: str) -> str:
+def _clean_instname(name: str | None) -> str:
+    if name is None:
+        return f"unnamed_{secrets.token_hex(4)}"
     replace_map = {" ": "_", "!": "", "?": "", "#": "_", "%": "_", "(": "", ")": "", "*": "_", ",": "_", "-": "m", ".": "p", "/": "_", ":": "_", "=": "", "@": "_", "[": "", "]": "", "{": "", "}": "", "$": ""}  # fmt: skip
     for k, v in replace_map.items():
         name = name.replace(k, v)
@@ -457,6 +439,37 @@ def _get_nets(
     return nets
 
 
+def _sample_circuit() -> Component:
+    c = Component()
+    ring = c.add_ref(gf.c.ring_single(), name="ring").move((100, 0))
+    mzi = c.add_ref_off_grid(gf.c.mzi()).rotate(33).move((0, 20))
+    mzi.name = "mzi"
+    s1 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=90 - 33)).connect(  # type: ignore[arg-type]
+        "o1", mzi["o1"]
+    )
+    s1.name = "s1"
+    s2 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=33)).connect(  # type: ignore[arg-type]
+        "o2", mzi["o2"]
+    )
+    s2.name = "s2"
+    c.add_ref(gf.c.mzi(delta_length=100))
+    gf.routing.route_bundle(c, [s1["o2"]], [ring["o1"]], cross_section="strip")
+    arr = c.add_ref(gf.c.straight(), columns=1, rows=4, row_pitch=30).move((150, 0))
+    arr.name = "arr"
+    gf.routing.route_bundle(
+        c,
+        [arr["o1", 0, 0], arr["o1", 0, 3]],
+        [ring["o2"], s2["o1"]],
+        cross_section="strip",
+    )
+    gf.routing.route_bundle(
+        c, [arr["o1", 0, 1]], [arr["o1", 0, 2]], cross_section="strip"
+    )
+    for i, p in enumerate(list(arr.ports)[1::2]):
+        c.add_port(name=f"o{i + 1}", port=p)
+    return c
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.gpdk import PDK
@@ -469,3 +482,4 @@ if __name__ == "__main__":
         print(net["p1"], net["p2"])
     c2 = gf.read.from_yaml(netlist)
     c2.show()
+    print(list(get_netlist_recursive(c)))

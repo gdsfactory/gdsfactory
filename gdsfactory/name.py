@@ -10,9 +10,8 @@ from typing import TYPE_CHECKING, Any
 from gdsfactory.config import CONF
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
-    from gdsfactory.component_reference import ComponentReference
-    from gdsfactory.types import LayerSpec
+    from gdsfactory.component import Component, ComponentReference
+    from gdsfactory.typings import LayerSpec
 
 
 def get_name_short(
@@ -212,8 +211,9 @@ def get_instance_name_from_label(
         reference: reference that needs naming.
         layer_label: ignores layer_label[1].
     """
+    from kfactory.layer import LayerEnum
+
     from gdsfactory.pdk import get_layer
-    from gdsfactory.types import LayerEnum
 
     layer_label = get_layer(layer_label)
     layer = layer_label[0] if isinstance(layer_label, LayerEnum) else layer_label
