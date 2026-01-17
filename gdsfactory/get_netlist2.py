@@ -29,7 +29,7 @@ def factory_namer(cell: kf.ProtoTKCell[Any]) -> str:
     try:
         return cell.factory_name
     except ValueError:
-        return f"unknown_{secrets.token_hex(4)}"
+        return cell.name
 
 
 def function_namer(cell: kf.ProtoTKCell[Any]) -> str:
@@ -37,7 +37,12 @@ def function_namer(cell: kf.ProtoTKCell[Any]) -> str:
     try:
         return cell.function_name or cell.factory_name
     except ValueError:
-        return f"unknown_{secrets.token_hex(4)}"
+        return cell.name
+
+
+def cell_namer(cell: kf.ProtoTKCell[Any]) -> str:
+    """Names components using their cell name."""
+    return cell.name
 
 
 class InstanceNamer(Protocol):
@@ -110,6 +115,56 @@ class SmartNamer:
         return cleaned
 
 
+class NetlistNamer(Protocol):
+    """Protocol for naming cells in recursive netlists."""
+
+    def __call__(self, cell: kf.ProtoTKCell[Any]) -> str:
+        """Return the name for the given cell in the netlist."""
+        ...
+
+
+class CountedNetlistNamer:
+    """Names cells with counting for uniqueness in recursive netlists.
+
+    Uses component_namer for leaf cells (no instances) and counted naming
+    for hierarchical cells (with instances).
+    """
+
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._cell_names: dict[int, str] = {}  # cell id -> assigned name
+        self._used_names: set[str] = set()
+
+    def __call__(self, cell: kf.ProtoTKCell[Any]) -> str:
+        cell_id = id(cell)
+        if cell_id in self._cell_names:
+            return self._cell_names[cell_id]
+
+        if not _has_instances(cell):
+            # Leaf cell: use component_namer (typically function_name)
+            name = self._component_namer(cell)
+        else:
+            # Hierarchical cell: use counted naming
+            base = self._component_namer(cell)
+            name = self._get_unique_name(base)
+
+        self._cell_names[cell_id] = name
+        self._used_names.add(name)
+        return name
+
+    def _get_unique_name(self, base: str) -> str:
+        if base not in self._used_names:
+            return base
+        # If base ends with a number, add underscore
+        basename = re.sub("[0-9]*$", "", base)
+        if basename != base:
+            basename = f"{base}_"
+        index = 2
+        while (name := f"{basename}{index}") in self._used_names:
+            index += 1
+        return name
+
+
 class PortMatcher(Protocol):
     """Protocol for determining if two ports are connected."""
 
@@ -162,6 +217,7 @@ def get_netlist(
         frozenset(exclude_port_types),
         instance_namer or SmartNamer(component_namer),
         component_namer,
+        component_namer,  # netlist_namer: use component_namer for non-recursive
         port_matcher,
         recursive=False,
     )
@@ -175,6 +231,7 @@ def get_netlist_recursive(
     exclude_port_types: Iterable[str] = (),
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
+    netlist_namer: NetlistNamer | None = None,
     port_matcher: PortMatcher = ports_coincident,
 ) -> dict[str, Any]:
     """Extract netlists recursively from a cell and all its subcells.
@@ -185,8 +242,10 @@ def get_netlist_recursive(
         exclude_port_types: Port types to exclude from netlisting.
         instance_namer: Callable to name instances.
             Defaults to SmartNamer(component_namer).
-        component_namer: Callable to name components.
+        component_namer: Callable to name components in instance dicts.
             Defaults to function_namer.
+        netlist_namer: Callable to name cells in the recursive netlist.
+            Defaults to CountedNetlistNamer(component_namer).
         port_matcher: Callable to determine if two ports are connected.
             Defaults to ports_coincident.
 
@@ -201,6 +260,7 @@ def get_netlist_recursive(
         frozenset(exclude_port_types),
         instance_namer or SmartNamer(component_namer),
         component_namer,
+        netlist_namer or CountedNetlistNamer(component_namer),
         port_matcher,
         recursive=True,
     )
@@ -214,10 +274,11 @@ def _insert_netlist(
     exclude_port_types: frozenset[str],
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
+    netlist_namer: NetlistNamer,
     port_matcher: PortMatcher,
     recursive: bool,
 ) -> None:
-    cell_name = component_namer(cell)
+    cell_name = netlist_namer(cell)
     if cell_name in recnet:
         return
     net = recnet[cell_name] = {
@@ -261,9 +322,7 @@ def _insert_netlist(
             array = _get_array_config(inst)
             virtual = False
             transform = inst.dcplx_trans
-            for p, a, b in product(
-                inst.cell.ports, range(inst.na), range(inst.nb)
-            ):
+            for p, a, b in product(inst.cell.ports, range(inst.na), range(inst.nb)):
                 port = inst.ports[p.name, a, b]
                 _ports_by_type[p.port_type][f"{inst_name}<{a}.{b}>,{p.name}"] = port
         else:
@@ -292,6 +351,9 @@ def _insert_netlist(
         }
 
         if recursive and _has_instances(inst.cell):
+            net["instances"][inst_name]["component"] = netlist_namer(
+                cast(kf.ProtoTKCell[Any], inst.cell)
+            )
             _insert_netlist(
                 recnet,
                 cast(kf.ProtoTKCell[Any], inst.cell),
@@ -299,6 +361,7 @@ def _insert_netlist(
                 exclude_port_types,
                 instance_namer,
                 component_namer,
+                netlist_namer,
                 port_matcher,
                 recursive,
             )
@@ -488,10 +551,8 @@ if __name__ == "__main__":
 
     PDK.activate()
     c = _sample_circuit()
-    netlist = get_netlist(c)
-    netlist["placements"]["mzi"]
-    for net in netlist["nets"]:
-        print(net["p1"], net["p2"])
-    c2 = gf.read.from_yaml(netlist)
-    c2.show()
-    print(list(get_netlist_recursive(c)))
+    recnet = get_netlist_recursive(c)
+    for name, netlist in recnet.items():
+        print(f"Cell: {name}")
+        for inst_name, inst in netlist["instances"].items():
+            print(f"  Instance: {inst_name} -> {inst['component']}")
