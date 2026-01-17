@@ -246,7 +246,6 @@ def get_netlist(
     cell: kf.ProtoTKCell[Any],
     *,
     allow_multiple: bool = False,
-    exclude_port_types: Iterable[str] = (),
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     port_matcher: PortMatcher | None = None,
@@ -256,7 +255,6 @@ def get_netlist(
     Args:
         cell: The cell to extract the netlist from.
         allow_multiple: If True, allow more than two ports to overlap.
-        exclude_port_types: Port types to exclude from netlisting.
         instance_namer: Callable to name instances.
             Defaults to SmartNamer(component_namer).
         component_namer: Callable to name components.
@@ -272,7 +270,6 @@ def get_netlist(
         recnet,
         cell,
         allow_multiple,
-        frozenset(exclude_port_types),
         instance_namer or SmartNamer(component_namer),
         component_namer,
         component_namer,  # netlist_namer: use component_namer for non-recursive
@@ -286,7 +283,6 @@ def get_netlist_recursive(
     cell: kf.ProtoTKCell[Any],
     *,
     allow_multiple: bool = False,
-    exclude_port_types: Iterable[str] = (),
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     netlist_namer: NetlistNamer | None = None,
@@ -297,7 +293,6 @@ def get_netlist_recursive(
     Args:
         cell: The cell to extract the netlist from.
         allow_multiple: If True, allow more than two ports to overlap.
-        exclude_port_types: Port types to exclude from netlisting.
         instance_namer: Callable to name instances.
             Defaults to SmartNamer(component_namer).
         component_namer: Callable to name components in instance dicts.
@@ -315,7 +310,6 @@ def get_netlist_recursive(
         recnet,
         cell,
         allow_multiple,
-        frozenset(exclude_port_types),
         instance_namer or SmartNamer(component_namer),
         component_namer,
         netlist_namer or CountedNetlistNamer(component_namer),
@@ -329,7 +323,6 @@ def _insert_netlist(
     recnet: dict[str, Any],
     cell: kf.ProtoTKCell[Any],
     allow_multiple: bool,
-    exclude_port_types: frozenset[str],
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
     netlist_namer: NetlistNamer,
@@ -344,7 +337,7 @@ def _insert_netlist(
         "placements": {},
         "nets": {},
     }
-    _ports_by_type: dict[str, dict[str, kf.DPort | kf.Port]] = defaultdict(dict)
+    _instance_ports: dict[str, kf.DPort | kf.Port] = {}
     for _inst in sorted(
         chain(cell.insts, cell.vinsts), key=lambda i: getattr(i, "name", "") or ""
     ):
@@ -359,8 +352,7 @@ def _insert_netlist(
             array = None
             virtual = True
             transform = inst.dcplx_trans
-            for p in inst.ports:
-                _ports_by_type[p.port_type][f"{inst_name},{p.name}"] = p
+            _instance_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_flattened_vinst(inst):
             if _is_array_inst(inst):
                 msg = (
@@ -372,25 +364,28 @@ def _insert_netlist(
             virtual = True
             if hasattr(inst.cell, "vtrans"):  # always True - just making mypy happy
                 transform = inst.dcplx_trans * inst.cell.vtrans
-            for p in inst.ports:
-                _ports_by_type[p.port_type][f"{inst_name},{p.name}"] = p
+            _instance_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_array_inst(inst):
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = _get_array_config(inst)
             virtual = False
             transform = inst.dcplx_trans
-            for p, a, b in product(inst.cell.ports, range(inst.na), range(inst.nb)):
-                port = inst.ports[p.name, a, b]
-                _ports_by_type[p.port_type][f"{inst_name}<{a}.{b}>,{p.name}"] = port
+            _instance_ports.update(
+                {
+                    f"{inst_name}<{a}.{b}>,{p.name}": inst.ports[p.name, a, b]
+                    for p, a, b in product(
+                        inst.cell.ports, range(inst.na), range(inst.nb)
+                    )
+                }
+            )
         else:
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = None
             virtual = False
             transform = inst.dcplx_trans
-            for p in inst.ports:
-                _ports_by_type[p.port_type][f"{inst_name},{p.name}"] = p
+            _instance_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
 
         net["instances"][inst_name] = _dump_instance(
             scm.Instance(
@@ -416,7 +411,6 @@ def _insert_netlist(
                 recnet,
                 cast(kf.ProtoTKCell[Any], inst.cell),
                 allow_multiple,
-                exclude_port_types,
                 instance_namer,
                 component_namer,
                 netlist_namer,
@@ -424,11 +418,7 @@ def _insert_netlist(
                 recursive,
             )
 
-    all_nets: list[dict[str, str]] = []
-    for port_type, ports in _ports_by_type.items():
-        if port_type not in exclude_port_types:
-            all_nets.extend(_get_nets(ports, allow_multiple, port_matcher))
-    net["nets"] = all_nets
+    net["nets"] = _get_nets(_instance_ports, allow_multiple, port_matcher)
 
 
 def _has_instances(cell: Any) -> bool:
