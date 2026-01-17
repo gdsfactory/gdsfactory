@@ -152,13 +152,13 @@ class CountedNetlistNamer:
         return name
 
     def _get_unique_name(self, base: str) -> str:
-        if base not in self._used_names:
-            return base
+        # Always use a numbered suffix for hierarchical cells to distinguish
+        # netlist keys from function names (which are used for leaf cells)
         # If base ends with a number, add underscore
         basename = re.sub("[0-9]*$", "", base)
         if basename != base:
             basename = f"{base}_"
-        index = 2
+        index = 1
         while (name := f"{basename}{index}") in self._used_names:
             index += 1
         return name
