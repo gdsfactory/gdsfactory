@@ -30,12 +30,21 @@ class InstanceNamer(Protocol):
         ...
 
 
+class PortMatcher(Protocol):
+    """Protocol for determining if two ports are connected."""
+
+    def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
+        """Return True if the two ports are considered connected."""
+        ...
+
+
 def _insert_netlist(
     recnet: dict,
     cell: kf.KCell,
     allow_multiple: bool,
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
+    port_matcher: PortMatcher,
 ) -> None:
     net = recnet[cell.name] = {
         "instances": {},
@@ -100,7 +109,7 @@ def _insert_netlist(
             "rotation": transform.angle,
             "mirror": transform.mirror,
         }
-    net["nets"] = _get_nets(_instance_ports, allow_multiple)
+    net["nets"] = _get_nets(_instance_ports, allow_multiple, port_matcher)
     return _instance_ports
 
 
@@ -316,6 +325,7 @@ def _clean_instname(name: str) -> str:
 def _get_nets(
     instance_ports: dict[str, kf.DPort | kf.Port],
     allow_multiple: bool,
+    port_matcher: PortMatcher,
 ) -> list[dict[str, str]]:
     _instance_port_names = list(instance_ports)
     _num_instance_ports = len(_instance_port_names)
@@ -326,7 +336,7 @@ def _get_nets(
             qname = _instance_port_names[j]
             p = instance_ports[pname]
             q = instance_ports[qname]
-            if _ports_equal(p, q):
+            if port_matcher(p, q):
                 _nets[i].add(pname)
                 _nets[i].add(qname)
     nets = []
@@ -339,7 +349,8 @@ def _get_nets(
     return nets
 
 
-def _ports_equal(port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
+def ports_coincident(port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
+    """Return True if two ports are at the same location (within tolerance)."""
     tolerance_dbu = 2
     x1, y1 = port1.to_itype().center
     x2, y2 = port2.to_itype().center
@@ -361,6 +372,7 @@ if __name__ == "__main__":
         allow_multiple=False,
         instance_namer=instance_namer,
         component_namer=component_namer,
+        port_matcher=ports_coincident,
     )
     netlist = recnet[next(iter(recnet))]
     netlist["placements"]["mzi"]
