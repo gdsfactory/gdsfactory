@@ -544,6 +544,9 @@ def _get_nets(
     allow_multiple: bool,
     port_matcher: PortMatcher,
 ) -> list[dict[str, str]]:
+    # NOTE: This is O(n²) in the number of ports. For very large circuits,
+    # consider adding a PortIndexer to bucket ports by position first (O(n)),
+    # then only compare within buckets using the PortMatcher.
     _instance_port_names = list(instance_ports)
     _num_instance_ports = len(_instance_port_names)
     _nets = defaultdict(set)
