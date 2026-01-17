@@ -208,7 +208,10 @@ def _insert_netlist(
     port_matcher: PortMatcher,
     recursive: bool,
 ) -> None:
-    net = recnet[cell.name] = {
+    cell_name = component_namer(cell)
+    if cell_name in recnet:
+        return
+    net = recnet[cell_name] = {
         "instances": {},
         "placements": {},
         "nets": {},
