@@ -22,6 +22,22 @@ class ComponentNamer(Protocol):
         ...
 
 
+def factory_namer(cell: kf.ProtoTKCell) -> str:
+    """Names components using their factory name."""
+    try:
+        return cell.factory_name
+    except ValueError:
+        return f"unknown_{secrets.token_hex(4)}"
+
+
+def function_namer(cell: kf.ProtoTKCell) -> str:
+    """Names components using their function name, falling back to factory name."""
+    try:
+        return cell.function_name or cell.factory_name
+    except ValueError:
+        return f"unknown_{secrets.token_hex(4)}"
+
+
 class InstanceNamer(Protocol):
     """Protocol for naming instances in netlists."""
 
@@ -30,12 +46,81 @@ class InstanceNamer(Protocol):
         ...
 
 
+class OriginalNamer:
+    """Names instances using their original instance name."""
+
+    def __init__(self) -> None:
+        self._instance_names: dict[str, str] = {}
+        self._rev_instance_names: dict[str, str] = {}
+
+    def __call__(self, inst: kf.Instance) -> str:
+        if inst.name in self._instance_names:
+            return self._instance_names[inst.name]
+        name = self._instance_names[inst.name] = _clean_instname(inst.name)
+        self._rev_instance_names[name] = inst.name
+        return name
+
+
+class CountedNamer:
+    """Names instances using their component name with numeric suffixes."""
+
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._instance_names: dict[str, str] = {}
+        self._rev_instance_names: dict[str, str] = {}
+
+    def __call__(self, inst: kf.Instance) -> str:
+        if inst.name in self._instance_names:
+            return self._instance_names[inst.name]
+        compname = _short_component_name(inst.cell, self._component_namer)
+        name = _instname_from_compname(
+            inst, compname, self._instance_names, self._rev_instance_names
+        )
+        name = self._instance_names[inst.name] = _clean_instname(name)
+        self._rev_instance_names[name] = inst.name
+        return name
+
+
+class SmartNamer:
+    """Names instances using component name if auto-generated, otherwise instance name."""
+
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._instance_names: dict[str, str] = {}
+        self._rev_instance_names: dict[str, str] = {}
+
+    def __call__(self, inst: kf.Instance) -> str:
+        if inst.name in self._instance_names:
+            return self._instance_names[inst.name]
+        compname = _short_component_name(inst.cell, self._component_namer)
+        if inst.name.startswith(f"{compname}_"):
+            name = _instname_from_compname(
+                inst, compname, self._instance_names, self._rev_instance_names
+            )
+        else:
+            name = inst.name
+        name = self._instance_names[inst.name] = _clean_instname(name)
+        self._rev_instance_names[name] = inst.name
+        return name
+
+
 class PortMatcher(Protocol):
     """Protocol for determining if two ports are connected."""
 
     def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
         """Return True if the two ports are considered connected."""
         ...
+
+
+def ports_coincident(
+    port1: kf.DPort | kf.Port,
+    port2: kf.DPort | kf.Port,
+    tolerance_dbu: int = 2,
+) -> bool:
+    """Return True if two ports are at the same location (within tolerance)."""
+    x1, y1 = port1.to_itype().center
+    x2, y2 = port2.to_itype().center
+    return abs(x2 - x1) < tolerance_dbu and abs(y2 - y1) < tolerance_dbu
 
 
 def _insert_netlist(
@@ -185,22 +270,6 @@ def _sample_circuit() -> Component:
     return c
 
 
-def factory_namer(cell: kf.ProtoTKCell) -> str:
-    """Names components using their factory name."""
-    try:
-        return cell.factory_name
-    except ValueError:
-        return f"unknown_{secrets.token_hex(4)}"
-
-
-def function_namer(cell: kf.ProtoTKCell) -> str:
-    """Names components using their function name, falling back to factory name."""
-    try:
-        return cell.function_name or cell.factory_name
-    except ValueError:
-        return f"unknown_{secrets.token_hex(4)}"
-
-
 def _dump_instance(
     instance: scm.Instance,
     instance_exclude: Iterable[str] = (),
@@ -227,64 +296,6 @@ def _short_component_name(cell: kf.ProtoTKCell, component_namer: ComponentNamer)
         return cell.function_name or component_namer(cell)
     except ValueError:
         return component_namer(cell)
-
-
-class OriginalNamer:
-    """Names instances using their original instance name."""
-
-    def __init__(self) -> None:
-        self._instance_names: dict[str, str] = {}
-        self._rev_instance_names: dict[str, str] = {}
-
-    def __call__(self, inst: kf.Instance) -> str:
-        if inst.name in self._instance_names:
-            return self._instance_names[inst.name]
-        name = self._instance_names[inst.name] = _clean_instname(inst.name)
-        self._rev_instance_names[name] = inst.name
-        return name
-
-
-class CountedNamer:
-    """Names instances using their component name with numeric suffixes."""
-
-    def __init__(self, component_namer: ComponentNamer) -> None:
-        self._component_namer = component_namer
-        self._instance_names: dict[str, str] = {}
-        self._rev_instance_names: dict[str, str] = {}
-
-    def __call__(self, inst: kf.Instance) -> str:
-        if inst.name in self._instance_names:
-            return self._instance_names[inst.name]
-        compname = _short_component_name(inst.cell, self._component_namer)
-        name = _instname_from_compname(
-            inst, compname, self._instance_names, self._rev_instance_names
-        )
-        name = self._instance_names[inst.name] = _clean_instname(name)
-        self._rev_instance_names[name] = inst.name
-        return name
-
-
-class SmartNamer:
-    """Names instances using component name if auto-generated, otherwise instance name."""
-
-    def __init__(self, component_namer: ComponentNamer) -> None:
-        self._component_namer = component_namer
-        self._instance_names: dict[str, str] = {}
-        self._rev_instance_names: dict[str, str] = {}
-
-    def __call__(self, inst: kf.Instance) -> str:
-        if inst.name in self._instance_names:
-            return self._instance_names[inst.name]
-        compname = _short_component_name(inst.cell, self._component_namer)
-        if inst.name.startswith(f"{compname}_"):
-            name = _instname_from_compname(
-                inst, compname, self._instance_names, self._rev_instance_names
-            )
-        else:
-            name = inst.name
-        name = self._instance_names[inst.name] = _clean_instname(name)
-        self._rev_instance_names[name] = inst.name
-        return name
 
 
 def _instname_from_compname(
@@ -347,14 +358,6 @@ def _get_nets(
         for p1, p2 in combinations(net, 2):
             nets.append({"p1": p1, "p2": p2})
     return nets
-
-
-def ports_coincident(port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
-    """Return True if two ports are at the same location (within tolerance)."""
-    tolerance_dbu = 2
-    x1, y1 = port1.to_itype().center
-    x2, y2 = port2.to_itype().center
-    return abs(x2 - x1) < tolerance_dbu and abs(y2 - y1) < tolerance_dbu
 
 
 if __name__ == "__main__":
