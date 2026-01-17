@@ -19,7 +19,7 @@ Assumes two ports are connected when they have same width, x, y
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterable
 from typing import Any, Protocol
 from warnings import warn
 
@@ -39,9 +39,9 @@ from gdsfactory.serialization import clean_dict, clean_value_json
 
 def get_netlist(
     component: ProtoTKCell[Any] | VKCell | TKCell,
-    exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
-    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = True,
+    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
+    exclude_port_types: Iterable[str] = ("placement", "pad", "bump"),
     connection_error_types: dict[str, list[str]] | None = None,
     add_interface_on_mismatch: bool = False,
     ignore_warnings: bool = False,
@@ -59,10 +59,10 @@ def get_netlist(
 
     Args:
         component: to extract netlist.
-        exclude_port_types: optional list of port types to exclude from netlisting.
-        get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
+        exclude_port_types: list of port types to exclude from netlisting.
+        get_instance_name: function to get instance name.
         connection_error_types: optional dictionary of port types and error types to raise an error for.
         add_interface_on_mismatch: when True, additional interface instances are added to the netlist (e.g. to model mode mismatch)
         ignore_warnings: if True, will not include warnings in the returned netlist.
@@ -76,6 +76,7 @@ def get_netlist(
         warnings: warning messages (disconnected pins).
 
     """
+    exclude_port_types = tuple(set(exclude_port_types))
     if isinstance(component, VKCell):
         component_: Component | ComponentAllAngle = ComponentAllAngle(
             base=component.base
@@ -249,9 +250,9 @@ def get_netlist(
 
 def get_netlist_recursive(
     component: ProtoTKCell[Any] | VKCell | TKCell,
-    exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
-    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = True,
+    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
+    exclude_port_types: Iterable[str] = ("placement", "pad", "bump"),
     connection_error_types: dict[str, list[str]] | None = None,
     add_interface_on_mismatch: bool = False,
     ignore_warnings: bool = False,
@@ -261,9 +262,9 @@ def get_netlist_recursive(
 
     Args:
         component: to extract netlist.
-        exclude_port_types: optional list of port types to exclude from netlisting.
-        get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection.
+        get_instance_name: function to get instance name.
+        exclude_port_types: optional list of port types to exclude from netlisting.
         connection_error_types: optional dictionary of port types and error types to raise an error for.
         add_interface_on_mismatch: when True, additional interface instances are added to the netlist
             (e.g. to model mode mismatch)
@@ -280,6 +281,7 @@ def get_netlist_recursive(
         Dictionary of netlists, keyed by the name of each component.
 
     """
+    exclude_port_types = tuple(set(exclude_port_types))
     all_netlists: dict[str, Any] = {}
 
     # only components with references (subcomponents) warrant a netlist

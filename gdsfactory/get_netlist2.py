@@ -22,12 +22,10 @@ InstanceNameFrom: TypeAlias = Literal[
 def _insert_netlist(
     recnet: dict,
     cell: kf.KCell,
+    allow_multiple: bool,
     instance_name_from: InstanceNameFrom,
     component_name_from: ComponentNameFrom,
-    instance_exclude: Iterable[str],
-    allow_multiple: bool = True,
 ) -> None:
-    instance_exclude = set(instance_exclude)
     net = recnet[cell.name] = {
         "instances": {},
         "placements": {},
@@ -92,7 +90,6 @@ def _insert_netlist(
                 info=inst.cell.info.model_dump(),
                 virtual=virtual,
             ),
-            instance_exclude,
         )
         net["placements"][inst_name] = {
             "x": transform.disp.x,
@@ -200,7 +197,11 @@ def _short_component_name(
     return inst.cell.function_name or _component_name(inst, component_name_from)
 
 
-def _dump_instance(instance: scm.Instance, instance_exclude: set[str]) -> dict:
+def _dump_instance(
+    instance: scm.Instance,
+    instance_exclude: Iterable[str] = {},
+) -> dict:
+    instance_exclude = set(instance_exclude)
     dct = {}
     for k in sorted(scm.Instance.model_fields):
         v = getattr(instance, k)
