@@ -123,6 +123,82 @@ def ports_coincident(
     return abs(x2 - x1) < tolerance_dbu and abs(y2 - y1) < tolerance_dbu
 
 
+def get_netlist(
+    cell: kf.ProtoTKCell,
+    *,
+    allow_multiple: bool = False,
+    instance_namer: InstanceNamer | None = None,
+    component_namer: ComponentNamer = function_namer,
+    port_matcher: PortMatcher = ports_coincident,
+) -> dict:
+    """Extract netlist from a cell's port connectivity.
+
+    Args:
+        cell: The cell to extract the netlist from.
+        allow_multiple: If True, allow more than two ports to overlap.
+        instance_namer: Callable to name instances.
+            Defaults to SmartNamer(component_namer).
+        component_namer: Callable to name components.
+            Defaults to function_namer.
+        port_matcher: Callable to determine if two ports are connected.
+            Defaults to ports_coincident.
+
+    Returns:
+        A dictionary containing instances, placements, and nets.
+    """
+    if instance_namer is None:
+        instance_namer = SmartNamer(component_namer)
+    recnet: dict = {}
+    _insert_netlist(
+        recnet,
+        cell,
+        allow_multiple,
+        instance_namer,
+        component_namer,
+        port_matcher,
+        recursive=False,
+    )
+    return recnet[next(iter(recnet))]
+
+
+def get_netlist_recursive(
+    cell: kf.ProtoTKCell,
+    *,
+    allow_multiple: bool = False,
+    instance_namer: InstanceNamer | None = None,
+    component_namer: ComponentNamer = function_namer,
+    port_matcher: PortMatcher = ports_coincident,
+) -> dict[str, dict]:
+    """Extract netlists recursively from a cell and all its subcells.
+
+    Args:
+        cell: The cell to extract the netlist from.
+        allow_multiple: If True, allow more than two ports to overlap.
+        instance_namer: Callable to name instances.
+            Defaults to SmartNamer(component_namer).
+        component_namer: Callable to name components.
+            Defaults to function_namer.
+        port_matcher: Callable to determine if two ports are connected.
+            Defaults to ports_coincident.
+
+    Returns:
+        A dictionary mapping cell names to their netlists.
+    """
+    if instance_namer is None:
+        instance_namer = SmartNamer(component_namer)
+    recnet: dict = {}
+    _insert_netlist(
+        recnet,
+        cell,
+        allow_multiple,
+        instance_namer,
+        component_namer,
+        port_matcher,
+        recursive=True,
+    )
+    return recnet
+
+
 def _insert_netlist(
     recnet: dict,
     cell: kf.KCell,
@@ -130,6 +206,7 @@ def _insert_netlist(
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
     port_matcher: PortMatcher,
+    recursive: bool,
 ) -> None:
     net = recnet[cell.name] = {
         "instances": {},
@@ -194,8 +271,25 @@ def _insert_netlist(
             "rotation": transform.angle,
             "mirror": transform.mirror,
         }
+
+        if recursive and _has_instances(inst.cell):
+            _insert_netlist(
+                recnet,
+                inst.cell,
+                allow_multiple,
+                instance_namer,
+                component_namer,
+                port_matcher,
+                recursive,
+            )
+
     net["nets"] = _get_nets(_instance_ports, allow_multiple, port_matcher)
     return _instance_ports
+
+
+def _has_instances(cell: kf.KCell) -> bool:
+    """Return True if the cell has any instances."""
+    return bool(cell.insts) or bool(cell.vinsts)
 
 
 def _get_array_config(inst: kf.Instance) -> scm.Array:
@@ -366,18 +460,7 @@ if __name__ == "__main__":
 
     PDK.activate()
     c = _sample_circuit()
-    recnet: dict = {}
-    component_namer = function_namer
-    instance_namer = SmartNamer(component_namer)
-    _insert_netlist(
-        recnet,
-        c,
-        allow_multiple=False,
-        instance_namer=instance_namer,
-        component_namer=component_namer,
-        port_matcher=ports_coincident,
-    )
-    netlist = recnet[next(iter(recnet))]
+    netlist = get_netlist(c)
     netlist["placements"]["mzi"]
     for net in netlist["nets"]:
         print(net["p1"], net["p2"])
