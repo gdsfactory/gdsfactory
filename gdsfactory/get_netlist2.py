@@ -180,6 +180,8 @@ class PortCenterMatcher:
 
     def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
         """Return True if two ports are at the same location (within tolerance)."""
+        if port1.port_type != port2.port_type:
+            return False
         x1, y1 = port1.to_itype().center
         x2, y2 = port2.to_itype().center
         return abs(x2 - x1) < self.tolerance_dbu and abs(y2 - y1) < self.tolerance_dbu
@@ -205,6 +207,8 @@ class SmartPortMatcher:
     def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
         """Return True if ports match in position, width, and orientation."""
         # Check position
+        if port1.port_type != port2.port_type:
+            return False
         x1, y1 = port1.to_itype().center
         x2, y2 = port2.to_itype().center
         if (
@@ -603,5 +607,4 @@ if __name__ == "__main__":
         print(f"Cell: {name}")
         for inst_name, inst in netlist["instances"].items():
             print(f"  Instance: {inst_name} -> {inst['component']}")
-    print(len(c.get_netlist()["nets"]), "nets")
-    print(len(netlist["nets"]), "nets")
+        print(len(netlist["nets"]), "nets")
