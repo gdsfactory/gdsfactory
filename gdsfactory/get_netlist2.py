@@ -32,7 +32,7 @@ class InstanceNamer(Protocol):
 
 def _insert_netlist(
     recnet: dict,
-    cell: kf.ProtoTKCell,
+    cell: kf.KCell,
     allow_multiple: bool,
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
@@ -198,7 +198,7 @@ class FunctionNamer:
 
 def _dump_instance(
     instance: scm.Instance,
-    instance_exclude: Iterable[str] = {},
+    instance_exclude: Iterable[str] = (),
 ) -> dict:
     instance_exclude = set(instance_exclude)
     dct = {}
