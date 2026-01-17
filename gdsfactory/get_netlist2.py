@@ -17,8 +17,8 @@ from gdsfactory.component import Component
 class ComponentNamer(Protocol):
     """Protocol for naming components in netlists."""
 
-    def __call__(self, inst: kf.Instance) -> str:
-        """Return the component name for the given instance."""
+    def __call__(self, cell: kf.ProtoTKCell) -> str:
+        """Return the component name for the given cell."""
         ...
 
 
@@ -32,7 +32,7 @@ class InstanceNamer(Protocol):
 
 def _insert_netlist(
     recnet: dict,
-    cell: kf.KCell,
+    cell: kf.ProtoTKCell,
     allow_multiple: bool,
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
@@ -87,7 +87,7 @@ def _insert_netlist(
 
         net["instances"][inst_name] = _dump_instance(
             scm.Instance(
-                component=component_namer(inst),
+                component=component_namer(inst.cell),
                 array=array,
                 settings=inst.cell.settings.model_dump(),
                 info=inst.cell.info.model_dump(),
@@ -179,9 +179,9 @@ def _sample_circuit() -> Component:
 class FactoryNamer:
     """Names components using their factory name."""
 
-    def __call__(self, inst: kf.Instance) -> str:
+    def __call__(self, cell: kf.ProtoTKCell) -> str:
         try:
-            return inst.cell.factory_name
+            return cell.factory_name
         except ValueError:
             return f"unknown_{secrets.token_hex(4)}"
 
@@ -189,9 +189,9 @@ class FactoryNamer:
 class FunctionNamer:
     """Names components using their function name, falling back to factory name."""
 
-    def __call__(self, inst: kf.Instance) -> str:
+    def __call__(self, cell: kf.ProtoTKCell) -> str:
         try:
-            return inst.cell.function_name or inst.cell.factory_name
+            return cell.function_name or cell.factory_name
         except ValueError:
             return f"unknown_{secrets.token_hex(4)}"
 
@@ -216,12 +216,12 @@ def _dump_instance(
     return dct
 
 
-def _short_component_name(inst: kf.Instance, component_namer: ComponentNamer) -> str:
+def _short_component_name(cell: kf.ProtoTKCell, component_namer: ComponentNamer) -> str:
     """Get short component name, preferring function_name."""
     try:
-        return inst.cell.function_name or component_namer(inst)
+        return cell.function_name or component_namer(cell)
     except ValueError:
-        return component_namer(inst)
+        return component_namer(cell)
 
 
 class OriginalNamer:
@@ -250,7 +250,7 @@ class CountedNamer:
     def __call__(self, inst: kf.Instance) -> str:
         if inst.name in self._instance_names:
             return self._instance_names[inst.name]
-        compname = _short_component_name(inst, self._component_namer)
+        compname = _short_component_name(inst.cell, self._component_namer)
         name = _instname_from_compname(
             inst, compname, self._instance_names, self._rev_instance_names
         )
@@ -270,7 +270,7 @@ class SmartNamer:
     def __call__(self, inst: kf.Instance) -> str:
         if inst.name in self._instance_names:
             return self._instance_names[inst.name]
-        compname = _short_component_name(inst, self._component_namer)
+        compname = _short_component_name(inst.cell, self._component_namer)
         if inst.name.startswith(f"{compname}_"):
             name = _instname_from_compname(
                 inst, compname, self._instance_names, self._rev_instance_names
@@ -356,13 +356,12 @@ if __name__ == "__main__":
 
     PDK.activate()
     c = _sample_circuit()
-    cell = kf.KCell(base=c.base)
     recnet: dict = {}
     component_namer = FunctionNamer()
     instance_namer = SmartNamer(component_namer)
     _insert_netlist(
         recnet,
-        cell,
+        c,
         allow_multiple=False,
         instance_namer=instance_namer,
         component_namer=component_namer,
