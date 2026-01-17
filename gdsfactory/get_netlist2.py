@@ -5,7 +5,7 @@ import secrets
 from collections import defaultdict
 from collections.abc import Iterable
 from itertools import chain, combinations, product
-from typing import Literal, TypeAlias
+from typing import Protocol
 
 import kfactory as kf
 
@@ -13,35 +13,38 @@ import gdsfactory as gf
 import gdsfactory.schematic as scm
 from gdsfactory.component import Component
 
-ComponentNameFrom: TypeAlias = Literal["function_name", "factory_name"]
-InstanceNameFrom: TypeAlias = Literal[
-    "instance_name", "component_name", "simple_instance_name"
-]
+
+class ComponentNamer(Protocol):
+    """Protocol for naming components in netlists."""
+
+    def __call__(self, inst: kf.Instance) -> str:
+        """Return the component name for the given instance."""
+        ...
+
+
+class InstanceNamer(Protocol):
+    """Protocol for naming instances in netlists."""
+
+    def __call__(self, inst: kf.Instance) -> str:
+        """Return the instance name for the given instance."""
+        ...
 
 
 def _insert_netlist(
     recnet: dict,
     cell: kf.KCell,
     allow_multiple: bool,
-    instance_name_from: InstanceNameFrom,
-    component_name_from: ComponentNameFrom,
+    instance_namer: InstanceNamer,
+    component_namer: ComponentNamer,
 ) -> None:
     net = recnet[cell.name] = {
         "instances": {},
         "placements": {},
         "nets": {},
     }
-    _instance_names = {}
-    _rev_instance_names = {}
     _instance_ports = {}
     for inst in sorted(chain(cell.insts, cell.vinsts), key=lambda i: i.name):
-        inst_name = _instname(
-            inst,
-            instance_name_from,
-            component_name_from,
-            _instance_names,
-            _rev_instance_names,
-        )
+        inst_name = instance_namer(inst)
         if _is_pure_vinst(inst):
             if _is_array_inst(inst):
                 msg = (
@@ -84,7 +87,7 @@ def _insert_netlist(
 
         net["instances"][inst_name] = _dump_instance(
             scm.Instance(
-                component=_component_name(inst, component_name_from),
+                component=component_namer(inst),
                 array=array,
                 settings=inst.cell.settings.model_dump(),
                 info=inst.cell.info.model_dump(),
@@ -173,28 +176,24 @@ def _sample_circuit() -> Component:
     return c
 
 
-def _component_name(
-    inst: kf.Instance,
-    component_name_from: ComponentNameFrom,
-) -> str:
-    try:
-        match component_name_from:
-            case "factory_name":
-                return inst.cell.factory_name
-            case "function_name":
-                return inst.cell.function_name or inst.cell.factory_name
-            case _:
-                msg = f"Invalid value for 'component_name_from'. Expected: 'factory_name' | 'function_name'. Got: {component_name_from!r}."
-                raise TypeError(msg)
-    except ValueError:
-        return f"unknown_{secrets.token_hex(4)}"
+class FactoryNamer:
+    """Names components using their factory name."""
+
+    def __call__(self, inst: kf.Instance) -> str:
+        try:
+            return inst.cell.factory_name
+        except ValueError:
+            return f"unknown_{secrets.token_hex(4)}"
 
 
-def _short_component_name(
-    inst: kf.Instance,
-    component_name_from: ComponentNameFrom,
-) -> str:
-    return inst.cell.function_name or _component_name(inst, component_name_from)
+class FunctionNamer:
+    """Names components using their function name, falling back to factory name."""
+
+    def __call__(self, inst: kf.Instance) -> str:
+        try:
+            return inst.cell.function_name or inst.cell.factory_name
+        except ValueError:
+            return f"unknown_{secrets.token_hex(4)}"
 
 
 def _dump_instance(
@@ -217,40 +216,70 @@ def _dump_instance(
     return dct
 
 
-def _instname(
-    inst: kf.Instance,
-    instance_name_from: InstanceNameFrom,
-    component_name_from: ComponentNameFrom,
-    _instance_names: dict[str, str],
-    _rev_instance_names: dict[str, str],
-) -> str:
-    if inst.name in _instance_names:
-        return _instance_names[inst.name]
-    compname = _short_component_name(inst, component_name_from)
-    match instance_name_from:
-        case "instance_name":
-            name = inst.name
-        case "component_name":
+def _short_component_name(inst: kf.Instance, component_namer: ComponentNamer) -> str:
+    """Get short component name, preferring function_name."""
+    try:
+        return inst.cell.function_name or component_namer(inst)
+    except ValueError:
+        return component_namer(inst)
+
+
+class OriginalNamer:
+    """Names instances using their original instance name."""
+
+    def __init__(self) -> None:
+        self._instance_names: dict[str, str] = {}
+        self._rev_instance_names: dict[str, str] = {}
+
+    def __call__(self, inst: kf.Instance) -> str:
+        if inst.name in self._instance_names:
+            return self._instance_names[inst.name]
+        name = self._instance_names[inst.name] = _clean_instname(inst.name)
+        self._rev_instance_names[name] = inst.name
+        return name
+
+
+class CountedNamer:
+    """Names instances using their component name with numeric suffixes."""
+
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._instance_names: dict[str, str] = {}
+        self._rev_instance_names: dict[str, str] = {}
+
+    def __call__(self, inst: kf.Instance) -> str:
+        if inst.name in self._instance_names:
+            return self._instance_names[inst.name]
+        compname = _short_component_name(inst, self._component_namer)
+        name = _instname_from_compname(
+            inst, compname, self._instance_names, self._rev_instance_names
+        )
+        name = self._instance_names[inst.name] = _clean_instname(name)
+        self._rev_instance_names[name] = inst.name
+        return name
+
+
+class SmartNamer:
+    """Names instances using component name if auto-generated, otherwise instance name."""
+
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._instance_names: dict[str, str] = {}
+        self._rev_instance_names: dict[str, str] = {}
+
+    def __call__(self, inst: kf.Instance) -> str:
+        if inst.name in self._instance_names:
+            return self._instance_names[inst.name]
+        compname = _short_component_name(inst, self._component_namer)
+        if inst.name.startswith(f"{compname}_"):
             name = _instname_from_compname(
-                inst, compname, _instance_names, _rev_instance_names
+                inst, compname, self._instance_names, self._rev_instance_names
             )
-        case "simple_instance_name":
-            if inst.name.startswith(f"{compname}_"):
-                name = _instname_from_compname(
-                    inst, compname, _instance_names, _rev_instance_names
-                )
-            else:
-                name = inst.name
-        case _:
-            msg = (
-                "Invalid value for 'instance_name_from'. "
-                "Expected: 'instance_name' | 'component_name' | 'short_instance_name'. "
-                f"Got: {instance_name_from}."
-            )
-            raise ValueError(msg)
-    name = _instance_names[inst.name] = _clean_instname(name)
-    _rev_instance_names[name] = inst.name
-    return name
+        else:
+            name = inst.name
+        name = self._instance_names[inst.name] = _clean_instname(name)
+        self._rev_instance_names[name] = inst.name
+        return name
 
 
 def _instname_from_compname(
@@ -329,7 +358,15 @@ if __name__ == "__main__":
     c = _sample_circuit()
     cell = kf.KCell(base=c.base)
     recnet: dict = {}
-    _insert_netlist(recnet, cell, "simple_instance_name", "function_name", ())
+    component_namer = FunctionNamer()
+    instance_namer = SmartNamer(component_namer)
+    _insert_netlist(
+        recnet,
+        cell,
+        allow_multiple=False,
+        instance_namer=instance_namer,
+        component_namer=component_namer,
+    )
     netlist = recnet[next(iter(recnet))]
     netlist["placements"]["mzi"]
     for net in netlist["nets"]:
