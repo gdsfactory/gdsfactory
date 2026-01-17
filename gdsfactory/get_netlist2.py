@@ -176,24 +176,20 @@ def _sample_circuit() -> Component:
     return c
 
 
-class FactoryNamer:
+def factory_namer(cell: kf.ProtoTKCell) -> str:
     """Names components using their factory name."""
-
-    def __call__(self, cell: kf.ProtoTKCell) -> str:
-        try:
-            return cell.factory_name
-        except ValueError:
-            return f"unknown_{secrets.token_hex(4)}"
+    try:
+        return cell.factory_name
+    except ValueError:
+        return f"unknown_{secrets.token_hex(4)}"
 
 
-class FunctionNamer:
+def function_namer(cell: kf.ProtoTKCell) -> str:
     """Names components using their function name, falling back to factory name."""
-
-    def __call__(self, cell: kf.ProtoTKCell) -> str:
-        try:
-            return cell.function_name or cell.factory_name
-        except ValueError:
-            return f"unknown_{secrets.token_hex(4)}"
+    try:
+        return cell.function_name or cell.factory_name
+    except ValueError:
+        return f"unknown_{secrets.token_hex(4)}"
 
 
 def _dump_instance(
@@ -357,7 +353,7 @@ if __name__ == "__main__":
     PDK.activate()
     c = _sample_circuit()
     recnet: dict = {}
-    component_namer = FunctionNamer()
+    component_namer = function_namer
     instance_namer = SmartNamer(component_namer)
     _insert_netlist(
         recnet,
