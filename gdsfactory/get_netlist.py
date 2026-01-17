@@ -20,12 +20,11 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable, Sequence
-from hashlib import md5
 from typing import Any, Protocol
 from warnings import warn
 
 import numpy as np
-from kfactory import DInstance, LayerEnum, ProtoTKCell, VInstance, VKCell
+from kfactory import DInstance, ProtoTKCell, VInstance, VKCell
 from kfactory.kcell import AnyKCell, TKCell
 
 from gdsfactory import Port, typings
@@ -34,153 +33,8 @@ from gdsfactory.component import (
     ComponentAllAngle,
     ComponentReference,
 )
-from gdsfactory.name import clean_name
+from gdsfactory.name import get_instance_name_from_alias
 from gdsfactory.serialization import clean_dict, clean_value_json
-from gdsfactory.typings import LayerSpec
-
-
-def nets_to_connections(
-    nets: list[dict[str, Any]], connections: dict[str, Any]
-) -> dict[str, str]:
-    # Use the given connections; create a shallow copy to avoid mutating the input.
-    connections = dict(connections)
-
-    # Flat set of all used ports for O(1) membership check.
-    used = set(connections.keys())
-    used.update(connections.values())
-
-    for net in nets:
-        p = net["p1"]
-        q = net["p2"]
-        if p in used:
-            # Find the already connected q (if any)
-            _q = (
-                connections[p]
-                if p in connections
-                else next(k for k, v in connections.items() if v == p)
-            )
-            raise ValueError(
-                "SAX currently does not support multiply connected ports. "
-                f"Got {p}<->{q} and {p}<->{_q}"
-            )
-        if q in used:
-            _p = (
-                connections[q]
-                if q in connections
-                else next(k for k, v in connections.items() if v == q)
-            )
-            raise ValueError(
-                "SAX currently does not support multiply connected ports. "
-                f"Got {p}<->{q} and {_p}<->{q}"
-            )
-        connections[p] = q
-        used.add(p)
-        used.add(q)
-    return connections
-
-
-def get_default_connection_validators() -> dict[str, Callable[..., None]]:
-    return {"optical": validate_optical_connection, "electrical": _null_validator}
-
-
-def get_instance_name_from_alias(reference: ComponentReference) -> str:
-    """Returns the instance name from the label.
-
-    If no label returns to instanceName_x_y.
-
-    Args:
-        reference: reference that needs naming.
-    """
-    name = reference.name or md5(str(reference).encode()).hexdigest()[:8]
-
-    return clean_name(name)
-
-
-def get_instance_name_from_label(
-    component: Component,
-    reference: ComponentReference,
-    layer_label: LayerSpec = "LABEL_INSTANCE",
-) -> str:
-    """Returns the instance name from the label.
-
-    If no label returns to instanceName_x_y.
-
-    Args:
-        component: with labels.
-        reference: reference that needs naming.
-        layer_label: ignores layer_label[1].
-    """
-    from gdsfactory.pdk import get_layer
-
-    layer_label = get_layer(layer_label)
-    layer = layer_label[0] if isinstance(layer_label, LayerEnum) else layer_label
-
-    x = reference.x
-    y = reference.y
-    labels = component.labels
-
-    # default instance name follows component.aliases
-    text = clean_name(f"{reference.cell.name}_{x}_{y}")
-
-    # try to get the instance name from a label
-    for label in labels:
-        xl = label.dposition[0]
-        yl = label.dposition[1]
-        if x == xl and y == yl and label.layer == layer:
-            # print(label.text, xl, yl, x, y)
-            return str(label.text)
-
-    return text
-
-
-def _is_array_reference(ref: DInstance | VInstance) -> bool:
-    # Direct attribute access is much faster than hasattr(),
-    # and in the common case (attributes present) the try branch is very fast.
-    try:
-        return ref.na > 1 or ref.nb > 1
-    except AttributeError:
-        return False
-
-
-def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
-    # Store intermediate attributes to local variables for faster lookup
-    a, b = ref.a, ref.b
-    ay = a.y
-    if abs(ay) != 0:
-        return False
-    bx = b.x
-    return abs(bx) == 0
-
-
-def _has_ports_on_same_location(reference: VInstance | DInstance) -> bool:
-    """Check if a reference has any ports on the same location.
-
-    Args:
-        reference: ComponentReference to check.
-
-    Returns:
-        True if any ports are on the same location, False otherwise.
-    """
-    if _is_array_reference(reference):
-        # For array references, check each instance
-        for ia in range(reference.na):
-            for ib in range(reference.nb):
-                port_locations = set()
-                for port in reference.cell.ports:
-                    ref_port = reference.ports[port.name, ia, ib]
-                    port_loc = ref_port.to_itype().center
-                    if port_loc in port_locations:
-                        return True
-                    port_locations.add(port_loc)
-    else:
-        # For single references, check all ports
-        port_locations = set()
-        for port in reference.ports:
-            port_loc = port.to_itype().center
-            if port_loc in port_locations:
-                return True
-            port_locations.add(port_loc)
-    return False
 
 
 def get_netlist(
@@ -346,7 +200,7 @@ def get_netlist(
     for port_type, port_names in ports_by_type.items():
         if exclude_port_types and port_type in exclude_port_types:
             continue
-        connections_t, warnings_t = extract_connections(
+        connections_t, warnings_t = _extract_connections(
             port_names,
             name2port,
             port_type,
@@ -364,7 +218,7 @@ def get_netlist(
                     top_ports[dst] = src
                 else:
                     if add_interface_on_mismatch:
-                        insert_interface_if_needed(
+                        _insert_interface_if_needed(
                             src=src,
                             dst=dst,
                             instances=instances,
@@ -393,7 +247,83 @@ def get_netlist(
     return clean_value_json(netlist)  # type: ignore[no-any-return]
 
 
-def insert_interface_if_needed(
+def get_netlist_recursive(
+    component: AnyKCell,
+    component_suffix: str = "",
+    get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore[assignment]
+    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Returns recursive netlist for a component and subcomponents.
+
+    Args:
+        component: to extract netlist.
+        component_suffix: suffix to append to each component name.
+            useful if to save and reload a back-annotated netlist.
+        get_netlist_func: function to extract individual netlists.
+        get_instance_name: function to get instance name.
+        kwargs: additional keyword arguments to pass to get_netlist_func.
+
+    Keyword Args:
+        tolerance: tolerance in grid_factor to consider two ports connected.
+        exclude_port_types: optional list of port types to exclude from netlisting.
+        get_instance_name: function to get instance name.
+
+    Returns:
+        Dictionary of netlists, keyed by the name of each component.
+
+    """
+    all_netlists: dict[str, Any] = {}
+
+    # only components with references (subcomponents) warrant a netlist
+    if isinstance(component, ProtoTKCell):
+        component = Component(base=component.base)
+        references: list[DInstance | VInstance] | list[VInstance] = (
+            _get_references_to_netlist(component)
+        )
+    else:
+        component = ComponentAllAngle(base=component.base)
+        references = _get_references_to_netlist_all_angle(component)
+
+    if references:
+        netlist = get_netlist_func(component, **kwargs)
+        all_netlists[f"{component.name}{component_suffix}"] = netlist
+
+        # for each reference, expand the netlist
+        for ref in references:
+            rcell = ref.cell
+            grandchildren = get_netlist_recursive(
+                component=rcell,
+                component_suffix=component_suffix,
+                get_netlist_func=get_netlist_func,
+                **kwargs,
+            )
+            all_netlists |= grandchildren
+
+            if isinstance(ref.cell, ProtoTKCell):
+                child_references: list[VInstance | DInstance] | list[VInstance] = (
+                    _get_references_to_netlist(Component(base=ref.cell.base))
+                )
+            else:
+                child_references = _get_references_to_netlist_all_angle(
+                    ComponentAllAngle(base=ref.cell)  # type: ignore[call-overload]
+                )
+
+            if child_references:
+                inst_name = get_instance_name(ref)
+                netlist_dict: dict[str, Any] = {
+                    "component": f"{rcell.name}{component_suffix}"
+                }
+                if hasattr(rcell, "settings"):
+                    netlist_dict.update(settings=rcell.settings.model_dump())
+                if hasattr(rcell, "info"):
+                    netlist_dict.update(info=rcell.info.model_dump())
+                netlist["instances"][inst_name] = netlist_dict
+
+    return all_netlists
+
+
+def _insert_interface_if_needed(
     src: str,
     dst: str,
     instances: dict[str, dict[str, Any]],
@@ -441,36 +371,14 @@ def insert_interface_if_needed(
         nets.append(net)
 
 
-def extract_connections(
-    port_names: Sequence[str],
-    ports: dict[str, typings.Port],
-    port_type: str,
-    validators: dict[str, Callable[..., None]] | None = None,
-    allow_multiple: bool = True,
-    connection_error_types: dict[str, list[str]] | None = None,
-) -> tuple[list[list[str]], dict[str, list[dict[str, Any]]]]:
-    if validators is None:
-        validators = DEFAULT_CONNECTION_VALIDATORS
-
-    validator = validators.get(port_type, _null_validator)
-    return _extract_connections(
-        port_names,
-        ports,
-        port_type,
-        connection_validator=validator,
-        allow_multiple=allow_multiple,
-        connection_error_types=connection_error_types,
-    )
-
-
 def _extract_connections(
     port_names: Sequence[str],
     ports: dict[str, typings.Port],
     port_type: str,
-    connection_validator: Callable[..., None],
-    raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = True,
     connection_error_types: dict[str, list[str]] | None = None,
+    raise_error_for_warnings: list[str] | None = None,
+    connection_validator: Callable[..., None] | None = None,
 ) -> tuple[list[list[str]], dict[str, list[Any]]]:
     """Extracts connections between ports.
 
@@ -478,14 +386,16 @@ def _extract_connections(
         port_names: list of port names.
         ports: dict of port names to Port objects.
         port_type: type of port.
-        connection_validator: function to validate connections.
         raise_error_for_warnings: list of warning types to raise an error for.
         allow_multiple: False to raise an error if more than two ports share the same connection.
         connection_error_types: optional dictionary of port types and error types to raise an error for.
+        connection_validator: function to validate connections.
 
     """
+
+    connection_validator = connection_validator or _get_connection_validator(port_type)
     if connection_error_types is None:
-        connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
+        connection_error_types = _get_default_critical_connection_error_types()
 
     warnings: defaultdict[str, list[Any]] = defaultdict(list)
     if raise_error_for_warnings is None:
@@ -570,7 +480,7 @@ def _null_validator(
     pass
 
 
-def validate_optical_connection(
+def _validate_optical_connection(
     port1: Port,
     port2: Port,
     port_names: list[str],
@@ -601,7 +511,7 @@ def validate_optical_connection(
 
     if any(is_top_level):
         if (
-            abs(difference_between_angles(port1.orientation, port2.orientation))
+            abs(_difference_between_angles(port1.orientation, port2.orientation))
             > angle_tolerance
         ):
             top_port, lower_port = port_names if is_top_level[0] else port_names[::-1]
@@ -615,7 +525,7 @@ def validate_optical_connection(
             )
     else:
         angle_misalignment = abs(
-            abs(difference_between_angles(port1.orientation, port2.orientation)) - 180
+            abs(_difference_between_angles(port1.orientation, port2.orientation)) - 180
         )
         if angle_misalignment > angle_tolerance:
             warnings["orientation_mismatch"].append(
@@ -637,7 +547,7 @@ def validate_optical_connection(
         )
 
 
-def difference_between_angles(angle2: float, angle1: float) -> float:
+def _difference_between_angles(angle2: float, angle1: float) -> float:
     diff = angle2 - angle1
     while diff < 180:
         diff += 360
@@ -663,80 +573,69 @@ class GetNetlistFunc(Protocol):
     def __call__(self, component: AnyKCell, **kwargs: Any) -> dict[str, Any]: ...
 
 
-def get_netlist_recursive(
-    component: AnyKCell,
-    component_suffix: str = "",
-    get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore[assignment]
-    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
-    **kwargs: Any,
-) -> dict[str, Any]:
-    """Returns recursive netlist for a component and subcomponents.
+def _get_default_critical_connection_error_types() -> dict[str, list[str]]:
+    return {
+        "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
+    }
+
+
+def _get_connection_validator(port_type: str) -> Callable[..., None]:
+    validators = _get_default_connection_validators()
+    return validators.get(port_type, _null_validator)
+
+
+def _get_default_connection_validators() -> dict[str, Callable[..., None]]:
+    return {"optical": _validate_optical_connection, "electrical": _null_validator}
+
+
+def _is_array_reference(ref: DInstance | VInstance) -> bool:
+    # Direct attribute access is much faster than hasattr(),
+    # and in the common case (attributes present) the try branch is very fast.
+    try:
+        return ref.na > 1 or ref.nb > 1
+    except AttributeError:
+        return False
+
+
+def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
+    # Store intermediate attributes to local variables for faster lookup
+    a, b = ref.a, ref.b
+    ay = a.y
+    if abs(ay) != 0:
+        return False
+    bx = b.x
+    return abs(bx) == 0
+
+
+def _has_ports_on_same_location(reference: VInstance | DInstance) -> bool:
+    """Check if a reference has any ports on the same location.
 
     Args:
-        component: to extract netlist.
-        component_suffix: suffix to append to each component name.
-            useful if to save and reload a back-annotated netlist.
-        get_netlist_func: function to extract individual netlists.
-        get_instance_name: function to get instance name.
-        kwargs: additional keyword arguments to pass to get_netlist_func.
-
-    Keyword Args:
-        tolerance: tolerance in grid_factor to consider two ports connected.
-        exclude_port_types: optional list of port types to exclude from netlisting.
-        get_instance_name: function to get instance name.
+        reference: ComponentReference to check.
 
     Returns:
-        Dictionary of netlists, keyed by the name of each component.
-
+        True if any ports are on the same location, False otherwise.
     """
-    all_netlists: dict[str, Any] = {}
-
-    # only components with references (subcomponents) warrant a netlist
-    if isinstance(component, ProtoTKCell):
-        component = Component(base=component.base)
-        references: list[DInstance | VInstance] | list[VInstance] = (
-            _get_references_to_netlist(component)
-        )
+    if _is_array_reference(reference):
+        # For array references, check each instance
+        for ia in range(reference.na):
+            for ib in range(reference.nb):
+                port_locations = set()
+                for port in reference.cell.ports:
+                    ref_port = reference.ports[port.name, ia, ib]
+                    port_loc = ref_port.to_itype().center
+                    if port_loc in port_locations:
+                        return True
+                    port_locations.add(port_loc)
     else:
-        component = ComponentAllAngle(base=component.base)
-        references = _get_references_to_netlist_all_angle(component)
-
-    if references:
-        netlist = get_netlist_func(component, **kwargs)
-        all_netlists[f"{component.name}{component_suffix}"] = netlist
-
-        # for each reference, expand the netlist
-        for ref in references:
-            rcell = ref.cell
-            grandchildren = get_netlist_recursive(
-                component=rcell,
-                component_suffix=component_suffix,
-                get_netlist_func=get_netlist_func,
-                **kwargs,
-            )
-            all_netlists |= grandchildren
-
-            if isinstance(ref.cell, ProtoTKCell):
-                child_references: list[VInstance | DInstance] | list[VInstance] = (
-                    _get_references_to_netlist(Component(base=ref.cell.base))
-                )
-            else:
-                child_references = _get_references_to_netlist_all_angle(
-                    ComponentAllAngle(base=ref.cell)  # type: ignore[call-overload]
-                )
-
-            if child_references:
-                inst_name = get_instance_name(ref)
-                netlist_dict: dict[str, Any] = {
-                    "component": f"{rcell.name}{component_suffix}"
-                }
-                if hasattr(rcell, "settings"):
-                    netlist_dict.update(settings=rcell.settings.model_dump())
-                if hasattr(rcell, "info"):
-                    netlist_dict.update(info=rcell.info.model_dump())
-                netlist["instances"][inst_name] = netlist_dict
-
-    return all_netlists
+        # For single references, check all ports
+        port_locations = set()
+        for port in reference.ports:
+            port_loc = port.to_itype().center
+            if port_loc in port_locations:
+                return True
+            port_locations.add(port_loc)
+    return False
 
 
 def _demo_ring_single_array() -> None:
@@ -759,10 +658,3 @@ def _demo_mzi_lattice() -> None:
         delta_lengths=delta_lengths,
     )
     c.get_netlist()
-
-
-DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
-
-DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
-    "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
-}

@@ -1217,8 +1217,6 @@ class Component(ComponentBase, kf.DKCell):
         import matplotlib.pyplot as plt
         import networkx as nx
 
-        from gdsfactory.get_netlist import nets_to_connections
-
         plt.figure()
         netlist = self.get_netlist(recursive=recursive, **kwargs)
         G = nx.Graph()
@@ -1442,3 +1440,43 @@ def container(
 
     c.copy_child_info(component)
     return c
+
+
+def nets_to_connections(
+    nets: list[dict[str, Any]], connections: dict[str, Any]
+) -> dict[str, str]:
+    # Use the given connections; create a shallow copy to avoid mutating the input.
+    connections = dict(connections)
+
+    # Flat set of all used ports for O(1) membership check.
+    used = set(connections.keys())
+    used.update(connections.values())
+
+    for net in nets:
+        p = net["p1"]
+        q = net["p2"]
+        if p in used:
+            # Find the already connected q (if any)
+            _q = (
+                connections[p]
+                if p in connections
+                else next(k for k, v in connections.items() if v == p)
+            )
+            raise ValueError(
+                "SAX currently does not support multiply connected ports. "
+                f"Got {p}<->{q} and {p}<->{_q}"
+            )
+        if q in used:
+            _p = (
+                connections[q]
+                if q in connections
+                else next(k for k, v in connections.items() if v == q)
+            )
+            raise ValueError(
+                "SAX currently does not support multiply connected ports. "
+                f"Got {p}<->{q} and {_p}<->{q}"
+            )
+        connections[p] = q
+        used.add(p)
+        used.add(q)
+    return connections

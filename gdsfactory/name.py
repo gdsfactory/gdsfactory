@@ -4,9 +4,15 @@ from __future__ import annotations
 
 import hashlib
 import re
-from typing import Any
+from hashlib import md5
+from typing import TYPE_CHECKING, Any
 
 from gdsfactory.config import CONF
+
+if TYPE_CHECKING:
+    from gdsfactory.component import Component
+    from gdsfactory.component_reference import ComponentReference
+    from gdsfactory.types import LayerEnum, LayerSpec
 
 
 def get_name_short(
@@ -176,3 +182,55 @@ def clean_value(value: Any) -> str:
 
 def test_clean_name() -> None:
     assert clean_name("wg(:_=_2852") == "wg___2852"
+
+
+def get_instance_name_from_alias(reference: ComponentReference) -> str:
+    """Returns the instance name from the reference alias or a hash.
+
+    Args:
+        reference: reference that needs naming.
+
+    Returns:
+        instance name.
+
+    """
+    name = reference.name or md5(str(reference).encode()).hexdigest()[:8]
+    return clean_name(name)
+
+
+def get_instance_name_from_label(
+    component: Component,
+    reference: ComponentReference,
+    layer_label: LayerSpec = "LABEL_INSTANCE",
+) -> str:
+    """Returns the instance name from the label.
+
+    If no label returns to instanceName_x_y.
+
+    Args:
+        component: with labels.
+        reference: reference that needs naming.
+        layer_label: ignores layer_label[1].
+    """
+    from gdsfactory.pdk import get_layer
+    from gdsfactory.types import LayerEnum
+
+    layer_label = get_layer(layer_label)
+    layer = layer_label[0] if isinstance(layer_label, LayerEnum) else layer_label
+
+    x = reference.x
+    y = reference.y
+    labels = component.labels
+
+    # default instance name follows component.aliases
+    text = clean_name(f"{reference.cell.name}_{x}_{y}")
+
+    # try to get the instance name from a label
+    for label in labels:
+        xl = label.dposition[0]
+        yl = label.dposition[1]
+        if x == xl and y == yl and label.layer == layer:
+            # print(label.text, xl, yl, x, y)
+            return str(label.text)
+
+    return text
