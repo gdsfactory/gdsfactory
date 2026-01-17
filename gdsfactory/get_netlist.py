@@ -248,21 +248,28 @@ def get_netlist(
 
 
 def get_netlist_recursive(
-    component: AnyKCell,
-    component_suffix: str = "",
-    get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore[assignment]
+    component: ProtoTKCell[Any] | VKCell | TKCell,
+    exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
-    **kwargs: Any,
+    allow_multiple: bool = True,
+    connection_error_types: dict[str, list[str]] | None = None,
+    add_interface_on_mismatch: bool = False,
+    ignore_warnings: bool = False,
+    component_suffix: str = "",
 ) -> dict[str, Any]:
     """Returns recursive netlist for a component and subcomponents.
 
     Args:
         component: to extract netlist.
-        component_suffix: suffix to append to each component name.
-            useful if to save and reload a back-annotated netlist.
-        get_netlist_func: function to extract individual netlists.
+        exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
-        kwargs: additional keyword arguments to pass to get_netlist_func.
+        allow_multiple: False to raise an error if more than two ports share the same connection.
+        connection_error_types: optional dictionary of port types and error types to raise an error for.
+        add_interface_on_mismatch: when True, additional interface instances are added to the netlist
+            (e.g. to model mode mismatch)
+        ignore_warnings: if True, will not include warnings in the returned netlist.
+        component_suffix: suffix to add to each component name in the netlist.
+
 
     Keyword Args:
         tolerance: tolerance in grid_factor to consider two ports connected.
@@ -286,7 +293,15 @@ def get_netlist_recursive(
         references = _get_references_to_netlist_all_angle(component)
 
     if references:
-        netlist = get_netlist_func(component, **kwargs)
+        netlist = get_netlist(
+            component,
+            exclude_port_types=exclude_port_types,
+            get_instance_name=get_instance_name,
+            allow_multiple=allow_multiple,
+            connection_error_types=connection_error_types,
+            add_interface_on_mismatch=add_interface_on_mismatch,
+            ignore_warnings=ignore_warnings,
+        )
         all_netlists[f"{component.name}{component_suffix}"] = netlist
 
         # for each reference, expand the netlist
@@ -295,8 +310,12 @@ def get_netlist_recursive(
             grandchildren = get_netlist_recursive(
                 component=rcell,
                 component_suffix=component_suffix,
-                get_netlist_func=get_netlist_func,
-                **kwargs,
+                exclude_port_types=exclude_port_types,
+                get_instance_name=get_instance_name,
+                allow_multiple=allow_multiple,
+                connection_error_types=connection_error_types,
+                add_interface_on_mismatch=add_interface_on_mismatch,
+                ignore_warnings=ignore_warnings,
             )
             all_netlists |= grandchildren
 
