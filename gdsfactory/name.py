@@ -12,7 +12,7 @@ from gdsfactory.config import CONF
 if TYPE_CHECKING:
     from gdsfactory.component import Component
     from gdsfactory.component_reference import ComponentReference
-    from gdsfactory.types import LayerEnum, LayerSpec
+    from gdsfactory.types import LayerSpec
 
 
 def get_name_short(

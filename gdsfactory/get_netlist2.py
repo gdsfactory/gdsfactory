@@ -327,7 +327,7 @@ if __name__ == "__main__":
     PDK.activate()
     c = _sample_circuit()
     cell = kf.KCell(base=c.base)
-    recnet = {}
+    recnet: dict = {}
     _insert_netlist(recnet, cell, "simple_instance_name", "function_name", ())
     netlist = recnet[next(iter(recnet))]
     netlist["placements"]["mzi"]
