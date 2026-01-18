@@ -733,16 +733,33 @@ def _sample_circuit() -> Component:
     return c
 
 
+def _width_mismatch_circuit() -> Component:
+    """Create a simple circuit with a width mismatch for testing."""
+    c = Component()
+    s1 = c.add_ref(gf.c.straight(length=10, width=0.5), name="s1")
+    s2 = c.add_ref(gf.c.straight(length=10, width=0.6), name="s2")
+    s2.move((10, 0))  # Position s2 so its o1 aligns with s1's o2
+    return c
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.gpdk import PDK
 
     PDK.activate()
+
+    # Test sample circuit
     c = _sample_circuit()
     recnet = get_netlist_recursive(c, port_matcher=PortCenterMatcher())
     for name, netlist in recnet.items():
         print(f"Cell: {name}")
         for inst_name, inst in netlist["instances"].items():
             print(f"  Instance: {inst_name} -> {inst['component']}")
-        print(netlist["ports"])
-        print(len(netlist["nets"]), "nets")
+        print(f"  Ports: {netlist['ports']}")
+        print(f"  Nets: {len(netlist['nets'])}")
+
+    # Test width mismatch circuit
+    print("\nWidth mismatch circuit:")
+    c2 = _width_mismatch_circuit()
+    netlist2 = get_netlist(c2, port_matcher=FlexiblePortMatcher())
+    print(f"  Nets: {netlist2['nets']}")
