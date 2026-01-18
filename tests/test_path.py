@@ -461,3 +461,94 @@ def test_path_angle() -> None:
     p.drotate(-90)
     c = p.extrude(cross_section=gf.cross_section.strip)
     assert np.isclose(c.area("WG"), 11.409315999999999)
+
+
+@pytest.mark.parametrize("angle", [0, 1e-6, 1e-3, 0.1, 1, 10, 45, 90, 180, -45, -90])
+def test_euler_angles(angle: float) -> None:
+    """Test euler at various angles including zero and negative."""
+    p = gf.path.euler(radius=10, angle=angle)
+    assert not np.any(np.isnan(p.points)), f"nan at angle={angle}"
+    assert len(p.points) >= 1
+
+
+@pytest.mark.parametrize("p_val", [0.2, 0.5, 0.8, 1.0])
+def test_euler_p_values(p_val: float) -> None:
+    """Test euler with different p values."""
+    p = gf.path.euler(radius=10, angle=90, p=p_val)
+    assert not np.any(np.isnan(p.points))
+
+
+@pytest.mark.parametrize("use_eff", [True, False])
+def test_euler_use_eff(use_eff: bool) -> None:
+    """Test euler with use_eff True and False."""
+    p = gf.path.euler(radius=10, angle=90, use_eff=use_eff)
+    assert not np.any(np.isnan(p.points))
+    assert "Reff" in p.info
+    assert "Rmin" in p.info
+
+
+def test_euler_zero_angle_returns_origin() -> None:
+    """Test that euler(angle=0) returns 2 points at origin."""
+    p = gf.path.euler(radius=10, angle=0)
+    assert len(p.points) == 2
+    assert np.allclose(p.points, [[0, 0], [0, 0]])
+    assert p.start_angle == 0
+    assert p.end_angle == 0
+
+
+def test_arc_zero_angle_returns_origin() -> None:
+    """Test that arc(angle=0) returns 2 points at origin."""
+    p = gf.path.arc(radius=10, angle=0)
+    assert len(p.points) == 2
+    assert np.allclose(p.points, [[0, 0], [0, 0]])
+
+
+def test_euler_p0_matches_arc() -> None:
+    """Test that euler with p=0 is equivalent to arc."""
+    radius, angle = 10, 45
+    euler_path = gf.path.euler(radius=radius, angle=angle, p=0)
+    arc_path = gf.path.arc(radius=radius, angle=angle)
+    assert np.allclose(euler_path.points, arc_path.points, atol=1e-10)
+
+
+def test_arc_length_analytical() -> None:
+    """Test arc path length matches analytical value: radius * angle_in_radians."""
+    radius, angle = 10, 90
+    p = gf.path.arc(radius=radius, angle=angle)
+    expected_length = radius * np.radians(angle)
+    assert np.isclose(p.length(), expected_length, rtol=1e-3)
+
+
+def test_euler_angles_preserved() -> None:
+    """Test that euler start/end angles difference matches input."""
+    for angle in [45, 90, 180]:
+        p = gf.path.euler(radius=10, angle=angle)
+        assert p.end_angle - p.start_angle == angle
+    # Negative angles: difference may be normalized (e.g., -45 -> 315)
+    for angle in [-45, -90]:
+        p = gf.path.euler(radius=10, angle=angle)
+        diff = p.end_angle - p.start_angle
+        assert diff == angle or diff == angle + 360
+
+
+def test_euler_curvature_continuity() -> None:
+    """Test that euler has continuous curvature starting and ending near zero."""
+    # Use many points for accurate curvature estimation
+    p = gf.path.euler(radius=10, angle=90, npoints=1000)
+    pts = p.points
+
+    # Compute curvature: k = (x'*y'' - y'*x') / (x'^2 + y'^2)^(3/2)
+    dx = np.gradient(pts[:, 0])
+    dy = np.gradient(pts[:, 1])
+    ddx = np.gradient(dx)
+    ddy = np.gradient(dy)
+    curvature = (dx * ddy - dy * ddx) / (dx**2 + dy**2) ** 1.5
+
+    # Curvature should start and end near zero (connecting to straights)
+    assert abs(curvature[0]) < 0.01, f"Start curvature {curvature[0]} not near zero"
+    assert abs(curvature[-1]) < 0.01, f"End curvature {curvature[-1]} not near zero"
+
+    # Curvature should be smooth (no jumps > threshold)
+    curvature_diff = np.abs(np.diff(curvature))
+    max_jump = np.max(curvature_diff)
+    assert max_jump < 0.01, f"Curvature discontinuity detected: max jump = {max_jump}"
