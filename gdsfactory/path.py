@@ -1645,13 +1645,18 @@ def arc(
 def _fresnel_coeffs(
     n_iter: int = 8,
 ) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.floating]]:
-    """Compute Fresnel coefficients (cached on first call)."""
+    """Compute Fresnel coefficients (cached on first call).
+
+    Arrays are marked read-only to prevent accidental mutation of cached values.
+    """
     n = np.arange(n_iter)
     exp = np.array([4 * n + 1, 4 * n + 3])
     den = np.empty(shape=(2, n_iter))
     den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
     den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
     den *= (-1.0) ** n
+    exp.flags.writeable = False
+    den.flags.writeable = False
     return exp, den
 
 
