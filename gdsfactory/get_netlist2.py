@@ -4,7 +4,7 @@ import re
 import secrets
 from collections import defaultdict
 from collections.abc import Iterable
-from itertools import chain, combinations, product
+from itertools import chain, product
 from typing import Any, Protocol, TypeAlias, cast
 
 import kfactory as kf
@@ -164,11 +164,20 @@ class CountedNetlistNamer:
         return name
 
 
+# PortMatcher can return:
+# - False: ports don't match
+# - True: ports match with no metadata
+# - dict: ports match with metadata (stored in net's 'settings' field)
+MatchResult: TypeAlias = bool | dict[str, Any]
+
+
 class PortMatcher(Protocol):
     """Protocol for determining if two ports are connected."""
 
-    def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
-        """Return True if the two ports are considered connected."""
+    def __call__(
+        self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port
+    ) -> MatchResult:
+        """Return match result: False, True, or dict with metadata."""
         ...
 
 
@@ -227,8 +236,59 @@ class SmartPortMatcher:
 
         # Check orientation: ports should face each other (180° apart)
         angle_diff = abs(_angle_difference(port1.orientation, port2.orientation))
-        if abs(angle_diff - 180) > self.angle_tolerance:
+        if abs(angle_diff - 180) > self.angle_tolerance:  # noqa: SIM103
             return False
+
+        return True
+
+
+class FlexiblePortMatcher:
+    """Matches ports based on position and orientation, recording width mismatches.
+
+    Unlike SmartPortMatcher, this matcher does not reject connections with
+    width mismatches. Instead, it returns metadata about the mismatch that
+    can be used for post-processing (e.g., inserting interface components).
+    """
+
+    def __init__(
+        self,
+        position_tolerance_dbu: int = 2,
+        angle_tolerance: float = 0.01,
+    ) -> None:
+        self.position_tolerance_dbu = position_tolerance_dbu
+        self.angle_tolerance = angle_tolerance
+
+    def __call__(
+        self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port
+    ) -> MatchResult:
+        """Return match result with width mismatch metadata if applicable."""
+        # Check port type
+        if port1.port_type != port2.port_type:
+            return False
+
+        # Check position
+        x1, y1 = port1.to_itype().center
+        x2, y2 = port2.to_itype().center
+        if (
+            abs(x2 - x1) >= self.position_tolerance_dbu
+            or abs(y2 - y1) >= self.position_tolerance_dbu
+        ):
+            return False
+
+        # Skip orientation check for electrical ports
+        if port1.port_type != "electrical":
+            # Check orientation: ports should face each other (180° apart)
+            angle_diff = abs(_angle_difference(port1.orientation, port2.orientation))
+            if abs(angle_diff - 180) > self.angle_tolerance:
+                return False
+
+        # Check for width mismatch - record but don't reject
+        width_diff = abs(port1.width - port2.width)
+        if width_diff > 0.001:  # small tolerance for floating point
+            return {
+                "width1": port1.width,
+                "width2": port2.width,
+            }
 
         return True
 
@@ -564,46 +624,74 @@ def _get_nets(
     all_ports: dict[str, kf.DPort | kf.Port],
     allow_multiple: bool,
     port_matcher: PortMatcher,
-) -> list[dict[str, str]]:
+) -> list[dict[str, Any]]:
     """Extract connections between ports.
 
     NOTE: This is O(n²) in the number of ports. For very large circuits,
     consider adding a PortIndexer to bucket ports by position first (O(n)),
     then only compare within buckets using the PortMatcher.
+
+    Returns:
+        List of net dicts with keys 'p1', 'p2', and optionally 'settings'.
     """
     _port_names = list(all_ports)
     _num_ports = len(_port_names)
-    _nets = defaultdict(set)
+
+    # Track which ports are connected and their metadata
+    # Key: sorted tuple of two port names, Value: settings dict or None
+    _matched_pairs: dict[tuple[str, str], dict[str, Any] | None] = {}
+
     for i in range(_num_ports):
         pname = _port_names[i]
         p = all_ports[pname]
         for j in range(i + 1, _num_ports):
             qname = _port_names[j]
             q = all_ports[qname]
-            if port_matcher(p, q):
-                _nets[i].add(pname)
-                _nets[i].add(qname)
+            result = port_matcher(p, q)
+            if result is not False:
+                pair = (pname, qname) if pname < qname else (qname, pname)
+                if isinstance(result, dict):
+                    _matched_pairs[pair] = result
+                else:
+                    _matched_pairs[pair] = None
 
-    nets: list[dict[str, str]] = []
-    for net in _nets.values():
-        if len(net) > 2 and not allow_multiple:
-            msg = f"More than two ports overlapping: {net}."
-            raise ValueError(msg)
-        for p1, p2 in combinations(net, 2):
-            nets.append({"p1": p1, "p2": p2})
+    # Check for multiple connections at same location
+    if not allow_multiple:
+        # Group pairs by shared ports to detect multi-port overlaps
+        port_connections: dict[str, set[str]] = defaultdict(set)
+        for p1, p2 in _matched_pairs:
+            port_connections[p1].add(p2)
+            port_connections[p2].add(p1)
+        for port, connected in port_connections.items():
+            if len(connected) > 1:
+                msg = (
+                    f"More than two ports overlapping at {port}: {connected | {port}}."
+                )
+                raise ValueError(msg)
+
+    # Build list of nets
+    nets: list[dict[str, Any]] = []
+    for (p1, p2), settings in _matched_pairs.items():
+        net: dict[str, Any] = {"p1": p1, "p2": p2}
+        if settings is not None:
+            net["settings"] = settings
+        nets.append(net)
     return nets
 
 
 def _split_nets_and_ports(
-    nets: list[dict[str, str]],
-) -> tuple[dict[str, str], list[dict[str, str]]]:
+    nets: list[dict[str, Any]],
+) -> tuple[dict[str, str], list[dict[str, Any]]]:
     """Split nets into top-level port mappings and instance-to-instance nets.
 
     Top-level ports never have a ',' in their name, whereas instance ports
     are formatted as '{instance_name},{port_name}'.
+
+    Note: Settings from nets involving top-level ports are discarded since
+    the ports dict only maps port names to instance ports.
     """
     ports: dict[str, str] = {}
-    instance_nets: list[dict[str, str]] = []
+    instance_nets: list[dict[str, Any]] = []
     for net in nets:
         p1, p2 = net["p1"], net["p2"]
         if "," not in p1:
