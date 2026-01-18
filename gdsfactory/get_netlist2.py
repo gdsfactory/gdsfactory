@@ -243,6 +243,18 @@ def _angle_difference(angle1: float, angle2: float) -> float:
     return diff
 
 
+def _flip_port(port: kf.DPort | kf.Port) -> kf.DPort:
+    """Return a copy of the port with orientation flipped by 180°."""
+    return kf.DPort(
+        name=port.name,
+        center=(port.x, port.y),
+        orientation=port.orientation + 180,
+        width=port.width,
+        layer=port.layer,
+        port_type=port.port_type,
+    )
+
+
 _default_port_matcher = SmartPortMatcher()
 
 
@@ -339,9 +351,10 @@ def _insert_netlist(
     net = recnet[cell_name] = {
         "instances": {},
         "placements": {},
+        "ports": {},
         "nets": {},
     }
-    _instance_ports: dict[str, kf.DPort | kf.Port] = {}
+    _all_ports: dict[str, kf.DPort | kf.Port] = {}
     for _inst in sorted(
         chain(cell.insts, cell.vinsts), key=lambda i: getattr(i, "name", "") or ""
     ):
@@ -356,7 +369,7 @@ def _insert_netlist(
             array = None
             virtual = True
             transform = inst.dcplx_trans
-            _instance_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
+            _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_flattened_vinst(inst):
             if _is_array_inst(inst):
                 msg = (
@@ -368,14 +381,14 @@ def _insert_netlist(
             virtual = True
             if hasattr(inst.cell, "vtrans"):  # always True - just making mypy happy
                 transform = inst.dcplx_trans * inst.cell.vtrans
-            _instance_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
+            _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_array_inst(inst):
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = _get_array_config(inst)
             virtual = False
             transform = inst.dcplx_trans
-            _instance_ports.update(
+            _all_ports.update(
                 {
                     f"{inst_name}<{a}.{b}>,{p.name}": inst.ports[p.name, a, b]
                     for p, a, b in product(
@@ -389,7 +402,7 @@ def _insert_netlist(
             array = None
             virtual = False
             transform = inst.dcplx_trans
-            _instance_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
+            _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
 
         net["instances"][inst_name] = _dump_instance(
             scm.Instance(
@@ -422,7 +435,15 @@ def _insert_netlist(
                 recursive,
             )
 
-    net["nets"] = _get_nets(_instance_ports, allow_multiple, port_matcher)
+    # Add top-level ports
+    # we flip them so they face opposite to the instance ports
+    # this is necessary as most PortMatchers will assume ports face each other
+    for port in cell.ports:
+        if port.name is not None:
+            _all_ports[port.name] = _flip_port(cast(kf.DPort | kf.Port, port))
+
+    all_nets = _get_nets(_all_ports, allow_multiple, port_matcher)
+    net["ports"], net["nets"] = _split_nets_and_ports(all_nets)
 
 
 def _has_instances(cell: Any) -> bool:
@@ -540,26 +561,30 @@ def _clean_instname(name: str | None) -> str:
 
 
 def _get_nets(
-    instance_ports: dict[str, kf.DPort | kf.Port],
+    all_ports: dict[str, kf.DPort | kf.Port],
     allow_multiple: bool,
     port_matcher: PortMatcher,
 ) -> list[dict[str, str]]:
-    # NOTE: This is O(n²) in the number of ports. For very large circuits,
-    # consider adding a PortIndexer to bucket ports by position first (O(n)),
-    # then only compare within buckets using the PortMatcher.
-    _instance_port_names = list(instance_ports)
-    _num_instance_ports = len(_instance_port_names)
+    """Extract connections between ports.
+
+    NOTE: This is O(n²) in the number of ports. For very large circuits,
+    consider adding a PortIndexer to bucket ports by position first (O(n)),
+    then only compare within buckets using the PortMatcher.
+    """
+    _port_names = list(all_ports)
+    _num_ports = len(_port_names)
     _nets = defaultdict(set)
-    for i in range(_num_instance_ports):
-        pname = _instance_port_names[i]
-        for j in range(i + 1, _num_instance_ports):
-            qname = _instance_port_names[j]
-            p = instance_ports[pname]
-            q = instance_ports[qname]
+    for i in range(_num_ports):
+        pname = _port_names[i]
+        p = all_ports[pname]
+        for j in range(i + 1, _num_ports):
+            qname = _port_names[j]
+            q = all_ports[qname]
             if port_matcher(p, q):
                 _nets[i].add(pname)
                 _nets[i].add(qname)
-    nets = []
+
+    nets: list[dict[str, str]] = []
     for net in _nets.values():
         if len(net) > 2 and not allow_multiple:
             msg = f"More than two ports overlapping: {net}."
@@ -567,6 +592,27 @@ def _get_nets(
         for p1, p2 in combinations(net, 2):
             nets.append({"p1": p1, "p2": p2})
     return nets
+
+
+def _split_nets_and_ports(
+    nets: list[dict[str, str]],
+) -> tuple[dict[str, str], list[dict[str, str]]]:
+    """Split nets into top-level port mappings and instance-to-instance nets.
+
+    Top-level ports never have a ',' in their name, whereas instance ports
+    are formatted as '{instance_name},{port_name}'.
+    """
+    ports: dict[str, str] = {}
+    instance_nets: list[dict[str, str]] = []
+    for net in nets:
+        p1, p2 = net["p1"], net["p2"]
+        if "," not in p1:
+            ports[p1] = p2
+        elif "," not in p2:
+            ports[p2] = p1
+        else:
+            instance_nets.append(net)
+    return ports, instance_nets
 
 
 def _sample_circuit() -> Component:
@@ -610,4 +656,5 @@ if __name__ == "__main__":
         print(f"Cell: {name}")
         for inst_name, inst in netlist["instances"].items():
             print(f"  Instance: {inst_name} -> {inst['component']}")
+        print(netlist["ports"])
         print(len(netlist["nets"]), "nets")
