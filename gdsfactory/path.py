@@ -8,6 +8,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+import functools
 import hashlib
 import math
 import warnings
@@ -1623,11 +1624,7 @@ def arc(
         npoints = npoints or int(
             abs(angle) / 360 * radius / PDK.bend_points_distance / 2
         )
-        # Fix for zero-angle division by zero
-        if abs(angle) < 1e-6:  # Essentially zero angle
-            npoints = max(int(npoints), 2)  # Minimum points for straight line
-        else:
-            npoints = max(int(npoints), int(360 / abs(angle)) + 1)
+        npoints = max(int(npoints), 2)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
@@ -1644,68 +1641,45 @@ def arc(
     return path
 
 
-def _fresnel(
-    R0: float, s: float, num_pts: int, n_iter: int = 8
-) -> npt.NDArray[np.floating]:
-    """Fresnel integral using a series expansion.
+@functools.cache
+def _fresnel_coeffs(
+    n_iter: int = 8,
+) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.floating]]:
+    """Compute Fresnel coefficients (cached on first call).
 
-    Args:
-        R0: Initial radius of curvature.
-        s: Length of the curve.
-        num_pts: Number of points to generate.
-        n_iter: Number of iterations to use in the series expansion.
-
-    Returns:
-        Array of shape (2, num_pts): [x; y]
+    Arrays are marked read-only to prevent accidental mutation of cached values.
     """
-    t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
-
     n = np.arange(n_iter)
     exp = np.array([4 * n + 1, 4 * n + 3])
-
     den = np.empty(shape=(2, n_iter))
     den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
     den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
     den *= (-1.0) ** n
+    exp.flags.writeable = False
+    den.flags.writeable = False
+    return exp, den
 
+
+def _fresnel(
+    R0: float, s: float, num_pts: int, n_iter: int = 8
+) -> npt.NDArray[np.floating]:
+    """Fresnel integral using a series expansion with cached coefficients."""
+    t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
+    exp, den = _fresnel_coeffs(n_iter)
     series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
-
     return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * series)
 
 
 def _fresnel_angular(
     R0: float, s: float, num_pts: int, n_iter: int = 8
 ) -> npt.NDArray[np.floating]:
-    """Fresnel integral with uniform angular sampling.
-
-    Args:
-        R0: Initial radius of curvature.
-        s: Length of the curve.
-        num_pts: Number of points to generate.
-        n_iter: Number of iterations to use in the series expansion.
-
-    Returns:
-        Array of shape (2, num_pts): [x; y]
-    """
-    # For Fresnel spiral, the angle theta = t^2/2
-    # So t = sqrt(2*theta), where theta is in radians
+    """Fresnel integral with uniform angular sampling and cached coefficients."""
     t_max = s / float(np.sqrt(2) * R0)
     theta_max = t_max**2 / 2
-
-    # Generate uniform angles
     thetas = np.linspace(0, theta_max, num_pts)
     t = np.sqrt(2 * thetas)
-
-    n = np.arange(n_iter)
-    exp = np.array([4 * n + 1, 4 * n + 3])
-
-    den = np.empty(shape=(2, n_iter))
-    den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
-    den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
-    den *= (-1.0) ** n
-
+    exp, den = _fresnel_coeffs(n_iter)
     series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
-
     return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * series)
 
 
@@ -1772,9 +1746,10 @@ def euler(
 
     R0 = 1
     alpha = np.radians(angle)
-    Rp = R0 / (np.sqrt(p * alpha))
     sp = float(R0 * np.sqrt(p * alpha))
-    s0 = float(2 * sp + Rp * alpha * (1 - p))
+    # Rp = inf at alpha=0, but all usages are guarded by is_small_angle
+    with np.errstate(divide="ignore"):
+        Rp = R0 / np.sqrt(p * alpha)
 
     pdk = get_active_pdk()
     if angular_step is not None:
@@ -1791,8 +1766,9 @@ def euler(
         npoints = npoints or abs(
             int(angle / 360 * radius / pdk.bend_points_distance / 2)
         )
-        npoints = max(npoints, int(360 / angle) + 1)
-        num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
+        npoints = max(int(npoints), 2)
+        # Use simplified form: sp/(s0/2) = 2p/(p+1), avoids 0/0 at alpha=0
+        num_pts_euler = int(np.round(2 * p / (p + 1) * npoints))
         num_pts_arc = npoints - num_pts_euler
 
     # Ensure a minimum of 2 points for each euler/arc section
@@ -1800,29 +1776,43 @@ def euler(
         num_pts_euler = 0
         num_pts_arc = 2
 
+    # Small angle threshold in degrees (matches arc() convention)
+    is_small_angle = abs(angle) <= 1e-6
+
     if num_pts_euler > 0:
         if angular_step is not None:
             xbend1, ybend1 = _fresnel_angular(R0, sp, num_pts_euler)
         else:
             xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
         xp, yp = xbend1[-1], ybend1[-1]
-        dx = xp - Rp * np.sin(p * alpha / 2)
-        dy = yp - Rp * (1 - np.cos(p * alpha / 2))
+        # Sinc-based formulas avoid Rp*sin (inf*0 at alpha=0)
+        # Rp * sin(p*a/2) = sp/2 * sinc(p*a/(2*pi))
+        # Rp * (1-cos(p*a/2)) = (sp^3/8) * sinc^2(p*a/(4*pi))  [using 1-cos=2sin^2]
+        # Using sinc(2x) = sinc(x)*cos(pi*x) to compute both from one sinc call
+        sinc_quarter = np.sinc(p * alpha / (4 * np.pi))
+        dx = xp - sp / 2 * sinc_quarter * np.cos(p * alpha / 4)
+        dy = yp - (sp**3 / 8) * sinc_quarter**2
     else:
         xbend1 = ybend1 = np.asarray([], dtype=float)
         dx = 0
         dy = 0
 
-    if angular_step is not None:
-        # For angular discretization in the arc section
-        arc_angle = alpha * (1 - p)  # angle covered by the arc section
-        theta = np.linspace(0, arc_angle, num_pts_arc)
-        xbend2 = Rp * np.sin(theta + p * alpha / 2) + dx
-        ybend2 = Rp * (1 - np.cos(theta + p * alpha / 2)) + dy
+    if not is_small_angle:
+        if angular_step is not None:
+            # Original angular_step behavior (different from npoints mode)
+            arc_angle_section = alpha * (1 - p)
+            theta = np.linspace(0, arc_angle_section, num_pts_arc)
+            arc_angles = theta + p * alpha / 2
+        else:
+            # Direct linspace replaces: s = linspace(sp, s0/2), arc_angles = (s-sp)*sqrt(p*a)/R0 + p*a/2
+            arc_angles = np.linspace(p * alpha / 2, alpha / 2, num_pts_arc)
+        xbend2 = Rp * np.sin(arc_angles) + dx
+        ybend2 = Rp * (1 - np.cos(arc_angles)) + dy
     else:
-        s = np.linspace(sp, s0 / 2, num_pts_arc)
-        xbend2 = Rp * np.sin((s - sp) / Rp + p * alpha / 2) + dx
-        ybend2 = Rp * (1 - np.cos((s - sp) / Rp + p * alpha / 2)) + dy
+        # Limit is 0 by L'Hopital: Rp*sin(t) ~ sin(a)/sqrt(a) -> 0
+        xbend2 = np.zeros(num_pts_arc) + dx
+        # Limit is 0: Rp*(1-cos(t)) ~ (1/sqrt(a))*(a^2/2) = a^(3/2)/2 -> 0
+        ybend2 = np.zeros(num_pts_arc) + dy
 
     x = np.concatenate([xbend1, xbend2[1:]])
     y = np.concatenate([ybend1, ybend2[1:]])
@@ -1832,21 +1822,27 @@ def euler(
     points2 = rotate_points(points2, angle - 180)
     points2 += -points2[0, :] + points1[-1, :]
 
-    points = np.concatenate([points1[:-1], points2])
+    # Use [:-1] to remove duplicate junction point, but [:None] if only 1 point
+    points = np.concatenate([points1[: -1 if len(points1) > 1 else None], points2])
 
     # Find y-axis intersection point to compute Reff
     start_angle = 180 * (angle < 0)
     end_angle = start_angle + angle
-    dy = np.tan(np.radians(end_angle - 90)) * points[-1][0]
-    Reff = points[-1][1] - dy
-    Rmin = Rp
 
-    # Fix degenerate condition at angle == 180
-    if np.abs(180 - angle) < 1e-3:
-        Reff = points[-1][1] / 2
+    if is_small_angle:
+        # Degenerate case: curve collapses to a point, radius is infinite
+        Reff = np.inf
+        Rmin = np.inf
+        scale = 0.0
+    else:
+        dy = np.tan(np.radians(end_angle - 90)) * points[-1][0]
+        Reff = points[-1][1] - dy
+        Rmin = Rp
+        # Fix degenerate condition at angle == 180
+        if np.abs(180 - angle) < 1e-3:
+            Reff = points[-1][1] / 2
+        scale = radius / Reff if use_eff else radius / Rmin
 
-    # Scale curve to either match Reff or Rmin
-    scale = radius / Reff if use_eff else radius / Rmin
     points *= scale
 
     path = Path()
@@ -1855,8 +1851,8 @@ def euler(
     path.points = points
     path.start_angle = start_angle
     path.end_angle = end_angle
-    path.info["Reff"] = Reff * scale
-    path.info["Rmin"] = Rmin * scale
+    path.info["Reff"] = Reff * scale if not is_small_angle else np.inf
+    path.info["Rmin"] = Rmin * scale if not is_small_angle else np.inf
     if mirror:
         path.mirror((1, 0))
     return path
