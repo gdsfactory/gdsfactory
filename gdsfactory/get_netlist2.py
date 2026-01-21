@@ -70,6 +70,11 @@ class OriginalNamer:
         return name
 
 
+# Alias for backwards compatibility with get_netlist.py behavior
+# This function matches the InstanceNamer protocol
+from gdsfactory.name import get_instance_name_from_alias as legacy_namer
+
+
 class CountedNamer:
     """Names instances using their component name with numeric suffixes."""
 
