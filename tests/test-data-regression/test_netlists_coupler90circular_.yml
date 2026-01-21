@@ -35,7 +35,6 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: coupler90_gdsfactorypcomponentspcouplerspcoupler90_G0p2_393cec8e
 nets: []
 placements:
   bend_circular_gdsfactorypcomponentspbendspbend_circular_949aafe9_0_700:

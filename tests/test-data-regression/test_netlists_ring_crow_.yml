@@ -57,7 +57,6 @@ instances:
       length: 20
       npoints: 2
       width: null
-name: ring_crow_gdsfactorypcomponentspringspring_crow_G0p2_0p_d55005d8
 nets: []
 placements:
   ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe_0_21400:

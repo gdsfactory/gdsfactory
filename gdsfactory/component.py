@@ -43,6 +43,13 @@ from gdsfactory.utils import to_kdb_dpoints
 
 if TYPE_CHECKING:
     from gdsfactory.cross_section import CrossSection, CrossSectionSpec
+    from gdsfactory.get_netlist import (
+        ComponentNamer,
+        ErrorBehavior,
+        InstanceNamer,
+        NetlistNamer,
+        PortMatcher,
+    )
     from gdsfactory.technology.layer_stack import LayerStack
     from gdsfactory.technology.layer_views import LayerViews
     from gdsfactory.typings import (
@@ -455,21 +462,67 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         assert isinstance(res, dict)
         return res
 
-    def get_netlist(self, recursive: bool = False, **kwargs: Any) -> dict[str, Any]:
+    def get_netlist(
+        self,
+        recursive: bool = False,
+        *,
+        on_multi_connect: ErrorBehavior = "error",
+        on_dangling_port: ErrorBehavior = "warn",
+        instance_namer: InstanceNamer | None = None,
+        component_namer: ComponentNamer | None = None,
+        netlist_namer: NetlistNamer | None = None,
+        port_matcher: PortMatcher | None = None,
+    ) -> dict[str, Any]:
         """Returns a place-aware netlist for circuit simulation.
 
-        It includes not only the connectivity information (nodes and connections) but also the specific placement coordinates for each component or cell in the layout.
+        It includes not only the connectivity information (nodes and connections)
+        but also the specific placement coordinates for each component or cell
+        in the layout.
 
         Args:
             recursive: if True, returns a recursive netlist.
-            kwargs: keyword arguments to get_netlist.
+            on_multi_connect: What to do when more than two ports overlap.
+                "ignore": silently allow, "warn": allow with warning, "error": raise.
+            on_dangling_port: What to do when an instance port is not connected.
+                "ignore": silently allow, "warn": allow with warning, "error": raise.
+            instance_namer: Callable to name instances.
+                Defaults to SmartNamer(component_namer).
+            component_namer: Callable to name components.
+                Defaults to function_namer.
+            netlist_namer: Callable to name cells in recursive netlists.
+                Defaults to CountedNetlistNamer(component_namer). Only used when
+                recursive=True.
+            port_matcher: Callable to determine if two ports are connected.
+                Defaults to SmartPortMatcher().
         """
-        from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
+        from gdsfactory.get_netlist import (
+            function_namer,
+            get_netlist,
+            get_netlist_recursive,
+        )
+
+        if component_namer is None:
+            component_namer = function_namer
 
         if recursive:
-            return get_netlist_recursive(self, **kwargs)
+            return get_netlist_recursive(
+                self,  # type: ignore[arg-type]
+                on_multi_connect=on_multi_connect,
+                on_dangling_port=on_dangling_port,
+                instance_namer=instance_namer,
+                component_namer=component_namer,
+                netlist_namer=netlist_namer,
+                port_matcher=port_matcher,
+            )
 
-        return get_netlist(self, **kwargs)  # type: ignore[arg-type]
+        return get_netlist(
+            self,  # type: ignore[arg-type]
+            on_multi_connect=on_multi_connect,
+            on_dangling_port=on_dangling_port,
+            instance_namer=instance_namer,
+            component_namer=component_namer,
+            port_matcher=port_matcher,
+        )
 
     def add_ref_off_grid(
         self, component: kf.ProtoTKCell[Any], name: str | None = None
@@ -1217,8 +1270,6 @@ class Component(ComponentBase, kf.DKCell):
         import matplotlib.pyplot as plt
         import networkx as nx
 
-        from gdsfactory.get_netlist import nets_to_connections
-
         plt.figure()
         netlist = self.get_netlist(recursive=recursive, **kwargs)
         G = nx.Graph()
@@ -1442,3 +1493,43 @@ def container(
 
     c.copy_child_info(component)
     return c
+
+
+def nets_to_connections(
+    nets: list[dict[str, Any]], connections: dict[str, Any]
+) -> dict[str, str]:
+    # Use the given connections; create a shallow copy to avoid mutating the input.
+    connections = dict(connections)
+
+    # Flat set of all used ports for O(1) membership check.
+    used = set(connections.keys())
+    used.update(connections.values())
+
+    for net in nets:
+        p = net["p1"]
+        q = net["p2"]
+        if p in used:
+            # Find the already connected q (if any)
+            _q = (
+                connections[p]
+                if p in connections
+                else next(k for k, v in connections.items() if v == p)
+            )
+            raise ValueError(
+                "SAX currently does not support multiply connected ports. "
+                f"Got {p}<->{q} and {p}<->{_q}"
+            )
+        if q in used:
+            _p = (
+                connections[q]
+                if q in connections
+                else next(k for k, v in connections.items() if v == q)
+            )
+            raise ValueError(
+                "SAX currently does not support multiply connected ports. "
+                f"Got {p}<->{q} and {_p}<->{q}"
+            )
+        connections[p] = q
+        used.add(p)
+        used.add(q)
+    return connections

@@ -49,7 +49,6 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-name: bend_euler_s_gdsfactorypcomponentspbendspbend_euler_RNo_e13e5513
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_0_0,o2
   p2: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_10000_10000_A90_M,o1

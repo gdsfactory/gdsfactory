@@ -19,7 +19,6 @@ instances:
       length: 10
       port_type: null
       width: 3
-name: copy_layers_gdsfactorypcomponentspcontainerspcopy_layer_eb05f809
 nets: []
 placements:
   cross_gdsfactorypcomponentspshapespcross_L10_W3_L1_0_PTNone_0_0:

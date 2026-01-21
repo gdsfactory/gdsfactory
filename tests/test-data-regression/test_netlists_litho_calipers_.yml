@@ -719,7 +719,6 @@ instances:
       size:
       - 2
       - 5
-name: litho_calipers_gdsfactorypcomponentsppcmsplitho_caliper_a176e64f
 nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_21fd3779_1100_m5000:

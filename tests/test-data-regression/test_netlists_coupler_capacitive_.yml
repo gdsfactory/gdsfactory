@@ -67,12 +67,7 @@ instances:
       size:
       - 30
       - 10
-name: coupler_capacitive_gdsfactorypcomponentspquantumpcouple_c7c01997
-nets:
-- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_1000_m25000,e3
-  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_21000_m5000,e1
-- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_m21000_m25000,e1
-  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m51000_m5000,e3
+nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_1000_m25000:
     mirror: false
@@ -97,39 +92,3 @@ placements:
 ports:
   left: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m51000_m5000,e1
   right: rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_21000_m5000,e3
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 10 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_m21000_m25000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_m21000_m25000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_m21000_m25000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_1000_m25000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_1000_m25000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a_1000_m25000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m51000_m5000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_m51000_m5000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_21000_m5000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1_21000_m5000,e4
-      values:
-      - - -11
-        - 25
-      - - -1
-        - 0
-      - - -11
-        - -25
-      - - 1
-        - 0
-      - - 11
-        - 25
-      - - 11
-        - -25
-      - - -36
-        - 5
-      - - -36
-        - -5
-      - - 36
-        - 5
-      - - 36
-        - -5

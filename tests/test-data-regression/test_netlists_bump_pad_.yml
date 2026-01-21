@@ -116,7 +116,6 @@ instances:
       - via1
       - via2
       - null
-name: bump_pad_gdsfactorypcomponentsppadspbump_pad_S36p244_LM_a4046926
 nets: []
 placements:
   regular_polygon_gdsfactorypcomponentspshapespregular_po_f7d137c5_0_0:
@@ -149,45 +148,3 @@ ports:
   e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e2
   e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e3
   e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e4
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 12 unconnected electrical ports!
-      ports:
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e4
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e4
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e4
-      values:
-      - - -5.5
-        - 38.25
-      - - 5.5
-        - 38.25
-      - - 0
-        - 32.75
-      - - 32.75
-        - 0
-      - - 38.25
-        - 5.5
-      - - 38.25
-        - -5.5
-      - - -5.5
-        - -38.25
-      - - 0
-        - -32.75
-      - - 5.5
-        - -38.25
-      - - -38.25
-        - 5.5
-      - - -32.75
-        - 0
-      - - -38.25
-        - -5.5

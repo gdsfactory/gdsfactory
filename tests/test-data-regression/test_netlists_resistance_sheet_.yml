@@ -69,12 +69,7 @@ instances:
       - null
       - via1
       - via2
-name: resistance_sheet_gdsfactorypcomponentsppcmspresistance__cb73a501
-nets:
-- p1: compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e1
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0,e3
-- p1: compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e3
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0,e1
+nets: []
 placements:
   compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0:
     mirror: false
@@ -94,27 +89,3 @@ placements:
 ports:
   pad1: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0,e4
   pad2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0,e4
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 6 unconnected electrical ports!
-      ports:
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0,e3
-      - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e2
-      - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0,e4
-      values:
-      - - -75
-        - 0
-      - - -50
-        - 25
-      - - 50
-        - 25
-      - - 75
-        - 0
-      - - 0
-        - 5
-      - - 0
-        - -5

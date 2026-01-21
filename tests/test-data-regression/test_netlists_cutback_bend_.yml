@@ -2651,10 +2651,41 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: cutback_bend_gdsfactorypcomponentsppcmspcutback_bend_Cb_73a3f7dd
 nets:
 - p1: A1,o2
   p2: S1,o1
+- p1: A2,o1
+  p2: S2,o2
+- p1: A2,o2
+  p2: S3,o1
+- p1: A3,o1
+  p2: S4,o2
+- p1: A3,o2
+  p2: S5,o1
+- p1: A4,o1
+  p2: S6,o2
+- p1: A4,o2
+  p2: S7,o1
+- p1: A5,o1
+  p2: S8,o2
+- p1: A5,o2
+  p2: S9,o1
+- p1: A6,o1
+  p2: S10,o2
+- p1: A6,o2
+  p2: S11,o1
+- p1: A7,o1
+  p2: S12,o2
+- p1: A7,o2
+  p2: S13,o1
+- p1: A8,o1
+  p2: S13,o2
+- p1: A8,o2
+  p2: S14,o1
+- p1: A9,o1
+  p2: S14,o2
+- p1: A9,o2
+  p2: S15,o1
 - p1: A10,o1
   p2: S16,o2
 - p1: A10,o2
@@ -2695,10 +2726,6 @@ nets:
   p2: S36,o2
 - p1: A19,o2
   p2: S37,o1
-- p1: A2,o1
-  p2: S2,o2
-- p1: A2,o2
-  p2: S3,o1
 - p1: A20,o1
   p2: S38,o2
 - p1: A20,o2
@@ -2739,10 +2766,6 @@ nets:
   p2: S56,o2
 - p1: A29,o2
   p2: S57,o1
-- p1: A3,o1
-  p2: S4,o2
-- p1: A3,o2
-  p2: S5,o1
 - p1: A30,o1
   p2: S58,o2
 - p1: A30,o2
@@ -2763,34 +2786,42 @@ nets:
   p2: S66,o2
 - p1: A34,o2
   p2: S67,o1
-- p1: A4,o1
-  p2: S6,o2
-- p1: A4,o2
-  p2: S7,o1
-- p1: A5,o1
-  p2: S8,o2
-- p1: A5,o2
-  p2: S9,o1
-- p1: A6,o1
-  p2: S10,o2
-- p1: A6,o2
-  p2: S11,o1
-- p1: A7,o1
-  p2: S12,o2
-- p1: A7,o2
-  p2: S13,o1
-- p1: A8,o1
-  p2: S13,o2
-- p1: A8,o2
-  p2: S14,o1
-- p1: A9,o1
-  p2: S14,o2
-- p1: A9,o2
-  p2: S15,o1
 - p1: B1,o1
   p2: S2,o1
 - p1: B1,o2
   p2: S1,o2
+- p1: B2,o1
+  p2: S4,o1
+- p1: B2,o2
+  p2: S3,o2
+- p1: B3,o1
+  p2: S6,o1
+- p1: B3,o2
+  p2: S5,o2
+- p1: B4,o1
+  p2: S8,o1
+- p1: B4,o2
+  p2: S7,o2
+- p1: B5,o1
+  p2: S10,o1
+- p1: B5,o2
+  p2: S9,o2
+- p1: B6,o1
+  p2: S12,o1
+- p1: B6,o2
+  p2: S11,o2
+- p1: B7,o1
+  p2: S16,o1
+- p1: B7,o2
+  p2: S15,o2
+- p1: B8,o1
+  p2: S18,o1
+- p1: B8,o2
+  p2: S17,o2
+- p1: B9,o1
+  p2: S20,o1
+- p1: B9,o2
+  p2: S19,o2
 - p1: B10,o1
   p2: S22,o1
 - p1: B10,o2
@@ -2831,10 +2862,6 @@ nets:
   p2: S38,o1
 - p1: B19,o2
   p2: S37,o2
-- p1: B2,o1
-  p2: S4,o1
-- p1: B2,o2
-  p2: S3,o2
 - p1: B20,o1
   p2: S40,o1
 - p1: B20,o2
@@ -2875,10 +2902,6 @@ nets:
   p2: S58,o1
 - p1: B29,o2
   p2: S57,o2
-- p1: B3,o1
-  p2: S6,o1
-- p1: B3,o2
-  p2: S5,o2
 - p1: B30,o1
   p2: S60,o1
 - p1: B30,o2
@@ -2899,30 +2922,6 @@ nets:
   p2: S68,o1
 - p1: B34,o2
   p2: S67,o2
-- p1: B4,o1
-  p2: S8,o1
-- p1: B4,o2
-  p2: S7,o2
-- p1: B5,o1
-  p2: S10,o1
-- p1: B5,o2
-  p2: S9,o2
-- p1: B6,o1
-  p2: S12,o1
-- p1: B6,o2
-  p2: S11,o2
-- p1: B7,o1
-  p2: S16,o1
-- p1: B7,o2
-  p2: S15,o2
-- p1: B8,o1
-  p2: S18,o1
-- p1: B8,o2
-  p2: S17,o2
-- p1: B9,o1
-  p2: S20,o1
-- p1: B9,o2
-  p2: S19,o2
 placements:
   A1:
     mirror: false

@@ -101,7 +101,6 @@ instances:
       - via1
       - via2
       - null
-name: straight_pin_gdsfactorypcomponentspwaveguidespstraight__765c8da7
 nets:
 - p1: straight_gdsfactorypcomponentspwaveguidespstraight_L480_0775fb2d_0_0,o1
   p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0,o2

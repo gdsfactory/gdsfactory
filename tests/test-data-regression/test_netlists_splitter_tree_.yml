@@ -278,7 +278,6 @@ instances:
       length: 4.375
       npoints: 2
       width: null
-name: splitter_tree_gdsfactorypcomponentspcontainerspsplitter_b6d59c93
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_25500_10625_A270_M,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L4p3_94881c7f_25500_10625_A90,o1

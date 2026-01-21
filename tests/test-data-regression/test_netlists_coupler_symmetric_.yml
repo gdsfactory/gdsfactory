@@ -41,7 +41,6 @@ instances:
       - 10
       - 1.633
       width: null
-name: coupler_symmetric_gdsfactorypcomponentspcouplerspcouple_7357aaee
 nets: []
 placements:
   bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8_0_367:

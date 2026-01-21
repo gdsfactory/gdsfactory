@@ -97,7 +97,6 @@ instances:
       size:
       - 0.7
       - 0.7
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
 nets: []
 placements:
   compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683_0_0:

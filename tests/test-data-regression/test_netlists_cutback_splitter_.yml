@@ -1267,12 +1267,59 @@ instances:
       length: 20
       npoints: 2
       width: null
-name: cutback_splitter_gdsfactorypcomponentsppcmspcutback_spl_81980618
 nets:
 - p1: A1,o2
   p2: B1,o3
 - p1: A1,o3
   p2: B1,o2
+- p1: A2,o1
+  p2: B1,o1
+- p1: A2,o2
+  p2: B2,o3
+- p1: A2,o3
+  p2: B2,o2
+- p1: A3,o1
+  p2: B2,o1
+- p1: A3,o2
+  p2: B3,o3
+- p1: A3,o3
+  p2: B3,o2
+- p1: A4,o1
+  p2: B3,o1
+- p1: A4,o2
+  p2: B4,o3
+- p1: A4,o3
+  p2: B4,o2
+- p1: A5,o1
+  p2: D1,o2
+- p1: A5,o2
+  p2: B5,o3
+- p1: A5,o3
+  p2: B5,o2
+- p1: A6,o1
+  p2: B5,o1
+- p1: A6,o2
+  p2: B6,o3
+- p1: A6,o3
+  p2: B6,o2
+- p1: A7,o1
+  p2: B6,o1
+- p1: A7,o2
+  p2: B7,o3
+- p1: A7,o3
+  p2: B7,o2
+- p1: A8,o1
+  p2: B7,o1
+- p1: A8,o2
+  p2: B8,o3
+- p1: A8,o3
+  p2: B8,o2
+- p1: A9,o1
+  p2: C1,o1
+- p1: A9,o2
+  p2: B9,o3
+- p1: A9,o3
+  p2: B9,o2
 - p1: A10,o1
   p2: B9,o1
 - p1: A10,o2
@@ -1333,12 +1380,6 @@ nets:
   p2: B19,o3
 - p1: A19,o3
   p2: B19,o2
-- p1: A2,o1
-  p2: B1,o1
-- p1: A2,o2
-  p2: B2,o3
-- p1: A2,o3
-  p2: B2,o2
 - p1: A20,o1
   p2: B19,o1
 - p1: A20,o2
@@ -1399,12 +1440,6 @@ nets:
   p2: B29,o3
 - p1: A29,o3
   p2: B29,o2
-- p1: A3,o1
-  p2: B2,o1
-- p1: A3,o2
-  p2: B3,o3
-- p1: A3,o3
-  p2: B3,o2
 - p1: A30,o1
   p2: B29,o1
 - p1: A30,o2
@@ -1465,48 +1500,16 @@ nets:
   p2: B39,o3
 - p1: A39,o3
   p2: B39,o2
-- p1: A4,o1
-  p2: B3,o1
-- p1: A4,o2
-  p2: B4,o3
-- p1: A4,o3
-  p2: B4,o2
 - p1: A40,o1
   p2: B39,o1
 - p1: A40,o2
   p2: B40,o3
 - p1: A40,o3
   p2: B40,o2
-- p1: A5,o1
-  p2: D1,o2
-- p1: A5,o2
-  p2: B5,o3
-- p1: A5,o3
-  p2: B5,o2
-- p1: A6,o1
-  p2: B5,o1
-- p1: A6,o2
-  p2: B6,o3
-- p1: A6,o3
-  p2: B6,o2
-- p1: A7,o1
-  p2: B6,o1
-- p1: A7,o2
-  p2: B7,o3
-- p1: A7,o3
-  p2: B7,o2
-- p1: A8,o1
-  p2: B7,o1
-- p1: A8,o2
-  p2: B8,o3
-- p1: A8,o3
-  p2: B8,o2
-- p1: A9,o1
-  p2: C1,o1
-- p1: A9,o2
-  p2: B9,o3
-- p1: A9,o3
-  p2: B9,o2
+- p1: B4,o1
+  p2: D1,o1
+- p1: B8,o1
+  p2: C1,o2
 - p1: B12,o1
   p2: D2,o1
 - p1: B16,o1
@@ -1521,10 +1524,6 @@ nets:
   p2: C4,o2
 - p1: B36,o1
   p2: D4,o1
-- p1: B4,o1
-  p2: D1,o1
-- p1: B8,o1
-  p2: C1,o2
 - p1: _1,o2
   p2: m1,o2
 placements:

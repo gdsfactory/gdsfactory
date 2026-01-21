@@ -27,7 +27,6 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_a4c69b54
 nets: []
 placements:
   straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:

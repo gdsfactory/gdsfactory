@@ -321,7 +321,6 @@ instances:
       width2: 0.55
       with_bbox: true
       with_two_ports: true
-name: mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_b62f1593
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_ca983cd9_25000_1400,o1
   p2: taper_gdsfactorypcomponentsptapersptaper_L5_W0p5_W0p45__69eccf19_20000_1400,o2

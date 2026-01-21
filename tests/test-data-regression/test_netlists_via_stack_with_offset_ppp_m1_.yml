@@ -84,7 +84,6 @@ instances:
       size:
       - 0.7
       - 0.7
-name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_c3d1d693
 nets: []
 placements:
   compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_02253188_0_5000:

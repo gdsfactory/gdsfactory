@@ -1,7 +1,7 @@
 import json
 import pathlib
 from pathlib import Path
-from typing import Any, Self
+from typing import Any, Self, TypeAlias
 
 import networkx as nx
 import yaml
@@ -47,6 +47,9 @@ class GridArray(BaseModel):
     pitch_b: tuple[float, float] = (0.0, 1.0)
 
 
+Array: TypeAlias = OrthogonalGridArray | GridArray
+
+
 class Instance(BaseModel):
     """Instance of a component.
 
@@ -61,7 +64,7 @@ class Instance(BaseModel):
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
-    array: OrthogonalGridArray | GridArray | None = None
+    array: Array | None = None
     virtual: bool = False
 
     model_config = ConfigDict(extra="forbid")

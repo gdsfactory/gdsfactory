@@ -315,7 +315,6 @@ instances:
       npoints: null
       radius: 10
       width: null
-name: ring_crow_couplers_gdsfactorypcomponentspringspring_cro_cb10ddba
 nets:
 - p1: bot_left_bend_ring_0,o1
   p2: top_left_bend_ring_0,o2

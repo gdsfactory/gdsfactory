@@ -10,7 +10,6 @@ instances:
       - 0
       size: 100
       text: chip99
-name: die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_96550820
 nets: []
 placements:
   text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_0f73e94a_m4890000_m4850000:

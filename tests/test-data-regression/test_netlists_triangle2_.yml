@@ -17,7 +17,6 @@ instances:
       xtop: 0
       y: 20
       ybot: 0
-name: triangle2_gdsfactorypcomponentspshapesptriangles_S3
 nets: []
 placements:
   triangle_gdsfactorypcomponentspshapesptriangles_X10_X0__336fc7f4_0_0:

@@ -140,7 +140,6 @@ instances:
       length: 107
       npoints: 2
       width: null
-name: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_e95db816
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_127000_A180,o1
   p2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o2

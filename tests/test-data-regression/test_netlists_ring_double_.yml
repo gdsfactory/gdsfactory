@@ -53,7 +53,6 @@ instances:
       length: 0.01
       npoints: 2
       width: null
-name: ring_double_gdsfactorypcomponentspringspring_double_G0p_fee0c62d
 nets:
 - p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o2
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90,o1

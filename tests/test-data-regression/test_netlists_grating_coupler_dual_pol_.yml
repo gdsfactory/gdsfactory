@@ -76,7 +76,6 @@ instances:
       width2: 10
       with_bbox: true
       with_two_ports: true
-name: grating_coupler_dual_pol_gdsfactorypcomponentspgrating__bb68872e
 nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S0p3_0_d85f7637_m5070_m5070:
@@ -102,15 +101,3 @@ placements:
 ports:
   o1: taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_m155500_0,o1
   o2: taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_0_m155500_A90,o1
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 2 unconnected optical ports!
-      ports:
-      - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_m155500_0,o2
-      - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb_0_m155500_A90,o2
-      values:
-      - - -5.5
-        - 0
-      - - 0
-        - -5.5

@@ -20,7 +20,6 @@ instances:
       width2: 11
       with_bbox: true
       with_two_ports: true
-name: grating_coupler_rectangular_arbitrary_gdsfactorypcompon_9511b500
 nets: []
 placements:
   taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W11__e38806f8_0_0:
@@ -30,12 +29,3 @@ placements:
     y: 0
 ports:
   o1: taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W11__e38806f8_0_0,o1
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 1 unconnected optical ports!
-      ports:
-      - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W11__e38806f8_0_0,o2
-      values:
-      - - 150
-        - 0

@@ -41,7 +41,6 @@ instances:
       length: 15
       npoints: 2
       width: null
-name: ring_single_array_gdsfactorypcomponentspringspring_sing_54fe30c4
 nets:
 - p1: ring_single_gdsfactorypcomponentspringspring_single_G0p_914c3c45_0_0,o2
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L15__aa481ca5_8000_0,o1

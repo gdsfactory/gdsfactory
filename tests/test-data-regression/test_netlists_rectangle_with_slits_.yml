@@ -28,7 +28,6 @@ instances:
       size:
       - 100
       - 200
-name: rectangle_with_slits_gdsfactorypcomponentsppadsprectang_442d6bfc
 nets: []
 placements:
   array_gdsfactorypcomponentspcontainersparray_component__83c06869_19500_19500:

@@ -50,7 +50,6 @@ instances:
       size:
       - 0.15
       - 0.3
-name: flux_qubit_asymmetric_gdsfactorypcomponentspquantumpflu_71db343b
 nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S0p12__9ca3d91a_m60_m19125:
@@ -69,45 +68,3 @@ placements:
     x: -29.075
     y: 0
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 12 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p12__9ca3d91a_m60_m19125,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p12__9ca3d91a_m60_m19125,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p12__9ca3d91a_m60_m19125,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p12__9ca3d91a_m60_m19125,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m29075_0,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m29075_0,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m29075_0,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m29075_0,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_28925_0,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_28925_0,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_28925_0,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_28925_0,e4
-      values:
-      - - -0.06
-        - -19
-      - - 0
-        - -18.875
-      - - 0.06
-        - -19
-      - - 0
-        - -19.125
-      - - -29.075
-        - 0.15
-      - - -29
-        - 0.3
-      - - -28.925
-        - 0.15
-      - - -29
-        - 0
-      - - 28.925
-        - 0.15
-      - - 29
-        - 0.3
-      - - 29.075
-        - 0.15
-      - - 29
-        - 0

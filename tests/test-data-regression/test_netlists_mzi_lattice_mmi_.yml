@@ -29,7 +29,6 @@ instances:
       straight_x_top: null
       straight_y: null
       with_splitter: true
-name: mzi_lattice_mmi_gdsfactorypcomponentspmzispmzi_lattice__4fc84500
 nets: []
 placements:
   mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_916c66b9_0_0:

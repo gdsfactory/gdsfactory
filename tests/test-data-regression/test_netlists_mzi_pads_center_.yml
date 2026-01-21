@@ -43,7 +43,6 @@ instances:
       straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
-name: mzi_pads_center_gdsfactorypcomponentspmzispmzi_pads_cen_81123799
 nets: []
 placements:
   array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000:
@@ -75,45 +74,3 @@ ports:
   top_r_e2: mzi_gdsfactorypcomponentspmzispmzi_DL40_LY40_LX500_Bben_adfee0be_0_0,top_r_e2
   top_r_e3: mzi_gdsfactorypcomponentspmzispmzi_DL40_LY40_LX500_Bben_adfee0be_0_0,top_r_e3
   top_r_e4: mzi_gdsfactorypcomponentspmzispmzi_DL40_LY40_LX500_Bben_adfee0be_0_0,top_r_e4
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 12 unconnected electrical ports!
-      ports:
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e1_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e2_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e3_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e4_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e1_1_2
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e2_1_2
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e3_1_2
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e4_1_2
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e1_1_3
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e2_1_3
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e3_1_3
-      - array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000,e4_1_3
-      values:
-      - - 145.5
-        - -10
-      - - 185.5
-        - 30
-      - - 225.5
-        - -10
-      - - 185.5
-        - -50
-      - - 245.5
-        - -10
-      - - 285.5
-        - 30
-      - - 325.5
-        - -10
-      - - 285.5
-        - -50
-      - - 345.5
-        - -10
-      - - 385.5
-        - 30
-      - - 425.5
-        - -10
-      - - 385.5
-        - -50

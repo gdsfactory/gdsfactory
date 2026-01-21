@@ -2,27 +2,27 @@ instances:
   straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     component: straight
     info:
-      length: 10
-      route_info_length: 10
-      route_info_strip_length: 10
+      length: 10.0
+      route_info_length: 10.0
+      route_info_strip_length: 10.0
       route_info_type: strip
-      route_info_weight: 10
+      route_info_weight: 10.0
       width: 0.5
     settings:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       width: null
   taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180:
     component: taper
     info:
-      length: 10
+      length: 10.0
       width1: 0.5
       width2: 0.1
     settings:
       cross_section: strip
       layer: null
-      length: 10
+      length: 10.0
       port: null
       port_names:
       - o1
@@ -37,13 +37,13 @@ instances:
   taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_10000_0:
     component: taper
     info:
-      length: 10
+      length: 10.0
       width1: 0.5
       width2: 0.1
     settings:
       cross_section: strip
       layer: null
-      length: 10
+      length: 10.0
       port: null
       port_names:
       - o1
@@ -55,7 +55,6 @@ instances:
       width2: 0.1
       with_bbox: true
       with_two_ports: true
-name: add_termination_gdsfactorypcomponentspcontainerspadd_te_c053bff2
 nets:
 - p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o1
   p2: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180,o1
@@ -64,29 +63,17 @@ nets:
 placements:
   straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
     mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+    rotation: 0.0
+    x: 0.0
+    y: 0.0
   taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180:
     mirror: false
-    rotation: 180
-    x: 0
-    y: 0
+    rotation: 180.0
+    x: 0.0
+    y: 0.0
   taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_10000_0:
     mirror: false
-    rotation: 0
-    x: 10
-    y: 0
+    rotation: 0.0
+    x: 10.0
+    y: 0.0
 ports: {}
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 2 unconnected optical ports!
-      ports:
-      - taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_0_0_A180,o2
-      - taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620_10000_0,o2
-      values:
-      - - -10
-        - 0
-      - - 20
-        - 0

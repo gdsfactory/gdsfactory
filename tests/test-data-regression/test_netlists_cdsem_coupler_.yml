@@ -59,7 +59,6 @@ instances:
       - 0
       size: 1
       text: '150'
-name: cdsem_coupler_gdsfactorypcomponentsppcmspcdsem_coupler__3746d233
 nets: []
 placements:
   coupler_straight_gdsfactorypcomponentspcouplerspcoupler_2ffcf9b0_0_250:

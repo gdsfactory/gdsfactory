@@ -13,7 +13,6 @@ instances:
       angle_resolution: 2.5
       layer: WGCLAD
       radius: 62.5
-name: fiber_gdsfactorypcomponentspfilterspfiber_CD10_CD125_LC_5fa599ce
 nets: []
 placements:
   circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_LWG_0_0:

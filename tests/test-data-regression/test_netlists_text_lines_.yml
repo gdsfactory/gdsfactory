@@ -25,7 +25,6 @@ instances:
       - 0
       size: 0.4
       text: Chip
-name: text_lines_gdsfactorypcomponentsptextsptext_TChip_01_S0p4_LWG
 nets: []
 placements:
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_02ace194_0_m4800:

@@ -5685,7 +5685,6 @@ instances:
       length: 5
       npoints: 2
       width: null
-name: cutback_bend90_gdsfactorypcomponentsppcmspcutback_bend__2e65ed36
 nets:
 - p1: 1,o1
   p2: m24,o2
@@ -5709,6 +5708,38 @@ nets:
   p2: B61,o2
 - p1: A1,o2
   p2: m1,o1
+- p1: A2,o1
+  p2: m1,o2
+- p1: A2,o2
+  p2: m2,o1
+- p1: A3,o1
+  p2: m4,o2
+- p1: A3,o2
+  p2: m5,o1
+- p1: A4,o1
+  p2: m5,o2
+- p1: A4,o2
+  p2: m6,o1
+- p1: A5,o1
+  p2: m8,o2
+- p1: A5,o2
+  p2: m9,o1
+- p1: A6,o1
+  p2: m9,o2
+- p1: A6,o2
+  p2: m10,o1
+- p1: A7,o1
+  p2: m12,o2
+- p1: A7,o2
+  p2: m13,o1
+- p1: A8,o1
+  p2: m13,o2
+- p1: A8,o2
+  p2: m14,o1
+- p1: A9,o1
+  p2: m16,o2
+- p1: A9,o2
+  p2: m17,o1
 - p1: A10,o1
   p2: m17,o2
 - p1: A10,o2
@@ -5749,10 +5780,6 @@ nets:
   p2: m38,o2
 - p1: A19,o2
   p2: m39,o1
-- p1: A2,o1
-  p2: m1,o2
-- p1: A2,o2
-  p2: m2,o1
 - p1: A20,o1
   p2: m39,o2
 - p1: A20,o2
@@ -5791,10 +5818,6 @@ nets:
   p2: m56,o2
 - p1: A29,o2
   p2: m57,o1
-- p1: A3,o1
-  p2: m4,o2
-- p1: A3,o2
-  p2: m5,o1
 - p1: A30,o1
   p2: m57,o2
 - p1: A30,o2
@@ -5835,10 +5858,6 @@ nets:
   p2: m78,o2
 - p1: A39,o2
   p2: m79,o1
-- p1: A4,o1
-  p2: m5,o2
-- p1: A4,o2
-  p2: m6,o1
 - p1: A40,o1
   p2: m79,o2
 - p1: A40,o2
@@ -5877,10 +5896,6 @@ nets:
   p2: m96,o1
 - p1: A49,o2
   p2: m97,o1
-- p1: A5,o1
-  p2: m8,o2
-- p1: A5,o2
-  p2: m9,o1
 - p1: A50,o1
   p2: m97,o2
 - p1: A50,o2
@@ -5921,10 +5936,6 @@ nets:
   p2: m116,o2
 - p1: A59,o2
   p2: m117,o1
-- p1: A6,o1
-  p2: m9,o2
-- p1: A6,o2
-  p2: m10,o1
 - p1: A60,o1
   p2: m117,o2
 - p1: A60,o2
@@ -5965,10 +5976,6 @@ nets:
   p2: m138,o2
 - p1: A69,o2
   p2: m139,o1
-- p1: A7,o1
-  p2: m12,o2
-- p1: A7,o2
-  p2: m13,o1
 - p1: A70,o1
   p2: m139,o2
 - p1: A70,o2
@@ -5981,18 +5988,42 @@ nets:
   p2: m143,o2
 - p1: A72,o2
   p2: m144,o1
-- p1: A8,o1
-  p2: m13,o2
-- p1: A8,o2
-  p2: m14,o1
-- p1: A9,o1
-  p2: m16,o2
-- p1: A9,o2
-  p2: m17,o1
 - p1: B1,o1
   p2: m3,o1
 - p1: B1,o2
   p2: m2,o2
+- p1: B2,o1
+  p2: m4,o1
+- p1: B2,o2
+  p2: m3,o2
+- p1: B3,o1
+  p2: m7,o1
+- p1: B3,o2
+  p2: m6,o2
+- p1: B4,o1
+  p2: m8,o1
+- p1: B4,o2
+  p2: m7,o2
+- p1: B5,o1
+  p2: m11,o1
+- p1: B5,o2
+  p2: m10,o2
+- p1: B6,o1
+  p2: m12,o1
+- p1: B6,o2
+  p2: m11,o2
+- p1: B7,o1
+  p2: m15,o1
+- p1: B7,o2
+  p2: m14,o2
+- p1: B8,o1
+  p2: m16,o1
+- p1: B8,o2
+  p2: m15,o2
+- p1: B9,o1
+  p2: m19,o1
+- p1: B9,o2
+  p2: m18,o2
 - p1: B10,o1
   p2: m20,o1
 - p1: B10,o2
@@ -6031,10 +6062,6 @@ nets:
   p2: m37,o1
 - p1: B19,o2
   p2: m36,o2
-- p1: B2,o1
-  p2: m4,o1
-- p1: B2,o2
-  p2: m3,o2
 - p1: B20,o1
   p2: m38,o1
 - p1: B20,o2
@@ -6075,10 +6102,6 @@ nets:
   p2: m59,o1
 - p1: B29,o2
   p2: m58,o2
-- p1: B3,o1
-  p2: m7,o1
-- p1: B3,o2
-  p2: m6,o2
 - p1: B30,o1
   p2: m60,o1
 - p1: B30,o2
@@ -6117,10 +6140,6 @@ nets:
   p2: m77,o1
 - p1: B39,o2
   p2: m76,o2
-- p1: B4,o1
-  p2: m8,o1
-- p1: B4,o2
-  p2: m7,o2
 - p1: B40,o1
   p2: m78,o1
 - p1: B40,o2
@@ -6161,10 +6180,6 @@ nets:
   p2: m99,o1
 - p1: B49,o2
   p2: m98,o2
-- p1: B5,o1
-  p2: m11,o1
-- p1: B5,o2
-  p2: m10,o2
 - p1: B50,o1
   p2: m100,o1
 - p1: B50,o2
@@ -6205,10 +6220,6 @@ nets:
   p2: m119,o1
 - p1: B59,o2
   p2: m118,o2
-- p1: B6,o1
-  p2: m12,o1
-- p1: B6,o2
-  p2: m11,o2
 - p1: B60,o1
   p2: m120,o1
 - p1: B60,o2
@@ -6247,10 +6258,6 @@ nets:
   p2: m137,o1
 - p1: B69,o2
   p2: m136,o2
-- p1: B7,o1
-  p2: m15,o1
-- p1: B7,o2
-  p2: m14,o2
 - p1: B70,o1
   p2: m138,o1
 - p1: B70,o2
@@ -6263,14 +6270,6 @@ nets:
   p2: m142,o1
 - p1: B72,o2
   p2: m141,o2
-- p1: B8,o1
-  p2: m16,o1
-- p1: B8,o2
-  p2: m15,o2
-- p1: B9,o1
-  p2: m19,o1
-- p1: B9,o2
-  p2: m18,o2
 placements:
   '1':
     mirror: false

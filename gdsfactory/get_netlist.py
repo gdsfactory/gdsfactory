@@ -1,768 +1,861 @@
-"""Extract netlist from component port connectivity.
+"""Extract netlist from component port connectivity."""
 
-Assumes two ports are connected when they have same width, x, y
-
-.. code:: yaml
-
-    connections:
-        - coupler,N0:bendLeft,W0
-        - coupler,N1:bendRight,N0
-        - bednLeft,N0:straight,W0
-        - bendRight,N0:straight,E0
-
-    ports:
-        - coupler,E0
-        - coupler,W0
-
-"""
-
-from __future__ import annotations
-
+import re
+import secrets
+import warnings
 from collections import defaultdict
-from collections.abc import Callable, Sequence
+from collections.abc import Iterable
 from hashlib import md5
-from typing import Any, Protocol
-from warnings import warn
+from itertools import chain, product
+from typing import Any, Literal, Protocol, TypeAlias, cast
 
-import numpy as np
-from kfactory import DInstance, LayerEnum, ProtoTKCell, VInstance, VKCell
-from kfactory.kcell import AnyKCell, TKCell
+import kfactory as kf
+from natsort import natsorted
 
-from gdsfactory import Port, typings
-from gdsfactory.component import (
-    Component,
-    ComponentAllAngle,
-    ComponentReference,
-)
-from gdsfactory.name import clean_name
-from gdsfactory.serialization import clean_dict, clean_value_json
-from gdsfactory.typings import LayerSpec
+import gdsfactory as gf
+import gdsfactory.schematic as scm
+from gdsfactory.component import Component
+from gdsfactory.name import get_instance_name_from_alias as legacy_namer  # noqa: F401
+from gdsfactory.serialization import clean_value_json
+
+Instance: TypeAlias = kf.DInstance | kf.VInstance | kf.Instance
+ErrorBehavior: TypeAlias = Literal["ignore", "warn", "error"]
 
 
-def nets_to_connections(
-    nets: list[dict[str, Any]], connections: dict[str, Any]
-) -> dict[str, str]:
-    # Use the given connections; create a shallow copy to avoid mutating the input.
-    connections = dict(connections)
+class ComponentNamer(Protocol):
+    """Protocol for naming components in netlists."""
 
-    # Flat set of all used ports for O(1) membership check.
-    used = set(connections.keys())
-    used.update(connections.values())
-
-    for net in nets:
-        p = net["p1"]
-        q = net["p2"]
-        if p in used:
-            # Find the already connected q (if any)
-            _q = (
-                connections[p]
-                if p in connections
-                else next(k for k, v in connections.items() if v == p)
-            )
-            raise ValueError(
-                "SAX currently does not support multiply connected ports. "
-                f"Got {p}<->{q} and {p}<->{_q}"
-            )
-        if q in used:
-            _p = (
-                connections[q]
-                if q in connections
-                else next(k for k, v in connections.items() if v == q)
-            )
-            raise ValueError(
-                "SAX currently does not support multiply connected ports. "
-                f"Got {p}<->{q} and {_p}<->{q}"
-            )
-        connections[p] = q
-        used.add(p)
-        used.add(q)
-    return connections
+    def __call__(self, cell: kf.ProtoTKCell[Any]) -> str:
+        """Return the component name for the given cell."""
+        ...
 
 
-def get_default_connection_validators() -> dict[str, Callable[..., None]]:
-    return {"optical": validate_optical_connection, "electrical": _null_validator}
-
-
-def get_instance_name_from_alias(reference: ComponentReference) -> str:
-    """Returns the instance name from the label.
-
-    If no label returns to instanceName_x_y.
-
-    Args:
-        reference: reference that needs naming.
-    """
-    name = reference.name or md5(str(reference).encode()).hexdigest()[:8]
-
-    return clean_name(name)
-
-
-def get_instance_name_from_label(
-    component: Component,
-    reference: ComponentReference,
-    layer_label: LayerSpec = "LABEL_INSTANCE",
-) -> str:
-    """Returns the instance name from the label.
-
-    If no label returns to instanceName_x_y.
-
-    Args:
-        component: with labels.
-        reference: reference that needs naming.
-        layer_label: ignores layer_label[1].
-    """
-    from gdsfactory.pdk import get_layer
-
-    layer_label = get_layer(layer_label)
-    layer = layer_label[0] if isinstance(layer_label, LayerEnum) else layer_label
-
-    x = reference.x
-    y = reference.y
-    labels = component.labels
-
-    # default instance name follows component.aliases
-    text = clean_name(f"{reference.cell.name}_{x}_{y}")
-
-    # try to get the instance name from a label
-    for label in labels:
-        xl = label.dposition[0]
-        yl = label.dposition[1]
-        if x == xl and y == yl and label.layer == layer:
-            # print(label.text, xl, yl, x, y)
-            return str(label.text)
-
-    return text
-
-
-def _is_array_reference(ref: DInstance | VInstance) -> bool:
-    # Direct attribute access is much faster than hasattr(),
-    # and in the common case (attributes present) the try branch is very fast.
+def factory_namer(cell: kf.ProtoTKCell[Any]) -> str:
+    """Names components using their factory name."""
     try:
-        return ref.na > 1 or ref.nb > 1
-    except AttributeError:
-        return False
+        return cell.factory_name
+    except ValueError:
+        return cell.name
 
 
-def _is_orthogonal_array_reference(ref: ComponentReference) -> bool:
-    # Store intermediate attributes to local variables for faster lookup
-    a, b = ref.a, ref.b
-    ay = a.y
-    if abs(ay) != 0:
-        return False
-    bx = b.x
-    return abs(bx) == 0
+def function_namer(cell: kf.ProtoTKCell[Any]) -> str:
+    """Names components using their function name, falling back to factory name."""
+    try:
+        return cell.function_name or cell.factory_name
+    except ValueError:
+        return cell.name
 
 
-def _has_ports_on_same_location(reference: VInstance | DInstance) -> bool:
-    """Check if a reference has any ports on the same location.
-
-    Args:
-        reference: ComponentReference to check.
-
-    Returns:
-        True if any ports are on the same location, False otherwise.
-    """
-    if _is_array_reference(reference):
-        # For array references, check each instance
-        for ia in range(reference.na):
-            for ib in range(reference.nb):
-                port_locations = set()
-                for port in reference.cell.ports:
-                    ref_port = reference.ports[port.name, ia, ib]
-                    port_loc = ref_port.to_itype().center
-                    if port_loc in port_locations:
-                        return True
-                    port_locations.add(port_loc)
-    else:
-        # For single references, check all ports
-        port_locations = set()
-        for port in reference.ports:
-            port_loc = port.to_itype().center
-            if port_loc in port_locations:
-                return True
-            port_locations.add(port_loc)
-    return False
+def cell_namer(cell: kf.ProtoTKCell[Any]) -> str:
+    """Names components using their cell name."""
+    return cell.name
 
 
-def get_netlist(
-    component: ProtoTKCell[Any] | VKCell | TKCell,
-    exclude_port_types: Sequence[str] | None = ("placement", "pad", "bump"),
-    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
-    allow_multiple: bool = True,
-    connection_error_types: dict[str, list[str]] | None = None,
-    add_interface_on_mismatch: bool = False,
-    ignore_warnings: bool = False,
-) -> dict[str, Any]:
-    """From Component returns a dict with instances, connections and placements.
+class InstanceNamer(Protocol):
+    """Protocol for naming instances in netlists."""
 
-    warnings collected during netlisting are reported back into the netlist.
-    These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
-    You can also configure warning types which should throw an error when encountered
-    by modifying connection_error_types.
-    A key difference in this algorithm is that we group each port type independently.
-    This allows us to use different logic to determine i.e.
-    if an electrical port is properly connected vs an optical port.
-    In this function, the core logic is the same, but we employ extra validation for optical ports.
+    def __call__(self, inst: Instance) -> str:
+        """Return the instance name for the given instance."""
+        ...
 
-    Args:
-        component: to extract netlist.
-        exclude_port_types: optional list of port types to exclude from netlisting.
-        get_instance_name: function to get instance name.
-        allow_multiple: False to raise an error if more than two ports share the same connection. \
-                if True, will return key: [value] pairs with [value] a list of all connected instances.
-        connection_error_types: optional dictionary of port types and error types to raise an error for.
-        add_interface_on_mismatch: when True, additional interface instances are added to the netlist (e.g. to model mode mismatch)
-        ignore_warnings: if True, will not include warnings in the returned netlist.
 
-    Returns:
-        instances: Dict of instance name and settings.
-        nets: List of connected port pairs/groups
-        placements: Dict of instance names and placements (x, y, rotation).
-        port: Dict portName: ComponentName,port.
-        name: name of component.
-        warnings: warning messages (disconnected pins).
+class OriginalNamer:
+    """Names instances using their original instance name."""
 
-    """
-    if isinstance(component, VKCell):
-        component_: Component | ComponentAllAngle = ComponentAllAngle(
-            base=component.base
+    def __init__(self) -> None:
+        self._instance_names: dict[str | None, str] = {}
+        self._rev_instance_names: dict[str, str | None] = {}
+
+    def __call__(self, inst: Instance) -> str:
+        inst_name = _instname(inst)
+        if inst_name in self._instance_names:
+            return self._instance_names[inst_name]
+        name = self._instance_names[inst_name] = _clean_instname(inst_name)
+        self._rev_instance_names[name] = inst_name
+        return name
+
+
+class CountedNamer:
+    """Names instances using their component name with numeric suffixes."""
+
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._instance_names: dict[str | None, str] = {}
+        self._rev_instance_names: dict[str, str | None] = {}
+
+    def __call__(self, inst: Instance) -> str:
+        inst_name = _instname(inst)
+        if inst_name in self._instance_names:
+            return self._instance_names[inst_name]
+        compname = _short_component_name(_instcell(inst), self._component_namer)
+        name = _instname_from_compname(
+            inst, compname, self._instance_names, self._rev_instance_names
         )
-    elif isinstance(component, ProtoTKCell):
-        component_ = Component(base=component.base)
-    else:
-        component_ = Component(base=component)
+        name = self._instance_names[inst_name] = _clean_instname(name)
+        self._rev_instance_names[name] = inst_name
+        return name
 
-    placements: dict[str, dict[str, Any]] = {}
-    instances: dict[str, dict[str, Any]] = {}
-    nets: list[dict[str, Any]] = []
-    top_ports: dict[str, str] = {}
 
-    # store where ports are located
-    name2port: dict[str, typings.Port] = {}
+class SmartNamer:
+    """Names instances using component name if auto-generated, otherwise instance name."""
 
-    # TOP level ports
-    ports = component_.ports
-    ports_by_type: defaultdict[str, list[str]] = defaultdict(list)
-    top_ports_list: set[str] = set()
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._instance_names: dict[str | None, str] = {}
+        self._rev_instance_names: dict[str, str | None] = {}
 
-    if isinstance(component_, ProtoTKCell):
-        references: list[DInstance | VInstance] | list[VInstance] = (
-            _get_references_to_netlist(component_)
-        )
-    else:
-        references = _get_references_to_netlist_all_angle(component_)
-
-    for reference in references:
-        # Skip references with ports on the same location
-        if _has_ports_on_same_location(reference):
-            continue
-
-        c = reference.cell
-        origin = reference.dcplx_trans.disp
-        x = origin.x
-        y = origin.y
-        reference_name = get_instance_name(reference)
-        instance: dict[str, Any] = {}
-
-        if c.info:
-            instance.update(component=c.name, info=c.info.model_dump())
-
-        # Don't extract netlist for cells with no function_name (e.g. subcells imported from GDS)
-        component_name: str
-        if c.function_name:
-            component_name = c.function_name
-        else:
-            if c.name is None:
-                component_name = "unnamed_component"
-                warn(
-                    "Component has no name or function_name. "
-                    "Using 'unnamed_component' as default.",
-                    stacklevel=2,
-                )
-            else:
-                component_name = c.name
-                warn(
-                    f"Component {c.name} has no function_name. "
-                    "Using component.name instead.",
-                    stacklevel=2,
-                )
-
-        # Prefer name from settings over c.name
-        if c.settings:
-            settings = c.settings.model_dump()
-
-            instance.update(
-                component=component_name,
-                settings=settings,
+    def __call__(self, inst: Instance) -> str:
+        inst_name = _instname(inst)
+        if inst_name in self._instance_names:
+            return self._instance_names[inst_name]
+        compname = _short_component_name(_instcell(inst), self._component_namer)
+        if inst_name is not None and inst_name.startswith(f"{compname}_"):
+            name: str | None = _instname_from_compname(
+                inst, compname, self._instance_names, self._rev_instance_names
             )
-
-        instances[reference_name] = instance
-
-        placements[reference_name] = {
-            "x": x,
-            "y": y,
-            "rotation": reference.dcplx_trans.angle,
-            "mirror": reference.dcplx_trans.mirror,
-        }
-
-        if _is_array_reference(reference):
-            if _is_orthogonal_array_reference(reference):  # type: ignore[arg-type]
-                instances[reference_name]["array"] = {
-                    "columns": reference.na,
-                    "rows": reference.nb,
-                    "column_pitch": reference.instance.da.x,  # type: ignore[union-attr]
-                    "row_pitch": reference.instance.db.y,  # type: ignore[union-attr]
-                }
-            else:
-                instances[reference_name]["array"] = {
-                    "num_a": reference.na,
-                    "num_b": reference.nb,
-                    "pitch_a": (reference.instance.da.x, reference.instance.da.y),  # type: ignore[union-attr]
-                    "pitch_b": (reference.instance.db.x, reference.instance.db.y),  # type: ignore[union-attr]
-                }
-            reference_name = get_instance_name(reference)
-            for ia in range(reference.na):
-                for ib in range(reference.nb):
-                    for port in reference.cell.ports:
-                        ref_port = reference.ports[port.name, ia, ib]
-                        src = f"{reference_name}<{ia}.{ib}>,{port.name}"
-                        name2port[src] = ref_port
-                        ports_by_type[port.port_type].append(src)
         else:
-            # lower level ports
-            for port_ in reference.ports:
-                reference_name = get_instance_name(reference)
-                src = f"{reference_name},{port_.name}"
-                name2port[src] = port_
-                ports_by_type[port_.port_type].append(src)
-
-    for port in ports:
-        port_name = port.name
-        if port_name is not None:
-            name2port[port_name] = port
-            top_ports_list.add(port_name)
-            ports_by_type[port.port_type].append(port_name)
-
-    warnings: dict[str, Any] = {}
-    for port_type, port_names in ports_by_type.items():
-        if exclude_port_types and port_type in exclude_port_types:
-            continue
-        connections_t, warnings_t = extract_connections(
-            port_names,
-            name2port,
-            port_type,
-            allow_multiple=allow_multiple,
-            connection_error_types=connection_error_types,
-        )
-        if warnings_t and not ignore_warnings:
-            warnings[port_type] = warnings_t
-        for connection in connections_t:
-            if len(connection) == 2:
-                src, dst = connection
-                if src in top_ports_list:
-                    top_ports[src] = dst
-                elif dst in top_ports_list:
-                    top_ports[dst] = src
-                else:
-                    if add_interface_on_mismatch:
-                        insert_interface_if_needed(
-                            src=src,
-                            dst=dst,
-                            instances=instances,
-                            placements=placements,
-                            nets=nets,
-                            name2port=name2port,
-                        )
-                    else:
-                        src_dest = sorted([src, dst])
-                        net = {"p1": src_dest[0], "p2": src_dest[1]}
-                        nets.append(net)
-
-    # sort nets by p1 (and then p2, in the case of a tie)
-    nets_sorted = sorted(nets, key=lambda net: f"{net['p1']},{net['p2']}")
-    placements_sorted = {k: placements[k] for k in sorted(placements.keys())}
-    instances_sorted = {k: instances[k] for k in sorted(instances.keys())}
-    netlist: dict[str, Any] = {
-        "nets": nets_sorted,
-        "instances": instances_sorted,
-        "placements": placements_sorted,
-        "ports": top_ports,
-        "name": component_.name,
-    }
-    if warnings:
-        netlist["warnings"] = warnings
-    return clean_value_json(netlist)  # type: ignore[no-any-return]
+            name = inst_name
+        cleaned = self._instance_names[inst_name] = _clean_instname(name)
+        self._rev_instance_names[cleaned] = inst_name
+        return cleaned
 
 
-def insert_interface_if_needed(
-    src: str,
-    dst: str,
-    instances: dict[str, dict[str, Any]],
-    placements: dict[str, dict[str, Any]],
-    nets: list[dict[str, Any]],
-    name2port: dict[str, typings.Port],
-) -> None:
-    # check cross sections for equality
-    src_xs_name = name2port[src].info.get("cross_section")
-    dst_xs_name = name2port[dst].info.get("cross_section")
-    xs_mismatch = src_xs_name != dst_xs_name
+class NetlistNamer(Protocol):
+    """Protocol for naming cells in recursive netlists."""
 
-    # check port radii for (signed) equality
-    src_r = name2port[src].info.get("radius")
-    dst_r = name2port[dst].info.get("radius")
-    # mirroring an instance turns left bends into right bends and vice versa
-    if placements[src.split(",")[0]]["mirror"] and src_r is not None:
-        src_r = -src_r
-    if placements[dst.split(",")[0]]["mirror"] and dst_r is not None:
-        dst_r = -dst_r
-    # Considering signal from src to dst, src_r stays outward oriented
-    # and dst_r must be turned from outward to inward orientation (inverted).
-    dst_r = dst_r if dst_r is None else -dst_r
-    r_mismatch = src_r != dst_r
-
-    if xs_mismatch or r_mismatch:  # inject interface instance and reconnect ports
-        intf_name = f"interface__{src.replace(',', '_')}__{dst.replace(',', '_')}"
-        if intf_name in instances:
-            raise ValueError(f"'{intf_name}' already present in instances.")
-        settings = {
-            "width1": name2port[src].cross_section.width,
-            "width2": name2port[dst].cross_section.width,
-            "radius1": src_r,
-            "radius2": dst_r,
-            "cross_section1": src_xs_name,
-            "cross_section2": dst_xs_name,
-        }
-        instances[intf_name] = {"component": "interface", "settings": settings}
-        src1, dst1 = sorted([src, f"{intf_name},o1"])
-        src2, dst2 = sorted([dst, f"{intf_name},o2"])
-        nets.extend([{"p1": src1, "p2": dst1}, {"p1": src2, "p2": dst2}])
-    else:  # just do normal connection for matched ports
-        src_dest = sorted([src, dst])
-        net = {"p1": src_dest[0], "p2": src_dest[1]}
-        nets.append(net)
+    def __call__(self, cell: kf.ProtoTKCell[Any]) -> str:
+        """Return the name for the given cell in the netlist."""
+        ...
 
 
-def extract_connections(
-    port_names: Sequence[str],
-    ports: dict[str, typings.Port],
-    port_type: str,
-    validators: dict[str, Callable[..., None]] | None = None,
-    allow_multiple: bool = True,
-    connection_error_types: dict[str, list[str]] | None = None,
-) -> tuple[list[list[str]], dict[str, list[dict[str, Any]]]]:
-    if validators is None:
-        validators = DEFAULT_CONNECTION_VALIDATORS
+class CountedNetlistNamer:
+    """Names cells with counting for uniqueness in recursive netlists.
 
-    validator = validators.get(port_type, _null_validator)
-    return _extract_connections(
-        port_names,
-        ports,
-        port_type,
-        connection_validator=validator,
-        allow_multiple=allow_multiple,
-        connection_error_types=connection_error_types,
-    )
-
-
-def _extract_connections(
-    port_names: Sequence[str],
-    ports: dict[str, typings.Port],
-    port_type: str,
-    connection_validator: Callable[..., None],
-    raise_error_for_warnings: list[str] | None = None,
-    allow_multiple: bool = True,
-    connection_error_types: dict[str, list[str]] | None = None,
-) -> tuple[list[list[str]], dict[str, list[Any]]]:
-    """Extracts connections between ports.
-
-    Args:
-        port_names: list of port names.
-        ports: dict of port names to Port objects.
-        port_type: type of port.
-        connection_validator: function to validate connections.
-        raise_error_for_warnings: list of warning types to raise an error for.
-        allow_multiple: False to raise an error if more than two ports share the same connection.
-        connection_error_types: optional dictionary of port types and error types to raise an error for.
-
+    Uses component_namer for leaf cells (no instances) and counted naming
+    for hierarchical cells (with instances).
     """
-    if connection_error_types is None:
-        connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
 
-    warnings: defaultdict[str, list[Any]] = defaultdict(list)
-    if raise_error_for_warnings is None:
-        raise_error_for_warnings = connection_error_types.get(port_type, [])
+    def __init__(self, component_namer: ComponentNamer) -> None:
+        self._component_namer = component_namer
+        self._cell_names: dict[str, str] = {}  # cell.name -> assigned name
+        self._used_names: set[str] = set()
 
-    unconnected_port_names: list[str] = list(port_names)
-    connections: list[list[str]] = []
+    def __call__(self, cell: kf.ProtoTKCell[Any]) -> str:
+        if cell.name in self._cell_names:
+            return self._cell_names[cell.name]
 
-    by_xy: dict[tuple[float, float], list[str]] = defaultdict(list)
-
-    for port_name in unconnected_port_names:
-        port = ports[port_name]
-        by_xy[port.to_itype().center].append(port_name)
-
-    unconnected_port_names = []
-
-    for xy, ports_at_xy in by_xy.items():
-        if len(ports_at_xy) == 1:
-            unconnected_port_names.append(ports_at_xy[0])
-
-        elif len(ports_at_xy) == 2:
-            port1 = ports[ports_at_xy[0]]
-            port2 = ports[ports_at_xy[1]]
-            connection_validator(port1, port2, ports_at_xy, warnings)
-            connections.append(ports_at_xy)
-
-        elif not allow_multiple:
-            warnings["multiple_connections"].append(ports_at_xy)
-            warn(f"Found multiple connections at {xy}:{ports_at_xy}", stacklevel=3)
-
+        if not _has_instances(cell):
+            # Leaf cell: use component_namer (typically function_name)
+            name = self._component_namer(cell)
         else:
-            # Iterates over the list of multiple ports to create related two-port connectivity
-            num_ports = len(ports_at_xy)
-            for portindex1, portindex2 in zip(
-                range(-1, num_ports - 1), range(num_ports), strict=False
-            ):
-                port1 = ports[ports_at_xy[portindex1]]
-                port2 = ports[ports_at_xy[portindex2]]
-                connection_validator(port1, port2, ports_at_xy, warnings)
-                connections.append([ports_at_xy[portindex1], ports_at_xy[portindex2]])
+            # Hierarchical cell: use counted naming
+            base = self._component_namer(cell)
+            name = self._get_unique_name(base)
 
-    if unconnected_port_names:
-        unconnected_non_top_level = [
-            pname for pname in unconnected_port_names if ("," in pname)
-        ]
-        if unconnected_non_top_level:
-            unconnected_xys = [
-                ports[pname].center for pname in unconnected_non_top_level
-            ]
-            warnings["unconnected_ports"].append(
-                _make_warning(
-                    ports=unconnected_non_top_level,
-                    values=unconnected_xys,
-                    message=f"{len(unconnected_non_top_level)} unconnected {port_type} ports!",
-                )
-            )
+        self._cell_names[cell.name] = name
+        self._used_names.add(name)
+        return name
 
-    critical_warnings = {
-        w: warnings[w] for w in raise_error_for_warnings if w in warnings
-    }
-
-    if critical_warnings and raise_error_for_warnings:
-        warn("Found critical warnings while extracting netlist", stacklevel=3)
-    return connections, dict(warnings)
+    def _get_unique_name(self, base: str) -> str:
+        # Always use a numbered suffix for hierarchical cells to distinguish
+        # netlist keys from function names (which are used for leaf cells)
+        # If base ends with a number, add underscore
+        basename = re.sub("[0-9]*$", "", base)
+        if basename != base:
+            basename = f"{base}_"
+        index = 1
+        while (name := f"{basename}{index}") in self._used_names:
+            index += 1
+        return name
 
 
-def _make_warning(ports: list[str], values: Any, message: str) -> dict[str, Any]:
-    w = {
-        "ports": ports,
-        "values": values,
-        "message": message,
-    }
-    return clean_dict(w)
+# PortMatcher can return:
+# - False: ports don't match
+# - True: ports match with no metadata
+# - dict: ports match with metadata (stored in net's 'settings' field)
+MatchResult: TypeAlias = bool | dict[str, Any]
 
 
-def _null_validator(
-    port1: Port,
-    port2: Port,
-    port_names: list[str],
-    warnings: dict[str, list[dict[str, Any]]],
-) -> None:
-    pass
+class PortMatcher(Protocol):
+    """Protocol for determining if two ports are connected."""
+
+    def __call__(
+        self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port
+    ) -> MatchResult:
+        """Return match result: False, True, or dict with metadata."""
+        ...
 
 
-def validate_optical_connection(
-    port1: Port,
-    port2: Port,
-    port_names: list[str],
-    warnings: dict[str, list[dict[str, Any]]],
-    angle_tolerance: float = 0.01,
-    offset_tolerance: float = 0.001,
-    width_tolerance: float = 0.001,
-) -> None:
-    is_top_level = [("," not in pname) for pname in port_names]
+class PortCenterMatcher:
+    """Matches ports based on center position only."""
 
-    if len(port_names) != 2:
-        raise ValueError(
-            f"More than two connected optical ports: {port_names} at {port1.center}"
-        )
+    def __init__(self, tolerance_dbu: int = 2) -> None:
+        self.tolerance_dbu = tolerance_dbu
 
-    if all(is_top_level):
-        raise ValueError(f"Two top-level ports appear to be connected: {port_names}")
+    def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
+        """Return True if two ports are at the same location (within tolerance)."""
+        if port1.port_type != port2.port_type:
+            return False
+        x1, y1 = port1.to_itype().center
+        x2, y2 = port2.to_itype().center
+        return abs(x2 - x1) < self.tolerance_dbu and abs(y2 - y1) < self.tolerance_dbu
 
-    if abs(port1.width - port2.width) > width_tolerance:
-        warnings["width_mismatch"].append(
-            _make_warning(
-                port_names,
-                values=[port1.width, port2.width],
-                message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. "
-                f"Difference of {abs(port1.width - port2.width)} um",
-            )
-        )
 
-    if any(is_top_level):
+class SmartPortMatcher:
+    """Matches ports based on position, width, and orientation.
+
+    For electrical ports, orientation is not checked.
+    For other port types (e.g. optical), ports must face each other (180° apart).
+    """
+
+    def __init__(
+        self,
+        position_tolerance_dbu: int = 2,
+        width_tolerance: float = 0.001,
+        angle_tolerance: float = 0.01,
+    ) -> None:
+        self.position_tolerance_dbu = position_tolerance_dbu
+        self.width_tolerance = width_tolerance
+        self.angle_tolerance = angle_tolerance
+
+    def __call__(self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port) -> bool:
+        """Return True if ports match in position, width, and orientation."""
+        # Check position
+        if port1.port_type != port2.port_type:
+            return False
+        x1, y1 = port1.to_itype().center
+        x2, y2 = port2.to_itype().center
         if (
-            abs(difference_between_angles(port1.orientation, port2.orientation))
-            > angle_tolerance
+            abs(x2 - x1) >= self.position_tolerance_dbu
+            or abs(y2 - y1) >= self.position_tolerance_dbu
         ):
-            top_port, lower_port = port_names if is_top_level[0] else port_names[::-1]
-            warnings["orientation_mismatch"].append(
-                _make_warning(
-                    port_names,
-                    values=[port1.orientation, port2.orientation],
-                    message=f"{lower_port} was promoted to {top_port} but orientations"
-                    f"do not match! Difference of {(abs(port1.orientation - port2.orientation))} deg",
-                )
-            )
-    else:
-        angle_misalignment = abs(
-            abs(difference_between_angles(port1.orientation, port2.orientation)) - 180
-        )
-        if angle_misalignment > angle_tolerance:
-            warnings["orientation_mismatch"].append(
-                _make_warning(
-                    port_names,
-                    values=[port1.orientation, port2.orientation],
-                    message=f"{port_names[0]} and {port_names[1]} are misaligned by {angle_misalignment} deg",
-                )
-            )
+            return False
 
-    offset_mismatch = np.sqrt(np.sum(np.square(np.array(port2.center) - port1.center)))
-    if offset_mismatch > offset_tolerance:
-        warnings["offset_mismatch"].append(
-            _make_warning(
-                port_names,
-                values=[port1.center, port2.center],
-                message=f"{port_names[0]} and {port_names[1]} are offset by {offset_mismatch} um",
-            )
-        )
+        # Check width
+        if abs(port1.width - port2.width) > self.width_tolerance:
+            return False
+
+        # Skip orientation check for electrical ports
+        if port1.port_type == "electrical" or port2.port_type == "electrical":
+            return True
+
+        # Check orientation: ports should face each other (180° apart)
+        angle_diff = abs(_angle_difference(port1.orientation, port2.orientation))
+        if abs(angle_diff - 180) > self.angle_tolerance:  # noqa: SIM103
+            return False
+
+        return True
 
 
-def difference_between_angles(angle2: float, angle1: float) -> float:
+class FlexiblePortMatcher:
+    """Matches ports based on position and orientation, recording width mismatches.
+
+    Unlike SmartPortMatcher, this matcher does not reject connections with
+    width mismatches. Instead, it returns metadata about the mismatch that
+    can be used for post-processing (e.g., inserting interface components).
+    """
+
+    def __init__(
+        self,
+        position_tolerance_dbu: int = 2,
+        angle_tolerance: float = 0.01,
+    ) -> None:
+        self.position_tolerance_dbu = position_tolerance_dbu
+        self.angle_tolerance = angle_tolerance
+
+    def __call__(
+        self, port1: kf.DPort | kf.Port, port2: kf.DPort | kf.Port
+    ) -> MatchResult:
+        """Return match result with width mismatch metadata if applicable."""
+        # Check port type
+        if port1.port_type != port2.port_type:
+            return False
+
+        # Check position
+        x1, y1 = port1.to_itype().center
+        x2, y2 = port2.to_itype().center
+        if (
+            abs(x2 - x1) >= self.position_tolerance_dbu
+            or abs(y2 - y1) >= self.position_tolerance_dbu
+        ):
+            return False
+
+        # Skip orientation check for electrical ports
+        if port1.port_type != "electrical":
+            # Check orientation: ports should face each other (180° apart)
+            angle_diff = abs(_angle_difference(port1.orientation, port2.orientation))
+            if abs(angle_diff - 180) > self.angle_tolerance:
+                return False
+
+        # Check for width mismatch - record but don't reject
+        width_diff = abs(port1.width - port2.width)
+        if width_diff > 0.001:  # small tolerance for floating point
+            return {
+                "width1": port1.width,
+                "width2": port2.width,
+            }
+
+        return True
+
+
+def _angle_difference(angle1: float, angle2: float) -> float:
+    """Return the difference between two angles, normalized to [-180, 180]."""
     diff = angle2 - angle1
-    while diff < 180:
+    while diff < -180:
         diff += 360
     while diff > 180:
         diff -= 360
     return diff
 
 
-def _get_references_to_netlist(component: Component) -> list[DInstance | VInstance]:
-    insts = component.insts
-    vinsts = component.vinsts
-    return list(insts) + list(vinsts)
+def _flip_port(port: kf.DPort | kf.Port) -> kf.DPort:
+    """Return a copy of the port with orientation flipped by 180°."""
+    return kf.DPort(
+        name=port.name,
+        center=(port.x, port.y),
+        orientation=port.orientation + 180,
+        width=port.width,
+        layer=port.layer,
+        port_type=port.port_type,
+    )
 
 
-def _get_references_to_netlist_all_angle(
-    component: ComponentAllAngle,
-) -> list[VInstance]:
-    insts = list(component.insts)
-    return insts
+_default_port_matcher = SmartPortMatcher()
 
 
-class GetNetlistFunc(Protocol):
-    def __call__(self, component: AnyKCell, **kwargs: Any) -> dict[str, Any]: ...
+def get_netlist(
+    cell: kf.ProtoTKCell[Any],
+    *,
+    on_multi_connect: ErrorBehavior = "error",
+    on_dangling_port: ErrorBehavior = "warn",
+    instance_namer: InstanceNamer | None = None,
+    component_namer: ComponentNamer = function_namer,
+    port_matcher: PortMatcher | None = None,
+) -> dict[str, Any]:
+    """Extract netlist from a cell's port connectivity.
+
+    Args:
+        cell: The cell to extract the netlist from.
+        on_multi_connect: What to do when more than two ports overlap.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
+        on_dangling_port: What to do when an instance port is not connected.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
+        instance_namer: Callable to name instances.
+            Defaults to SmartNamer(component_namer).
+        component_namer: Callable to name components.
+            Defaults to function_namer.
+        port_matcher: Callable to determine if two ports are connected.
+            Defaults to SmartPortMatcher().
+
+    Returns:
+        A dictionary containing instances, placements, ports, and nets.
+    """
+    recnet: dict[str, dict[str, Any]] = {}
+    _insert_netlist(
+        recnet,
+        cell,
+        on_multi_connect,
+        on_dangling_port,
+        instance_namer or SmartNamer(component_namer),
+        component_namer,
+        component_namer,  # netlist_namer: use component_namer for non-recursive
+        port_matcher or _default_port_matcher,
+        recursive=False,
+    )
+    return cast(dict[str, Any], clean_value_json(recnet[next(iter(recnet))]))
 
 
 def get_netlist_recursive(
-    component: AnyKCell,
-    component_suffix: str = "",
-    get_netlist_func: GetNetlistFunc = get_netlist,  # type: ignore[assignment]
-    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
-    **kwargs: Any,
+    cell: kf.ProtoTKCell[Any],
+    *,
+    on_multi_connect: ErrorBehavior = "error",
+    on_dangling_port: ErrorBehavior = "warn",
+    instance_namer: InstanceNamer | None = None,
+    component_namer: ComponentNamer = function_namer,
+    netlist_namer: NetlistNamer | None = None,
+    port_matcher: PortMatcher | None = None,
 ) -> dict[str, Any]:
-    """Returns recursive netlist for a component and subcomponents.
+    """Extract netlists recursively from a cell and all its subcells.
 
     Args:
-        component: to extract netlist.
-        component_suffix: suffix to append to each component name.
-            useful if to save and reload a back-annotated netlist.
-        get_netlist_func: function to extract individual netlists.
-        get_instance_name: function to get instance name.
-        kwargs: additional keyword arguments to pass to get_netlist_func.
-
-    Keyword Args:
-        tolerance: tolerance in grid_factor to consider two ports connected.
-        exclude_port_types: optional list of port types to exclude from netlisting.
-        get_instance_name: function to get instance name.
+        cell: The cell to extract the netlist from.
+        on_multi_connect: What to do when more than two ports overlap.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
+        on_dangling_port: What to do when an instance port is not connected.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
+        instance_namer: Callable to name instances.
+            Defaults to SmartNamer(component_namer).
+        component_namer: Callable to name components in instance dicts.
+            Defaults to function_namer.
+        netlist_namer: Callable to name cells in the recursive netlist.
+            Defaults to CountedNetlistNamer(component_namer).
+        port_matcher: Callable to determine if two ports are connected.
+            Defaults to SmartPortMatcher().
 
     Returns:
-        Dictionary of netlists, keyed by the name of each component.
-
+        A dictionary mapping cell names to their netlists.
     """
-    all_netlists: dict[str, Any] = {}
-
-    # only components with references (subcomponents) warrant a netlist
-    if isinstance(component, ProtoTKCell):
-        component = Component(base=component.base)
-        references: list[DInstance | VInstance] | list[VInstance] = (
-            _get_references_to_netlist(component)
-        )
-    else:
-        component = ComponentAllAngle(base=component.base)
-        references = _get_references_to_netlist_all_angle(component)
-
-    if references:
-        netlist = get_netlist_func(component, **kwargs)
-        all_netlists[f"{component.name}{component_suffix}"] = netlist
-
-        # for each reference, expand the netlist
-        for ref in references:
-            rcell = ref.cell
-            grandchildren = get_netlist_recursive(
-                component=rcell,
-                component_suffix=component_suffix,
-                get_netlist_func=get_netlist_func,
-                **kwargs,
-            )
-            all_netlists |= grandchildren
-
-            if isinstance(ref.cell, ProtoTKCell):
-                child_references: list[VInstance | DInstance] | list[VInstance] = (
-                    _get_references_to_netlist(Component(base=ref.cell.base))
-                )
-            else:
-                child_references = _get_references_to_netlist_all_angle(
-                    ComponentAllAngle(base=ref.cell)  # type: ignore[call-overload]
-                )
-
-            if child_references:
-                inst_name = get_instance_name(ref)
-                netlist_dict: dict[str, Any] = {
-                    "component": f"{rcell.name}{component_suffix}"
-                }
-                if hasattr(rcell, "settings"):
-                    netlist_dict.update(settings=rcell.settings.model_dump())
-                if hasattr(rcell, "info"):
-                    netlist_dict.update(info=rcell.info.model_dump())
-                netlist["instances"][inst_name] = netlist_dict
-
-    return all_netlists
-
-
-def _demo_ring_single_array() -> None:
-    from gdsfactory.components.rings.ring_single_array import ring_single_array
-
-    c = ring_single_array()
-    c.get_netlist()
-
-
-def _demo_mzi_lattice() -> None:
-    import gdsfactory as gf
-
-    coupler_lengths = [10, 20, 30, 40]
-    coupler_gaps = [0.1, 0.2, 0.4, 0.5]
-    delta_lengths = [10, 100, 200]
-
-    c = gf.components.mzi_lattice(
-        coupler_lengths=coupler_lengths,
-        coupler_gaps=coupler_gaps,
-        delta_lengths=delta_lengths,
+    recnet: dict[str, Any] = {}
+    _insert_netlist(
+        recnet,
+        cell,
+        on_multi_connect,
+        on_dangling_port,
+        instance_namer or SmartNamer(component_namer),
+        component_namer,
+        netlist_namer or CountedNetlistNamer(component_namer),
+        port_matcher or _default_port_matcher,
+        recursive=True,
     )
-    c.get_netlist()
+    return cast(dict[str, dict[str, Any]], clean_value_json(recnet))
 
 
-DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
+def _insert_netlist(
+    recnet: dict[str, Any],
+    cell: kf.ProtoTKCell[Any],
+    on_multi_connect: ErrorBehavior,
+    on_dangling_port: ErrorBehavior,
+    instance_namer: InstanceNamer,
+    component_namer: ComponentNamer,
+    netlist_namer: NetlistNamer,
+    port_matcher: PortMatcher,
+    recursive: bool,
+) -> None:
+    cell_name = netlist_namer(cell)
+    if cell_name in recnet:
+        return
+    net = recnet[cell_name] = {
+        "instances": {},
+        "placements": {},
+        "ports": {},
+        "nets": {},
+    }
+    _all_ports: dict[str, kf.DPort | kf.Port] = {}
+    for _inst in sorted(
+        chain(cell.insts, cell.vinsts), key=lambda i: getattr(i, "name", "") or ""
+    ):
+        inst = cast(Instance, _inst)
+        inst_cell = _instcell(inst)
+        inst_name = instance_namer(inst)
+        print(f"inst_name: {inst_name}")
+        if _is_pure_vinst(inst):
+            if _is_array_inst(inst):
+                msg = (
+                    "Cannot export netlist: virtual array instances are not supported."
+                )
+                raise ValueError(msg)
+            array = None
+            virtual = True
+            transform = inst.dcplx_trans
+            _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
+        elif _is_flattened_vinst(inst):
+            if _is_array_inst(inst):
+                msg = (
+                    "Cannot export netlist: virtual array instances are not supported."
+                )
+            if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
+                inst = inst.to_dtype()
+            array = None
+            virtual = True
+            transform = inst.dcplx_trans
+            _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
+        elif _is_array_inst(inst):
+            if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
+                inst = inst.to_dtype()
+            array = _get_array_config(inst)
+            virtual = False
+            transform = inst.dcplx_trans
+            _all_ports.update(
+                {
+                    f"{inst_name}<{a}.{b}>,{p.name}": inst.ports[p.name, a, b]
+                    for p, a, b in product(
+                        inst_cell.ports, range(inst.na), range(inst.nb)
+                    )
+                }
+            )
+        else:
+            if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
+                inst = inst.to_dtype()
+            array = None
+            virtual = False
+            transform = inst.dcplx_trans
+            _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
 
-DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
-    "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
-}
+        net["instances"][inst_name] = _dump_instance(
+            {
+                "component": component_namer(inst_cell),
+                "array": array,
+                "settings": inst_cell.settings.model_dump(),
+                "info": inst_cell.info.model_dump(),
+                "virtual": virtual,
+            }
+        )
+        net["placements"][inst_name] = {
+            "x": transform.disp.x,
+            "y": transform.disp.y,
+            "rotation": transform.angle,
+            "mirror": transform.mirror,
+        }
+
+        if recursive and _has_instances(inst_cell):
+            net["instances"][inst_name]["component"] = netlist_namer(inst_cell)
+            _insert_netlist(
+                recnet,
+                inst_cell,
+                on_multi_connect,
+                on_dangling_port,
+                instance_namer,
+                component_namer,
+                netlist_namer,
+                port_matcher,
+                recursive,
+            )
+
+    # Add top-level ports
+    # we flip them so they face opposite to the instance ports
+    # this is necessary as most PortMatchers will assume ports face each other
+    for port in cell.ports:
+        if port.name is not None:
+            _all_ports[port.name] = _flip_port(cast(kf.DPort | kf.Port, port))
+
+    all_nets = _get_nets(_all_ports, on_multi_connect, port_matcher)
+    _handle_dangling_ports(_all_ports, all_nets, on_dangling_port)
+    net["ports"], net["nets"] = _split_nets_and_ports(all_nets)
+
+
+def _has_instances(cell: Any) -> bool:
+    """Return True if the cell has any instances."""
+    return bool(getattr(cell, "insts", False)) or bool(getattr(cell, "vinsts", False))
+
+
+def _get_array_config(inst: Instance) -> scm.Array:
+    kcl = inst.cell.kcl
+    match (
+        abs(inst.a.x) == 0,
+        abs(inst.a.y) == 0,
+        abs(inst.b.x) == 0,
+        abs(inst.b.y) == 0,
+    ):
+        case (_, True, True, _):
+            return scm.OrthogonalGridArray(
+                columns=inst.na,
+                rows=inst.nb,
+                column_pitch=kcl.dbu * inst.a.x,
+                row_pitch=kcl.dbu * inst.b.y,
+            )
+        case (True, _, _, True):
+            return scm.OrthogonalGridArray(
+                columns=inst.nb,
+                rows=inst.na,
+                column_pitch=kcl.dbu * inst.b.x,
+                row_pitch=kcl.dbu * inst.a.y,
+            )
+    return scm.GridArray(
+        num_a=inst.na,
+        num_b=inst.nb,
+        pitch_a=(kcl.dbu * inst.a.x, kcl.dbu * inst.a.y),
+        pitch_b=(kcl.dbu * inst.b.x, kcl.dbu * inst.b.y),
+    )
+
+
+def _is_array_inst(inst: Instance) -> bool:
+    return getattr(inst, "na", 0) > 1 or getattr(inst, "nb", 0) > 1
+
+
+def _is_pure_vinst(inst: Instance) -> bool:
+    return isinstance(inst, kf.VInstance)
+
+
+def _is_flattened_vinst(inst: Instance) -> bool:
+    return getattr(inst.cell, "vtrans", None) is not None
+
+
+def _dump_instance(
+    instance: dict[str, Any],
+    instance_exclude: Iterable[str] = (),
+) -> dict[str, Any]:
+    instance_exclude = set(instance_exclude)
+    dct = {}
+    for k, v in instance.items():
+        if (
+            k in instance_exclude
+            or (k == "array" and v is None)
+            or (k == "virtual" and v is False)
+        ):
+            continue
+        if hasattr(v, "model_dump"):
+            dct[k] = v.model_dump()
+        else:
+            dct[k] = v
+    return dct
+
+
+def _short_component_name(
+    cell: kf.ProtoTKCell[Any], component_namer: ComponentNamer
+) -> str:
+    """Get short component name, preferring function_name."""
+    try:
+        return cell.function_name or component_namer(cell)
+    except ValueError:
+        return component_namer(cell)
+
+
+def _instname_from_compname(
+    inst: Instance,
+    compname: str,
+    _instance_names: dict[str | None, str],
+    _rev_instance_names: dict[str, str | None],
+) -> str:
+    inst_name = _instname(inst)
+    if compname not in _rev_instance_names:
+        _instance_names[inst_name] = compname
+        _rev_instance_names[compname] = inst_name
+        return compname
+
+    # if the compname already ends on a number, we add an underscore.
+    basename = re.sub("[0-9]*$", "", compname)
+    if basename != compname:
+        basename = f"{compname}_"
+
+    index = 2
+    while (compname := f"{basename}{index}") in _rev_instance_names:
+        index += 1
+
+    _instance_names[inst_name] = compname
+    _rev_instance_names[compname] = inst_name
+    return compname
+
+
+def _clean_instname(name: str | None) -> str:
+    if name is None:
+        return f"unnamed_{secrets.token_hex(4)}"
+    replace_map = {" ": "_", "!": "", "?": "", "#": "_", "%": "_", "(": "", ")": "", "*": "_", ",": "_", "-": "m", ".": "p", "/": "_", ":": "_", "=": "", "@": "_", "[": "", "]": "", "{": "", "}": "", "$": ""}  # fmt: skip
+    for k, v in replace_map.items():
+        name = name.replace(k, v)
+    name = re.sub("[^a-zA-Z0-9]", "_", name)
+    if name[0] in "0123456789":
+        name = f"_{name}"
+    return name
+
+
+def _handle_multi_connect(
+    matched_pairs: dict[tuple[str, str], dict[str, Any] | None],
+    on_multi_connect: ErrorBehavior,
+) -> None:
+    """Check for multiple connections at same location and warn/error as configured."""
+    if on_multi_connect == "ignore":
+        return
+
+    # Group pairs by shared ports to detect multi-port overlaps
+    port_connections: dict[str, set[str]] = defaultdict(set)
+    for p1, p2 in matched_pairs:
+        port_connections[p1].add(p2)
+        port_connections[p2].add(p1)
+
+    for port, connected in port_connections.items():
+        if len(connected) > 1:
+            msg = f"More than two ports overlapping at {port}: {connected | {port}}."
+            if on_multi_connect == "error":
+                raise ValueError(msg)
+            warnings.warn(msg, stacklevel=5)
+
+
+def _get_nets(
+    all_ports: dict[str, kf.DPort | kf.Port],
+    on_multi_connect: ErrorBehavior,
+    port_matcher: PortMatcher,
+) -> list[dict[str, Any]]:
+    """Extract connections between ports.
+
+    NOTE: This is O(n²) in the number of ports. For very large circuits,
+    consider adding a PortIndexer to bucket ports by position first (O(n)),
+    then only compare within buckets using the PortMatcher.
+
+    Returns:
+        List of net dicts with keys 'p1', 'p2', and optionally 'settings'.
+    """
+    _port_names = list(all_ports)
+    _num_ports = len(_port_names)
+
+    # Track which ports are connected and their metadata
+    # Key: sorted tuple of two port names, Value: settings dict or None
+    _matched_pairs: dict[tuple[str, str], dict[str, Any] | None] = {}
+
+    for i in range(_num_ports):
+        pname = _port_names[i]
+        p = all_ports[pname]
+        for j in range(i + 1, _num_ports):
+            qname = _port_names[j]
+            q = all_ports[qname]
+            result = port_matcher(p, q)
+            if result is not False:
+                pair = (pname, qname) if pname < qname else (qname, pname)
+                if isinstance(result, dict):
+                    _matched_pairs[pair] = result
+                else:
+                    _matched_pairs[pair] = None
+
+    _handle_multi_connect(_matched_pairs, on_multi_connect)
+
+    # Build list of nets
+    nets: list[dict[str, Any]] = []
+    for (p1, p2), settings in _matched_pairs.items():
+        net: dict[str, Any] = {"p1": p1, "p2": p2}
+        if settings is not None:
+            net["settings"] = settings
+        nets.append(net)
+    return nets
+
+
+def _split_nets_and_ports(
+    nets: list[dict[str, Any]],
+) -> tuple[dict[str, str], list[dict[str, Any]]]:
+    """Split nets into top-level port mappings and instance-to-instance nets.
+
+    Top-level ports never have a ',' in their name, whereas instance ports
+    are formatted as '{instance_name},{port_name}'.
+
+    Note: Settings from nets involving top-level ports are discarded since
+    the ports dict only maps port names to instance ports.
+    """
+    ports: dict[str, str] = {}
+    instance_nets: list[dict[str, Any]] = []
+    for net in nets:
+        p1, p2 = net["p1"], net["p2"]
+        if "," not in p1:
+            ports[p1] = p2
+        elif "," not in p2:
+            ports[p2] = p1
+        else:
+            p1 = net["p1"]
+            p2 = net["p2"]
+            meta = {k: v for k, v in net.items() if k != "p1" and k != "p2"}
+            if p1 < p2:
+                instance_nets.append({"p1": p1, "p2": p2, **meta})
+            else:
+                instance_nets.append({"p1": p2, "p2": p1, **meta})
+    ports = {k: ports[k] for k in natsorted(ports)}
+    nets = natsorted(instance_nets, key=lambda n: f"{n['p1']}:{n['p2']}")
+    return ports, nets
+
+
+def _handle_dangling_ports(
+    all_ports: dict[str, kf.DPort | kf.Port],
+    nets: list[dict[str, Any]],
+    on_dangling_port: ErrorBehavior,
+) -> None:
+    """Check for unconnected instance ports and warn/error as configured.
+
+    Top-level ports (without ',' in name) are not considered dangling.
+    """
+    if on_dangling_port == "ignore":
+        return
+
+    # Collect all connected ports
+    connected: set[str] = set()
+    for net in nets:
+        connected.add(net["p1"])
+        connected.add(net["p2"])
+
+    # Find dangling instance ports (exclude top-level ports)
+    dangling = [p for p in all_ports if "," in p and p not in connected]
+
+    if dangling:
+        msg = f"Unconnected ports: {dangling}"
+        if on_dangling_port == "error":
+            raise ValueError(msg)
+        warnings.warn(msg, stacklevel=4)
+
+
+def _sample_circuit() -> Component:
+    c = Component()
+    ring = c.add_ref(gf.c.ring_single(), name="ring").move((100, 0))
+    mzi = c.add_ref_off_grid(gf.c.mzi()).rotate(33).move((0, 20))
+    mzi.name = "mzi"
+    s1 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=90 - 33)).connect(  # type: ignore[arg-type]
+        "o1", mzi["o1"]
+    )
+    s1.name = "s1"
+    s2 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=33)).connect(  # type: ignore[arg-type]
+        "o2", mzi["o2"]
+    )
+    s2.name = "s2"
+    gf.routing.route_bundle(c, [s1["o2"]], [ring["o1"]], cross_section="strip")
+    arr = c.add_ref(gf.c.straight(), columns=1, rows=4, row_pitch=30).move((150, 0))
+    arr.name = "arr"
+    gf.routing.route_bundle(
+        c,
+        [arr["o1", 0, 0], arr["o1", 0, 3]],
+        [ring["o2"], s2["o1"]],
+        cross_section="strip",
+    )
+    gf.routing.route_bundle(
+        c, [arr["o1", 0, 1]], [arr["o1", 0, 2]], cross_section="strip"
+    )
+    for i, p in enumerate(list(arr.ports)[1::2]):
+        c.add_port(name=f"o{i + 1}", port=p)
+    return c
+
+
+def _width_mismatch_circuit() -> Component:
+    """Create a simple circuit with a width mismatch for testing."""
+    c = Component()
+    s1 = c.add_ref(gf.c.straight(length=10, width=0.5), name="s1")  # noqa: F841
+    s2 = c.add_ref(gf.c.straight(length=10, width=0.6), name="s2")
+    s2.move((10, 0))  # Position s2 so its o1 aligns with s1's o2
+    return c
+
+
+def _instname(inst: Instance) -> str:
+    cell = _instcell(inst)
+    h = md5(
+        repr(
+            (
+                cell.name,
+                (
+                    inst.trans.disp.x,
+                    inst.trans.disp.y,
+                    inst.trans.angle,
+                    inst.trans.mirror,
+                ),
+                inst.a,
+                inst.b,
+                inst.na,
+                inst.nb,
+            )
+        ).encode()
+    ).hexdigest()[:8]
+    return inst.name or f"{cell.name}__{h}"
+
+
+def _instcell(inst: Instance) -> kf.ProtoTKCell[Any]:
+    if _is_flattened_vinst(inst):
+        inst_cell = gf.get_component(
+            str(inst.cell.function_name or inst.cell.factory_name),
+            **inst.cell.settings.model_dump(),
+        )
+        return cast(kf.ProtoTKCell[Any], inst_cell)
+    return cast(kf.ProtoTKCell[Any], inst.cell)
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+    from gdsfactory.gpdk import PDK
+
+    PDK.activate()
+
+    # Test sample circuit
+    c = _sample_circuit()
+    recnet = get_netlist_recursive(c, port_matcher=PortCenterMatcher())
+    for name, netlist in recnet.items():
+        print(f"Cell: {name}")
+        for inst_name, inst in netlist["instances"].items():
+            print(f"  Instance: {inst_name} -> {inst['component']}")
+        print(f"  Ports: {netlist['ports']}")
+        print(f"  Nets: {len(netlist['nets'])}")
+
+    # Test width mismatch circuit
+    print("\nWidth mismatch circuit:")
+    c2 = _width_mismatch_circuit()
+    netlist2 = get_netlist(c2, port_matcher=FlexiblePortMatcher())
+    print(f"  Nets: {netlist2['nets']}")

@@ -80,7 +80,6 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-name: splitter_chain_gdsfactorypcomponentspcontainerspsplitte_b35759ef
 nets:
 - p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_15500_625,o1
   p2: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0,o2

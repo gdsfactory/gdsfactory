@@ -23,7 +23,6 @@ instances:
       size:
       - 100
       - 100
-name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_c1dae302
 nets: []
 placements:
   pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_553ba667_0_0:

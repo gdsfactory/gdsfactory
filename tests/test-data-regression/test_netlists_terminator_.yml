@@ -14,7 +14,6 @@ instances:
       linear: false
       npoints: 100
       width_type: sine
-name: terminator_gdsfactorypcomponentspfilterspterminator_L50_a505b160
 nets: []
 placements:
   taper_cross_section_gdsfactorypcomponentsptapersptaper__fd386982_0_0:
@@ -24,12 +23,3 @@ placements:
     y: 0
 ports:
   o1: taper_cross_section_gdsfactorypcomponentsptapersptaper__fd386982_0_0,o1
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 1 unconnected optical ports!
-      ports:
-      - taper_cross_section_gdsfactorypcomponentsptapersptaper__fd386982_0_0,o2
-      values:
-      - - 50
-        - 0

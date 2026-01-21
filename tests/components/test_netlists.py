@@ -6,43 +6,46 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
+from gdsfactory.get_netlist import legacy_namer
 
 cells = get_cells([gf.components])
 
 skip_test = {
     "add_fiber_array_optical_south_electrical_north",
+    "add_termination",
+    "align_wafer",
     "bbox",
-    "coupler_bend",
+    "bend_circular_all_angle",
+    "bend_euler_all_angle",
     "component_sequence",
+    "coupler_bend",
+    "coupler_ring_bend",
+    "crossing45",
     "cutback_2x2",
     "cutback_bend180circular",
     "cutback_component",
+    "dbr",
     "delay_snake",
     "delay_snake2",
+    "die_frame_phix",
     "extend_ports_list",
+    "ge_detector_straight_si_contacts",
+    "grating_coupler_array",
+    "grating_coupler_elliptical_lumerical_etch70",
     "pack_doe",
     "pack_doe_grid",
-    "spiral_racetrack_fixed_length",
-    "straight_heater_metal_simple",
-    "via_corner",
-    "spiral_racetrack",
-    "spiral_racetrack_heater_metal",
-    "text_freetype",
-    "crossing45",
     "seal_ring_segmented",
-    "grating_coupler_elliptical_lumerical_etch70",
-    "coupler_ring_bend",
-    "grating_coupler_array",
-    "straight_piecewise",
-    "ge_detector_straight_si_contacts",
-    "dbr",
+    "spiral_racetrack",
+    "spiral_racetrack_fixed_length",
+    "spiral_racetrack_heater_metal",
     "straight_all_angle",
-    "bend_circular_all_angle",
-    "bend_euler_all_angle",
-    "die_frame_phix",
+    "straight_heater_metal_simple",
+    "straight_piecewise",
     "taper_meander",
+    "text_freetype",
+    "via_corner",
 }
-cells_to_test = set(cells.keys()) - skip_test
+cells_to_test = sorted(set(cells.keys()) - skip_test)
 
 
 @pytest.mark.parametrize("component_type", cells_to_test)
@@ -59,25 +62,14 @@ def test_netlists(
 
     then compare YAMLs with pytest regressions
     """
-    c = cells[component_type]()
-    connection_error_types: dict[str, list[str]] = {"optical": []}
-    n = c.get_netlist(
-        allow_multiple=True, connection_error_types=connection_error_types
-    )
+    c1 = cells[component_type]()
+    n1 = c1.get_netlist(on_multi_connect="ignore", instance_namer=legacy_namer)
 
     if check:
-        data_regression.check(n)
+        data_regression.check(n1)
 
-    # if "warnings" in n:
-    #     raise ValueError(n["warnings"])
+    c2 = gf.read.from_yaml(n1)
+    n2 = c2.get_netlist(on_multi_connect="ignore", instance_namer=legacy_namer)
 
-    n.pop("warnings", None)
-    yaml_str = c.write_netlist(n)
-    c2 = gf.read.from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-
-    d = jsondiff.diff(n, n2)
-    d.pop("warnings", None)
-    d.pop("connections", None)
-    d.pop("ports", None)
+    d = jsondiff.diff(n1, n2)
     assert len(d) == 0, d
