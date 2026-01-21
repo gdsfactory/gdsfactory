@@ -5,6 +5,7 @@ import secrets
 import warnings
 from collections import defaultdict
 from collections.abc import Iterable
+from hashlib import md5
 from itertools import chain, product
 from typing import Any, Literal, Protocol, TypeAlias, cast
 
@@ -14,6 +15,7 @@ from natsort import natsorted
 import gdsfactory as gf
 import gdsfactory.schematic as scm
 from gdsfactory.component import Component
+from gdsfactory.name import get_instance_name_from_alias as legacy_namer  # noqa: F401
 from gdsfactory.serialization import clean_value_json
 
 Instance: TypeAlias = kf.DInstance | kf.VInstance | kf.Instance
@@ -65,16 +67,12 @@ class OriginalNamer:
         self._rev_instance_names: dict[str, str | None] = {}
 
     def __call__(self, inst: Instance) -> str:
-        if inst.name in self._instance_names:
-            return self._instance_names[inst.name]
-        name = self._instance_names[inst.name] = _clean_instname(inst.name)
-        self._rev_instance_names[name] = inst.name
+        inst_name = _instname(inst)
+        if inst_name in self._instance_names:
+            return self._instance_names[inst_name]
+        name = self._instance_names[inst_name] = _clean_instname(inst_name)
+        self._rev_instance_names[name] = inst_name
         return name
-
-
-# Alias for backwards compatibility with get_netlist.py behavior
-# This function matches the InstanceNamer protocol
-from gdsfactory.name import get_instance_name_from_alias as legacy_namer
 
 
 class CountedNamer:
@@ -86,16 +84,15 @@ class CountedNamer:
         self._rev_instance_names: dict[str, str | None] = {}
 
     def __call__(self, inst: Instance) -> str:
-        if inst.name in self._instance_names:
-            return self._instance_names[inst.name]
-        compname = _short_component_name(
-            cast(kf.ProtoTKCell[Any], inst.cell), self._component_namer
-        )
+        inst_name = _instname(inst)
+        if inst_name in self._instance_names:
+            return self._instance_names[inst_name]
+        compname = _short_component_name(_instcell(inst), self._component_namer)
         name = _instname_from_compname(
             inst, compname, self._instance_names, self._rev_instance_names
         )
-        name = self._instance_names[inst.name] = _clean_instname(name)
-        self._rev_instance_names[name] = inst.name
+        name = self._instance_names[inst_name] = _clean_instname(name)
+        self._rev_instance_names[name] = inst_name
         return name
 
 
@@ -108,19 +105,18 @@ class SmartNamer:
         self._rev_instance_names: dict[str, str | None] = {}
 
     def __call__(self, inst: Instance) -> str:
-        if inst.name in self._instance_names:
-            return self._instance_names[inst.name]
-        compname = _short_component_name(
-            cast(kf.ProtoTKCell[Any], inst.cell), self._component_namer
-        )
-        if inst.name is not None and inst.name.startswith(f"{compname}_"):
+        inst_name = _instname(inst)
+        if inst_name in self._instance_names:
+            return self._instance_names[inst_name]
+        compname = _short_component_name(_instcell(inst), self._component_namer)
+        if inst_name is not None and inst_name.startswith(f"{compname}_"):
             name: str | None = _instname_from_compname(
                 inst, compname, self._instance_names, self._rev_instance_names
             )
         else:
-            name = inst.name
-        cleaned = self._instance_names[inst.name] = _clean_instname(name)
-        self._rev_instance_names[cleaned] = inst.name
+            name = inst_name
+        cleaned = self._instance_names[inst_name] = _clean_instname(name)
+        self._rev_instance_names[cleaned] = inst_name
         return cleaned
 
 
@@ -439,7 +435,9 @@ def _insert_netlist(
         chain(cell.insts, cell.vinsts), key=lambda i: getattr(i, "name", "") or ""
     ):
         inst = cast(Instance, _inst)
+        cell = _instcell(inst)
         inst_name = instance_namer(inst)
+        print(f"inst_name: {inst_name}")
         if _is_pure_vinst(inst):
             if _is_array_inst(inst):
                 msg = (
@@ -470,9 +468,7 @@ def _insert_netlist(
             _all_ports.update(
                 {
                     f"{inst_name}<{a}.{b}>,{p.name}": inst.ports[p.name, a, b]
-                    for p, a, b in product(
-                        inst.cell.ports, range(inst.na), range(inst.nb)
-                    )
+                    for p, a, b in product(cell.ports, range(inst.na), range(inst.nb))
                 }
             )
         else:
@@ -485,10 +481,10 @@ def _insert_netlist(
 
         net["instances"][inst_name] = _dump_instance(
             {
-                "component": component_namer(cast(kf.ProtoTKCell[Any], inst.cell)),
+                "component": component_namer(cast(kf.ProtoTKCell[Any], cell)),
                 "array": array,
-                "settings": inst.cell.settings.model_dump(),
-                "info": inst.cell.info.model_dump(),
+                "settings": cell.settings.model_dump(),
+                "info": cell.info.model_dump(),
                 "virtual": virtual,
             }
         )
@@ -499,13 +495,11 @@ def _insert_netlist(
             "mirror": transform.mirror,
         }
 
-        if recursive and _has_instances(inst.cell):
-            net["instances"][inst_name]["component"] = netlist_namer(
-                cast(kf.ProtoTKCell[Any], inst.cell)
-            )
+        if recursive and _has_instances(cell):
+            net["instances"][inst_name]["component"] = netlist_namer(cell)
             _insert_netlist(
                 recnet,
-                cast(kf.ProtoTKCell[Any], inst.cell),
+                cast(kf.ProtoTKCell[Any], cell),
                 on_multi_connect,
                 on_dangling_port,
                 instance_namer,
@@ -610,9 +604,10 @@ def _instname_from_compname(
     _instance_names: dict[str | None, str],
     _rev_instance_names: dict[str, str | None],
 ) -> str:
+    inst_name = _instname(inst)
     if compname not in _rev_instance_names:
-        _instance_names[inst.name] = compname
-        _rev_instance_names[compname] = inst.name
+        _instance_names[inst_name] = compname
+        _rev_instance_names[compname] = inst_name
         return compname
 
     # if the compname already ends on a number, we add an underscore.
@@ -624,8 +619,8 @@ def _instname_from_compname(
     while (compname := f"{basename}{index}") in _rev_instance_names:
         index += 1
 
-    _instance_names[inst.name] = compname
-    _rev_instance_names[compname] = inst.name
+    _instance_names[inst_name] = compname
+    _rev_instance_names[compname] = inst_name
     return compname
 
 
@@ -660,8 +655,7 @@ def _handle_multi_connect(
             msg = f"More than two ports overlapping at {port}: {connected | {port}}."
             if on_multi_connect == "error":
                 raise ValueError(msg)
-            else:  # warn
-                warnings.warn(msg, stacklevel=5)
+            warnings.warn(msg, stacklevel=5)
 
 
 def _get_nets(
@@ -768,8 +762,7 @@ def _handle_dangling_ports(
         msg = f"Unconnected ports: {dangling}"
         if on_dangling_port == "error":
             raise ValueError(msg)
-        else:  # warn
-            warnings.warn(msg, stacklevel=4)
+        warnings.warn(msg, stacklevel=4)
 
 
 def _sample_circuit() -> Component:
@@ -809,6 +802,36 @@ def _width_mismatch_circuit() -> Component:
     s2 = c.add_ref(gf.c.straight(length=10, width=0.6), name="s2")
     s2.move((10, 0))  # Position s2 so its o1 aligns with s1's o2
     return c
+
+
+def _instname(inst: Instance) -> str:
+    cell = _instcell(inst)
+    h = md5(
+        repr(
+            (
+                cell.name,
+                (
+                    inst.trans.disp.x,
+                    inst.trans.disp.y,
+                    inst.trans.angle,
+                    inst.trans.mirror,
+                ),
+                inst.a,
+                inst.b,
+                inst.na,
+                inst.nb,
+            )
+        ).encode()
+    ).hexdigest()[:8]
+    return inst.name or f"{cell.name}__{h}"
+
+
+def _instcell(inst: Instance) -> kf.ProtoTKCell[Any]:
+    if _is_flattened_vinst(inst):
+        return gf.get_component(
+            inst.cell.function_name, **inst.cell.settings.model_dump()
+        )
+    return inst.cell
 
 
 if __name__ == "__main__":
