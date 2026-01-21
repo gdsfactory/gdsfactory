@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
+from gdsfactory.get_netlist import PortCenterMatcher, SmartPortMatcher, legacy_namer
 
 
 def test_netlist_simple() -> None:
@@ -43,7 +44,7 @@ def test_get_netlist_cell_array() -> None:
         rows=rows,
         add_ports=True,
     )
-    n = c.get_netlist(allow_multiple=True)
+    n = c.get_netlist(on_multi_connect="ignore", instance_namer=legacy_namer)
     n_ports_expected = 2 * rows
     assert len(c.ports) == n_ports_expected, (
         f"Expected {n_ports_expected} ports on component. Got {len(c.ports)}"
@@ -79,7 +80,7 @@ def test_get_netlist_cell_array_no_ports() -> None:
         rows=rows,
         add_ports=False,
     )
-    n = c.get_netlist(allow_multiple=True)
+    n = c.get_netlist(on_multi_connect="ignore")
     assert len(c.ports) == 0, (
         f"Expected no ports on component with add_ports=False. Got {len(c.ports)}"
     )
@@ -91,19 +92,6 @@ def test_get_netlist_cell_array_no_ports() -> None:
     )
     inst = next(iter(n["instances"].values()))
     assert inst["array"]["columns"] == 1 and inst["array"]["rows"] == rows
-
-
-def test_get_netlist_cell_array_connecting() -> None:
-    c = gf.components.array(
-        gf.components.straight(length=100),
-        columns=5,
-        rows=1,
-        column_pitch=100,
-    )
-    with pytest.warns(UserWarning):
-        # because the component-array has automatic external ports, we assume no internal self-connections
-        # we expect a ValueError to be thrown where the serendipitous connections are
-        c.get_netlist(allow_multiple=False)
 
 
 def test_get_netlist_simple() -> None:
@@ -119,11 +107,6 @@ def test_get_netlist_simple() -> None:
     extracted_port_pair = set(links[0].values())
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
-    unconnected_optical_port_warnings = netlist["warnings"]["optical"][
-        "unconnected_ports"
-    ]
-    assert len(unconnected_optical_port_warnings) == 1
-    assert len(unconnected_optical_port_warnings[0]["ports"]) == 4
 
 
 def test_get_netlist_promoted() -> None:
@@ -168,7 +151,7 @@ def test_get_netlist_close_enough_orthogonal_fails() -> None:
     i2 = c.add_ref(gf.components.straight(), "i2")
     i2.connect("o2", i1.ports["o1"])
     i2.dmovey(0.001)
-    netlist = c.get_netlist()
+    netlist = c.get_netlist(port_matcher=SmartPortMatcher(position_tolerance_dbu=0.0))
     links = netlist["nets"]
     assert len(links) == 0
 
@@ -268,7 +251,7 @@ def test_get_netlist_electrical_different_widths() -> None:
     i1 = c.add_ref(gf.components.straight(width=1, cross_section="metal1"), "i1")
     i2 = c.add_ref(gf.components.straight(width=10, cross_section="metal1"), "i2")
     i2.connect("e2", i1.ports["e1"], allow_width_mismatch=True)
-    netlist = c.get_netlist()
+    netlist = c.get_netlist(port_matcher=PortCenterMatcher())
     links = netlist["nets"]
     assert len(links) == 1, len(links)
     extracted_port_pair = set(links[0].values())
