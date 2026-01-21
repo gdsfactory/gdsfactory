@@ -362,7 +362,7 @@ def get_netlist(
         port_matcher or _default_port_matcher,
         recursive=False,
     )
-    return clean_value_json(recnet[next(iter(recnet))])
+    return cast(dict[str, Any], clean_value_json(recnet[next(iter(recnet))]))
 
 
 def get_netlist_recursive(
@@ -407,7 +407,7 @@ def get_netlist_recursive(
         port_matcher or _default_port_matcher,
         recursive=True,
     )
-    return clean_value_json(recnet)
+    return cast(dict[str, dict[str, Any]], clean_value_json(recnet))
 
 
 def _insert_netlist(
@@ -483,7 +483,7 @@ def _insert_netlist(
 
         net["instances"][inst_name] = _dump_instance(
             {
-                "component": component_namer(cast(kf.ProtoTKCell[Any], inst_cell)),
+                "component": component_namer(inst_cell),
                 "array": array,
                 "settings": inst_cell.settings.model_dump(),
                 "info": inst_cell.info.model_dump(),
@@ -501,7 +501,7 @@ def _insert_netlist(
             net["instances"][inst_name]["component"] = netlist_namer(inst_cell)
             _insert_netlist(
                 recnet,
-                cast(kf.ProtoTKCell[Any], inst_cell),
+                inst_cell,
                 on_multi_connect,
                 on_dangling_port,
                 instance_namer,
@@ -571,7 +571,7 @@ def _is_flattened_vinst(inst: Instance) -> bool:
 
 
 def _dump_instance(
-    instance: dict,
+    instance: dict[str, Any],
     instance_exclude: Iterable[str] = (),
 ) -> dict[str, Any]:
     instance_exclude = set(instance_exclude)
@@ -800,7 +800,7 @@ def _sample_circuit() -> Component:
 def _width_mismatch_circuit() -> Component:
     """Create a simple circuit with a width mismatch for testing."""
     c = Component()
-    s1 = c.add_ref(gf.c.straight(length=10, width=0.5), name="s1")
+    s1 = c.add_ref(gf.c.straight(length=10, width=0.5), name="s1")  # noqa: F841
     s2 = c.add_ref(gf.c.straight(length=10, width=0.6), name="s2")
     s2.move((10, 0))  # Position s2 so its o1 aligns with s1's o2
     return c
@@ -830,10 +830,12 @@ def _instname(inst: Instance) -> str:
 
 def _instcell(inst: Instance) -> kf.ProtoTKCell[Any]:
     if _is_flattened_vinst(inst):
-        return gf.get_component(
-            inst.cell.function_name, **inst.cell.settings.model_dump()
+        inst_cell = gf.get_component(
+            str(inst.cell.function_name or inst.cell.factory_name),
+            **inst.cell.settings.model_dump(),
         )
-    return inst.cell
+        return cast(kf.ProtoTKCell[Any], inst_cell)
+    return cast(kf.ProtoTKCell[Any], inst.cell)
 
 
 if __name__ == "__main__":
