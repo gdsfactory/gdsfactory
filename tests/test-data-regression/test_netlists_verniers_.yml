@@ -69,7 +69,6 @@ instances:
       length: 100
       npoints: 2
       width: 0.5
-name: verniers_gdsfactorypcomponentsppcmspverniers_W0p1_0p2_0_2d122654
 nets: []
 placements:
   straight_gdsfactorypcomponentspwaveguidespstraight_L100_5cb5b653_0_650:

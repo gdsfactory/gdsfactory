@@ -92,7 +92,6 @@ instances:
       width2: 1.2
       with_bbox: true
       with_two_ports: true
-name: mode_converter_gdsfactorypcomponentspfilterspmode_conve_10a30c65
 nets:
 - p1: bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5_0_1050_A180_M,o1
   p2: coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd_0_0,o2

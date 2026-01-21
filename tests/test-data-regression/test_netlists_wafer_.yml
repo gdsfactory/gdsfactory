@@ -703,7 +703,6 @@ instances:
       text: text
       text_location: SW
       text_size: 100
-name: wafer_gdsfactorypcomponentspdiespwafer_Rdie_C2_6_6_8_8__ddb8201b
 nets: []
 placements:
   die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_06916fad_10000000_60000000:

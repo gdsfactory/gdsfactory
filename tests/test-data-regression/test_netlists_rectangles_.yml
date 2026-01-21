@@ -29,7 +29,6 @@ instances:
       size:
       - 4
       - 2
-name: rectangles_gdsfactorypcomponentspshapesprectangle_S4_2__6806a983
 nets:
 - p1: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1_0_0,e1
   p2: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b_0_0,e1

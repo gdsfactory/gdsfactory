@@ -55,7 +55,6 @@ instances:
       length: 10
       npoints: 2
       width: null
-name: straight_array_gdsfactorypcomponentspwaveguidespstraigh_4d2a5b84
 nets: []
 placements:
   straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:

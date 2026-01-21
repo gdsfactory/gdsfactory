@@ -543,28 +543,15 @@ instances:
       length: 996
       npoints: 2
       width: null
-name: grating_coupler_loss_gdsfactorypcomponentspgrating_coup_e0b001ca
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_10000_49529_A180,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L234_18b99f0e_10000_49529,o1
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_10000_49529_A180,o2
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_0_m471_A90,o2
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1596204_39529_A90,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1596204_39529_A270,o1
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1596204_39529_A90,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L742_046a924a_844204_49529,o2
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1642306_49529_A180,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L996_ef17e3a4_1642306_49529,o1
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1642306_49529_A180,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1632306_m471_A90,o2
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_254000_39529_A90,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_254000_39529_A270,o1
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_254000_39529_A90,o2
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L234_18b99f0e_10000_49529,o2
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_2648306_39529_A90,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_2648306_39529_A270,o1
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_2648306_39529_A90,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L996_ef17e3a4_1642306_49529,o2
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_300102_49529_A180,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L488_f5f7f076_300102_49529,o1
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_300102_49529_A180,o2
@@ -577,22 +564,34 @@ nets:
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L742_046a924a_844204_49529,o1
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_844204_49529_A180,o2
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_834204_m471_A90,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1596204_39529_A90,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1596204_39529_A270,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1596204_39529_A90,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L742_046a924a_844204_49529,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1642306_49529_A180,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L996_ef17e3a4_1642306_49529,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_1642306_49529_A180,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1632306_m471_A90,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_2648306_39529_A90,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_2648306_39529_A270,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_2648306_39529_A90,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L996_ef17e3a4_1642306_49529,o2
 - p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_0_0_A270,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_0_m471_A90,o1
-- p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_1596204_0_A270,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1596204_39529_A270,o2
-- p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_1632306_0_A270,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1632306_m471_A90,o1
 - p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_254000_0_A270,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_254000_39529_A270,o2
-- p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_2648306_0_A270,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_2648306_39529_A270,o2
 - p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_290102_0_A270,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_290102_m471_A90,o1
 - p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_798102_0_A270,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_798102_39529_A270,o2
 - p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_834204_0_A270,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_834204_m471_A90,o1
+- p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_1596204_0_A270,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1596204_39529_A270,o2
+- p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_1632306_0_A270,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_1632306_m471_A90,o1
+- p1: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_2648306_0_A270,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63_2648306_39529_A270,o2
 placements:
   bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_10000_49529_A180:
     mirror: false
@@ -735,33 +734,3 @@ placements:
     x: 1642.306
     y: 49.529
 ports: {}
-warnings:
-  vertical_te:
-    unconnected_ports:
-    - message: 8 unconnected vertical_te ports!
-      ports:
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_0_0_A270,o2
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_254000_0_A270,o2
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_290102_0_A270,o2
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_798102_0_A270,o2
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_834204_0_A270,o2
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_1596204_0_A270,o2
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_1632306_0_A270,o2
-      - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af_2648306_0_A270,o2
-      values:
-      - - 0
-        - -26.74
-      - - 254
-        - -26.74
-      - - 290.102
-        - -26.74
-      - - 798.102
-        - -26.74
-      - - 834.204
-        - -26.74
-      - - 1596.204
-        - -26.74
-      - - 1632.306
-        - -26.74
-      - - 2648.306
-        - -26.74

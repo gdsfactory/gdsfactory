@@ -29,7 +29,6 @@ instances:
       size:
       - 5
       - 5
-name: fiducial_squares_gdsfactorypcomponentspshapespfiducial__9aab5a27
 nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570:
@@ -43,33 +42,3 @@ placements:
     x: -2.57
     y: -2.57
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 8 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_2570_2570,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d_m2570_m2570,e4
-      values:
-      - - 0.07
-        - 2.57
-      - - 2.57
-        - 5.07
-      - - 5.07
-        - 2.57
-      - - 2.57
-        - 0.07
-      - - -5.07
-        - -2.57
-      - - -2.57
-        - -0.07
-      - - -0.07
-        - -2.57
-      - - -2.57
-        - -5.07

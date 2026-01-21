@@ -58,7 +58,6 @@ instances:
       size:
       - 22
       - 7
-name: pad_gsg_short_gdsfactorypcomponentsppadsppad_gsg_S22_7__a1db99a4
 nets: []
 placements:
   array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0:
@@ -82,81 +81,3 @@ placements:
     x: -5
     y: -7
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 24 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_7000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_7000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_7000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_7000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_0_0,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_0_0,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_0_0,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_0_0,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_m7000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_m7000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_m7000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d_m5000_m7000,e4
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e1_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e2_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e3_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e4_1_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e1_2_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e2_2_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e3_2_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e4_2_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e1_3_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e2_3_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e3_3_1
-      - array_gdsfactorypcomponentspcontainersparray_component__febecbc6_122000_0,e4_3_1
-      values:
-      - - -5
-        - 10.5
-      - - 6
-        - 14
-      - - 17
-        - 10.5
-      - - 6
-        - 7
-      - - 0
-        - 3.5
-      - - 11
-        - 7
-      - - 22
-        - 3.5
-      - - 11
-        - 0
-      - - -5
-        - -3.5
-      - - 6
-        - 0
-      - - 17
-        - -3.5
-      - - 6
-        - -7
-      - - 72
-        - -150
-      - - 122
-        - -100
-      - - 172
-        - -150
-      - - 122
-        - -200
-      - - 72
-        - 0
-      - - 122
-        - 50
-      - - 172
-        - 0
-      - - 122
-        - -50
-      - - 72
-        - 150
-      - - 122
-        - 200
-      - - 172
-        - 150
-      - - 122
-        - 100

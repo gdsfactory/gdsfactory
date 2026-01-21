@@ -84,12 +84,7 @@ instances:
       size:
       - 50
       - 22
-name: resonator_quarter_wave_gdsfactorypcomponentspquantumpre_f5b2b734
-nets:
-- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S100_5_f6348b13_m100000_2500,e3
-  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S2500__18df45d1_0_0,e1
-- p1: rectangle_gdsfactorypcomponentspshapesprectangle_S2500__18df45d1_0_0,e3
-  p2: rectangle_gdsfactorypcomponentspshapesprectangle_S50_22_08c84d8d_2500000_m6000,e1
+nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S100_5_f6348b13_m100000_2500:
     mirror: false
@@ -117,57 +112,3 @@ placements:
     x: 2500
     y: -6
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 16 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2500__18df45d1_0_0,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2500__18df45d1_0_0,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S50_22_08c84d8d_2500000_m6000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S50_22_08c84d8d_2500000_m6000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S50_22_08c84d8d_2500000_m6000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_10000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_10000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_10000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_10000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_m6000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_m6000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_m6000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b_m6000_m6000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S100_5_f6348b13_m100000_2500,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S100_5_f6348b13_m100000_2500,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S100_5_f6348b13_m100000_2500,e4
-      values:
-      - - 1250
-        - 10
-      - - 1250
-        - 0
-      - - 2525
-        - 16
-      - - 2550
-        - 5
-      - - 2525
-        - -6
-      - - -6
-        - 13
-      - - 1275
-        - 16
-      - - 2556
-        - 13
-      - - 1275
-        - 10
-      - - -6
-        - -3
-      - - 1275
-        - 0
-      - - 2556
-        - -3
-      - - 1275
-        - -6
-      - - -100
-        - 5
-      - - -50
-        - 7.5
-      - - -50
-        - 2.5

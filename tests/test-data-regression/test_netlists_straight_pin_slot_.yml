@@ -147,7 +147,6 @@ instances:
       - via1
       - via2
       - null
-name: straight_pin_slot_gdsfactorypcomponentspwaveguidespstra_779980e0
 nets:
 - p1: straight_gdsfactorypcomponentspwaveguidespstraight_L480_0775fb2d_0_0,o1
   p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0,o2
@@ -200,33 +199,3 @@ ports:
   top_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_6500,e2
   top_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_6500,e3
   top_e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e_240000_6500,e4
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 8 unconnected electrical ports!
-      ports:
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_6000,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_6000,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_6000,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_6000,e4
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_m6000,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_m6000,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_m6000,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a_240000_m6000,e4
-      values:
-      - - 0
-        - 6
-      - - 240
-        - 11
-      - - 480
-        - 6
-      - - 240
-        - 1
-      - - 0
-        - -6
-      - - 240
-        - -1
-      - - 480
-        - -6
-      - - 240
-        - -11

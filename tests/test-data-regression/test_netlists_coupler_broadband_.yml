@@ -113,7 +113,6 @@ instances:
       cross_section: strip
       gap: 0.2
       length: 12.4
-name: coupler_broadband_gdsfactorypcomponentspcouplerspcouple_ee79a992
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250,o1
   p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o3
@@ -159,21 +158,3 @@ ports:
   o2: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M,o2
   o3: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M,o2
   o4: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250,o2
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 4 unconnected optical ports!
-      ports:
-      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o4
-      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o3
-      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o1
-      - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o2
-      values:
-      - - -3.35
-        - -0.45
-      - - -3.35
-        - 0.25
-      - - 3.35
-        - -0.45
-      - - 3.35
-        - 0.25

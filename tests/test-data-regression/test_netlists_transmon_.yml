@@ -67,7 +67,6 @@ instances:
       size:
       - 200
       - 100
-name: transmon_gdsfactorypcomponentspquantumptransmon_PW200_P_b8f72fdf
 nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150:
@@ -91,57 +90,3 @@ placements:
     x: -203
     y: -50
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 16 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_m203000_m50000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_m203000_m50000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_m203000_m50000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_m203000_m50000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_3000_m50000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_3000_m50000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_3000_m50000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198_3000_m50000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_4__20e6fee0_m5000_m2000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_4__20e6fee0_m5000_m2000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_4__20e6fee0_m5000_m2000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S10_4__20e6fee0_m5000_m2000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e4
-      values:
-      - - -203
-        - 0
-      - - -103
-        - 50
-      - - -3
-        - 0
-      - - -103
-        - -50
-      - - 3
-        - 0
-      - - 103
-        - 50
-      - - 203
-        - 0
-      - - 103
-        - -50
-      - - -5
-        - 0
-      - - 0
-        - 2
-      - - 5
-        - 0
-      - - 0
-        - -2
-      - - -0.075
-        - 0
-      - - 0
-        - 0.15
-      - - 0.075
-        - 0
-      - - 0
-        - -0.15

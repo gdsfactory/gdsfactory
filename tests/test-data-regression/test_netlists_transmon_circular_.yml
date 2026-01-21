@@ -43,7 +43,6 @@ instances:
       size:
       - 0.15
       - 0.3
-name: transmon_circular_gdsfactorypcomponentspquantumptransmo_29140297
 nets: []
 placements:
   circle_gdsfactorypcomponentspshapespcircle_R100_AR2p5_L1_0_103000_0:
@@ -67,21 +66,3 @@ placements:
     x: -0.075
     y: -0.15
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 4 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a_m75_m150,e4
-      values:
-      - - -0.075
-        - 0
-      - - 0
-        - 0.15
-      - - 0.075
-        - 0
-      - - 0
-        - -0.15

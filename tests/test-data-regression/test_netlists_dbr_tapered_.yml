@@ -69,7 +69,6 @@ instances:
       width2: 0.4
       with_bbox: true
       with_two_ports: true
-name: dbr_tapered_gdsfactorypcomponentspfilterspdbr_tapered_L_8f033274
 nets:
 - p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__2c3216f5_m5000_0,o1
   p2: taper_gdsfactorypcomponentsptapersptaper_L20_W1_W0p4_LN_9fedc536_m25000_0,o2

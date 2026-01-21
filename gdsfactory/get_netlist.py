@@ -9,10 +9,12 @@ from itertools import chain, product
 from typing import Any, Literal, Protocol, TypeAlias, cast
 
 import kfactory as kf
+from natsort import natsorted
 
 import gdsfactory as gf
 import gdsfactory.schematic as scm
 from gdsfactory.component import Component
+from gdsfactory.serialization import clean_value_json
 
 Instance: TypeAlias = kf.DInstance | kf.VInstance | kf.Instance
 ErrorBehavior: TypeAlias = Literal["ignore", "warn", "error"]
@@ -364,7 +366,7 @@ def get_netlist(
         port_matcher or _default_port_matcher,
         recursive=False,
     )
-    return recnet[next(iter(recnet))]
+    return clean_value_json(recnet[next(iter(recnet))])
 
 
 def get_netlist_recursive(
@@ -409,7 +411,7 @@ def get_netlist_recursive(
         port_matcher or _default_port_matcher,
         recursive=True,
     )
-    return recnet
+    return clean_value_json(recnet)
 
 
 def _insert_netlist(
@@ -457,8 +459,7 @@ def _insert_netlist(
                 inst = inst.to_dtype()
             array = None
             virtual = True
-            if hasattr(inst.cell, "vtrans"):  # always True - just making mypy happy
-                transform = inst.dcplx_trans * inst.cell.vtrans
+            transform = inst.dcplx_trans
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_array_inst(inst):
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
@@ -483,13 +484,13 @@ def _insert_netlist(
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
 
         net["instances"][inst_name] = _dump_instance(
-            scm.Instance(
-                component=component_namer(cast(kf.ProtoTKCell[Any], inst.cell)),
-                array=array,
-                settings=inst.cell.settings.model_dump(),
-                info=inst.cell.info.model_dump(),
-                virtual=virtual,
-            ),
+            {
+                "component": component_namer(cast(kf.ProtoTKCell[Any], inst.cell)),
+                "array": array,
+                "settings": inst.cell.settings.model_dump(),
+                "info": inst.cell.info.model_dump(),
+                "virtual": virtual,
+            }
         )
         net["placements"][inst_name] = {
             "x": transform.disp.x,
@@ -574,22 +575,22 @@ def _is_flattened_vinst(inst: Instance) -> bool:
 
 
 def _dump_instance(
-    instance: scm.Instance,
+    instance: dict,
     instance_exclude: Iterable[str] = (),
 ) -> dict[str, Any]:
     instance_exclude = set(instance_exclude)
     dct = {}
-    for k in sorted(scm.Instance.model_fields):
-        v = getattr(instance, k)
+    for k, v in instance.items():
         if (
             k in instance_exclude
             or (k == "array" and v is None)
             or (k == "virtual" and v is False)
         ):
             continue
-        dct[k] = v
-        if hasattr(dct[k], "model_dump"):
-            dct[k] = dct[k].model_dump()
+        if hasattr(v, "model_dump"):
+            dct[k] = v.model_dump()
+        else:
+            dct[k] = v
     return dct
 
 
@@ -730,8 +731,16 @@ def _split_nets_and_ports(
         elif "," not in p2:
             ports[p2] = p1
         else:
-            instance_nets.append(net)
-    return ports, instance_nets
+            p1 = net["p1"]
+            p2 = net["p2"]
+            meta = {k: v for k, v in net.items() if k != "p1" and k != "p2"}
+            if p1 < p2:
+                instance_nets.append({"p1": p1, "p2": p2, **meta})
+            else:
+                instance_nets.append({"p1": p2, "p2": p1, **meta})
+    ports = {k: ports[k] for k in natsorted(ports)}
+    nets = natsorted(instance_nets, key=lambda n: f"{n['p1']}:{n['p2']}")
+    return ports, nets
 
 
 def _handle_dangling_ports(

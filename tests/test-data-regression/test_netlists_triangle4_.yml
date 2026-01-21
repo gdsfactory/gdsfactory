@@ -9,7 +9,6 @@ instances:
     info: {}
     settings:
       spacing: 3
-name: triangle4_gdsfactorypcomponentspshapesptriangles
 nets: []
 placements:
   triangle2_gdsfactorypcomponentspshapesptriangles_S3_0_0:

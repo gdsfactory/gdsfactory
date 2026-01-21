@@ -98,7 +98,6 @@ instances:
       length: 78.681
       npoints: 2
       width: null
-name: delay_snake_sbend_gdsfactorypcomponentspspiralspdelay_s_7f61a21a
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34_0_m10000,o1
   p2: bend_s_gdsfactorypcomponentspbendspbend_s_S100_5_N99_CS_980b37fc_m100000_m5000_M,o2

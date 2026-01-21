@@ -70,7 +70,6 @@ instances:
       - via1
       - via2
       - null
-name: via_stack_corner45_extended_gdsfactorypcomponentspviasp_a2f90c7d
 nets:
 - p1: via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643_0_0,e1
   p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483_m1500_m6061_A270,e1
@@ -93,27 +92,3 @@ placements:
     x: -1.5
     y: -6.061
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 6 unconnected electrical ports!
-      ports:
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483_m1500_m6061_A270,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483_m1500_m6061_A270,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483_m1500_m6061_A270,e4
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483_16061_11500,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483_16061_11500,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483_16061_11500,e4
-      values:
-      - - 0
-        - -6.061
-      - - -1.5
-        - -11.061
-      - - -3
-        - -6.061
-      - - 16.061
-        - 13
-      - - 21.061
-        - 11.5
-      - - 16.061
-        - 10

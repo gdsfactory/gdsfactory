@@ -89,7 +89,6 @@ instances:
       n_loops: 3
       spacing: 3
       straight: straight
-name: resonator_lumped_gdsfactorypcomponentspquantumpresonato_5db680c0
 nets:
 - p1: rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e3
   p2: rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e2
@@ -127,62 +126,3 @@ placements:
 ports:
   input: rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e4
   output: rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e4
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 12 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S20_2__12b34008_32000_m1000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S2_20__b572c0cd_51000_m20000,e4
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_m10000_10000,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f8d919_37000_10000,e3
-      values:
-      - - 32
-        - 0
-      - - 42
-        - 1
-      - - 42
-        - -1
-      - - 51
-        - -10
-      - - 53
-        - -10
-      - - 52
-        - -20
-      - - -10
-        - 12.5
-      - - -7.5
-        - 15
-      - - -5
-        - 12.5
-      - - 37
-        - 12.5
-      - - 39.5
-        - 15
-      - - 42
-        - 12.5
-  optical:
-    unconnected_ports:
-    - message: 4 unconnected optical ports!
-      ports:
-      - interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0,o1
-      - interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0,o2
-      - spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__47b7831b_52000_0,o1
-      - spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__47b7831b_52000_0,o2
-      values:
-      - - 0
-        - 13
-      - - 32
-        - 13
-      - - 158
-        - -6
-      - - 161
-        - -9

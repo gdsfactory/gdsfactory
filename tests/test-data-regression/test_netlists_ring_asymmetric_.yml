@@ -143,7 +143,6 @@ instances:
       npoints: null
       radius: 10
       width: null
-name: ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_9ac0ce2c
 nets:
 - p1: bot_hor_waveguide_ring,o1
   p2: bot_left_bend_ring,o2

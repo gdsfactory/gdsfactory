@@ -104,7 +104,6 @@ instances:
       length: 4
       npoints: 2
       width: null
-name: ring_single_gdsfactorypcomponentspringspring_single_G0p_87a10a39
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_10000_11300_A90,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168_10000_11300_A270,o1

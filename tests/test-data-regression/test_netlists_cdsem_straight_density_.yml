@@ -152,7 +152,6 @@ instances:
       - 0
       size: 1
       text: 300 300
-name: cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_28757169
 nets: []
 placements:
   straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_1350:

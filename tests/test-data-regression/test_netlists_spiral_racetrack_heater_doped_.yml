@@ -50,7 +50,6 @@ instances:
       length: 30
       npoints: 2
       width: null
-name: spiral_racetrack_heater_doped_gdsfactorypcomponentspspi_fbc193ed
 nets: []
 placements:
   spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_7ac50a2e_0_0:

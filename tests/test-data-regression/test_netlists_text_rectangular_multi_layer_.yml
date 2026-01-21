@@ -51,7 +51,6 @@ instances:
       - 0
       size: 10
       text: abcd
-name: text_rectangular_multi_layer_gdsfactorypcomponentsptext_9efe36c2
 nets: []
 placements:
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_91ffd302_0_0:

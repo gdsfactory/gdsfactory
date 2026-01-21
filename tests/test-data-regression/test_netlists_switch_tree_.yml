@@ -329,7 +329,6 @@ instances:
       length: 69
       npoints: 2
       width: null
-name: splitter_tree_gdsfactorypcomponentspcontainerspsplitter_dfaf2fb9
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_411000_10625_A270_M,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L29p_9857e1e1_411000_10625_A90,o1

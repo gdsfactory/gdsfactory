@@ -395,7 +395,6 @@ instances:
       port_type: pad
       port_width: 10
       size: 36.244
-name: bump_pad_grid_gdsfactorypcomponentsppadspbump_pad_C6_R6_29b7f74f
 nets: []
 placements:
   bump_pad_gdsfactorypcomponentsppadspbump_pad_S36p244_LM_a4046926_0_0:

@@ -14,7 +14,6 @@ instances:
       size:
       - 8
       - 8
-name: nxn_gdsfactorypcomponentspshapespnxn_W1_E4_N0_S0_X8_Y8__a6d1a1bf
 nets: []
 placements:
   rectangle_gdsfactorypcomponentspshapesprectangle_S8_8_L_4a426c49_0_0:
@@ -23,21 +22,3 @@ placements:
     x: 0
     y: 0
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 4 unconnected electrical ports!
-      ports:
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S8_8_L_4a426c49_0_0,e1
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S8_8_L_4a426c49_0_0,e2
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S8_8_L_4a426c49_0_0,e3
-      - rectangle_gdsfactorypcomponentspshapesprectangle_S8_8_L_4a426c49_0_0,e4
-      values:
-      - - 0
-        - 4
-      - - 4
-        - 8
-      - - 8
-        - 4
-      - - 4
-        - 0

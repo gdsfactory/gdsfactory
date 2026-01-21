@@ -161,7 +161,6 @@ instances:
       - 0
       size: 1
       text: '600'
-name: cdsem_straight_gdsfactorypcomponentsppcmspcdsem_straigh_ba231691
 nets: []
 placements:
   straight_gdsfactorypcomponentspwaveguidespstraight_L420_07da3079_0_7225:

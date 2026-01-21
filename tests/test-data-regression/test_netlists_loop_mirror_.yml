@@ -140,7 +140,6 @@ instances:
       length: 20
       npoints: 2
       width: null
-name: loop_mirror_gdsfactorypcomponentspfiltersploop_mirror_C_2fff599b
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_25500_m10625_A90,o1
   p2: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_35500_m20625_A180_M,o2

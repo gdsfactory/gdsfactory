@@ -213,16 +213,7 @@ instances:
       - via1
       - via2
       - null
-name: greek_cross_with_pads_gdsfactorypcomponentsppcmspgreek__3aa1f2b4
-nets:
-- p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e4
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e2
-- p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e2
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e4
-- p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e2
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e4
-- p1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e4
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e2
+nets: []
 placements:
   greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3_275000_0:
     mirror: false
@@ -270,91 +261,7 @@ placements:
     x: 50
     y: -55.5
 ports:
-  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e2
-  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e2
+  e1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e4
+  e2: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e4
   e3: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e4
   e4: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e4
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 26 unconnected electrical ports!
-      ports:
-      - greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3_275000_0,e3
-      - greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3_275000_0,e1
-      - greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3_275000_0,e2
-      - greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3_275000_0,e4
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e1
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e2
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500,e4
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e1
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e2
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500,e4
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e1
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500,e3
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e1
-      - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e3
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e1
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e2
-      - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500,e3
-      values:
-      - - 301
-        - 0
-      - - 249
-        - 0
-      - - 275
-        - 26
-      - - 275
-        - -26
-      - - 0
-        - 0
-      - - 50
-        - 50
-      - - 100
-        - 0
-      - - 44.5
-        - -55.5
-      - - 55.5
-        - -55.5
-      - - 50
-        - -61
-      - - 150
-        - 0
-      - - 200
-        - 50
-      - - 250
-        - 0
-      - - 194.5
-        - -55.5
-      - - 205.5
-        - -55.5
-      - - 200
-        - -61
-      - - 300
-        - 0
-      - - 400
-        - 0
-      - - 344.5
-        - 55.5
-      - - 350
-        - 61
-      - - 355.5
-        - 55.5
-      - - 450
-        - 0
-      - - 550
-        - 0
-      - - 494.5
-        - 55.5
-      - - 500
-        - 61
-      - - 505.5
-        - 55.5

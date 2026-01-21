@@ -20,7 +20,6 @@ instances:
       w0: 0.5
       w1: 0.45
       w2: 0.55
-name: mzit_lattice_gdsfactorypcomponentspmzispmzit_CL10_20_CG_33537b6f
 nets: []
 placements:
   mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e_0_0:

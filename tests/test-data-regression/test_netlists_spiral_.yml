@@ -1077,7 +1077,6 @@ instances:
       length: 9
       npoints: 2
       width: null
-name: spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__8868a9e3
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_0_0_A180_M,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L100_fb22af26_0_0,o1

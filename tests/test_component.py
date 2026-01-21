@@ -724,7 +724,7 @@ def test_get_netlist_recursive() -> None:
     c = gf.Component()
     child = gf.Component()
     c << child
-    assert c.name in c.get_netlist(recursive=True)
+    assert c.name in c.get_netlist(recursive=True, netlist_namer=lambda x: x.name)
 
 
 def test_fix_min_width() -> None:

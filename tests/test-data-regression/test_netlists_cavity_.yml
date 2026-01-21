@@ -34,7 +34,6 @@ instances:
       straight_length: 0.01
       w1: 0.45
       w2: 0.55
-name: cavity_gdsfactorypcomponentsppcmspcavity_Cdbr_Ccoupler_L0p1_G0p2
 nets:
 - p1: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p2_L0p_38bb639b_0_0,o2
   p2: dbr_gdsfactorypcomponentspfilterspdbr_W0p45_W0p55_L0p15_b5754d70_m10010_2350_A180,o1
