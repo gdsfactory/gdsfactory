@@ -2,10 +2,11 @@
 
 import re
 import secrets
+import warnings
 from collections import defaultdict
 from collections.abc import Iterable
 from itertools import chain, product
-from typing import Any, Protocol, TypeAlias, cast
+from typing import Any, Literal, Protocol, TypeAlias, cast
 
 import kfactory as kf
 
@@ -14,6 +15,7 @@ import gdsfactory.schematic as scm
 from gdsfactory.component import Component
 
 Instance: TypeAlias = kf.DInstance | kf.VInstance | kf.Instance
+ErrorBehavior: TypeAlias = Literal["ignore", "warn", "error"]
 
 
 class ComponentNamer(Protocol):
@@ -321,7 +323,8 @@ _default_port_matcher = SmartPortMatcher()
 def get_netlist(
     cell: kf.ProtoTKCell[Any],
     *,
-    allow_multiple: bool = False,
+    on_multi_connect: ErrorBehavior = "error",
+    on_dangling_port: ErrorBehavior = "warn",
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     port_matcher: PortMatcher | None = None,
@@ -330,7 +333,10 @@ def get_netlist(
 
     Args:
         cell: The cell to extract the netlist from.
-        allow_multiple: If True, allow more than two ports to overlap.
+        on_multi_connect: What to do when more than two ports overlap.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
+        on_dangling_port: What to do when an instance port is not connected.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
         instance_namer: Callable to name instances.
             Defaults to SmartNamer(component_namer).
         component_namer: Callable to name components.
@@ -339,13 +345,14 @@ def get_netlist(
             Defaults to SmartPortMatcher().
 
     Returns:
-        A dictionary containing instances, placements, and nets.
+        A dictionary containing instances, placements, ports, and nets.
     """
     recnet: dict[str, dict[str, Any]] = {}
     _insert_netlist(
         recnet,
         cell,
-        allow_multiple,
+        on_multi_connect,
+        on_dangling_port,
         instance_namer or SmartNamer(component_namer),
         component_namer,
         component_namer,  # netlist_namer: use component_namer for non-recursive
@@ -358,7 +365,8 @@ def get_netlist(
 def get_netlist_recursive(
     cell: kf.ProtoTKCell[Any],
     *,
-    allow_multiple: bool = False,
+    on_multi_connect: ErrorBehavior = "error",
+    on_dangling_port: ErrorBehavior = "warn",
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     netlist_namer: NetlistNamer | None = None,
@@ -368,7 +376,10 @@ def get_netlist_recursive(
 
     Args:
         cell: The cell to extract the netlist from.
-        allow_multiple: If True, allow more than two ports to overlap.
+        on_multi_connect: What to do when more than two ports overlap.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
+        on_dangling_port: What to do when an instance port is not connected.
+            "ignore": silently allow, "warn": allow with warning, "error": raise.
         instance_namer: Callable to name instances.
             Defaults to SmartNamer(component_namer).
         component_namer: Callable to name components in instance dicts.
@@ -385,7 +396,8 @@ def get_netlist_recursive(
     _insert_netlist(
         recnet,
         cell,
-        allow_multiple,
+        on_multi_connect,
+        on_dangling_port,
         instance_namer or SmartNamer(component_namer),
         component_namer,
         netlist_namer or CountedNetlistNamer(component_namer),
@@ -398,7 +410,8 @@ def get_netlist_recursive(
 def _insert_netlist(
     recnet: dict[str, Any],
     cell: kf.ProtoTKCell[Any],
-    allow_multiple: bool,
+    on_multi_connect: ErrorBehavior,
+    on_dangling_port: ErrorBehavior,
     instance_namer: InstanceNamer,
     component_namer: ComponentNamer,
     netlist_namer: NetlistNamer,
@@ -487,7 +500,8 @@ def _insert_netlist(
             _insert_netlist(
                 recnet,
                 cast(kf.ProtoTKCell[Any], inst.cell),
-                allow_multiple,
+                on_multi_connect,
+                on_dangling_port,
                 instance_namer,
                 component_namer,
                 netlist_namer,
@@ -502,7 +516,8 @@ def _insert_netlist(
         if port.name is not None:
             _all_ports[port.name] = _flip_port(cast(kf.DPort | kf.Port, port))
 
-    all_nets = _get_nets(_all_ports, allow_multiple, port_matcher)
+    all_nets = _get_nets(_all_ports, on_multi_connect, port_matcher)
+    _handle_dangling_ports(_all_ports, all_nets, on_dangling_port)
     net["ports"], net["nets"] = _split_nets_and_ports(all_nets)
 
 
@@ -620,9 +635,32 @@ def _clean_instname(name: str | None) -> str:
     return name
 
 
+def _handle_multi_connect(
+    matched_pairs: dict[tuple[str, str], dict[str, Any] | None],
+    on_multi_connect: ErrorBehavior,
+) -> None:
+    """Check for multiple connections at same location and warn/error as configured."""
+    if on_multi_connect == "ignore":
+        return
+
+    # Group pairs by shared ports to detect multi-port overlaps
+    port_connections: dict[str, set[str]] = defaultdict(set)
+    for p1, p2 in matched_pairs:
+        port_connections[p1].add(p2)
+        port_connections[p2].add(p1)
+
+    for port, connected in port_connections.items():
+        if len(connected) > 1:
+            msg = f"More than two ports overlapping at {port}: {connected | {port}}."
+            if on_multi_connect == "error":
+                raise ValueError(msg)
+            else:  # warn
+                warnings.warn(msg, stacklevel=5)
+
+
 def _get_nets(
     all_ports: dict[str, kf.DPort | kf.Port],
-    allow_multiple: bool,
+    on_multi_connect: ErrorBehavior,
     port_matcher: PortMatcher,
 ) -> list[dict[str, Any]]:
     """Extract connections between ports.
@@ -655,19 +693,7 @@ def _get_nets(
                 else:
                     _matched_pairs[pair] = None
 
-    # Check for multiple connections at same location
-    if not allow_multiple:
-        # Group pairs by shared ports to detect multi-port overlaps
-        port_connections: dict[str, set[str]] = defaultdict(set)
-        for p1, p2 in _matched_pairs:
-            port_connections[p1].add(p2)
-            port_connections[p2].add(p1)
-        for port, connected in port_connections.items():
-            if len(connected) > 1:
-                msg = (
-                    f"More than two ports overlapping at {port}: {connected | {port}}."
-                )
-                raise ValueError(msg)
+    _handle_multi_connect(_matched_pairs, on_multi_connect)
 
     # Build list of nets
     nets: list[dict[str, Any]] = []
@@ -701,6 +727,35 @@ def _split_nets_and_ports(
         else:
             instance_nets.append(net)
     return ports, instance_nets
+
+
+def _handle_dangling_ports(
+    all_ports: dict[str, kf.DPort | kf.Port],
+    nets: list[dict[str, Any]],
+    on_dangling_port: ErrorBehavior,
+) -> None:
+    """Check for unconnected instance ports and warn/error as configured.
+
+    Top-level ports (without ',' in name) are not considered dangling.
+    """
+    if on_dangling_port == "ignore":
+        return
+
+    # Collect all connected ports
+    connected: set[str] = set()
+    for net in nets:
+        connected.add(net["p1"])
+        connected.add(net["p2"])
+
+    # Find dangling instance ports (exclude top-level ports)
+    dangling = [p for p in all_ports if "," in p and p not in connected]
+
+    if dangling:
+        msg = f"Unconnected ports: {dangling}"
+        if on_dangling_port == "error":
+            raise ValueError(msg)
+        else:  # warn
+            warnings.warn(msg, stacklevel=4)
 
 
 def _sample_circuit() -> Component:
