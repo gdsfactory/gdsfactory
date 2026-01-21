@@ -435,7 +435,7 @@ def _insert_netlist(
         chain(cell.insts, cell.vinsts), key=lambda i: getattr(i, "name", "") or ""
     ):
         inst = cast(Instance, _inst)
-        cell = _instcell(inst)
+        inst_cell = _instcell(inst)
         inst_name = instance_namer(inst)
         print(f"inst_name: {inst_name}")
         if _is_pure_vinst(inst):
@@ -468,7 +468,9 @@ def _insert_netlist(
             _all_ports.update(
                 {
                     f"{inst_name}<{a}.{b}>,{p.name}": inst.ports[p.name, a, b]
-                    for p, a, b in product(cell.ports, range(inst.na), range(inst.nb))
+                    for p, a, b in product(
+                        inst_cell.ports, range(inst.na), range(inst.nb)
+                    )
                 }
             )
         else:
@@ -481,10 +483,10 @@ def _insert_netlist(
 
         net["instances"][inst_name] = _dump_instance(
             {
-                "component": component_namer(cast(kf.ProtoTKCell[Any], cell)),
+                "component": component_namer(cast(kf.ProtoTKCell[Any], inst_cell)),
                 "array": array,
-                "settings": cell.settings.model_dump(),
-                "info": cell.info.model_dump(),
+                "settings": inst_cell.settings.model_dump(),
+                "info": inst_cell.info.model_dump(),
                 "virtual": virtual,
             }
         )
@@ -495,11 +497,11 @@ def _insert_netlist(
             "mirror": transform.mirror,
         }
 
-        if recursive and _has_instances(cell):
-            net["instances"][inst_name]["component"] = netlist_namer(cell)
+        if recursive and _has_instances(inst_cell):
+            net["instances"][inst_name]["component"] = netlist_namer(inst_cell)
             _insert_netlist(
                 recnet,
-                cast(kf.ProtoTKCell[Any], cell),
+                cast(kf.ProtoTKCell[Any], inst_cell),
                 on_multi_connect,
                 on_dangling_port,
                 instance_namer,
