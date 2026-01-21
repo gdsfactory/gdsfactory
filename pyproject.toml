@@ -44,7 +44,7 @@ dependencies = [
   "pyglet<3",
   "typing-extensions",
   "pygit2",
-  "natsort",
+  "natsort"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
