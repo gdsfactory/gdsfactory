@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.32.0) - 2026-01-22
+
+No significant changes.
+
+
 ## [9.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.31.0) - 2026-01-15
 
 - Allow setting name for add_ref_off_grid [#4329](https://github.com/gdsfactory/gdsfactory/pull/4329)
