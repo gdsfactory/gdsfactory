@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.31.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.32.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.32.0) - 2026-01-22
 
-No significant changes.
-
+- Complete rewrite of get_netlist [#4335](https://github.com/gdsfactory/gdsfactory/pull/4335)
+- Complete rewrite of get_netlist [#4335](https://github.com/gdsfactory/gdsfactory/pull/4335)
+- Improve euler path stability for small and zero angles [#4337](https://github.com/gdsfactory/gdsfactory/pull/4337)
+- fix tests [#4336](https://github.com/gdsfactory/gdsfactory/pull/4336)
 
 ## [9.31.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.31.0) - 2026-01-15
 
