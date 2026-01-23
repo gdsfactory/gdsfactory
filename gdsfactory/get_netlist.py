@@ -437,7 +437,6 @@ def _insert_netlist(
         inst = cast(Instance, _inst)
         inst_cell = _instcell(inst)
         inst_name = instance_namer(inst)
-        print(f"inst_name: {inst_name}")
         if _is_pure_vinst(inst):
             if _is_array_inst(inst):
                 msg = (
