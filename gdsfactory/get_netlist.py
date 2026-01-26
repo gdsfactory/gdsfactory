@@ -464,7 +464,7 @@ def _insert_netlist(
                 inst = inst.to_dtype()
             array = None
             virtual = True
-            transform = inst.dcplx_trans * inst.cell.vtrans
+            transform = inst.dcplx_trans * inst.cell.vtrans  # type: ignore[union-attr]
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_array_inst(inst):
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
