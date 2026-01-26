@@ -1,5 +1,6 @@
 """Extract netlist from component port connectivity."""
 
+import inspect
 import re
 import secrets
 import warnings
@@ -131,8 +132,9 @@ class NetlistNamer(Protocol):
 class CountedNetlistNamer:
     """Names cells with counting for uniqueness in recursive netlists.
 
-    Uses component_namer for leaf cells (no instances) and counted naming
-    for hierarchical cells (with instances).
+    Uses component_namer for leaf cells (no instances). For hierarchical cells,
+    uses the component name as-is if there are no settings, otherwise uses
+    counted naming to distinguish different parameterizations.
     """
 
     def __init__(self, component_namer: ComponentNamer) -> None:
@@ -144,12 +146,16 @@ class CountedNetlistNamer:
         if cell.name in self._cell_names:
             return self._cell_names[cell.name]
 
+        base = self._component_namer(cell)
+
         if not _has_instances(cell):
             # Leaf cell: use component_namer (typically function_name)
-            name = self._component_namer(cell)
+            name = base
+        elif not _has_non_default_settings(cell):
+            # Hierarchical cell with default settings: use component name as-is
+            name = base
         else:
-            # Hierarchical cell: use counted naming
-            base = self._component_namer(cell)
+            # Hierarchical cell with non-default settings: use counted naming
             name = self._get_unique_name(base)
 
         self._cell_names[cell.name] = name
@@ -157,13 +163,15 @@ class CountedNetlistNamer:
         return name
 
     def _get_unique_name(self, base: str) -> str:
-        # Always use a numbered suffix for hierarchical cells to distinguish
-        # netlist keys from function names (which are used for leaf cells)
+        # If name is not already used, use it as-is
+        if base not in self._used_names:
+            return base
+        # Otherwise add a numbered suffix
         # If base ends with a number, add underscore
         basename = re.sub("[0-9]*$", "", base)
         if basename != base:
             basename = f"{base}_"
-        index = 1
+        index = 2
         while (name := f"{basename}{index}") in self._used_names:
             index += 1
         return name
@@ -456,7 +464,7 @@ def _insert_netlist(
                 inst = inst.to_dtype()
             array = None
             virtual = True
-            transform = inst.dcplx_trans
+            transform = inst.dcplx_trans * inst.cell.vtrans  # type: ignore[union-attr]
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_array_inst(inst):
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
@@ -525,6 +533,50 @@ def _insert_netlist(
 def _has_instances(cell: Any) -> bool:
     """Return True if the cell has any instances."""
     return bool(getattr(cell, "insts", False)) or bool(getattr(cell, "vinsts", False))
+
+
+def _has_non_default_settings(cell: kf.ProtoTKCell[Any]) -> bool:
+    """Return True if the cell has settings that differ from factory defaults."""
+    settings = cell.settings.model_dump()
+    if not settings:
+        return False
+
+    # Try to get the factory function to compare defaults
+    try:
+        factory_name = cell.function_name or cell.factory_name
+    except ValueError:
+        # No factory name, assume settings are non-default if present
+        return bool(settings)
+
+    # Get factory from active PDK
+    pdk = gf.get_active_pdk()
+    factory = pdk.cells.get(factory_name)
+    if factory is None:
+        # Factory not found, assume settings are non-default if present
+        return bool(settings)
+
+    # Get default parameter values from factory signature
+    try:
+        sig = inspect.signature(factory)
+    except (ValueError, TypeError):
+        return bool(settings)
+
+    defaults = {}
+    for name, param in sig.parameters.items():
+        if param.default is not inspect.Parameter.empty:
+            defaults[name] = param.default
+
+    # Check if any setting differs from default
+    for key, value in settings.items():
+        if value is None:
+            continue
+        if key not in defaults:
+            # Setting not in factory signature, consider it non-default
+            return True
+        if value != defaults[key]:
+            return True
+
+    return False
 
 
 def _get_array_config(inst: Instance) -> scm.Array:
@@ -766,6 +818,7 @@ def _handle_dangling_ports(
         warnings.warn(msg, stacklevel=4)
 
 
+@gf.cell
 def _sample_circuit() -> Component:
     c = Component()
     ring = c.add_ref(gf.c.ring_single(), name="ring").move((100, 0))
@@ -845,16 +898,7 @@ if __name__ == "__main__":
 
     # Test sample circuit
     c = _sample_circuit()
-    recnet = get_netlist_recursive(c, port_matcher=PortCenterMatcher())
-    for name, netlist in recnet.items():
-        print(f"Cell: {name}")
-        for inst_name, inst in netlist["instances"].items():
-            print(f"  Instance: {inst_name} -> {inst['component']}")
-        print(f"  Ports: {netlist['ports']}")
-        print(f"  Nets: {len(netlist['nets'])}")
-
-    # Test width mismatch circuit
-    print("\nWidth mismatch circuit:")
-    c2 = _width_mismatch_circuit()
-    netlist2 = get_netlist(c2, port_matcher=FlexiblePortMatcher())
-    print(f"  Nets: {netlist2['nets']}")
+    netlist = c.get_netlist()
+    # gf.clear_cache()
+    c2 = gf.read.from_yaml(netlist)
+    c2.show()
