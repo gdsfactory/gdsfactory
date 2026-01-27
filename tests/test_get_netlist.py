@@ -345,9 +345,7 @@ def test_get_netlist_array_roundtrip(rotation: int, mirror: bool) -> None:
     the same netlist on re-serialization.
     """
     c1 = gf.Component()
-    ref = c1.add_ref(
-        gf.get_component("straight"), rows=8, columns=1, row_pitch=100
-    )
+    ref = c1.add_ref(gf.get_component("straight"), rows=8, columns=1, row_pitch=100)
     if mirror:
         ref.dmirror()
     if rotation:
