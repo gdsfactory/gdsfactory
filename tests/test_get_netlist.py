@@ -336,10 +336,11 @@ def test_get_netlist_virtual_cell() -> None:
 
 
 @pytest.mark.parametrize("rotation", [0, 90, 180, 270])
-def test_get_netlist_array_roundtrip(rotation: int) -> None:
+@pytest.mark.parametrize("mirror", [False, True])
+def test_get_netlist_array_roundtrip(rotation: int, mirror: bool) -> None:
     """Test that get_netlist -> from_yaml round-trip is idempotent for arrays.
 
-    The array pitch values in the netlist should be in the local (pre-rotation)
+    The array pitch values in the netlist should be in the local (pre-transform)
     frame, so that from_yaml can reconstruct the same component and produce
     the same netlist on re-serialization.
     """
@@ -347,6 +348,8 @@ def test_get_netlist_array_roundtrip(rotation: int) -> None:
     ref = c1.add_ref(
         gf.get_component("straight"), rows=8, columns=1, row_pitch=100
     )
+    if mirror:
+        ref.dmirror()
     if rotation:
         ref.rotate(rotation)
     n1 = c1.get_netlist()
@@ -357,7 +360,7 @@ def test_get_netlist_array_roundtrip(rotation: int) -> None:
     inst1 = next(iter(n1["instances"].values()))
     inst2 = next(iter(n2["instances"].values()))
     assert inst1["array"] == inst2["array"], (
-        f"Array config changed after round-trip with {rotation=}.\n"
+        f"Array config changed after round-trip with {rotation=}, {mirror=}.\n"
         f"  Before: {inst1['array']}\n"
         f"  After:  {inst2['array']}"
     )
@@ -365,7 +368,7 @@ def test_get_netlist_array_roundtrip(rotation: int) -> None:
     pl1 = next(iter(n1["placements"].values()))
     pl2 = next(iter(n2["placements"].values()))
     assert pl1 == pl2, (
-        f"Placement changed after round-trip with {rotation=}.\n"
+        f"Placement changed after round-trip with {rotation=}, {mirror=}.\n"
         f"  Before: {pl1}\n"
         f"  After:  {pl2}"
     )

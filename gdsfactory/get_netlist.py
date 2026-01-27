@@ -581,11 +581,11 @@ def _has_non_default_settings(cell: kf.ProtoTKCell[Any]) -> bool:
 
 def _get_array_config(inst: Instance) -> scm.Array:
     kcl = inst.cell.kcl
-    # inst.a and inst.b have the instance rotation/mirror baked in.
+    # inst.a and inst.b have the instance rotation baked in (but not mirror).
     # The netlist stores the array pitches in the local (pre-rotation) frame,
-    # so we need to undo the transform to get the original pitch vectors.
+    # so we need to undo the rotation to get the original pitch vectors.
     trans = inst.dcplx_trans
-    inv_rot = kf.kdb.DCplxTrans(1, trans.angle, trans.is_mirror(), 0, 0).inverted()
+    inv_rot = kf.kdb.DCplxTrans(1, trans.angle, False, 0, 0).inverted()
     a = inv_rot * kf.kdb.DVector(inst.a.x, inst.a.y)
     b = inv_rot * kf.kdb.DVector(inst.b.x, inst.b.y)
     ax = round(kcl.dbu * a.x, 6)
