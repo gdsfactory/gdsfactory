@@ -63,11 +63,12 @@ def import_gds(
         return components
     # Original single top cell behavior
 
-    assert len(temp_kcl.layout.top_cells()) == 1, (
-        "GDS file has multiple top cells. Set accept_multiple_top_cells=True to allow this."
-    )
+    if cellname is None:
+        assert len(temp_kcl.layout.top_cells()) == 1, (
+            "GDS file has multiple top cells. Use cellname to select one, or set accept_multiple_top_cells=True to allow this."
+        )
+        cellname = temp_kcl.layout.top_cell().name
 
-    cellname = cellname or temp_kcl.layout.top_cell().name
     kcell = temp_kcl[cellname]
 
     if hasattr(temp_kcl, "cross_sections"):
