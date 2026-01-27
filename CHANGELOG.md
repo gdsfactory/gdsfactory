@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.32.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.32.1) - 2026-01-27
+
+No significant changes.
+
+
 ## [9.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.32.0) - 2026-01-22
 
 - Complete rewrite of get_netlist [#4335](https://github.com/gdsfactory/gdsfactory/pull/4335)
