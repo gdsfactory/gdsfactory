@@ -100,6 +100,7 @@ def from_yaml_to_code(
     needs_kf = False
 
     # Add imports
+    lines.append("import gdsfactory as gf")
     lines.append("from gdsfactory.component import Component")
     if any(inst.virtual for inst in net.instances.values()):
         lines.append("from gdsfactory.component import ComponentAllAngle")
@@ -119,6 +120,7 @@ def from_yaml_to_code(
     lines.append("")
 
     # Function definition
+    lines.append("@gf.cell")
     lines.append(f"def {function_name}() -> Component:")
     if net.name:
         lines.append(f'    """Create {net.name} component."""')
