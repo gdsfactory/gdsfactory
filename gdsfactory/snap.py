@@ -88,7 +88,8 @@ def snap_to_grid(
     else:
         grid_um = nm / 1000
 
-    res = grid_um * np.round(np.asarray(x, dtype=np.float64) / grid_um)
+    # Round half up
+    res = grid_um * np.floor(np.asarray(x, dtype=np.float64) / grid_um + 0.5)
 
     if np.ndim(res) == 0:
         return float(res)
