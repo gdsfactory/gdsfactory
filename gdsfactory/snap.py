@@ -7,9 +7,10 @@ from collections.abc import Sequence
 from functools import partial
 from typing import Any, TypeAlias, TypeVar, cast, overload
 
-import kfactory as kf
 import numpy as np
 import numpy.typing as npt
+
+import gdsfactory as gf
 
 Value: TypeAlias = float | Sequence[float] | npt.NDArray[np.floating[Any]]
 
@@ -82,10 +83,14 @@ def snap_to_grid(
         nm: Optional grid size in nm. If None, it will use the default grid size from PDK multiplied by grid_factor.
         grid_factor: snap to grid_factor * grid_size.
     """
-    grid_size = kf.kcl.dbu
-    nm = nm or round(grid_size * 1000 * grid_factor)
-    res = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
-    if isinstance(res, np.floating):
+    if nm is None:
+        grid_um = gf.kcl.dbu * grid_factor
+    else:
+        grid_um = nm / 1000
+
+    res = grid_um * np.round(np.asarray(x, dtype=np.float64) / grid_um)
+
+    if np.ndim(res) == 0:
         return float(res)
     return cast("_T | float", res)
 
