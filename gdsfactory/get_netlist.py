@@ -581,31 +581,42 @@ def _has_non_default_settings(cell: kf.ProtoTKCell[Any]) -> bool:
 
 def _get_array_config(inst: Instance) -> scm.Array:
     kcl = inst.cell.kcl
+    # inst.a and inst.b have the instance rotation baked in (but not mirror).
+    # The netlist stores the array pitches in the local (pre-rotation) frame,
+    # so we need to undo the rotation to get the original pitch vectors.
+    trans = inst.dcplx_trans
+    inv_rot = kf.kdb.DCplxTrans(1, trans.angle, False, 0, 0).inverted()
+    a = inv_rot * kf.kdb.DVector(inst.a.x, inst.a.y)
+    b = inv_rot * kf.kdb.DVector(inst.b.x, inst.b.y)
+    ax = round(kcl.dbu * a.x, 6)
+    ay = round(kcl.dbu * a.y, 6)
+    bx = round(kcl.dbu * b.x, 6)
+    by = round(kcl.dbu * b.y, 6)
     match (
-        abs(inst.a.x) == 0,
-        abs(inst.a.y) == 0,
-        abs(inst.b.x) == 0,
-        abs(inst.b.y) == 0,
+        ax == 0,
+        ay == 0,
+        bx == 0,
+        by == 0,
     ):
         case (_, True, True, _):
             return scm.OrthogonalGridArray(
                 columns=inst.na,
                 rows=inst.nb,
-                column_pitch=kcl.dbu * inst.a.x,
-                row_pitch=kcl.dbu * inst.b.y,
+                column_pitch=ax,
+                row_pitch=by,
             )
         case (True, _, _, True):
             return scm.OrthogonalGridArray(
                 columns=inst.nb,
                 rows=inst.na,
-                column_pitch=kcl.dbu * inst.b.x,
-                row_pitch=kcl.dbu * inst.a.y,
+                column_pitch=bx,
+                row_pitch=ay,
             )
     return scm.GridArray(
         num_a=inst.na,
         num_b=inst.nb,
-        pitch_a=(kcl.dbu * inst.a.x, kcl.dbu * inst.a.y),
-        pitch_b=(kcl.dbu * inst.b.x, kcl.dbu * inst.b.y),
+        pitch_a=(ax, ay),
+        pitch_b=(bx, by),
     )
 
 
