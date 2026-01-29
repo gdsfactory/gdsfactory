@@ -125,7 +125,7 @@ class Pdk(BaseModel):
         models: dict of models names to functions.
         symbols: dict of symbols names to functions.
         default_symbol_factory:
-        base_pdk: a pdk to copy from and extend.
+        base_pdks: list of pdks to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
         layers: maps name to gdslayer/datatype.
             For example dict(si=(1, 0), sin=(34, 0)).
