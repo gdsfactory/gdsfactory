@@ -1,5 +1,5 @@
 instances:
-  array_gdsfactorypcomponentspcontainersparray_component__bf81680f_m24437_m500:
+  array_gdsfactorypcomponentspcontainersparray_component__ef08f668_m24438_m500:
     component: array
     info: {}
     settings:
@@ -8,7 +8,7 @@ instances:
       centered: false
       column_pitch: 0.85
       columns: 58
-      component: rectangle_gdsfactorypcomponentspshapesprectangle_S0p424_a02634c4
+      component: rectangle_gdsfactorypcomponentspshapesprectangle_S0p426_6427083f
       post_process: null
       row_pitch: 150
       rows: 1
@@ -75,10 +75,10 @@ nets:
 - p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__2c3216f5_m5000_0,o2
   p2: taper_gdsfactorypcomponentsptapersptaper_L20_W0p4_W1_LN_66863c4a_5000_0,o1
 placements:
-  array_gdsfactorypcomponentspcontainersparray_component__bf81680f_m24437_m500:
+  array_gdsfactorypcomponentspcontainersparray_component__ef08f668_m24438_m500:
     mirror: false
     rotation: 0
-    x: -24.437
+    x: -24.438
     y: -0.5
   straight_gdsfactorypcomponentspwaveguidespstraight_L10__2c3216f5_m5000_0:
     mirror: false
