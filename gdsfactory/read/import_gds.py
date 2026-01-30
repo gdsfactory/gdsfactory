@@ -143,13 +143,16 @@ def import_gds_multiple_top_cells(
     kcells = temp_kcl.layout.top_cells()
 
     if cellnames is not None:
-        # Validate provided cellnames
+        # Validate provided cellnames and surface all invalid names at once
         available_cellnames = {kcell.name for kcell in kcells}
-        for name in cellnames:
-            if name not in available_cellnames:
-                raise ValueError(
-                    f"Cell name '{name}' not found among top cells: {available_cellnames}."
-                )
+        missing = set(cellnames) - available_cellnames
+        if missing:
+            raise ValueError(
+                "Unknown cellnames requested. These names are not present in the GDS top cells: "
+                + ", ".join(sorted(missing))
+                + ".\n"
+                + f"Available top cells: {sorted(available_cellnames)}"
+            )
         # Filter kcells to include only those specified in cellnames
         kcells = [kcell for kcell in kcells if kcell.name in cellnames]
 
