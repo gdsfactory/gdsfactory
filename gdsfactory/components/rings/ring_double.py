@@ -85,24 +85,27 @@ def ring_double(
         bend=bend,
         length_extension=length_extension,
     )
-    straight_component = gf.get_component(
-        straight,
-        length=length_y,
-        cross_section=cross_section,
-    )
 
     c = Component()
     cb = c.add_ref(coupler_component_bot)
     ct = c.add_ref(coupler_component_top)
 
-    length_y = length_y or 0.001
+    if length_y > 0:
+        # Add vertical straights when length_y > 0
+        straight_component = gf.get_component(
+            straight,
+            length=length_y,
+            cross_section=cross_section,
+        )
+        sl = c << straight_component
+        sr = c << straight_component
 
-    sl = c << straight_component
-    sr = c << straight_component
-
-    sl.connect(port="o1", other=cb.ports["o2"])
-    sr.connect(port="o2", other=cb.ports["o3"])
-    ct.connect(port="o3", other=sl.ports["o2"])
+        sl.connect(port="o1", other=cb.ports["o2"])
+        sr.connect(port="o2", other=cb.ports["o3"])
+        ct.connect(port="o3", other=sl.ports["o2"])
+    else:
+        # When length_y=0, connect couplers directly
+        ct.connect(port="o3", other=cb.ports["o2"])
 
     c.add_port("o1", port=cb.ports["o1"])
     c.add_port("o2", port=cb.ports["o4"])
