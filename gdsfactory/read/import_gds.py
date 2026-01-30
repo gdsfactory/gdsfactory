@@ -44,7 +44,7 @@ def import_gds(
     temp_kcl.read(gdspath, options=options)
 
     if cellname is None:
-        if len(temp_kcl.layout.top_cells()) >= 1:
+        if len(temp_kcl.layout.top_cells()) > 1:
             raise ValueError(
                 "GDS file has multiple top cells. Use cellname to select a specific one, or use gf.read.import_gds.import_gds_multiple_top_cells() to import all top cells.\n"
                 + f"Top cells: {[c.name for c in temp_kcl.layout.top_cells()]}"
