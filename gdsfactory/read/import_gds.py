@@ -119,6 +119,9 @@ def import_gds_multiple_top_cells(
     Returns:
         dict of cellname to Component.
 
+    Raises:
+        ValueError: if any of the provided cellnames are not found among the top cells.
+
     """
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.utilities.load_layout_options()
@@ -138,13 +141,22 @@ def import_gds_multiple_top_cells(
     components = {}
 
     kcells = temp_kcl.layout.top_cells()
+
     if cellnames is not None:
+        # Validate provided cellnames
+        available_cellnames = {kcell.name for kcell in kcells}
+        for name in cellnames:
+            if name not in available_cellnames:
+                raise ValueError(
+                    f"Cell name '{name}' not found among top cells: {available_cellnames}."
+                )
+        # Filter kcells to include only those specified in cellnames
         kcells = [kcell for kcell in kcells if kcell.name in cellnames]
+
     for kcell in kcells:
-        sub_c = kcell_to_component(
+        components[kcell.name] = kcell_to_component(
             temp_kcl[kcell.name]
-        )  # Convert each kcell to Component class
-        components[kcell.name] = sub_c  # Store in dictionary using cell name as key
+        )  # Convert each kcell to Component class and store in dictionary using its name as the key
 
     for pp in post_process or []:
         for c in components.values():
