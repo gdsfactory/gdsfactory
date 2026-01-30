@@ -3,7 +3,7 @@ from gdsfactory.read.from_np import from_image, from_np
 from gdsfactory.read.from_updk import from_updk
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.read.import_gds import import_gds
+from gdsfactory.read.import_gds import import_gds, import_gds_multiple_top_cells
 
 __all__ = [
     "cell_from_yaml_template",
@@ -14,4 +14,5 @@ __all__ = [
     "from_updk",
     "from_yaml",
     "import_gds",
+    "import_gds_multiple_top_cells",
 ]
