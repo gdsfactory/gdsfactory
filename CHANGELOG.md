@@ -1,12 +1,20 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.32.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.33.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.33.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.33.0) - 2026-01-30
 
-No significant changes.
-
+- Feat: add new function to process .gds files with multiple top cells to read module [#4344](https://github.com/gdsfactory/gdsfactory/pull/4344)
+- add cell decorator to generated python [#4342](https://github.com/gdsfactory/gdsfactory/pull/4342)
+- Round half up on grid snapping [#4348](https://github.com/gdsfactory/gdsfactory/pull/4348)
+- Grid snapping for sub-nm DBU [#4347](https://github.com/gdsfactory/gdsfactory/pull/4347)
+- Fix array instance serialization for rotation and mirror [#4345](https://github.com/gdsfactory/gdsfactory/pull/4345)
+- add cell decorator to generated python [#4342](https://github.com/gdsfactory/gdsfactory/pull/4342)
+- fix transformation of flattened vinst [#4341](https://github.com/gdsfactory/gdsfactory/pull/4341)
+- remove zero length straights in rings [#4350](https://github.com/gdsfactory/gdsfactory/pull/4350)
+- Allow to control the sliver tolerance when diffing [#4339](https://github.com/gdsfactory/gdsfactory/pull/4339)
+- Fix: deprecated docstring for base_pdks in Pdk class  [#4343](https://github.com/gdsfactory/gdsfactory/pull/4343)
 
 ## [9.32.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.32.1) - 2026-01-27
 
@@ -15,7 +23,6 @@ No significant changes.
 
 ## [9.32.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.32.0) - 2026-01-22
 
-- Complete rewrite of get_netlist [#4335](https://github.com/gdsfactory/gdsfactory/pull/4335)
 - Complete rewrite of get_netlist [#4335](https://github.com/gdsfactory/gdsfactory/pull/4335)
 - Improve euler path stability for small and zero angles [#4337](https://github.com/gdsfactory/gdsfactory/pull/4337)
 - fix tests [#4336](https://github.com/gdsfactory/gdsfactory/pull/4336)
