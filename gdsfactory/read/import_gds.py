@@ -17,8 +17,7 @@ def import_gds(
     post_process: PostProcesses | None = None,
     rename_duplicated_cells: bool = False,
     skip_new_cells: bool = False,
-    accept_multiple_top_cells: bool = False,
-) -> Component | dict[str, Component]:
+) -> Component:
     """Reads a GDS file and returns a Component.
 
     Args:
@@ -27,7 +26,7 @@ def import_gds(
         post_process: function to run after reading the GDS file.
         rename_duplicated_cells: if True, rename duplicated cells. By default appends $n to the cell name.
         skip_new_cells: if True, skip new cells that conflict with existing ones.
-        accept_multiple_top_cells: if True, accept multiple top cells in the GDS file and return a dictionary of Components.
+
     """
     temp_kcl = KCLayout(name=str(gdspath))
     options = kf.utilities.load_layout_options()
@@ -44,29 +43,12 @@ def import_gds(
 
     temp_kcl.read(gdspath, options=options)
 
-    if accept_multiple_top_cells:  # If we want to accept multiple top cells
-        components = {}
-
-        kcells = temp_kcl.layout.top_cells()
-        for kcell in kcells:
-            sub_c = kcell_to_component(
-                temp_kcl[kcell.name]
-            )  # Convert each kcell to Component class
-            components[kcell.name] = sub_c  # Store in dictionary using cell name as key
-
-        for pp in post_process or []:
-            for c in components.values():
-                pp(c)
-
-        temp_kcl.library.delete()
-        del kf.layout.kcls[temp_kcl.name]
-        return components
-    # Original single top cell behavior
-
     if cellname is None:
-        assert len(temp_kcl.layout.top_cells()) == 1, (
-            "GDS file has multiple top cells. Use cellname to select one, or set accept_multiple_top_cells=True to allow this."
-        )
+        if len(temp_kcl.layout.top_cells()) >= 1:
+            raise ValueError(
+                "GDS file has multiple top cells. Use cellname to select a specific one, or use gf.read.import_gds.import_gds_multiple_top_cells() to import all top cells.\n"
+                + f"Top cells: {[c.name for c in temp_kcl.layout.top_cells()]}"
+            )
         cellname = temp_kcl.layout.top_cell().name
 
     kcell = temp_kcl[cellname]
@@ -119,3 +101,55 @@ def import_gds_with_conflicts(
         SkipNewCell: The new cell is skipped entirely (including child cells which are not used otherwise)
     """
     return import_gds(gdspath, cellname=cellname, rename_duplicated_cells=True)
+
+
+def import_gds_multiple_top_cells(
+    gdspath: str | Path,
+    cellnames: list[str] | None = None,
+    post_process: PostProcesses | None = None,
+    rename_duplicated_cells: bool = False,
+    skip_new_cells: bool = False,
+) -> dict[str, Component]:
+    """Reads a GDS file and returns a dictionary of its top cells as Components.
+
+    Args:
+        gdspath: path to GDS file.
+        cellnames: list of names of the cells to return. Defaults to all top cells.
+
+    Returns:
+        dict of cellname to Component.
+
+    """
+    temp_kcl = KCLayout(name=str(gdspath))
+    options = kf.utilities.load_layout_options()
+    options.warn_level = 0
+
+    if skip_new_cells:
+        options.cell_conflict_resolution = (
+            kf.kdb.LoadLayoutOptions.CellConflictResolution.SkipNewCell
+        )
+    elif rename_duplicated_cells:
+        options.cell_conflict_resolution = (
+            kf.kdb.LoadLayoutOptions.CellConflictResolution.RenameCell
+        )
+
+    temp_kcl.read(gdspath, options=options)
+
+    components = {}
+
+    kcells = temp_kcl.layout.top_cells()
+    if cellnames is not None:
+        kcells = [kcell for kcell in kcells if kcell.name in cellnames]
+    for kcell in kcells:
+        sub_c = kcell_to_component(
+            temp_kcl[kcell.name]
+        )  # Convert each kcell to Component class
+        components[kcell.name] = sub_c  # Store in dictionary using cell name as key
+
+    for pp in post_process or []:
+        for c in components.values():
+            pp(c)
+
+    temp_kcl.library.delete()
+    del kf.layout.kcls[temp_kcl.name]
+    return components
