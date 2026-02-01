@@ -1,8 +1,9 @@
 info:
   length: 62.831
-name: bend_s_offset_gdsfactorypcomponentspbendspbend_s_O40_R1_1561ead6
+name: bend_s_offset_gdsfactorypcomponentspbendspbend_s_O40_R1_3dc2bc74
 settings:
   cross_section: strip
   offset: 40
+  p: 1
   radius: 10
-  with_euler: true
+  with_arc_floorplan: false

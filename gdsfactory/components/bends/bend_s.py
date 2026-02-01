@@ -2,6 +2,7 @@ from __future__ import annotations
 
 __all__ = ["bend_s", "bend_s_offset", "bezier"]
 
+import warnings
 from typing import Any
 
 import numpy as np
@@ -196,21 +197,8 @@ def bend_s(
     )
 
 
-def _get_arc_sbend_angle_middle_length_from_jog(
-    jog: float, radius: float
-) -> tuple[float, float]:
-    """Compute the Euler bend angle and middle straight length for an S-bend."""
-    if jog < 2 * radius:
-        angle = np.rad2deg(2 * np.arcsin(np.sqrt(jog / (4 * radius))))
-        middle_length = 0.0
-    else:
-        angle = 90.0
-        middle_length = jog - 2 * radius
-    return (angle, middle_length)
-
-
 def _get_euler_sbend_angle_middle_length_from_jog(
-    jog: float, radius: float
+    jog: float, radius: float, p: float = 1, use_eff: bool = False
 ) -> tuple[float, float]:
     """Compute the Euler bend angle (in degrees) and middle straight length for an S-bend.
 
@@ -236,7 +224,7 @@ def _get_euler_sbend_angle_middle_length_from_jog(
     from scipy import optimize
 
     def euler_displacement(theta: float) -> float:
-        curve = gf.path.euler(radius=radius, angle=theta, use_eff=False, p=1)
+        curve = gf.path.euler(radius=radius, angle=theta, use_eff=use_eff, p=p)
         return curve.ysize
 
     dy_full = euler_displacement(theta=90)
@@ -262,20 +250,34 @@ def bend_s_offset(
     radius: float | None = 10.0,
     cross_section: CrossSectionSpec = "strip",
     width: float | None = None,
-    with_euler: bool = True,
+    with_euler: bool | None = None,
+    p: float = 1,
+    with_arc_floorplan: bool = False,
+    npoints: int | None = None,
+    angular_step: float | None = None,
 ) -> gf.Component:
-    """Return S bend made of two euler bends with a straight section.
-
-    stores min_bend_radius property in self.info['min_bend_radius']
-    min_bend_radius depends on height and length
+    """Return S bend made of two bends with a straight section.
 
     Args:
         offset: in um.
         radius: in um. if None, uses cross_section_radius.
         cross_section: spec.
         width: width to use. Defaults to cross_section.width.
-        with_euler: use euler bend instead of arc bend.
+        with_euler: deprecated, use p=0 for circular arc instead.
+        p: 1 means standard Euler bend. 0 means circular arc.
+        with_arc_floorplan: if True the size of the bend will be adjusted to match an arc bend with the specified radius. If False: `radius` is the minimum radius of curvature.
+        npoints: number of points.
+        angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
     """
+    if with_euler is not None:
+        warnings.warn(
+            "with_euler is deprecated. Use p=0 for circular arc instead. And p=1 for euler bend.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        if not with_euler:
+            p = 0
+
     if width:
         xs = gf.get_cross_section(cross_section, width=width)
     else:
@@ -285,21 +287,26 @@ def bend_s_offset(
     assert radius is not None, "radius cannot be None"
 
     xs.validate_radius(radius)
-    if with_euler:
-        angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
-            jog=offset / 2, radius=radius
-        )
-        path = gf.path.euler(radius=radius, angle=+angle, p=1, use_eff=False)
-        path += gf.path.straight(length=middle_length)
-        path += gf.path.euler(radius=radius, angle=-angle, p=1, use_eff=False)
-    else:
-        angle, middle_length = _get_arc_sbend_angle_middle_length_from_jog(
-            jog=offset,
-            radius=radius,
-        )
-        path = gf.path.arc(radius=radius, angle=+angle)
-        path += gf.path.straight(length=middle_length)
-        path += gf.path.arc(radius=radius, angle=-angle)
+    angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
+        jog=offset / 2, radius=radius, p=p, use_eff=with_arc_floorplan
+    )
+    path = gf.path.euler(
+        radius=radius,
+        angle=+angle,
+        p=p,
+        use_eff=with_arc_floorplan,
+        npoints=npoints,
+        angular_step=angular_step,
+    )
+    path += gf.path.straight(length=middle_length)
+    path += gf.path.euler(
+        radius=radius,
+        angle=-angle,
+        p=p,
+        use_eff=with_arc_floorplan,
+        npoints=npoints,
+        angular_step=angular_step,
+    )
 
     return gf.path.extrude(path, cross_section=xs)
 
