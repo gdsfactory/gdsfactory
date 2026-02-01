@@ -2,6 +2,7 @@ from __future__ import annotations
 
 __all__ = ["bend_s", "bend_s_offset", "bezier"]
 
+import warnings
 from typing import Any
 
 import numpy as np
@@ -249,6 +250,7 @@ def bend_s_offset(
     radius: float | None = 10.0,
     cross_section: CrossSectionSpec = "strip",
     width: float | None = None,
+    with_euler: bool | None = None,
     p: float = 1,
     with_arc_floorplan: bool = False,
     npoints: int | None = None,
@@ -261,11 +263,21 @@ def bend_s_offset(
         radius: in um. if None, uses cross_section_radius.
         cross_section: spec.
         width: width to use. Defaults to cross_section.width.
+        with_euler: deprecated, use p=0 for circular arc instead.
         p: 1 means standard Euler bend. 0 means circular arc.
         with_arc_floorplan: if True the size of the bend will be adjusted to match an arc bend with the specified radius. If False: `radius` is the minimum radius of curvature.
         npoints: number of points.
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
     """
+    if with_euler is not None:
+        warnings.warn(
+            "with_euler is deprecated. Use p=0 for circular arc instead. And p=1 for euler bend.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        if not with_euler:
+            p = 0
+
     if width:
         xs = gf.get_cross_section(cross_section, width=width)
     else:
