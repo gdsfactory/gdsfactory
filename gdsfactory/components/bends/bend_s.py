@@ -210,7 +210,7 @@ def _get_arc_sbend_angle_middle_length_from_jog(
 
 
 def _get_euler_sbend_angle_middle_length_from_jog(
-    jog: float, radius: float
+    jog: float, radius: float, p: float = 1, use_eff: bool = False
 ) -> tuple[float, float]:
     """Compute the Euler bend angle (in degrees) and middle straight length for an S-bend.
 
@@ -236,7 +236,7 @@ def _get_euler_sbend_angle_middle_length_from_jog(
     from scipy import optimize
 
     def euler_displacement(theta: float) -> float:
-        curve = gf.path.euler(radius=radius, angle=theta, use_eff=False, p=1)
+        curve = gf.path.euler(radius=radius, angle=theta, use_eff=use_eff, p=p)
         return curve.ysize
 
     dy_full = euler_displacement(theta=90)
@@ -295,7 +295,7 @@ def bend_s_offset(
     xs.validate_radius(radius)
     if with_euler:
         angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
-            jog=offset / 2, radius=radius
+            jog=offset / 2, radius=radius, p=p, use_eff=with_arc_floorplan
         )
         path = gf.path.euler(
             radius=radius,
