@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.34.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.0) - 2026-02-01
+
+No significant changes.
+
+
 ## [9.33.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.33.0) - 2026-01-30
 
 - Feat: add new function to process .gds files with multiple top cells to read module [#4344](https://github.com/gdsfactory/gdsfactory/pull/4344)
