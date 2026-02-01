@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.33.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.34.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.34.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.0) - 2026-02-01
 
-No significant changes.
-
+- improve bend_s_offset [#4352](https://github.com/gdsfactory/gdsfactory/pull/4352)
 
 ## [9.33.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.33.0) - 2026-01-30
 
