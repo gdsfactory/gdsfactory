@@ -339,7 +339,7 @@ def get_netlist(
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     port_matcher: PortMatcher | None = None,
-    use_deprecated_format: bool = True,  # currently unused, to be removed in GDSF-10.0
+    use_deprecated_format: bool = True,
 ) -> dict[str, Any]:
     """Extract netlist from a cell's port connectivity.
 
@@ -355,7 +355,12 @@ def get_netlist(
             Defaults to function_namer.
         port_matcher: Callable to determine if two ports are connected.
             Defaults to SmartPortMatcher().
-        use_deprecated_format: Whether to use the deprecated netlist format.
+        use_deprecated_format: If True (default), returns the deprecated format
+            where 'nets' is a list of two-port connections. If False, returns
+            the new format where 'connects' is the list and 'nets' is a dict
+            mapping net names to lists of all ports in each net (supporting
+            multi-port nets via transitive connectivity). Will default to False
+            in 10.0.0.
 
     Returns:
         A dictionary containing instances, placements, ports, and nets.
@@ -391,7 +396,7 @@ def get_netlist_recursive(
     component_namer: ComponentNamer = function_namer,
     netlist_namer: NetlistNamer | None = None,
     port_matcher: PortMatcher | None = None,
-    use_deprecated_format: bool = True,  # currently unused, to be removed in GDSF-10.0
+    use_deprecated_format: bool = True,
 ) -> dict[str, Any]:
     """Extract netlists recursively from a cell and all its subcells.
 
@@ -409,7 +414,12 @@ def get_netlist_recursive(
             Defaults to CountedNetlistNamer(component_namer).
         port_matcher: Callable to determine if two ports are connected.
             Defaults to SmartPortMatcher().
-        use_deprecated_format: Whether to use the deprecated netlist format.
+        use_deprecated_format: If True (default), returns the deprecated format
+            where 'nets' is a list of two-port connections. If False, returns
+            the new format where 'connects' is the list and 'nets' is a dict
+            mapping net names to lists of all ports in each net (supporting
+            multi-port nets via transitive connectivity). Will default to False
+            in 10.0.0.
 
     Returns:
         A dictionary mapping cell names to their netlists.
@@ -446,7 +456,7 @@ def _insert_netlist(
     netlist_namer: NetlistNamer,
     port_matcher: PortMatcher,
     recursive: bool,
-    use_deprecated_format: bool = True,  # currently unused, to be removed in GDSF-10.0
+    use_deprecated_format: bool = True,
 ) -> None:
     cell_name = netlist_namer(cell)
     if cell_name in recnet:

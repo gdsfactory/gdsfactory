@@ -262,7 +262,15 @@ def to_yaml_graph_networkx(
             pos[node] = (placement.x, placement.y)
 
     for net in nets:
-        graph.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
+        if isinstance(net, TwoPortNet):
+            graph.add_edge(net.p1.split(",")[0], net.p2.split(",")[0])
+        else:
+            # MultiNet: connect all ports in the net
+            # instances_in_net = [p.split(",")[0] for p in net.ports]
+            # for i in range(len(instances_in_net) - 1):
+            #    graph.add_edge(instances_in_net[i], instances_in_net[i + 1])
+
+            raise NotImplementedError("MultiNet to graph not implemented yet.")
 
     return graph, labels, pos
 
@@ -418,8 +426,8 @@ class Schematic(BaseModel):
         n = component.to_yaml()
         self.netlist = Netlist.model_validate(n)
 
-    def add_net(self, net: Net) -> None:
-        """Add a net between two ports."""
+    def add_net(self, net: TwoPortNet) -> None:
+        """Add a two-port net."""
         self.nets.append(net)
         if net.name not in self.netlist.routes:
             assert net.name is not None
