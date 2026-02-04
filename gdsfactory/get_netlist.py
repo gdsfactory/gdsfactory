@@ -4,7 +4,7 @@ import inspect
 import re
 import secrets
 import warnings
-from collections import defaultdict
+from collections import defaultdict, deque
 from collections.abc import Iterable
 from hashlib import md5
 from itertools import chain, product
@@ -339,6 +339,7 @@ def get_netlist(
     instance_namer: InstanceNamer | None = None,
     component_namer: ComponentNamer = function_namer,
     port_matcher: PortMatcher | None = None,
+    use_deprecated_format: bool = True,  # currently unused, to be removed in GDSF-10.0
 ) -> dict[str, Any]:
     """Extract netlist from a cell's port connectivity.
 
@@ -354,10 +355,17 @@ def get_netlist(
             Defaults to function_namer.
         port_matcher: Callable to determine if two ports are connected.
             Defaults to SmartPortMatcher().
+        use_deprecated_format: Whether to use the deprecated netlist format.
 
     Returns:
         A dictionary containing instances, placements, ports, and nets.
     """
+    if use_deprecated_format:
+        warnings.warn(
+            "The netlist format returned by default by get_netlist is deprecated and will be removed in 10.0.0.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
     recnet: dict[str, dict[str, Any]] = {}
     _insert_netlist(
         recnet,
@@ -369,6 +377,7 @@ def get_netlist(
         component_namer,  # netlist_namer: use component_namer for non-recursive
         port_matcher or _default_port_matcher,
         recursive=False,
+        use_deprecated_format=use_deprecated_format,
     )
     return cast(dict[str, Any], clean_value_json(recnet[next(iter(recnet))]))
 
@@ -382,6 +391,7 @@ def get_netlist_recursive(
     component_namer: ComponentNamer = function_namer,
     netlist_namer: NetlistNamer | None = None,
     port_matcher: PortMatcher | None = None,
+    use_deprecated_format: bool = True,  # currently unused, to be removed in GDSF-10.0
 ) -> dict[str, Any]:
     """Extract netlists recursively from a cell and all its subcells.
 
@@ -399,10 +409,17 @@ def get_netlist_recursive(
             Defaults to CountedNetlistNamer(component_namer).
         port_matcher: Callable to determine if two ports are connected.
             Defaults to SmartPortMatcher().
+        use_deprecated_format: Whether to use the deprecated netlist format.
 
     Returns:
         A dictionary mapping cell names to their netlists.
     """
+    if use_deprecated_format:
+        warnings.warn(
+            "The netlist format returned by get_netlist_recursive is deprecated and will be removed in 10.0.0.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
     recnet: dict[str, Any] = {}
     _insert_netlist(
         recnet,
@@ -414,6 +431,7 @@ def get_netlist_recursive(
         netlist_namer or CountedNetlistNamer(component_namer),
         port_matcher or _default_port_matcher,
         recursive=True,
+        use_deprecated_format=use_deprecated_format,
     )
     return cast(dict[str, dict[str, Any]], clean_value_json(recnet))
 
@@ -428,6 +446,7 @@ def _insert_netlist(
     netlist_namer: NetlistNamer,
     port_matcher: PortMatcher,
     recursive: bool,
+    use_deprecated_format: bool = True,  # currently unused, to be removed in GDSF-10.0
 ) -> None:
     cell_name = netlist_namer(cell)
     if cell_name in recnet:
@@ -528,6 +547,64 @@ def _insert_netlist(
     all_nets = _get_nets(_all_ports, on_multi_connect, port_matcher)
     _handle_dangling_ports(_all_ports, all_nets, on_dangling_port)
     net["ports"], net["nets"] = _split_nets_and_ports(all_nets)
+
+    if use_deprecated_format:
+        pass
+    else:
+        net["connects"] = net.pop("nets")
+        net["nets"] = _extract_nets_from_connects(net["connects"])
+
+
+def _extract_nets_from_connects(connects: list[dict[str, Any]]) -> dict[str, list[str]]:
+    """Convert connects list to nets dict format.
+
+    Builds a connectivity graph and finds connected components using BFS.
+    Each connected component becomes a single net with a deterministic name
+    derived from its sorted port list.
+
+    Args:
+        connects: List of connection dicts with 'p1' and 'p2' keys.
+
+    Returns:
+        Dictionary mapping net names to lists of ports in each net.
+    """
+    if not connects:
+        return {}
+
+    # Build adjacency graph
+    graph: dict[str, set[str]] = defaultdict(set)
+    for connect in connects:
+        p1 = connect["p1"]
+        p2 = connect["p2"]
+        graph[p1].add(p2)
+        graph[p2].add(p1)
+
+    # BFS to find connected components
+    visited: set[str] = set()
+    nets: dict[str, list[str]] = {}
+
+    for start in graph:
+        if start in visited:
+            continue
+
+        # BFS from this unvisited node
+        queue = deque([start])
+        component: list[str] = []
+
+        while queue:
+            curr = queue.popleft()
+            if curr in visited:
+                continue
+            visited.add(curr)
+            component.append(curr)
+            queue.extend(graph[curr] - visited)
+
+        # Generate deterministic net name from sorted ports
+        sorted_ports = sorted(component)
+        net_name = f"net_{md5('|'.join(sorted_ports).encode()).hexdigest()[:8]}"
+        nets[net_name] = sorted_ports
+
+    return nets
 
 
 def _has_instances(cell: Any) -> bool:

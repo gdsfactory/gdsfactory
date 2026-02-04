@@ -501,6 +501,12 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             get_netlist_recursive,
         )
 
+        warnings.warn(
+            "The netlist format returned by Component.get_netlist is deprecated and will be removed in 10.0.0.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+
         if component_namer is None:
             component_namer = function_namer
 

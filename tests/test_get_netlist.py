@@ -370,3 +370,104 @@ def test_get_netlist_array_roundtrip(rotation: int, mirror: bool) -> None:
         f"  Before: {pl1}\n"
         f"  After:  {pl2}"
     )
+
+
+# Tests for _extract_nets_from_connects
+
+
+def test_extract_nets_from_connects_empty() -> None:
+    """Test with empty connects list."""
+    from gdsfactory.get_netlist import _extract_nets_from_connects
+
+    result = _extract_nets_from_connects([])
+    assert result == {}
+
+
+def test_extract_nets_from_connects_single() -> None:
+    """Test with a single connection."""
+    from gdsfactory.get_netlist import _extract_nets_from_connects
+
+    connects = [{"p1": "inst1,o1", "p2": "inst2,o1"}]
+    result = _extract_nets_from_connects(connects)
+    assert len(result) == 1
+    net = next(iter(result.values()))
+    assert set(net) == {"inst1,o1", "inst2,o1"}
+
+
+def test_extract_nets_from_connects_transitive() -> None:
+    """Test transitive connectivity - the main bug case."""
+    from gdsfactory.get_netlist import _extract_nets_from_connects
+
+    # Test actual transitive case: A-B and B-C should form one net
+    connects = [
+        {"p1": "A,o1", "p2": "B,o1"},
+        {"p1": "B,o1", "p2": "C,o1"},
+    ]
+    result = _extract_nets_from_connects(connects)
+    assert len(result) == 1
+    net = next(iter(result.values()))
+    assert set(net) == {"A,o1", "B,o1", "C,o1"}
+
+
+def test_extract_nets_from_connects_star_topology() -> None:
+    """Test star topology where one port connects to multiple others."""
+    from gdsfactory.get_netlist import _extract_nets_from_connects
+
+    connects = [
+        {"p1": "hub,o1", "p2": "spoke1,o1"},
+        {"p1": "hub,o1", "p2": "spoke2,o1"},
+        {"p1": "hub,o1", "p2": "spoke3,o1"},
+    ]
+    result = _extract_nets_from_connects(connects)
+    assert len(result) == 1
+    net = next(iter(result.values()))
+    assert set(net) == {"hub,o1", "spoke1,o1", "spoke2,o1", "spoke3,o1"}
+
+
+def test_extract_nets_from_connects_disjoint() -> None:
+    """Test multiple disjoint nets."""
+    from gdsfactory.get_netlist import _extract_nets_from_connects
+
+    connects = [
+        {"p1": "A,o1", "p2": "B,o1"},
+        {"p1": "C,o1", "p2": "D,o1"},
+    ]
+    result = _extract_nets_from_connects(connects)
+    assert len(result) == 2
+    nets_as_sets = [set(net) for net in result.values()]
+    assert {"A,o1", "B,o1"} in nets_as_sets
+    assert {"C,o1", "D,o1"} in nets_as_sets
+
+
+def test_extract_nets_from_connects_deterministic() -> None:
+    """Test that net names are deterministic regardless of input order."""
+    from gdsfactory.get_netlist import _extract_nets_from_connects
+
+    connects1 = [
+        {"p1": "A,o1", "p2": "B,o1"},
+        {"p1": "B,o1", "p2": "C,o1"},
+    ]
+    connects2 = [
+        {"p1": "C,o1", "p2": "B,o1"},
+        {"p1": "B,o1", "p2": "A,o1"},
+    ]
+    result1 = _extract_nets_from_connects(connects1)
+    result2 = _extract_nets_from_connects(connects2)
+
+    # Same net name should be generated
+    assert list(result1.keys()) == list(result2.keys())
+    # Same ports should be in the net
+    assert next(iter(result1.values())) == next(iter(result2.values()))
+
+
+def test_extract_nets_from_connects_with_settings() -> None:
+    """Test that extra keys in connects dict are ignored."""
+    from gdsfactory.get_netlist import _extract_nets_from_connects
+
+    connects = [
+        {"p1": "A,o1", "p2": "B,o1", "settings": {"width1": 0.5, "width2": 0.6}},
+    ]
+    result = _extract_nets_from_connects(connects)
+    assert len(result) == 1
+    net = next(iter(result.values()))
+    assert set(net) == {"A,o1", "B,o1"}

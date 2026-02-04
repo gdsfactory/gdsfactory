@@ -148,7 +148,7 @@ class Bundle(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class Net(BaseModel):
+class TwoPortNet(BaseModel):
     """Net between two ports.
 
     Parameters:
@@ -170,6 +170,31 @@ class Net(BaseModel):
         if self.name is None:
             self.name = f"route_{_route_counter}"
             _route_counter += 1
+
+
+class MultiNet(BaseModel):
+    """Net between multiple ports.
+
+    Parameters:
+        ports: list of instance_name,port.
+        name: route name.
+    """
+
+    ports: list[str]
+    settings: dict[str, Any] = Field(default_factory=dict)
+    name: str | None = None
+
+    def __init__(self, **data: Any) -> None:
+        """Initialize the net."""
+        global _route_counter
+        super().__init__(**data)
+        # If route name is not provided, generate one automatically
+        if self.name is None:
+            self.name = f"net{_route_counter}"
+            _route_counter += 1
+
+
+Net: TypeAlias = TwoPortNet | MultiNet
 
 
 class Netlist(BaseModel):
