@@ -138,7 +138,10 @@ def pad_array(
     if size is not None:
         pad_kwargs["size"] = size
     pad_component = gf.get_component(
-        pad, port_orientations=None, port_orientation=port_orientation, **pad_kwargs
+        pad,
+        port_orientation=port_orientation,
+        port_orientations=(port_orientation,) if not centered_ports else None,
+        **pad_kwargs,
     )
 
     pad_size: Float2 = size or pad_component.info["size"]

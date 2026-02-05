@@ -1,5 +1,5 @@
 instances:
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_14496117_0_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_943ed586_0_0:
     array:
       column_pitch: 150
       columns: 1
@@ -18,16 +18,20 @@ instances:
       layer: MTOP
       port_inclusion: 0
       port_orientation: 180
-      port_orientations: null
+      port_orientations:
+      - 180
       port_type: pad
       size:
       - 100
       - 100
 nets: []
 placements:
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_14496117_0_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_943ed586_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-ports: {}
+ports:
+  e11: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_943ed586_0_0<0.0>,e1
+  e21: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_943ed586_0_0<0.1>,e1
+  e31: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_943ed586_0_0<0.2>,e1
