@@ -161,6 +161,7 @@ def vcell(
     drop_params: tuple[str, ...] = ("self", "cls"),
     register_factory: bool = True,
     ports: PortsDefinition | None = None,
+    lvs_equivalent_ports: list[list[str]] | None = None,
 ) -> Callable[
     [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
 ]: ...
@@ -179,6 +180,7 @@ def vcell(
     register_factory: bool = True,
     check_ports: bool = True,
     ports: PortsDefinition | None = None,
+    lvs_equivalent_ports: list[list[str]] | None = None,
 ) -> (
     ComponentAllAngleFunc[ComponentParams]
     | Callable[
@@ -187,7 +189,7 @@ def vcell(
 ):
     from gdsfactory.component import ComponentAllAngle
 
-    vc = _vcell(  # type: ignore[call-overload]
+    vc = _vcell(  # type: ignore[call-overload, misc]
         _func,
         output_type=ComponentAllAngle,
         set_settings=set_settings,
@@ -199,6 +201,7 @@ def vcell(
         register_factory=register_factory,
         check_ports=check_ports,
         ports=ports,
+        lvs_equivalent_ports=lvs_equivalent_ports,
     )
 
     if _func is not None:
