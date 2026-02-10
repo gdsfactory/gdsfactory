@@ -88,6 +88,7 @@ def add_ports_from_markers_center(
     port_type: str = "optical",
     ports_on_short_side: bool = False,
     auto_rename_ports: bool = True,
+    auto_detect_port_layer: bool = False,
     debug: bool = False,
 ) -> Component:
     """Add ports from pins guessing port orientation from component boundary.
@@ -108,6 +109,8 @@ def add_ports_from_markers_center(
         port_type: type of port (optical, electrical ...).
         ports_on_short_side: if the port is on the short side rather than the long side.
         auto_rename_ports: if True auto rename ports to avoid duplicates.
+        auto_detect_port_layer: if True, detect the actual port layer from adjacent
+            component geometry when port_layer has no geometry at the port position.
         debug: if True prints ports that are skipped.
 
     For inside=False the port location is at the middle of the PIN
@@ -271,6 +274,51 @@ def add_ports_from_markers_center(
         # Snap to the nearest 2 nm (0.002 µm)
         width = np.round((width - pin_extra_width) / 0.002) * 0.002
 
+        _port_layer_idx = get_layer(layer)
+
+        if auto_detect_port_layer:
+            # Detect actual port layer from adjacent component geometry.
+            # The specified port_layer may not have geometry at the port position
+            # (e.g. port_layer=SEAM but waveguide is on FNAM). In that case,
+            # find the layer that has a matching-width edge at the port position.
+            _tol = 0.001
+            _marker_box = gf.kdb.DBox(x - _tol, y - _tol, x + _tol, y + _tol)
+            _marker_region = gf.kdb.Region(gf.kdb.DPolygon(_marker_box).to_itype(dbu))
+            _has_edge = False
+            _layer_indexes = list(component.kcl.layer_indexes())
+            if _port_layer_idx in _layer_indexes:
+                _region = gf.kdb.Region(component.begin_shapes_rec(_port_layer_idx))
+                if not _region.edges().interacting(_marker_region).is_empty():
+                    _has_edge = True
+            if not _has_edge:
+                _best_idx = None
+                _best_area = float("inf")
+                for _li in _layer_indexes:
+                    if _li in (_port_layer_idx, pin_layer):
+                        continue
+                    _region = gf.kdb.Region(component.begin_shapes_rec(_li))
+                    _edges = _region.edges().interacting(_marker_region)
+                    if _edges.is_empty():
+                        continue
+                    _width_match = any(
+                        np.isclose(e.length() * dbu, width, atol=0.1)
+                        for e in _edges.each()
+                    )
+                    if not _width_match:
+                        continue
+                    # Prefer the layer with the smallest polygon at port
+                    # position (waveguide shapes are small, DEVREC/bounding
+                    # boxes are large)
+                    _polys = _region.interacting(_marker_region)
+                    for _p in _polys.each():
+                        _area = abs(_p.area()) * dbu * dbu
+                        if _area < _best_area:
+                            _best_area = _area
+                            _best_idx = _li
+                        break
+                if _best_idx is not None:
+                    _port_layer_idx = _best_idx
+
         if (x, y) not in port_locations:
             port_locations.append((x, y))
             port = Port(
@@ -278,7 +326,7 @@ def add_ports_from_markers_center(
                 center=(x, y),
                 width=width,
                 orientation=orientation,
-                layer=get_layer(layer),
+                layer=_port_layer_idx,
                 port_type=port_type,
             )
             ports.append(port)
