@@ -88,8 +88,13 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     font.load_char(letter, freetype.FT_LOAD_FLAGS["FT_LOAD_NO_BITMAP"])
     glyph = font.glyph
     outline = glyph.outline
-    points = np.array(outline.points, dtype=float) / font.size.ascender
-    tags = outline.tags
+    # Glyphs such as spaces can legitimately have no outline geometry while still
+    # carrying a valid advance width. Return an empty component in that case.
+    if not outline.contours:
+        component = Component()
+        component.name = block_name
+        font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
+        return font.gds_glyphs[letter]  # type: ignore[no-any-return]
 
     # Add polylines
     start, end = 0, -1
