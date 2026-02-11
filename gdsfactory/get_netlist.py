@@ -702,6 +702,7 @@ def _clean_instname(name: str | None) -> str:
 
 def _handle_multi_connect(
     matched_pairs: dict[tuple[str, str], dict[str, Any] | None],
+    all_ports: dict[str, kf.DPort | kf.Port],
     on_multi_connect: ErrorBehavior,
 ) -> None:
     """Check for multiple connections at same location and warn/error as configured."""
@@ -716,7 +717,9 @@ def _handle_multi_connect(
 
     for port, connected in port_connections.items():
         if len(connected) > 1:
-            msg = f"More than two ports overlapping at {port}: {connected | {port}}."
+            p = all_ports[port]
+            x, y = p.x, p.y
+            msg = f"More than two ports overlapping at ({x:.3f}, {y:.3f}), {port}: {connected | {port}}."
             if on_multi_connect == "error":
                 raise ValueError(msg)
             warnings.warn(msg, stacklevel=5)
@@ -757,7 +760,7 @@ def _get_nets(
                 else:
                     _matched_pairs[pair] = None
 
-    _handle_multi_connect(_matched_pairs, on_multi_connect)
+    _handle_multi_connect(_matched_pairs, all_ports, on_multi_connect)
 
     # Build list of nets
     nets: list[dict[str, Any]] = []
