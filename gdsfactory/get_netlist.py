@@ -719,7 +719,7 @@ def _handle_multi_connect(
         if len(connected) > 1:
             p = all_ports[port]
             x, y = p.x, p.y
-            msg = f"More than two ports overlapping at ({x}, {y}), {port}: {connected | {port}}."
+            msg = f"More than two ports overlapping at ({x:.3f}, {y:.3f}), {port}: {connected | {port}}."
             if on_multi_connect == "error":
                 raise ValueError(msg)
             warnings.warn(msg, stacklevel=5)
