@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.34.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.34.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.34.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.1) - 2026-02-10
 
-No significant changes.
-
+- Fix rendering errors when `text_freetype` contains spaces [#4369](https://github.com/gdsfactory/gdsfactory/pull/4369)
+- auto_detect_port_layer [#4367](https://github.com/gdsfactory/gdsfactory/pull/4367)
+- Allow to set lvs_equivalent_ports for vcell [#4362](https://github.com/gdsfactory/gdsfactory/pull/4362)
+- fix schematic docs [#4354](https://github.com/gdsfactory/gdsfactory/pull/4354)
+- Create ports on the pad itself that map to the array ports [#4361](https://github.com/gdsfactory/gdsfactory/pull/4361)
+- deps: update kfactory[ipy] requirement from <2.4,>=2.2 to >=2.2,<2.5 [#4356](https://github.com/gdsfactory/gdsfactory/pull/4356)
 
 ## [9.34.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.0) - 2026-02-01
 
