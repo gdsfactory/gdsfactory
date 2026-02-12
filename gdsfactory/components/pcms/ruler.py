@@ -71,7 +71,7 @@ def ruler(
         else:
             ymin += height_short
 
-        ref = c << gf.components.rectangle(size=(width, h), layer=layer)
+        ref = c << gf.components.rectangle(size=(width, h), layer=layer, port_type=None)
         ref.xmin = i * spacing
         ref.ymin = ymin
 
@@ -85,8 +85,3 @@ def ruler(
     if bbox_layers:
         gf.add_padding(c, layers=bbox_layers, default=bbox_offset)
     return c
-
-
-if __name__ == "__main__":
-    c = ruler(bbox_layers=("SLAB90",), bbox_offset=2)
-    c.show()

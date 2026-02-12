@@ -11,7 +11,7 @@ You'll need 2 windows:
 2. You execute the python code.
 3. You visualize the GDS Layout in Klayout, or run simulations using the plugin extensions directly from the layout (for devices) or netlist (from circuits).
 
-![windows](https://i.imgur.com/ZHEAotn.png)
+![windows](images/workflow_windows.png)
 
 ## 2. File-watcher flow
 
@@ -21,15 +21,15 @@ For building large components can use a file-watcher and see your updates in KLa
 2. The file-watcher re-runs any python file `.py` or YAML `.pic.yml`. For testing it you can go to `gdsfactory/samples/demo/circuits`, modify any of the files and take a look how klayout updates every time you save a file.
 3. Thanks to the `cell` cache you can see your new component changes live updating the layout in Klayout.
 
-![filewatcher](https://i.imgur.com/DNWgVRp.png)
+![filewatcher](images/workflow_filewatcher.png)
 
 The file watcher works with python or `pic.yml`
 
-![python](https://i.imgur.com/lscMlcJ.png)
+![python](images/workflow_python.png)
 
 or YAML
 
-![yaml](https://i.imgur.com/PbJOhe1.png)
+![yaml](images/workflow_yaml.png)
 
 ## 3. Schematic driven layout
 
