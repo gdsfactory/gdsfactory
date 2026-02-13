@@ -25,7 +25,7 @@ The workflow is:
 - `git add`, `git commit`, `git push` your work as many times as needed. Make sure [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) pass so it all keeps working correctly.
 - open a Pull request (PR) to merge your improvements to the main repository.
 
-![git flow](https://i.imgur.com/kNc40fI.png)
+![git flow](images/git_flow.png)
 
 
 ## Code of Conduct

@@ -1,5 +1,5 @@
 instances:
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_0_5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_0_5000:
     component: rectangle
     info: {}
     settings:
@@ -10,11 +10,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_10000_15000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_10000_15000:
     component: rectangle
     info: {}
     settings:
@@ -25,11 +25,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_20000_25000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_20000_25000:
     component: rectangle
     info: {}
     settings:
@@ -40,11 +40,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_30000_35000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_30000_35000:
     component: rectangle
     info: {}
     settings:
@@ -55,11 +55,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_40000_45000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_40000_45000:
     component: rectangle
     info: {}
     settings:
@@ -70,11 +70,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_60000_10000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_60000_10000:
     component: rectangle
     info: {}
     settings:
@@ -85,11 +85,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_70000_20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_70000_20000:
     component: rectangle
     info: {}
     settings:
@@ -100,11 +100,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_80000_30000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_80000_30000:
     component: rectangle
     info: {}
     settings:
@@ -115,11 +115,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_90000_40000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_90000_40000:
     component: rectangle
     info: {}
     settings:
@@ -130,11 +130,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__c9b8080a_100000_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8_100000_0:
     component: rectangle
     info: {}
     settings:
@@ -145,11 +145,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 55
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__c9b8080a_50000_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8_50000_0:
     component: rectangle
     info: {}
     settings:
@@ -160,11 +160,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 55
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_15000_20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_15000_20000:
     component: rectangle
     info: {}
     settings:
@@ -175,11 +175,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_25000_30000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_25000_30000:
     component: rectangle
     info: {}
     settings:
@@ -190,11 +190,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_35000_40000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_35000_40000:
     component: rectangle
     info: {}
     settings:
@@ -205,11 +205,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_45000_50000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_45000_50000:
     component: rectangle
     info: {}
     settings:
@@ -220,11 +220,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_5000_10000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_5000_10000:
     component: rectangle
     info: {}
     settings:
@@ -235,11 +235,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_55000_5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_55000_5000:
     component: rectangle
     info: {}
     settings:
@@ -250,11 +250,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_65000_15000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_65000_15000:
     component: rectangle
     info: {}
     settings:
@@ -265,11 +265,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_75000_25000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_75000_25000:
     component: rectangle
     info: {}
     settings:
@@ -280,11 +280,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_85000_35000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_85000_35000:
     component: rectangle
     info: {}
     settings:
@@ -295,11 +295,11 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_95000_45000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_95000_45000:
     component: rectangle
     info: {}
     settings:
@@ -310,7 +310,7 @@ instances:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: null
       size:
       - 2
       - 5
@@ -459,107 +459,107 @@ instances:
       text: '-70'
 nets: []
 placements:
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_0_5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_0_5000:
     mirror: false
     rotation: 0
     x: 0
     y: 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_10000_15000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_10000_15000:
     mirror: false
     rotation: 0
     x: 10
     y: 15
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_20000_25000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_20000_25000:
     mirror: false
     rotation: 0
     x: 20
     y: 25
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_30000_35000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_30000_35000:
     mirror: false
     rotation: 0
     x: 30
     y: 35
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_40000_45000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_40000_45000:
     mirror: false
     rotation: 0
     x: 40
     y: 45
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_60000_10000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_60000_10000:
     mirror: false
     rotation: 0
     x: 60
     y: 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_70000_20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_70000_20000:
     mirror: false
     rotation: 0
     x: 70
     y: 20
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_80000_30000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_80000_30000:
     mirror: false
     rotation: 0
     x: 80
     y: 30
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__31abc6af_90000_40000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7_90000_40000:
     mirror: false
     rotation: 0
     x: 90
     y: 40
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__c9b8080a_100000_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8_100000_0:
     mirror: false
     rotation: 0
     x: 100
     y: 0
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__c9b8080a_50000_0:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_15000_20000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_15000_20000:
     mirror: false
     rotation: 0
     x: 15
     y: 20
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_25000_30000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_25000_30000:
     mirror: false
     rotation: 0
     x: 25
     y: 30
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_35000_40000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_35000_40000:
     mirror: false
     rotation: 0
     x: 35
     y: 40
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_45000_50000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_45000_50000:
     mirror: false
     rotation: 0
     x: 45
     y: 50
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_5000_10000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_5000_10000:
     mirror: false
     rotation: 0
     x: 5
     y: 10
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_55000_5000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_55000_5000:
     mirror: false
     rotation: 0
     x: 55
     y: 5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_65000_15000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_65000_15000:
     mirror: false
     rotation: 0
     x: 65
     y: 15
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_75000_25000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_75000_25000:
     mirror: false
     rotation: 0
     x: 75
     y: 25
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_85000_35000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_85000_35000:
     mirror: false
     rotation: 0
     x: 85
     y: 35
-  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_bcfc7195_95000_45000:
+  rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c_95000_45000:
     mirror: false
     rotation: 0
     x: 95
