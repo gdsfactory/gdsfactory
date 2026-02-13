@@ -955,12 +955,14 @@ def slot(
                 width=rail_width,
                 offset=+rail_offset,
                 layer=rail_layer,
+                port_names=("o3", "o4"),
                 name="left_rail",
             ),
             Section(
                 width=rail_width,
                 offset=-rail_offset,
                 layer=rail_layer,
+                port_names=("o5", "o6"),
                 name="right_rail",
             ),
         ]
