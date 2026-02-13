@@ -279,7 +279,6 @@ def add_ports_from_markers_center(
         if auto_detect_port_layer:
             # Detect actual port layer from adjacent component geometry.
             # The specified port_layer may not have geometry at the port position
-            # (e.g. port_layer=SEAM but waveguide is on FNAM). In that case,
             # find the layer that has a matching-width edge at the port position.
             _tol = 0.001
             _marker_box = gf.kdb.DBox(x - _tol, y - _tol, x + _tol, y + _tol)
