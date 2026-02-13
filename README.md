@@ -12,7 +12,7 @@ GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, 
 
 As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
-![cad](docs/images/cad.png)
+![cad](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/cad.png)
 
 ## Quick Start
 
@@ -62,7 +62,7 @@ Highlights:
 - 105+ Contributors
 - 25+ PDKs available
 
-![workflow](docs/images/workflow.png)
+![workflow](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/workflow.png)
 
 We provide a comprehensive end-to-end design flow that enables you to:
 
@@ -75,7 +75,7 @@ Your output: A GDSII or OASIS file for fabrication, alongside component settings
 
 We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, SAX, MEOW, Xyce ...), verification, and validation.
 
-![tool interfaces](docs/images/tool_interfaces.png)
+![tool interfaces](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/tool_interfaces.png)
 
 
 ## Open-Source PDKs (No NDA Required)
@@ -141,7 +141,7 @@ Available PDKs under NDA:
 
 Hundreds of organisations are using GDSFactory. Some companies and organizations around the world using GDSFactory include:
 
-![logos](docs/images/logos.png)
+![logos](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/logos.png)
 
 "I've used **GDSFactory** since 2017 for all my chip tapeouts. I love that it is fast, easy to use, and easy to extend. It's the only tool that allows us to have an end-to-end chip design flow (design, verification and validation)."
 
@@ -196,7 +196,7 @@ We welcome all contributions—whether you're adding new features, improving doc
 
 Join us and be part of the community. 🚀
 
-![contributors](docs/images/contributors.png)
+![contributors](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/contributors.png)
 
 ## Stargazers
 
