@@ -151,6 +151,15 @@ def mzi(
 
     # Use sign of ``delta_length`` to determine which arm to lengthen
     short_arm_length = length_y - delta_gap_ports / 2
+    if short_arm_length < 0:
+        raise ValueError(
+            "Computed short_arm_length is negative, which would result in a negative "
+            "straight section length. This usually happens when `length_y` is too "
+            "small relative to the splitter/combiner port gaps. "
+            f"Got length_y={length_y}, gap_ports_combiner={gap_ports_combiner}, "
+            f"gap_ports_splitter={gap_ports_splitter}, delta_gap_ports={delta_gap_ports}, "
+            f"short_arm_length={short_arm_length}."
+        )
     long_arm_length = abs(delta_length) / 2 + short_arm_length
 
     # Keep to the previous convention of the bottom arm being longer
