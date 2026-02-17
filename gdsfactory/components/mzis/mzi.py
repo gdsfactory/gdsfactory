@@ -142,12 +142,12 @@ def mzi(
     b5.connect(port1, cp1.ports[port_e0_splitter], mirror=True)
     b5.name = "b5"
 
-    gap_ports_combiner = cp1.ports[port_e0_splitter].y - cp1.ports[port_e1_splitter].y
-    gap_ports_splitter = (
+    gap_ports_splitter = cp1.ports[port_e0_splitter].y - cp1.ports[port_e1_splitter].y
+    gap_ports_combiner = (
         cp2_reference.ports[port_e0_combiner].y
         - cp2_reference.ports[port_e1_combiner].y
     )
-    delta_gap_ports = gap_ports_combiner - gap_ports_splitter
+    delta_gap_ports = gap_ports_splitter - gap_ports_combiner
 
     # Use sign of ``delta_length`` to determine which arm to lengthen
     short_arm_length = length_y - delta_gap_ports / 2
