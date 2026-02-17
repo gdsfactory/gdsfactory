@@ -142,8 +142,30 @@ def mzi(
     b5.connect(port1, cp1.ports[port_e0_splitter], mirror=True)
     b5.name = "b5"
 
+    gap_ports_combiner = cp1.ports[port_e0_splitter].y - cp1.ports[port_e1_splitter].y
+    gap_ports_splitter = (
+        cp2_reference.ports[port_e0_combiner].y
+        - cp2_reference.ports[port_e1_combiner].y
+    )
+    delta_gap_ports = gap_ports_combiner - gap_ports_splitter
+
+    # Use sign of ``delta_length`` to determine which arm to lengthen
+    short_arm_length = length_y - delta_gap_ports / 2
+    long_arm_length = abs(delta_length) / 2 + short_arm_length
+
+    # Keep to the previous convention of the bottom arm being longer
+    # for positive ``delta_length``
+    if delta_length > 0:
+        # Make bottom arm longer
+        bot_arm_length = long_arm_length
+        top_arm_length = short_arm_length
+    else:
+        # Make top arm longer
+        bot_arm_length = short_arm_length
+        top_arm_length = long_arm_length
+
     syl = c << gf.get_component(
-        straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
+        straight_y, length=bot_arm_length, cross_section=cross_section
     )
     syl.connect(port1, b5.ports[port2])
     b6 = c << bend
@@ -176,7 +198,7 @@ def mzi(
     b1.name = "b1"
 
     sytl = c << gf.get_component(
-        straight_y, length=length_y, cross_section=cross_section
+        straight_y, length=top_arm_length, cross_section=cross_section
     )
     sytl.connect(port1, b1.ports[port2])
 
@@ -190,20 +212,13 @@ def mzi(
         sxt.ports[port2].x + bend.info["radius"] * nbends + 2 * min_length
     )
 
-    gap_ports_combiner = cp1.ports[port_e0_splitter].y - cp1.ports[port_e1_splitter].y
-    gap_ports_splitter = (
-        cp2_reference.ports[port_e0_combiner].y
-        - cp2_reference.ports[port_e1_combiner].y
-    )
-    delta_gap_ports = gap_ports_combiner - gap_ports_splitter
-
     # Top arm
     b3 = c << bend
     b3.connect(port2, sxt.ports[port2])
     b3.name = "b3"
 
     sytr = c << gf.get_component(
-        straight_y, length=length_y - delta_gap_ports / 2, cross_section=cross_section
+        straight_y, length=top_arm_length, cross_section=cross_section
     )
     sytr.connect(port2, b3.ports[port1])
     b4 = c << bend
@@ -216,9 +231,7 @@ def mzi(
     b7.name = "b7"
 
     sybr = c << gf.get_component(
-        straight_y,
-        length=delta_length / 2 + length_y - delta_gap_ports / 2,
-        cross_section=cross_section,
+        straight_y, length=bot_arm_length, cross_section=cross_section,
     )
     sybr.connect(port1, b7.ports[port2])
     b8 = c << bend
