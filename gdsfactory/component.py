@@ -195,8 +195,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             raise LockedError(self)
 
         if port:
-            from gdsfactory.pdk import get_cross_section
-
             _port = DPort(
                 base=super()
                 .add_port(port=port, name=name, keep_mirror=keep_mirror)
@@ -206,6 +204,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             if port_type is not None:
                 _port.port_type = port_type
             if cross_section:
+                from gdsfactory.pdk import get_cross_section
+
                 xs = get_cross_section(cross_section)
                 _port.info["cross_section"] = xs.name
             return _port
