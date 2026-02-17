@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.34.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.34.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.34.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.2) - 2026-02-17
 
-No significant changes.
-
+- fix netlist performance [#4381](https://github.com/gdsfactory/gdsfactory/pull/4381)
+- Include (x, y) coordinates in multi-connect error [#4371](https://github.com/gdsfactory/gdsfactory/pull/4371)
+- Add port names to the rails in slot cross-section [#4366](https://github.com/gdsfactory/gdsfactory/pull/4366)
 
 ## [9.34.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.1) - 2026-02-10
 
