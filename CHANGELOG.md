@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.34.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.2) - 2026-02-17
+
+No significant changes.
+
+
 ## [9.34.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.1) - 2026-02-10
 
 - Fix rendering errors when `text_freetype` contains spaces [#4369](https://github.com/gdsfactory/gdsfactory/pull/4369)
