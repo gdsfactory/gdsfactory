@@ -256,7 +256,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         # Default port_type to "optical" when creating a new port
         if port_type is None:
             port_type = "optical"
-        
+
         # Default orientation to 0 when creating a new port
         if orientation is None:
             orientation = 0
