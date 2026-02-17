@@ -239,7 +239,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         layer = get_layer(layer)
 
         if isinstance(center, kdb.DPoint):
-            trans = kdb.DCplxTrans(1, float(orientation), False, center.to_v())
+            trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
         else:
             x, y = float(center[0]), float(center[1])
             trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
