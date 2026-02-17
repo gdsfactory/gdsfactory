@@ -205,6 +205,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             layer = layer if layer is not None else port.layer
             port_type = port_type if port_type is not None else port.port_type
             name = name if name is not None else port.name
+            cross_section = (
+                cross_section
+                if cross_section is not None
+                else port.info.get("cross_section")
+            )
 
         # Apply Cross Section overrides
         xs_name = None
