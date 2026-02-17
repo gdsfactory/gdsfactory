@@ -63,88 +63,93 @@ def test_add_ports_from_labels() -> None:
     assert c2.ports["o2"].center[0] == x, c2.ports["o2"].center[0]
 
 
-def test_add_port_with_kwargs() -> None:
-    """Test that add_port with port parameter can modify port_type and cross_section."""
-    # Create a component with a reference
-    c = gf.Component()
-    straight_ref = c << gf.components.straight()
+def test_add_port_with_kwargs(subtests) -> None:
+    """Test that add_port with port parameter can modify all kwargs."""
+    test_cases = [
+        "port_type",
+        "cross_section",
+        "port_type_and_cross_section",
+        "electrical_to_optical",
+        "preserve_defaults",
+        "width",
+        "center",
+        "orientation",
+        "layer",
+        "multiple_properties",
+    ]
 
-    # Test 1: Change port_type
-    c.add_port(port=straight_ref.ports["o1"], name="o1", port_type="placement")
-    assert c.ports["o1"].port_type == "placement"
+    for test_case in test_cases:
+        with subtests.test(msg=test_case):
+            c = gf.Component()
+            straight_ref = c << gf.components.straight()
 
-    # Test 2: Change cross_section (this should set the info)
-    c2 = gf.Component()
-    straight_ref2 = c2 << gf.components.straight()
-    xs = gf.cross_section.strip()
-    c2.add_port(port=straight_ref2.ports["o1"], name="o1", cross_section=xs)
-    assert "cross_section" in c2.ports["o1"].info
-    assert c2.ports["o1"].info["cross_section"] == xs.name
+            match test_case:
+                case "port_type":
+                    # Test changing port_type
+                    c.add_port(port=straight_ref.ports["o1"], name="o1", port_type="placement")
+                    assert c.ports["o1"].port_type == "placement", "Port type should be changed to 'placement'"
 
-    # Test 3: Change both port_type and cross_section
-    c3 = gf.Component()
-    straight_ref3 = c3 << gf.components.straight()
-    xs3 = gf.cross_section.metal1()
-    c3.add_port(
-        port=straight_ref3.ports["o1"],
-        name="o1",
-        port_type="electrical",
-        cross_section=xs3
-    )
-    assert c3.ports["o1"].port_type == "electrical"
-    assert c3.ports["o1"].info["cross_section"] == xs3.name
+                case "cross_section":
+                    # Test changing cross_section
+                    xs = gf.cross_section.strip()
+                    c.add_port(port=straight_ref.ports["o1"], name="o1", cross_section=xs)
+                    assert "cross_section" in c.ports["o1"].info, "Cross section should be stored in port info"
+                    assert c.ports["o1"].info["cross_section"] == xs.name, f"Cross section name should be {xs.name}"
 
-    # Test 4: Change port from electrical to optical explicitly
-    c4 = gf.Component()
-    # Create a port with electrical type
-    c4.add_port(name="elec1", center=(0, 0), width=1, layer=(1, 0), port_type="electrical")
-    # Now copy it but change to optical
-    c4.add_port(port=c4.ports["elec1"], name="opt1", port_type="optical")
-    assert c4.ports["opt1"].port_type == "optical"
+                case "port_type_and_cross_section":
+                    # Test changing both port_type and cross_section
+                    xs = gf.cross_section.metal1()
+                    c.add_port(
+                        port=straight_ref.ports["o1"],
+                        name="o1",
+                        port_type="electrical",
+                        cross_section=xs
+                    )
+                    assert c.ports["o1"].port_type == "electrical", "Port type should be 'electrical'"
+                    assert c.ports["o1"].info["cross_section"] == xs.name, f"Cross section should be {xs.name}"
 
-    # Test 5: Default behavior - port_type not explicitly changed when not provided
-    c5 = gf.Component()
-    straight_ref5 = c5 << gf.components.straight()
-    original_port_type = straight_ref5.ports["o1"].port_type
-    c5.add_port(port=straight_ref5.ports["o1"], name="o1")
-    assert c5.ports["o1"].port_type == original_port_type
+                case "electrical_to_optical":
+                    # Test changing port from electrical to optical explicitly
+                    c.add_port(name="elec1", center=(0, 0), width=1, layer=(1, 0), port_type="electrical")
+                    c.add_port(port=c.ports["elec1"], name="opt1", port_type="optical")
+                    assert c.ports["opt1"].port_type == "optical", "Port type should be changed from electrical to optical"
 
-    # Test 6: Change width when copying a port
-    c6 = gf.Component()
-    straight_ref6 = c6 << gf.components.straight(width=1.0)
-    c6.add_port(port=straight_ref6.ports["o1"], name="o1", width=2.5)
-    assert c6.ports["o1"].width == 2.5
+                case "preserve_defaults":
+                    # Test default behavior - port_type not explicitly changed when not provided
+                    original_port_type = straight_ref.ports["o1"].port_type
+                    c.add_port(port=straight_ref.ports["o1"], name="o1")
+                    assert c.ports["o1"].port_type == original_port_type, f"Port type should be preserved as {original_port_type}"
 
-    # Test 7: Change center when copying a port
-    c7 = gf.Component()
-    straight_ref7 = c7 << gf.components.straight()
-    new_center = (10.0, 20.0)
-    c7.add_port(port=straight_ref7.ports["o1"], name="o1", center=new_center)
-    assert c7.ports["o1"].center == new_center
+                case "width":
+                    # Test changing width when copying a port
+                    c.add_port(port=straight_ref.ports["o1"], name="o1", width=2.5)
+                    assert c.ports["o1"].width == 2.5, "Port width should be changed to 2.5"
 
-    # Test 8: Change orientation when copying a port
-    c8 = gf.Component()
-    straight_ref8 = c8 << gf.components.straight()
-    c8.add_port(port=straight_ref8.ports["o1"], name="o1", orientation=90)
-    assert c8.ports["o1"].orientation == 90
+                case "center":
+                    # Test changing center when copying a port
+                    new_center = (10.0, 20.0)
+                    c.add_port(port=straight_ref.ports["o1"], name="o1", center=new_center)
+                    assert c.ports["o1"].center == new_center, f"Port center should be changed to {new_center}"
 
-    # Test 9: Change layer when copying a port
-    c9 = gf.Component()
-    straight_ref9 = c9 << gf.components.straight()
-    c9.add_port(port=straight_ref9.ports["o1"], name="o1", layer=(2, 0))
-    # Layer comparison needs to account for layer enum
-    assert c9.ports["o1"].layer.layer == 2
+                case "orientation":
+                    # Test changing orientation when copying a port
+                    c.add_port(port=straight_ref.ports["o1"], name="o1", orientation=90)
+                    assert c.ports["o1"].orientation == 90, "Port orientation should be changed to 90"
 
-    # Test 10: Change multiple properties together
-    c10 = gf.Component()
-    straight_ref10 = c10 << gf.components.straight()
-    c10.add_port(
-        port=straight_ref10.ports["o1"],
-        name="new_port",
-        width=3.0,
-        orientation=45,
-        port_type="electrical"
-    )
-    assert c10.ports["new_port"].width == 3.0
-    assert c10.ports["new_port"].orientation == 45
-    assert c10.ports["new_port"].port_type == "electrical"
+                case "layer":
+                    # Test changing layer when copying a port
+                    c.add_port(port=straight_ref.ports["o1"], name="o1", layer=(2, 0))
+                    assert c.ports["o1"].layer.layer == 2, "Port layer should be changed to layer 2"
+
+                case "multiple_properties":
+                    # Test changing multiple properties together
+                    c.add_port(
+                        port=straight_ref.ports["o1"],
+                        name="new_port",
+                        width=3.0,
+                        orientation=45,
+                        port_type="electrical"
+                    )
+                    assert c.ports["new_port"].width == 3.0, "Width should be 3.0"
+                    assert c.ports["new_port"].orientation == 45, "Orientation should be 45"
+                    assert c.ports["new_port"].port_type == "electrical", "Port type should be electrical"
