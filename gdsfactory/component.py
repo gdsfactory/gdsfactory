@@ -195,11 +195,20 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             raise LockedError(self)
 
         if port:
-            return DPort(
+            from gdsfactory.pdk import get_cross_section
+
+            _port = DPort(
                 base=super()
                 .add_port(port=port, name=name, keep_mirror=keep_mirror)
                 .base
             )
+            # Apply kwargs to the port
+            if port_type != "optical":
+                _port.port_type = port_type
+            if cross_section:
+                xs = get_cross_section(cross_section)
+                _port.info["cross_section"] = xs.name
+            return _port
 
         from gdsfactory.config import CONF
         from gdsfactory.pdk import get_cross_section, get_layer
