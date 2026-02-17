@@ -732,33 +732,41 @@ def _get_nets(
 ) -> list[dict[str, Any]]:
     """Extract connections between ports.
 
-    NOTE: This is O(n²) in the number of ports. For very large circuits,
-    consider adding a PortIndexer to bucket ports by position first (O(n)),
-    then only compare within buckets using the PortMatcher.
+    Uses spatial indexing to bucket ports by position for ~O(n) matching
+    instead of O(n²).
 
     Returns:
         List of net dicts with keys 'p1', 'p2', and optionally 'settings'.
     """
-    _port_names = list(all_ports)
-    _num_ports = len(_port_names)
-
-    # Track which ports are connected and their metadata
-    # Key: sorted tuple of two port names, Value: settings dict or None
     _matched_pairs: dict[tuple[str, str], dict[str, Any] | None] = {}
 
-    for i in range(_num_ports):
-        pname = _port_names[i]
-        p = all_ports[pname]
-        for j in range(i + 1, _num_ports):
-            qname = _port_names[j]
-            q = all_ports[qname]
-            result = port_matcher(p, q)
-            if result is not False:
-                pair = (pname, qname) if pname < qname else (qname, pname)
-                if isinstance(result, dict):
-                    _matched_pairs[pair] = result
-                else:
-                    _matched_pairs[pair] = None
+    # Spatial index: bucket ports by position (bucket size in dbu)
+    _BUCKET = 5
+    buckets: dict[tuple[int, int], list[tuple[str, kf.DPort | kf.Port]]] = defaultdict(
+        list
+    )
+    for pname, p in all_ports.items():
+        cx, cy = p.to_itype().center
+        buckets[cx // _BUCKET, cy // _BUCKET].append((pname, p))
+
+    # Compare ports within same and neighboring buckets only
+    for (bx, by), ports in buckets.items():
+        candidates: list[tuple[str, kf.DPort | kf.Port]] = []
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                nbr = buckets.get((bx + dx, by + dy))
+                if nbr is not None:
+                    candidates.extend(nbr)
+        for pname, p in ports:
+            for qname, q in candidates:
+                if pname >= qname:
+                    continue
+                result = port_matcher(p, q)
+                if result is not False:
+                    if isinstance(result, dict):
+                        _matched_pairs[pname, qname] = result
+                    else:
+                        _matched_pairs[pname, qname] = None
 
     _handle_multi_connect(_matched_pairs, all_ports, on_multi_connect)
 
