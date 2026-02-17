@@ -174,7 +174,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         width: float | None = None,
         orientation: AngleInDegrees = 0,
         layer: LayerSpec | None = None,
-        port_type: str = "optical",
+        port_type: str | None = None,
         keep_mirror: bool = False,
         cross_section: CrossSectionSpec | None = None,
     ) -> DPort:
@@ -187,7 +187,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             width: width of the port.
             orientation: orientation of the port.
             layer: layer spec to add port on.
-            port_type: port type (optical, electrical, ...)
+            port_type: port type (optical, electrical, ...). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
         """
@@ -202,8 +202,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 .add_port(port=port, name=name, keep_mirror=keep_mirror)
                 .base
             )
-            # Apply kwargs to the port if they differ from the original
-            if port_type != port.port_type:
+            # Apply kwargs to the port if explicitly provided
+            if port_type is not None:
                 _port.port_type = port_type
             if cross_section:
                 xs = get_cross_section(cross_section)
@@ -212,6 +212,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         from gdsfactory.config import CONF
         from gdsfactory.pdk import get_cross_section, get_layer
+
+        # Default port_type to "optical" when creating a new port
+        if port_type is None:
+            port_type = "optical"
 
         if port_type not in CONF.port_types:
             warnings.warn(
