@@ -202,8 +202,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 .add_port(port=port, name=name, keep_mirror=keep_mirror)
                 .base
             )
-            # Apply kwargs to the port
-            if port_type != "optical":
+            # Apply kwargs to the port if they differ from the original
+            if port_type != port.port_type:
                 _port.port_type = port_type
             if cross_section:
                 xs = get_cross_section(cross_section)
