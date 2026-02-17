@@ -172,7 +172,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         port: ProtoPort[Any] | None = None,
         center: Position | kdb.DPoint | None = None,
         width: float | None = None,
-        orientation: AngleInDegrees = 0,
+        orientation: AngleInDegrees | None = None,
         layer: LayerSpec | None = None,
         port_type: str | None = None,
         keep_mirror: bool = False,
@@ -185,7 +185,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             port: port to add.
             center: center of the port.
             width: width of the port.
-            orientation: orientation of the port.
+            orientation: orientation of the port. If None and port is provided, preserves the original port's orientation. If None and port is not provided, defaults to 0.
             layer: layer spec to add port on.
             port_type: port type (optical, electrical, ...). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
             keep_mirror: if True, keeps the mirror of the port.
@@ -194,28 +194,72 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if self.locked:
             raise LockedError(self)
 
-        if port:
-            _port = DPort(
-                base=super()
-                .add_port(port=port, name=name, keep_mirror=keep_mirror)
-                .base
-            )
-            # Apply kwargs to the port if explicitly provided
-            if port_type is not None:
-                _port.port_type = port_type
-            if cross_section:
-                from gdsfactory.pdk import get_cross_section
-
-                xs = get_cross_section(cross_section)
-                _port.info["cross_section"] = xs.name
-            return _port
-
         from gdsfactory.config import CONF
         from gdsfactory.pdk import get_cross_section, get_layer
 
+        # Helper function to resolve layer and width from cross_section
+        def _resolve_from_cross_section(
+            cross_section: CrossSectionSpec | None,
+            layer: LayerSpec | None,
+            width: float | None,
+        ) -> tuple[LayerSpec, float]:
+            """Resolve layer and width from cross_section if not explicitly provided."""
+            if cross_section:
+                xs = get_cross_section(cross_section)
+                if layer is None:
+                    layer = xs.layer
+                if width is None:
+                    width = xs.width
+            return layer, width
+
+        if port:
+            # When copying from an existing port, determine which parameters to override
+            # Use provided kwargs or fall back to the original port's values
+            port_center = center if center is not None else port.center
+            port_width = width if width is not None else port.width
+            port_orientation = orientation if orientation is not None else port.orientation
+            port_layer = layer if layer is not None else port.layer
+            port_port_type = port_type if port_type is not None else port.port_type
+
+            # Resolve layer and width from cross_section if provided
+            port_layer, port_width = _resolve_from_cross_section(
+                cross_section, port_layer, port_width
+            )
+
+            # Convert center to transformation
+            if isinstance(port_center, kdb.DPoint):
+                port_layer = get_layer(port_layer)
+                trans = kdb.DCplxTrans(1, port_orientation, False, port_center.to_v())
+            else:
+                port_layer = get_layer(port_layer)
+                x = float(port_center[0])
+                y = float(port_center[1])
+                trans = kdb.DCplxTrans(1, float(port_orientation), False, x, y)
+
+            # Create new port with resolved parameters
+            _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
+                name=name if name is not None else port.name,
+                width=port_width,
+                layer=port_layer,
+                port_type=port_port_type,
+                dcplx_trans=trans,
+            )
+
+            # Store cross_section info if provided
+            if cross_section:
+                xs = get_cross_section(cross_section)
+                _port.info["cross_section"] = xs.name
+
+            return _port
+
+        # Creating a new port from scratch
         # Default port_type to "optical" when creating a new port
         if port_type is None:
             port_type = "optical"
+        
+        # Default orientation to 0 when creating a new port
+        if orientation is None:
+            orientation = 0
 
         if port_type not in CONF.port_types:
             warnings.warn(
@@ -224,18 +268,13 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 stacklevel=3,
             )
 
+        # Resolve layer and width from cross_section
+        layer, width = _resolve_from_cross_section(cross_section, layer, width)
+
         if layer is None:
-            if cross_section is None:
-                raise ValueError("Must specify layer or cross_section")
-            xs = get_cross_section(cross_section)
-            layer = xs.layer
-
+            raise ValueError("Must specify layer or cross_section")
         if width is None:
-            if cross_section is None:
-                raise ValueError("Must specify width or cross_section")
-            xs = get_cross_section(cross_section)
-            width = xs.width
-
+            raise ValueError("Must specify width or cross_section")
         if center is None:
             raise ValueError("Must specify center")
 

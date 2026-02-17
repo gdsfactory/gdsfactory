@@ -108,3 +108,43 @@ def test_add_port_with_kwargs() -> None:
     original_port_type = straight_ref5.ports["o1"].port_type
     c5.add_port(port=straight_ref5.ports["o1"], name="o1")
     assert c5.ports["o1"].port_type == original_port_type
+
+    # Test 6: Change width when copying a port
+    c6 = gf.Component()
+    straight_ref6 = c6 << gf.components.straight(width=1.0)
+    c6.add_port(port=straight_ref6.ports["o1"], name="o1", width=2.5)
+    assert c6.ports["o1"].width == 2.5
+
+    # Test 7: Change center when copying a port
+    c7 = gf.Component()
+    straight_ref7 = c7 << gf.components.straight()
+    new_center = (10.0, 20.0)
+    c7.add_port(port=straight_ref7.ports["o1"], name="o1", center=new_center)
+    assert c7.ports["o1"].center == new_center
+
+    # Test 8: Change orientation when copying a port
+    c8 = gf.Component()
+    straight_ref8 = c8 << gf.components.straight()
+    c8.add_port(port=straight_ref8.ports["o1"], name="o1", orientation=90)
+    assert c8.ports["o1"].orientation == 90
+
+    # Test 9: Change layer when copying a port
+    c9 = gf.Component()
+    straight_ref9 = c9 << gf.components.straight()
+    c9.add_port(port=straight_ref9.ports["o1"], name="o1", layer=(2, 0))
+    # Layer comparison needs to account for layer enum
+    assert c9.ports["o1"].layer.layer == 2
+
+    # Test 10: Change multiple properties together
+    c10 = gf.Component()
+    straight_ref10 = c10 << gf.components.straight()
+    c10.add_port(
+        port=straight_ref10.ports["o1"],
+        name="new_port",
+        width=3.0,
+        orientation=45,
+        port_type="electrical"
+    )
+    assert c10.ports["new_port"].width == 3.0
+    assert c10.ports["new_port"].orientation == 45
+    assert c10.ports["new_port"].port_type == "electrical"
