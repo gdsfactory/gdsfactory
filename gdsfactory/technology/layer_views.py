@@ -748,7 +748,7 @@ class LayerView(BaseModel):
             and line_style.text is not None
             and re.match(r"I\d+", line_style.text)
         ):
-            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore[assignment]
+            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]
 
         lv = LayerView(
             name=name,
@@ -1000,7 +1000,7 @@ class LayerViews(BaseModel):
 
         sorted_layers = sorted(
             non_empty_layers,
-            key=lambda x: (x.layer[0], x.layer[1]),  # type: ignore[index]
+            key=lambda x: (x.layer[0], x.layer[1]),
         )
 
         for n, layer in enumerate(sorted_layers):

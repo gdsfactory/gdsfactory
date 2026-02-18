@@ -442,8 +442,8 @@ def add_pins(
         function(component, port, **kwargs)
 
 
-add_pins_triangle = partial(add_pins, function=add_pin_triangle)  # type: ignore[arg-type]
-add_pins_center = partial(add_pins, function=add_pin_rectangle)  # type: ignore[arg-type]
+add_pins_triangle = partial(add_pins, function=add_pin_triangle)
+add_pins_center = partial(add_pins, function=add_pin_rectangle)
 add_pin_inside1nm = partial(
     add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
 )

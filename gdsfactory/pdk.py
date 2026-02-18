@@ -414,7 +414,7 @@ class Pdk(BaseModel):
             return ComponentAllAngle(base=component.base)
         if callable(component):
             _component = component(**kwargs)
-            return type(_component)(base=_component.base)  # type: ignore[call-overload,no-any-return]
+            return type(_component)(base=_component.base)
         if isinstance(component, str):
             if component not in cell_names:
                 substring = component
@@ -530,10 +530,10 @@ class Pdk(BaseModel):
         layer_index = self.get_layer(layer)
         assert self.layers is not None
         try:
-            return str(self.layers[layer_index])  # type: ignore[index]
+            return str(self.layers[layer_index])
         except Exception:
             try:
-                return str(self.layers(layer_index))  # type: ignore[call-arg]
+                return str(self.layers(layer_index))
             except Exception:
                 raise ValueError(f"Could not find name for layer {layer_index}")
 
@@ -747,7 +747,7 @@ def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:
 def get_layer_info(layer: LayerSpec) -> kf.kdb.LayerInfo:
     """Returns layer info from a layer spec."""
     layer_index = get_layer(layer)
-    return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
+    return kf.kcl.get_info(layer_index)
 
 
 def get_layer_views() -> LayerViews | str | PathType:

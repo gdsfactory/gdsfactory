@@ -191,7 +191,7 @@ def port_array(
                 orientation=orientation,
                 cross_section=sym_xs,
                 **kwargs,
-            )  # type: ignore[call-overload]
+            )
             for i in range(n)
         ]
     return [
@@ -204,7 +204,7 @@ def port_array(
             orientation=orientation,
             width=width,
             **kwargs,
-        )  # type: ignore[call-overload]
+        )
         for i in range(n)
     ]
 

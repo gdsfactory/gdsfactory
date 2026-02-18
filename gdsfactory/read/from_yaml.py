@@ -969,7 +969,7 @@ def _place_and_connect(
                             raise ValueError(f"{i1!r} not in {list(refs)}")
                         refs[i1].connect(
                             p1,
-                            other=refs[i2name],  # type: ignore[arg-type]
+                            other=refs[i2name],
                             other_port_name=(p2, i2a, i2b),
                         )
                     else:

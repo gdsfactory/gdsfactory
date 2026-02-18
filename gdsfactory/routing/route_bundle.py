@@ -325,7 +325,7 @@ def route_bundle(
                 )
             x = d.get("x", x) + d.get("dx", 0)
             y = d.get("y", y) + d.get("dy", 0)
-            waypoints += [(x, y)]  # type: ignore[arg-type]
+            waypoints += [(x, y)]
             if layer_marker:
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
@@ -333,7 +333,7 @@ def route_bundle(
                 marker.center = (x, y)
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
-            kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
+            kf.kdb.DPoint(p[0], p[1])
             for p in waypoints
         ]
         if layer_marker and waypoints_ is not None:
@@ -343,7 +343,7 @@ def route_bundle(
                 )
                 marker.center = (p.x, p.y)
     else:
-        waypoints_ = waypoints  # type: ignore[assignment]
+        waypoints_ = waypoints
 
     bend90 = (
         bend

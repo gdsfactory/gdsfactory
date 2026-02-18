@@ -543,7 +543,7 @@ class LayerStack(BaseModel):
             if level.derived_layer:
                 unetched_layers_dict[level.derived_layer.layer].append(layer_name)
                 if level.derived_layer.layer in unetched_layers:
-                    unetched_layers.remove(level.derived_layer.layer)  # type: ignore[arg-type]
+                    unetched_layers.remove(level.derived_layer.layer)
 
         # Define layers
         out += "\n".join(
@@ -595,8 +595,8 @@ class LayerStack(BaseModel):
                 )
                 if layer_views:
                     txt += ", "
-                    if layer in layer_views:  # type: ignore[operator]
-                        props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
+                    if layer in layer_views:
+                        props = layer_views.get_from_tuple(layer)
                         if (
                             hasattr(props, "color")
                             and hasattr(props.color, "fill")

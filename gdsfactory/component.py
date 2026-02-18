@@ -1132,7 +1132,7 @@ class Component(ComponentBase, kf.DKCell):
 
         polygon = points_to_polygon(points)
         if isinstance(polygon, kdb.DPolygon | kdb.DSimplePolygon):
-            polygon = polygon.to_itype(self.kcl.dbu)  # type: ignore[assignment]
+            polygon = polygon.to_itype(self.kcl.dbu)
 
         return self.kdb_cell.shapes(_layer).insert(polygon)
 
