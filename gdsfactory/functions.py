@@ -550,6 +550,6 @@ def remove_shapes_near_exclusion(
         cleaned_region = target_region - halo_region
 
     # Clear target layer and add cleaned geometry
-    c.shapes(target_layer_kdb).clear()
+    c.shapes(target_layer_kdb).clear()  # type: ignore[union-attr]
     c.shapes(target_layer_kdb).insert(cleaned_region)
     return c

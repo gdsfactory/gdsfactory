@@ -465,7 +465,7 @@ class LayerView(BaseModel):
         exclude_defaults: bool = False,
         exclude_none: bool = False,
         simplify: bool = True,
-    ) -> dict[str, Any]:
+    ) -> dict[str, Any]:  # type: ignore[type-arg]
         """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.

@@ -1080,7 +1080,7 @@ class Component(ComponentBase, kf.DKCell):
             overlap=overlap,
             smooth=smooth,
         )
-        self.shapes(layer).clear()
+        self.shapes(layer).clear()  # type: ignore[union-attr]
         self.shapes(layer).insert(fix)
 
     def offset(
@@ -1220,9 +1220,9 @@ class Component(ComponentBase, kf.DKCell):
 
         pixel_options = {"width": 800, "height": 600} | (pixel_buffer_options or {})
         pixel_buffer = layout_view.get_pixels_with_options(
-            width=pixel_options["width"],
-            height=pixel_options["height"],
-            **{k: v for k, v in pixel_options.items() if k not in ("width", "height")},
+            width=int(pixel_options["width"]),
+            height=int(pixel_options["height"]),
+            **{k: v for k, v in pixel_options.items() if k not in ("width", "height")},  # type: ignore[arg-type]
         )
         png_data = pixel_buffer.to_png_data()
 

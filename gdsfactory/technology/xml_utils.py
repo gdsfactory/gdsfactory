@@ -11,7 +11,7 @@ def strip_xml(node: Node) -> None:
     for x in node.childNodes:
         if x.nodeType == Node.TEXT_NODE:
             if x.nodeValue:
-                x.nodeValue = x.nodeValue.strip()
+                x.nodeValue = x.nodeValue.strip()  # type: ignore[misc]
         elif x.nodeType == Node.ELEMENT_NODE:
             strip_xml(x)
 
