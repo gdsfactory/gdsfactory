@@ -370,7 +370,7 @@ def get_netlist(
         port_matcher or _default_port_matcher,
         recursive=False,
     )
-    return cast(dict[str, Any], clean_value_json(recnet[next(iter(recnet))]))
+    return cast(dict[str, Any], clean_value_json(recnet[next(iter(recnet))]))  # ty:ignore[redundant-cast]
 
 
 def get_netlist_recursive(
@@ -461,14 +461,14 @@ def _insert_netlist(
                     "Cannot export netlist: virtual array instances are not supported."
                 )
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
-                inst = inst.to_dtype()
+                inst = inst.to_dtype()  # ty:ignore[call-non-callable]
             array = None
             virtual = True
             transform = inst.dcplx_trans * inst.cell.vtrans  # type: ignore[union-attr]
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_array_inst(inst):
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
-                inst = inst.to_dtype()
+                inst = inst.to_dtype()  # ty:ignore[call-non-callable]
             array = _get_array_config(inst)
             virtual = False
             transform = inst.dcplx_trans
@@ -482,7 +482,7 @@ def _insert_netlist(
             )
         else:
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
-                inst = inst.to_dtype()
+                inst = inst.to_dtype()  # ty:ignore[call-non-callable]
             array = None
             virtual = False
             transform = inst.dcplx_trans

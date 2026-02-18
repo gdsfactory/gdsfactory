@@ -97,4 +97,4 @@ jobs:
         run: |
           uv sync --extra dev
       - name: Run ty check
-        run: uv run ty check gdsfactory || true
+        run: uv run ty check gdsfactory

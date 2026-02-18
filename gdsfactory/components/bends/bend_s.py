@@ -351,7 +351,7 @@ def get_min_sbend_size(
 
     for s in sizes:
         sz = size_list
-        sz[ind] = s
+        sz[ind] = s  # ty:ignore[invalid-assignment]
         dx, dy = size_list
         assert dx is not None and dy is not None
         control_points = ((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy))
@@ -364,4 +364,4 @@ def get_min_sbend_size(
             min_size = s
             break
 
-    return min_size
+    return min_size  # ty:ignore[invalid-return-type]

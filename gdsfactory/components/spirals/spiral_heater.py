@@ -298,7 +298,7 @@ def _req_straight_len(
         route = route_single(
             c,
             spiral.ports["o2"],
-            c.ports["o2"],
+            c.ports["o2"],  # ty:ignore[invalid-argument-type]
             straight=straight,
             bend=bend,
             cross_section=cross_section_s_bend,

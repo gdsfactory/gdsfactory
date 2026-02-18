@@ -57,7 +57,7 @@ def pad_gsg_short(
     gf.routing.route_quad(
         c, gnd_top.ports["e2"], pads.ports["e1_3_1"], layer=layer_metal
     )
-    gf.routing.route_quad(c, via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal)
+    gf.routing.route_quad(c, via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal)  # ty:ignore[invalid-argument-type]
     return c
 
 

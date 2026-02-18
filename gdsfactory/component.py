@@ -1220,8 +1220,8 @@ class Component(ComponentBase, kf.DKCell):
 
         pixel_options = {"width": 800, "height": 600} | (pixel_buffer_options or {})
         pixel_buffer = layout_view.get_pixels_with_options(
-            width=int(pixel_options["width"]),
-            height=int(pixel_options["height"]),
+            width=int(pixel_options["width"]),  # ty:ignore[invalid-argument-type]
+            height=int(pixel_options["height"]),  # ty:ignore[invalid-argument-type]
             **{k: v for k, v in pixel_options.items() if k not in ("width", "height")},  # type: ignore[arg-type]
         )
         png_data = pixel_buffer.to_png_data()
@@ -1439,7 +1439,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         c.settings = self.settings.model_copy()
         c.settings_units = self.settings_units.model_copy()
         c.info = self.info.model_copy()
-        for layer, shapes in self.shapes().items():
+        for layer, shapes in self.shapes().items():  # ty:ignore[missing-argument, unresolved-attribute]
             for shape in shapes:
                 c.shapes(layer).insert(shape)
 
@@ -1461,7 +1461,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         polygon = points_to_polygon(points)
 
-        return self.shapes(_layer).insert(polygon)
+        return self.shapes(_layer).insert(polygon)  # ty:ignore[invalid-return-type]
 
     def get_polygons(self, layer: LayerSpec) -> list[kf.kdb.DPolygon]:
         """Returns a list of polygons from the Component."""
