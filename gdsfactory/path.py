@@ -207,7 +207,7 @@ class Path(UMGeometricObject):
         return kdb.DBox(*self.bbox_np().flatten())
 
     def ibbox(self, layer: int | None = None) -> kdb.Box:
-        return kdb.Box(*map(gf.kcl.to_dbu, self.bbox_np().flatten()))  # ty:ignore[invalid-argument-type]
+        return kdb.Box(*map(gf.kcl.to_dbu, self.bbox_np().flatten()))  # ty: ignore[invalid-argument-type]
 
     def bbox_np(self) -> npt.NDArray[np.float64]:
         """Returns the bounding box of the Path as a numpy array."""
@@ -1051,7 +1051,7 @@ def extrude(
                 p_segment_lengths[::-1]
             )  # To get stop inset idx & path length
 
-            if all(section.insets[:] > p_segment_lengths_forward_cumsum[-1]):  # ty:ignore[invalid-argument-type]
+            if all(section.insets[:] > p_segment_lengths_forward_cumsum[-1]):  # ty: ignore[invalid-argument-type]
                 warnings.warn(
                     f"Cannot apply delay to Section '{section.name}', delay results in points outside "
                     f"of original path.",
@@ -1193,7 +1193,7 @@ def extrude(
         # Add port_names if they were specified
         if port_names[0]:
             port_width = (
-                width_value if isinstance(width_value, float) else width_value[0]  # ty:ignore[not-subscriptable]
+                width_value if isinstance(width_value, float) else width_value[0]  # ty: ignore[not-subscriptable]
             )
             port_orientation = (p_sec.start_angle + 180) % 360
             center = np.average([points1[0], points2[0]], axis=0)
@@ -1211,7 +1211,7 @@ def extrude(
             )
         if port_names[1]:
             port_width = (
-                width_value if isinstance(width_value, float) else width_value[-1]  # ty:ignore[not-subscriptable]
+                width_value if isinstance(width_value, float) else width_value[-1]  # ty: ignore[not-subscriptable]
             )
             port_orientation = (p_sec.end_angle) % 360
             center = np.average([points1[-1], points2[-1]], axis=0)
@@ -1456,7 +1456,7 @@ def extrude_transition(
             assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[:2],
-                offset_distance=offset_value1[:2],  # ty:ignore[not-subscriptable]
+                offset_distance=offset_value1[:2],  # ty: ignore[not-subscriptable]
                 start_angle=start_angle,
                 end_angle=None,
             )[0]
@@ -1476,7 +1476,7 @@ def extrude_transition(
             assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[-2:],
-                offset_distance=offset_value1[-2:],  # ty:ignore[not-subscriptable]
+                offset_distance=offset_value1[-2:],  # ty: ignore[not-subscriptable]
                 start_angle=None,
                 end_angle=end_angle,
             )[-1]

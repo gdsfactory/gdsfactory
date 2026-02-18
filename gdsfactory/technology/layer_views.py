@@ -1109,7 +1109,7 @@ class LayerViews(BaseModel):
             assert name is not None  # Type assertion for mypy
             pattern = "\n".join(
                 [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
-            )  # ty:ignore[no-matching-overload]
+            )  # ty: ignore[no-matching-overload]
 
             if name in dither_patterns:
                 warnings.warn(

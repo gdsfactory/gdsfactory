@@ -68,7 +68,7 @@ def taper_hecken(
         raise ValueError(
             "Z1 and Z2 must be specified either directly or via width1/width2"
         )
-    Z = [np.exp(0.5 * log(Z1 * Z2) + 0.5 * log(Z2 / Z1) * _G(xi, B)) for xi in xi_list]  # ty:ignore[invalid-argument-type]
+    Z = [np.exp(0.5 * log(Z1 * Z2) + 0.5 * log(Z2 / Z1) * _G(xi, B)) for xi in xi_list]  # ty: ignore[invalid-argument-type]
     widths = np.array(
         [
             _find_microstrip_wire_width(

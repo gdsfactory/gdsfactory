@@ -90,7 +90,7 @@ def add_fiber_single(
         gc = grating_coupler[0]
     else:
         gc = grating_coupler
-    gc = gf.get_component(gc)  # ty:ignore[invalid-argument-type]
+    gc = gf.get_component(gc)  # ty: ignore[invalid-argument-type]
 
     if mirror_grating_coupler:
         gc = gf.functions.mirror(gc)
@@ -124,7 +124,7 @@ def add_fiber_single(
         )
 
     grating_coupler = (
-        [gf.get_component(i) for i in grating_coupler]  # ty:ignore[invalid-argument-type]
+        [gf.get_component(i) for i in grating_coupler]  # ty: ignore[invalid-argument-type]
         if isinstance(grating_coupler, list)
         else gf.get_component(grating_coupler)
     )

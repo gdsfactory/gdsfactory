@@ -61,7 +61,7 @@ def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str,
     else:
         with pathlib.Path(subpic_yaml).open() as f:
             subpic_text = f.readlines()
-    main_file, default_settings_string = split_default_settings_from_yaml(subpic_text)  # ty:ignore[invalid-argument-type]
+    main_file, default_settings_string = split_default_settings_from_yaml(subpic_text)  # ty: ignore[invalid-argument-type]
     if default_settings_string:
         default_settings = yaml.safe_load(default_settings_string)["default_settings"]
     else:

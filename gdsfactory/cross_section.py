@@ -139,7 +139,7 @@ class Section(BaseModel):
         if func is None:
             return None
         t_values = np.linspace(0, 1, 11)
-        return ",".join([str(round(width, 3)) for width in func(t_values)])  # ty:ignore[no-matching-overload]
+        return ",".join([str(round(width, 3)) for width in func(t_values)])  # ty: ignore[no-matching-overload]
 
     @field_serializer("offset_function")
     def serialize_offset_function(
@@ -148,7 +148,7 @@ class Section(BaseModel):
         if func is None:
             return None
         t_values = np.linspace(0, 1, 11)
-        return ",".join([str(round(func(offset), 3)) for offset in t_values])  # ty:ignore[invalid-argument-type]
+        return ",".join([str(round(func(offset), 3)) for offset in t_values])  # ty: ignore[invalid-argument-type]
 
 
 class ComponentAlongPath(BaseModel):
@@ -391,7 +391,7 @@ class CrossSection(BaseModel):
                 padding.append(points)
 
             for layer, points in zip(self.bbox_layers, padding, strict=False):
-                c.add_polygon(points, layer=layer)  # ty:ignore[invalid-argument-type]
+                c.add_polygon(points, layer=layer)  # ty: ignore[invalid-argument-type]
         return c
 
     def get_xmin_xmax(self) -> tuple[float, float]:

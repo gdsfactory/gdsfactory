@@ -42,7 +42,7 @@ def to_svg(
         print("You need to `pip install shapely` to use the `to_svg` function.")
         raise
 
-    layer_views = layer_views or get_layer_views()  # ty:ignore[invalid-assignment]
+    layer_views = layer_views or get_layer_views()  # ty: ignore[invalid-assignment]
     layer_stack = layer_stack or get_layer_stack()
 
     # Convert exclude_layers to layer indices for consistency
@@ -98,7 +98,7 @@ def to_svg(
                 continue
 
             # Retrieve layer view properties
-            layer_view = layer_views.get_from_tuple(layer_tuple)  # ty:ignore[unresolved-attribute]
+            layer_view = layer_views.get_from_tuple(layer_tuple)  # ty: ignore[unresolved-attribute]
             if not layer_view.visible or layer_view.fill_color is None:
                 continue
 

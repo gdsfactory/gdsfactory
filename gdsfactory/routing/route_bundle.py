@@ -333,7 +333,7 @@ def route_bundle(
                 marker.center = (x, y)
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
-            kf.kdb.DPoint(p[0], p[1])  # ty:ignore[not-subscriptable]
+            kf.kdb.DPoint(p[0], p[1])  # ty: ignore[not-subscriptable]
             for p in waypoints
         ]
         if layer_marker and waypoints_ is not None:
@@ -387,7 +387,7 @@ def route_bundle(
             end_angles=end_angles,
             start_angles=start_angles,
             path_length_matching_config=path_length_matching_config,
-        )  # ty:ignore[no-matching-overload]
+        )  # ty: ignore[no-matching-overload]
     except Exception as e:
         if "kdb.Trans" in str(e):
             e = ValueError("You need at least 2 waypoints or steps.")
@@ -421,7 +421,7 @@ def route_bundle(
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
-                marker.center = (p.x, p.y)  # ty:ignore[unresolved-attribute]
+                marker.center = (p.x, p.y)  # ty: ignore[unresolved-attribute]
 
     if layer_label:
         for route_i in route:

@@ -33,7 +33,7 @@ def symbol_from_cell(func: _F, to_symbol: ToSymbol) -> _F:
     @functools.wraps(func)
     def _symbol(*args: Any, **kwargs: Any) -> Component:
         component = func(*args, **kwargs)
-        c_symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")  # ty:ignore[unresolved-attribute]
+        c_symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")  # ty: ignore[unresolved-attribute]
         return c_symbol
 
     _symbol._symbol = True  # type: ignore[attr-defined]
@@ -98,9 +98,9 @@ def floorplan_with_block_letters(
         justify="center",
     )
 
-    text = sym << text_component  # ty:ignore[invalid-assignment]
-    text.x = component.x  # ty:ignore[unresolved-attribute]
-    text.y = component.y  # ty:ignore[unresolved-attribute]
+    text = sym << text_component  # ty: ignore[invalid-assignment]
+    text.x = component.x  # ty: ignore[unresolved-attribute]
+    text.y = component.y  # ty: ignore[unresolved-attribute]
 
     sym.add_ports(component.ports)
 

@@ -813,7 +813,7 @@ def from_yaml(
     c = _add_routes(c, refs, net.routes, routing_strategies)
     c = _add_ports(c, refs, net.ports)
     c = _add_labels(c, refs, label_instance_function)
-    c.name = name or net.name or c.name  # ty:ignore[invalid-assignment]
+    c.name = name or net.name or c.name  # ty: ignore[invalid-assignment]
     return c
 
 
@@ -971,7 +971,7 @@ def _place_and_connect(
                             p1,
                             other=refs[i2name],
                             other_port_name=(p2, i2a, i2b),
-                        )  # ty:ignore[no-matching-overload]
+                        )  # ty: ignore[no-matching-overload]
                     else:
                         if i1 not in refs:
                             raise ValueError(f"{i1!r} not in {list(refs)}")
@@ -1043,7 +1043,7 @@ def _add_ports(
 
         # Optimize: Check port presence directly in mapping (faster than building list)
         ports_keys = (
-            ref.ports._ports.keys()  # ty:ignore[unresolved-attribute]
+            ref.ports._ports.keys()  # ty: ignore[unresolved-attribute]
             if hasattr(ref.ports, "_ports")
             else [p.name for p in ref.ports]
         )

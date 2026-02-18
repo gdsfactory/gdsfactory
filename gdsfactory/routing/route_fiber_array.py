@@ -138,7 +138,7 @@ def route_fiber_array(
 
     # grating_coupler can either be a component/function or a list of components/functions
     if isinstance(grating_coupler, list):
-        grating_couplers = [gf.get_component(g) for g in grating_coupler]  # ty:ignore[invalid-argument-type]
+        grating_couplers = [gf.get_component(g) for g in grating_coupler]  # ty: ignore[invalid-argument-type]
         grating_coupler = grating_couplers[0]
     else:
         grating_coupler = gf.get_component(grating_coupler)
@@ -167,7 +167,7 @@ def route_fiber_array(
     x_c = round(sum(p.x for p in to_route) / n, 1)
 
     # Sort the list of optical ports:
-    direction_ports = direction_ports_from_list_ports(to_route)  # ty:ignore[invalid-argument-type]
+    direction_ports = direction_ports_from_list_ports(to_route)  # ty: ignore[invalid-argument-type]
     separation = straight_separation
 
     k = len(to_route)
@@ -275,7 +275,7 @@ def route_fiber_array(
 
         io_gratings_lines += [io_gratings[:]]
         if with_fiber_port:
-            ports += [grating.ports[gc_port_name_fiber] for grating in io_gratings]  # ty:ignore[unsupported-operator]
+            ports += [grating.ports[gc_port_name_fiber] for grating in io_gratings]  # ty: ignore[unsupported-operator]
 
     if force_manhattan:
         # 1) find the min x_distance between each grating and component port.
@@ -295,8 +295,8 @@ def route_fiber_array(
     # If the array of gratings is too close, adjust its location
     gc_ports_tmp: list[gf.Port] = []
     for io_gratings in io_gratings_lines:
-        gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]  # ty:ignore[unsupported-operator]
-    min_y = get_min_spacing(to_route, gc_ports_tmp, separation=separation, radius=dy)  # ty:ignore[invalid-argument-type]
+        gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]  # ty: ignore[unsupported-operator]
+    min_y = get_min_spacing(to_route, gc_ports_tmp, separation=separation, radius=dy)  # ty: ignore[invalid-argument-type]
     delta_y = abs(to_route[0].y - gc_ports_tmp[0].y)
 
     if min_y > delta_y:
@@ -306,7 +306,7 @@ def route_fiber_array(
 
     # If we add align ports, we need enough space for the bends
     io_gratings = io_gratings_lines[0]
-    gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]  # ty:ignore[invalid-assignment]
+    gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]  # ty: ignore[invalid-assignment]
     # c.shapes(c.kcl.layer(1, 10)).insert(component_to_route.bbox())
 
     _bboxes: list[kdb.DBox] = [kdb.DBox(*bbox) for bbox in bboxes or []]
@@ -317,7 +317,7 @@ def route_fiber_array(
 
     route_bundle(
         component,
-        ports1=list(to_route),  # ty:ignore[invalid-argument-type]
+        ports1=list(to_route),  # ty: ignore[invalid-argument-type]
         ports2=list(gc_ports),
         separation=separation,
         bend=bend90,

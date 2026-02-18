@@ -596,7 +596,7 @@ class LayerStack(BaseModel):
                 if layer_views:
                     txt += ", "
                     if layer in layer_views:
-                        props = layer_views.get_from_tuple(layer)  # ty:ignore[invalid-argument-type]
+                        props = layer_views.get_from_tuple(layer)  # ty: ignore[invalid-argument-type]
                         if (
                             hasattr(props, "color")
                             and hasattr(props.color, "fill")

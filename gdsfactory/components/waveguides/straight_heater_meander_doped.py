@@ -241,7 +241,7 @@ def straight_heater_meander_doped(
 
     # delete any straights with zero length
     for inst in list(c.insts):
-        if inst.cell.settings.get("length") == 0.0:  # ty:ignore[unresolved-attribute]
+        if inst.cell.settings.get("length") == 0.0:  # ty: ignore[unresolved-attribute]
             del c.insts[inst]
     c.flatten()
     return c
