@@ -240,7 +240,9 @@ def mzi(
     b7.name = "b7"
 
     sybr = c << gf.get_component(
-        straight_y, length=bot_arm_length, cross_section=cross_section,
+        straight_y,
+        length=bot_arm_length,
+        cross_section=cross_section,
     )
     sybr.connect(port1, b7.ports[port2])
     b8 = c << bend
