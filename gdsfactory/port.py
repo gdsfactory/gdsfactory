@@ -38,6 +38,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, Unpack, ca
 
 import kfactory as kf
 import numpy as np
+from kfactory.ports import ProtoPorts
 from rich.console import Console
 from rich.table import Table
 
@@ -322,7 +323,7 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 
 
 def select_ports(
-    ports: Ports | ComponentReference,
+    ports: Ports | ComponentReference | ProtoPorts,
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,

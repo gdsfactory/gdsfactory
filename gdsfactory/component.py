@@ -1218,8 +1218,11 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
+        pixel_options = {"width": 800, "height": 600} | (pixel_buffer_options or {})
         pixel_buffer = layout_view.get_pixels_with_options(
-            **({"width": 800, "height": 600} | (pixel_buffer_options or {}))
+            width=pixel_options["width"],
+            height=pixel_options["height"],
+            **{k: v for k, v in pixel_options.items() if k not in ("width", "height")},
         )
         png_data = pixel_buffer.to_png_data()
 
