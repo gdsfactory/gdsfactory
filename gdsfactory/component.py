@@ -203,8 +203,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         from gdsfactory.pdk import get_cross_section, get_layer
 
-        # Resolve initial values from the existing port if provided
+        # Resolve initial values and determine if we need to override the transformation
+        override_transformation = False
         if port:
+            override_transformation = (center is not None) or (orientation is not None)
             center = center if center is not None else port.center
             width = width if width is not None else port.width
             orientation = orientation if orientation is not None else port.orientation
@@ -247,13 +249,20 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if center is None:
             raise AddPortError("Must specify center")
 
-        layer = get_layer(layer)
-
-        if isinstance(center, kdb.DPoint):
-            trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
+        # Prefer port.dcplx_trans if port is provided and no overriding parameters are given
+        # Otherwise, construct a new transformation based on the provided or inherited parameters
+        if not port or override_transformation:
+            if isinstance(center, kdb.DPoint):
+                trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
+            else:
+                x, y = float(center[0]), float(center[1])
+                trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
         else:
-            x, y = float(center[0]), float(center[1])
-            trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
+            trans = port.dcplx_trans
+            if not keep_mirror:
+                trans.mirror = False
+
+        layer = get_layer(layer)
 
         _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
             name=name,
