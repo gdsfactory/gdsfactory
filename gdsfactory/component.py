@@ -36,6 +36,7 @@ from kfactory.utils.violations import (
 from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
+from typing_extensions import override
 
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.serialization import clean_value_json
@@ -165,7 +166,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             [[self.xmin, self.ymin], [self.xmax, self.ymax]], dtype=np.float64
         )
 
-    def add_port(
+    @override
+    def add_port(  # pyright: ignore[reportIncompatibleMethodOverride]
         self,
         name: str | None = None,
         *,
