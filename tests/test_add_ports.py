@@ -4,6 +4,7 @@ import math
 from functools import partial
 
 import pytest
+from numpy.testing import assert_allclose
 
 import gdsfactory as gf
 from gdsfactory.add_ports import (
@@ -179,7 +180,9 @@ class TestAddPortWithKwargs:
             port_type="electrical",
         )
         assert c.ports["new_port"].width == 3.0, "Width should be 3.0"
-        assert c.ports["new_port"].orientation == 45, "Orientation should be 45"
+        assert_allclose(
+            c.ports["new_port"].orientation, 45, err_msg="Orientation should be 45"
+        )
         assert c.ports["new_port"].port_type == "electrical", (
             "Port type should be electrical"
         )
