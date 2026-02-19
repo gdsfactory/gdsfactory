@@ -49,7 +49,7 @@ parts:
     chapters:
       - file: api
       - file: api_routing
-      - file: components  # generated with `uv run python docs/write_cells.py`
+      - file: components # generated with `uv run python docs/write_cells.py`
       - file: contribution
       - file: changelog
       - url: https://gdsfactory.github.io/gdsfactory-photonics-training/index.html
