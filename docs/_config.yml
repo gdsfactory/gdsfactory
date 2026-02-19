@@ -26,8 +26,8 @@ execute:
 # - "*03_cascaded_mzi*"
 # - "*jupyter_notebooks*"
 latex:
-  latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
-  use_jupyterbook_latex: true # use sphinx-jupyterbook-latex for pdf builds as default
+  latex_engine: pdflatex  # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
+  use_jupyterbook_latex: true  # use sphinx-jupyterbook-latex for pdf builds as default
 # Add a bibtex file so that we can create citations
 
 html:
@@ -42,9 +42,9 @@ html:
 # Information about where the book exists on the web
 
 repository:
-  url: https://github.com/gdsfactory/gdsfactory # Online location of your book
-  path_to_book: docs # Optional path to your book, relative to the repository root
-  branch: main # Which branch of the repository should be used when creating links (optional)
+  url: https://github.com/gdsfactory/gdsfactory  # Online location of your book
+  path_to_book: docs  # Optional path to your book, relative to the repository root
+  branch: main  # Which branch of the repository should be used when creating links (optional)
 # launch_buttons:
 
 # binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"

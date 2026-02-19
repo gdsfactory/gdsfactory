@@ -31,5 +31,6 @@ jobs:
         with:
           mode: minimum
           count: 1
-          labels: "breaking, bug, github_actions, documentation, dependencies, enhancement, feature, maintenance, security, typing"
+          labels: "breaking, bug, github_actions, documentation, dependencies, enhancement, feature, maintenance, security,
+            typing"
           add_comment: true
