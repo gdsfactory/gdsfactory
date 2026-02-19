@@ -46,7 +46,7 @@ def to_svg(
     layer_views_raw = layer_views or get_layer_views()
     
     # Convert layer_views if it's a file path
-    if isinstance(layer_views_raw, str | pathlib.Path):
+    if isinstance(layer_views_raw, (str, pathlib.Path)):
         layer_views = LayerViews(filepath=layer_views_raw)
     else:
         layer_views = layer_views_raw
