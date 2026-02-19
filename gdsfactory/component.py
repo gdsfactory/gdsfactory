@@ -201,7 +201,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if self.locked:
             raise LockedError(self)
 
-        from gdsfactory.config import CONF
         from gdsfactory.pdk import get_cross_section, get_layer
 
         # Resolve initial values from the existing port if provided
