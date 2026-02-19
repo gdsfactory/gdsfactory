@@ -75,10 +75,11 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         )
 
     if getattr(font, "gds_glyphs", None) is None:
-        font.gds_glyphs = {}
+        setattr(font, "gds_glyphs", {})
 
-    if letter in font.gds_glyphs:
-        return font.gds_glyphs[letter]  # type: ignore[no-any-return]
+    gds_glyphs = getattr(font, "gds_glyphs", {})
+    if letter in gds_glyphs:
+        return gds_glyphs[letter]  # type: ignore[no-any-return]
 
     # Get the font name
     font_name = font.family_name.decode().replace(" ", "_")
@@ -93,8 +94,8 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     if not outline.contours:
         component = Component()
         component.name = block_name
-        font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
-        return font.gds_glyphs[letter]  # type: ignore[no-any-return]
+        gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
+        return gds_glyphs[letter]  # type: ignore[no-any-return]
 
     # Add polylines
     start, end = 0, -1
@@ -173,8 +174,9 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     component.name = block_name
 
     # Cache the return value and return it
-    font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
-    return font.gds_glyphs[letter]  # type: ignore[no-any-return]
+    gds_glyphs = getattr(font, "gds_glyphs", {})
+    gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
+    return gds_glyphs[letter]  # type: ignore[no-any-return]
 
 
 def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:
