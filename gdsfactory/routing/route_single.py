@@ -170,7 +170,7 @@ def route_single(
             w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p1.center)))
             for p in waypoints_list:
                 if isinstance(p, tuple):
-                    w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))  # ty: ignore[invalid-argument-type]
+                    w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
                 else:
                     w.append(p.to_itype(c.kcl.dbu))
             w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p2.center)))

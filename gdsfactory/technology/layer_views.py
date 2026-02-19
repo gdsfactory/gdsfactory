@@ -465,7 +465,7 @@ class LayerView(BaseModel):
         exclude_defaults: bool = False,
         exclude_none: bool = False,
         simplify: bool = True,
-    ) -> dict[str, Any]:  # type: ignore[type-arg]
+    ) -> builtins.dict[str, Any]:
         """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
@@ -1109,7 +1109,7 @@ class LayerViews(BaseModel):
             assert name is not None  # Type assertion for mypy
             pattern = "\n".join(
                 [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
-            )  # ty: ignore[no-matching-overload]
+            )
 
             if name in dither_patterns:
                 warnings.warn(

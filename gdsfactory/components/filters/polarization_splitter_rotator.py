@@ -54,10 +54,10 @@ def polarization_splitter_rotator(
     w0, w1, w2 = width_taper_in
     w3, w4 = width_coupler
     if len(length_taper_in) == 2:
-        l1, l2 = length_taper_in  # ty: ignore[invalid-assignment]
+        l1, l2 = length_taper_in
         l3 = l1 * (w3 - w2) / (w1 - w0)
     else:
-        l1, l2, l3 = length_taper_in  # ty: ignore[invalid-assignment]
+        l1, l2, l3 = length_taper_in
 
     taper_in1 = c << gf.c.taper(
         length=l1, width1=w0, width2=w1, cross_section=cross_section

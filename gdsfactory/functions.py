@@ -42,7 +42,7 @@ def move_port_to_zero(
         ref.dmirror()
 
     movement = np.array(ref.ports[port_name].center)
-    ref.move(tuple(-movement))  # ty: ignore[invalid-argument-type]
+    ref.move(tuple(-movement))
     c.add_ports(ref.ports)
     c.copy_child_info(component)
     return c
@@ -93,7 +93,7 @@ def extract(
             if recursive:
                 c.shapes(layer_index).insert(component.begin_shapes_rec(layer_index))
             else:
-                c.shapes(layer_index).insert(component.shapes(layer_index))  # ty: ignore[invalid-argument-type, no-matching-overload]
+                c.shapes(layer_index).insert(component.shapes(layer_index))
 
     return c
 
@@ -538,7 +538,7 @@ def remove_shapes_near_exclusion(
 
     # Get target shapes
     target_layer_kdb = gf.get_layer(target_layer)
-    target_region = kdb.Region(c.shapes(target_layer_kdb))  # ty: ignore[no-matching-overload]
+    target_region = kdb.Region(c.shapes(target_layer_kdb))
 
     if remove_entire_shapes:
         # Remove entire shapes that interact with the exclusion halo
@@ -550,6 +550,6 @@ def remove_shapes_near_exclusion(
         cleaned_region = target_region - halo_region
 
     # Clear target layer and add cleaned geometry
-    c.shapes(target_layer_kdb).clear()  # type: ignore[union-attr]
+    c.shapes(target_layer_kdb).clear()
     c.shapes(target_layer_kdb).insert(cleaned_region)
     return c

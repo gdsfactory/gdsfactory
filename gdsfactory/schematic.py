@@ -264,7 +264,7 @@ def to_graphviz(
         else:
             instance_component = instance["component"]
         ports_ = gf.get_component(instance_component).ports
-        all_ports.append((name, ports_))  # ty: ignore[invalid-argument-type]
+        all_ports.append((name, ports_))
 
     for node, placement in placements.items():
         ports = dict(all_ports).get(node)

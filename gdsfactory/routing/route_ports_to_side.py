@@ -103,7 +103,7 @@ def route_ports_to_side(
     if side in {"east", "west"}:
         x_value = x if x is not None else side
         if isinstance(x_value, str):
-            x_value = cast("Literal['east', 'west']", x_value)  # ty: ignore[redundant-cast]
+            x_value = cast("Literal['east', 'west']", x_value)
         side = cast("Literal['west', 'east']", side)
         return route_ports_to_x(
             component=component,

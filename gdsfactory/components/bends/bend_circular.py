@@ -104,9 +104,9 @@ def _bend_circular(
         min_bend_radius=radius,
     )
     for prt in c.ports:  # positive radius for outward left turning
-        if all(prt.center == p.points[0]):  # ty: ignore[invalid-argument-type]
+        if all(prt.center == p.points[0]):
             prt.info["radius"] = -radius if angle > 0 else radius
-        elif all(prt.center == p.points[-1]):  # ty: ignore[invalid-argument-type]
+        elif all(prt.center == p.points[-1]):
             prt.info["radius"] = radius if angle > 0 else -radius
     return c
 

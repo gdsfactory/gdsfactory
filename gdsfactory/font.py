@@ -75,9 +75,9 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         )
 
     if getattr(font, "gds_glyphs", None) is None:
-        font.gds_glyphs = {}  # ty: ignore[unresolved-attribute]
+        font.gds_glyphs = {}
 
-    if letter in font.gds_glyphs:  # ty: ignore[unresolved-attribute]
+    if letter in font.gds_glyphs:
         return font.gds_glyphs[letter]  # type: ignore[no-any-return]
 
     # Get the font name
@@ -93,7 +93,7 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     if not outline.contours:
         component = Component()
         component.name = block_name
-        font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)  # ty: ignore[unresolved-attribute]
+        font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
         return font.gds_glyphs[letter]  # type: ignore[no-any-return]
 
     # Add polylines
@@ -173,7 +173,7 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     component.name = block_name
 
     # Cache the return value and return it
-    font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)  # ty: ignore[unresolved-attribute]
+    font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
     return font.gds_glyphs[letter]  # type: ignore[no-any-return]
 
 

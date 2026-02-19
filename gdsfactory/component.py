@@ -1080,7 +1080,7 @@ class Component(ComponentBase, kf.DKCell):
             overlap=overlap,
             smooth=smooth,
         )
-        self.shapes(layer).clear()  # type: ignore[union-attr]
+        self.shapes(layer).clear()
         self.shapes(layer).insert(fix)
 
     def offset(
@@ -1219,11 +1219,21 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
         pixel_options = {"width": 800, "height": 600} | (pixel_buffer_options or {})
-        pixel_buffer = layout_view.get_pixels_with_options(
-            width=int(pixel_options["width"]),  # ty: ignore[invalid-argument-type]
-            height=int(pixel_options["height"]),  # ty: ignore[invalid-argument-type]
-            **{k: v for k, v in pixel_options.items() if k not in ("width", "height")},  # type: ignore[arg-type]
-        )
+        width = int(pixel_options["width"])
+        height = int(pixel_options["height"])
+        
+        # Extract optional parameters with proper types
+        kwargs = {}
+        if "linewidth" in pixel_options:
+            kwargs["linewidth"] = int(pixel_options["linewidth"])
+        if "oversampling" in pixel_options:
+            kwargs["oversampling"] = int(pixel_options["oversampling"])
+        if "resolution" in pixel_options:
+            kwargs["resolution"] = float(pixel_options["resolution"])
+        if "target" in pixel_options:
+            kwargs["target"] = pixel_options["target"]
+        
+        pixel_buffer = layout_view.get_pixels_with_options(width=width, height=height, **kwargs)
         png_data = pixel_buffer.to_png_data()
 
         # Convert PNG data to NumPy array and display with matplotlib
@@ -1439,7 +1449,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         c.settings = self.settings.model_copy()
         c.settings_units = self.settings_units.model_copy()
         c.info = self.info.model_copy()
-        for layer, shapes in self.shapes().items():  # ty: ignore[missing-argument, unresolved-attribute]
+        for layer, shapes in self.shapes().items():
             for shape in shapes:
                 c.shapes(layer).insert(shape)
 
@@ -1461,7 +1471,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         polygon = points_to_polygon(points)
 
-        return self.shapes(_layer).insert(polygon)  # ty: ignore[invalid-return-type]
+        return self.shapes(_layer).insert(polygon)
 
     def get_polygons(self, layer: LayerSpec) -> list[kf.kdb.DPolygon]:
         """Returns a list of polygons from the Component."""
