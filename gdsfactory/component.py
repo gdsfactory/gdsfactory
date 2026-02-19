@@ -247,7 +247,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if width is None:
             raise AddPortError("Must specify width or cross_section")
         if center is None:
-            raise AddPortError("Must specify center")
+            raise AddPortError("Must specify center or port")
 
         # Prefer port.dcplx_trans if port is provided and no overriding parameters are given
         # Otherwise, construct a new transformation based on the provided or inherited parameters
