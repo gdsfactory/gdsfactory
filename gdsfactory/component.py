@@ -194,7 +194,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             width: width of the port.
             orientation: orientation of the port. If None and port is provided, preserves the original port's orientation. If None and port is not provided, defaults to 0.
             layer: layer spec to add port on.
-            port_type: port type (optical, electrical, ...). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
+            port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
         """
@@ -215,10 +215,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             cross_section = (
                 cross_section
                 if cross_section is not None
-                else port.info.get("cross_section")
+                else getattr(port, "cross_section", port.info.get("cross_section"))
             )
 
-        # Apply Cross Section overrides
+        # Apply CrossSection overrides
         xs_name = None
         if cross_section:
             xs = get_cross_section(cross_section)
