@@ -42,6 +42,11 @@ from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.utils import to_kdb_dpoints
 
+
+class AddPortError(ValueError):
+    """Error raised when adding a port fails."""
+
+
 if TYPE_CHECKING:
     from gdsfactory.cross_section import CrossSection, CrossSectionSpec
     from gdsfactory.get_netlist import (
@@ -237,11 +242,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             )
 
         if layer is None:
-            raise ValueError("Must specify layer or cross_section")
+            raise AddPortError("Must specify layer or cross_section")
         if width is None:
-            raise ValueError("Must specify width or cross_section")
+            raise AddPortError("Must specify width or cross_section")
         if center is None:
-            raise ValueError("Must specify center")
+            raise AddPortError("Must specify center")
 
         layer = get_layer(layer)
 
