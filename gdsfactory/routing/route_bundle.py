@@ -158,7 +158,9 @@ def route_bundle(
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         auto_taper_taper: taper to use for auto-tapering. If None, uses the default taper for the cross-section.
         waypoints: list of waypoints to add to the route.
-        steps: list of steps to add to the route. Each step is a dict with keys (x, y, dx, dy).
+        steps: list of steps to add to the route.
+            Each step is a dict with keys: x (absolute), y (absolute), dx (relative), dy (relative).
+            Use x/y to set an absolute coordinate and dx/dy to shift relative to the current position.
         start_angles: list of start angles for the routes. Only used for electrical ports.
         end_angles: list of end angles for the routes. Only used for electrical ports.
         router: Set the type of router to use, either the optical one or the electrical one.

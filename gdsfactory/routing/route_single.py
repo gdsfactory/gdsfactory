@@ -85,7 +85,9 @@ def route_single(
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         waypoints: optional list of points to pass through.
-        steps: optional list of steps to pass through. Each step is a dict with keys (x, y, dx, dy).
+        steps: optional list of steps to pass through.
+            Each step is a dict with keys: x (absolute), y (absolute), dx (relative), dy (relative).
+            Use x/y to set an absolute coordinate and dx/dy to shift relative to the current position.
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
