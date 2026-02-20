@@ -85,7 +85,7 @@ def route_single(
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         waypoints: optional list of points to pass through.
-        steps: optional list of steps to pass through.
+        steps: optional list of steps to pass through. Each step can be a dict (x, y, dx, dy) or a tuple (x, y) for absolute coordinates.
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
@@ -148,21 +148,38 @@ def route_single(
     route_width = c.kcl.to_dbu(width)
 
     if steps and waypoints:
-        raise ValueError("Provide either steps or waypoints, not both")
+        raise ValueError("Provide only one of steps or waypoints")
 
     waypoints_list = [] if waypoints is None else list(waypoints)
 
     if steps:
         x, y = p1.center
         for d in steps:
-            if not STEP_DIRECTIVES.issuperset(d):
-                raise ValueError(
-                    f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
-                    f"Valid directives are {list(STEP_DIRECTIVES)}"
-                )
-            x = d.get("x", x) + d.get("dx", 0)
-            y = d.get("y", y) + d.get("dy", 0)
+            if isinstance(d, dict):
+                if not STEP_DIRECTIVES.issuperset(d):
+                    raise ValueError(
+                        f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
+                        f"Valid directives are {list(STEP_DIRECTIVES)}"
+                    )
+                x = d.get("x", x) + d.get("dx", 0)
+                y = d.get("y", y) + d.get("dy", 0)
+            else:
+                x, y = d[0], d[1]
             waypoints_list.append((x, y))
+
+    if waypoints_list and steps and len(waypoints_list) < 2:
+        x, y = waypoints_list[-1][:2]
+        x1, y1 = p1.center
+        x2, y2 = p2.center
+        orientation = p2.orientation
+        if orientation is not None and int(orientation) in {0, 180}:
+            yt = y1 + (y2 - y1) / 3
+            ytt = y1 + 2 * (y2 - y1) / 3
+            waypoints_list = [(x, yt), (x, ytt)]
+        elif orientation is not None and int(orientation) in {90, 270}:
+            xt = x1 + (x2 - x1) / 3
+            xtt = x1 + 2 * (x2 - x1) / 3
+            waypoints_list = [(xt, y), (xtt, y)]
 
     if waypoints_list:
         w: list[kf.kdb.Point] = []

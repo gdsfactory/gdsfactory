@@ -158,7 +158,7 @@ def route_bundle(
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         auto_taper_taper: taper to use for auto-tapering. If None, uses the default taper for the cross-section.
         waypoints: list of waypoints to add to the route.
-        steps: list of steps to add to the route.
+        steps: list of steps to add to the route. Each step can be a dict (x, y, dx, dy) or a tuple (x, y) for absolute coordinates.
         start_angles: list of start angles for the routes. Only used for electrical ports.
         end_angles: list of end angles for the routes. Only used for electrical ports.
         router: Set the type of router to use, either the optical one or the electrical one.
@@ -312,25 +312,44 @@ def route_bundle(
         # component.shapes(component.kcl.layer(1,0)).insert(bbox)
 
     if steps and waypoints:
-        raise ValueError("Cannot have both steps and waypoints")
+        raise ValueError("Provide only one of steps or waypoints")
 
     if steps:
         waypoints = []
         x, y = ports1_[0].center
         for d in steps:
-            if not STEP_DIRECTIVES.issuperset(d):
-                raise ValueError(
-                    f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
-                    f"Valid directives are {list(STEP_DIRECTIVES)}"
-                )
-            x = d.get("x", x) + d.get("dx", 0)
-            y = d.get("y", y) + d.get("dy", 0)
+            if isinstance(d, dict):
+                if not STEP_DIRECTIVES.issuperset(d):
+                    raise ValueError(
+                        f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
+                        f"Valid directives are {list(STEP_DIRECTIVES)}"
+                    )
+                x = d.get("x", x) + d.get("dx", 0)
+                y = d.get("y", y) + d.get("dy", 0)
+            else:
+                x, y = d[0], d[1]
             waypoints += [(x, y)]  # type: ignore[arg-type]
             if layer_marker:
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (x, y)
+
+    if waypoints is not None and steps and len(waypoints) < 2:
+        x, y = waypoints[-1][0], waypoints[-1][1]  # type: ignore[index]
+        x1, y1 = ports1_[0].center
+        port2 = ports2_[0]
+        x2, y2 = port2.center
+        orientation = port2.orientation
+        if orientation is not None and int(orientation) in {0, 180}:
+            yt = y1 + (y2 - y1) / 3
+            ytt = y1 + 2 * (y2 - y1) / 3
+            waypoints = [(x, yt), (x, ytt)]  # type: ignore[assignment]
+        elif orientation is not None and int(orientation) in {90, 270}:
+            xt = x1 + (x2 - x1) / 3
+            xtt = x1 + 2 * (x2 - x1) / 3
+            waypoints = [(xt, y), (xtt, y)]  # type: ignore[assignment]
+
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
             kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
