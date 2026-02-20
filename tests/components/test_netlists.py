@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import jsondiff
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -71,5 +70,4 @@ def test_netlists(
     c2 = gf.read.from_yaml(n1)
     n2 = c2.get_netlist(on_multi_connect="ignore", instance_namer=legacy_namer)
 
-    d = jsondiff.diff(n1, n2)
-    assert len(d) == 0, d
+    assert n1 == n2

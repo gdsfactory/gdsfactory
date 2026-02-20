@@ -36,10 +36,16 @@ from kfactory.utils.violations import (
 from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
+from typing_extensions import override
 
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.utils import to_kdb_dpoints
+
+
+class AddPortError(ValueError):
+    """Error raised when adding a port fails."""
+
 
 if TYPE_CHECKING:
     from gdsfactory.cross_section import CrossSection, CrossSectionSpec
@@ -165,16 +171,17 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             [[self.xmin, self.ymin], [self.xmax, self.ymax]], dtype=np.float64
         )
 
-    def add_port(
+    @override
+    def add_port(  # pyright: ignore[reportIncompatibleMethodOverride]
         self,
         name: str | None = None,
         *,
         port: ProtoPort[Any] | None = None,
         center: Position | kdb.DPoint | None = None,
         width: float | None = None,
-        orientation: AngleInDegrees = 0,
+        orientation: AngleInDegrees | None = None,
         layer: LayerSpec | None = None,
-        port_type: str = "optical",
+        port_type: str | None = None,
         keep_mirror: bool = False,
         cross_section: CrossSectionSpec | None = None,
     ) -> DPort:
@@ -185,24 +192,48 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             port: port to add.
             center: center of the port.
             width: width of the port.
-            orientation: orientation of the port.
+            orientation: orientation of the port. If None and port is provided, preserves the original port's orientation. If None and port is not provided, defaults to 0.
             layer: layer spec to add port on.
-            port_type: port type (optical, electrical, ...)
+            port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
         """
         if self.locked:
             raise LockedError(self)
 
+        from gdsfactory.pdk import get_cross_section, get_layer
+
+        # Resolve initial values and determine if we need to override the transformation
+        override_transformation = False
         if port:
-            return DPort(
-                base=super()
-                .add_port(port=port, name=name, keep_mirror=keep_mirror)
-                .base
+            override_transformation = (center is not None) or (orientation is not None)
+            center = center if center is not None else port.center
+            width = width if width is not None else port.width
+            orientation = orientation if orientation is not None else port.orientation
+            layer = layer if layer is not None else port.layer
+            port_type = port_type if port_type is not None else port.port_type
+            name = name if name is not None else port.name
+            cross_section = (
+                cross_section
+                if cross_section is not None
+                else getattr(port, "cross_section", port.info.get("cross_section"))
             )
 
-        from gdsfactory.config import CONF
-        from gdsfactory.pdk import get_cross_section, get_layer
+        # Apply CrossSection overrides
+        xs_name = None
+        if cross_section:
+            xs = get_cross_section(cross_section)
+            xs_name = xs.name
+            if layer is None:
+                layer = xs.layer
+            if width is None:
+                width = xs.width
+
+        # Apply defaults if None
+        if port_type is None:
+            port_type = "optical"
+        if orientation is None:
+            orientation = 0
 
         if port_type not in CONF.port_types:
             warnings.warn(
@@ -212,35 +243,37 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             )
 
         if layer is None:
-            if cross_section is None:
-                raise ValueError("Must specify layer or cross_section")
-            xs = get_cross_section(cross_section)
-            layer = xs.layer
-
+            raise AddPortError("Must specify layer or cross_section")
         if width is None:
-            if cross_section is None:
-                raise ValueError("Must specify width or cross_section")
-            xs = get_cross_section(cross_section)
-            width = xs.width
-
+            raise AddPortError("Must specify width or cross_section")
         if center is None:
-            raise ValueError("Must specify center")
+            raise AddPortError("Must specify center or port")
 
-        if isinstance(center, kdb.DPoint):
-            layer = get_layer(layer)
-            trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
+        # Prefer port.dcplx_trans if port is provided and no overriding parameters are given
+        # Otherwise, construct a new transformation based on the provided or inherited parameters
+        if not port or override_transformation:
+            if isinstance(center, kdb.DPoint):
+                trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
+            else:
+                x, y = float(center[0]), float(center[1])
+                trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
         else:
-            layer = get_layer(layer)
-            x = float(center[0])
-            y = float(center[1])
-            trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
+            trans = port.dcplx_trans
+            if not keep_mirror:
+                trans.mirror = False
+
+        layer = get_layer(layer)
 
         _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
-            name=name, width=width, layer=layer, port_type=port_type, dcplx_trans=trans
+            name=name,
+            width=width,
+            layer=layer,
+            port_type=port_type,
+            dcplx_trans=trans,
         )
-        if cross_section:
-            xs = get_cross_section(cross_section)
-            _port.info["cross_section"] = xs.name
+
+        if xs_name:
+            _port.info["cross_section"] = xs_name
 
         return _port
 
