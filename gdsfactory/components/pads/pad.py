@@ -85,13 +85,13 @@ def pad(
     if bbox_layers and bbox_offsets:
         sizes: list[Size] = []
         for cladding_offset in bbox_offsets:
-            size_ = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
-            sizes.append(size_)
+            size_new = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
+            sizes.append(size_new)
 
-        for layer, size_ in zip(bbox_layers, sizes, strict=False):
+        for layer, size_new in zip(bbox_layers, sizes, strict=False):
             c.add_ref(
                 gf.c.compass(
-                    size=size_,
+                    size=size_new,
                     layer=layer,
                 )
             )
