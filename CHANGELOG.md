@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.35.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.0) - 2026-02-20
+
+No significant changes.
+
+
 ## [9.34.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.2) - 2026-02-17
 
 - fix netlist performance [#4381](https://github.com/gdsfactory/gdsfactory/pull/4381)
