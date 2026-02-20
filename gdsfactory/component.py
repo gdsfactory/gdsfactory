@@ -1165,7 +1165,7 @@ class Component(ComponentBase, kf.DKCell):
 
         polygon = points_to_polygon(points)
         if isinstance(polygon, kdb.DPolygon | kdb.DSimplePolygon):
-            polygon = polygon.to_itype(self.kcl.dbu)  # type: ignore[assignment]
+            polygon = polygon.to_itype(self.kcl.dbu)
 
         return self.kdb_cell.shapes(_layer).insert(polygon)
 
@@ -1251,9 +1251,22 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
-        pixel_buffer = layout_view.get_pixels_with_options(
-            **({"width": 800, "height": 600} | (pixel_buffer_options or {}))
-        )
+        pixel_options = {"width": 800, "height": 600} | (pixel_buffer_options or {})
+        width = int(pixel_options["width"])
+        height = int(pixel_options["height"])
+        
+        # Extract optional parameters with proper types
+        kwargs = {}
+        if "linewidth" in pixel_options:
+            kwargs["linewidth"] = int(pixel_options["linewidth"])
+        if "oversampling" in pixel_options:
+            kwargs["oversampling"] = int(pixel_options["oversampling"])
+        if "resolution" in pixel_options:
+            kwargs["resolution"] = float(pixel_options["resolution"])
+        if "target" in pixel_options:
+            kwargs["target"] = pixel_options["target"]
+        
+        pixel_buffer = layout_view.get_pixels_with_options(width=width, height=height, **kwargs)
         png_data = pixel_buffer.to_png_data()
 
         # Convert PNG data to NumPy array and display with matplotlib

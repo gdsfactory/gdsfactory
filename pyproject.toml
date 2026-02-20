@@ -347,4 +347,8 @@ name = "Fixed"
 showcontent = true
 
 [tool.ty.src]
-exclude = ["gdsfactory/samples"]
+exclude = [
+  "gdsfactory/samples",
+  "gdsfactory/generic_tech/klayout",
+  "gdsfactory/install.py"
+]

@@ -87,7 +87,7 @@ def reflect_points(
     reflected_points = (
         2 * (p1_array + (p2_array - p1_array) * proj / line_vec_norm) - points
     )
-    return reflected_points if original_shape[0] > 1 else reflected_points[0]  # type: ignore[no-any-return]
+    return reflected_points if original_shape[0] > 1 else reflected_points[0]
 
 
 class Path(UMGeometricObject):

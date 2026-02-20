@@ -262,7 +262,7 @@ def to_graphviz(
         if hasattr(instance, "component"):
             instance_component = instance.component
         else:
-            instance_component = instance["component"]  # type: ignore[index]
+            instance_component = instance["component"]
         ports_ = gf.get_component(instance_component).ports
         all_ports.append((name, ports_))
 
@@ -329,8 +329,8 @@ def to_graphviz(
         dot.node(node, label=label, pos=pos, shape="record")
 
     for net in nets:
-        p1 = net.p1 if hasattr(net, "p1") else net["p1"]  # type: ignore[index]
-        p2 = net.p2 if hasattr(net, "p2") else net["p2"]  # type: ignore[index]
+        p1 = net.p1 if hasattr(net, "p1") else net["p1"]
+        p2 = net.p2 if hasattr(net, "p2") else net["p2"]
 
         p1_instance = p1.split(",")[0]
         p1_port = p1.split(",")[1]

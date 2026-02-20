@@ -91,8 +91,8 @@ def get_generic_pdk() -> Pdk:
         layers=LAYER,
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
-        layer_transitions=layer_transitions,  # type: ignore[arg-type]
-        materials_index=materials_index,  # type: ignore[arg-type]
+        layer_transitions=layer_transitions,
+        materials_index=materials_index,
         constants=GenericConstants(),
         connectivity=LAYER_CONNECTIVITY,
         routing_strategies=routing_strategies,
