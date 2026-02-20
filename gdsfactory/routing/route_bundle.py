@@ -158,7 +158,7 @@ def route_bundle(
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         auto_taper_taper: taper to use for auto-tapering. If None, uses the default taper for the cross-section.
         waypoints: list of waypoints to add to the route.
-        steps: list of steps to add to the route. Each step can be a dict (x, y, dx, dy) or a tuple (x, y) for absolute coordinates.
+        steps: list of steps to add to the route. Each step is a dict with keys (x, y, dx, dy).
         start_angles: list of start angles for the routes. Only used for electrical ports.
         end_angles: list of end angles for the routes. Only used for electrical ports.
         router: Set the type of router to use, either the optical one or the electrical one.
@@ -327,7 +327,9 @@ def route_bundle(
                 x = d.get("x", x) + d.get("dx", 0)
                 y = d.get("y", y) + d.get("dy", 0)
             else:
-                x, y = d[0], d[1]
+                raise ValueError(
+                    f"Invalid step {d!r}. Each step must be a dict with keys (x, y, dx, dy)."
+                )
             waypoints += [(x, y)]  # type: ignore[arg-type]
             if layer_marker:
                 marker = component << gf.components.rectangle(

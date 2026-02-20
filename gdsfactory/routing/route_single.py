@@ -85,7 +85,7 @@ def route_single(
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         waypoints: optional list of points to pass through.
-        steps: optional list of steps to pass through. Each step can be a dict (x, y, dx, dy) or a tuple (x, y) for absolute coordinates.
+        steps: optional list of steps to pass through. Each step is a dict with keys (x, y, dx, dy).
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
@@ -164,7 +164,9 @@ def route_single(
                 x = d.get("x", x) + d.get("dx", 0)
                 y = d.get("y", y) + d.get("dy", 0)
             else:
-                x, y = d[0], d[1]
+                raise ValueError(
+                    f"Invalid step {d!r}. Each step must be a dict with keys (x, y, dx, dy)."
+                )
             waypoints_list.append((x, y))
 
     if waypoints_list and steps and len(waypoints_list) < 2:
