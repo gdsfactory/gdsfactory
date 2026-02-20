@@ -122,6 +122,7 @@ def route_bundle(
     end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
     layer_transitions: LayerTransitions | None = None,
+    show_waypoints: bool = False,
     layer_marker: LayerSpec | None = None,
     raise_on_error: bool = False,
     path_length_matching_config: PathLengthConfig | None = None,
@@ -159,12 +160,15 @@ def route_bundle(
         auto_taper_taper: taper to use for auto-tapering. If None, uses the default taper for the cross-section.
         waypoints: list of waypoints to add to the route.
         steps: list of steps to add to the route.
+            Each step is a dict with keys: x (absolute), y (absolute), dx (relative), dy (relative).
+            Use x/y to set an absolute coordinate and dx/dy to shift relative to the current position.
         start_angles: list of start angles for the routes. Only used for electrical ports.
         end_angles: list of end angles for the routes. Only used for electrical ports.
         router: Set the type of router to use, either the optical one or the electrical one.
             If None, the router is optical unless the port_type is "electrical".
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
-        layer_marker: layers to place markers on the route.
+        show_waypoints: if True, places markers at each waypoint using CONF.layer_marker.
+        layer_marker: layer to place markers on the route. Overrides CONF.layer_marker when show_waypoints=True.
         raise_on_error: if True, raises an exception on routing error instead of adding error markers.
         layer_label: layer to place length labels on the route.
 
@@ -191,6 +195,9 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    if show_waypoints and layer_marker is None:
+        layer_marker = gf.CONF.layer_marker
+
     component = gf.Component(base=component.base)  # type: ignore[call-overload]
     ports1 = [gf.Port(base=p1.base) for p1 in ports1]
     ports2 = [gf.Port(base=p2.base) for p2 in ports2]
@@ -312,25 +319,46 @@ def route_bundle(
         # component.shapes(component.kcl.layer(1,0)).insert(bbox)
 
     if steps and waypoints:
-        raise ValueError("Cannot have both steps and waypoints")
+        raise ValueError("Provide only one of steps or waypoints")
 
     if steps:
         waypoints = []
         x, y = ports1_[0].center
         for d in steps:
-            if not STEP_DIRECTIVES.issuperset(d):
+            if isinstance(d, dict):
+                if not STEP_DIRECTIVES.issuperset(d):
+                    raise ValueError(
+                        f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
+                        f"Valid directives are {list(STEP_DIRECTIVES)}"
+                    )
+                x = d.get("x", x) + d.get("dx", 0)
+                y = d.get("y", y) + d.get("dy", 0)
+            else:
                 raise ValueError(
-                    f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
-                    f"Valid directives are {list(STEP_DIRECTIVES)}"
+                    f"Invalid step {d!r}. Each step must be a dict with keys (x, y, dx, dy)."
                 )
-            x = d.get("x", x) + d.get("dx", 0)
-            y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]  # type: ignore[arg-type]
             if layer_marker:
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (x, y)
+
+    if waypoints is not None and steps and len(waypoints) < 2:
+        x, y = waypoints[-1][0], waypoints[-1][1]  # type: ignore[index]
+        x1, y1 = ports1_[0].center
+        port2 = ports2_[0]
+        x2, y2 = port2.center
+        orientation = port2.orientation
+        if orientation is not None and int(orientation) in {0, 180}:
+            yt = y1 + (y2 - y1) / 3
+            ytt = y1 + 2 * (y2 - y1) / 3
+            waypoints = [(x, yt), (x, ytt)]
+        elif orientation is not None and int(orientation) in {90, 270}:
+            xt = x1 + (x2 - x1) / 3
+            xtt = x1 + 2 * (x2 - x1) / 3
+            waypoints = [(xt, y), (xtt, y)]
+
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
             kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
