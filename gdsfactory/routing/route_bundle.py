@@ -344,11 +344,11 @@ def route_bundle(
         if orientation is not None and int(orientation) in {0, 180}:
             yt = y1 + (y2 - y1) / 3
             ytt = y1 + 2 * (y2 - y1) / 3
-            waypoints = [(x, yt), (x, ytt)]  # type: ignore[assignment]
+            waypoints = [(x, yt), (x, ytt)]
         elif orientation is not None and int(orientation) in {90, 270}:
             xt = x1 + (x2 - x1) / 3
             xtt = x1 + 2 * (x2 - x1) / 3
-            waypoints = [(xt, y), (xtt, y)]  # type: ignore[assignment]
+            waypoints = [(xt, y), (xtt, y)]
 
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [

@@ -168,7 +168,8 @@ def route_single(
             waypoints_list.append((x, y))
 
     if waypoints_list and steps and len(waypoints_list) < 2:
-        x, y = waypoints_list[-1][:2]
+        p = waypoints_list[-1]
+        x, y = (p.x, p.y) if isinstance(p, kf.kdb.DPoint) else (p[0], p[1])
         x1, y1 = p1.center
         x2, y2 = p2.center
         orientation = p2.orientation
