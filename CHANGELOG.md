@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.34.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.35.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.35.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.0) - 2026-02-20
 
-No significant changes.
-
+- allow bundle_routing single step  [#4390](https://github.com/gdsfactory/gdsfactory/pull/4390)
+- Support port_type and cross_section kwargs in add_port when copying ports [#4380](https://github.com/gdsfactory/gdsfactory/pull/4380)
+- Fix YAML formatting and wrap long lines [#4386](https://github.com/gdsfactory/gdsfactory/pull/4386)
+- fix pre-commit [#4383](https://github.com/gdsfactory/gdsfactory/pull/4383)
+- fixes issue with negative ``delta_length`` and small ``length_y`` [#4378](https://github.com/gdsfactory/gdsfactory/pull/4378)
+- improve routing docs [#4388](https://github.com/gdsfactory/gdsfactory/pull/4388)
 
 ## [9.34.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.2) - 2026-02-17
 
