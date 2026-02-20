@@ -122,6 +122,7 @@ def route_bundle(
     end_angles: float | list[float] | None = None,
     router: Literal["optical", "electrical"] | None = None,
     layer_transitions: LayerTransitions | None = None,
+    show_waypoints: bool = False,
     layer_marker: LayerSpec | None = None,
     raise_on_error: bool = False,
     path_length_matching_config: PathLengthConfig | None = None,
@@ -166,7 +167,8 @@ def route_bundle(
         router: Set the type of router to use, either the optical one or the electrical one.
             If None, the router is optical unless the port_type is "electrical".
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
-        layer_marker: layers to place markers on the route.
+        show_waypoints: if True, places markers at each waypoint using CONF.layer_marker.
+        layer_marker: layer to place markers on the route. Overrides CONF.layer_marker when show_waypoints=True.
         raise_on_error: if True, raises an exception on routing error instead of adding error markers.
         layer_label: layer to place length labels on the route.
 
@@ -193,6 +195,9 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    if show_waypoints and layer_marker is None:
+        layer_marker = gf.CONF.layer_marker
+
     component = gf.Component(base=component.base)  # type: ignore[call-overload]
     ports1 = [gf.Port(base=p1.base) for p1 in ports1]
     ports2 = [gf.Port(base=p2.base) for p2 in ports2]

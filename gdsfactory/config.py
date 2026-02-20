@@ -104,6 +104,7 @@ class Config(Settings):
     difftest_ignore_cell_name_differences: bool
     bend_radius_error_type: ErrorType
     layer_error_path: tuple[int, int]
+    layer_marker: tuple[int, int]
     pdk: str | None
     layer_label: tuple[int, int]
     port_types: list[str]
@@ -117,6 +118,7 @@ CONF.difftest_ignore_sliver_differences = False
 CONF.difftest_ignore_cell_name_differences = True
 CONF.bend_radius_error_type = ErrorType.ERROR
 CONF.layer_error_path = (1000, 0)
+CONF.layer_marker = (205, 0)
 CONF.connect_use_mirror = False
 CONF.max_cellname_length = 64
 CONF.cell_layout_cache = True
