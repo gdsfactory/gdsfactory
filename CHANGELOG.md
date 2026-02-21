@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.35.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.35.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.35.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.1) - 2026-02-20
 
-No significant changes.
-
+- improve ring_single [#4391](https://github.com/gdsfactory/gdsfactory/pull/4391)
 
 ## [9.35.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.0) - 2026-02-20
 
