@@ -411,6 +411,9 @@ def get_process() -> tuple[ProcessStep, ...]:
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    gf.gpdk.PDK.activate()
+
     c = gf.c.grating_coupler_elliptical_trenches()
+    c.show()
     s = c.to_3d()
     s.show()
