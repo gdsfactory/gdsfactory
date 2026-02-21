@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.35.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.1) - 2026-02-20
+
+No significant changes.
+
+
 ## [9.35.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.0) - 2026-02-20
 
 - allow bundle_routing single step  [#4390](https://github.com/gdsfactory/gdsfactory/pull/4390)
