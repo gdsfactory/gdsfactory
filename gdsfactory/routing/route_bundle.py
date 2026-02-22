@@ -91,6 +91,60 @@ def get_min_spacing(
     return (max_j - min_j) * separation + 2 * radius + 1.0
 
 
+def _ensure_manhattan_waypoints(
+    waypoints: list[kf.kdb.DPoint],
+    start_port: gf.Port | None = None,
+) -> list[kf.kdb.DPoint]:
+    """Insert corner points between non-Manhattan waypoints to make the path Manhattan.
+
+    For each pair of consecutive waypoints that are not axis-aligned,
+    an intermediate corner point is inserted so all segments are
+    either purely horizontal or purely vertical.
+
+    Args:
+        waypoints: list of waypoints that may contain non-Manhattan segments.
+        start_port: optional start port to determine initial routing direction.
+
+    Returns:
+        list of waypoints with corner points inserted where needed.
+    """
+    if len(waypoints) < 2:
+        return list(waypoints)
+
+    tol = 1e-3
+    result = [waypoints[0]]
+
+    for i in range(1, len(waypoints)):
+        prev = result[-1]
+        curr = waypoints[i]
+
+        dx = abs(curr.x - prev.x)
+        dy = abs(curr.y - prev.y)
+
+        if dx < tol or dy < tol:
+            result.append(curr)
+            continue
+
+        # Non-Manhattan segment - insert a corner point
+        if len(result) >= 2:
+            prev_prev = result[-2]
+            last_horizontal = abs(prev.x - prev_prev.x) > abs(prev.y - prev_prev.y)
+            go_horizontal_first = not last_horizontal
+        elif start_port is not None and start_port.orientation is not None:
+            go_horizontal_first = int(start_port.orientation) % 360 in {0, 180}
+        else:
+            go_horizontal_first = True
+
+        if go_horizontal_first:
+            result.append(kf.kdb.DPoint(curr.x, prev.y))
+        else:
+            result.append(kf.kdb.DPoint(prev.x, curr.y))
+
+        result.append(curr)
+
+    return result
+
+
 def route_bundle(
     component: gf.Component,
     ports1: Ports,
@@ -372,6 +426,9 @@ def route_bundle(
                 marker.center = (p.x, p.y)
     else:
         waypoints_ = waypoints  # type: ignore[assignment]
+
+    if waypoints_ is not None and len(waypoints_) >= 2:
+        waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])
 
     bend90 = (
         bend
