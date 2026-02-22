@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.35.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.2) - 2026-02-22
+
+No significant changes.
+
+
 ## [9.35.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.1) - 2026-02-20
 
 - improve ring_single [#4391](https://github.com/gdsfactory/gdsfactory/pull/4391)
