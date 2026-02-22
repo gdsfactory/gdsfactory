@@ -1,12 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.35.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.35.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.35.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.2) - 2026-02-22
 
-No significant changes.
-
+- works with non-Manhattan [#4393](https://github.com/gdsfactory/gdsfactory/pull/4393)
 
 ## [9.35.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.1) - 2026-02-20
 
