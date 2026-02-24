@@ -13,7 +13,7 @@ route_bundle calls different function depending on the port orientation.
 from __future__ import annotations
 
 import warnings
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from functools import partial
 from typing import Literal, cast
 from warnings import warn
@@ -168,6 +168,7 @@ def route_bundle(
     radius: float | None = None,
     route_width: float | None = None,
     straight: ComponentSpec = "straight",
+    sbend: ComponentSpec | None = None,
     auto_taper: bool = True,
     auto_taper_taper: ComponentSpec | None = None,
     waypoints: Coordinates | Sequence[gf.kdb.DPoint] | None = None,
@@ -210,6 +211,7 @@ def route_bundle(
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
+        sbend: function for the s-bend. If None, uses the same function as bend.
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         auto_taper_taper: taper to use for auto-tapering. If None, uses the default taper for the cross-section.
         waypoints: list of waypoints to add to the route.
@@ -443,6 +445,27 @@ def route_bundle(
             straight, length=length, cross_section=cross_section, width=width
         )
 
+    sbend_um: Callable[[gf.Component, int, int, float], gf.Component] | None = None
+
+    if sbend:
+
+        def _sbend_um(
+            c: gf.Component, offset: int, length: int, width: float
+        ) -> gf.Component:
+            width_um = c.kcl.to_um(width)
+            length_um = c.kcl.to_um(length)
+            offset_um = c.kcl.to_um(offset)
+            sb = gf.get_component(
+                sbend,
+                cross_section=cross_section,
+                width=width_um,
+                size=(length_um, offset_um),
+            )
+            sb_ref = component << sb
+            return sb_ref
+
+        sbend_um = _sbend_um
+
     try:
         route = kf.routing.optical.route_bundle(
             component,
@@ -472,6 +495,7 @@ def route_bundle(
             end_angles=end_angles,
             start_angles=start_angles,
             path_length_matching_config=path_length_matching_config,
+            sbend_factory=sbend_um,
         )
     except Exception as e:
         if "kdb.Trans" in str(e):
