@@ -23,7 +23,10 @@ The workflow is:
 
 - Fork the repo. This creates a copy into your GitHub account namespace. `git clone` it into your computer and [install](developer.md#installation-for-contributors) it.
 - `git add`, `git commit`, `git push` your work as many times as needed. Make sure [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) pass so it all keeps working correctly.
-- open a Pull request (PR) to merge your improvements to the main repository.
+- Make sure **pre-commit hooks pass** before pushing. You can run `pre-commit run --all-files` to check.
+- Make sure **tests pass** by running `pytest`.
+- If your changes affect component geometry, regenerate the test regression data by running `pytest --force-regen -s tests/`.
+- Open a Pull request (PR) to merge your improvements to the main repository.
 
 ![git flow](images/git_flow.png)
 
