@@ -56,7 +56,7 @@ def text(
     justify = justify.lower()
     for instance in t.insts:
         if justify == "left":
-            pass
+            instance.xmin = position[0]
         elif justify == "right":
             instance.xmax = position[0]
         elif justify == "center":
