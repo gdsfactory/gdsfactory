@@ -13,9 +13,9 @@ route_bundle calls different function depending on the port orientation.
 from __future__ import annotations
 
 import warnings
-from collections.abc import Callable, Sequence
+from collections.abc import Sequence
 from functools import partial
-from typing import Literal, cast
+from typing import Any, Literal, cast
 from warnings import warn
 
 import kfactory as kf
@@ -321,8 +321,8 @@ def route_bundle(
         taper_ = gf.get_component(auto_taper_taper)
         taper_o1 = taper_.ports[0].name
         taper_o2 = taper_.ports[1].name
-        ports1_new = []
-        ports2_new = []
+        ports1_new: list[gf.Port] = []
+        ports2_new: list[gf.Port] = []
 
         for p1, p2 in zip(ports1_, ports2_, strict=False):
             t1 = c << taper_
@@ -445,26 +445,19 @@ def route_bundle(
             straight, length=length, cross_section=cross_section, width=width
         )
 
-    sbend_um: Callable[[gf.Component, int, int, float], gf.Component] | None = None
-
     if sbend:
 
-        def _sbend_um(
-            c: gf.Component, offset: int, length: int, width: float
-        ) -> gf.Component:
-            width_um = c.kcl.to_um(width)
-            length_um = c.kcl.to_um(length)
-            offset_um = c.kcl.to_um(offset)
+        def _sbend(
+            c: gf.kf.ProtoTKCell[Any], offset: float, length: float, width: float
+        ) -> gf.kf.DInstanceGroup:
             sb = gf.get_component(
                 sbend,
                 cross_section=cross_section,
-                width=width_um,
-                size=(length_um, offset_um),
+                width=width,
+                size=(length, offset),
             )
             sb_ref = component << sb
-            return sb_ref
-
-        sbend_um = _sbend_um
+            return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
 
     try:
         route = kf.routing.optical.route_bundle(
@@ -495,7 +488,7 @@ def route_bundle(
             end_angles=end_angles,
             start_angles=start_angles,
             path_length_matching_config=path_length_matching_config,
-            sbend_factory=sbend_um,
+            sbend_factory=_sbend if sbend else None,
         )
     except Exception as e:
         if "kdb.Trans" in str(e):

@@ -14,6 +14,5 @@ if __name__ == "__main__":
         separation=10,
         sbend="bend_s",
         radius=10,
-        # start_straight_length=100,
     )
     c.show()
