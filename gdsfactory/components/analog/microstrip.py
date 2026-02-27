@@ -5,6 +5,8 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from typing import Any
+
 from numpy import exp, log, pi, sinh, sqrt
 
 
@@ -179,7 +181,7 @@ def _find_microstrip_wire_width(
         Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
     """
 
-    def error_fun(wire_width: float) -> float:
+    def error_fun(wire_width: Any) -> float:
         w = (
             float(wire_width[0])
             if hasattr(wire_width, "__len__")
