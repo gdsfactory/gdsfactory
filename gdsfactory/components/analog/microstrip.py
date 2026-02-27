@@ -180,10 +180,12 @@ def _find_microstrip_wire_width(
     """
 
     def error_fun(wire_width: float) -> float:
-        w = float(wire_width[0]) if hasattr(wire_width, "__len__") else float(wire_width)
-        Z_guessed = _microstrip_Z_with_Lk(
-            w, dielectric_thickness, eps_r, Lk_per_sq
+        w = (
+            float(wire_width[0])
+            if hasattr(wire_width, "__len__")
+            else float(wire_width)
         )
+        Z_guessed = _microstrip_Z_with_Lk(w, dielectric_thickness, eps_r, Lk_per_sq)
         return (Z_guessed - Z_target) ** 2  # The error
 
     x0 = dielectric_thickness
