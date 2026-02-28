@@ -105,6 +105,174 @@ instances:
       size:
       - 100
       - 100
+  straight_gdsfactorypcomponentspwaveguidespstraight_L16__ed2e692f_275000_26000_A90:
+    component: straight
+    info:
+      length: 16
+      route_info_length: 16
+      route_info_metal1_length: 16
+      route_info_type: metal1
+      route_info_weight: 16
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 16
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L16__ed2e692f_275000_m26000_A270:
+    component: straight
+    info:
+      length: 16
+      route_info_length: 16
+      route_info_metal1_length: 16
+      route_info_type: metal1
+      route_info_weight: 16
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 16
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L194_9eccee54_249000_0_A180:
+    component: straight
+    info:
+      length: 194
+      route_info_length: 194
+      route_info_metal1_length: 194
+      route_info_type: metal1
+      route_info_weight: 194
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 194
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L194_9eccee54_301000_0:
+    component: straight
+    info:
+      length: 194
+      route_info_length: 194
+      route_info_metal1_length: 194
+      route_info_type: metal1
+      route_info_weight: 194
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 194
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_208000_m37000_A180:
+    component: straight
+    info:
+      length: 3
+      route_info_length: 3
+      route_info_metal1_length: 3
+      route_info_type: metal1
+      route_info_weight: 3
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 3
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_342000_37000:
+    component: straight
+    info:
+      length: 3
+      route_info_length: 3
+      route_info_metal1_length: 3
+      route_info_type: metal1
+      route_info_weight: 3
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 3
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L45__7657c38f_500000_5000_A90:
+    component: straight
+    info:
+      length: 45
+      route_info_length: 45
+      route_info_metal1_length: 45
+      route_info_type: metal1
+      route_info_weight: 45
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 45
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L45__7657c38f_50000_m5000_A270:
+    component: straight
+    info:
+      length: 45
+      route_info_length: 45
+      route_info_metal1_length: 45
+      route_info_type: metal1
+      route_info_weight: 45
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 45
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_270000_m47000_A180:
+    component: straight
+    info:
+      length: 52
+      route_info_length: 52
+      route_info_metal1_length: 52
+      route_info_type: metal1
+      route_info_weight: 52
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 52
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_280000_47000:
+    component: straight
+    info:
+      length: 52
+      route_info_length: 52
+      route_info_metal1_length: 52
+      route_info_type: metal1
+      route_info_weight: 52
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 52
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L8_N_fc348176_200000_m42000_A270:
+    component: straight
+    info:
+      length: 8
+      route_info_length: 8
+      route_info_metal1_length: 8
+      route_info_type: metal1
+      route_info_weight: 8
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 8
+      npoints: 2
+      width: 10
+  straight_gdsfactorypcomponentspwaveguidespstraight_L8_N_fc348176_350000_42000_A90:
+    component: straight
+    info:
+      length: 8
+      route_info_length: 8
+      route_info_metal1_length: 8
+      route_info_type: metal1
+      route_info_weight: 8
+      width: 10
+    settings:
+      cross_section: metal1
+      length: 8
+      npoints: 2
+      width: 10
   via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500:
     component: via_stack
     info:
@@ -213,7 +381,193 @@ instances:
       - via1
       - via2
       - null
-nets: []
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_200000_m37000_A90_M:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m37000_M:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m47000_A270:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_47000_A180:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_m47000:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_37000_A180_M:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_47000_A90:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_350000_37000_A270_M:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_500000_0_A270_M:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_50000_0_A90_M:
+    component: wire_corner
+    info:
+      dy: 10
+      length: 10
+    settings:
+      cross_section: metal1
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: 10
+      width: 10
+nets:
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_208000_m37000_A180,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m37000_M,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_208000_m37000_A180,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_200000_m37000_A90_M,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_342000_37000,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_37000_A180_M,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_342000_37000,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_350000_37000_A270_M,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L8_N_fc348176_200000_m42000_A270,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_200000_m37000_A90_M,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L8_N_fc348176_350000_42000_A90,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_350000_37000_A270_M,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L16__ed2e692f_275000_26000_A90,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_47000_A180,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L16__ed2e692f_275000_m26000_A270,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_m47000,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L45__7657c38f_50000_m5000_A270,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_50000_0_A90_M,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L45__7657c38f_500000_5000_A90,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_500000_0_A270_M,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_270000_m47000_A180,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_m47000,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_270000_m47000_A180,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m47000_A270,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_280000_47000,e1
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_47000_A180,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_280000_47000,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_47000_A90,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L194_9eccee54_249000_0_A180,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_50000_0_A90_M,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L194_9eccee54_301000_0,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_500000_0_A270_M,e2
+- p1: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m37000_M,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m47000_A270,e1
+- p1: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_37000_A180_M,e2
+  p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_47000_A90,e1
 placements:
   greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3_275000_0:
     mirror: false
@@ -240,6 +594,66 @@ placements:
     rotation: 0
     x: 50
     y: 0
+  straight_gdsfactorypcomponentspwaveguidespstraight_L16__ed2e692f_275000_26000_A90:
+    mirror: false
+    rotation: 90
+    x: 275
+    y: 26
+  straight_gdsfactorypcomponentspwaveguidespstraight_L16__ed2e692f_275000_m26000_A270:
+    mirror: false
+    rotation: 270
+    x: 275
+    y: -26
+  straight_gdsfactorypcomponentspwaveguidespstraight_L194_9eccee54_249000_0_A180:
+    mirror: false
+    rotation: 180
+    x: 249
+    y: 0
+  straight_gdsfactorypcomponentspwaveguidespstraight_L194_9eccee54_301000_0:
+    mirror: false
+    rotation: 0
+    x: 301
+    y: 0
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_208000_m37000_A180:
+    mirror: false
+    rotation: 180
+    x: 208
+    y: -37
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_01b01b8c_342000_37000:
+    mirror: false
+    rotation: 0
+    x: 342
+    y: 37
+  straight_gdsfactorypcomponentspwaveguidespstraight_L45__7657c38f_500000_5000_A90:
+    mirror: false
+    rotation: 90
+    x: 500
+    y: 5
+  straight_gdsfactorypcomponentspwaveguidespstraight_L45__7657c38f_50000_m5000_A270:
+    mirror: false
+    rotation: 270
+    x: 50
+    y: -5
+  straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_270000_m47000_A180:
+    mirror: false
+    rotation: 180
+    x: 270
+    y: -47
+  straight_gdsfactorypcomponentspwaveguidespstraight_L52__71c81a68_280000_47000:
+    mirror: false
+    rotation: 0
+    x: 280
+    y: 47
+  straight_gdsfactorypcomponentspwaveguidespstraight_L8_N_fc348176_200000_m42000_A270:
+    mirror: false
+    rotation: 270
+    x: 200
+    y: -42
+  straight_gdsfactorypcomponentspwaveguidespstraight_L8_N_fc348176_350000_42000_A90:
+    mirror: false
+    rotation: 90
+    x: 350
+    y: 42
   via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500:
     mirror: false
     rotation: 0
@@ -260,6 +674,56 @@ placements:
     rotation: 0
     x: 50
     y: -55.5
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_200000_m37000_A90_M:
+    mirror: true
+    rotation: 90
+    x: 200
+    y: -37
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m37000_M:
+    mirror: true
+    rotation: 0
+    x: 213
+    y: -37
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_213000_m47000_A270:
+    mirror: false
+    rotation: 270
+    x: 213
+    y: -47
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_47000_A180:
+    mirror: false
+    rotation: 180
+    x: 275
+    y: 47
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_275000_m47000:
+    mirror: false
+    rotation: 0
+    x: 275
+    y: -47
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_37000_A180_M:
+    mirror: true
+    rotation: 180
+    x: 337
+    y: 37
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_337000_47000_A90:
+    mirror: false
+    rotation: 90
+    x: 337
+    y: 47
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_350000_37000_A270_M:
+    mirror: true
+    rotation: 270
+    x: 350
+    y: 37
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_500000_0_A270_M:
+    mirror: true
+    rotation: 270
+    x: 500
+    y: 0
+  wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_900ef23a_50000_0_A90_M:
+    mirror: true
+    rotation: 90
+    x: 50
+    y: 0
 ports:
   e1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e4
   e2: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e4
