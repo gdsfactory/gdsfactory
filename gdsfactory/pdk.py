@@ -496,8 +496,10 @@ class Pdk(BaseModel):
             else:
                 cross_section_ = cross_section
             section_ = Section(
+                name="_default",
                 width=kcl.to_um(cross_section_.width),
                 layer=kcl.layout.layer(cross_section_.main_layer),
+                port_names=("o1", "o2"),
             )
             xs_ = CrossSection(
                 sections=(section_,),
