@@ -178,8 +178,8 @@ def extend_ports(
                     port_xs_name = port.info.get("cross_section", None)
 
                     if port_xs_name and port_xs_name in cross_section_names:
-                        cross_section_extension: CrossSectionSpec = (
-                            gf.get_cross_section(port.info["cross_section"])
+                        cross_section_extension = gf.get_cross_section(
+                            port.info["cross_section"]
                         )
 
                     else:
