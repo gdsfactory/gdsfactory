@@ -33,6 +33,7 @@ from gdsfactory.typings import (
     LayerSpec,
     LayerSpecs,
     LayerTransitions,
+    Port,
     Ports,
     Step,
 )
@@ -150,8 +151,8 @@ def _ensure_manhattan_waypoints(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Ports,
-    ports2: Ports,
+    ports1: Port | Ports | None = None,
+    ports2: Port | Ports | None = None,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
@@ -185,6 +186,8 @@ def route_bundle(
     raise_on_error: bool = False,
     path_length_matching_config: PathLengthConfig | None = None,
     layer_label: LayerSpec | None = None,
+    port1: Port | None = None,
+    port2: Port | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -193,8 +196,8 @@ def route_bundle(
 
     Args:
         component: component to add the routes to.
-        ports1: list of starting ports.
-        ports2: list of end ports.
+        ports1: starting port or list of starting ports.
+        ports2: end port or list of end ports.
         cross_section: CrossSection or function that returns a cross_section.
         layer: layer to use for the route.
         separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
@@ -254,6 +257,25 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    # Support deprecated port1/port2 keyword arguments
+    if port1 is not None:
+        if ports1 is not None:
+            raise ValueError("Cannot specify both ports1 and port1")
+        ports1 = port1
+    if port2 is not None:
+        if ports2 is not None:
+            raise ValueError("Cannot specify both ports2 and port2")
+        ports2 = port2
+
+    if ports1 is None or ports2 is None:
+        raise ValueError("ports1 and ports2 are required")
+
+    # Wrap single ports in lists
+    if isinstance(ports1, kf.DPort):
+        ports1 = [ports1]
+    if isinstance(ports2, kf.DPort):
+        ports2 = [ports2]
+
     if show_waypoints and layer_marker is None:
         layer_marker = gf.CONF.layer_marker
 

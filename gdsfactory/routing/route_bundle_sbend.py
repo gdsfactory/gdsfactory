@@ -2,18 +2,19 @@ from __future__ import annotations
 
 from typing import Any
 
+import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import ComponentSpec, Ports
+from gdsfactory.typings import ComponentSpec, Port, Ports
 
 
 def route_bundle_sbend(
     component: Component,
-    ports1: Ports,
-    ports2: Ports,
+    ports1: Port | Ports,
+    ports2: Port | Ports,
     bend_s: ComponentSpec = "bend_s",
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
@@ -41,6 +42,12 @@ def route_bundle_sbend(
         kwargs: cross_section settings.
 
     """
+    # Wrap single ports in lists
+    if isinstance(ports1, kf.DPort):
+        ports1 = [ports1]
+    if isinstance(ports2, kf.DPort):
+        ports2 = [ports2]
+
     if sort_ports:
         ports1, ports2 = sort_ports_function(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering

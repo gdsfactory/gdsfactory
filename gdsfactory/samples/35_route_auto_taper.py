@@ -12,10 +12,10 @@ if __name__ == "__main__":
     s1 = c << gf.components.straight()
     s2 = c << gf.components.straight(width=2)
     s2.move((40, 50))
-    route = gf.routing.route_single(
+    route = gf.routing.route_bundle(
         c,
-        port1=s1.ports["o2"],
-        port2=s2.ports["o1"],
+        s1.ports["o2"],
+        s2.ports["o1"],
         cross_section="strip",
         auto_taper=True,
     )

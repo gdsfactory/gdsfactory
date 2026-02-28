@@ -17,7 +17,7 @@ def test_route_from_steps() -> None:
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         cross_section="strip",
         port1=p1,
@@ -51,7 +51,7 @@ def test_route_waypoints() -> None:
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         p0,
         p1,
@@ -86,7 +86,7 @@ def test_route_waypoints_numpy() -> None:
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         p0,
         p1,

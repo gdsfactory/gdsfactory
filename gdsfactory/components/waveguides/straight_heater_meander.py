@@ -132,14 +132,14 @@ def straight_heater_meander(
 
         total_length += 2 * extra_length
 
-        route = gf.routing.route_single(
+        routes = gf.routing.route_bundle(
             c,
             extra_straight2.ports["o2"],
             extra_straight1.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
-        total_length += route.length * c.kcl.dbu
+        total_length += routes[0].length * c.kcl.dbu
         total_length += 4 * (np.pi / 2 * radius)
 
         extra_length = 3 * (row - 1) / 2 * radius
@@ -153,14 +153,14 @@ def straight_heater_meander(
         extra_straight2.connect("o1", ports[f"o2_{row}"])
         total_length += 2 * extra_length
 
-        route = gf.routing.route_single(
+        routes = gf.routing.route_bundle(
             c,
             extra_straight2.ports["o2"],
             extra_straight1.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
-        total_length += route.length * c.kcl.dbu
+        total_length += routes[0].length * c.kcl.dbu
         total_length += 4 * (np.pi / 2 * radius)
 
     straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)

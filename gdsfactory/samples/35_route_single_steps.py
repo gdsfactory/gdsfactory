@@ -18,7 +18,7 @@ if __name__ == "__main__":
     mmi2.move((200, 50))
 
     # dx shifts the route 60um to the right from the current position
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         mmi1.ports["o2"],
         mmi2.ports["o1"],

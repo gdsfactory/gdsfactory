@@ -27,6 +27,7 @@ To generate a route:
 
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from typing import Literal, cast
 
@@ -108,6 +109,11 @@ def route_single(
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
+    warnings.warn(
+        "route_single is deprecated. Use route_bundle instead.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     if cross_section is None and (layer is None or route_width is None):
         raise ValueError(
             f"Either {cross_section=} or {layer=} and route_width must be provided"
@@ -271,17 +277,6 @@ def route_single(
             allow_width_mismatch=allow_width_mismatch,
             route_width=route_width,
         )
-
-
-# FIXME
-# route_single_electrical = partial(
-#     route_single,
-#     cross_section="metal_routing",
-#     allow_width_mismatch=True,
-#     port_type="electrical",
-#     bend=wire_corner,
-#     taper=None,
-# )
 
 
 def route_single_electrical(

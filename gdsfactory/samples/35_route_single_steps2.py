@@ -18,7 +18,7 @@ if __name__ == "__main__":
     mmi2.move((200, 50))
 
     # x=100 sets the waypoint x-coordinate to 100 (absolute)
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         mmi1.ports["o2"],
         mmi2.ports["o1"],
