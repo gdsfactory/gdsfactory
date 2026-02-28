@@ -76,6 +76,7 @@ def reflect_points(
     """
     original_shape = np.shape(points)
     points = np.atleast_2d(points)
+    return_single_point = len(original_shape) == 1
     p1_array = np.asarray(p1)
     p2_array = np.asarray(p2)
 
@@ -87,7 +88,7 @@ def reflect_points(
     reflected_points = (
         2 * (p1_array + (p2_array - p1_array) * proj / line_vec_norm) - points
     )
-    return reflected_points if original_shape[0] > 1 else reflected_points[0]  # type: ignore[no-any-return]
+    return reflected_points[0] if return_single_point else reflected_points  # type: ignore[no-any-return]
 
 
 class Path(UMGeometricObject):

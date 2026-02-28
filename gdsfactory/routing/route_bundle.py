@@ -59,17 +59,22 @@ def get_min_spacing(
         sort_ports: sort the ports according to the axis.
 
     """
+    if not ports1 or not ports2:
+        raise ValueError("ports1 and ports2 must be non-empty")
+    if len(ports1) != len(ports2):
+        raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
+
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0
     max_j = 0
     if sort_ports:
         if axis in {"X", "x"}:
-            sorted(ports1, key=get_port_y)
-            sorted(ports2, key=get_port_y)
+            ports1 = sorted(ports1, key=get_port_y)
+            ports2 = sorted(ports2, key=get_port_y)
         else:
-            sorted(ports1, key=get_port_x)
-            sorted(ports2, key=get_port_x)
+            ports1 = sorted(ports1, key=get_port_x)
+            ports2 = sorted(ports2, key=get_port_x)
 
     for port1, port2 in zip(ports1, ports2, strict=False):
         if axis in {"X", "x"}:
@@ -86,8 +91,6 @@ def get_min_spacing(
             min_j = j
         if j > max_j:
             max_j = j
-    j = 0
-
     return (max_j - min_j) * separation + 2 * radius + 1.0
 
 
@@ -415,19 +418,24 @@ def route_bundle(
             xtt = x1 + 2 * (x2 - x1) / 3
             waypoints = [(xt, y), (xtt, y)]
 
-    if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
-        waypoints_: list[kf.kdb.DPoint] | None = [
+    waypoints_: list[kf.kdb.DPoint] | None
+    if waypoints is None:
+        waypoints_ = None
+    elif len(waypoints) == 0:
+        waypoints_ = []
+    elif not isinstance(waypoints[0], kf.kdb.DPoint):
+        waypoints_ = [
             kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
             for p in waypoints
         ]
-        if layer_marker and waypoints_ is not None:
+        if layer_marker:
             for p in waypoints_:
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (p.x, p.y)
     else:
-        waypoints_ = waypoints  # type: ignore[assignment]
+        waypoints_ = list(waypoints)
 
     if waypoints_ is not None and len(waypoints_) >= 2:
         waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])

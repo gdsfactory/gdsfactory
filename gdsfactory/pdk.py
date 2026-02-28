@@ -84,9 +84,9 @@ def extract_args_from_docstring(docstring: str) -> dict[str, Any]:
             continue
         if line.startswith("Args:"):
             continue
-        if len(line.split(":")) != 2:
+        if ":" not in line:
             continue
-        name, description = line.split(":")
+        name, description = line.split(":", 1)
         name = name.strip()
         description_parts = description.split("(")
         doc = description_parts[0].strip()
@@ -223,7 +223,7 @@ class Pdk(BaseModel):
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active)."""
         global _ACTIVE_PDK
-        if not force and _ACTIVE_PDK and _ACTIVE_PDK.name is self.name:
+        if not force and _ACTIVE_PDK and _ACTIVE_PDK.name == self.name:
             return
 
         logger.debug(f"{self.name!r} PDK {self.version} is now active")
@@ -336,7 +336,11 @@ class Pdk(BaseModel):
 
             cell_name = cell.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
-                matching_cells = [c for c in cells_and_containers if c in cell]
+                matching_cells = [
+                    c
+                    for c in cells_and_containers
+                    if isinstance(cell_name, str) and cell_name in c
+                ]
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: Did you mean {matching_cells}?"
                 )

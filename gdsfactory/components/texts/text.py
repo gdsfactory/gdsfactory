@@ -109,15 +109,13 @@ def text_klayout(
     """
     c = gf.Component()
     gen = kf.kdb.TextGenerator.default_generator()
+    reg = gen.text(text, kf.kcl.dbu)
 
     layers = layers or [layer]
 
-    for layer in layers:
-        layer = gf.get_layer(layer)
-        reg = gen.text(text, kf.kcl.dbu)
-        c.shapes(layer).insert(reg)
+    for text_layer in layers:
+        c.shapes(gf.get_layer(text_layer)).insert(reg)
 
-    for layer in bbox_layers or []:
-        layer = gf.get_layer(layer)
-        c.shapes(layer).insert(reg.bbox())
+    for bbox_layer in bbox_layers or []:
+        c.shapes(gf.get_layer(bbox_layer)).insert(reg.bbox())
     return c
