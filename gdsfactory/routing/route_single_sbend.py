@@ -61,3 +61,7 @@ def route_bundle_sbend(
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
     return bend_ref
+
+
+# Deprecated alias
+route_single_sbend = route_bundle_sbend

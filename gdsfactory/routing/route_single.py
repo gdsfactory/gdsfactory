@@ -51,7 +51,7 @@ from gdsfactory.typings import (
 )
 
 
-def route_bundle(
+def route_single(
     component: Component,
     port1: Port,
     port2: Port,
