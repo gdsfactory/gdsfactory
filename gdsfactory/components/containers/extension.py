@@ -170,21 +170,27 @@ def extend_ports(
             if extension:
                 extension_component = gf.get_component(extension)
             else:
-                pdk = gf.get_active_pdk()
-                cross_section_names = list(pdk.cross_sections)
-                port_xs_name = port.info.get("cross_section", None)
-
-                if port_xs_name and port_xs_name in cross_section_names:
-                    cross_section_extension: CrossSectionSpec = gf.get_cross_section(
-                        port.info["cross_section"]
-                    )
-
+                if cross_section:
+                    cross_section_extension = cross_section
                 else:
-                    cross_section_extension = cross_section or cross_section_function(
-                        layer=gf.get_layer_tuple(port.layer),
-                        width=port.width,
-                        port_types=(port_type, port_type),
-                    )
+                    pdk = gf.get_active_pdk()
+                    cross_section_names = list(pdk.cross_sections)
+                    port_xs_name = port.info.get("cross_section", None)
+
+                    if port_xs_name and port_xs_name in cross_section_names:
+                        cross_section_extension: CrossSectionSpec = (
+                            gf.get_cross_section(port.info["cross_section"])
+                        )
+
+                    else:
+                        cross_section_extension = (
+                            cross_section
+                            or cross_section_function(
+                                layer=gf.get_layer_tuple(port.layer),
+                                width=port.width,
+                                port_types=(port_type, port_type),
+                            )
+                        )
 
                 extension_component = gf.components.straight(
                     length=length,
