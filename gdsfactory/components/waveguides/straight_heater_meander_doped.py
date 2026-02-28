@@ -100,7 +100,7 @@ def straight_heater_meander_doped(
     )
 
     dummy = gf.Component()
-    route = gf.routing.route_single(
+    route = gf.routing.route_bundle(
         dummy, p1, p2, radius=radius, cross_section=cross_section
     )
     cross_section2 = cross_section
@@ -148,7 +148,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o1_{row + 2}"])
 
-        route = gf.routing.route_single(
+        route = gf.routing.route_bundle(
             c,
             extra_straight2["o2"],
             extra_straight1["o2"],
@@ -166,7 +166,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
-        route = gf.routing.route_single(
+        route = gf.routing.route_bundle(
             c,
             extra_straight2.ports["o2"],
             extra_straight1.ports["o2"],

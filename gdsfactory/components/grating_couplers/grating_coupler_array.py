@@ -96,7 +96,7 @@ def grating_coupler_array(
 
         waypoints_ = [point.to_dtype(c.kcl.dbu) for point in waypoints]
 
-        gf.routing.route_single(
+        gf.routing.route_bundle(
             c,
             port1=port0,
             port2=port1,

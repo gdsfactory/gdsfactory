@@ -192,7 +192,7 @@ def route_bundle(
     Routes connect a bundle of ports with a river router.
     Chooses the correct routing function depending on port angles.
 
-    Can also be used with single ports instead of lists, replacing route_single.
+    Can also be used with single ports instead of lists, replacing route_bundle.
 
     Args:
         component: component to add the routes to.

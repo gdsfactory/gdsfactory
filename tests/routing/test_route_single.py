@@ -5,14 +5,14 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_route_single(
+def test_route_bundle(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     c = gf.Component()
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.dmove((100, 50))
-    route = gf.routing.route_single(
+    route = gf.routing.route_bundle(
         c,
         mmi1.ports["o3"],
         mmi2.ports["o1"],

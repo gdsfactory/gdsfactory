@@ -12,7 +12,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
     ComponentSpec,
@@ -112,8 +112,8 @@ def route_south(
 
     # Handle empty list gracefully
 
-    route_single_with_conn_params = partial(
-        route_single,
+    route_bundle_with_conn_params = partial(
+        route_bundle,
         bend=bend,
         straight=straight,
         cross_section=cross_section,
@@ -197,7 +197,7 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         ports_to_route.append(tmp_port)
-        route = route_single_with_conn_params(component, tmp_port, p)
+        route = route_bundle_with_conn_params(component, tmp_port, p)
         x -= sep
 
     # route first halft of north ports above the top west one
@@ -208,7 +208,7 @@ def route_south(
         y_max = max(p.y for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
-            route = route_single_with_conn_params(
+            route = route_bundle_with_conn_params(
                 component,
                 port2=p,
                 port1=tmp_port,
@@ -244,7 +244,7 @@ def route_south(
                     x = x_gr + delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
-        route = route_single_with_conn_params(
+        route = route_bundle_with_conn_params(
             component,
             tmp_port,
             p,
@@ -261,7 +261,7 @@ def route_south(
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
-            route = route_single_with_conn_params(
+            route = route_bundle_with_conn_params(
                 component,
                 tmp_port,
                 p,

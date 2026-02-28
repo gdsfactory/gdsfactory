@@ -24,8 +24,6 @@ from gdsfactory.routing.route_ports_to_side import (
 )
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
-from gdsfactory.routing.route_single import route_single, route_single_electrical
-from gdsfactory.routing.route_single_sbend import route_single_sbend
 from gdsfactory.routing.route_south import route_south
 
 __all__ = [
@@ -42,8 +40,11 @@ __all__ = [
     "fanout2x2",
     "route_astar",
     "route_bundle",
+    "route_bundle",
     "route_bundle_all_angle",
     "route_bundle_electrical",
+    "route_bundle_electrical",
+    "route_bundle_sbend",
     "route_bundle_sbend",
     "route_dubins",
     "route_ports_to_side",
@@ -51,9 +52,6 @@ __all__ = [
     "route_ports_to_y",
     "route_quad",
     "route_sharp",
-    "route_single",
-    "route_single_electrical",
-    "route_single_sbend",
     "route_south",
     "sort_ports",
     "utils",

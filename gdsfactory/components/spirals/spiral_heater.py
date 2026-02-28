@@ -11,7 +11,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
@@ -199,7 +199,7 @@ def spiral_racetrack_fixed_length(
         cross_section=gf.get_cross_section(xs_s_bend),
     )
 
-    route = route_single(
+    route = route_bundle(
         c,
         spiral.ports["o2"],
         o2_temp,
@@ -295,7 +295,7 @@ def _req_straight_len(
             orientation=180,
             cross_section=gf.get_cross_section(cross_section_s_bend),
         )
-        route = route_single(
+        route = route_bundle(
             c,
             spiral.ports["o2"],
             c.ports["o2"],

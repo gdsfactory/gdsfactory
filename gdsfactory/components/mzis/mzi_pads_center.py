@@ -85,7 +85,7 @@ def mzi_pads_center(
     pads.y = m.y
 
     if mzi_sig_top is not None:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_sig_bot],
             pads.ports[pad_sig_bot],
@@ -94,7 +94,7 @@ def mzi_pads_center(
         )
 
     if mzi_gnd_bot:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_gnd_bot],
             pads.ports[pad_gnd_bot],
@@ -103,7 +103,7 @@ def mzi_pads_center(
         )
 
     if mzi_gnd_top:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_gnd_top],
             pads.ports[pad_gnd_top],
@@ -112,7 +112,7 @@ def mzi_pads_center(
         )
 
     if mzi_sig_top:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_sig_top],
             pads.ports[pad_sig_top],

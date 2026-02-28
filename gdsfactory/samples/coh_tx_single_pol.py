@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.gpdk import PDK
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 PDK.activate()
@@ -104,14 +104,14 @@ def coh_tx_single_pol(
     sp.x = mzm_q.xmin - xspacing
     sp.y = (mzm_i.ports["o1"].y + mzm_q.ports["o1"].y) / 2
 
-    route_single(
+    route_bundle(
         c,
         sp.ports["o2"],
         mzm_i.ports["o1"],
         cross_section=cross_section,
     )
 
-    route_single(
+    route_bundle(
         c,
         sp.ports["o3"],
         mzm_q.ports["o1"],
@@ -125,14 +125,14 @@ def coh_tx_single_pol(
     comb.x = ps_q.xmax + xspacing
     comb.y = (mzm_i.ports["o2"].y + mzm_q.ports["o2"].y) / 2
 
-    route_single(
+    route_bundle(
         c,
         comb.ports["o2"],
         ps_i.ports["o2"],
         cross_section=cross_section,
     )
 
-    route_single(
+    route_bundle(
         c,
         comb.ports["o3"],
         ps_q.ports["o2"],

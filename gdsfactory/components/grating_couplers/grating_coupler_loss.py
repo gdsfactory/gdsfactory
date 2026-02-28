@@ -4,7 +4,7 @@ __all__ = ["grating_coupler_loss"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -46,7 +46,7 @@ def grating_coupler_loss(
         g2.rotate(rotation)
         g2.x = xmin + i * pitch
 
-        route_single(
+        route_bundle(
             c,
             g1[port_name],
             g2[port_name],

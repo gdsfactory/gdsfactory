@@ -136,7 +136,7 @@ def coh_rx_single_pol(
     gf.routing.route_bundle(c, ports_hybrid, det_ports, cross_section=cross_section)
 
     # --- Draw metal connections ----
-    gf.routing.route_single_electrical(
+    gf.routing.route_bundle_electrical(
         c,
         pd_i1.ports["bot"],
         pd_i2.ports["top"],
@@ -154,7 +154,7 @@ def coh_rx_single_pol(
         width=2.0,
     )
 
-    gf.routing.route_single_electrical(
+    gf.routing.route_bundle_electrical(
         c,
         pd_q1.ports["bot"],
         pd_q2.ports["top"],

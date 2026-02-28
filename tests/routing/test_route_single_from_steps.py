@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 def test_route_from_steps() -> None:
-    """Test route_single with steps."""
+    """Test route_bundle with steps."""
     c = gf.Component()
     w = gf.components.straight()
     left = c << w
@@ -17,7 +17,7 @@ def test_route_from_steps() -> None:
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         cross_section="strip",
         port1=p1,
@@ -32,7 +32,7 @@ def test_route_from_steps() -> None:
 
 
 def test_route_waypoints() -> None:
-    """Test route_single with waypoints."""
+    """Test route_bundle with waypoints."""
     c = gf.Component(name="electrical")
     w = gf.components.wire_straight()
     left = c << w
@@ -51,7 +51,7 @@ def test_route_waypoints() -> None:
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         p0,
         p1,
@@ -67,7 +67,7 @@ def test_route_waypoints() -> None:
 
 
 def test_route_waypoints_numpy() -> None:
-    """Test route_single with waypoints."""
+    """Test route_bundle with waypoints."""
     c = gf.Component()
     w = gf.components.wire_straight()
     left = c << w
@@ -86,7 +86,7 @@ def test_route_waypoints_numpy() -> None:
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
-    gf.routing.route_single(
+    gf.routing.route_bundle(
         c,
         p0,
         p1,

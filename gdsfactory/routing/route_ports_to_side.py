@@ -10,7 +10,7 @@ import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component
 from gdsfactory.port import flipped
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import CrossSectionSpec, Ports
 
 
@@ -260,7 +260,7 @@ def route_ports_to_x(
         new_port2.trans *= gf.kdb.Trans.R180
 
         l_elements += [
-            route_single(
+            route_bundle(
                 component,
                 port,
                 new_port,
@@ -487,7 +487,7 @@ def route_ports_to_y(
 
         try:
             l_elements += [
-                route_single(
+                route_bundle(
                     component,
                     port,
                     new_port,
