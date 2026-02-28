@@ -1,6 +1,6 @@
-"""`route_single` places a Manhattan route between two ports.
+"""`route_bundle` places a Manhattan route between two ports.
 
-`route_single` only works for an individual routes. For routing groups of ports you need to use `route_bundle` instead
+`route_bundle` only works for an individual routes. For routing groups of ports you need to use `route_bundle` instead
 
 To make a route, you need to supply:
 
@@ -51,7 +51,7 @@ from gdsfactory.typings import (
 )
 
 
-def route_single(
+def route_bundle(
     component: Component,
     port1: Port,
     port2: Port,
@@ -72,6 +72,9 @@ def route_single(
     layer_transitions: LayerTransitions | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
+
+    .. deprecated::
+        Use :func:`~gdsfactory.routing.route_bundle.route_bundle` with single ports instead.
 
     The references are straights, bends and tapers.
 
@@ -106,7 +109,7 @@ def route_single(
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.move((40, 20))
-        gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
+        gf.routing.route_bundle(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
     warnings.warn(

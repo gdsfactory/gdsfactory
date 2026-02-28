@@ -3,14 +3,12 @@ Routing API
 
 .. currentmodule:: gdsfactory.routing
 
-route_single
+route_bundle
 -----------------
 
 .. autosummary::
    :toctree: _autosummary/
 
-   route_single
-   route_single_electrical
    route_quad
    route_sharp
 
@@ -28,6 +26,7 @@ configurations of the banks of ports, it decides which sub-routine to call:
    :toctree: _autosummary/
 
    route_bundle
+   route_bundle_electrical
 
 
 

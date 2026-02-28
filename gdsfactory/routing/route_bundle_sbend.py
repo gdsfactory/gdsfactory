@@ -56,6 +56,13 @@ def route_bundle_sbend(
     routes = []
 
     for p1, p2 in zip(list(ports1), list(ports2), strict=False):
+        orthogonality_error = abs(abs(p1.orientation - p2.orientation) - 180)
+        if orthogonality_error > 0.1:
+            raise ValueError(
+                f"Ports need to have orthogonal orientation {orthogonality_error}\n"
+                f"port1 = {p1.orientation} deg and port2 = {p2.orientation}"
+            )
+
         ys = p2.center[1] - p1.center[1]
         xs = p2.center[0] - p1.center[0]
 

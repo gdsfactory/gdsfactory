@@ -143,7 +143,7 @@ def greek_cross_with_pads(
                 allow_width_mismatch=True,
             )
 
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             cross_ref[cross_pad_via_port_pairs[index][0]],
             via_ref[cross_pad_via_port_pairs[index][1]],

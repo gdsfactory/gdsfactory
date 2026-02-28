@@ -23,4 +23,4 @@ def test_route_bundle_sbend_non_orthogonal() -> None:
     mmi2.rotate(45)
 
     with pytest.raises(ValueError, match="Ports need to have orthogonal orientation"):
-        gf.routing.route_single_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
+        gf.routing.route_bundle_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])

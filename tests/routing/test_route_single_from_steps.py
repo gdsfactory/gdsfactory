@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 def test_route_from_steps() -> None:
-    """Test route_single with steps."""
+    """Test route_bundle with steps."""
     c = gf.Component()
     w = gf.components.straight()
     left = c << w
@@ -32,7 +32,7 @@ def test_route_from_steps() -> None:
 
 
 def test_route_waypoints() -> None:
-    """Test route_single with waypoints."""
+    """Test route_bundle with waypoints."""
     c = gf.Component(name="electrical")
     w = gf.components.wire_straight()
     left = c << w
@@ -67,7 +67,7 @@ def test_route_waypoints() -> None:
 
 
 def test_route_waypoints_numpy() -> None:
-    """Test route_single with waypoints."""
+    """Test route_bundle with waypoints."""
     c = gf.Component()
     w = gf.components.wire_straight()
     left = c << w

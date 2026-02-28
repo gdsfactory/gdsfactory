@@ -1,4 +1,4 @@
-"""Sample route_single with absolute x/y steps.
+"""Sample route_bundle with absolute x/y steps.
 
 - x: sets the absolute x coordinate of the next waypoint.
 - y: sets the absolute y coordinate of the next waypoint.

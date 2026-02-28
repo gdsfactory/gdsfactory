@@ -1,4 +1,4 @@
-"""Sample route_single with steps using dx/dy (relative) and x/y (absolute).
+"""Sample route_bundle with steps using dx/dy (relative) and x/y (absolute).
 
 - dx/dy: shift relative to the current position.
 - x/y: set an absolute coordinate.
