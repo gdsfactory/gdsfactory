@@ -428,14 +428,15 @@ def route_bundle(
             kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
             for p in waypoints
         ]
-        if layer_marker:
-            for p in waypoints_:
-                marker = component << gf.components.rectangle(
-                    size=(10, 10), layer=layer_marker, centered=True
-                )
-                marker.center = (p.x, p.y)
     else:
-        waypoints_ = list(waypoints)
+        waypoints_ = [cast("kf.kdb.DPoint", p) for p in waypoints]
+
+    if layer_marker and waypoints_ is not None:
+        for p in waypoints_:
+            marker = component << gf.components.rectangle(
+                size=(10, 10), layer=layer_marker, centered=True
+            )
+            marker.center = (p.x, p.y)
 
     if waypoints_ is not None and len(waypoints_) >= 2:
         waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])
