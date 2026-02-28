@@ -27,6 +27,7 @@ To generate a route:
 
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from typing import Literal, cast
 
@@ -72,6 +73,9 @@ def route_single(
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
+    .. deprecated::
+        Use :func:`~gdsfactory.routing.route_bundle.route_bundle` with single ports instead.
+
     The references are straights, bends and tapers.
 
     Args:
@@ -108,6 +112,12 @@ def route_single(
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
+    warnings.warn(
+        "route_single is deprecated. Use route_bundle with single ports instead.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+
     if cross_section is None and (layer is None or route_width is None):
         raise ValueError(
             f"Either {cross_section=} or {layer=} and route_width must be provided"

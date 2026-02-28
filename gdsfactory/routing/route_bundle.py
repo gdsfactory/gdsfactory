@@ -33,6 +33,7 @@ from gdsfactory.typings import (
     LayerSpec,
     LayerSpecs,
     LayerTransitions,
+    Port,
     Ports,
     Step,
 )
@@ -150,8 +151,8 @@ def _ensure_manhattan_waypoints(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Ports,
-    ports2: Ports,
+    ports1: Port | Ports,
+    ports2: Port | Ports,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
@@ -191,10 +192,12 @@ def route_bundle(
     Routes connect a bundle of ports with a river router.
     Chooses the correct routing function depending on port angles.
 
+    Can also be used with single ports instead of lists, replacing route_single.
+
     Args:
         component: component to add the routes to.
-        ports1: list of starting ports.
-        ports2: list of end ports.
+        ports1: starting port or list of starting ports.
+        ports2: end port or list of end ports.
         cross_section: CrossSection or function that returns a cross_section.
         layer: layer to use for the route.
         separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
@@ -254,6 +257,12 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    # Normalize single ports to lists
+    if isinstance(ports1, gf.Port):
+        ports1 = [ports1]
+    if isinstance(ports2, gf.Port):
+        ports2 = [ports2]
+
     if show_waypoints and layer_marker is None:
         layer_marker = gf.CONF.layer_marker
 
