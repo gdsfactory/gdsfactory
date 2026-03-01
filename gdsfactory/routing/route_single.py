@@ -111,9 +111,11 @@ def route_single(
         mmi2.move((40, 20))
         gf.routing.route_bundle(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
+
     """
     warnings.warn(
-        "route_single is deprecated. Use route_bundle instead.",
+        "route_single is less flexible and will be removed in GDSFactory10. "
+        "Please use route_bundle instead.",
         DeprecationWarning,
         stacklevel=2,
     )
