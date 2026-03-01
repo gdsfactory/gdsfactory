@@ -139,7 +139,6 @@ CONF.port_types = [
 ]
 CONF.port_types_grating_couplers = ["vertical_te", "vertical_tm", "vertical_dual"]
 CONF.exclude_layers = None
-CONF.logfilter.level = "ERROR"
 
 
 class Paths:
