@@ -27,14 +27,16 @@ To generate a route:
 
 from __future__ import annotations
 
-import warnings
-from collections.abc import Sequence
+import sys
+from collections.abc import Iterator, Sequence
+from contextlib import contextmanager
 from typing import Literal, cast
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import place_manhattan, route
+from loguru import logger
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -49,6 +51,25 @@ from gdsfactory.typings import (
     Step,
     WayPoints,
 )
+
+_route_single_warned = False
+
+
+@contextmanager
+def _suppress_kfactory_route_deprecation() -> Iterator[None]:
+    """Suppress kfactory's own route deprecation warning."""
+    logger.remove()
+    handler_id = logger.add(
+        sys.stderr,
+        filter=lambda record: "is deprecated, please use `route_bundle`"
+        not in record["message"],
+        level="WARNING",
+    )
+    try:
+        yield
+    finally:
+        logger.remove(handler_id)
+        logger.add(sys.stderr, level="WARNING")
 
 
 def route_single(
@@ -112,11 +133,13 @@ def route_single(
         gf.routing.route_bundle(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
     """
-    warnings.warn(
-        "route_single is deprecated. Use route_bundle instead.",
-        DeprecationWarning,
-        stacklevel=2,
-    )
+    global _route_single_warned
+    if not _route_single_warned:
+        _route_single_warned = True
+        logger.warning(
+            "route_single is less flexible and will be removed in GDSFactory10. "
+            "Please use route_bundle instead."
+        )
     if cross_section is None and (layer is None or route_width is None):
         raise ValueError(
             f"Either {cross_section=} or {layer=} and route_width must be provided"
@@ -268,18 +291,19 @@ def route_single(
             )
 
     else:
-        return route(
-            component.to_itype(),
-            p1=p1.to_itype(),
-            p2=p2.to_itype(),
-            straight_factory=straight_dbu,
-            bend90_cell=bend90.to_itype(),
-            start_straight=start_straight,
-            end_straight=end_straight,
-            port_type=port_type,
-            allow_width_mismatch=allow_width_mismatch,
-            route_width=route_width,
-        )
+        with _suppress_kfactory_route_deprecation():
+            return route(
+                component.to_itype(),
+                p1=p1.to_itype(),
+                p2=p2.to_itype(),
+                straight_factory=straight_dbu,
+                bend90_cell=bend90.to_itype(),
+                start_straight=start_straight,
+                end_straight=end_straight,
+                port_type=port_type,
+                allow_width_mismatch=allow_width_mismatch,
+                route_width=route_width,
+            )
 
 
 def route_single_electrical(
