@@ -843,7 +843,7 @@ class LayerViews(BaseModel):
             if isinstance(lv, LayerView):
                 # Auto-populate group_members from LayerView subclass fields
                 if type(lv) is not LayerView and not lv.group_members:
-                    for field_name in lv.model_fields:
+                    for field_name in type(lv).model_fields:
                         field_val = getattr(lv, field_name)
                         if isinstance(field_val, LayerView):
                             lv.group_members[field_name] = field_val
