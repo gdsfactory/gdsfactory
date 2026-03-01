@@ -100,13 +100,13 @@ def straight_heater_meander_doped(
     )
 
     dummy = gf.Component()
-    routes = gf.routing.route_bundle(
+    route = gf.routing.route_single(
         dummy, p1, p2, radius=radius, cross_section=cross_section
     )
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid2x(
-        (length - (rows - 1) * c.kcl.dbu * routes[0].length) / rows,
+        (length - (rows - 1) * c.kcl.dbu * route.length) / rows,
     )
     ports: dict[str, Port] = {}
 
@@ -148,7 +148,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o1_{row + 2}"])
 
-        gf.routing.route_bundle(
+        gf.routing.route_single(
             c,
             extra_straight2["o2"],
             extra_straight1["o2"],
@@ -166,7 +166,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
-        gf.routing.route_bundle(
+        gf.routing.route_single(
             c,
             extra_straight2.ports["o2"],
             extra_straight1.ports["o2"],

@@ -6,7 +6,6 @@ __all__ = ["loop_mirror"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -28,7 +27,7 @@ def loop_mirror(
     component = gf.get_component(component)
     bend90 = gf.get_component(bend90)
     cref = c.add_ref(component)
-    route_bundle(
+    gf.routing.route_single(
         c,
         cref.ports["o3"],
         cref.ports["o2"],
