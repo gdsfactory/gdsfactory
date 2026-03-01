@@ -196,11 +196,9 @@ def _find_microstrip_wire_width(
     _validate_positive("eps_r", eps_r)
 
     def error_fun(wire_width: float | Sequence[float]) -> float:
-        w = (
-            float(wire_width[0])
-            if isinstance(wire_width, Sequence)
-            else float(wire_width)
-        )
+        import numpy as np
+
+        w = float(np.asarray(wire_width).flat[0])
         Z_guessed = _microstrip_Z_with_Lk(w, dielectric_thickness, eps_r, Lk_per_sq)
         return (Z_guessed - Z_target) ** 2  # The error
 

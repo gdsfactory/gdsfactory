@@ -148,7 +148,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o1_{row + 2}"])
 
-        route = gf.routing.route_single(
+        gf.routing.route_single(
             c,
             extra_straight2["o2"],
             extra_straight1["o2"],
@@ -166,7 +166,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
-        route = gf.routing.route_single(
+        gf.routing.route_single(
             c,
             extra_straight2.ports["o2"],
             extra_straight1.ports["o2"],
