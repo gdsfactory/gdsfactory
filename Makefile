@@ -1,16 +1,37 @@
 UV_INSTALLED := $(shell command -v uv)
 
-.PHONY: uv
+.PHONY: \
+	uv \
+	install \
+	dev \
+	install-kfactory-dev \
+	update-pre \
+	test-data \
+	test \
+	test-force \
+	cov \
+	dev-cov \
+	test-samples \
+	docker-debug \
+	docker-build \
+	docker-run \
+	build \
+	upload-devpi \
+	upload-twine \
+	lint \
+	docs \
+	git-rm-merged \
+	notebooks \
+	clean \
+	help
+
 uv: ## install uv if not installed
 ifndef UV_INSTALLED
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 endif
 
-.PHONY: install
 install: uv ## Install all dependencies using uv
 	uv sync --all-extras --no-extra full
-
-.PHONY: dev
 
 dev: uv ## Set up dev environment and install pre-commit
 	uv venv -p 3.12
@@ -19,50 +40,39 @@ dev: uv ## Set up dev environment and install pre-commit
 	uv run gf install-klayout-genericpdk
 	uv run gf install-git-diff
 
-.PHONY: install-kfactory-dev
 install-kfactory-dev: ## Force-reinstall kfactory from GitHub
 	uv pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 
-.PHONY: update-pre
 update-pre: ## Update pre-commit hooks
 	pre-commit autoupdate
 
-.PHONY: test-data
 test-data: ## Clone test data from GitHub (HTTPS)
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
 test-data-gds: ## Clone test data from GitHub (SSH)
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
-.PHONY: test
 test: test-data-gds ## Run tests
 	uv run pytest -s -n logical
 
-.PHONY: test-force
 test-force: ## Run tests with force-regen
 	uv run pytest -n logical --force-regen -s
 
-.PHONY: cov
 cov: ## Run tests with coverage
 	uv run pytest --cov=gdsfactory --cov-report=term-missing:skip-covered
 
-.PHONY: dev-cov
 dev-cov: ## Run tests in parallel with coverage
 	uv run pytest -s -n logical --cov=gdsfactory --cov-report=term-missing:skip-covered --durations=10
 
-.PHONY: test-samples
 test-samples: ## Test that samples run without error
 	uv run pytest tests/test_samples.py
 
-.PHONY: docker-debug
 docker-debug: ## Start a debug shell in Docker
 	docker run -it joamatab/gdsfactory sh
 
-.PHONY: docker-build
 docker-build: ## Build Docker image
 	docker build -t joamatab/gdsfactory .
 
-.PHONY: docker-run
 docker-run: ## Run Docker container
 	docker run \
 		-p 8888:8888 \
@@ -70,38 +80,30 @@ docker-run: ## Run Docker container
 		-e JUPYTER_ENABLE_LAB=yes \
 		joamatab/gdsfactory:latest
 
-.PHONY: build
 build: ## Build python package
 	rm -rf dist
 	uv build
 
-.PHONY: upload-devpi
 upload-devpi: ## Upload package to devpi
 	uv tool run devpi-client upload --format=bdist_wheel,sdist.tgz
 
-.PHONY: upload-twine
 upload-twine: build ## Upload package to PyPI using twine
 	uv tool run twine upload dist/*
 
-.PHONY: lint
 lint: ## Run linting and formatting checks
 	uv run pre-commit run --all-files
 
-.PHONY: docs
 docs: ## Build documentation
 	uv run python docs/write_cells.py
 	uv run jb build docs
 
-.PHONY: git-rm-merged
 git-rm-merged: ## Delete merged git branches
 	git fetch --prune
 	git branch --merged origin/main | grep -v '^\*' | grep -v 'main' | xargs -n 1 git branch -d
 
-.PHONY: notebooks
 notebooks: ## Convert python scripts to Jupyter notebooks
 	jupytext docs/notebooks/*.py --to ipynb
 
-.PHONY: clean
 clean: ## Remove build, cache and temporary files
 	rm -rf .venv
 	find src -name "*.c" | xargs rm -rf
@@ -121,6 +123,5 @@ clean: ## Remove build, cache and temporary files
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 .DEFAULT_GOAL := help
-.PHONY: help
 help: ## this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
