@@ -11,7 +11,12 @@ def set_shortcuts() -> None:
         print("WARNING: get_config(key-bindings) returned null")
         mapping = {}
     else:
-        mapping = dict(item.split(":") for item in config.split(";"))
+        mapping = {}
+        for item in config.split(";"):
+            if ":" not in item:
+                continue
+            key, val = item.split(":", 1)
+            mapping[key] = val
 
     mapping["edit_menu.clear_all_rulers"] = "'Ctrl+K'"
     mapping["edit_menu.copy"] = "'Ctrl+C'"

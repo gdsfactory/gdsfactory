@@ -15,7 +15,6 @@ install: uv ## Install all dependencies using uv
 dev: uv ## Set up dev environment and install pre-commit
 	uv venv -p 3.12
 	uv sync --all-extras --no-extra full
-	uv pip install -e .
 	uv run pre-commit install
 	uv run gf install-klayout-genericpdk
 	uv run gf install-git-diff
@@ -28,6 +27,7 @@ install-kfactory-dev: ## Force-reinstall kfactory from GitHub
 update-pre: ## Update pre-commit hooks
 	pre-commit autoupdate
 
+.PHONY: test-data
 test-data: ## Clone test data from GitHub (HTTPS)
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
@@ -73,18 +73,19 @@ docker-run: ## Run Docker container
 .PHONY: build
 build: ## Build python package
 	rm -rf dist
-	pip install build
-	python -m build
+	uv build
 
 .PHONY: upload-devpi
 upload-devpi: ## Upload package to devpi
-	pip install devpi-client wheel
-	devpi upload --format=bdist_wheel,sdist.tgz
+	uv tool run devpi-client upload --format=bdist_wheel,sdist.tgz
 
 .PHONY: upload-twine
 upload-twine: build ## Upload package to PyPI using twine
-	pip install twine
-	twine upload dist/*
+	uv tool run twine upload dist/*
+
+.PHONY: lint
+lint: ## Run linting and formatting checks
+	uv run pre-commit run --all-files
 
 .PHONY: docs
 docs: ## Build documentation
