@@ -8,9 +8,9 @@ import sys
 import tempfile
 from enum import Enum, auto
 
-import kfactory.conf as kf_conf
+from kfactory.conf import LogLevel, Settings, config, dotenv_path, get_affinity
+from pydantic import Field
 from pydantic_settings import SettingsConfigDict
-from kfactory.conf import Settings, get_affinity, dotenv_path
 from rich.console import Console
 from rich.table import Table
 
@@ -112,20 +112,24 @@ class Config(Settings):
     connect_use_mirror: bool = False
     max_cellname_length: int = 64
     cell_layout_cache: bool = True
-    port_types: list[str] = [
-        "optical",  # optical ports
-        "electrical",  # electrical ports
-        "placement",  # placement ports (excluded in netlist extraction)
-        "vertical_te",  # for grating couplers with TE polarization
-        "vertical_tm",  # for grating couplers with TM polarization
-        "vertical_dual",  # for grating couplers with TE and TM polarization
-        "electrical_rf",  # electrical ports for RF (high frequency)
-        "pad",  # for DC pads
-        "pad_rf",  # for RF pads
-        "bump",  # for bumps
-        "edge_coupler",  # for edge couplers
-    ]
-    port_types_grating_couplers: list[str] = ["vertical_te", "vertical_tm", "vertical_dual"]
+    port_types: list[str] = Field(
+        default=[
+            "optical",
+            "electrical",
+            "placement",
+            "vertical_te",
+            "vertical_tm",
+            "vertical_dual",
+            "electrical_rf",
+            "pad",
+            "pad_rf",
+            "bump",
+            "edge_coupler",
+        ]
+    )
+    port_types_grating_couplers: list[str] = Field(
+        default=["vertical_te", "vertical_tm", "vertical_dual"]
+    )
     exclude_layers: list[tuple[int, int]] | list[str] | None = None
 
     model_config = SettingsConfigDict(
@@ -138,9 +142,11 @@ class Config(Settings):
     )
 
 
-CONF = Config()  # type: ignore[assignment]
-CONF.logfilter.level = "ERROR"
-kf_conf.config = CONF  # type: ignore[assignment]
+_defaults = Config()
+for _field in Config.model_fields:
+    setattr(config, _field, getattr(_defaults, _field))
+config.logfilter.level = LogLevel.ERROR
+CONF: Config = config  # type: ignore[assignment]
 
 
 class Paths:
