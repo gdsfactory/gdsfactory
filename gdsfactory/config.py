@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+import getpass
 import importlib
-import os
 import pathlib
 import sys
 import tempfile
@@ -32,7 +32,7 @@ get_number_of_cores = get_affinity
 
 GDSDIR_TEMP = (
     pathlib.Path(tempfile.tempdir or tempfile.gettempdir())
-    / f"gdsfactory-{os.getuid()}"
+    / f"gdsfactory-{getpass.getuser()}"
 )
 GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
