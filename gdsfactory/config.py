@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib
+import os
 import pathlib
 import sys
 import tempfile
@@ -29,7 +30,10 @@ logpath = home_path / "log.log"
 
 get_number_of_cores = get_affinity
 
-GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDIR_TEMP = (
+    pathlib.Path(tempfile.tempdir or tempfile.gettempdir())
+    / f"gdsfactory-{os.getuid()}"
+)
 GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 plugins = [
