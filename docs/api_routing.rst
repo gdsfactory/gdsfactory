@@ -3,12 +3,13 @@ Routing API
 
 .. currentmodule:: gdsfactory.routing
 
-route_bundle
+route_single
 -----------------
 
 .. autosummary::
    :toctree: _autosummary/
 
+   route_single
    route_quad
    route_sharp
 
