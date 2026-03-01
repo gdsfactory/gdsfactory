@@ -841,6 +841,12 @@ class LayerViews(BaseModel):
         for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
+                # Auto-populate group_members from LayerView subclass fields
+                if type(lv) is not LayerView and not lv.group_members:
+                    for field_name in lv.model_fields:
+                        field_val = getattr(lv, field_name)
+                        if isinstance(field_val, LayerView):
+                            lv.group_members[field_name] = field_val
                 if (
                     layers is not None
                     and layer_names is not None
