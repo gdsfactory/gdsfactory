@@ -531,6 +531,20 @@ def test_euler_angles_preserved() -> None:
         assert diff == angle or diff == angle + 360
 
 
+def test_duplicate_points_warning() -> None:
+    """Test that duplicate consecutive points raise a RuntimeWarning."""
+    pts = np.array(
+        [
+            (0.0, 0.0),
+            (10.0, 0.0),
+            (10.0, 0.0),
+            (30.0, 0.0),
+        ]
+    )
+    with pytest.warns(RuntimeWarning, match="Zero-length segments"):
+        gf.path.smooth(points=pts, radius=4.0, bend=gf.path.euler)
+
+
 def test_euler_curvature_continuity() -> None:
     """Test that euler has continuous curvature starting and ending near zero."""
     # Use many points for accurate curvature estimation
