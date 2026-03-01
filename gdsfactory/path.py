@@ -1924,6 +1924,15 @@ def _compute_segments(
 ]:
     points = np.asarray(points, dtype=float)
     normals = np.diff(points, axis=0)
+
+    tol = 1e-6
+    if np.any(np.linalg.norm(normals, axis=1) < tol):
+        warnings.warn(
+            "Zero-length segments (duplicate consecutive points)",
+            RuntimeWarning,
+            stacklevel=3,
+        )
+
     normals = (normals.T / np.linalg.norm(normals, axis=1)).T
     dx = np.diff(points[:, 0])
     dy = np.diff(points[:, 1])
