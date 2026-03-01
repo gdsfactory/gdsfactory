@@ -7,11 +7,10 @@ import pya
 
 def set_shortcuts() -> None:
     config = pya.Application.instance().get_config("key-bindings")
+    mapping: dict[str, str] = {}
     if config == "":
         print("WARNING: get_config(key-bindings) returned null")
-        mapping = {}
     else:
-        mapping = {}
         for item in config.split(";"):
             if ":" not in item:
                 continue
