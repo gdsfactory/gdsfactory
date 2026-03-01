@@ -5,7 +5,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
-def route_single_sbend(
+def route_bundle_sbend(
     component: Component,
     port1: Port,
     port2: Port,
@@ -35,7 +35,7 @@ def route_single_sbend(
         mmi2 = c << gf.components.mmi1x2()
         mmi2.movex(50)
         mmi2.movey(5)
-        route = gf.routing.route_single_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
+        route = gf.routing.route_bundle_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
         c.plot()
     """
     ysize = port2.center[1] - port1.center[1]
@@ -61,3 +61,7 @@ def route_single_sbend(
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
     return bend_ref
+
+
+# Deprecated alias
+route_single_sbend = route_bundle_sbend
