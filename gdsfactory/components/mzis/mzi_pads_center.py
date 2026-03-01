@@ -28,6 +28,7 @@ def mzi_pads_center(
     cross_section: CrossSectionSpec = "strip",
     cross_section_metal: CrossSectionSpec = "metal_routing",
     pad_pitch: float | str = "pad_pitch",
+    auto_taper: bool = False,
     **kwargs: Any,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
@@ -53,6 +54,7 @@ def mzi_pads_center(
         cross_section: for the mzi.
         cross_section_metal: for routing metal.
         pad_pitch: pad pitch in um.
+        auto_taper: add taper if cross_section width is different between mzi and pad.
         kwargs: routing settings.
     """
     c = gf.Component()
@@ -85,38 +87,42 @@ def mzi_pads_center(
     pads.y = m.y
 
     if mzi_sig_top is not None:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_sig_bot],
             pads.ports[pad_sig_bot],
             cross_section=cross_section_metal,
+            auto_taper=auto_taper,
             **kwargs,
         )
 
     if mzi_gnd_bot:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_gnd_bot],
             pads.ports[pad_gnd_bot],
             cross_section=cross_section_metal,
+            auto_taper=auto_taper,
             **kwargs,
         )
 
     if mzi_gnd_top:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_gnd_top],
             pads.ports[pad_gnd_top],
             cross_section=cross_section_metal,
+            auto_taper=auto_taper,
             **kwargs,
         )
 
     if mzi_sig_top:
-        gf.routing.route_single_electrical(
+        gf.routing.route_bundle_electrical(
             c,
             m.ports[mzi_sig_top],
             pads.ports[pad_sig_top],
             cross_section=cross_section_metal,
+            auto_taper=auto_taper,
             **kwargs,
         )
 

@@ -1,6 +1,7 @@
 info: {}
-name: mzi_pads_center_gdsfactorypcomponentspmzispmzi_pads_cen_81123799
+name: mzi_pads_center_gdsfactorypcomponentspmzispmzi_pads_cen_0cb9c201
 settings:
+  auto_taper: false
   cross_section: strip
   cross_section_metal: metal_routing
   delta_length: 40

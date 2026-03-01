@@ -69,7 +69,7 @@ def pads_shorted(
     ports2 = [br.ports["e1"], tr.ports["e1"]]
     gf.routing.route_bundle_electrical(c, ports1, ports2, cross_section=cross_section)
 
-    gf.routing.route_single_electrical(
+    gf.routing.route_bundle_electrical(
         c, bl.ports["e2"], tl.ports["e4"], cross_section=cross_section
     )
     return c

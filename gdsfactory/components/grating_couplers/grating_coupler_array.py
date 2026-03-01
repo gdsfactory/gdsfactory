@@ -98,8 +98,8 @@ def grating_coupler_array(
 
         gf.routing.route_single(
             c,
-            port1=port0,
-            port2=port1,
+            port0,
+            port1,
             waypoints=waypoints_,
             cross_section=cross_section,
             radius=radius,

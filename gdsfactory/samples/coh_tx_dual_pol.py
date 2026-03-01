@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.gpdk import PDK
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.samples.coh_tx_single_pol import coh_tx_single_pol
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -62,14 +62,14 @@ def coh_tx_dual_pol(
     sp.x = single_tx_1.xmin - xspacing
     sp.y = (single_tx_1.ports["o1"].y + single_tx_2.ports["o1"].y) / 2
 
-    route_single(
+    route_bundle(
         c,
         sp.ports["o2"],
         single_tx_1.ports["o1"],
         cross_section=cross_section,
     )
 
-    route_single(
+    route_bundle(
         c,
         sp.ports["o3"],
         single_tx_2.ports["o1"],
@@ -84,14 +84,14 @@ def coh_tx_dual_pol(
         comb.x = single_tx_1.xmax + xspacing
         comb.y = (single_tx_1.ports["o2"].y + single_tx_2.ports["o2"].y) / 2
 
-        route_single(
+        route_bundle(
             c,
             comb.ports["o2"],
             single_tx_1.ports["o2"],
             cross_section=cross_section,
         )
 
-        route_single(
+        route_bundle(
             c,
             comb.ports["o3"],
             single_tx_2.ports["o2"],
@@ -117,14 +117,14 @@ def coh_tx_dual_pol(
             out_coup.y = (single_tx_1.y + single_tx_2.y) / 2
             out_coup.xmin = single_tx_1.xmax + 40.0
 
-            route_single(
+            route_bundle(
                 c,
                 single_tx_1.ports["o2"],
                 out_coup.ports["o1"],
                 cross_section=cross_section,
             )
 
-            route_single(
+            route_bundle(
                 c,
                 single_tx_2.ports["o2"],
                 out_coup.ports["o2"],
