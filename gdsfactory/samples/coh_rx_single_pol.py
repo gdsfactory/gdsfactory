@@ -7,8 +7,6 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.gpdk import PDK
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
 
-PDK.activate()
-
 
 @gf.cell
 def coh_rx_single_pol(
@@ -21,7 +19,7 @@ def coh_rx_single_pol(
     lo_input_coupler: ComponentSpec | None = None,
     signal_input_coupler: ComponentSpec | None = None,
     cross_section_metal_top: CrossSectionSpec = "metal3",
-    cross_section_metal: CrossSectionSpec = "metal2",
+    cross_section_metal: CrossSectionSpec = "metal3",
 ) -> Component:
     r"""Single polarization coherent receiver.
 
@@ -197,5 +195,6 @@ def coh_rx_single_pol(
 
 
 if __name__ == "__main__":
+    PDK.activate()
     c = coh_rx_single_pol()
     c.show()
