@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-import os
 import importlib
 import pathlib
 import sys
 import tempfile
 from enum import Enum, auto
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
+import kfactory.conf as kf_conf
+from pydantic_settings import SettingsConfigDict
 from kfactory.conf import Settings, get_affinity, dotenv_path
 from rich.console import Console
 from rich.table import Table
@@ -103,11 +103,10 @@ def print_version_plugins_raw() -> None:
 class Config(Settings):
     pdk: str | None = None
     layer_label: tuple[int, int] = (100, 0)
-    exclude_layers: list[tuple[int, int]] | list[str] | None
     difftest_ignore_label_differences: bool = False
     difftest_ignore_sliver_differences: bool = False
-    difftest_ignore_cell_name_differences: bool = False
-    bnd_radius_error_type: ErrorType = ErrorType.ERROR
+    difftest_ignore_cell_name_differences: bool = True
+    bend_radius_error_type: ErrorType = ErrorType.ERROR
     layer_error_path: tuple[int, int] = (1000, 0)
     layer_marker: tuple[int, int] = (205, 0)
     connect_use_mirror: bool = False
@@ -141,6 +140,7 @@ class Config(Settings):
 
 CONF = Config()  # type: ignore[assignment]
 CONF.logfilter.level = "ERROR"
+kf_conf.config = CONF  # type: ignore[assignment]
 
 
 class Paths:
