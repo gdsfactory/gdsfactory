@@ -1,3 +1,5 @@
+import pathlib
+
 import pytest
 from pydantic_extra_types.color import Color
 
@@ -150,3 +152,67 @@ def test_layer_view_dict() -> None:
 def test_layer_view_str() -> None:
     lv = LayerView(color="#00FF00")
     assert str(lv)
+
+
+def test_nested_layerview_subclass_group_members() -> None:
+    """LayerView subclass fields are auto-populated into group_members."""
+
+    class MyGroup(LayerView):
+        LAYER_A: LayerView = LayerView(name="LAYER_A", color="#FF0000")
+        LAYER_B: LayerView = LayerView(name="LAYER_B", color="#00FF00")
+
+    class MyLayerViews(LayerViews):
+        LAYER_C: LayerView = LayerView(name="LAYER_C", color="#0000FF")
+        Group: MyGroup = MyGroup()
+
+    lvs = MyLayerViews()
+    group_view = lvs.layer_views["Group"]
+
+    # group_members should be auto-populated from the subclass fields
+    assert "LAYER_A" in group_view.group_members
+    assert "LAYER_B" in group_view.group_members
+    assert group_view.group_members["LAYER_A"].fill_color == Color("#FF0000")
+    assert group_view.group_members["LAYER_B"].fill_color == Color("#00FF00")
+
+    # top-level layer should still work
+    assert "LAYER_C" in lvs.layer_views
+    assert not lvs.layer_views["LAYER_C"].group_members
+
+
+def test_nested_layerview_subclass_to_lyp(tmp_path: pathlib.Path) -> None:
+    """LayerView subclass groups produce <group-members> in .lyp XML."""
+
+    class MyGroup(LayerView):
+        LAYER_A: LayerView = LayerView(name="LAYER_A", layer=(1, 0), color="#FF0000")
+        LAYER_B: LayerView = LayerView(name="LAYER_B", layer=(2, 0), color="#00FF00")
+
+    class MyLayerViews(LayerViews):
+        Group: MyGroup = MyGroup()
+
+    lvs = MyLayerViews()
+    lyp_path = tmp_path / "test.lyp"
+    lvs.to_lyp(lyp_path)
+
+    content = lyp_path.read_text()
+    assert "<group-members>" in content
+    assert "<name>LAYER_A</name>" in content
+    assert "<name>LAYER_B</name>" in content
+
+
+def test_nested_layerview_explicit_group_members_preserved() -> None:
+    """Explicit group_members are not overwritten by auto-population."""
+
+    class MyGroup(LayerView):
+        LAYER_A: LayerView = LayerView(name="LAYER_A", color="#FF0000")
+
+    explicit_member = LayerView(name="EXPLICIT", color="#FFFFFF")
+
+    class MyLayerViews(LayerViews):
+        Group: MyGroup = MyGroup(group_members={"EXPLICIT": explicit_member})
+
+    lvs = MyLayerViews()
+    group_view = lvs.layer_views["Group"]
+
+    # Explicit group_members should be preserved, not overwritten
+    assert "EXPLICIT" in group_view.group_members
+    assert group_view.group_members["EXPLICIT"].fill_color == Color("#FFFFFF")
