@@ -7,8 +7,15 @@ from kfactory.routing.generic import ManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import ComponentSpec, Port, Ports
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerTransitions,
+    Port,
+    Ports,
+)
 
 
 def route_bundle_sbend(
@@ -23,6 +30,9 @@ def route_bundle_sbend(
     allow_type_mismatch: bool | None = None,
     port_name: str = "o1",
     use_port_width: bool = True,
+    auto_taper: bool = True,
+    cross_section: CrossSectionSpec | None = None,
+    layer_transitions: LayerTransitions | None = None,
     **kwargs: Any,
 ) -> list[ManhattanRoute]:
     """Places sbend routes from ports1 to ports2.
@@ -39,6 +49,9 @@ def route_bundle_sbend(
         allow_type_mismatch: allows type mismatch.
         port_name: name of the port to connect to the sbend.
         use_port_width: if True, use the width of the port to set the width of the sbend.
+        auto_taper: if True, auto-tapers ports to the cross-section of the route.
+        cross_section: cross-section to use for auto-tapering. Required when auto_taper=True.
+        layer_transitions: dictionary of layer transitions for auto-tapering.
         kwargs: cross_section settings.
 
     """
@@ -51,6 +64,21 @@ def route_bundle_sbend(
     if sort_ports:
         ports1, ports2 = sort_ports_function(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
+
+    if auto_taper and cross_section is not None:
+        xs_ = gf.get_cross_section(cross_section)
+        ports1 = add_auto_tapers(
+            component,
+            list(ports1),
+            cross_section=xs_,
+            layer_transitions=layer_transitions,
+        )
+        ports2 = add_auto_tapers(
+            component,
+            list(ports2),
+            cross_section=xs_,
+            layer_transitions=layer_transitions,
         )
 
     routes = []
