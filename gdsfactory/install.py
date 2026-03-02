@@ -257,7 +257,7 @@ def convert_py_to_ipynb(
     output_folder: pathlib.Path = PATH.cwd / "notebooks",
 ) -> None:
     """Convert notebooks from markdown to ipynb."""
-    import jupytext
+    import jupytext  # type: ignore[import-not-found]
 
     output_folder.mkdir(exist_ok=True, parents=True)
 
