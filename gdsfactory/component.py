@@ -219,6 +219,14 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 else getattr(port, "cross_section", port.info.get("cross_section"))
             )
 
+        # Check if cross_section is already a native KFactory type —
+        # preserve it to avoid lossy round-trip conversions
+        kf_xs: kf.SymmetricalCrossSection | None = None
+        if isinstance(cross_section, kf.DCrossSection):
+            kf_xs = cross_section.base
+        elif isinstance(cross_section, kf.SymmetricalCrossSection):
+            kf_xs = cross_section
+
         # Apply CrossSection overrides
         xs_name = None
         if cross_section:
@@ -228,6 +236,14 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 layer = xs.layer
             if width is None:
                 width = xs.width
+
+            # Convert GDSFactory CrossSection to KFactory cross_section if we
+            # don't already have one from a native KFactory source
+            if kf_xs is None:
+                try:
+                    kf_xs = xs.to_kf_cross_section(kcl=self.kcl).base
+                except Exception:
+                    kf_xs = None
 
         # Apply defaults if None
         if port_type is None:
@@ -264,13 +280,47 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         layer = get_layer(layer)
 
-        _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
-            name=name,
-            width=width,
-            layer=layer,
-            port_type=port_type,
-            dcplx_trans=trans,
+        # Use the KFactory cross_section natively if available and its width
+        # and layer match the port's. In KFactory, port.width and port.layer
+        # derive from the cross_section, so we can only use a native
+        # cross_section when they agree.
+        layer_info = self.kcl.layout.get_info(layer)
+        width_dbu = self.kcl.to_dbu(width)
+        use_kf_xs = (
+            kf_xs is not None
+            and kf_xs.width == width_dbu
+            and kf_xs.main_layer == layer_info
         )
+        if use_kf_xs:
+            assert kf_xs is not None
+            try:
+                registered_xs = self.kcl.get_symmetrical_cross_section(kf_xs)
+            except (ValueError, KeyError):
+                registered_xs = None
+
+            if registered_xs is not None:
+                _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
+                    name=name,
+                    cross_section=registered_xs,
+                    port_type=port_type,
+                    dcplx_trans=trans,
+                )
+            else:
+                _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
+                    name=name,
+                    width=width,
+                    layer=layer,
+                    port_type=port_type,
+                    dcplx_trans=trans,
+                )
+        else:
+            _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
+                name=name,
+                width=width,
+                layer=layer,
+                port_type=port_type,
+                dcplx_trans=trans,
+            )
 
         if xs_name:
             _port.info["cross_section"] = xs_name
