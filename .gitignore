@@ -153,7 +153,6 @@ Temporary Items
 .ropeproject
 
 # Environments
-.env
 .venv
 env/
 venv/
@@ -299,7 +298,6 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/

@@ -105,12 +105,15 @@ def route_bundle_sbend(
             xsize = -ys
             ysize = xs
 
+        bend_kwargs = dict(**kwargs)
+        if cross_section is not None:
+            bend_kwargs["cross_section"] = cross_section
         if use_port_width:
             bend = gf.get_component(
-                bend_s, size=(xsize, ysize), width=p1.width, **kwargs
+                bend_s, size=(xsize, ysize), width=p1.width, **bend_kwargs
             )
         else:
-            bend = gf.get_component(bend_s, size=(xsize, ysize), **kwargs)
+            bend = gf.get_component(bend_s, size=(xsize, ysize), **bend_kwargs)
         sbend = component << bend
         sbend.connect(
             port_name,

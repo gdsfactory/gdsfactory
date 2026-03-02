@@ -17,3 +17,7 @@ def test_route_bundle_sbend_electrical_north() -> None:
         port_name="e1",
         allow_width_mismatch=True,
     )
+
+
+if __name__ == "__main__":
+    test_route_bundle_sbend_electrical_north()
