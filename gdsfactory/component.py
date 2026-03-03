@@ -184,7 +184,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         port_type: str | None = None,
         keep_mirror: bool = False,
         cross_section: CrossSectionSpec | None = None,
-        register_cross_section_factory: bool = False,
+        register_cross_section: bool = False,
     ) -> DPort:
         """Adds a Port to the Component.
 
@@ -198,7 +198,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
-            register_cross_section_factory: registers the CrossSection factory
+            register_cross_section: registers the CrossSection factory
         """
         if self.locked:
             raise LockedError(self)
@@ -276,7 +276,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if xs_name:
             _port.info["cross_section"] = xs_name
-            if register_cross_section_factory:
+            if register_cross_section:
                 from gdsfactory.pdk import get_active_pdk
 
                 pdk = get_active_pdk()

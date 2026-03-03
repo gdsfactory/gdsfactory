@@ -19,7 +19,7 @@ if __name__ == "__main__":
         width=1,
         orientation=180,
         cross_section=x,
-        register_cross_section_factory=True,
+        register_cross_section=True,
     )
 
     pdk = gf.get_active_pdk()

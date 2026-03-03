@@ -1,7 +1,7 @@
 """Register a CrossSection factory when adding a port.
 
 When adding a port with a cross_section, you can set
-``register_cross_section_factory=True`` so the CrossSection is registered
+``register_cross_section=True`` so the CrossSection is registered
 in the active PDK.  This lets you later retrieve it by name with
 ``gf.get_cross_section``.
 """
@@ -33,7 +33,7 @@ def component_with_registered_cross_section(
     c = gf.Component()
     p = gf.path.straight(length=length)
     c = p.extrude(
-        xs, register_cross_section_factory=True
+        xs, register_cross_section=True
     )  # extrude the path to create a component with a polygon geometry
 
     # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
@@ -42,7 +42,7 @@ def component_with_registered_cross_section(
     #     center=(0, width / 2),
     #     orientation=180,
     #     cross_section=xs,
-    #     register_cross_section_factory=True,
+    #     register_cross_section=True,
     # )
 
     # The cross_section is now retrievable from the PDK by name.

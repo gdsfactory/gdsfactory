@@ -19,8 +19,8 @@ if __name__ == "__main__":
     # To show the cross-sections, let us now create two paths and create components by extruding them.
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
-    wg1 = gf.path.extrude(P1, X1, register_cross_section_factory=True)
-    wg2 = gf.path.extrude(P2, X2, register_cross_section_factory=True)
+    wg1 = gf.path.extrude(P1, X1, register_cross_section=True)
+    wg2 = gf.path.extrude(P2, X2, register_cross_section=True)
 
     # Place both cross-section components and quickplot them,
     # Quickplot is designed to create a wide variety of complex graphs with a simple, concise syntax, making it ideal for quick data exploration.
