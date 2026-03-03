@@ -6,7 +6,7 @@ if __name__ == "__main__":
     )
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(sections=[s0, s1, s2])
+    X1 = gf.CrossSection(sections=(s0, s1, s2))
 
     # Create the second Cross-section that we want to transition to.
     s0 = gf.Section(
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     )
     s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(sections=[s0, s1, s2])
+    X2 = gf.CrossSection(sections=(s0, s1, s2))
 
     # To show the cross-sections, let us now create two paths and create components by extruding them.
     P1 = gf.path.straight(length=5)
