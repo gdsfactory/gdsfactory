@@ -104,7 +104,7 @@ def splitter_tree(
                         i += 1
             if col > 0:
                 port_name = e0_port_name if row % 2 == 0 else e1_port_name
-                gf.routing.route_single(
+                gf.routing.route_bundle(
                     c,
                     c.insts[f"coupler_{col - 1}_{row // 2}"].ports[port_name],  # ty: ignore[invalid-argument-type]
                     coupler_ref["o1"],

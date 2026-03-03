@@ -1,7 +1,42 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.34.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.36.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.36.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.36.0) - 2026-03-01
+
+- deprecate route single and remove it from docs and most of the components [#4407](https://github.com/gdsfactory/gdsfactory/pull/4407)
+- add sbend router [#4396](https://github.com/gdsfactory/gdsfactory/pull/4396)
+- add workflow dispatch to tests [#4402](https://github.com/gdsfactory/gdsfactory/pull/4402)
+- add more samples [#4399](https://github.com/gdsfactory/gdsfactory/pull/4399)
+- warn when we find duplicated points [#4413](https://github.com/gdsfactory/gdsfactory/pull/4413)
+- fix taper offsets [#4414](https://github.com/gdsfactory/gdsfactory/pull/4414)
+- fix plot on shared machine [#4412](https://github.com/gdsfactory/gdsfactory/pull/4412)
+- overwrite kfactory config with gdsfactory config and expose only gdsfactory config [#4409](https://github.com/gdsfactory/gdsfactory/pull/4409)
+- fix bend_s offset [#4410](https://github.com/gdsfactory/gdsfactory/pull/4410)
+- fixes annotations [#4403](https://github.com/gdsfactory/gdsfactory/pull/4403)
+- Align text xmin to position for left justification [#4401](https://github.com/gdsfactory/gdsfactory/pull/4401)
+- improve contribution guide [#4397](https://github.com/gdsfactory/gdsfactory/pull/4397)
+- improve extend ports [#4405](https://github.com/gdsfactory/gdsfactory/pull/4405)
+- improve validation [#4404](https://github.com/gdsfactory/gdsfactory/pull/4404)
+- better config docs [#4411](https://github.com/gdsfactory/gdsfactory/pull/4411)
+
+## [9.35.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.2) - 2026-02-22
+
+- works with non-Manhattan [#4393](https://github.com/gdsfactory/gdsfactory/pull/4393)
+
+## [9.35.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.1) - 2026-02-20
+
+- improve ring_single [#4391](https://github.com/gdsfactory/gdsfactory/pull/4391)
+
+## [9.35.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.35.0) - 2026-02-20
+
+- allow bundle_routing single step  [#4390](https://github.com/gdsfactory/gdsfactory/pull/4390)
+- Support port_type and cross_section kwargs in add_port when copying ports [#4380](https://github.com/gdsfactory/gdsfactory/pull/4380)
+- Fix YAML formatting and wrap long lines [#4386](https://github.com/gdsfactory/gdsfactory/pull/4386)
+- fix pre-commit [#4383](https://github.com/gdsfactory/gdsfactory/pull/4383)
+- fixes issue with negative ``delta_length`` and small ``length_y`` [#4378](https://github.com/gdsfactory/gdsfactory/pull/4378)
+- improve routing docs [#4388](https://github.com/gdsfactory/gdsfactory/pull/4388)
 
 ## [9.34.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.34.2) - 2026-02-17
 

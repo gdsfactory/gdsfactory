@@ -17,7 +17,7 @@
  <text>
 import pya
 
-__version__ = "9.34.2"
+__version__ = "9.36.0"
 
 
 def set_menu():
@@ -28,7 +28,6 @@ def set_menu():
         menu.insert_menu("macros_menu", s0, f"gdsfactory {__version__}")
 
 
-if __name__ == "__main__":
-    set_menu()
+set_menu()
 </text>
 </klayout-macro>

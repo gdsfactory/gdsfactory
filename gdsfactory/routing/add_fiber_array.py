@@ -52,7 +52,7 @@ def add_fiber_array(
         excluded_ports: list of port names to exclude when adding gratings.
         grating_indices: list of grating coupler indices.
         routing_straight: function to route.
-        routing_method: route_single.
+        routing_method: route_bundle.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
         pitch: in um.

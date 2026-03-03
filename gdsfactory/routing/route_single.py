@@ -27,6 +27,7 @@ To generate a route:
 
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from typing import Literal, cast
 
@@ -72,6 +73,9 @@ def route_single(
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
+    .. deprecated::
+        Use :func:`~gdsfactory.routing.route_bundle.route_bundle` with single ports instead.
+
     The references are straights, bends and tapers.
 
     Args:
@@ -86,6 +90,8 @@ def route_single(
         end_straight_length: length of end straight.
         waypoints: optional list of points to pass through.
         steps: optional list of steps to pass through.
+            Each step is a dict with keys: x (absolute), y (absolute), dx (relative), dy (relative).
+            Use x/y to set an absolute coordinate and dx/dy to shift relative to the current position.
         port_type: port type to route.
         allow_width_mismatch: allow different port widths.
         radius: bend radius. If None, defaults to cross_section.radius.
@@ -105,7 +111,14 @@ def route_single(
         mmi2.move((40, 20))
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
+
     """
+    warnings.warn(
+        "route_single is less flexible and will be removed in GDSFactory10. "
+        "Please use route_bundle instead.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     if cross_section is None and (layer is None or route_width is None):
         raise ValueError(
             f"Either {cross_section=} or {layer=} and route_width must be provided"
@@ -148,21 +161,41 @@ def route_single(
     route_width = c.kcl.to_dbu(width)
 
     if steps and waypoints:
-        raise ValueError("Provide either steps or waypoints, not both")
+        raise ValueError("Provide only one of steps or waypoints")
 
     waypoints_list = [] if waypoints is None else list(waypoints)
 
     if steps:
         x, y = p1.center
         for d in steps:
-            if not STEP_DIRECTIVES.issuperset(d):
+            if isinstance(d, dict):
+                if not STEP_DIRECTIVES.issuperset(d):
+                    raise ValueError(
+                        f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
+                        f"Valid directives are {list(STEP_DIRECTIVES)}"
+                    )
+                x = d.get("x", x) + d.get("dx", 0)
+                y = d.get("y", y) + d.get("dy", 0)
+            else:
                 raise ValueError(
-                    f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
-                    f"Valid directives are {list(STEP_DIRECTIVES)}"
+                    f"Invalid step {d!r}. Each step must be a dict with keys (x, y, dx, dy)."
                 )
-            x = d.get("x", x) + d.get("dx", 0)
-            y = d.get("y", y) + d.get("dy", 0)
             waypoints_list.append((x, y))
+
+    if waypoints_list and steps and len(waypoints_list) < 2:
+        p = waypoints_list[-1]
+        x, y = (p.x, p.y) if isinstance(p, kf.kdb.DPoint) else (p[0], p[1])
+        x1, y1 = p1.center
+        x2, y2 = p2.center
+        orientation = p2.orientation
+        if orientation is not None and int(orientation) in {0, 180}:
+            yt = y1 + (y2 - y1) / 3
+            ytt = y1 + 2 * (y2 - y1) / 3
+            waypoints_list = [(x, yt), (x, ytt)]
+        elif orientation is not None and int(orientation) in {90, 270}:
+            xt = x1 + (x2 - x1) / 3
+            xtt = x1 + 2 * (x2 - x1) / 3
+            waypoints_list = [(xt, y), (xtt, y)]
 
     if waypoints_list:
         w: list[kf.kdb.Point] = []
@@ -227,7 +260,7 @@ def route_single(
                     f"Error while trying to place route from {ps.name} to {pe.name} at"
                     f" points (dbu): {pts}"
                 ) from e
-            layer_error = (1, 0)
+            layer_error = gf.CONF.layer_error_path
             layer_index = c.kcl.layer(*layer_error)
             c.shapes(layer_index).insert(path)
             return ManhattanRoute(
@@ -249,17 +282,6 @@ def route_single(
             allow_width_mismatch=allow_width_mismatch,
             route_width=route_width,
         )
-
-
-# FIXME
-# route_single_electrical = partial(
-#     route_single,
-#     cross_section="metal_routing",
-#     allow_width_mismatch=True,
-#     port_type="electrical",
-#     bend=wire_corner,
-#     taper=None,
-# )
 
 
 def route_single_electrical(

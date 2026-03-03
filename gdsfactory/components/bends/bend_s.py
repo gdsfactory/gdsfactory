@@ -298,7 +298,8 @@ def bend_s_offset(
         npoints=npoints,
         angular_step=angular_step,
     )
-    path += gf.path.straight(length=middle_length)
+    if middle_length > 1e-6:
+        path += gf.path.straight(length=middle_length)
     path += gf.path.euler(
         radius=radius,
         angle=-angle,

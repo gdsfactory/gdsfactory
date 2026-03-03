@@ -228,7 +228,7 @@ class CrossSection(BaseModel):
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
     ) -> None:
-        radius_min = self.radius_min or self.radius
+        radius_min = self.radius_min
 
         if radius_min and radius < radius_min:
             message = (
@@ -565,7 +565,7 @@ def cross_section(
     cladding_simplify: typings.Floats | None = None,
     cladding_centers: typings.Floats | None = None,
     radius: float | None = 10.0,
-    radius_min: float | None = None,
+    radius_min: float | None = 7.0,
     main_section_name: str = "_default",
 ) -> CrossSection:
     """Return CrossSection.
@@ -713,7 +713,7 @@ def strip(
     width: float = 0.5,
     layer: typings.LayerSpec = "WG",
     radius: float = 10.0,
-    radius_min: float = 5,
+    radius_min: float = 3.5,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Strip cross_section.
@@ -768,7 +768,7 @@ def rib(
     width: float = 0.5,
     layer: typings.LayerSpec = "WG",
     radius: float = radius_rib,
-    radius_min: float | None = None,
+    radius_min: float | None = 7,
     cladding_layers: typings.LayerSpecs = ("SLAB90",),
     cladding_offsets: typings.Floats = (3,),
     cladding_simplify: typings.Floats = (50 * nm,),

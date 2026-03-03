@@ -185,10 +185,13 @@ def clone_or_update_repository(url: str, path: str | pathlib.Path) -> None:
             )
 
     except GitError:
-        raise ValueError(
+        print(
             f"'{path}' exists but is not a git repository. "
-            f"Please remove it or use a different path."
+            "Removing and cloning fresh..."
         )
+        remove_path_or_dir(path)
+        clone_repository(url, str(path))
+        print(f"Successfully cloned {url}")
 
 
 def _install_to_klayout(
@@ -215,7 +218,7 @@ def install_klayout_package() -> None:
 
     # install layermap
     _install_to_klayout(
-        src=cwd / "gpdk" / "klayout",
+        src=cwd / "generic_tech" / "klayout",
         klayout_subdir_name="salt",
         package_name="gdsfactory",
     )
@@ -225,11 +228,14 @@ def install_klayout_package() -> None:
 
     # install metainfo-ports
     clone_or_update_repository(
-        "git@github.com:gdsfactory/metainfo-ports.git", subdir / "metainfo-ports"
+        "https://github.com/gdsfactory/metainfo-ports.git",
+        subdir / "metainfo-ports",
     )
 
     # install klive
-    clone_or_update_repository("git@github.com:gdsfactory/klive.git", subdir / "klive")
+    clone_or_update_repository(
+        "https://github.com/gdsfactory/klive.git", subdir / "klive"
+    )
 
 
 def install_klayout_technology(

@@ -5,7 +5,14 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 from numpy import exp, log, pi, sinh, sqrt
+
+
+def _validate_positive(name: str, value: float) -> None:
+    if value <= 0:
+        raise ValueError(f"{name} must be > 0, got {value}")
 
 
 def _G_integrand(xip: float, B: float) -> float:
@@ -65,6 +72,9 @@ def _microstrip_Z(
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
         Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
     """
+    _validate_positive("wire_width", wire_width)
+    _validate_positive("dielectric_thickness", dielectric_thickness)
+    _validate_positive("eps_r", eps_r)
     u = wire_width / dielectric_thickness
     eta = 376.73  # Vacuum impedance
 
@@ -130,6 +140,7 @@ def _microstrip_Z_with_Lk(
     """
     # Add a kinetic inductance and recalculate the impedance, be careful
     # to input Lk as a per-meter inductance
+    _validate_positive("wire_width", wire_width)
     L_m, C_m = _microstrip_LC_per_meter(wire_width, dielectric_thickness, eps_r)
     Lk_m = Lk_per_sq * (1.0 / wire_width)
     Z = sqrt((L_m + Lk_m) / C_m)
@@ -154,6 +165,7 @@ def _microstrip_v_with_Lk(
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
         Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
     """
+    _validate_positive("wire_width", wire_width)
     L_m, C_m = _microstrip_LC_per_meter(wire_width, dielectric_thickness, eps_r)
     Lk_m = Lk_per_sq * (1.0 / wire_width)
     v = 1 / sqrt((L_m + Lk_m) * C_m)
@@ -179,10 +191,15 @@ def _find_microstrip_wire_width(
         Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
     """
 
-    def error_fun(wire_width: float) -> float:
-        Z_guessed = _microstrip_Z_with_Lk(
-            wire_width, dielectric_thickness, eps_r, Lk_per_sq
-        )
+    _validate_positive("Z_target", Z_target)
+    _validate_positive("dielectric_thickness", dielectric_thickness)
+    _validate_positive("eps_r", eps_r)
+
+    def error_fun(wire_width: float | Sequence[float]) -> float:
+        import numpy as np
+
+        w = float(np.asarray(wire_width).flat[0])
+        Z_guessed = _microstrip_Z_with_Lk(w, dielectric_thickness, eps_r, Lk_per_sq)
         return (Z_guessed - Z_target) ** 2  # The error
 
     x0 = dielectric_thickness

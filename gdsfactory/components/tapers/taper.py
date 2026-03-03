@@ -91,12 +91,13 @@ def taper(
             delta_width = abs(section.width - s0_width)
             y1 = (width1 + delta_width) / 2
             y2 = (width2 + delta_width) / 2
+            offset = section.offset
             p1 = gf.kdb.DPolygon(
                 [
-                    gf.kdb.DPoint(0, y1),
-                    gf.kdb.DPoint(length, y2),
-                    gf.kdb.DPoint(length, -y2),
-                    gf.kdb.DPoint(0, -y1),
+                    gf.kdb.DPoint(0, offset + y1),
+                    gf.kdb.DPoint(length, offset + y2),
+                    gf.kdb.DPoint(length, offset - y2),
+                    gf.kdb.DPoint(0, offset - y1),
                 ]
             )
             c.add_polygon(p1, layer=section.layer)

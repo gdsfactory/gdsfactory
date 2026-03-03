@@ -76,6 +76,7 @@ def reflect_points(
     """
     original_shape = np.shape(points)
     points = np.atleast_2d(points)
+    return_single_point = len(original_shape) == 1
     p1_array = np.asarray(p1)
     p2_array = np.asarray(p2)
 
@@ -87,7 +88,7 @@ def reflect_points(
     reflected_points = (
         2 * (p1_array + (p2_array - p1_array) * proj / line_vec_norm) - points
     )
-    return reflected_points if original_shape[0] > 1 else reflected_points[0]
+    return reflected_points[0] if return_single_point else reflected_points  # type: ignore[no-any-return]
 
 
 class Path(UMGeometricObject):
@@ -1193,7 +1194,7 @@ def extrude(
         # Add port_names if they were specified
         if port_names[0]:
             port_width = (
-                width_value if isinstance(width_value, float) else width_value[0]  # ty: ignore[not-subscriptable]
+                width_value if isinstance(width_value, (int, float)) else width_value[0]  # ty: ignore[not-subscriptable]
             )
             port_orientation = (p_sec.start_angle + 180) % 360
             center = np.average([points1[0], points2[0]], axis=0)
@@ -1211,7 +1212,9 @@ def extrude(
             )
         if port_names[1]:
             port_width = (
-                width_value if isinstance(width_value, float) else width_value[-1]  # ty: ignore[not-subscriptable]
+                width_value
+                if isinstance(width_value, (int, float))
+                else width_value[-1]  # ty: ignore[not-subscriptable]
             )
             port_orientation = (p_sec.end_angle) % 360
             center = np.average([points1[-1], points2[-1]], axis=0)
@@ -1921,6 +1924,15 @@ def _compute_segments(
 ]:
     points = np.asarray(points, dtype=float)
     normals = np.diff(points, axis=0)
+
+    tol = 1e-6
+    if np.any(np.linalg.norm(normals, axis=1) < tol):
+        warnings.warn(
+            "Zero-length segments (duplicate consecutive points)",
+            RuntimeWarning,
+            stacklevel=3,
+        )
+
     normals = (normals.T / np.linalg.norm(normals, axis=1)).T
     dx = np.diff(points[:, 0])
     dy = np.diff(points[:, 1])

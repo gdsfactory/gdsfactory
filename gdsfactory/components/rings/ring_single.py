@@ -101,31 +101,45 @@ def ring_single(
 
     # Create waveguide components
     b = gf.get_component(bend, cross_section=cross_section, radius=radius)
-    sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
 
     # Place waveguide components
-    st = c << sx  # Top horizontal straight
     bl = c << b  # Left bend
     br = c << b  # Right bend
 
-    if length_y > 0:
-        # Add vertical straights when length_y > 0
+    if length_y > 0 and length_x > 0:
+        sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
         sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
-        sl = c << sy  # Left vertical straight
-        sr = c << sy  # Right vertical straight
+        st = c << sx
+        sl = c << sy
+        sr = c << sy
 
-        # Connect all components with vertical straights
         sl.connect(port="o1", other=cb.ports["o2"])
         bl.connect(port="o2", other=sl.ports["o2"])
         st.connect(port="o2", other=bl.ports["o1"])
         br.connect(port="o2", other=st.ports["o1"])
         sr.connect(port="o1", other=br.ports["o1"])
         sr.connect(port="o2", other=cb.ports["o3"])
-    else:
-        # When length_y=0, connect bends directly to coupler
+    elif length_y > 0:
+        sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
+        sl = c << sy
+        sr = c << sy
+
+        sl.connect(port="o1", other=cb.ports["o2"])
+        bl.connect(port="o2", other=sl.ports["o2"])
+        br.connect(port="o2", other=bl.ports["o1"])
+        sr.connect(port="o1", other=br.ports["o1"])
+        sr.connect(port="o2", other=cb.ports["o3"])
+    elif length_x > 0:
+        sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
+        st = c << sx
+
         bl.connect(port="o2", other=cb.ports["o2"])
         st.connect(port="o2", other=bl.ports["o1"])
         br.connect(port="o2", other=st.ports["o1"])
+        br.connect(port="o1", other=cb.ports["o3"])
+    else:
+        bl.connect(port="o2", other=cb.ports["o2"])
+        br.connect(port="o2", other=bl.ports["o1"])
         br.connect(port="o1", other=cb.ports["o3"])
 
     # Add ports

@@ -10,7 +10,7 @@ import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component
 from gdsfactory.port import flipped
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import CrossSectionSpec, Ports
 
 
@@ -259,17 +259,15 @@ def route_ports_to_x(
         new_port2 = new_port.copy()
         new_port2.trans *= gf.kdb.Trans.R180
 
-        l_elements += [
-            route_single(
-                component,
-                port,
-                new_port,
-                start_straight_length=start_straight_length,
-                radius=radius,
-                cross_section=cross_section,
-                **routing_func_args,
-            )
-        ]
+        l_elements += route_bundle(
+            component,
+            port,
+            new_port,
+            start_straight_length=start_straight_length,
+            radius=radius,
+            cross_section=cross_section,
+            **routing_func_args,
+        )
         l_ports.append(new_port2)
 
     y_optical_bot = y0_bottom
@@ -486,17 +484,15 @@ def route_ports_to_y(
             return
 
         try:
-            l_elements += [
-                route_single(
-                    component,
-                    port,
-                    new_port,
-                    start_straight_length=start_straight_length,
-                    radius=radius,
-                    cross_section=cross_section,
-                    **routing_func_args,
-                )
-            ]
+            l_elements += route_bundle(
+                component,
+                port,
+                new_port,
+                start_straight_length=start_straight_length,
+                radius=radius,
+                cross_section=cross_section,
+                **routing_func_args,
+            )
             l_ports += [flipped(new_port)]
 
         except Exception as error:

@@ -41,9 +41,10 @@ repos:
         exclude: .github/.*
         # args: [--extensions, "j2,yml,yaml", --ignore, jinja-statements-delimiter, jinja-statements-indentation]
   - repo: https://github.com/google/yamlfmt
-    rev: v0.17.2
+    rev: v0.21.0
     hooks:
       - id: yamlfmt
+        args: [-conf, ".github/.yamlfmt.yaml"]
         exclude: ".*.tests*|.*.pic.yml"
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.7

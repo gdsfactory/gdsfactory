@@ -57,10 +57,13 @@ class Step(TypedDict, total=False):
     """Manhattan Step.
 
     Parameters:
-        x: absolute.
-        y: absolute.
-        dx: x-displacement.
-        dy: y-displacement.
+        x: set the absolute x coordinate of the next waypoint.
+        y: set the absolute y coordinate of the next waypoint.
+        dx: relative x-displacement from the current position.
+        dy: relative y-displacement from the current position.
+
+    You can combine absolute and relative in a single step, e.g. {"x": 100, "dy": 20}
+    sets x to 100 and shifts y by 20 from the current position.
 
     """
 
