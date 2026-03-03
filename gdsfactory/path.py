@@ -1194,7 +1194,7 @@ def extrude(
         # Add port_names if they were specified
         if port_names[0]:
             port_width = (
-                width_value if isinstance(width_value, (int, float)) else width_value[0]  # ty: ignore[not-subscriptable]
+                width_value if isinstance(width_value, (int, float)) else width_value[0]
             )
             port_orientation = (p_sec.start_angle + 180) % 360
             center = np.average([points1[0], points2[0]], axis=0)
@@ -1214,7 +1214,7 @@ def extrude(
             port_width = (
                 width_value
                 if isinstance(width_value, (int, float))
-                else width_value[-1]  # ty: ignore[not-subscriptable]
+                else width_value[-1]
             )
             port_orientation = (p_sec.end_angle) % 360
             center = np.average([points1[-1], points2[-1]], axis=0)

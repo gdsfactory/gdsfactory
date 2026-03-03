@@ -217,9 +217,9 @@ class Pdk(BaseModel):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
         return cross_section_xsection(
-            func,
+            func,  # ty: ignore[invalid-argument-type]
             self.cross_sections,
-            self.cross_section_default_names,  # ty: ignore[invalid-argument-type]
+            self.cross_section_default_names,
         )
 
     def activate(self, force: bool = False) -> None:

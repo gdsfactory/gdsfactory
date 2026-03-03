@@ -460,7 +460,7 @@ def route_bundle(
             marker = component << gf.components.rectangle(
                 size=(10, 10), layer=layer_marker, centered=True
             )
-            marker.center = (p.x, p.y)  # ty: ignore[unresolved-attribute]
+            marker.center = (p.x, p.y)
 
     if waypoints_ is not None and len(waypoints_) >= 2:
         waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])
@@ -493,7 +493,7 @@ def route_bundle(
             return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
 
     try:
-        route = kf.routing.optical.route_bundle(  # ty: ignore[no-matching-overload]
+        route = kf.routing.optical.route_bundle(
             component,
             ports1_,
             ports2_,
@@ -556,7 +556,7 @@ def route_bundle(
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
-                marker.center = (p.x, p.y)  # ty: ignore[unresolved-attribute]
+                marker.center = (p.x, p.y)
 
     if layer_label:
         for route_i in route:

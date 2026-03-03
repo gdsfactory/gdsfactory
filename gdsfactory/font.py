@@ -75,10 +75,10 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         )
 
     if getattr(font, "gds_glyphs", None) is None:
-        font.gds_glyphs = {}
+        font.gds_glyphs = {}  # ty: ignore[unresolved-attribute]
 
     # Get reference to the cached dictionary (not a copy)
-    gds_glyphs: dict = font.gds_glyphs
+    gds_glyphs: dict = font.gds_glyphs  # ty: ignore[unresolved-attribute]
     if letter in gds_glyphs:
         return gds_glyphs[letter]
 
@@ -175,7 +175,7 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     component.name = block_name
 
     # Cache the return value and return it
-    gds_glyphs: dict = font.gds_glyphs
+    gds_glyphs: dict = font.gds_glyphs  # ty: ignore[unresolved-attribute]
     gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
     return gds_glyphs[letter]
 
