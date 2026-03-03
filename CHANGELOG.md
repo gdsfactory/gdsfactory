@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.37.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.37.0) - 2026-03-03
+
+No significant changes.
+
+
 ## [9.36.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.36.0) - 2026-03-01
 
 - deprecate route single and remove it from docs and most of the components [#4407](https://github.com/gdsfactory/gdsfactory/pull/4407)
