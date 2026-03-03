@@ -275,11 +275,12 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         )
 
         if xs_name:
-            from gdsfactory.pdk import get_active_pdk
-
             _port.info["cross_section"] = xs_name
-            pdk = get_active_pdk()
-            pdk.register_cross_sections(**{xs_name: lambda: xs})
+            if register_cross_section_factory:
+                from gdsfactory.pdk import get_active_pdk
+
+                pdk = get_active_pdk()
+                pdk.register_cross_sections(**{xs_name: lambda: xs})
 
         return _port
 
