@@ -217,7 +217,9 @@ class Pdk(BaseModel):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
         return cross_section_xsection(
-            func, self.cross_sections, self.cross_section_default_names
+            func,
+            self.cross_sections,
+            self.cross_section_default_names,  # ty: ignore[invalid-argument-type]
         )
 
     def activate(self, force: bool = False) -> None:
@@ -347,7 +349,7 @@ class Pdk(BaseModel):
             )
         if settings:
             return partial(cell_func, **settings)
-        return cell_func
+        return cell_func  # ty: ignore[invalid-return-type]
 
     def get_component(
         self,
@@ -411,10 +413,10 @@ class Pdk(BaseModel):
         if isinstance(component, kf.ProtoTKCell):
             return Component(base=component.base)
         if isinstance(component, kf.VKCell):
-            return ComponentAllAngle(base=component.base)
+            return ComponentAllAngle(base=component.base)  # ty: ignore[invalid-return-type]
         if callable(component):
-            _component = component(**kwargs)
-            return type(_component)(base=_component.base)
+            _component = component(**kwargs)  # ty: ignore[call-top-callable]
+            return type(_component)(base=_component.base)  # ty: ignore[invalid-argument-type]
         if isinstance(component, str):
             if component not in cell_names:
                 substring = component
@@ -464,7 +466,7 @@ class Pdk(BaseModel):
             kwargs: settings to override.
         """
         if callable(cross_section):
-            return cross_section(**kwargs)
+            return cross_section(**kwargs)  # ty: ignore[call-top-callable]
         if isinstance(cross_section, str):
             if cross_section not in self.cross_sections:
                 cross_sections = list(self.cross_sections.keys())
@@ -475,10 +477,10 @@ class Pdk(BaseModel):
                 xs._name = self.cross_section_default_names[xs.name]
             return xs
         if isinstance(cross_section, dict):
-            xs_name = cross_section.get("cross_section", None)
+            xs_name = cross_section.get("cross_section", None)  # ty: ignore[no-matching-overload]
             if xs_name is None:
                 raise ValueError("cross_section name is required")
-            settings = cross_section.get("settings", {})
+            settings = cross_section.get("settings", {})  # ty: ignore[no-matching-overload]
             return self.get_cross_section(xs_name, **settings)
         if isinstance(cross_section, CrossSection):
             if kwargs:
@@ -533,7 +535,7 @@ class Pdk(BaseModel):
             return str(self.layers[layer_index])
         except Exception:
             try:
-                return str(self.layers(layer_index))
+                return str(self.layers(layer_index))  # ty: ignore[missing-argument]
             except Exception:
                 raise ValueError(f"Could not find name for layer {layer_index}")
 

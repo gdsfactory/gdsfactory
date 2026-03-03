@@ -364,4 +364,4 @@ def get_min_sbend_size(
             min_size = s
             break
 
-    return min_size
+    return min_size  # ty: ignore[invalid-return-type]

@@ -333,7 +333,7 @@ def route_bundle(
                 marker.center = (x, y)
     if waypoints is not None and not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_: list[kf.kdb.DPoint] | None = [
-            kf.kdb.DPoint(p[0], p[1])
+            kf.kdb.DPoint(p[0], p[1])  # ty: ignore[not-subscriptable]
             for p in waypoints
         ]
         if layer_marker and waypoints_ is not None:
@@ -359,7 +359,7 @@ def route_bundle(
         )
 
     try:
-        route = kf.routing.optical.route_bundle(
+        route = kf.routing.optical.route_bundle(  # ty: ignore[no-matching-overload]
             component,
             ports1_,
             ports2_,
@@ -421,7 +421,7 @@ def route_bundle(
                 marker = component << gf.components.rectangle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
-                marker.center = (p.x, p.y)
+                marker.center = (p.x, p.y)  # ty: ignore[unresolved-attribute]
 
     if layer_label:
         for route_i in route:

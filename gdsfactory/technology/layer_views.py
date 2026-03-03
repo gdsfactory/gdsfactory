@@ -1107,7 +1107,7 @@ class LayerViews(BaseModel):
                 pattern_counter += 1
 
             assert name is not None  # Type assertion for mypy
-            pattern = "\n".join(
+            pattern = "\n".join(  # ty: ignore[no-matching-overload]
                 [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
             )
 

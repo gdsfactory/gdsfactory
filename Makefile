@@ -117,6 +117,9 @@ clean: ## Remove build, cache and temporary files
 	find . -name "builds" | xargs rm -rf
 	find . -name "dist" -not -path "*node_modules*" | xargs rm -rf
 
+ty:
+	uv run ty check gdsfactory
+
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 .DEFAULT_GOAL := help

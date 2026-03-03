@@ -106,7 +106,7 @@ def route_south(
         return []
 
     port_type = port_type or optical_ports[0].port_type
-    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
+    bend90 = bend(cross_section=cross_section) if callable(bend) else bend  # ty: ignore[call-top-callable]
     bend90 = gf.get_component(bend90)
     dy = abs(bend90.info["dy"])
 
