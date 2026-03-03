@@ -280,7 +280,15 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 from gdsfactory.pdk import get_active_pdk
 
                 pdk = get_active_pdk()
-                pdk.register_cross_sections(**{xs_name: lambda: xs})
+                if xs_name in pdk.cross_sections:
+                    xs_registered = get_cross_section(xs_name)
+                    xs_new = get_cross_section(cross_section)
+                    if xs_registered != xs_new:
+                        raise KeyError(
+                            f"Found a different CrossSection named {xs_name} in pdk.cross_sections, cannot register {xs_new}"
+                        )
+                else:
+                    pdk.register_cross_sections(**{xs_name: lambda: xs})
 
         return _port
 
