@@ -19,8 +19,8 @@ routes:
   electrical:
     settings:
       bend: wire_corner
-      start_straight_length: 150
-      end_straight_length: 150
+      start_straight_length: 100
+      end_straight_length: 100
       cross_section: metal_routing
       allow_width_mismatch: True
 

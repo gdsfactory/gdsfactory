@@ -260,7 +260,7 @@ def route_single(
                     f"Error while trying to place route from {ps.name} to {pe.name} at"
                     f" points (dbu): {pts}"
                 ) from e
-            layer_error = (1, 0)
+            layer_error = gf.CONF.layer_error_path
             layer_index = c.kcl.layer(*layer_error)
             c.shapes(layer_index).insert(path)
             return ManhattanRoute(
