@@ -128,7 +128,7 @@ def _bend_euler(
     c.info["width"] = float(width or x.width)
 
     if not allow_min_radius_violation:
-        x.validate_radius(radius)
+        x.validate_radius(min_bend_radius)
 
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None

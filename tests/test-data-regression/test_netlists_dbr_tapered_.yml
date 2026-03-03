@@ -18,9 +18,9 @@ instances:
     info:
       length: 10
       route_info_length: 10
-      route_info_type: xs_d9e914be
+      route_info_type: xs_028869fe
       route_info_weight: 10
-      route_info_xs_d9e914be_length: 10
+      route_info_xs_028869fe_length: 10
       width: 0.4
     settings:
       cross_section: strip
