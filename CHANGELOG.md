@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.36.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.37.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.37.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.37.0) - 2026-03-03
 
-No significant changes.
-
+- add add_auto_tapers_to_route_bundle_sbend [#4419](https://github.com/gdsfactory/gdsfactory/pull/4419)
+- validate with min radius [#4421](https://github.com/gdsfactory/gdsfactory/pull/4421)
+- fix error marker for route_single [#4420](https://github.com/gdsfactory/gdsfactory/pull/4420)
+- fix shortcuts [#4416](https://github.com/gdsfactory/gdsfactory/pull/4416)
+- allow nested groups in LayerViews [#4415](https://github.com/gdsfactory/gdsfactory/pull/4415)
 
 ## [9.36.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.36.0) - 2026-03-01
 
