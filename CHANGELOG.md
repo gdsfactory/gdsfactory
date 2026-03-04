@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.38.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.38.0) - 2026-03-04
+
+No significant changes.
+
+
 ## [9.37.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.37.0) - 2026-03-03
 
 - add add_auto_tapers_to_route_bundle_sbend [#4419](https://github.com/gdsfactory/gdsfactory/pull/4419)
