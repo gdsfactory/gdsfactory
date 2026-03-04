@@ -228,7 +228,7 @@ class CrossSection(BaseModel):
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
     ) -> None:
-        radius_min = self.radius_min
+        radius_min = self.radius_min or self.radius
 
         if radius_min and radius < radius_min:
             message = (
