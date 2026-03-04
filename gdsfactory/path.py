@@ -515,6 +515,7 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | None = None,
         all_angle: Literal[False] = False,
+        register_cross_section: bool = False,
     ) -> Component: ...
 
     @overload
@@ -525,6 +526,7 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | None = None,
         all_angle: Literal[True] = True,
+        register_cross_section: bool = False,
     ) -> ComponentAllAngle: ...
 
     @overload
@@ -535,6 +537,7 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | None = None,
         all_angle: bool = True,
+        register_cross_section: bool = False,
     ) -> AnyComponent: ...
 
     def extrude(
@@ -544,6 +547,7 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | None = None,
         all_angle: bool = False,
+        register_cross_section: bool = False,
     ) -> AnyComponent:
         """Returns Component by extruding a Path with a CrossSection.
 
@@ -559,6 +563,7 @@ class Path(UMGeometricObject):
                     by more than the value listed here will be removed.
 
             all_angle: if True, the bend is drawn with a single euler curve.
+            register_cross_section: if True, the cross_section factory is registered in the active PDK.
 
         .. plot::
             :include-source:
@@ -576,6 +581,7 @@ class Path(UMGeometricObject):
             width=width,
             simplify=simplify,
             all_angle=all_angle,
+            register_cross_section=register_cross_section,
         )
 
     @overload
@@ -940,6 +946,7 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: Literal[False] = False,
+    register_cross_section: bool = False,
 ) -> Component: ...
 
 
@@ -951,6 +958,7 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: Literal[True] = True,
+    register_cross_section: bool = False,
 ) -> ComponentAllAngle: ...
 
 
@@ -962,6 +970,7 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: bool = ...,
+    register_cross_section: bool = False,
 ) -> AnyComponent: ...
 
 
@@ -972,6 +981,7 @@ def extrude(
     width: float | None = None,
     simplify: float | None = None,
     all_angle: bool = False,
+    register_cross_section: bool = False,
 ) -> AnyComponent:
     """Returns Component extruding a Path with a cross_section.
 
@@ -987,6 +997,8 @@ def extrude(
                 All points that can be removed without changing the resulting polygon \
                 by more than the value listed here will be removed.
         all_angle: if True, returns a ComponentAllAngle.
+        register_cross_section: if True, registers the cross-section factory \
+            used for extrusion in the global cross-section registry.
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -1209,6 +1221,7 @@ def extrude(
                 orientation=port_orientation,
                 center=(float(center[0]), float(center[1])),
                 cross_section=x,
+                register_cross_section=register_cross_section,
             )
         if port_names[1]:
             port_width = (
@@ -1229,6 +1242,7 @@ def extrude(
                 center=(float(center[0]), float(center[1])),
                 orientation=port_orientation,
                 cross_section=x,
+                register_cross_section=register_cross_section,
             )
 
     c.info["length"] = float(np.round(p.length(), 3))
