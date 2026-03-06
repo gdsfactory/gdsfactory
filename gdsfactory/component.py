@@ -1472,6 +1472,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         for layer, shapes in self.shapes().items():
             for shape in shapes:
                 c.shapes(layer).insert(shape)
+        c._base.vinsts = self.vinsts.dup()
 
         return c
 
