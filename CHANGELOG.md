@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.39.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.0) - 2026-03-06
+
+No significant changes.
+
+
 ## [9.38.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.38.0) - 2026-03-04
 
 - Add option to register CrossSection factory when adding a Port [#4423](https://github.com/gdsfactory/gdsfactory/pull/4423)
