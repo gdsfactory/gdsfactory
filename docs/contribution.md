@@ -1,6 +1,6 @@
 # Contributing
 
-We welcome your skills and enthusiasm at the gdsfactory project!. There are numerous opportunities to contribute beyond writing code.
+We welcome your skills and enthusiasm at the gdsfactory project! There are numerous opportunities to contribute beyond writing code.
 All contributions, including bug reports, bug fixes, documentation improvements, enhancement suggestions, and other ideas are welcome.
 
 If you have any questions on the process or how to fix something feel free to ask us!
