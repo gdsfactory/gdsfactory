@@ -476,6 +476,19 @@ class LayerStack(BaseModel):
 
         return d
 
+    def get_layer_to_mesh_order(
+        self,
+    ) -> dict[BroadLayer, int]:
+        """Returns layer tuple to mesh order."""
+        d: dict[BroadLayer, int] = defaultdict(int)
+        for level in self.layers.values():
+            if level.info is not None and "mesh_order" in level.info:
+                # cspdk LayerStack has the mesh_order in the info dict, override default mesh_order if specified there
+                d[level.layer] = level.info["mesh_order"]
+            else:
+                d[level.layer] = level.mesh_order
+        return d
+
     def to_dict(self) -> dict[str, dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 

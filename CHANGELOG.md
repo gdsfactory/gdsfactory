@@ -1,7 +1,25 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.36.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.39.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.0) - 2026-03-06
+
+- Feat: add a get_layer_to_mesh_order() method to LayerStack [#4431](https://github.com/gdsfactory/gdsfactory/pull/4431)
+- fix recursive netlist naming [#4430](https://github.com/gdsfactory/gdsfactory/pull/4430)
+
+## [9.38.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.38.0) - 2026-03-04
+
+- Add option to register CrossSection factory when adding a Port [#4423](https://github.com/gdsfactory/gdsfactory/pull/4423)
+- dont_validate radius [#4427](https://github.com/gdsfactory/gdsfactory/pull/4427)
+
+## [9.37.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.37.0) - 2026-03-03
+
+- add add_auto_tapers_to_route_bundle_sbend [#4419](https://github.com/gdsfactory/gdsfactory/pull/4419)
+- validate with min radius [#4421](https://github.com/gdsfactory/gdsfactory/pull/4421)
+- fix error marker for route_single [#4420](https://github.com/gdsfactory/gdsfactory/pull/4420)
+- fix shortcuts [#4416](https://github.com/gdsfactory/gdsfactory/pull/4416)
+- allow nested groups in LayerViews [#4415](https://github.com/gdsfactory/gdsfactory/pull/4415)
 
 ## [9.36.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.36.0) - 2026-03-01
 
