@@ -292,7 +292,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         return _port
 
-    def copy(self) -> Self:
+    def copy(self) -> ComponentBase:
         """Copy the full cell."""
         return self.dup()
 
@@ -1474,7 +1474,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         VInstance(self).insert_into_flat(c, levels=0)
         c.plot(**kwargs)
 
-    def dup(self, new_name: str | None = None) -> Self:
+    def dup(self, new_name: str | None = None) -> ComponentAllAngle:
         """Copy the full cell."""
         c = self.__class__(
             kcl=self.kcl, name=new_name or self.name + "$1" if self.name else None
@@ -1487,6 +1487,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         for layer, shapes in self.shapes().items():
             for shape in shapes:
                 c.shapes(layer).insert(shape)
+        c._base.vinsts = self.vinsts.dup()
 
         return c
 
