@@ -37,6 +37,25 @@ Activate this skill when the user:
 
 ## 1 — Setting up the environment
 
+### Choosing the right Python command
+
+The examples below use bare `python`, but you must adapt the invocation to
+whatever Python environment the user has set up. Common alternatives:
+
+| Setup | Command |
+|---|---|
+| System / venv / conda | `python` |
+| uv project | `uv run python` |
+| pipx-installed gdsfactory | `pipx run --spec gdsfactory python` |
+| Nix shell | `nix develop -c python` |
+
+Probe the environment first (e.g. check for a `pyproject.toml` with
+`[tool.uv]`, or an active virtualenv) and pick the appropriate command.  When
+in doubt, try `python -c "import gdsfactory"` — if it fails, fall back to
+`uv run python` or ask the user.
+
+### Activating the PDK
+
 Before generating any component, make sure the PDK is activated.
 The generic PDK ships with gdsfactory and is always available:
 
@@ -135,7 +154,8 @@ user.
 ### 3.1 Save a plot image to disk and display it
 
 Use the helper script bundled with this skill for reliable headless rendering.
-From a bash tool or Python subprocess:
+From a bash tool or Python subprocess (adapt `python` to `uv run python` or
+whatever matches the user's environment — see section 1):
 
 ```bash
 python .agents/skills/gdsfactory-component-designer/scripts/visualize_component.py \

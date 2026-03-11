@@ -5,6 +5,15 @@ Usage
 -----
     python visualize_component.py <component_expression> <output_path> [--width W] [--height H]
 
+Depending on the user's environment you may need to invoke this script with a
+different Python command, for example::
+
+    uv run python visualize_component.py ...
+    python3 visualize_component.py ...
+
+Choose whichever command gives access to the ``gdsfactory`` package in the
+current project.
+
 Examples
 --------
     python visualize_component.py "gf.components.mmi1x2()" /tmp/mmi1x2.png
