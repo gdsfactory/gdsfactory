@@ -327,3 +327,53 @@ When the user asks for a component, follow this loop:
 | `ModuleNotFoundError` for a PDK | Install it: `pip install <pdk-package>`. |
 | Blank or black plot image | Ensure `matplotlib.use("Agg")` is set before importing `pyplot`. |
 | Port connection error | Check port names with `c.ports` and ensure widths/layers match. |
+
+---
+
+## 9 — When you are unsure: consult the docs and samples
+
+If you are uncertain about how to accomplish something — an unfamiliar
+component, a routing strategy, a PDK feature, or an advanced layout
+technique — **always look at the project documentation and sample code before
+guessing**.
+
+### Online documentation
+
+The full gdsfactory docs are at
+**<https://gdsfactory.github.io/gdsfactory/>**. Key pages include the
+getting-started guide, component API reference, routing tutorials, and PDK
+documentation.
+
+### Notebooks (in-repo)
+
+The repository ships with tutorial notebooks under `docs/notebooks/`. Browse
+or read them for worked examples:
+
+| Notebook | Topic |
+|---|---|
+| `00_geometry.ipynb` | Geometry primitives and boolean operations |
+| `01_references.ipynb` | Using component references |
+| `03_Path_CrossSection.ipynb` | Paths, cross-sections, and transitions |
+| `04_components_geometry.ipynb` | Building components from geometry |
+| `04_components_hierarchy.ipynb` | Hierarchical component composition |
+| `04_routing.ipynb` | Routing waveguides between ports |
+| `08_pdk.ipynb` | PDK setup and customization |
+| `10_yaml_component.ipynb` | YAML-based component definition |
+
+### Sample scripts (in-repo)
+
+Over 100 sample Python scripts live under `gdsfactory/samples/`. These are
+self-contained, runnable examples. Useful starting points:
+
+- `gdsfactory/samples/00_hello_world.py` — minimal component
+- `gdsfactory/samples/01_component_pcell*.py` — parametric cells
+- `gdsfactory/samples/04_connect.py` — port connections
+- `gdsfactory/samples/33_route_bundle_*.py` — bundle routing strategies
+
+### How to use these resources
+
+1. **Search first** — use `grep` or file search to find relevant notebooks or
+   samples by keyword (e.g. `grep -rl "ring_single" docs/notebooks/`).
+2. **Read the code** — open the notebook or script and study the pattern used.
+3. **Adapt** — apply the pattern to the user's request, then visualize and
+   iterate as described in section 6.
