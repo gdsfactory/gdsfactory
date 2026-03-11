@@ -51,7 +51,7 @@ def main() -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    import gdsfactory as gf  # noqa: E402
+    import gdsfactory as gf
 
     # Activate the built-in generic PDK so components can be resolved.
     gf.gpdk.PDK.activate()
@@ -62,7 +62,7 @@ def main() -> None:
     # arbitrary built-in functions (open, __import__, exec, …) are unavailable.
     restricted_ns: dict[str, object] = {"__builtins__": {}, "gf": gf}
     try:
-        component = eval(args.expression, restricted_ns)  # noqa: S307
+        component = eval(args.expression, restricted_ns)
     except Exception as exc:
         print(f"ERROR: Failed to evaluate expression: {exc}", file=sys.stderr)
         sys.exit(1)
