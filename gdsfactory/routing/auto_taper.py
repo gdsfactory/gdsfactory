@@ -111,7 +111,7 @@ def add_auto_tapers(
             p1, p0 = taper_ports
         else:
             width = p.width
-            layer = p.layer
+            layer = gf.get_layer_info(p.layer)
             raise ValueError(
                 f"Taper component ports do not match the port's layer and width!\nTaper name: {taper_component.name}\nPorts: {taper_ports}\nCross-section: {layer=}, {width=}"
             )
