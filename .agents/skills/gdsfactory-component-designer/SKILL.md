@@ -9,7 +9,7 @@ compatibility: Requires Python >=3.11, gdsfactory, and matplotlib.
 metadata:
   author: gdsfactory
   version: "1.0"
-allowed-tools: bash python
+allowed-tools: bash python uv
 ---
 
 # gdsfactory Component Designer Skill
