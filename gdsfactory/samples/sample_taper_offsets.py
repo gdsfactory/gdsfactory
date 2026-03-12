@@ -35,7 +35,6 @@ def strip3(
 
 
 if __name__ == "__main__":
-    gf.gpdk.PDK.activate()
     c = gf.components.mmi(
         inputs=2,
         outputs=4,

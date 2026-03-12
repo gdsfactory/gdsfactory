@@ -1,7 +1,4 @@
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 if __name__ == "__main__":
     c1 = gf.components.straight_heater_doped_strip(width=1)

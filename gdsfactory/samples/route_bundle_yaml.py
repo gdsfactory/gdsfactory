@@ -1,7 +1,4 @@
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 yaml_str = """
 instances:

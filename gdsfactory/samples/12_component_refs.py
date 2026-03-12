@@ -10,10 +10,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.gpdk import PDK
 from gdsfactory.typings import ComponentFactory, Layer
-
-PDK.activate()
 
 
 @gf.cell

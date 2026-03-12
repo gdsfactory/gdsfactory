@@ -3,10 +3,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
 from gdsfactory.routing.auto_taper import auto_taper_to_cross_section
-
-PDK.activate()
 
 
 @gf.cell

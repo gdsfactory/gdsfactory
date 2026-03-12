@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.gpdk import PDK
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
 
 
@@ -195,6 +194,5 @@ def coh_rx_single_pol(
 
 
 if __name__ == "__main__":
-    PDK.activate()
     c = coh_rx_single_pol()
     c.show()

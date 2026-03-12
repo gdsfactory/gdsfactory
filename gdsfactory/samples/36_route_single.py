@@ -3,11 +3,8 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
 
 if __name__ == "__main__":
-    PDK.activate()
-
     cell_names = [
         # 'die_frame_with_pads',
         # 'die_with_pads',
