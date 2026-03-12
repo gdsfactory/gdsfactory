@@ -72,6 +72,7 @@ dev = [
   "pytest-github-actions-annotate-failures",
   "pytest-randomly",
   "pytest-xdist",
+  "trimesh[recommend]>=4.4.1",
   "ty"
 ]
 docs = [
