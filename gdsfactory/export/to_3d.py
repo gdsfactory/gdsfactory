@@ -60,7 +60,8 @@ def to_3d(
     )
     has_polygons = False
 
-    for level in layer_stack.layers.values():
+    for level_name, level in layer_stack.layers.items():
+        level_name = level.name or level_name
         layer = level.layer
 
         if isinstance(layer, LogicalLayer):
@@ -91,13 +92,13 @@ def to_3d(
             has_polygons = True
             polygons = polygons_per_layer[layer_index]
             height = level.thickness
-            for polygon in polygons:
+            for i, polygon in enumerate(polygons):
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
                 if isinstance(mesh.visual, ColorVisuals):
                     mesh.visual.face_colors = (*color_rgb, 0.5)
-                scene.add_geometry(mesh)
+                scene.add_geometry(mesh, geom_name=f"{level_name}_{i}")
     if not has_polygons:
         raise ValueError(
             f"{component.name!r} does not have polygons defined in the "
