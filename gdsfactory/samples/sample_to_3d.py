@@ -14,6 +14,4 @@ if __name__ == "__main__":
     c4 = cells.straight(cross_section="pin", length=5)
 
     c = gf.grid([c1, c2, c3])
-    c.show()
     s = c.to_3d()
-    s.show()
