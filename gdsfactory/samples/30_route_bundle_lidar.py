@@ -9,9 +9,6 @@ Exercise2. Make a PCell.
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 if __name__ == "__main__":
     c = gf.Component()

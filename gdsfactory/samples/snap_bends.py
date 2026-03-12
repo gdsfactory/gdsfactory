@@ -3,9 +3,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 if __name__ == "__main__":
     # gf.CONF.enforce_ports_on_grid = False

@@ -3,9 +3,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 nm = 1e-3
 if __name__ == "__main__":
