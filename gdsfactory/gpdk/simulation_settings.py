@@ -140,7 +140,7 @@ def _interpolate_material(
     from scipy import interpolate
 
     f = interpolate.interp1d(wavelengths, refractive_index)
-    return f(wav)  # type: ignore[no-any-return]
+    return f(wav)
 
 
 si = partial(

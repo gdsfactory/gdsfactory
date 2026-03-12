@@ -208,7 +208,7 @@ class Path(UMGeometricObject):
         return kdb.DBox(*self.bbox_np().flatten())
 
     def ibbox(self, layer: int | None = None) -> kdb.Box:
-        return kdb.Box(*map(gf.kcl.to_dbu, self.bbox_np().flatten()))
+        return kdb.Box(*map(gf.kcl.to_dbu, self.bbox_np().flatten()))  # ty: ignore[invalid-argument-type]
 
     def bbox_np(self) -> npt.NDArray[np.float64]:
         """Returns the bounding box of the Path as a numpy array."""
@@ -298,16 +298,16 @@ class Path(UMGeometricObject):
             # Create list of offset points and perform offset
             points = self.centerpoint_offset_curve(
                 self.points,
-                offset_distance=offset(lengths / lengths[-1]),
+                offset_distance=offset(lengths / lengths[-1]),  # ty: ignore[call-top-callable]
                 start_angle=self.start_angle,
                 end_angle=self.end_angle,
             )
             # Numerically compute start and end angles
             tol = 1e-6
             ds = tol / lengths[-1]
-            ny1 = offset(ds) - offset(0)
+            ny1 = offset(ds) - offset(0)  # ty: ignore[call-top-callable]
             start_angle = np.arctan2(-ny1, tol) / np.pi * 180 + self.start_angle
-            ny2 = offset(1) - offset(1 - ds)
+            ny2 = offset(1) - offset(1 - ds)  # ty: ignore[call-top-callable]
             end_angle = np.arctan2(-ny2, tol) / np.pi * 180 + self.end_angle
         else:
             points = self.centerpoint_offset_curve(
@@ -1064,7 +1064,7 @@ def extrude(
                 p_segment_lengths[::-1]
             )  # To get stop inset idx & path length
 
-            if all(section.insets[:] > p_segment_lengths_forward_cumsum[-1]):
+            if all(section.insets[:] > p_segment_lengths_forward_cumsum[-1]):  # ty: ignore[invalid-argument-type]
                 warnings.warn(
                     f"Cannot apply delay to Section '{section.name}', delay results in points outside "
                     f"of original path.",
@@ -1473,7 +1473,7 @@ def extrude_transition(
             assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[:2],
-                offset_distance=offset_value1[:2],
+                offset_distance=offset_value1[:2],  # ty: ignore[not-subscriptable]
                 start_angle=start_angle,
                 end_angle=None,
             )[0]
@@ -1493,7 +1493,7 @@ def extrude_transition(
             assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[-2:],
-                offset_distance=offset_value1[-2:],
+                offset_distance=offset_value1[-2:],  # ty: ignore[not-subscriptable]
                 start_angle=None,
                 end_angle=end_angle,
             )[-1]
