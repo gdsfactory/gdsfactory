@@ -151,11 +151,9 @@ class CountedNetlistNamer:
         if not _has_instances(cell):
             # Leaf cell: use component_namer (typically function_name)
             name = base
-        elif not _has_non_default_settings(cell):
-            # Hierarchical cell with default settings: use component name as-is
-            name = base
         else:
-            # Hierarchical cell with non-default settings: use counted naming
+            # Hierarchical cell: use counted naming to avoid collisions
+            # between different parameterizations of the same component
             name = self._get_unique_name(base)
 
         self._cell_names[cell.name] = name
