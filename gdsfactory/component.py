@@ -292,9 +292,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         return _port
 
-    def copy(self) -> ComponentBase:
+    def copy(self) -> Component:
         """Copy the full cell."""
-        return self.dup()
+        return self.dup()  # type: ignore[return-value]
 
     def add_label(
         self,

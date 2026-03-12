@@ -44,10 +44,6 @@ def straight_wide(
 # make a Component
 
 if __name__ == "__main__":
-    from gdsfactory.gpdk import PDK
-
-    PDK.activate()
-
     c = gf.Component()
 
     # Now say we want to add a few straights to to our  Component" c.

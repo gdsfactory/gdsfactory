@@ -3,10 +3,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
 from gdsfactory.port import Port
-
-PDK.activate()
 
 
 @gf.cell

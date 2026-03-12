@@ -1,7 +1,6 @@
 import gdsfactory as gf
 
 if __name__ == "__main__":
-    gf.gpdk.PDK.activate()
     c = gf.Component()
     p1 = c << gf.components.pad()
     p2 = c << gf.components.pad()

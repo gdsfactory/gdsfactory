@@ -18,9 +18,6 @@ from gdsfactory.components import (
     straight,
     straight_pn,
 )
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 
 @gf.cell

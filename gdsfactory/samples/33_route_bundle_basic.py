@@ -3,9 +3,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 if __name__ == "__main__":
     ys_right = [0, 10, 20, 40, 50, 80]

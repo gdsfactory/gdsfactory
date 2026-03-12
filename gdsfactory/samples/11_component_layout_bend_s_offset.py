@@ -1,10 +1,8 @@
 """Lets try the bend_s_offset with different p parameters and see how the layout changes."""
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
 
 if __name__ == "__main__":
-    PDK.activate()
     c = gf.Component()
     with_arc_floorplan = True
     c1 = c << gf.c.bend_s_offset(

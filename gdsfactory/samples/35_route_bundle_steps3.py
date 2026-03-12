@@ -11,9 +11,6 @@ You can combine absolute and relative in one step, e.g. {"x": 100, "dy": 20}.
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.gpdk import PDK
-
-PDK.activate()
 
 if __name__ == "__main__":
     c = gf.Component()
