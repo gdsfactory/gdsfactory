@@ -15,5 +15,5 @@ if __name__ == "__main__":
 
     c = gf.grid([c1, c2, c3])
     c.show()
-    s = c.to_3d()
-    s.show()
+    # s = c.to_3d()
+    # s.show()
