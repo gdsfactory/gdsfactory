@@ -1,14 +1,18 @@
 ---
 name: gdsfactory-component-designer
 description: >
-  Generate, visualize, and modify photonic integrated circuit components using
-  gdsfactory. Use when the user asks to create, view, edit, or explore PIC
-  components, waveguides, MMIs, ring resonators, gratings, or any layout from
-  the gdsfactory component library or an activated PDK.
+  Expert photonic IC designer using gdsfactory. ALWAYS use this skill for ANY
+  task involving silicon photonics, photonic integrated circuits (PICs), GDS
+  layout design, or component visualization. Trigger this skill whenever the
+  user mentions photonic components (waveguides, MMIs, rings, gratings, MZIs),
+  layout design, or asks to "design", "generate", "visualize", "tweak", or
+  "assemble" photonic structures. Do not wait for an explicit mention of
+  "gdsfactory" – if the task involves photonic layout or PICs, this is the
+  required tool.
 compatibility: Requires Python >=3.11, gdsfactory, and matplotlib.
 metadata:
   author: gdsfactory
-  version: "1.0"
+  version: "1.1"
 allowed-tools: bash python uv
 ---
 
@@ -30,7 +34,7 @@ Activate this skill when the user:
   preview).
 - Wants to tweak component parameters (width, length, radius, gaps, layers,
   cross-sections, etc.) and see the result.
-- Mentions gdsfactory, GDS, photonic layout, or a specific PDK.
+- Mentions GDS, photonic layout, or a specific PDK.
 - Asks to compose multiple components together into a larger circuit.
 
 ---
@@ -67,20 +71,10 @@ gf.gpdk.PDK.activate()
 ```
 
 If the user specifies a third-party PDK (e.g. `cspdk`, `ubcpdk`,
-`sky130`, `gf45spclo`), import and activate it instead:
-
-```python
-import cspdk
-
-cspdk.PDK.activate()
-```
+`sky130`, `gf45spclo`), import and activate it instead.
 
 Always clear the cell cache between independent component generations to avoid
-stale state:
-
-```python
-gf.clear_cache()
-```
+stale state: `gf.clear_cache()`.
 
 ---
 
@@ -93,69 +87,28 @@ gdsfactory ships with 300+ parametric component factory functions under
 
 ```python
 import gdsfactory as gf
-
 gf.gpdk.PDK.activate()
 
 # Example: 1×2 MMI splitter
 c = gf.components.mmi1x2(width_mmi=5.0, length_mmi=25.0, gap_mmi=0.25)
 ```
 
-You can also use the string-based lookup via the active PDK, which is useful
-when the component name comes from user input:
-
-```python
-c = gf.get_component("mmi1x2", width_mmi=5.0, length_mmi=25.0)
-```
-
-### 2.2 Listing available components
-
-To discover what components are available in the currently active PDK:
-
-```python
-pdk = gf.get_active_pdk()
-
-# All cell factory names (sorted)
-available = sorted(pdk.cells.keys())
-print(available)
-```
-
-### 2.3 Inspecting component parameters
+### 2.2 Inspecting component parameters
 
 Every component factory function is a standard Python callable with typed
-parameters. Use `help()` or `inspect.signature()` to discover the parameters:
-
-```python
-import inspect
-
-sig = inspect.signature(gf.components.mmi1x2)
-for name, param in sig.parameters.items():
-    print(f"  {name}: {param.annotation} = {param.default}")
-```
-
-### 2.4 From a third-party PDK
-
-When a PDK is activated its cells become available through `gf.get_component`:
-
-```python
-import cspdk
-
-cspdk.PDK.activate()
-c = gf.get_component("mmi1x2")  # uses cspdk's mmi1x2
-```
+parameters. Use `help()` or `inspect.signature()` to discover the parameters.
 
 ---
 
-## 3 — Visualizing a component (critical workflow)
+## 3 — Visualizing a component (Proactive Workflow)
 
-Visualization is essential: always render and inspect the component after
-creating or modifying it so you can verify the result and share it with the
-user.
+Visualization is essential: render and inspect the component after creating or
+modifying it to verify the result.
 
 ### 3.1 Save a plot image to disk and display it
 
 Use the helper script bundled with this skill for reliable headless rendering.
-From a bash tool or Python subprocess (adapt `python` to `uv run python` or
-whatever matches the user's environment — see section 1):
+From a bash tool or Python subprocess:
 
 ```bash
 python .agents/skills/gdsfactory-component-designer/scripts/visualize_component.py \
@@ -163,40 +116,15 @@ python .agents/skills/gdsfactory-component-designer/scripts/visualize_component.
     /tmp/mmi1x2.png
 ```
 
-Or do it inline in Python:
-
-```python
-import gdsfactory as gf
-import matplotlib
-matplotlib.use("Agg")          # headless backend — no display needed
-import matplotlib.pyplot as plt
-
-gf.gpdk.PDK.activate()
-c = gf.components.mmi1x2(width_mmi=5.0, length_mmi=25.0)
-
-fig = c.plot(return_fig=True)
-fig.savefig("/tmp/mmi1x2.png", dpi=150, bbox_inches="tight")
-plt.close(fig)
-
-print("Image saved to /tmp/mmi1x2.png")
-```
-
 After saving, **always import the image into context** so you and the user can
-see it:
+see it.
 
-1. Use the screenshot/image-viewing tool on the saved file path.
-2. Describe what you see in the plot (ports, shapes, layers, dimensions).
-3. Ask the user if the result matches their expectations before moving on.
-
-### 3.2 Quick component info
-
-Print a textual summary before or alongside the image:
-
-```python
-print(f"Component: {c.name}")
-print(f"Ports: {[p.name for p in c.ports]}")
-print(f"Bounding box size: {c.dxsize:.3f} × {c.dysize:.3f} µm")
-```
+- **Be Proactive:** If the user's intent is clear (e.g., "Create an MMI then
+  change its width"), do not stop for permission after the first step. Perform
+  the generation, visualization, and modification in a single turn if possible.
+- **Concise Reporting:** Describe the component briefly (ports, size). If the
+  change is minor, just confirm the update and point to the new image. Avoid
+  repeating the entire component description multiple times.
 
 ---
 
@@ -204,71 +132,13 @@ print(f"Bounding box size: {c.dxsize:.3f} × {c.dysize:.3f} µm")
 
 ### 4.1 Adjusting parameters
 
-The simplest modification is changing the factory-function arguments:
-
-```python
-gf.clear_cache()  # clear cache before regenerating
-
-# Wider MMI with longer coupling region
-c = gf.components.mmi1x2(width_mmi=8.0, length_mmi=40.0, gap_mmi=0.5)
-```
-
-Always clear the cache (`gf.clear_cache()`) before creating a component with
-modified parameters to avoid returning a cached version with old values.
+The simplest modification is changing the factory-function arguments. Always
+call `gf.clear_cache()` before regenerating to avoid stale data.
 
 ### 4.2 Composing components
 
-Build a custom component by placing and connecting sub-components:
-
-```python
-@gf.cell
-def my_circuit(mmi_length: float = 25.0) -> gf.Component:
-    c = gf.Component()
-
-    mmi = c.add_ref(gf.components.mmi1x2(length_mmi=mmi_length))
-    bend = c.add_ref(gf.components.bend_euler(radius=10))
-
-    # Connect bend input to one of the MMI outputs
-    bend.connect("o1", mmi.ports["o2"])
-
-    # Expose external ports
-    c.add_port("o1", port=mmi.ports["o1"])
-    c.add_port("o2", port=bend.ports["o2"])
-    c.add_port("o3", port=mmi.ports["o3"])
-    return c
-
-gf.clear_cache()
-c = my_circuit(mmi_length=30.0)
-```
-
-### 4.3 Editing geometry directly
-
-For more advanced changes, add polygons or modify existing ones:
-
-```python
-@gf.cell
-def custom_shape() -> gf.Component:
-    c = gf.Component()
-    # Add a rectangular polygon on the WG layer
-    c.add_polygon(
-        [(0, 0), (10, 0), (10, 0.5), (0, 0.5)],
-        layer="WG",
-    )
-    c.add_port(name="o1", center=(0, 0.25), width=0.5,
-               orientation=180, layer="WG")
-    c.add_port(name="o2", center=(10, 0.25), width=0.5,
-               orientation=0, layer="WG")
-    return c
-```
-
-### 4.4 Using cross-sections
-
-Cross-sections define the layer stack for a waveguide path:
-
-```python
-xs = gf.cross_section.strip(width=0.6)
-c = gf.components.straight(length=20, cross_section=xs)
-```
+Build a custom component by placing and connecting sub-components. Use the
+`@gf.cell` decorator for proper naming and caching.
 
 ---
 
@@ -277,22 +147,22 @@ c = gf.components.straight(length=20, cross_section=xs)
 ```python
 # Write to GDS file
 gdspath = c.write_gds("/tmp/my_component.gds")
-print(f"GDS written to {gdspath}")
 ```
 
 ---
 
-## 6 — Iterative design loop (recommended workflow)
+## 6 — Proactive Design Loop (Best Practices)
 
-When the user asks for a component, follow this loop:
+When the user asks for a component, follow this streamlined loop:
 
-1. **Clarify** what the user wants (component type, parameters, PDK).
-2. **Generate** the component in Python.
-3. **Visualize** — save a PNG and display it to the user.
-4. **Describe** what you see (ports, dimensions, shapes, layers).
-5. **Ask** if modifications are needed.
-6. **Modify** parameters / code, clear cache, regenerate, and re-visualize.
-7. **Export** the final GDS when the user is satisfied.
+1. **Understand & Execute:** Identify the component and parameters. If the
+   user asks for a sequence of steps, execute them as a batch where logical.
+2. **Generate & Visualize:** Create the component and render the PNG.
+3. **Show & Tell:** Share the image and a *short* summary of what changed.
+4. **Anticipate:** If the next step is obvious, offer to perform it or just
+   do it and show the result.
+5. **Iterate Concisely:** For small tweaks, don't repeat the full initial
+   explanation. Just show the new image and highlight the specific change.
 
 ---
 
@@ -300,80 +170,18 @@ When the user asks for a component, follow this loop:
 
 | Component | Factory function | Key parameters |
 |---|---|---|
-| Straight waveguide | `gf.components.straight` | `length`, `width`, `cross_section` |
-| Euler bend | `gf.components.bend_euler` | `radius`, `angle`, `cross_section` |
-| Circular bend | `gf.components.bend_circular` | `radius`, `angle` |
-| S-bend | `gf.components.bend_s` | `size`, `cross_section` |
-| 1×2 MMI | `gf.components.mmi1x2` | `width_mmi`, `length_mmi`, `gap_mmi` |
-| 2×2 MMI | `gf.components.mmi2x2` | `width_mmi`, `length_mmi`, `gap_mmi` |
-| Ring resonator | `gf.components.ring_single` | `gap`, `radius`, `length_x`, `length_y` |
-| Double ring | `gf.components.ring_double` | `gap`, `radius`, `length_x`, `length_y` |
-| Directional coupler | `gf.components.coupler` | `gap`, `length`, `dy` |
-| Mach-Zehnder | `gf.components.mzi` | `delta_length`, `length_x`, `length_y` |
-| Grating coupler (TE) | `gf.components.grating_coupler_te` | `period`, `n_periods`, `taper_length` |
-| Taper | `gf.components.taper` | `length`, `width1`, `width2` |
-| Spiral | `gf.components.spiral` | `length`, `N`, `spacing` |
-| Pad | `gf.components.pad` | `size`, `layer` |
-| Via stack | `gf.components.via_stack` | `size`, `layers`, `vias` |
+| Straight waveguide | `gf.components.straight` | `length`, `width` |
+| Euler bend | `gf.components.bend_euler` | `radius`, `angle` |
+| 1×2 MMI | `gf.components.mmi1x2` | `width_mmi`, `length_mmi` |
+| Ring resonator | `gf.components.ring_single` | `gap`, `radius` |
+| Grating coupler | `gf.components.grating_coupler_te` | `period`, `n_periods` |
 
 ---
 
-## 8 — Troubleshooting
+## 8 — When you are unsure: consult the docs and samples
 
-| Problem | Fix |
-|---|---|
-| `ValueError: No active PDK` | Call `gf.gpdk.PDK.activate()` first. |
-| Component returns cached version with old params | Call `gf.clear_cache()` before creating the component. |
-| `ModuleNotFoundError` for a PDK | Install it: `pip install <pdk-package>`. |
-| Blank or black plot image | Ensure `matplotlib.use("Agg")` is set before importing `pyplot`. |
-| Port connection error | Check port names with `c.ports` and ensure widths/layers match. |
+The full gdsfactory docs are at **<https://gdsfactory.github.io/gdsfactory/>**.
+Browse tutorial notebooks under `docs/notebooks/` or over 100 sample Python
+scripts under `gdsfactory/samples/` for worked examples.
 
----
-
-## 9 — When you are unsure: consult the docs and samples
-
-If you are uncertain about how to accomplish something — an unfamiliar
-component, a routing strategy, a PDK feature, or an advanced layout
-technique — **always look at the project documentation and sample code before
-guessing**.
-
-### Online documentation
-
-The full gdsfactory docs are at
-**<https://gdsfactory.github.io/gdsfactory/>**. Key pages include the
-getting-started guide, component API reference, routing tutorials, and PDK
-documentation.
-
-### Notebooks (in-repo)
-
-The repository ships with tutorial notebooks under `docs/notebooks/`. Browse
-or read them for worked examples:
-
-| Notebook | Topic |
-|---|---|
-| `00_geometry.ipynb` | Geometry primitives and boolean operations |
-| `01_references.ipynb` | Using component references |
-| `03_Path_CrossSection.ipynb` | Paths, cross-sections, and transitions |
-| `04_components_geometry.ipynb` | Building components from geometry |
-| `04_components_hierarchy.ipynb` | Hierarchical component composition |
-| `04_routing.ipynb` | Routing waveguides between ports |
-| `08_pdk.ipynb` | PDK setup and customization |
-| `10_yaml_component.ipynb` | YAML-based component definition |
-
-### Sample scripts (in-repo)
-
-Over 100 sample Python scripts live under `gdsfactory/samples/`. These are
-self-contained, runnable examples. Useful starting points:
-
-- `gdsfactory/samples/00_hello_world.py` — minimal component
-- `gdsfactory/samples/01_component_pcell*.py` — parametric cells
-- `gdsfactory/samples/04_connect.py` — port connections
-- `gdsfactory/samples/33_route_bundle_*.py` — bundle routing strategies
-
-### How to use these resources
-
-1. **Search first** — use `grep` or file search to find relevant notebooks or
-   samples by keyword (e.g. `grep -rl "ring_single" docs/notebooks/`).
-2. **Read the code** — open the notebook or script and study the pattern used.
-3. **Adapt** — apply the pattern to the user's request, then visualize and
-   iterate as described in section 6.
+**Don't guess – search the repo for examples first.**
