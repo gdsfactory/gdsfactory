@@ -167,11 +167,12 @@ def port_array(
         xs = get_cross_section(cross_section)
         if width != xs.width:
             xs = get_cross_section(xs.copy(width=width))
+
+        # Convert to KFactory cross_section for native port support
         try:
-            sym_xs: kf.SymmetricalCrossSection | None = (
-                kcl.get_symmetrical_cross_section(xs.name)
-            )
-        except KeyError:
+            kf_xs = xs.to_kf_cross_section(kcl=kcl)
+            sym_xs: kf.SymmetricalCrossSection | None = kf_xs.base
+        except Exception:
             sym_xs = None
 
         kwargs.pop("cross_section", None)
