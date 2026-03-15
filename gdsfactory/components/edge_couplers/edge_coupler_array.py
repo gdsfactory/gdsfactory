@@ -141,14 +141,14 @@ def edge_coupler_array_with_loopback(
     p3 = ec_ref_ports[-2]
     p4 = ec_ref_ports[-1]
 
-    gf.routing.route_bundle(
+    gf.routing.route_single(
         c,
         p1,
         p2,
         cross_section=cross_section,
         radius=radius,
     )
-    gf.routing.route_bundle(
+    gf.routing.route_single(
         c,
         p3,
         p4,
