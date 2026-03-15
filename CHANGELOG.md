@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.39.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.1) - 2026-03-15
+
+No significant changes.
+
+
 ## [9.39.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.0) - 2026-03-06
 
 - Feat: add a get_layer_to_mesh_order() method to LayerStack [#4431](https://github.com/gdsfactory/gdsfactory/pull/4431)
