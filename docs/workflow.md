@@ -34,3 +34,14 @@ or YAML
 ## 3. Schematic driven layout
 
 For Schematic-Driven Layout, we highly recommend using [GDSFactory+](https://gdsfactory.com/) for a seamless and efficient design experience.
+
+## 4. AI Agent workflow
+
+You can use AI agents (like [Gemini CLI](https://geminicli.com) or [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code)) to autonomously generate and iterate on component designs.
+
+The `gdsfactory-component-designer` Agent Skill enables agents to:
+- **Generate** components from the built-in library or activated PDKs.
+- **Visualize** layouts and import images directly into the conversation context.
+- **Iterate** on designs by tweaking parameters based on visual feedback.
+
+See the [.agents/skills/](https://github.com/gdsfactory/gdsfactory/tree/main/.agents/skills) directory for more information on using Agent Skills.
