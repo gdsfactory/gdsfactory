@@ -1,12 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.39.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.1) - 2026-03-15
 
-No significant changes.
-
+- use route single for edge couplers [#4447](https://github.com/gdsfactory/gdsfactory/pull/4447)
+- remove pdk.activate now that we do it in .env [#4446](https://github.com/gdsfactory/gdsfactory/pull/4446)
+- add samples to 3d [#4434](https://github.com/gdsfactory/gdsfactory/pull/4434)
+- Add unique names to 3D geometry objects [#4442](https://github.com/gdsfactory/gdsfactory/pull/4442)
+- deps: bump docker/metadata-action from 5 to 6 [#4433](https://github.com/gdsfactory/gdsfactory/pull/4433)
+- Add LLM agent skill for gdsfactory component design and visualization [#4439](https://github.com/gdsfactory/gdsfactory/pull/4439)
+- Show layer info in autotaper error [#4440](https://github.com/gdsfactory/gdsfactory/pull/4440)
+- Copy the vinsts on ComponentAllAngle.dup [#4435](https://github.com/gdsfactory/gdsfactory/pull/4435)
+- docs: fix double punctuation in contribution.md [#4437](https://github.com/gdsfactory/gdsfactory/pull/4437)
 
 ## [9.39.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.0) - 2026-03-06
 
