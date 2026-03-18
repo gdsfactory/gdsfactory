@@ -493,22 +493,20 @@ class Pdk(BaseModel):
 
             return cross_section
         if isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
-            from gdsfactory import kcl
-
             if isinstance(cross_section, kf.DCrossSection):
                 cross_section_ = cross_section.base
             else:
                 cross_section_ = cross_section
             section_ = Section(
                 name="_default",
-                width=kcl.to_um(cross_section_.width),
-                layer=kcl.layout.layer(cross_section_.main_layer),
+                width=kf.kcl.to_um(cross_section_.width),
+                layer=kf.kcl.layout.layer(cross_section_.main_layer),
                 port_names=("o1", "o2"),
             )
             xs_ = CrossSection(
                 sections=(section_,),
-                radius=kcl.to_um(cross_section_.radius),
-                radius_min=kcl.to_um(cross_section_.radius_min),
+                radius=kf.kcl.to_um(cross_section_.radius),
+                radius_min=kf.kcl.to_um(cross_section_.radius_min),
             )
             xs_._name = cross_section_.name
             return xs_
