@@ -777,6 +777,15 @@ def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
     _ACTIVE_PDK = pdk
 
+    if pdk.layers is not None:
+        kf.kcl.layers = pdk.layers
+        kf.kcl.infos = kf.LayerInfos(
+            **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in pdk.layers},  # type: ignore[attr-defined]
+        )
+    else:
+        kf.kcl.infos = kf.LayerInfos()
+        kf.kcl.layers = kf.kcl.layerenum_from_dict(layers=kf.kcl.infos)
+
 
 def get_routing_strategies() -> RoutingStrategies:
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""

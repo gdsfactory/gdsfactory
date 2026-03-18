@@ -68,6 +68,3 @@ class LAYER(gf.LayerEnum):
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
-
-
-gf.kcl.layers = LAYER
