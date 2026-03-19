@@ -34,8 +34,14 @@ def get_string(value: Any) -> str:
     return str(s)
 
 
-def clean_dict(dictionary: dict[str, Any]) -> dict[str, Any]:
-    return {k: clean_value_json(v) for k, v in dictionary.items()}
+def clean_dict(
+    dictionary: dict[str, Any],
+    serialization_max_digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
+) -> dict[str, Any]:
+    return {
+        k: clean_value_json(v, serialization_max_digits=serialization_max_digits)
+        for k, v in dictionary.items()
+    }
 
 
 def complex_encoder(
@@ -71,7 +77,10 @@ def clean_value_json(
 
 
 def clean_value_json(
-    value: Any, include_module: bool = True, serialize_function_as_dict: bool = True
+    value: Any,
+    include_module: bool = True,
+    serialize_function_as_dict: bool = True,
+    serialization_max_digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
 ) -> str | int | float | dict[str, Any] | list[Any] | bool | Any | None:
     """Return JSON serializable object.
 
@@ -83,7 +92,10 @@ def clean_value_json(
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
-        return clean_dict(value.model_dump(exclude_none=True))
+        return clean_dict(
+            value.model_dump(exclude_none=True),
+            serialization_max_digits=serialization_max_digits,
+        )
 
     if hasattr(value, "get_component_spec"):
         return value.get_component_spec()
@@ -100,13 +112,13 @@ def clean_value_json(
     if isinstance(value, float | np.floating):
         if value == round(value):
             return int(value)
-        return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
+        return float(np.round(value, serialization_max_digits))
 
     if isinstance(value, complex | np.complexfloating):
         return complex_encoder(value)
 
     if isinstance(value, np.ndarray):
-        value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
+        value = np.round(value, serialization_max_digits)
         return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
 
     if callable(value) and isinstance(value, functools.partial):
@@ -114,9 +126,12 @@ def clean_value_json(
             value=value,
             include_module=include_module,
             serialize_function_as_dict=serialize_function_as_dict,
+            serialization_max_digits=serialization_max_digits,
         )
     if hasattr(value, "to_dict"):
-        return clean_dict(value.to_dict())
+        return clean_dict(
+            value.to_dict(), serialization_max_digits=serialization_max_digits
+        )
 
     if callable(value) and isinstance(value, toolz.functoolz.Compose):
         return [clean_value_json(value.first)] + [
@@ -139,17 +154,28 @@ def clean_value_json(
         return value.stem
 
     if isinstance(value, dict):
-        return clean_dict(value.copy())
+        return clean_dict(
+            value.copy(), serialization_max_digits=serialization_max_digits
+        )
 
     if isinstance(value, list | tuple | set | KeysView):
-        return tuple([clean_value_json(i) for i in value])
+        return tuple(
+            [
+                clean_value_json(i, serialization_max_digits=serialization_max_digits)
+                for i in value
+            ]
+        )
 
     if attrs.has(type(value)):
         return attrs.asdict(value)
 
     try:
         value_json = orjson.dumps(
-            value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_json
+            value,
+            option=orjson.OPT_SERIALIZE_NUMPY,
+            default=functools.partial(
+                clean_value_json, serialization_max_digits=serialization_max_digits
+            ),
         )
         return orjson.loads(value_json)
     except TypeError:
@@ -161,11 +187,14 @@ def clean_value_partial(
     value: functools.partial[Any],
     include_module: bool = True,
     serialize_function_as_dict: bool = True,
+    serialization_max_digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
 ) -> str | Any | dict[str, str | Any | dict[str, Any]]:
     sig = inspect.signature(value.func)
     args_as_kwargs = dict(zip(sig.parameters.keys(), value.args, strict=False))
     args_as_kwargs |= value.keywords
-    args_as_kwargs = clean_dict(args_as_kwargs)
+    args_as_kwargs = clean_dict(
+        args_as_kwargs, serialization_max_digits=serialization_max_digits
+    )
 
     func = value.func
     while hasattr(func, "func"):
