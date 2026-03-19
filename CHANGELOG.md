@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.39.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.2) - 2026-03-18
+
+No significant changes.
+
+
 ## [9.39.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.1) - 2026-03-15
 
 - use route single for edge couplers [#4447](https://github.com/gdsfactory/gdsfactory/pull/4447)
