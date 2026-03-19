@@ -149,16 +149,20 @@ def mzi(
     )
     delta_gap_ports = gap_ports_splitter - gap_ports_combiner
 
+    # Offset applied only to the right-side vertical sections so that
+    # b4/b8 end at the combiner port y-positions (not the splitter ones).
+    combiner_offset = -delta_gap_ports / 2
+
     # Use sign of ``delta_length`` to determine which arm to lengthen
-    short_arm_length = length_y - delta_gap_ports / 2
-    if short_arm_length < 0:
+    short_arm_length = length_y
+    if short_arm_length + combiner_offset < 0:
         raise ValueError(
-            "Computed short_arm_length is negative, which would result in a negative "
+            "Computed arm length is negative, which would result in a negative "
             "straight section length. This usually happens when `length_y` is too "
             "small relative to the splitter/combiner port gaps. "
             f"Got length_y={length_y}, gap_ports_combiner={gap_ports_combiner}, "
             f"gap_ports_splitter={gap_ports_splitter}, delta_gap_ports={delta_gap_ports}, "
-            f"short_arm_length={short_arm_length}."
+            f"combiner_offset={combiner_offset}."
         )
     long_arm_length = abs(delta_length) / 2 + short_arm_length
 
@@ -227,7 +231,7 @@ def mzi(
     b3.name = "b3"
 
     sytr = c << gf.get_component(
-        straight_y, length=top_arm_length, cross_section=cross_section
+        straight_y, length=top_arm_length + combiner_offset, cross_section=cross_section
     )
     sytr.connect(port2, b3.ports[port1])
     b4 = c << bend
@@ -241,7 +245,7 @@ def mzi(
 
     sybr = c << gf.get_component(
         straight_y,
-        length=bot_arm_length,
+        length=bot_arm_length + combiner_offset,
         cross_section=cross_section,
     )
     sybr.connect(port1, b7.ports[port2])
