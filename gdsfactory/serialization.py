@@ -134,8 +134,13 @@ def clean_value_json(
         )
 
     if callable(value) and isinstance(value, toolz.functoolz.Compose):
-        return [clean_value_json(value.first)] + [
-            clean_value_json(func) for func in value.funcs
+        return [
+            clean_value_json(
+                value.first, serialization_max_digits=serialization_max_digits
+            )
+        ] + [
+            clean_value_json(func, serialization_max_digits=serialization_max_digits)
+            for func in value.funcs
         ]
 
     if callable(value) and hasattr(value, "__name__"):
