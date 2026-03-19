@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.39.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.2) - 2026-03-18
 
-No significant changes.
-
+- fix mzi offset [#4451](https://github.com/gdsfactory/gdsfactory/pull/4451)
+-  Configure kcl.layers on activation instead of hardcoding to generic PDK [#4449](https://github.com/gdsfactory/gdsfactory/pull/4449)
 
 ## [9.39.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.1) - 2026-03-15
 
