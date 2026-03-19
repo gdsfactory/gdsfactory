@@ -56,6 +56,7 @@ def cell(
     tags: list[str] | None = None,
     with_module_name: bool = False,
     lvs_equivalent_ports: list[list[str]] | None = None,
+    **kwargs: Any,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -82,6 +83,7 @@ def cell(
     with_module_name: bool = False,
     lvs_equivalent_ports: list[list[str]] | None = None,
     ports: PortsDefinition | None = None,
+    **kwargs: Any,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
@@ -97,6 +99,10 @@ def cell(
 
     if drop_params is None:
         drop_params = ["self", "cls"]
+    if kwargs:
+        if info is None:
+            info = {}
+        info.update(kwargs)
     if post_process is None:
         post_process = []
     c = _cell(  # type: ignore[call-overload,misc]
