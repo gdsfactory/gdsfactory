@@ -465,7 +465,7 @@ class LayerView(BaseModel):
         exclude_defaults: bool = False,
         exclude_none: bool = False,
         simplify: bool = True,
-    ) -> dict[str, Any]:
+    ) -> builtins.dict[str, Any]:
         """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
@@ -748,7 +748,7 @@ class LayerView(BaseModel):
             and line_style.text is not None
             and re.match(r"I\d+", line_style.text)
         ):
-            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore[assignment]
+            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]
 
         lv = LayerView(
             name=name,
@@ -1006,7 +1006,7 @@ class LayerViews(BaseModel):
 
         sorted_layers = sorted(
             non_empty_layers,
-            key=lambda x: (x.layer[0], x.layer[1]),  # type: ignore[index]
+            key=lambda x: (x.layer[0], x.layer[1]),
         )
 
         for n, layer in enumerate(sorted_layers):
@@ -1113,7 +1113,7 @@ class LayerViews(BaseModel):
                 pattern_counter += 1
 
             assert name is not None  # Type assertion for mypy
-            pattern = "\n".join(
+            pattern = "\n".join(  # ty: ignore[no-matching-overload]
                 [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
             )
 

@@ -1128,7 +1128,7 @@ class Component(ComponentBase, kf.DKCell):
             overlap=overlap,
             smooth=smooth,
         )
-        self.shapes(layer).clear()
+        self.shapes(layer).clear()  # ty: ignore[unresolved-attribute]
         self.shapes(layer).insert(fix)
 
     def offset(
@@ -1180,7 +1180,7 @@ class Component(ComponentBase, kf.DKCell):
 
         polygon = points_to_polygon(points)
         if isinstance(polygon, kdb.DPolygon | kdb.DSimplePolygon):
-            polygon = polygon.to_itype(self.kcl.dbu)  # type: ignore[assignment]
+            polygon = polygon.to_itype(self.kcl.dbu)
 
         return self.kdb_cell.shapes(_layer).insert(polygon)
 
@@ -1266,8 +1266,23 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
+        pixel_options = {"width": 800, "height": 600} | (pixel_buffer_options or {})
+        width = int(pixel_options["width"])  # ty: ignore[invalid-argument-type]
+        height = int(pixel_options["height"])  # ty: ignore[invalid-argument-type]
+
+        # Extract optional parameters with proper types
+        kwargs = {}
+        if "linewidth" in pixel_options:
+            kwargs["linewidth"] = int(pixel_options["linewidth"])  # ty: ignore[invalid-argument-type]
+        if "oversampling" in pixel_options:
+            kwargs["oversampling"] = int(pixel_options["oversampling"])  # ty: ignore[invalid-argument-type]
+        if "resolution" in pixel_options:
+            kwargs["resolution"] = float(pixel_options["resolution"])  # ty: ignore[invalid-argument-type]
+        if "target" in pixel_options:
+            kwargs["target"] = pixel_options["target"]
+
         pixel_buffer = layout_view.get_pixels_with_options(
-            **({"width": 800, "height": 600} | (pixel_buffer_options or {}))
+            width=width, height=height, **kwargs
         )
         png_data = pixel_buffer.to_png_data()
 
@@ -1484,7 +1499,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         c.settings = self.settings.model_copy()
         c.settings_units = self.settings_units.model_copy()
         c.info = self.info.model_copy()
-        for layer, shapes in self.shapes().items():
+        for layer, shapes in self.shapes().items():  # ty: ignore[missing-argument, unresolved-attribute]
             for shape in shapes:
                 c.shapes(layer).insert(shape)
         c._base.vinsts = self.vinsts.dup()
@@ -1507,7 +1522,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         polygon = points_to_polygon(points)
 
-        return self.shapes(_layer).insert(polygon)
+        return self.shapes(_layer).insert(polygon)  # ty: ignore[invalid-return-type]
 
     def get_polygons(self, layer: LayerSpec) -> list[kf.kdb.DPolygon]:
         """Returns a list of polygons from the Component."""

@@ -346,5 +346,12 @@ directory = "fixed"
 name = "Fixed"
 showcontent = true
 
+[tool.ty.rules]
+unused-type-ignore-comment = "ignore"
+
 [tool.ty.src]
-exclude = ["gdsfactory/samples"]
+exclude = [
+  "gdsfactory/samples",
+  "gdsfactory/generic_tech/klayout",
+  "gdsfactory/install.py"
+]

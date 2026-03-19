@@ -449,7 +449,7 @@ def route_bundle(
         waypoints_ = []
     elif not isinstance(waypoints[0], kf.kdb.DPoint):
         waypoints_ = [
-            kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
+            kf.kdb.DPoint(p[0], p[1])  # ty: ignore[not-subscriptable]
             for p in waypoints
         ]
     else:

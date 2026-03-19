@@ -38,6 +38,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, Unpack, ca
 
 import kfactory as kf
 import numpy as np
+from kfactory.ports import ProtoPorts
 from rich.console import Console
 from rich.table import Table
 
@@ -189,9 +190,9 @@ def port_array(
                     ),
                 ),
                 orientation=orientation,
-                cross_section=sym_xs,
+                cross_section=sym_xs,  # ty: ignore[invalid-argument-type]
                 **kwargs,
-            )  # type: ignore[call-overload]
+            )
             for i in range(n)
         ]
     return [
@@ -204,7 +205,7 @@ def port_array(
             orientation=orientation,
             width=width,
             **kwargs,
-        )  # type: ignore[call-overload]
+        )
         for i in range(n)
     ]
 
@@ -322,7 +323,7 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 
 
 def select_ports(
-    ports: Ports | ComponentReference,
+    ports: Ports | ComponentReference | ProtoPorts,
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -833,18 +834,18 @@ def auto_rename_ports_layer_orientation(
             p.name_original = p.name  # type: ignore[attr-defined]
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
-                direction_ports["E"].append(p)
+                direction_ports["E"].append(p)  # ty: ignore[invalid-argument-type]
             elif angle <= 135 and angle >= 45:
-                direction_ports["N"].append(p)
+                direction_ports["N"].append(p)  # ty: ignore[invalid-argument-type]
             elif angle <= 225 and angle >= 135:
-                direction_ports["W"].append(p)
+                direction_ports["W"].append(p)  # ty: ignore[invalid-argument-type]
             else:
-                direction_ports["S"].append(p)
+                direction_ports["S"].append(p)  # ty: ignore[invalid-argument-type]
 
         layer_tuple = layer if isinstance(layer, kf.LayerEnum) else (layer, 0)
 
         function(direction_ports, prefix=f"{layer_tuple[0]}_{layer_tuple[1]}_")
-        new_ports |= {p.name: p for p in ports_on_layer if p.name is not None}
+        new_ports |= {p.name: p for p in ports_on_layer if p.name is not None}  # ty: ignore[unsupported-operator]
 
 
 __all__ = [

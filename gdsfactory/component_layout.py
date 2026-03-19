@@ -78,9 +78,9 @@ def rotate_points(
     sa_array = np.array((-sa, sa))
     c0 = np.array(center)
     if np.asarray(points).ndim == 2:
-        return (points - c0) * ca + (points - c0)[:, ::-1] * sa_array + c0  # type: ignore[no-any-return]
+        return (points - c0) * ca + (points - c0)[:, ::-1] * sa_array + c0
     if np.asarray(points).ndim == 1:
-        return (points - c0) * ca + (points - c0)[::-1] * sa_array + c0  # type: ignore[no-any-return]
+        return (points - c0) * ca + (points - c0)[::-1] * sa_array + c0
     raise ValueError("Input points must be array-like[N][2] or array-like[2]")
 
 
@@ -120,7 +120,7 @@ def reflect_points(
     reflected_points = (
         2 * (p1_array + (p2_array - p1_array) * proj / line_vec_norm) - points
     )
-    return reflected_points if original_shape[0] > 1 else reflected_points[0]  # type: ignore[no-any-return]
+    return reflected_points if original_shape[0] > 1 else reflected_points[0]
 
 
 def parse_coordinate(
