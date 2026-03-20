@@ -57,7 +57,7 @@ def cell(
     tags: list[str] | None = None,
     with_module_name: bool = False,
     lvs_equivalent_ports: list[list[str]] | None = None,
-    schematic_function: None = None,
+    schematic_function: Callable[ComponentParams, Schematic],
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -82,7 +82,7 @@ def cell(
     tags: list[str] | None = None,
     with_module_name: bool = False,
     lvs_equivalent_ports: list[list[str]] | None = None,
-    schematic_function: Callable[ComponentParams, Schematic],
+    schematic_function: None = None,
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
