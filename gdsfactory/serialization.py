@@ -57,6 +57,7 @@ def clean_value_json(
     value: dict[str, Any],
     include_module: bool = True,
     serialize_function_as_dict: bool = True,
+    serialization_max_digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
 ) -> dict[str, Any]: ...
 
 
@@ -65,6 +66,7 @@ def clean_value_json(
     value: str,
     include_module: bool = True,
     serialize_function_as_dict: bool = True,
+    serialization_max_digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
 ) -> str: ...
 
 
@@ -73,6 +75,7 @@ def clean_value_json(
     value: Any,
     include_module: bool = True,
     serialize_function_as_dict: bool = True,
+    serialization_max_digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
 ) -> str | int | float | dict[str, Any] | list[Any] | bool | Any | None: ...
 
 
