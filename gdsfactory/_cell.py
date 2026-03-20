@@ -15,6 +15,7 @@ from kfactory.serialization import clean_name
 from kfactory.typings import MetaData
 
 if TYPE_CHECKING:
+    from gdsfactory import Schematic
     from gdsfactory.component import Component, ComponentAllAngle
     from gdsfactory.typings import ComponentFactory, RoutingStrategies
 
@@ -56,6 +57,32 @@ def cell(
     tags: list[str] | None = None,
     with_module_name: bool = False,
     lvs_equivalent_ports: list[list[str]] | None = None,
+    schematic_function: None = None,
+) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
+
+
+@overload
+def cell(
+    *,
+    set_settings: bool = True,
+    set_name: bool = True,
+    check_ports: bool = True,
+    check_instances: CheckInstances | None = None,
+    snap_ports: bool = True,
+    add_port_layers: bool = True,
+    cache: Cache[int, Any] | dict[int, Any] | None = None,
+    basename: str | None = None,
+    drop_params: list[str] | None = None,
+    register_factory: bool = True,
+    overwrite_existing: bool | None = None,
+    layout_cache: bool | None = None,
+    info: dict[str, MetaData] | None = None,
+    post_process: Iterable[Callable[[Component], None]] | None = None,
+    debug_names: bool | None = None,
+    tags: list[str] | None = None,
+    with_module_name: bool = False,
+    lvs_equivalent_ports: list[list[str]] | None = None,
+    schematic_function: Callable[ComponentParams, Schematic],
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
@@ -82,6 +109,7 @@ def cell(
     with_module_name: bool = False,
     lvs_equivalent_ports: list[list[str]] | None = None,
     ports: PortsDefinition | None = None,
+    schematic_function: Callable[ComponentParams, Schematic] | None = None,
 ) -> (
     ComponentFunc[ComponentParams]
     | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
@@ -120,6 +148,7 @@ def cell(
         tags=tags,
         lvs_equivalent_ports=lvs_equivalent_ports,
         ports=ports,
+        schematic_function=schematic_function,
     )
 
     if _func is not None:
@@ -233,6 +262,8 @@ cell_with_module_name = override_defaults(cell, with_module_name=True)
 def schematic_cell(
     _func: Callable[ComponentParams, DSchematic], /
 ) -> ComponentFunc[ComponentParams]: ...
+
+
 @overload
 def schematic_cell(
     *,
