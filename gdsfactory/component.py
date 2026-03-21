@@ -39,7 +39,7 @@ from trimesh.scene.scene import Scene
 from typing_extensions import override
 
 from gdsfactory.config import CONF, GDSDIR_TEMP
-from gdsfactory.serialization import clean_value_json
+from gdsfactory.serialization import DEFAULT_SERIALIZATION_MAX_DIGITS, clean_value_json
 from gdsfactory.utils import to_kdb_dpoints
 
 
@@ -520,6 +520,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         component_namer: ComponentNamer | None = None,
         netlist_namer: NetlistNamer | None = None,
         port_matcher: PortMatcher | None = None,
+        serialization_max_digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS,
     ) -> dict[str, Any]:
         """Returns a place-aware netlist for circuit simulation.
 
@@ -542,6 +543,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 recursive=True.
             port_matcher: Callable to determine if two ports are connected.
                 Defaults to SmartPortMatcher().
+            serialization_max_digits: How many float digits to preserve.
+                Defaults to DEFAULT_SERIALIZATION_MAX_DIGITS
         """
         from gdsfactory.get_netlist import (
             function_namer,
@@ -561,6 +564,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 component_namer=component_namer,
                 netlist_namer=netlist_namer,
                 port_matcher=port_matcher,
+                serialization_max_digits=serialization_max_digits,
             )
 
         return get_netlist(
@@ -570,6 +574,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             instance_namer=instance_namer,
             component_namer=component_namer,
             port_matcher=port_matcher,
+            serialization_max_digits=serialization_max_digits,
         )
 
     def add_ref_off_grid(
