@@ -229,7 +229,7 @@ def _get_euler_sbend_angle_middle_length_from_jog(
 
     dy_full = euler_displacement(theta=90)
 
-    if jog < 2 * dy_full:
+    if jog <= dy_full:
         # Define the objective function: squared error between computed displacement and jog
         def objective(theta: float) -> float:
             return (euler_displacement(theta) - jog) ** 2
@@ -239,7 +239,7 @@ def _get_euler_sbend_angle_middle_length_from_jog(
         middle_length = 0.0
     else:
         angle_deg = 90.0
-        middle_length = jog - 2 * dy_full
+        middle_length = 2 * jog - 2 * dy_full
 
     return angle_deg, middle_length
 
