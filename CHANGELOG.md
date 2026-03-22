@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.39.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.3) - 2026-03-21
+
+No significant changes.
+
+
 ## [9.39.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.2) - 2026-03-18
 
 - fix mzi offset [#4451](https://github.com/gdsfactory/gdsfactory/pull/4451)

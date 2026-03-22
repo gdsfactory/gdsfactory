@@ -15,8 +15,8 @@ from pydantic_settings import SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "9.39.2"
-__next_major_version__ = "9.39.2"
+__version__ = "9.39.3"
+__next_major_version__ = "9.39.3"
 
 PathType = str | pathlib.Path
 
