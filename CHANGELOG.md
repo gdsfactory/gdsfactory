@@ -1,11 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.39.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.3) - 2026-03-21
 
-No significant changes.
+- fix bend s offset [#4457](https://github.com/gdsfactory/gdsfactory/pull/4457)
+- get_netlist param serialization_max_digits [#4454](https://github.com/gdsfactory/gdsfactory/pull/4454)
+- Enable schematic function [#4455](https://github.com/gdsfactory/gdsfactory/pull/4455)
 
 
 ## [9.39.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.2) - 2026-03-18
