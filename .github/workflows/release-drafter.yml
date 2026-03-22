@@ -10,6 +10,7 @@ permissions:
   contents: read
 jobs:
   update_release_draft:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: write
       pull-requests: write
@@ -19,17 +20,3 @@ jobs:
       - uses: release-drafter/release-drafter@v7
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  require_label:
-    if: github.event.pull_request
-    needs: update_release_draft
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
-    steps:
-      - uses: mheap/github-action-required-labels@v5
-        with:
-          mode: minimum
-          count: 1
-          labels: "breaking, bug, github_actions, documentation, dependencies, enhancement, feature, maintenance, security, typing"
-          add_comment: true
