@@ -203,7 +203,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if self.locked:
             raise LockedError(self)
 
-        from gdsfactory.pdk import get_cross_section, get_layer
+        from gdsfactory.pdk import get_active_pdk, get_cross_section, get_layer
 
         # Resolve initial values and determine if we need to override the transformation
         override_transformation = False
@@ -215,10 +215,16 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             layer = layer if layer is not None else port.layer
             port_type = port_type if port_type is not None else port.port_type
             name = name if name is not None else port.name
+            _xs = port.info.get("cross_section")
+            _xs_is_registered = (
+                isinstance(_xs, str) and _xs in get_active_pdk().cross_sections
+            )
             cross_section = (
                 cross_section
                 if cross_section is not None
-                else getattr(port, "cross_section", port.info.get("cross_section"))
+                else _xs
+                if _xs_is_registered
+                else getattr(port, "cross_section", _xs)
             )
 
         # Apply CrossSection overrides
