@@ -111,14 +111,14 @@ def folded_spring(
         y_cursor += beam_width + fold_gap
 
     # Top anchor
-    top_y = y_cursor - fold_gap + beam_width  # top of last beam
+    top_y = y_cursor - fold_gap  # top of last beam
     # Determine x position of top anchor based on last beam's exit side
     if (n_folds - 1) % 2 == 0:
-        # Last beam exits on left side (x=0)
-        anchor_top_x = 0.0
-    else:
         # Last beam exits on right side (x=beam_length)
         anchor_top_x = beam_length
+    else:
+        # Last beam exits on left side (x=0)
+        anchor_top_x = 0.0
 
     c.add_polygon(
         [
