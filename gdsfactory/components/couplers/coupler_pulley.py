@@ -6,7 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 def _cubic_bezier(
@@ -26,31 +26,17 @@ def _cubic_bezier(
     )
 
 
-def _offset_curve(pts: np.ndarray, offset: float) -> np.ndarray:
-    """Offset a curve by a fixed distance along the local normal."""
-    tangents = np.zeros_like(pts)
-    tangents[1:-1] = pts[2:] - pts[:-2]
-    tangents[0] = pts[1] - pts[0]
-    tangents[-1] = pts[-1] - pts[-2]
-    lengths = np.sqrt(tangents[:, 0] ** 2 + tangents[:, 1] ** 2)
-    lengths = np.maximum(lengths, 1e-12)
-    tangents /= lengths[:, None]
-    normals = np.column_stack([-tangents[:, 1], tangents[:, 0]])
-    return pts + offset * normals
-
-
 @gf.cell_with_module_name
 def coupler_pulley(
     radius: float = 10.0,
     ring_width: float | None = None,
     gap: float = 0.2,
     coupling_angle: float = 60.0,
-    waveguide_width: float = 0.5,
     wg_length: float = 40.0,
     wg_height: float = 10.0,
     n_segments: int = 128,
+    cross_section: CrossSectionSpec = "strip",
     layer: LayerSpec = "WG",
-    port_type: str = "optical",
 ) -> Component:
     """Returns a disc or ring with a pulley-coupled waveguide.
 
@@ -64,17 +50,18 @@ def coupler_pulley(
         ring_width: width of the ring annulus. None for a solid disc.
         gap: gap between the waveguide inner edge and the disc/ring.
         coupling_angle: total wrap angle in degrees (symmetric about top).
-        waveguide_width: width of the coupling waveguide.
         wg_length: horizontal half-length of the waveguide from the disc
             center to the exit end. Controls S-curve extent. Corresponds
             to CNST parameter L.
         wg_height: vertical drop from disc center to exit waveguide level.
             Corresponds to CNST parameter H.
         n_segments: number of points for each curved section.
-        layer: layer spec.
-        port_type: port type for optical ports.
+        cross_section: cross-section spec for the coupling waveguide.
+        layer: layer spec for the disc/ring.
     """
     c = Component()
+    xs = gf.get_cross_section(cross_section)
+    waveguide_width = xs.width
 
     half_angle = np.radians(coupling_angle / 2)
     wg_r = radius + gap + waveguide_width / 2
@@ -119,61 +106,36 @@ def coupler_pulley(
         ("left", np.pi / 2 + half_angle, -1),
         ("right", np.pi / 2 - half_angle, 1),
     ]:
-        # P1: coupling arc endpoint
         p1 = np.array([wg_r * np.cos(arc_angle), wg_r * np.sin(arc_angle)])
-
-        # P2: horizontal exit point at (±L, h_exit)
         p2 = np.array([x_sign * L, h_exit])
-
-        # Tangent to circle at arc endpoint, pointing away from arc center
         tangent = np.array([x_sign * np.sin(arc_angle), -x_sign * np.cos(arc_angle)])
-
-        # C1: along tangent from P1 (CNST R/4 distance)
         c1 = p1 + (R_bezier / 4) * tangent
-
-        # C2: near P2, displaced horizontally toward center by L/2
         c2 = np.array([p2[0] - x_sign * L / 2, p2[1]])
 
         bezier = _cubic_bezier(tuple(p1), tuple(c1), tuple(c2), tuple(p2), n_segments)
         bezier_paths[name] = bezier
 
-    # 4. Assemble full center-line: left_exit → left_bezier → arc → right_bezier → right_exit
-    left_exit = np.array([[-L - 5, h_exit], [-L, h_exit]])  # small straight at left end
-    right_exit = np.array([[L, h_exit], [L + 5, h_exit]])  # small straight at right end
+    # 4. Assemble full center-line and extrude as path
+    left_exit = np.array([[-L - 5, h_exit], [-L, h_exit]])
+    right_exit = np.array([[L, h_exit], [L + 5, h_exit]])
 
     center_line = np.vstack(
         [
             left_exit,
-            bezier_paths["left"][::-1],  # reversed: from exit toward arc
+            bezier_paths["left"][::-1],
             arc_center,
-            bezier_paths["right"],  # from arc toward exit
+            bezier_paths["right"],
             right_exit,
         ]
     )
 
-    # 5. Offset to create waveguide polygon
-    hw = waveguide_width / 2
-    outer_edge = _offset_curve(center_line, hw)
-    inner_edge = _offset_curve(center_line, -hw)
-    c.add_polygon(np.vstack([outer_edge, inner_edge[::-1]]), layer=layer)
+    wg_path = gf.Path(center_line)
+    wg_path.start_angle = 180.0
+    wg_path.end_angle = 0.0
+    wg_ref = c << wg_path.extrude(xs)
 
-    # 6. Ports
-    c.add_port(
-        "o1",
-        center=(L + 5, h_exit),
-        width=waveguide_width,
-        orientation=0,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.add_port(
-        "o2",
-        center=(-L - 5, h_exit),
-        width=waveguide_width,
-        orientation=180,
-        layer=layer,
-        port_type=port_type,
-    )
+    c.add_port("o1", port=wg_ref.ports["o2"])
+    c.add_port("o2", port=wg_ref.ports["o1"])
     c.auto_rename_ports()
     return c
 
