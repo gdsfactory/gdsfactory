@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell(with_module_name=True, check_instances=None)
+@gf.cell(with_module_name=True, check_instances=False)
 def array_polar(
     component: ComponentSpec = "C",
     n_items: int = 6,
