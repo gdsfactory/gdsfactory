@@ -116,21 +116,22 @@ def coupler_pulley(
         bezier_paths[name] = bezier
 
     # 4. Assemble full center-line and extrude as path
+    # Skip first point of each segment to avoid duplicates at junctions
     left_exit = np.array([[-L - 5, h_exit], [-L, h_exit]])
     right_exit = np.array([[L, h_exit], [L + 5, h_exit]])
 
     center_line = np.vstack(
         [
             left_exit,
-            bezier_paths["left"][::-1],
-            arc_center,
-            bezier_paths["right"],
-            right_exit,
+            bezier_paths["left"][::-1][1:],
+            arc_center[1:],
+            bezier_paths["right"][1:],
+            right_exit[1:],
         ]
     )
 
     wg_path = gf.Path(center_line)
-    wg_path.start_angle = 180.0
+    wg_path.start_angle = 0.0
     wg_path.end_angle = 0.0
     wg_ref = c << wg_path.extrude(xs)
 
