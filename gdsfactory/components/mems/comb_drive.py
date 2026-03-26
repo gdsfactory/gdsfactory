@@ -13,6 +13,7 @@ def comb_drive(
     finger_length: float = 10.0,
     finger_gap: float = 0.5,
     n_fingers: int = 20,
+    finger_overlap: float = 5.0,
     shuttle_width: float = 5.0,
     shuttle_length: float = 30.0,
     spring_width: float = 0.5,
@@ -32,6 +33,7 @@ def comb_drive(
         finger_length: length of each comb finger.
         finger_gap: gap between adjacent moving and fixed fingers.
         n_fingers: number of moving fingers on each side.
+        finger_overlap: overlap length between moving and fixed fingers in the actuation direction.
         shuttle_width: width (vertical) of the shuttle mass.
         shuttle_length: length (horizontal) of the shuttle mass.
         spring_width: width of spring beam segments.
@@ -86,7 +88,7 @@ def comb_drive(
 
     # 3. Fixed electrode bars and interleaving fingers
     fixed_bar_width = shuttle_width
-    fixed_bar_x_right = shl + finger_length + finger_gap + finger_length
+    fixed_bar_x_right = shl + 2 * finger_length - finger_overlap
     fixed_bar_x_left = -fixed_bar_x_right
 
     # Right fixed electrode bar
@@ -180,7 +182,7 @@ def comb_drive(
 
                 # Connecting horizontal segment at the end (if not last fold)
                 if fold < n_spring_folds - 1:
-                    next_x = x_cursor + spring_fold_pitch
+                    next_x = x_cursor + x_sign * spring_fold_pitch
                     conn_y = y_end
 
                     c.add_polygon(
@@ -214,7 +216,9 @@ def comb_drive(
     for x_sign in [1, -1]:
         for y_sign in [1, -1]:
             # Compute where the last spring fold ends
-            last_x = x_sign * shl * 0.5 + (n_spring_folds - 1) * spring_fold_pitch
+            last_x = (
+                x_sign * shl * 0.5 + (n_spring_folds - 1) * x_sign * spring_fold_pitch
+            )
             if n_spring_folds % 2 == 1:
                 last_y = y_sign * (shw + spring_length)
             else:
