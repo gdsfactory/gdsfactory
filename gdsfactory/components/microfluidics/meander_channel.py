@@ -74,10 +74,10 @@ def meander_channel(
             cx = x
             c.add_polygon(
                 [
-                    (cx - hw, y),
-                    (cx + hw, y),
-                    (cx + hw, y_next),
-                    (cx - hw, y_next),
+                    (cx - hw, y - hw),
+                    (cx + hw, y - hw),
+                    (cx + hw, y_next + hw),
+                    (cx - hw, y_next + hw),
                 ],
                 layer=layer,
             )
