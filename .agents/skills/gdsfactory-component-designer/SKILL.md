@@ -199,7 +199,7 @@ use the KLayout API directly through kfactory.
 
 Full API docs: **<https://www.klayout.de/doc-qt5/code/module_db.html>**
 
-### 9.2 `DCplxTrans` — scaling, rotation, mirroring and translation in one object
+### 9.2 `DCplxTrans` — rotation, mirroring and translation in one object
 
 [`klayout.db.DCplxTrans`](https://www.klayout.de/doc-qt5/code/class_DCplxTrans.html)
 represents a *complex transformation* (scale + rotate + mirror + translate)
@@ -207,15 +207,23 @@ operating on floating-point (micrometer) coordinates.  It is the most
 expressive single transformation type in KLayout and covers every placement
 operation you are likely to need.
 
-Constructor signature:
+Constructor signature (kwargs supported since recent KLayout versions):
 ```python
 DCplxTrans(mag=1.0, angle=0.0, mirror=False, u=DVector(0, 0))
-# mag    – uniform scaling factor (float, default 1.0)
+# mag    – uniform scaling factor (float). ALWAYS use 1.0 — see warning below.
 # angle  – counter-clockwise rotation in degrees (float)
-# mirror – mirror about the x-axis (applied first, before rotation and scaling)
+# mirror – mirror about the x-axis (applied first, before rotation)
 # u      – translation as a DVector(dx, dy) in micrometers
-# Application order: mirror → rotate → scale → translate
+# Application order: mirror → rotate → translate
 ```
+
+> ⚠️ **Never set `mag` to anything other than `1.0`.**  No semiconductor
+> foundry accepts layouts with a scaling factor applied to instances.
+> Setting `mag != 1.0` causes DRC failures, incorrect critical dimensions,
+> and subtle off-grid snapping issues (`dcplx_trans` is snapped to the
+> manufacturing grid, so a non-unity mag will silently distort your
+> geometry).  If you need to size a component differently, create a
+> correctly-sized variant using the component's factory parameters instead.
 
 ### 9.3 Using `DCplxTrans` with gdsfactory via `ComponentReference.dcplx_trans`
 
@@ -232,9 +240,10 @@ gf.gpdk.PDK.activate()
 circuit = gf.Component("circuit")
 mmi_ref = circuit.add_ref(gf.components.mmi1x2())
 
-# Place the reference: scale ×2, rotate 45 °, mirror, then translate to (10, 5) µm
+# Place the reference: rotate 45 °, mirror, then translate to (10, 5) µm
+# mag is always 1.0 — never use a different scaling factor
 mmi_ref.dcplx_trans = kdb.DCplxTrans(
-    2.0,                        # mag: scale ×2
+    1.0,                        # mag: always 1.0
     45.0,                       # angle: 45 ° CCW
     True,                       # mirror about x-axis
     kdb.DVector(10.0, 5.0),     # translate to (10, 5) µm
@@ -248,13 +257,12 @@ a single transformation that applies the right-hand operand first, then the
 left-hand operand — just like matrix multiplication.
 
 ```python
-# Build up a transformation incrementally
-scale       = kdb.DCplxTrans(2.0)                          # scale ×2
+# Build up a transformation incrementally (mag always 1.0)
 rotate      = kdb.DCplxTrans(1.0, 90.0, False)             # rotate 90 °
 translation = kdb.DCplxTrans(1.0, 0.0, False, kdb.DVector(20.0, 0.0))
 
-# Combined: first scale, then rotate, then translate
-combined = translation * rotate * scale   # right-to-left application order
+# Combined: first rotate, then translate
+combined = translation * rotate   # right-to-left application order
 
 ref = circuit.add_ref(gf.components.straight())
 ref.dcplx_trans = combined
@@ -275,7 +283,11 @@ transformed = combined * point   # returns a DPoint
 | Translate only | `kdb.DCplxTrans(1.0, 0.0, False, kdb.DVector(dx, dy))` |
 | Rotate 90 ° CCW | `kdb.DCplxTrans(1.0, 90.0, False)` |
 | Mirror about x-axis | `kdb.DCplxTrans(1.0, 0.0, True)` |
-| Scale ×0.5 | `kdb.DCplxTrans(0.5)` |
 | Rotate then translate | `translation * rotate` (right-to-left) |
 | Read current transform | `ref.dcplx_trans` |
 | Modify in place | `ref.dcplx_trans = new_trans * ref.dcplx_trans` |
+
+> ℹ️ Note: `ComponentReference.dcplx_trans` snaps the transformation to the
+> manufacturing grid internally (converting through `ICplxTrans`), so
+> off-grid placements will be silently adjusted.  Always place references
+> on-grid to avoid unexpected shifts.
