@@ -190,9 +190,10 @@ scripts under `gdsfactory/samples/` for worked examples.
 
 ## 9 — KLayout API: advanced transformations with `DCplxTrans`
 
-gdsfactory is built on top of KLayout's Python database (db) module.  When you
+gdsfactory's geometry backend is [kfactory](https://github.com/gdsfactory/kfactory/),
+which is itself built on top of KLayout's Python database (db) module.  When you
 need fine-grained control over how component references are placed, you can
-use the KLayout API directly.
+use the KLayout API directly through kfactory.
 
 ### 9.1 KLayout DB module reference
 
