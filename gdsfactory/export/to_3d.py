@@ -79,7 +79,7 @@ def to_3d(
             continue
 
         zmin = level.zmin
-        if layer_views is None:
+        if layer_views is None or not isinstance(layer_views, LayerViews):
             continue
         layer_view = layer_views.get_from_tuple(layer_tuple)
         assert layer_view.fill_color is not None

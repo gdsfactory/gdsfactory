@@ -53,7 +53,7 @@ def rounded_rectangle(
         (hw - rx, -hh + ry, 3 * np.pi / 2, 2 * np.pi),  # bottom-right
     ]
 
-    points = []
+    points: list[tuple[float, float]] = []
     for cx, cy, a_start, a_end in corners:
         t = np.linspace(a_start, a_end, n_corner_points, endpoint=True)
         points.extend((cx + rx * np.cos(ti), cy + ry * np.sin(ti)) for ti in t)

@@ -56,9 +56,6 @@ def spiral_rectangular(
         cx.append(x)
         cy.append(y)
 
-    cx = np.array(cx)
-    cy = np.array(cy)
-
     # Build outer and inner offset paths.
     hw = width / 2.0
     outer_points = []

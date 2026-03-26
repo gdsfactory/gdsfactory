@@ -19,7 +19,7 @@ def _sierpinski_triangle(depth: int, size: float) -> list[list[tuple[float, floa
     if depth == 0:
         return [base_tri]
 
-    polygons = []
+    polygons: list[list[tuple[float, float]]] = []
     scale = 0.5
     offsets = [
         (0, h / 3),
@@ -38,7 +38,7 @@ def _sierpinski_carpet(depth: int, size: float) -> list[list[tuple[float, float]
     if depth == 0:
         return [[(-hs, -hs), (hs, -hs), (hs, hs), (-hs, hs)]]
 
-    polygons = []
+    polygons: list[list[tuple[float, float]]] = []
     sub_size = size / 3
     for i in range(3):
         for j in range(3):
@@ -57,7 +57,7 @@ def _vicsek_cross(depth: int, size: float) -> list[list[tuple[float, float]]]:
     if depth == 0:
         return [[(-hs, -hs), (hs, -hs), (hs, hs), (-hs, hs)]]
 
-    polygons = []
+    polygons: list[list[tuple[float, float]]] = []
     sub_size = size / 3
     offsets = [
         (0, 0),
@@ -78,7 +78,7 @@ def _vicsek_saltire(depth: int, size: float) -> list[list[tuple[float, float]]]:
     if depth == 0:
         return [[(-hs, -hs), (hs, -hs), (hs, hs), (-hs, hs)]]
 
-    polygons = []
+    polygons: list[list[tuple[float, float]]] = []
     sub_size = size / 3
     offsets = [
         (0, 0),

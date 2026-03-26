@@ -76,14 +76,14 @@ def get_generic_pdk() -> Pdk:
     return Pdk(
         name="generic",
         version=__version__,
-        cells={c: cells[c] for c in cells if c not in containers_dict},  # type: ignore
-        containers=containers_dict,  # type: ignore[arg-type]
+        cells={c: cells[c] for c in cells if c not in containers_dict},
+        containers=containers_dict,
         cross_sections=cross_sections,
         layers=LAYER,
         layer_stack=LAYER_STACK,
         layer_views=PATH.klayout_yaml,
-        layer_transitions=layer_transitions,  # type: ignore[arg-type]
-        materials_index=materials_index,  # type: ignore[arg-type]
+        layer_transitions=layer_transitions,
+        materials_index=materials_index,
         constants=GenericConstants(),
         connectivity=LAYER_CONNECTIVITY,
         routing_strategies=routing_strategies,

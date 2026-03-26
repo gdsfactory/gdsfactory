@@ -2,6 +2,8 @@ from __future__ import annotations
 
 __all__ = ["coupler_pulley"]
 
+from typing import Any
+
 import numpy as np
 
 import gdsfactory as gf
@@ -15,15 +17,16 @@ def _cubic_bezier(
     p2: tuple[float, float],
     p3: tuple[float, float],
     n_points: int = 64,
-) -> np.ndarray:
+) -> np.ndarray[Any, np.dtype[Any]]:
     """Compute cubic Bezier curve points."""
     t = np.linspace(0, 1, n_points)[:, None]
-    return (
+    result: np.ndarray[Any, np.dtype[Any]] = (
         (1 - t) ** 3 * np.array(p0)
         + 3 * (1 - t) ** 2 * t * np.array(p1)
         + 3 * (1 - t) * t**2 * np.array(p2)
         + t**3 * np.array(p3)
     )
+    return result
 
 
 @gf.cell_with_module_name
