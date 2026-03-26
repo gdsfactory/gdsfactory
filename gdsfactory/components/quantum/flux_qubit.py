@@ -348,5 +348,5 @@ def flux_qubit_asymmetric(
     c.info["alpha_beta_ratio"] = (alpha_junction_width * alpha_junction_height) / (
         junction_width * junction_height
     )
-
+    c.flatten()
     return c

@@ -137,10 +137,12 @@ def coupler_pulley(
 
     c.add_port("o1", port=wg_ref.ports["o2"])
     c.add_port("o2", port=wg_ref.ports["o1"])
+    c.flatten()
     c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
     c = coupler_pulley()
+    c.pprint_ports()
     c.show()
