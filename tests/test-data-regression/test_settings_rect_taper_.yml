@@ -1,0 +1,9 @@
+info: {}
+name: rect_taper_gdsfactorypcomponentspshapesprect_taper_RW1__d72d1854
+settings:
+  layer: WG
+  port_type: optical
+  rect_length: 10
+  rect_width: 1
+  taper_length: 5
+  taper_width: 4

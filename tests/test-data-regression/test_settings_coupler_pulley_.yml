@@ -1,0 +1,11 @@
+info: {}
+name: coupler_pulley_gdsfactorypcomponentspcouplerspcoupler_p_c4eb3372
+settings:
+  coupling_angle: 60
+  cross_section: strip
+  gap: 0.2
+  layer: WG
+  n_segments: 128
+  radius: 10
+  wg_height: 10
+  wg_length: 40
