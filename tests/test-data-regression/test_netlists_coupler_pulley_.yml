@@ -1,0 +1,16 @@
+instances:
+  Unnamed_739_0_0:
+    component: Unnamed_739
+    info:
+      length: 102.69
+    settings: {}
+nets: []
+placements:
+  Unnamed_739_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports:
+  o1: Unnamed_739_0_0,o1
+  o2: Unnamed_739_0_0,o2

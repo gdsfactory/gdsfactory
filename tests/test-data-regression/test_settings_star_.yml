@@ -1,0 +1,7 @@
+info: {}
+name: star_gdsfactorypcomponentspshapespstar_IR5_OR10_NP5_LWG
+settings:
+  inner_radius: 5
+  layer: WG
+  n_points: 5
+  outer_radius: 10

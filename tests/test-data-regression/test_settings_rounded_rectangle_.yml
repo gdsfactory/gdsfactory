@@ -1,0 +1,8 @@
+info: {}
+name: rounded_rectangle_gdsfactorypcomponentspshapesprounded__7f46eb42
+settings:
+  corner_radius_x: 3
+  height: 10
+  layer: WG
+  n_corner_points: 20
+  width: 20

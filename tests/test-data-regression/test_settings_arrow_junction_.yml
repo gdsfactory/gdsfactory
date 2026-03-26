@@ -1,0 +1,12 @@
+info: {}
+name: arrow_junction_gdsfactorypcomponentspmicrofluidicsparro_d026df34
+settings:
+  branch_angle: 35
+  branch_length: 10
+  branch_width: 1
+  layer: WG
+  main_length: 20
+  main_width: 1
+  n_reservoir_points: 64
+  port_type: optical
+  reservoir_radius: 0

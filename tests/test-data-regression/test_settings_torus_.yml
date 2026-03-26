@@ -1,0 +1,9 @@
+info: {}
+name: torus_gdsfactorypcomponentspshapesptorus_IR5_OR10_SA0_E_a45d5d86
+settings:
+  angle_resolution: 2.5
+  end_angle: 360
+  inner_radius: 5
+  layer: WG
+  outer_radius: 10
+  start_angle: 0

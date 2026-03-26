@@ -1,0 +1,9 @@
+info: {}
+name: rect_su_shape_gdsfactorypcomponentspshapesprect_su_shap_2fd3f589
+settings:
+  L1: 10
+  L2: 10
+  L3: 20
+  layer: WG
+  port_type: electrical
+  width: 1

@@ -1,0 +1,10 @@
+info: {}
+name: dash_gdsfactorypcomponentspshapespdash_W10_WE1_L20_TL5__f5197166
+settings:
+  layer: WG
+  length: 20
+  n_bezier_points: 30
+  taper_length: 5
+  tip_length: 2
+  width: 10
+  width_end: 1

@@ -1,0 +1,10 @@
+info: {}
+name: bent_beam_gdsfactorypcomponentspmemspbent_beam_BW1_BL40_44b4b5c5
+settings:
+  anchor_length: 5
+  anchor_width: 5
+  beam_length: 40
+  beam_width: 1
+  bend_angle: 170
+  layer: WG
+  port_type: electrical
