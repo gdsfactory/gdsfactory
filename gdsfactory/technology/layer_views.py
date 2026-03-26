@@ -784,6 +784,9 @@ class LayerView(BaseModel):
         return lv
 
 
+LayerView.model_rebuild()
+
+
 class LayerViews(BaseModel):
     """A container for layer properties for KLayout layer property (.lyp) files.
 
