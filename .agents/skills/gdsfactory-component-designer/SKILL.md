@@ -185,3 +185,96 @@ Browse tutorial notebooks under `docs/notebooks/` or over 100 sample Python
 scripts under `gdsfactory/samples/` for worked examples.
 
 **Don't guess – search the repo for examples first.**
+
+---
+
+## 9 — KLayout API: advanced transformations with `DCplxTrans`
+
+gdsfactory is built on top of KLayout's Python database (db) module.  When you
+need fine-grained control over how component references are placed, you can
+use the KLayout API directly.
+
+### 9.1 KLayout DB module reference
+
+Full API docs: **<https://www.klayout.de/doc-qt5/code/module_db.html>**
+
+### 9.2 `DCplxTrans` — scaling, rotation, mirroring and translation in one object
+
+[`klayout.db.DCplxTrans`](https://www.klayout.de/doc-qt5/code/class_DCplxTrans.html)
+represents a *complex transformation* (scale + rotate + mirror + translate)
+operating on floating-point (micrometer) coordinates.  It is the most
+expressive single transformation type in KLayout and covers every placement
+operation you are likely to need.
+
+Constructor signature:
+```python
+DCplxTrans(mag=1.0, angle=0.0, mirror=False, u=DVector(0, 0))
+# mag    – uniform scaling factor (float, default 1.0)
+# angle  – counter-clockwise rotation in degrees (float)
+# mirror – mirror about the x-axis (applied first, before rotation and scaling)
+# u      – translation as a DVector(dx, dy) in micrometers
+# Application order: mirror → rotate → scale → translate
+```
+
+### 9.3 Using `DCplxTrans` with gdsfactory via `ComponentReference.dcplx_trans`
+
+Every `ComponentReference` in gdsfactory exposes a `.dcplx_trans` property
+that reads and writes the underlying `DCplxTrans` transformation.  Setting it
+is the most direct way to position a reference:
+
+```python
+import gdsfactory as gf
+import klayout.db as kdb
+
+gf.gpdk.PDK.activate()
+
+circuit = gf.Component("circuit")
+mmi_ref = circuit.add_ref(gf.components.mmi1x2())
+
+# Place the reference: scale ×2, rotate 45 °, mirror, then translate to (10, 5) µm
+mmi_ref.dcplx_trans = kdb.DCplxTrans(
+    2.0,                        # mag: scale ×2
+    45.0,                       # angle: 45 ° CCW
+    True,                       # mirror about x-axis
+    kdb.DVector(10.0, 5.0),     # translate to (10, 5) µm
+)
+```
+
+### 9.4 Combining transformations with the `*` operator
+
+`DCplxTrans` objects can be **composed** with the `*` operator.  The result is
+a single transformation that applies the right-hand operand first, then the
+left-hand operand — just like matrix multiplication.
+
+```python
+# Build up a transformation incrementally
+scale       = kdb.DCplxTrans(2.0)                          # scale ×2
+rotate      = kdb.DCplxTrans(1.0, 90.0, False)             # rotate 90 °
+translation = kdb.DCplxTrans(1.0, 0.0, False, kdb.DVector(20.0, 0.0))
+
+# Combined: first scale, then rotate, then translate
+combined = translation * rotate * scale   # right-to-left application order
+
+ref = circuit.add_ref(gf.components.straight())
+ref.dcplx_trans = combined
+```
+
+You can also multiply a `DCplxTrans` by a `DPoint` or `DVector` to transform a
+single coordinate:
+
+```python
+point = kdb.DPoint(1.0, 0.0)
+transformed = combined * point   # returns a DPoint
+```
+
+### 9.5 Quick-reference: common `DCplxTrans` patterns
+
+| Goal | Example |
+|---|---|
+| Translate only | `kdb.DCplxTrans(1.0, 0.0, False, kdb.DVector(dx, dy))` |
+| Rotate 90 ° CCW | `kdb.DCplxTrans(1.0, 90.0, False)` |
+| Mirror about x-axis | `kdb.DCplxTrans(1.0, 0.0, True)` |
+| Scale ×0.5 | `kdb.DCplxTrans(0.5)` |
+| Rotate then translate | `translation * rotate` (right-to-left) |
+| Read current transform | `ref.dcplx_trans` |
+| Modify in place | `ref.dcplx_trans = new_trans * ref.dcplx_trans` |
