@@ -188,106 +188,67 @@ scripts under `gdsfactory/samples/` for worked examples.
 
 ---
 
-## 9 — KLayout API: advanced transformations with `DCplxTrans`
+## 9 — KLayout API: transformations with `DCplxTrans`
 
-gdsfactory's geometry backend is [kfactory](https://github.com/gdsfactory/kfactory/),
-which is itself built on top of KLayout's Python database (db) module.  When you
-need fine-grained control over how component references are placed, you can
-use the KLayout API directly through kfactory.
+gdsfactory's geometry backend is [kfactory](https://github.com/gdsfactory/kfactory/), built on KLayout's Python `db` module.  Full API docs: <https://www.klayout.de/doc-qt5/code/module_db.html>
 
-### 9.1 KLayout DB module reference
+### 9.1 `DCplxTrans` constructor
 
-Full API docs: **<https://www.klayout.de/doc-qt5/code/module_db.html>**
+[`klayout.db.DCplxTrans`](https://www.klayout.de/doc-qt5/code/class_DCplxTrans.html) represents a rotation + mirror + translation on µm-unit coordinates. Positional and keyword arguments are both supported:
 
-### 9.2 `DCplxTrans` — rotation, mirroring and translation in one object
-
-[`klayout.db.DCplxTrans`](https://www.klayout.de/doc-qt5/code/class_DCplxTrans.html)
-represents a *complex transformation* (scale + rotate + mirror + translate)
-operating on floating-point (micrometer) coordinates.  It is the most
-expressive single transformation type in KLayout and covers every placement
-operation you are likely to need.
-
-Constructor signature (kwargs supported since recent KLayout versions):
 ```python
-DCplxTrans(mag=1.0, angle=0.0, mirror=False, u=DVector(0, 0))
-# mag    – uniform scaling factor (float). ALWAYS use 1.0 — see warning below.
-# angle  – counter-clockwise rotation in degrees (float)
-# mirror – mirror about the x-axis (applied first, before rotation)
-# u      – translation as a DVector(dx, dy) in micrometers
-# Application order: mirror → rotate → translate
+import klayout.db as kdb
+
+# positional: DCplxTrans(mag, angle, mirror, u)
+t = kdb.DCplxTrans(1.0, 45.0, True, kdb.DVector(10.0, 5.0))
+
+# keyword (preferred for clarity):
+t = kdb.DCplxTrans(mag=1.0, angle=45.0, mirror=True, u=kdb.DVector(10.0, 5.0))
 ```
 
-> ⚠️ **Never set `mag` to anything other than `1.0`.**  No semiconductor
-> foundry accepts layouts with a scaling factor applied to instances.
-> Setting `mag != 1.0` causes DRC failures, incorrect critical dimensions,
-> and subtle off-grid snapping issues (`dcplx_trans` is snapped to the
-> manufacturing grid, so a non-unity mag will silently distort your
-> geometry).  If you need to size a component differently, create a
-> correctly-sized variant using the component's factory parameters instead.
+Parameters (application order: mirror → rotate → translate):
 
-### 9.3 Using `DCplxTrans` with gdsfactory via `ComponentReference.dcplx_trans`
+| Parameter | Type | Description |
+|---|---|---|
+| `mag` | float | Scaling factor — **always `1.0`**; see warning below |
+| `angle` | float | CCW rotation in degrees |
+| `mirror` | bool | Mirror about x-axis before rotation |
+| `u` | `DVector` | Translation in µm |
 
-Every `ComponentReference` in gdsfactory exposes a `.dcplx_trans` property
-that reads and writes the underlying `DCplxTrans` transformation.  Setting it
-is the most direct way to position a reference:
+> ⚠️ **Never set `mag != 1.0`.** No foundry accepts scaled instances. Use component factory parameters to create differently-sized variants.
+
+> ℹ️ `ComponentReference.dcplx_trans` snaps to the manufacturing grid via `ICplxTrans`, so off-grid placements are silently adjusted.
+
+### 9.2 Setting `ComponentReference.dcplx_trans`
 
 ```python
 import gdsfactory as gf
 import klayout.db as kdb
 
-gf.gpdk.PDK.activate()
-
 circuit = gf.Component("circuit")
-mmi_ref = circuit.add_ref(gf.components.mmi1x2())
+ref = circuit.add_ref(gf.components.mmi1x2())
 
-# Place the reference: rotate 45 °, mirror, then translate to (10, 5) µm
-# mag is always 1.0 — never use a different scaling factor
-mmi_ref.dcplx_trans = kdb.DCplxTrans(
-    1.0,                        # mag: always 1.0
-    45.0,                       # angle: 45 ° CCW
-    True,                       # mirror about x-axis
-    kdb.DVector(10.0, 5.0),     # translate to (10, 5) µm
-)
+# rotate 45°, mirror, translate to (10, 5) µm
+ref.dcplx_trans = kdb.DCplxTrans(mag=1.0, angle=45.0, mirror=True, u=kdb.DVector(10.0, 5.0))
 ```
 
-### 9.4 Combining transformations with the `*` operator
+### 9.3 Composing transformations
 
-`DCplxTrans` objects can be **composed** with the `*` operator.  The result is
-a single transformation that applies the right-hand operand first, then the
-left-hand operand — just like matrix multiplication.
+`DCplxTrans` objects compose with `*` (right-hand operand applied first):
 
 ```python
-# Build up a transformation incrementally (mag always 1.0)
-rotate      = kdb.DCplxTrans(1.0, 90.0, False)             # rotate 90 °
-translation = kdb.DCplxTrans(1.0, 0.0, False, kdb.DVector(20.0, 0.0))
+rotate      = kdb.DCplxTrans(angle=90.0)
+translation = kdb.DCplxTrans(u=kdb.DVector(20.0, 0.0))
 
-# Combined: first rotate, then translate
-combined = translation * rotate   # right-to-left application order
-
-ref = circuit.add_ref(gf.components.straight())
-ref.dcplx_trans = combined
+ref.dcplx_trans = translation * rotate   # rotate first, then translate
 ```
 
-You can also multiply a `DCplxTrans` by a `DPoint` or `DVector` to transform a
-single coordinate:
-
-```python
-point = kdb.DPoint(1.0, 0.0)
-transformed = combined * point   # returns a DPoint
-```
-
-### 9.5 Quick-reference: common `DCplxTrans` patterns
+### 9.4 Quick-reference
 
 | Goal | Example |
 |---|---|
-| Translate only | `kdb.DCplxTrans(1.0, 0.0, False, kdb.DVector(dx, dy))` |
-| Rotate 90 ° CCW | `kdb.DCplxTrans(1.0, 90.0, False)` |
-| Mirror about x-axis | `kdb.DCplxTrans(1.0, 0.0, True)` |
-| Rotate then translate | `translation * rotate` (right-to-left) |
-| Read current transform | `ref.dcplx_trans` |
-| Modify in place | `ref.dcplx_trans = new_trans * ref.dcplx_trans` |
-
-> ℹ️ Note: `ComponentReference.dcplx_trans` snaps the transformation to the
-> manufacturing grid internally (converting through `ICplxTrans`), so
-> off-grid placements will be silently adjusted.  Always place references
-> on-grid to avoid unexpected shifts.
+| Translate | `kdb.DCplxTrans(u=kdb.DVector(dx, dy))` |
+| Rotate 90° CCW | `kdb.DCplxTrans(angle=90.0)` |
+| Mirror about x-axis | `kdb.DCplxTrans(mirror=True)` |
+| Rotate then translate | `translation * rotate` |
+| Read / modify in place | `ref.dcplx_trans` / `ref.dcplx_trans = t * ref.dcplx_trans` |
