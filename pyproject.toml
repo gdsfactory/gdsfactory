@@ -112,6 +112,9 @@ tests-root = "tests"
 [tool.codespell]
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
+[tool.gdsfactoryplus.pdk]
+name = "gpdk"
+
 [tool.mypy]
 disable_error_code = ["import-untyped", "has-type", "no-untyped-call"]
 exclude = [

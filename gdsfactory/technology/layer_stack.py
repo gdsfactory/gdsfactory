@@ -514,16 +514,10 @@ class LayerStack(BaseModel):
             dbu: Optional database unit. Defaults to 1nm.
         """
         from gdsfactory.pdk import get_layer_views
-        from gdsfactory.technology.layer_views import LayerViews as LV
 
         layers = self.layers or {}
         if layer_views is None:
-            lv = get_layer_views()
-            if isinstance(lv, LV):
-                layer_views = lv
-            else:
-                # If it's a path, load it as LayerViews
-                layer_views = LV(filepath=lv)
+            layer_views = get_layer_views()
 
         # Collect etch layers and unetched layers
         etch_layers = [

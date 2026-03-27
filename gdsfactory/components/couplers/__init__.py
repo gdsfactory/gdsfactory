@@ -6,6 +6,7 @@ from .coupler_asymmetric import *
 from .coupler_bent import *
 from .coupler_broadband import *
 from .coupler_full import *
+from .coupler_pulley import *
 from .coupler_ring import *
 from .coupler_straight_asymmetric import *
 
@@ -19,6 +20,7 @@ __all__ = [
     "coupler_bent",
     "coupler_broadband",
     "coupler_full",
+    "coupler_pulley",
     "coupler_ring",
     "coupler_straight",
     "coupler_straight_asymmetric",

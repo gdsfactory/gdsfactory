@@ -6,7 +6,6 @@ from functools import cache, partial
 from gdsfactory.config import PATH
 from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.gpdk.layer_stack import LAYER_STACK
-from gdsfactory.technology import LayerViews
 from gdsfactory.typings import RoutingStrategy
 
 if typing.TYPE_CHECKING:
@@ -55,8 +54,6 @@ def get_generic_pdk() -> Pdk:
     from gdsfactory.gpdk.simulation_settings import materials_index
     from gdsfactory.pdk import GenericConstants, Pdk
 
-    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
-
     cells = get_cells([gf.components])
     containers_dict = get_cells([gf.containers])
 
@@ -79,14 +76,14 @@ def get_generic_pdk() -> Pdk:
     return Pdk(
         name="generic",
         version=__version__,
-        cells={c: cells[c] for c in cells if c not in containers_dict},  # type: ignore
-        containers=containers_dict,  # type: ignore[arg-type]
+        cells={c: cells[c] for c in cells if c not in containers_dict},
+        containers=containers_dict,
         cross_sections=cross_sections,
         layers=LAYER,
         layer_stack=LAYER_STACK,
-        layer_views=LAYER_VIEWS,
-        layer_transitions=layer_transitions,  # type: ignore[arg-type]
-        materials_index=materials_index,  # type: ignore[arg-type]
+        layer_views=PATH.klayout_yaml,
+        layer_transitions=layer_transitions,
+        materials_index=materials_index,
         constants=GenericConstants(),
         connectivity=LAYER_CONNECTIVITY,
         routing_strategies=routing_strategies,

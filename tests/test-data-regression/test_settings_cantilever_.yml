@@ -1,0 +1,9 @@
+info: {}
+name: cantilever_gdsfactorypcomponentspmemspcantilever_BW2_BL_1a3e9bbf
+settings:
+  anchor_length: 5
+  anchor_width: 5
+  beam_length: 20
+  beam_width: 2
+  layer: WG
+  port_type: electrical

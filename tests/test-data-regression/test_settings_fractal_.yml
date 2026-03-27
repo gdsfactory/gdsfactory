@@ -1,0 +1,7 @@
+info: {}
+name: fractal_gdsfactorypcomponentspshapespfractal_FTsierpins_7a4a976f
+settings:
+  depth: 4
+  fractal_type: sierpinski_triangle
+  layer: WG
+  size: 100

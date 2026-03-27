@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import pathlib
 from typing import cast
 
 import shapely
@@ -47,9 +46,6 @@ def to_3d(
     layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
 
-    if isinstance(layer_views, str | pathlib.Path):
-        layer_views = LayerViews(layer_views)
-
     scene = Scene()
     exclude_layers = exclude_layers or ()
     exclude_layers = [get_layer(layer) for layer in exclude_layers]
@@ -83,7 +79,7 @@ def to_3d(
             continue
 
         zmin = level.zmin
-        if layer_views is None:
+        if layer_views is None or not isinstance(layer_views, LayerViews):
             continue
         layer_view = layer_views.get_from_tuple(layer_tuple)
         assert layer_view.fill_color is not None

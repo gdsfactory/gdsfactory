@@ -1,0 +1,9 @@
+info: {}
+name: array_hexagonal_gdsfactorypcomponentspcontainersparray__3fb4a643
+settings:
+  add_ports: true
+  centered: true
+  columns: 10
+  component: circle
+  pitch: 25
+  rows: 10

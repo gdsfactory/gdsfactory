@@ -1,0 +1,9 @@
+info: {}
+name: anchored_flexure_gdsfactorypcomponentspmemspanchored_fl_9d3850d2
+settings:
+  hinge_length: 5
+  hinge_width: 0.3
+  layer: WG
+  pad_length: 10
+  pad_width: 10
+  port_type: electrical

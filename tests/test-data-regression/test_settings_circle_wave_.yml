@@ -1,0 +1,8 @@
+info: {}
+name: circle_wave_gdsfactorypcomponentspshapespcircle_wave_R1_3128bd8a
+settings:
+  amplitude: 1
+  angle_resolution: 1
+  layer: WG
+  n_oscillations: 8
+  radius: 10
