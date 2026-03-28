@@ -4,7 +4,7 @@ We welcome your skills and enthusiasm at the gdsfactory project! There are numer
 All contributions, including bug reports, bug fixes, documentation improvements, enhancement suggestions, and other ideas are welcome.
 
 If you have any questions on the process or how to fix something feel free to ask us!
-The recommended place to ask a question is on [GitHub Discussions](https://github.com/gdsfactory/xarray/discussions), but we also have a [gitter matrix channel](https://matrix.to/#/#gdsfactory-dev_community:gitter.im) that you can use with any matrix client (such as [element](https://element.io/download)) and a [mailing list](https://groups.google.com/g/gdsfactory)
+The recommended place to ask a question is on [GitHub Discussions](https://github.com/gdsfactory/gdsfactory/discussions), but we also have a [gitter matrix channel](https://matrix.to/#/#gdsfactory-dev_community:gitter.im) that you can use with any matrix client (such as [element](https://element.io/download)) and a [mailing list](https://groups.google.com/g/gdsfactory)
 
 ## Where to start?
 
