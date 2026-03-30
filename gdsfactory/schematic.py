@@ -144,6 +144,7 @@ class Bundle(BaseModel):
     links: dict[str, str]
     settings: dict[str, Any] = Field(default_factory=dict)
     routing_strategy: str = "route_bundle"
+    constraint: dict[str, Any] | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid")
 
@@ -403,6 +404,15 @@ class Schematic(BaseModel):
             )
         else:
             self.netlist.routes[net.name].links[net.p1] = net.p2
+
+    @property
+    def constraints(self) -> dict[str, dict[str, Any]]:
+        """Return all constraint specs defined across route bundles."""
+        return {
+            name: bundle.constraint
+            for name, bundle in self.netlist.routes.items()
+            if bundle.constraint is not None
+        }
 
     def to_graphviz(self, show_ports: bool = True) -> Digraph:
         """Generates a netlist graph using Graphviz.

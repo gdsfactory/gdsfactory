@@ -1025,6 +1025,24 @@ def _add_routes(
         )
         routes_dict.update(dict(zip(route_names, routes_list, strict=False)))
         c.routes = routes_dict
+
+        if bundle.constraint is not None:
+            from gdsfactory.constraints import get_constraint
+
+            constraint_spec = bundle.constraint.copy()
+            constraint_name = constraint_spec.pop("name")
+            constraint_obj = get_constraint(constraint_name, **constraint_spec)
+
+            instance_names: set[str] = set()
+            for ip1, ip2 in bundle.links.items():
+                instance_names.add(ip1.split(",")[0])
+                instance_names.add(ip2.split(",")[0])
+
+            constraint_obj.populate(
+                routes=list(routes_list),
+                instance_names=sorted(instance_names),
+            )
+            c.constraints[bundle_name] = constraint_obj
     return c
 
 

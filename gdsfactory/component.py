@@ -615,6 +615,7 @@ class Component(ComponentBase, kf.DKCell):
     """
 
     routes: dict[str, Route] = Field(default_factory=dict)
+    constraints: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
     @property
     def layers(self) -> list[Layer]:

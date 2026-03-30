@@ -54,6 +54,7 @@ from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
 from gdsfactory import routing
+from gdsfactory import constraints
 from gdsfactory import export
 from gdsfactory import functions
 from gdsfactory import gpdk
@@ -131,6 +132,7 @@ __all__ = (
     "components",
     "compose",
     "constant",
+    "constraints",
     "container",
     "containers",
     "cross_section",
