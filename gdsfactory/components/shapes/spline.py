@@ -12,6 +12,7 @@ def spline(
     npoints: int = 100,
     degree: int = 3,
     bc_type: str | None = None,
+    monotonic: bool = False,
     layer: LayerSpec = "WG",
 ) -> Component:
     """Returns a Component with a spline-interpolated polygon.
@@ -21,6 +22,7 @@ def spline(
         npoints: number of points to generate for the polygon.
         degree: spline degree.
         bc_type: boundary conditions for the spline (e.g., 'clamped', 'natural').
+        monotonic: if True, uses PCHIP interpolation.
         layer: layer spec.
 
     .. code::
@@ -29,7 +31,10 @@ def spline(
         c = gf.components.spline(points=((0, 0), (10, 5), (20, 0), (10, -5), (0, 0)))
         c.show()
     """
-    pts = spline_points(points, degree=degree, npoints=npoints, bc_type=bc_type)
+    method = "pchip" if monotonic else "bspline"
+    pts = spline_points(
+        points, degree=degree, npoints=npoints, bc_type=bc_type, method=method
+    )
 
     c = gf.Component()
     c.add_polygon(pts, layer=layer)
