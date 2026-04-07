@@ -6,6 +6,7 @@ from .taper_from_csv import *
 from .taper_hecken import *
 from .taper_meander import *
 from .taper_parabolic import *
+from .taper_spline import *
 
 __all__ = [
     "ramp",
@@ -23,6 +24,7 @@ __all__ = [
     "taper_nc_sc",
     "taper_parabolic",
     "taper_sc_nc",
+    "taper_spline",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
     "taper_strip_to_slab150",

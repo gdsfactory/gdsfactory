@@ -16,6 +16,7 @@ from .rect_taper import *
 from .rectangle import *
 from .regular_polygon import *
 from .rounded_rectangle import *
+from .spline import *
 from .star import *
 from .torus import *
 from .torus_wave import *
@@ -47,6 +48,7 @@ __all__ = [
     "rectangles",
     "regular_polygon",
     "rounded_rectangle",
+    "spline",
     "star",
     "torus",
     "torus_wave",
