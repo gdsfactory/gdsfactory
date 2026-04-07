@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
-from typing import TYPE_CHECKING, Any, TypeGuard
+from typing import TYPE_CHECKING, Any, Literal, TypeGuard
 
 import kfactory as kf
 import klayout.db as kdb
@@ -31,26 +31,33 @@ def spline_points(
     degree: int = 3,
     npoints: int = 100,
     bc_type: str | None = None,
+    method: Literal["bspline", "pchip"] = "bspline",
 ) -> np.ndarray:
-    """Returns smooth points from control points using a B-spline.
+    """Returns smooth points from control points using a B-spline or PCHIP.
 
     Args:
         points: control points.
-        degree: spline degree.
+        degree: spline degree (only for bspline).
         npoints: number of points to generate.
-        bc_type: boundary conditions (e.g., 'clamped', 'natural').
+        bc_type: boundary conditions (e.g., 'clamped', 'natural', only for bspline).
+        method: interpolation method. 'bspline' or 'pchip' (monotonic).
 
     Example:
         >>> points = [(0, 0), (10, 5), (20, 0)]
         >>> pts = spline_points(points, npoints=50)
     """
-    from scipy.interpolate import make_interp_spline
+    from scipy.interpolate import PchipInterpolator, make_interp_spline
 
     points = np.asarray(points)
     t = np.linspace(0, 1, len(points))
-    k = min(degree, len(points) - 1)
-    spl = make_interp_spline(t, points, k=k, bc_type=bc_type)
     t_new = np.linspace(0, 1, npoints)
+
+    if method == "pchip":
+        spl = PchipInterpolator(t, points)
+    else:
+        k = min(degree, len(points) - 1)
+        spl = make_interp_spline(t, points, k=k, bc_type=bc_type)
+
     return spl(t_new)
 
 
@@ -59,6 +66,7 @@ def spline_polygon(
     degree: int = 3,
     npoints: int = 100,
     bc_type: str | None = None,
+    method: Literal["bspline", "pchip"] = "bspline",
 ) -> kdb.DPolygon:
     """Returns a klayout.db.DPolygon from spline-interpolated points.
 
@@ -67,8 +75,11 @@ def spline_polygon(
         degree: spline degree.
         npoints: number of points to generate.
         bc_type: boundary conditions.
+        method: interpolation method. 'bspline' or 'pchip' (monotonic).
     """
-    pts = spline_points(points, degree=degree, npoints=npoints, bc_type=bc_type)
+    pts = spline_points(
+        points, degree=degree, npoints=npoints, bc_type=bc_type, method=method
+    )
     return kdb.DPolygon([kdb.DPoint(p[0], p[1]) for p in pts])
 
 
