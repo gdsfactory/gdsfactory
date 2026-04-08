@@ -115,6 +115,9 @@ def import_gds_multiple_top_cells(
     Args:
         gdspath: path to GDS file.
         cellnames: list of names of the cells to return. Defaults to all top cells.
+        post_process: list of post-processing functions to apply to each cell.
+        rename_duplicated_cells: if True, renames duplicated cells instead of raising an error.
+        skip_new_cells: if True, skips new cells instead of raising an error.
 
     Returns:
         dict of cellname to Component.

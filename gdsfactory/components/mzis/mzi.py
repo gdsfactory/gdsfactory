@@ -49,7 +49,7 @@ def mzi(
     auto_rename_ports: bool = True,
     auto_detect_port_names: bool = False,
 ) -> Component:
-    """Mzi.
+    r"""Mzi.
 
     Args:
         delta_length: bottom arm vertical extra length.

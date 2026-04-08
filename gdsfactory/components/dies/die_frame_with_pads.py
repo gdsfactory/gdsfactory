@@ -199,6 +199,7 @@ def die_frame_phix(
         pad_rotation_dc_north: rotation for DC pads.
         pad_rotation_dc_south: rotation for DC pads.
         pad_rotation_rf: rotation for RF pads.
+        with_loopback: if True, adds loopback structures.
     """
     if npads > 60:
         raise ValueError("npads should be <= 60. Reach out to PHIX for support.")

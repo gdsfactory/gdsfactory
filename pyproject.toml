@@ -200,7 +200,13 @@ ignore = [
   "SIM117",  # multiple with statements
   "T201",  # print found (used intentionally for user feedback)
   "TRY003",  # long message in exception class
-  "TRY004"  # prefer TypeError for type checks
+  "TRY004",  # prefer TypeError for type checks
+  "D100",  # Missing docstring in public module
+  "D101",  # Missing docstring in public class
+  "D102",  # Missing docstring in public method
+  "D103",  # Missing docstring in public function
+  "D104",  # Missing docstring in public package
+  "D107"  # Missing docstring in __init__
 ]
 select = [
   "A",  # flake8-builtins
@@ -208,6 +214,7 @@ select = [
   "ARG",  # flake8-unused-arguments
   "B",  # flake8-bugbear
   "C",  # flake8-comprehensions
+  "D",  # pydocstyle
   "E",  # pycodestyle errors
   "F",  # pyflakes
   "FA",  # flake8-future-annotations

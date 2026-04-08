@@ -2,6 +2,8 @@ name: Release package
 on:
   push:
     tags: "v*"
+permissions:
+  contents: read
 jobs:
   release_pypi:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
@@ -30,6 +32,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     needs: release_pypi
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
