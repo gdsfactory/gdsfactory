@@ -1,4 +1,4 @@
-"""Tests for Chebyshev-optimized Fresnel evaluation in gf.path.euler."""
+"""Tests for scipy-based Fresnel evaluation in gf.path.euler."""
 
 from __future__ import annotations
 
@@ -6,8 +6,10 @@ from typing import ClassVar
 
 import numpy as np
 import pytest
+from scipy.special import fresnel as scipy_fresnel
 
 import gdsfactory as gf
+from gdsfactory.path import _fresnel, _fresnel_angular
 
 CONFIGS = [
     dict(radius=10, angle=90, p=0.5),
@@ -20,8 +22,8 @@ CONFIGS = [
 ]
 
 
-class TestEulerChebyshevEquivalence:
-    """Verify new implementation matches old to sub-nm precision."""
+class TestEulerFresnelAccuracy:
+    """Verify euler path implementation against scipy reference."""
 
     CONFIGS: ClassVar[list[dict]] = CONFIGS
 
@@ -32,16 +34,40 @@ class TestEulerChebyshevEquivalence:
         assert len(p) > 2
         assert np.all(np.isfinite(p.points))
 
-    @pytest.mark.parametrize("cfg", CONFIGS)
-    def test_euler_path_accuracy_vs_scipy(self, cfg: dict) -> None:
-        """Cross-check a few points against scipy.special.fresnel."""
-        pytest.importorskip("scipy")
+    def test_fresnel_vs_scipy_reference(self) -> None:
+        """Cross-check _fresnel output against direct scipy.special.fresnel call."""
+        R0, s, num_pts = 1.0, 0.886, 500  # R0=1, s for 90deg p=0.5
+        result = _fresnel(R0, s, num_pts)
+        x, y = result[0], result[1]
 
-        p = gf.path.euler(**cfg)
-        pts = p.points
-        # Verify start at origin
-        assert abs(pts[0, 0]) < 1e-10
-        assert abs(pts[0, 1]) < 1e-10
+        # Recompute the same t array and evaluate scipy directly
+        t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
+        sqrt_half_pi = np.sqrt(np.pi / 2)
+        sqrt_2_over_pi = np.sqrt(2 / np.pi)
+        S, C = scipy_fresnel(t * sqrt_2_over_pi)
+        ref_x = np.sqrt(2) * R0 * C * sqrt_half_pi
+        ref_y = np.sqrt(2) * R0 * S * sqrt_half_pi
+
+        np.testing.assert_allclose(x, ref_x, atol=1e-14)
+        np.testing.assert_allclose(y, ref_y, atol=1e-14)
+
+    def test_fresnel_angular_vs_scipy_reference(self) -> None:
+        """Cross-check _fresnel_angular output against direct scipy call."""
+        R0, s, num_pts = 1.0, 0.886, 500
+        result = _fresnel_angular(R0, s, num_pts)
+        x, y = result[0], result[1]
+
+        t_max = s / float(np.sqrt(2) * R0)
+        thetas = np.linspace(0, t_max**2 / 2, num_pts)
+        t = np.sqrt(2 * thetas)
+        sqrt_half_pi = np.sqrt(np.pi / 2)
+        sqrt_2_over_pi = np.sqrt(2 / np.pi)
+        S, C = scipy_fresnel(t * sqrt_2_over_pi)
+        ref_x = np.sqrt(2) * R0 * C * sqrt_half_pi
+        ref_y = np.sqrt(2) * R0 * S * sqrt_half_pi
+
+        np.testing.assert_allclose(x, ref_x, atol=1e-14)
+        np.testing.assert_allclose(y, ref_y, atol=1e-14)
 
     def test_euler_negative_angle(self) -> None:
         """Negative angle should mirror the path."""
