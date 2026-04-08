@@ -3,8 +3,8 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.routing.add_pads import add_pads_bot
+from gdsfactory.routing.route_bundle import route_bundle
 
 
 def _make_pin(component: gf.Component, name: str, center: tuple[float, float], directions: list[str], width: float = 0.5, layer: int = 1) -> gf.Pin:
@@ -27,7 +27,7 @@ def _make_pin(component: gf.Component, name: str, center: tuple[float, float], d
     return component.create_pin(name=name, ports=ports, pin_type="DC")
 
 
-def test_route_bundle_with_pins_horizontal():
+def test_route_bundle_with_pins_horizontal() -> None:
     """Route between two 4-port Pins separated horizontally."""
     c = gf.Component(name="test_rb_pins_h")
     pin1 = _make_pin(c, "src", (0, 0), ["N", "E", "S", "W"])
@@ -40,7 +40,7 @@ def test_route_bundle_with_pins_horizontal():
     assert len(routes) == 1
 
 
-def test_route_bundle_with_pins_vertical():
+def test_route_bundle_with_pins_vertical() -> None:
     """Route between two 4-port Pins separated vertically."""
     c = gf.Component(name="test_rb_pins_v")
     pin1 = _make_pin(c, "src", (0, 0), ["N", "E", "S", "W"])
@@ -53,7 +53,7 @@ def test_route_bundle_with_pins_vertical():
     assert len(routes) == 1
 
 
-def test_route_bundle_with_restricted_pins():
+def test_route_bundle_with_restricted_pins() -> None:
     """Route between Pins with restricted directions."""
     c = gf.Component(name="test_rb_pins_restricted")
     pin1 = _make_pin(c, "src", (0, 0), ["E", "W"])
@@ -66,19 +66,16 @@ def test_route_bundle_with_restricted_pins():
     assert len(routes) == 1
 
 
-def test_route_bundle_pins_type_mismatch_raises():
+def test_route_bundle_pins_type_mismatch_raises() -> None:
     """Mixing Pins and Ports should raise TypeError."""
     c = gf.Component(name="test_rb_pins_mismatch")
     pin1 = _make_pin(c, "src", (0, 0), ["E"])
     port2 = gf.Port(name="p2", center=(200, 0), width=0.5, orientation=180, layer=1)
-    try:
+    with pytest.raises(TypeError):
         route_bundle(c, [pin1], [port2], cross_section="strip")
-        assert False, "Should have raised TypeError"
-    except TypeError:
-        pass
 
 
-def test_route_bundle_ports_still_works():
+def test_route_bundle_ports_still_works() -> None:
     """Existing Port-based routing is unaffected."""
     c = gf.Component(name="test_rb_ports_compat")
     port1 = gf.Port(name="p1", center=(0, 0), width=0.5, orientation=0, layer=1)
@@ -88,7 +85,7 @@ def test_route_bundle_ports_still_works():
 
 
 @pytest.mark.xfail(reason="route_fiber_array needs Pin-aware port selection — future work")
-def test_add_pads_bot_with_pin_pad():
+def test_add_pads_bot_with_pin_pad() -> None:
     """add_pads_bot works when pad component exposes Pins."""
     @gf.cell
     def pin_pad() -> gf.Component:

@@ -281,18 +281,20 @@ def route_bundle(
         ports2 = [ports2]
 
     # Ensure ports are lists (they may be reversed, generators, etc.)
-    ports1 = list(ports1)
-    ports2 = list(ports2)
+    port_list1 = list(ports1)
+    port_list2 = list(ports2)
 
     # Resolve Pin inputs to Ports
-    if ports1 and isinstance(ports1[0], Pin):
-        if not (ports2 and isinstance(ports2[0], Pin)):
+    if port_list1 and isinstance(port_list1[0], kf.DPin):
+        if not (port_list2 and isinstance(port_list2[0], kf.DPin)):
             raise TypeError(
                 "Cannot mix Pins and Ports. "
                 "If ports1 contains Pins, ports2 must also contain Pins."
             )
-        ports1, ports2 = resolve_pins(ports1, ports2)
-    elif ports2 and isinstance(ports2[0], Pin):
+        port_list1, port_list2 = resolve_pins(
+            cast(list[Pin], port_list1), cast(list[Pin], port_list2)
+        )
+    elif port_list2 and isinstance(port_list2[0], kf.DPin):
         raise TypeError(
             "Cannot mix Pins and Ports. "
             "If ports2 contains Pins, ports1 must also contain Pins."
@@ -302,8 +304,8 @@ def route_bundle(
         layer_marker = gf.CONF.layer_marker
 
     component = gf.Component(base=component.base)  # type: ignore[call-overload]
-    ports1 = [gf.Port(base=p1.base) for p1 in ports1]
-    ports2 = [gf.Port(base=p2.base) for p2 in ports2]
+    ports1_resolved = [gf.Port(base=p1.base) for p1 in cast(list[kf.DPort], port_list1)]
+    ports2_resolved = [gf.Port(base=p2.base) for p2 in cast(list[kf.DPort], port_list2)]
 
     if router:
         warnings.warn(
@@ -324,8 +326,8 @@ def route_bundle(
         )
 
     c = component
-    ports1_ = list(ports1)
-    ports2_ = list(ports2)
+    ports1_ = ports1_resolved
+    ports2_ = ports2_resolved
     port_type = port_type or ports1_[0].port_type
 
     if cross_section is None:

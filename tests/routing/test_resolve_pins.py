@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
+import pytest
+
 import gdsfactory as gf
 from gdsfactory.routing.resolve_pins import resolve_pin_pair, resolve_pins
 
@@ -26,7 +28,7 @@ def _make_pin(component: gf.Component, name: str, center: tuple[float, float], d
     return component.create_pin(name=name, ports=ports, pin_type="DC")
 
 
-def test_resolve_pin_pair_picks_closest_ports():
+def test_resolve_pin_pair_picks_closest_ports() -> None:
     """Pin A is left of Pin B — should pick A's east port and B's west port."""
     c = gf.Component()
     pin_a = _make_pin(c, "a", (0, 0), ["N", "E", "S", "W"])
@@ -36,7 +38,7 @@ def test_resolve_pin_pair_picks_closest_ports():
     assert port_b.orientation == 180  # west
 
 
-def test_resolve_pin_pair_vertical():
+def test_resolve_pin_pair_vertical() -> None:
     """Pin A is below Pin B — should pick A's north and B's south."""
     c = gf.Component()
     pin_a = _make_pin(c, "a", (0, 0), ["N", "E", "S", "W"])
@@ -46,16 +48,16 @@ def test_resolve_pin_pair_vertical():
     assert port_b.orientation == 270  # south
 
 
-def test_resolve_pin_pair_restricted_directions():
+def test_resolve_pin_pair_restricted_directions() -> None:
     """Pin B only has east and west — should pick closest available."""
     c = gf.Component()
     pin_a = _make_pin(c, "a", (0, 0), ["N", "E", "S", "W"])
     pin_b = _make_pin(c, "b", (0, 100), ["E", "W"])
-    port_a, port_b = resolve_pin_pair(pin_a, pin_b)
+    _port_a, port_b = resolve_pin_pair(pin_a, pin_b)
     assert port_b.orientation in (0, 180)
 
 
-def test_resolve_pin_pair_single_port():
+def test_resolve_pin_pair_single_port() -> None:
     """Pin with one port behaves like a Port."""
     c = gf.Component()
     pin_a = _make_pin(c, "a", (0, 0), ["E"])
@@ -65,7 +67,7 @@ def test_resolve_pin_pair_single_port():
     assert port_b.orientation == 180
 
 
-def test_resolve_pin_pair_empty_pin_raises():
+def test_resolve_pin_pair_empty_pin_raises() -> None:
     """Pin with no ports should raise ValueError.
 
     Note: kfactory prevents creating a real Pin with zero ports, so we use a
@@ -78,14 +80,11 @@ def test_resolve_pin_pair_empty_pin_raises():
     pin_b = MagicMock()
     pin_b.name = "empty"
     pin_b.ports = []
-    try:
+    with pytest.raises(ValueError, match=r"(?i)(empty|no ports)"):
         resolve_pin_pair(pin_a, pin_b)
-        assert False, "Should have raised ValueError"
-    except ValueError as e:
-        assert "empty" in str(e).lower() or "no ports" in str(e).lower()
 
 
-def test_resolve_pins_list():
+def test_resolve_pins_list() -> None:
     """resolve_pins handles lists of pin pairs."""
     c = gf.Component()
     pins1 = [
@@ -103,7 +102,7 @@ def test_resolve_pins_list():
     assert all(p.orientation == 180 for p in ports2)
 
 
-def test_resolve_pins_length_mismatch_raises():
+def test_resolve_pins_length_mismatch_raises() -> None:
     """Unequal pin lists should raise ValueError."""
     c = gf.Component()
     pins1 = [_make_pin(c, "a1", (0, 0), ["E"])]
@@ -111,8 +110,5 @@ def test_resolve_pins_length_mismatch_raises():
         _make_pin(c, "b1", (100, 0), ["W"]),
         _make_pin(c, "b2", (100, 50), ["W"]),
     ]
-    try:
+    with pytest.raises(ValueError, match=r"(?i)(length|equal)"):
         resolve_pins(pins1, pins2)
-        assert False, "Should have raised ValueError"
-    except ValueError as e:
-        assert "length" in str(e).lower() or "equal" in str(e).lower()
