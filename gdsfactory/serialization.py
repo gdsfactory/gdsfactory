@@ -91,6 +91,7 @@ def clean_value_json(
         value: object to serialize.
         include_module: include module in serialization.
         serialize_function_as_dict: serialize function as dict. False serializes as string.
+        serialization_max_digits: maximum number of digits for float serialization.
     """
     from gdsfactory.path import Path
 

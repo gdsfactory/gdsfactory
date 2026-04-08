@@ -1,5 +1,4 @@
-"""
-Generates `docs/components.rst` with all gdsfactory default PDK cells.
+"""Generates `docs/components.rst` with all gdsfactory default PDK cells.
 
 - Walks through the `gdsfactory/components` directory
 - Finds all component modules (subfolders with __init__.py)

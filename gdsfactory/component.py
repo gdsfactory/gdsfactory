@@ -422,7 +422,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             save_options: klayout save options.
             with_metadata: if True, writes metadata (ports, settings) to the GDS file.
-            exlude_layers: list of layers to exclude from the GDS file.
+            exclude_layers: list of layers to exclude from the GDS file.
             no_empty_cells: if True, does not save empty cells.
         """
         from gdsfactory.pdk import get_layer
@@ -718,7 +718,6 @@ class Component(ComponentBase, kf.DKCell):
             column_pitch: column pitch.
             row_pitch: row pitch.
         """
-
         if isinstance(component, ComponentAllAngle):
             raise ValueError(
                 f"Use Component.add_ref_off_grid() for all angle {component.name!r}"
