@@ -1,0 +1,12 @@
+info: {}
+name: bolometer_gdsfactorypcomponentspmemspbolometer_AW20_AL2_71b28977
+settings:
+  absorber_length: 20
+  absorber_width: 20
+  layer: WG
+  leg_length: 15
+  leg_width: 0.5
+  n_legs: 4
+  pad_length: 5
+  pad_width: 5
+  port_type: electrical

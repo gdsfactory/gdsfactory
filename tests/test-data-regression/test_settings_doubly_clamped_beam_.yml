@@ -1,0 +1,9 @@
+info: {}
+name: doubly_clamped_beam_gdsfactorypcomponentspmemspdoubly_c_51407d87
+settings:
+  anchor_length: 5
+  anchor_width: 5
+  beam_length: 30
+  beam_width: 1
+  layer: WG
+  port_type: electrical

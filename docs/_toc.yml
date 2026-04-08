@@ -50,7 +50,7 @@ parts:
       - file: api
       - file: api_routing
       - file: components # generated with `uv run python docs/write_cells.py`
-      - file: contribution
+      - file: contributing
       - file: changelog
       - url: https://gdsfactory.github.io/gdsfactory-photonics-training/index.html
         title: gdsfactory-training

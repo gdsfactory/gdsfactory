@@ -13,7 +13,7 @@ import kfactory as kf
 import yaml
 from kfactory.layer import LayerEnum
 from kfactory.layout import Constants
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
 from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
@@ -168,6 +168,7 @@ class Pdk(BaseModel):
     layers: type[LayerEnum] | None = None
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | PathType | None = None
+    _layer_views_cache: LayerViews | None = PrivateAttr(default=None)
     layer_transitions: LayerTransitions = Field(default_factory=dict)
     constants: Constants = Field(default_factory=Constants)
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
@@ -180,6 +181,26 @@ class Pdk(BaseModel):
         arbitrary_types_allowed=True,
         extra="forbid",
     )
+
+    def __init__(self, **data: Any) -> None:
+        # Use model_construct to skip Pydantic re-validation of model instances
+        # (LayerStack, LayerViews, etc.). In long-running processes with hot reload,
+        # class identity can drift causing "Input should be a valid dictionary or
+        # instance of X" errors.
+        constructed = Pdk.model_construct(**data)
+        object.__setattr__(self, "__dict__", constructed.__dict__)
+        object.__setattr__(
+            self, "__pydantic_fields_set__", constructed.__pydantic_fields_set__
+        )
+        if hasattr(constructed, "__pydantic_private__"):
+            object.__setattr__(
+                self, "__pydantic_private__", constructed.__pydantic_private__
+            )
+        else:
+            object.__setattr__(
+                self, "__pydantic_private__", {"_layer_views_cache": None}
+            )
+        self.model_post_init(None)
 
     def model_post_init(self, context: Any) -> None:
         super().model_post_init(context)
@@ -541,10 +562,16 @@ class Pdk(BaseModel):
             except Exception:
                 raise ValueError(f"Could not find name for layer {layer_index}")
 
-    def get_layer_views(self) -> LayerViews | str | PathType:
+    def get_layer_views(self) -> LayerViews:
+        if self._layer_views_cache is not None:
+            return self._layer_views_cache
         if self.layer_views is None:
             raise ValueError(f"layer_views for Pdk {self.name!r} is None")
-        return self.layer_views
+        if isinstance(self.layer_views, LayerViews):
+            self._layer_views_cache = self.layer_views
+        else:
+            self._layer_views_cache = LayerViews(filepath=self.layer_views)
+        return self._layer_views_cache
 
     def get_layer_stack(self) -> LayerStack:
         if self.layer_stack is None:
@@ -639,13 +666,9 @@ class Pdk(BaseModel):
             UserWarning if required properties for generating a KLayoutTechnology are not defined.
         """
         try:
-            # Convert layer_views path to LayerViews object if needed
             layer_views_obj = None
             if self.layer_views is not None:
-                if isinstance(self.layer_views, LayerViews):
-                    layer_views_obj = self.layer_views
-                else:
-                    layer_views_obj = LayerViews(filepath=self.layer_views)
+                layer_views_obj = self.get_layer_views()
 
             return klayout_tech.KLayoutTechnology(
                 name=self.name,
@@ -754,7 +777,7 @@ def get_layer_info(layer: LayerSpec) -> kf.kdb.LayerInfo:
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
 
 
-def get_layer_views() -> LayerViews | str | PathType:
+def get_layer_views() -> LayerViews:
     return get_active_pdk().get_layer_views()
 
 

@@ -1,0 +1,8 @@
+info: {}
+name: spiral_rectangular_gdsfactorypcomponentspspiralspspiral_b2bde2b8
+settings:
+  layer: WG
+  n_turns: 4
+  pitch: 3
+  start_length: 10
+  width: 1

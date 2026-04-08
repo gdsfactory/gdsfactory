@@ -3,6 +3,8 @@ from .add_fiber_array_optical_south_electrical_north import *
 from .add_termination import *
 from .add_trenches import *
 from .array_component import *
+from .array_hexagonal import *
+from .array_polar import *
 from .component_sequence import *
 from .copy_layers import *
 from .extend_ports_list import *
@@ -20,6 +22,8 @@ __all__ = [
     "add_trenches90",
     "array",
     "array_component",
+    "array_hexagonal",
+    "array_polar",
     "component_sequence",
     "copy_layers",
     "extend_ports",

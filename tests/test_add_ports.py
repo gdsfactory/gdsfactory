@@ -168,6 +168,19 @@ class TestAddPortWithKwargs:
         c.add_port(port=straight_ref.ports["o1"], name="o1", layer=(2, 0))
         assert c.ports["o1"].layer.layer == 2, "Port layer should be changed to layer 2"
 
+    def test_preserves_cross_section_spec_string(
+        self, component_and_ref: tuple[gf.Component, gf.ComponentReference]
+    ) -> None:
+        """Regression test for #4459: port.info["cross_section"] should be the
+        original spec string, not a hashed DCrossSection name."""
+        s = gf.components.straight(length=10, cross_section="strip")
+        c = gf.Component()
+        ref = c << s
+        c.add_port("o1", port=ref.ports["o1"])
+        assert c.ports["o1"].info["cross_section"] == "strip", (
+            f"Expected 'strip', got '{c.ports['o1'].info['cross_section']}'"
+        )
+
     def test_multiple_properties(
         self, component_and_ref: tuple[gf.Component, gf.ComponentReference]
     ) -> None:

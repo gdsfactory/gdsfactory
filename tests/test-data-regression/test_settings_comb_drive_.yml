@@ -1,0 +1,15 @@
+info: {}
+name: comb_drive_gdsfactorypcomponentspmemspcomb_drive_FW0p5__260a9c6a
+settings:
+  anchor_size: 10
+  finger_gap: 0.5
+  finger_length: 10
+  finger_overlap: 5
+  finger_width: 0.5
+  layer: WG
+  n_fingers: 20
+  n_spring_folds: 4
+  shuttle_length: 30
+  shuttle_width: 5
+  spring_length: 20
+  spring_width: 0.5

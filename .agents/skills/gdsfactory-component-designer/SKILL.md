@@ -185,3 +185,70 @@ Browse tutorial notebooks under `docs/notebooks/` or over 100 sample Python
 scripts under `gdsfactory/samples/` for worked examples.
 
 **Don't guess – search the repo for examples first.**
+
+---
+
+## 9 — KLayout API: transformations with `DCplxTrans`
+
+gdsfactory's geometry backend is [kfactory](https://github.com/gdsfactory/kfactory/), built on KLayout's Python `db` module.  Full API docs: <https://www.klayout.de/doc-qt5/code/module_db.html>
+
+### 9.1 `DCplxTrans` constructor
+
+[`klayout.db.DCplxTrans`](https://www.klayout.de/doc-qt5/code/class_DCplxTrans.html) represents a rotation + mirror + translation on µm-unit coordinates. Positional and keyword arguments are both supported:
+
+```python
+import klayout.db as kdb
+
+# positional: DCplxTrans(mag, angle, mirror, u)
+t = kdb.DCplxTrans(1.0, 45.0, True, kdb.DVector(10.0, 5.0))
+
+# keyword (preferred for clarity):
+t = kdb.DCplxTrans(mag=1.0, angle=45.0, mirror=True, u=kdb.DVector(10.0, 5.0))
+```
+
+Parameters (application order: mirror → rotate → translate):
+
+| Parameter | Type | Description |
+|---|---|---|
+| `mag` | float | Scaling factor — **always `1.0`**; see warning below |
+| `angle` | float | CCW rotation in degrees |
+| `mirror` | bool | Mirror about x-axis before rotation |
+| `u` | `DVector` | Translation in µm |
+
+> ⚠️ **Never set `mag != 1.0`.** No foundry accepts scaled instances. Use component factory parameters to create differently-sized variants.
+
+> ℹ️ `ComponentReference.dcplx_trans` snaps to the manufacturing grid via `ICplxTrans`, so off-grid placements are silently adjusted.
+
+### 9.2 Setting `ComponentReference.dcplx_trans`
+
+```python
+import gdsfactory as gf
+import klayout.db as kdb
+
+circuit = gf.Component("circuit")
+ref = circuit.add_ref(gf.components.mmi1x2())
+
+# rotate 45°, mirror, translate to (10, 5) µm
+ref.dcplx_trans = kdb.DCplxTrans(mag=1.0, angle=45.0, mirror=True, u=kdb.DVector(10.0, 5.0))
+```
+
+### 9.3 Composing transformations
+
+`DCplxTrans` objects compose with `*` (right-hand operand applied first):
+
+```python
+rotate      = kdb.DCplxTrans(angle=90.0)
+translation = kdb.DCplxTrans(u=kdb.DVector(20.0, 0.0))
+
+ref.dcplx_trans = translation * rotate   # rotate first, then translate
+```
+
+### 9.4 Quick-reference
+
+| Goal | Example |
+|---|---|
+| Translate | `kdb.DCplxTrans(u=kdb.DVector(dx, dy))` |
+| Rotate 90° CCW | `kdb.DCplxTrans(angle=90.0)` |
+| Mirror about x-axis | `kdb.DCplxTrans(mirror=True)` |
+| Rotate then translate | `translation * rotate` |
+| Read / modify in place | `ref.dcplx_trans` / `ref.dcplx_trans = t * ref.dcplx_trans` |

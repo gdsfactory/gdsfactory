@@ -1,0 +1,1204 @@
+instances:
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_54126:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_m32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_m75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_32476:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_75777:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_m10825:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_m54127:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_m97428:
+    component: circle
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: WG
+      radius: 10
+nets: []
+placements:
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_32476:
+    mirror: false
+    rotation: 0
+    x: 106.25
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_75777:
+    mirror: false
+    rotation: 0
+    x: 106.25
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_m10825:
+    mirror: false
+    rotation: 0
+    x: 106.25
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_m54127:
+    mirror: false
+    rotation: 0
+    x: 106.25
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_106250_m97428:
+    mirror: false
+    rotation: 0
+    x: 106.25
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_10825:
+    mirror: false
+    rotation: 0
+    x: 118.75
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_54126:
+    mirror: false
+    rotation: 0
+    x: 118.75
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_97428:
+    mirror: false
+    rotation: 0
+    x: 118.75
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_m32476:
+    mirror: false
+    rotation: 0
+    x: 118.75
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_118750_m75777:
+    mirror: false
+    rotation: 0
+    x: 118.75
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_10825:
+    mirror: false
+    rotation: 0
+    x: 18.75
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_54126:
+    mirror: false
+    rotation: 0
+    x: 18.75
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_97428:
+    mirror: false
+    rotation: 0
+    x: 18.75
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_m32476:
+    mirror: false
+    rotation: 0
+    x: 18.75
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_18750_m75777:
+    mirror: false
+    rotation: 0
+    x: 18.75
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_32476:
+    mirror: false
+    rotation: 0
+    x: 31.25
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_75777:
+    mirror: false
+    rotation: 0
+    x: 31.25
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_m10825:
+    mirror: false
+    rotation: 0
+    x: 31.25
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_m54127:
+    mirror: false
+    rotation: 0
+    x: 31.25
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_31250_m97428:
+    mirror: false
+    rotation: 0
+    x: 31.25
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_10825:
+    mirror: false
+    rotation: 0
+    x: 43.75
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_54126:
+    mirror: false
+    rotation: 0
+    x: 43.75
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_97428:
+    mirror: false
+    rotation: 0
+    x: 43.75
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_m32476:
+    mirror: false
+    rotation: 0
+    x: 43.75
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_43750_m75777:
+    mirror: false
+    rotation: 0
+    x: 43.75
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_32476:
+    mirror: false
+    rotation: 0
+    x: 56.25
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_75777:
+    mirror: false
+    rotation: 0
+    x: 56.25
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_m10825:
+    mirror: false
+    rotation: 0
+    x: 56.25
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_m54127:
+    mirror: false
+    rotation: 0
+    x: 56.25
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_56250_m97428:
+    mirror: false
+    rotation: 0
+    x: 56.25
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_32476:
+    mirror: false
+    rotation: 0
+    x: 6.25
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_75777:
+    mirror: false
+    rotation: 0
+    x: 6.25
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_m10825:
+    mirror: false
+    rotation: 0
+    x: 6.25
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_m54127:
+    mirror: false
+    rotation: 0
+    x: 6.25
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_6250_m97428:
+    mirror: false
+    rotation: 0
+    x: 6.25
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_10825:
+    mirror: false
+    rotation: 0
+    x: 68.75
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_54126:
+    mirror: false
+    rotation: 0
+    x: 68.75
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_97428:
+    mirror: false
+    rotation: 0
+    x: 68.75
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_m32476:
+    mirror: false
+    rotation: 0
+    x: 68.75
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_68750_m75777:
+    mirror: false
+    rotation: 0
+    x: 68.75
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_32476:
+    mirror: false
+    rotation: 0
+    x: 81.25
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_75777:
+    mirror: false
+    rotation: 0
+    x: 81.25
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_m10825:
+    mirror: false
+    rotation: 0
+    x: 81.25
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_m54127:
+    mirror: false
+    rotation: 0
+    x: 81.25
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_81250_m97428:
+    mirror: false
+    rotation: 0
+    x: 81.25
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_10825:
+    mirror: false
+    rotation: 0
+    x: 93.75
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_54126:
+    mirror: false
+    rotation: 0
+    x: 93.75
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_97428:
+    mirror: false
+    rotation: 0
+    x: 93.75
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_m32476:
+    mirror: false
+    rotation: 0
+    x: 93.75
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_93750_m75777:
+    mirror: false
+    rotation: 0
+    x: 93.75
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_10825:
+    mirror: false
+    rotation: 0
+    x: -106.25
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_54126:
+    mirror: false
+    rotation: 0
+    x: -106.25
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_97428:
+    mirror: false
+    rotation: 0
+    x: -106.25
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_m32476:
+    mirror: false
+    rotation: 0
+    x: -106.25
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m106250_m75777:
+    mirror: false
+    rotation: 0
+    x: -106.25
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_32476:
+    mirror: false
+    rotation: 0
+    x: -118.75
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_75777:
+    mirror: false
+    rotation: 0
+    x: -118.75
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_m10825:
+    mirror: false
+    rotation: 0
+    x: -118.75
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_m54127:
+    mirror: false
+    rotation: 0
+    x: -118.75
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m118750_m97428:
+    mirror: false
+    rotation: 0
+    x: -118.75
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_32476:
+    mirror: false
+    rotation: 0
+    x: -18.75
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_75777:
+    mirror: false
+    rotation: 0
+    x: -18.75
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_m10825:
+    mirror: false
+    rotation: 0
+    x: -18.75
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_m54127:
+    mirror: false
+    rotation: 0
+    x: -18.75
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m18750_m97428:
+    mirror: false
+    rotation: 0
+    x: -18.75
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_10825:
+    mirror: false
+    rotation: 0
+    x: -31.25
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_54126:
+    mirror: false
+    rotation: 0
+    x: -31.25
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_97428:
+    mirror: false
+    rotation: 0
+    x: -31.25
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_m32476:
+    mirror: false
+    rotation: 0
+    x: -31.25
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m31250_m75777:
+    mirror: false
+    rotation: 0
+    x: -31.25
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_32476:
+    mirror: false
+    rotation: 0
+    x: -43.75
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_75777:
+    mirror: false
+    rotation: 0
+    x: -43.75
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_m10825:
+    mirror: false
+    rotation: 0
+    x: -43.75
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_m54127:
+    mirror: false
+    rotation: 0
+    x: -43.75
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m43750_m97428:
+    mirror: false
+    rotation: 0
+    x: -43.75
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_10825:
+    mirror: false
+    rotation: 0
+    x: -56.25
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_54126:
+    mirror: false
+    rotation: 0
+    x: -56.25
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_97428:
+    mirror: false
+    rotation: 0
+    x: -56.25
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_m32476:
+    mirror: false
+    rotation: 0
+    x: -56.25
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m56250_m75777:
+    mirror: false
+    rotation: 0
+    x: -56.25
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_10825:
+    mirror: false
+    rotation: 0
+    x: -6.25
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_54126:
+    mirror: false
+    rotation: 0
+    x: -6.25
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_97428:
+    mirror: false
+    rotation: 0
+    x: -6.25
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_m32476:
+    mirror: false
+    rotation: 0
+    x: -6.25
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m6250_m75777:
+    mirror: false
+    rotation: 0
+    x: -6.25
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_32476:
+    mirror: false
+    rotation: 0
+    x: -68.75
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_75777:
+    mirror: false
+    rotation: 0
+    x: -68.75
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_m10825:
+    mirror: false
+    rotation: 0
+    x: -68.75
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_m54127:
+    mirror: false
+    rotation: 0
+    x: -68.75
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m68750_m97428:
+    mirror: false
+    rotation: 0
+    x: -68.75
+    y: -97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_10825:
+    mirror: false
+    rotation: 0
+    x: -81.25
+    y: 10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_54126:
+    mirror: false
+    rotation: 0
+    x: -81.25
+    y: 54.126
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_97428:
+    mirror: false
+    rotation: 0
+    x: -81.25
+    y: 97.428
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_m32476:
+    mirror: false
+    rotation: 0
+    x: -81.25
+    y: -32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m81250_m75777:
+    mirror: false
+    rotation: 0
+    x: -81.25
+    y: -75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_32476:
+    mirror: false
+    rotation: 0
+    x: -93.75
+    y: 32.476
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_75777:
+    mirror: false
+    rotation: 0
+    x: -93.75
+    y: 75.777
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_m10825:
+    mirror: false
+    rotation: 0
+    x: -93.75
+    y: -10.825
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_m54127:
+    mirror: false
+    rotation: 0
+    x: -93.75
+    y: -54.127
+  circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG_m93750_m97428:
+    mirror: false
+    rotation: 0
+    x: -93.75
+    y: -97.428
+ports: {}

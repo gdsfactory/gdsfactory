@@ -1,0 +1,8 @@
+info: {}
+name: spiral_fermat_gdsfactorypcomponentspspiralspspiral_ferm_877ac219
+settings:
+  a: 5
+  angle_resolution: 2
+  layer: WG
+  n_turns: 5
+  width: 1

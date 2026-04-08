@@ -1,0 +1,10 @@
+info: {}
+name: torus_wave_gdsfactorypcomponentspshapesptorus_wave_IR5__d509e31b
+settings:
+  amplitude: 0.5
+  angle_resolution: 1
+  in_phase: true
+  inner_radius: 5
+  layer: WG
+  n_oscillations: 8
+  outer_radius: 10

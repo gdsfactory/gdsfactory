@@ -784,6 +784,9 @@ class LayerView(BaseModel):
         return lv
 
 
+LayerView.model_rebuild()
+
+
 class LayerViews(BaseModel):
     """A container for layer properties for KLayout layer property (.lyp) files.
 
@@ -799,7 +802,7 @@ class LayerViews(BaseModel):
     custom_line_styles: dict[str, LineStyle] = Field(default_factory=dict)
     layers: type[LayerEnum] | None = None
 
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="forbid", frozen=True, revalidate_instances="never")
 
     def __init__(
         self,
@@ -836,7 +839,25 @@ class LayerViews(BaseModel):
         else:
             layer_names = None
 
-        super().__init__(**data)
+        # Use model_construct to skip Pydantic re-validation of LayerView instances.
+        # This avoids "Input should be a valid dictionary or instance of LayerView"
+        # errors in long-running processes where class identity can drift.
+        cls = type(self)
+        construct_data: builtins.dict[str, Any] = {
+            "layer_views": data.get("layer_views", {}),
+            "custom_dither_patterns": data.get("custom_dither_patterns", {}),
+            "custom_line_styles": data.get("custom_line_styles", {}),
+            "layers": layers,
+        }
+        # Include subclass fields (e.g. extra LayerView fields) with their defaults
+        for field_name, field_info in cls.model_fields.items():
+            if field_name not in construct_data:
+                construct_data[field_name] = data.get(field_name, field_info.default)
+        constructed = cls.model_construct(**construct_data)
+        object.__setattr__(self, "__dict__", constructed.__dict__)
+        object.__setattr__(
+            self, "__pydantic_fields_set__", constructed.__pydantic_fields_set__
+        )
 
         for name in self.model_dump():
             lv = getattr(self, name)
@@ -1173,10 +1194,11 @@ class LayerViews(BaseModel):
                     lv.hatch_pattern = list(dither_patterns.keys())[int(hp[1:])]
                 layer_views[lv.name] = lv
 
-        return LayerViews(
+        return LayerViews.model_construct(
             layer_views=layer_views,
             custom_dither_patterns=dither_patterns,
             custom_line_styles=line_styles,
+            layers=None,
         )
 
     def to_yaml(self, layer_file: str | pathlib.Path) -> None:
@@ -1257,10 +1279,11 @@ class LayerViews(BaseModel):
             else {}
         )
 
-        return LayerViews(
+        return LayerViews.model_construct(
             layer_views=lvs,
             custom_dither_patterns=custom_dither_patterns,
             custom_line_styles=custom_line_styles,
+            layers=None,
         )
 
 

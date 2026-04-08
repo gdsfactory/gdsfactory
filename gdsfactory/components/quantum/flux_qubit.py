@@ -66,53 +66,64 @@ def flux_qubit(
         layer=layer_metal,
     )
 
-    loop_ref = c.add_ref(loop)
+    # Move loop to be centered at origin (use a temporary component)
+    loop_centered = Component()
+    loop_ref = loop_centered.add_ref(loop)
     loop_ref.move((-loop_width / 2, -loop_height / 2))
+    loop_centered.flatten()
 
-    # Create gaps for junctions
+    # Create gaps for junctions (standalone components, not added to c)
     # Bottom gap for alpha junction
-    alpha_gap = gf.components.rectangle(
-        size=(alpha_junction_width + 0.1, wire_width + 0.1),
-        layer=layer_metal,
+    alpha_gap = Component()
+    alpha_gap_rect = alpha_gap.add_ref(
+        gf.components.rectangle(
+            size=(alpha_junction_width + 0.1, wire_width + 0.1),
+            layer=layer_metal,
+        )
     )
-    alpha_gap_ref = c.add_ref(alpha_gap)
-    alpha_gap_ref.move((-alpha_junction_width / 2 - 0.05, -loop_height / 2 - 0.05))
+    alpha_gap_rect.move((-alpha_junction_width / 2 - 0.05, -loop_height / 2 - 0.05))
+    alpha_gap.flatten()
 
     # Left gap for beta junction
-    beta_gap_left = gf.components.rectangle(
-        size=(wire_width + 0.1, junction_height + 0.1),
-        layer=layer_metal,
+    beta_gap_left = Component()
+    beta_gap_left_rect = beta_gap_left.add_ref(
+        gf.components.rectangle(
+            size=(wire_width + 0.1, junction_height + 0.1),
+            layer=layer_metal,
+        )
     )
-    beta_gap_left_ref = c.add_ref(beta_gap_left)
-    beta_gap_left_ref.move((-loop_width / 2 - 0.05, -junction_height / 2 - 0.05))
+    beta_gap_left_rect.move((-loop_width / 2 - 0.05, -junction_height / 2 - 0.05))
+    beta_gap_left.flatten()
 
     # Right gap for beta junction
-    beta_gap_right = gf.components.rectangle(
-        size=(wire_width + 0.1, junction_height + 0.1),
-        layer=layer_metal,
+    beta_gap_right = Component()
+    beta_gap_right_rect = beta_gap_right.add_ref(
+        gf.components.rectangle(
+            size=(wire_width + 0.1, junction_height + 0.1),
+            layer=layer_metal,
+        )
     )
-    beta_gap_right_ref = c.add_ref(beta_gap_right)
-    beta_gap_right_ref.move(
+    beta_gap_right_rect.move(
         (loop_width / 2 - wire_width - 0.05, -junction_height / 2 - 0.05)
     )
+    beta_gap_right.flatten()
 
-    # Remove gaps from the loop
-    # Need to perform boolean operations sequentially
+    # Remove gaps from the loop sequentially
     loop_with_gaps = gf.boolean(
-        loop_ref,
-        alpha_gap_ref,
+        loop_centered,
+        alpha_gap,
         operation="not",
         layer=layer_metal,
     )
     loop_with_gaps = gf.boolean(
         loop_with_gaps,
-        beta_gap_left_ref,
+        beta_gap_left,
         operation="not",
         layer=layer_metal,
     )
     loop_with_gaps = gf.boolean(
         loop_with_gaps,
-        beta_gap_right_ref,
+        beta_gap_right,
         operation="not",
         layer=layer_metal,
     )
@@ -246,60 +257,35 @@ def flux_qubit_asymmetric(
     """
     c = Component()
 
-    # Create the main loop structure
-    points = []
     angle_rad = np.radians(asymmetry_angle)
+    x_offset = loop_height * np.tan(angle_rad)
 
-    # Create asymmetric loop shape
-    # Bottom side
-    points.extend(
-        [
-            (-loop_width / 2, -loop_height / 2),
-            (loop_width / 2, -loop_height / 2),
-            (loop_width / 2, -loop_height / 2 + wire_width),
-            (-loop_width / 2, -loop_height / 2 + wire_width),
-        ]
-    )
+    # Create asymmetric loop as outer/inner polygon boolean
+    # The right side is tilted by asymmetry_angle
+    outer_points = [
+        (-loop_width / 2, -loop_height / 2),
+        (loop_width / 2, -loop_height / 2),
+        (loop_width / 2 + x_offset, loop_height / 2),
+        (-loop_width / 2, loop_height / 2),
+    ]
 
-    # Right side with angle
-    x_offset = loop_height / 2 * np.tan(angle_rad)
-    points.extend(
-        [
-            (loop_width / 2 - wire_width, -loop_height / 2 + wire_width),
-            (loop_width / 2 - wire_width, loop_height / 2 - wire_width),
-            (loop_width / 2 - wire_width + x_offset, loop_height / 2 - wire_width),
-            (loop_width / 2 + x_offset, loop_height / 2 - wire_width),
-            (loop_width / 2 + x_offset, loop_height / 2),
-            (loop_width / 2, loop_height / 2),
-            (loop_width / 2, -loop_height / 2),
-        ]
-    )
+    inner_points = [
+        (-loop_width / 2 + wire_width, -loop_height / 2 + wire_width),
+        (loop_width / 2 - wire_width, -loop_height / 2 + wire_width),
+        (loop_width / 2 - wire_width + x_offset, loop_height / 2 - wire_width),
+        (-loop_width / 2 + wire_width, loop_height / 2 - wire_width),
+    ]
 
-    # Top side
-    points.extend(
-        [
-            (loop_width / 2 + x_offset, loop_height / 2),
-            (-loop_width / 2, loop_height / 2),
-            (-loop_width / 2, loop_height / 2 - wire_width),
-            (loop_width / 2 + x_offset, loop_height / 2 - wire_width),
-        ]
-    )
+    outer_comp = Component()
+    outer_comp.add_polygon(outer_points, layer=layer_metal)
 
-    # Left side
-    points.extend(
-        [
-            (-loop_width / 2 + wire_width, loop_height / 2 - wire_width),
-            (-loop_width / 2 + wire_width, -loop_height / 2 + wire_width),
-            (-loop_width / 2, -loop_height / 2 + wire_width),
-            (-loop_width / 2, loop_height / 2),
-        ]
-    )
+    inner_comp = Component()
+    inner_comp.add_polygon(inner_points, layer=layer_metal)
 
-    # Create the loop polygon
-    c.add_polygon(points, layer=layer_metal)
+    loop = gf.boolean(outer_comp, inner_comp, operation="not", layer=layer_metal)
+    c.add_ref(loop)
 
-    # Create junctions in the gaps
-    # alpha junction at bottom
+    # Create the alpha junction (smaller, at bottom)
     alpha_junction = gf.components.rectangle(
         size=(alpha_junction_width, alpha_junction_height),
         layer=layer_alpha_junction,
@@ -312,23 +298,25 @@ def flux_qubit_asymmetric(
         )
     )
 
-    # beta junctions at sides
+    # Create the beta junctions (larger, identical, at sides)
     beta_junction_left = gf.components.rectangle(
         size=(junction_width, junction_height),
         layer=layer_junction,
     )
     beta_junction_left_ref = c.add_ref(beta_junction_left)
     beta_junction_left_ref.move(
-        (-loop_width / 2 + wire_width / 2 - junction_width / 2, 0)
+        (-loop_width / 2 + wire_width / 2 - junction_width / 2, -junction_height / 2)
     )
 
+    # Right side center x is shifted by half the x_offset
+    right_center_x = loop_width / 2 - wire_width / 2 + x_offset / 2
     beta_junction_right = gf.components.rectangle(
         size=(junction_width, junction_height),
         layer=layer_junction,
     )
     beta_junction_right_ref = c.add_ref(beta_junction_right)
     beta_junction_right_ref.move(
-        (loop_width / 2 - wire_width / 2 - junction_width / 2, 0)
+        (right_center_x - junction_width / 2, -junction_height / 2)
     )
 
     # Add control and readout ports
@@ -360,5 +348,5 @@ def flux_qubit_asymmetric(
     c.info["alpha_beta_ratio"] = (alpha_junction_width * alpha_junction_height) / (
         junction_width * junction_height
     )
-
+    c.flatten()
     return c

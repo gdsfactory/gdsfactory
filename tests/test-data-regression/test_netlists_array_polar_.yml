@@ -1,0 +1,98 @@
+instances:
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_25000_43301_A59p99999999999999:
+    component: C
+    info: {}
+    settings:
+      layer: WG
+      port_type: electrical
+      size:
+      - 10
+      - 20
+      width: 1
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_25000_m43301_A300:
+    component: C
+    info: {}
+    settings:
+      layer: WG
+      port_type: electrical
+      size:
+      - 10
+      - 20
+      width: 1
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_50000_0:
+    component: C
+    info: {}
+    settings:
+      layer: WG
+      port_type: electrical
+      size:
+      - 10
+      - 20
+      width: 1
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m25000_43301_A119p99999999999999:
+    component: C
+    info: {}
+    settings:
+      layer: WG
+      port_type: electrical
+      size:
+      - 10
+      - 20
+      width: 1
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m25000_m43301_A239p99999999999994:
+    component: C
+    info: {}
+    settings:
+      layer: WG
+      port_type: electrical
+      size:
+      - 10
+      - 20
+      width: 1
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m50000_0_A180:
+    component: C
+    info: {}
+    settings:
+      layer: WG
+      port_type: electrical
+      size:
+      - 10
+      - 20
+      width: 1
+nets: []
+placements:
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_25000_43301_A59p99999999999999:
+    mirror: false
+    rotation: 60.0
+    x: 25
+    y: 43.301
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_25000_m43301_A300:
+    mirror: false
+    rotation: 300
+    x: 25
+    y: -43.301
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_50000_0:
+    mirror: false
+    rotation: 0
+    x: 50
+    y: 0
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m25000_43301_A119p99999999999999:
+    mirror: false
+    rotation: 120.0
+    x: -25
+    y: 43.301
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m25000_m43301_A239p99999999999994:
+    mirror: false
+    rotation: 240.0
+    x: -25
+    y: -43.301
+  C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m50000_0_A180:
+    mirror: false
+    rotation: 180
+    x: -50
+    y: 0
+ports:
+  o1_1: C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_50000_0,o1
+  o1_4: C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m50000_0_A180,o1
+  o2_1: C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_50000_0,o2
+  o2_4: C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical_m50000_0_A180,o2

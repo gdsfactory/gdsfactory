@@ -1,3 +1,4 @@
+from .alignment_mark_cross import *
 from .cavity import *
 from .cdsem_all import *
 from .cdsem_bend180 import *
@@ -15,11 +16,14 @@ from .litho_ruler import *
 from .litho_steps import *
 from .resistance_meander import *
 from .resistance_sheet import *
+from .resolution_test_pattern import *
 from .ruler import *
+from .vernier_scale import *
 from .verniers import *
 from .version_stamp import *
 
 __all__ = [
+    "alignment_mark_cross",
     "cavity",
     "cdsem_all",
     "cdsem_bend180",
@@ -50,8 +54,10 @@ __all__ = [
     "qrcode",
     "resistance_meander",
     "resistance_sheet",
+    "resolution_test_pattern",
     "ruler",
     "staircase",
+    "vernier_scale",
     "verniers",
     "version_stamp",
     "widths",

@@ -1,0 +1,11 @@
+info: {}
+name: meander_channel_gdsfactorypcomponentspmicrofluidicspmea_2548e348
+settings:
+  channel_width: 1
+  layer: WG
+  n_turns: 5
+  port_type: optical
+  reservoir_height: 5
+  reservoir_length: 5
+  straight_length: 20
+  turn_spacing: 5

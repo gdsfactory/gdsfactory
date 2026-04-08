@@ -1,0 +1,10 @@
+info: {}
+name: array_polar_CC_NI6_R50_SA0_EA360_RITrue_APTrue
+settings:
+  add_ports: true
+  component: C
+  end_angle: 360
+  n_items: 6
+  radius: 50
+  rotate_items: true
+  start_angle: 0

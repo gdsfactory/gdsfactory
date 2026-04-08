@@ -1,0 +1,11 @@
+info: {}
+name: folded_spring_gdsfactorypcomponentspmemspfolded_spring__14469cb8
+settings:
+  anchor_length: 3
+  anchor_width: 5
+  beam_length: 20
+  beam_width: 0.5
+  fold_gap: 1
+  layer: WG
+  n_folds: 4
+  port_type: electrical

@@ -1,0 +1,10 @@
+info: {}
+name: interdigitated_electrodes_gdsfactorypcomponentspanalogp_f23a132c
+settings:
+  bus_width: 2
+  finger_gap: 0.5
+  finger_length: 10
+  finger_width: 0.5
+  layer: MTOP
+  n_fingers: 10
+  port_type: electrical

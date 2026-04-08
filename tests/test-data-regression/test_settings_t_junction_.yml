@@ -1,0 +1,11 @@
+info: {}
+name: t_junction_gdsfactorypcomponentspmicrofluidicspt_juncti_2c5b0983
+settings:
+  branch_length: 10
+  branch_width: 1
+  layer: WG
+  main_length: 20
+  main_width: 1
+  n_reservoir_points: 64
+  port_type: optical
+  reservoir_radius: 0

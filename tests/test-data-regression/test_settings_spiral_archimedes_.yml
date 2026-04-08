@@ -1,0 +1,8 @@
+info: {}
+name: spiral_archimedes_gdsfactorypcomponentspspiralspspiral__acc8103c
+settings:
+  angle_resolution: 2
+  layer: WG
+  n_turns: 5
+  separation: 2
+  width: 1
