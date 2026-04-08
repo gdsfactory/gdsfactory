@@ -24,6 +24,7 @@ from kfactory.routing.optical import PathLengthConfig
 
 import gdsfactory as gf
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -33,6 +34,7 @@ from gdsfactory.typings import (
     LayerSpec,
     LayerSpecs,
     LayerTransitions,
+    Pin,
     Port,
     Ports,
     Step,
@@ -151,8 +153,8 @@ def _ensure_manhattan_waypoints(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Port | Ports | None = None,
-    ports2: Port | Ports | None = None,
+    ports1: Port | Ports | list[Pin] | None = None,
+    ports2: Port | Ports | list[Pin] | None = None,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
@@ -277,6 +279,20 @@ def route_bundle(
         ports1 = [ports1]
     if isinstance(ports2, kf.DPort):
         ports2 = [ports2]
+
+    # Resolve Pin inputs to Ports
+    if ports1 and isinstance(ports1[0], Pin):
+        if not (ports2 and isinstance(ports2[0], Pin)):
+            raise TypeError(
+                "Cannot mix Pins and Ports. "
+                "If ports1 contains Pins, ports2 must also contain Pins."
+            )
+        ports1, ports2 = resolve_pins(list(ports1), list(ports2))
+    elif ports2 and isinstance(ports2[0], Pin):
+        raise TypeError(
+            "Cannot mix Pins and Ports. "
+            "If ports2 contains Pins, ports1 must also contain Pins."
+        )
 
     if show_waypoints and layer_marker is None:
         layer_marker = gf.CONF.layer_marker
