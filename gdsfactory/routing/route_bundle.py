@@ -280,6 +280,10 @@ def route_bundle(
     if isinstance(ports2, kf.DPort):
         ports2 = [ports2]
 
+    # Ensure ports are lists (they may be reversed, generators, etc.)
+    ports1 = list(ports1)
+    ports2 = list(ports2)
+
     # Resolve Pin inputs to Ports
     if ports1 and isinstance(ports1[0], Pin):
         if not (ports2 and isinstance(ports2[0], Pin)):
@@ -287,7 +291,7 @@ def route_bundle(
                 "Cannot mix Pins and Ports. "
                 "If ports1 contains Pins, ports2 must also contain Pins."
             )
-        ports1, ports2 = resolve_pins(list(ports1), list(ports2))
+        ports1, ports2 = resolve_pins(ports1, ports2)
     elif ports2 and isinstance(ports2[0], Pin):
         raise TypeError(
             "Cannot mix Pins and Ports. "
