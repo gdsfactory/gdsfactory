@@ -158,6 +158,9 @@ PortDict: TypeAlias = dict[str, Port]
 Ports: TypeAlias = kf.DPorts | Sequence[Port] | kf.DInstancePorts
 SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
 
+Pin: TypeAlias = kf.DPin
+Pins: TypeAlias = kf.DPins
+
 PortType: TypeAlias = str
 PortName: TypeAlias = str
 

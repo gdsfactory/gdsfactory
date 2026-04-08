@@ -24,6 +24,7 @@ from kfactory.routing.optical import PathLengthConfig
 
 import gdsfactory as gf
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -33,6 +34,7 @@ from gdsfactory.typings import (
     LayerSpec,
     LayerSpecs,
     LayerTransitions,
+    Pin,
     Port,
     Ports,
     Step,
@@ -151,8 +153,8 @@ def _ensure_manhattan_waypoints(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Port | Ports | None = None,
-    ports2: Port | Ports | None = None,
+    ports1: Port | Ports | list[Pin] | None = None,
+    ports2: Port | Ports | list[Pin] | None = None,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
@@ -281,12 +283,32 @@ def route_bundle(
     if isinstance(ports2, kf.DPort):
         ports2 = [ports2]
 
+    # Ensure ports are lists (they may be reversed, generators, etc.)
+    port_list1 = list(ports1)
+    port_list2 = list(ports2)
+
+    # Resolve Pin inputs to Ports
+    if port_list1 and isinstance(port_list1[0], kf.DPin):
+        if not (port_list2 and isinstance(port_list2[0], kf.DPin)):
+            raise TypeError(
+                "Cannot mix Pins and Ports. "
+                "If ports1 contains Pins, ports2 must also contain Pins."
+            )
+        port_list1, port_list2 = resolve_pins(  # type: ignore[assignment]
+            cast(list[Pin], port_list1), cast(list[Pin], port_list2)
+        )
+    elif port_list2 and isinstance(port_list2[0], kf.DPin):
+        raise TypeError(
+            "Cannot mix Pins and Ports. "
+            "If ports2 contains Pins, ports1 must also contain Pins."
+        )
+
     if show_waypoints and layer_marker is None:
         layer_marker = gf.CONF.layer_marker
 
     component = gf.Component(base=component.base)  # type: ignore[call-overload]
-    ports1 = [gf.Port(base=p1.base) for p1 in ports1]
-    ports2 = [gf.Port(base=p2.base) for p2 in ports2]
+    ports1_resolved = [gf.Port(base=p1.base) for p1 in cast(list[kf.DPort], port_list1)]
+    ports2_resolved = [gf.Port(base=p2.base) for p2 in cast(list[kf.DPort], port_list2)]
 
     if router:
         warnings.warn(
@@ -307,8 +329,8 @@ def route_bundle(
         )
 
     c = component
-    ports1_ = list(ports1)
-    ports2_ = list(ports2)
+    ports1_ = ports1_resolved
+    ports2_ = ports2_resolved
     port_type = port_type or ports1_[0].port_type
 
     if cross_section is None:
