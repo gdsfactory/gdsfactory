@@ -291,7 +291,7 @@ def route_bundle(
                 "Cannot mix Pins and Ports. "
                 "If ports1 contains Pins, ports2 must also contain Pins."
             )
-        port_list1, port_list2 = resolve_pins(
+        port_list1, port_list2 = resolve_pins(  # type: ignore[assignment]
             cast(list[Pin], port_list1), cast(list[Pin], port_list2)
         )
     elif port_list2 and isinstance(port_list2[0], kf.DPin):

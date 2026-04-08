@@ -8,7 +8,14 @@ import gdsfactory as gf
 from gdsfactory.routing.resolve_pins import resolve_pin_pair, resolve_pins
 
 
-def _make_pin(component: gf.Component, name: str, center: tuple[float, float], directions: list[str], width: float = 1.0, layer: tuple[int, int] = (1, 0)) -> gf.Pin:
+def _make_pin(
+    component: gf.Component,
+    name: str,
+    center: tuple[float, float],
+    directions: list[str],
+    width: float = 1.0,
+    layer: tuple[int, int] = (1, 0),
+) -> gf.Pin:
     """Helper to create a Pin with ports in specified directions."""
     cx, cy = center
     offset = width / 2
@@ -22,7 +29,11 @@ def _make_pin(component: gf.Component, name: str, center: tuple[float, float], d
     for d in directions:
         pname, pcenter, orientation = direction_map[d]
         port = component.add_port(
-            name=pname, center=pcenter, width=width, orientation=orientation, layer=layer,
+            name=pname,
+            center=pcenter,
+            width=width,
+            orientation=orientation,
+            layer=layer,
         )
         ports.append(port)
     return component.create_pin(name=name, ports=ports, pin_type="DC")
@@ -34,7 +45,7 @@ def test_resolve_pin_pair_picks_closest_ports() -> None:
     pin_a = _make_pin(c, "a", (0, 0), ["N", "E", "S", "W"])
     pin_b = _make_pin(c, "b", (100, 0), ["N", "E", "S", "W"])
     port_a, port_b = resolve_pin_pair(pin_a, pin_b)
-    assert port_a.orientation == 0    # east
+    assert port_a.orientation == 0  # east
     assert port_b.orientation == 180  # west
 
 
@@ -44,7 +55,7 @@ def test_resolve_pin_pair_vertical() -> None:
     pin_a = _make_pin(c, "a", (0, 0), ["N", "E", "S", "W"])
     pin_b = _make_pin(c, "b", (0, 100), ["N", "E", "S", "W"])
     port_a, port_b = resolve_pin_pair(pin_a, pin_b)
-    assert port_a.orientation == 90   # north
+    assert port_a.orientation == 90  # north
     assert port_b.orientation == 270  # south
 
 

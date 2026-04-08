@@ -34,13 +34,11 @@ def resolve_pin_pair(pin_a: Pin, pin_b: Pin) -> tuple[Port, Port]:
 
     if not ports_a:
         raise ValueError(
-            f"Pin {pin_a.name!r} has no ports. "
-            "Each Pin must contain at least one Port."
+            f"Pin {pin_a.name!r} has no ports. Each Pin must contain at least one Port."
         )
     if not ports_b:
         raise ValueError(
-            f"Pin {pin_b.name!r} has no ports. "
-            "Each Pin must contain at least one Port."
+            f"Pin {pin_b.name!r} has no ports. Each Pin must contain at least one Port."
         )
 
     best_dist = math.inf

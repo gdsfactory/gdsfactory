@@ -7,7 +7,14 @@ from gdsfactory.routing.add_pads import add_pads_bot
 from gdsfactory.routing.route_bundle import route_bundle
 
 
-def _make_pin(component: gf.Component, name: str, center: tuple[float, float], directions: list[str], width: float = 0.5, layer: int = 1) -> gf.Pin:
+def _make_pin(
+    component: gf.Component,
+    name: str,
+    center: tuple[float, float],
+    directions: list[str],
+    width: float = 0.5,
+    layer: int = 1,
+) -> gf.Pin:
     """Helper to create a Pin with ports in specified directions."""
     cx, cy = center
     offset = width / 2
@@ -21,7 +28,11 @@ def _make_pin(component: gf.Component, name: str, center: tuple[float, float], d
     for d in directions:
         pname, pcenter, orientation = direction_map[d]
         port = component.add_port(
-            name=pname, center=pcenter, width=width, orientation=orientation, layer=layer,
+            name=pname,
+            center=pcenter,
+            width=width,
+            orientation=orientation,
+            layer=layer,
         )
         ports.append(port)
     return component.create_pin(name=name, ports=ports, pin_type="DC")
@@ -33,7 +44,9 @@ def test_route_bundle_with_pins_horizontal() -> None:
     pin1 = _make_pin(c, "src", (0, 0), ["N", "E", "S", "W"])
     pin2 = _make_pin(c, "dst", (200, 0), ["N", "E", "S", "W"])
     routes = route_bundle(
-        c, [pin1], [pin2],
+        c,
+        [pin1],
+        [pin2],
         cross_section="strip",
         allow_width_mismatch=True,
     )
@@ -46,7 +59,9 @@ def test_route_bundle_with_pins_vertical() -> None:
     pin1 = _make_pin(c, "src", (0, 0), ["N", "E", "S", "W"])
     pin2 = _make_pin(c, "dst", (0, 200), ["N", "E", "S", "W"])
     routes = route_bundle(
-        c, [pin1], [pin2],
+        c,
+        [pin1],
+        [pin2],
         cross_section="strip",
         allow_width_mismatch=True,
     )
@@ -59,7 +74,9 @@ def test_route_bundle_with_restricted_pins() -> None:
     pin1 = _make_pin(c, "src", (0, 0), ["E", "W"])
     pin2 = _make_pin(c, "dst", (200, 0), ["E", "W"])
     routes = route_bundle(
-        c, [pin1], [pin2],
+        c,
+        [pin1],
+        [pin2],
         cross_section="strip",
         allow_width_mismatch=True,
     )
@@ -84,21 +101,30 @@ def test_route_bundle_ports_still_works() -> None:
     assert len(routes) == 1
 
 
-@pytest.mark.xfail(reason="route_fiber_array needs Pin-aware port selection — future work")
+@pytest.mark.xfail(
+    reason="route_fiber_array needs Pin-aware port selection — future work"
+)
 def test_add_pads_bot_with_pin_pad() -> None:
     """add_pads_bot works when pad component exposes Pins."""
+
     @gf.cell
     def pin_pad() -> gf.Component:
         c = gf.Component()
         size = 100
-        c.add_polygon(
-            [(0, 0), (size, 0), (size, size), (0, size)], layer=(1, 0)
-        )
+        c.add_polygon([(0, 0), (size, 0), (size, size), (0, size)], layer=(1, 0))
         cx, cy = size / 2, size / 2
-        p_n = c.add_port(name="pad_n", center=(cx, size), width=size, orientation=90, layer=(1, 0))
-        p_e = c.add_port(name="pad_e", center=(size, cy), width=size, orientation=0, layer=(1, 0))
-        p_s = c.add_port(name="pad_s", center=(cx, 0), width=size, orientation=270, layer=(1, 0))
-        p_w = c.add_port(name="pad_w", center=(0, cy), width=size, orientation=180, layer=(1, 0))
+        p_n = c.add_port(
+            name="pad_n", center=(cx, size), width=size, orientation=90, layer=(1, 0)
+        )
+        p_e = c.add_port(
+            name="pad_e", center=(size, cy), width=size, orientation=0, layer=(1, 0)
+        )
+        p_s = c.add_port(
+            name="pad_s", center=(cx, 0), width=size, orientation=270, layer=(1, 0)
+        )
+        p_w = c.add_port(
+            name="pad_w", center=(0, cy), width=size, orientation=180, layer=(1, 0)
+        )
         c.create_pin(name="pad", ports=[p_n, p_e, p_s, p_w], pin_type="DC")
         return c
 
