@@ -17,6 +17,7 @@ from kfactory.layout import kcl
 from kfactory import logger
 import klayout.db as kdb
 from kfactory import DSchematic as Schematic
+from kfactory import DPin, ProtoPin
 
 from gdsfactory._cell import cell, vcell, cell_with_module_name, schematic_cell
 from gdsfactory.path import Path
@@ -29,6 +30,7 @@ from gdsfactory.component import (
 )
 from gdsfactory.config import CONF, PATH, __version__
 from gdsfactory.port import Port
+from gdsfactory.typings import Pin
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import (
     ComponentAlongPath,
@@ -109,11 +111,14 @@ __all__ = (
     "ComponentReference",
     "Constants",
     "CrossSection",
+    "DPin",
     "Instance",
     "LayerEnum",
     "Path",
     "Pdk",
+    "Pin",
     "Port",
+    "ProtoPin",
     "Region",
     "Schematic",
     "Section",
