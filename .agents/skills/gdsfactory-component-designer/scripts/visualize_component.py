@@ -14,7 +14,7 @@ different Python command, for example::
 Choose whichever command gives access to the ``gdsfactory`` package in the
 current project.
 
-Examples
+Examples:
 --------
     python visualize_component.py "gf.components.mmi1x2()" /tmp/mmi1x2.png
     python visualize_component.py "gf.components.bend_euler(radius=15)" /tmp/bend.png --width 1024 --height 768

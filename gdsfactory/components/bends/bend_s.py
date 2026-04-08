@@ -215,6 +215,8 @@ def _get_euler_sbend_angle_middle_length_from_jog(
     Args:
         jog: The vertical displacement of the S-bend.
         radius: The radius of the Euler bend.
+        p: proportion of the curve that is an Euler curve.
+        use_eff: if True, use effective radius.
 
     Returns:
       tuple: (angle_deg, middle_length) where:

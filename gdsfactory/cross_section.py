@@ -1293,7 +1293,6 @@ def metal_routing(
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
-
     radius = radius or width
 
     return cross_section(

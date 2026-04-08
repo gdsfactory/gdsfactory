@@ -2,10 +2,23 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-json
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml)
+      - id: check-toml
+      - id: debug-statements
+      - id: mixed-line-ending
+      - id: name-tests-test
+        args: [--pytest-test-first]
+        exclude: "tests/.*/data/.*\\.py$|tests/models/base\\.py$|tests/gds/.*\\.py$|tests/labels/.*\\.py$"
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: detect-private-key
   - repo: https://github.com/kynan/nbstripout
     rev: 0.8.1
     hooks:

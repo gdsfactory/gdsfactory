@@ -1293,8 +1293,7 @@ def extrude_transition(
     transition: Transition | TransitionAsymmetric,
     all_angle: bool = False,
 ) -> AnyComponent:
-    """
-    Extrudes a path along a transition, allowing different transition methods for the upper and lower edges.
+    """Extrudes a path along a transition, allowing different transition methods for the upper and lower edges.
 
     Args:
         p: Path to extrude.

@@ -234,7 +234,10 @@ def route_bundle(
         show_waypoints: if True, places markers at each waypoint using CONF.layer_marker.
         layer_marker: layer to place markers on the route. Overrides CONF.layer_marker when show_waypoints=True.
         raise_on_error: if True, raises an exception on routing error instead of adding error markers.
+        path_length_matching_config: path length matching configuration.
         layer_label: layer to place length labels on the route.
+        port1: single start port (alternative to ports1 for single-port routing).
+        port2: single end port (alternative to ports2 for single-port routing).
 
     .. plot::
         :include-source:
