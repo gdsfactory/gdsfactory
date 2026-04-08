@@ -12,6 +12,8 @@ jobs:
   build-docs:
     runs-on: ubuntu-latest
     name: Sphinx docs to gh-pages
+    permissions:
+      contents: read
     steps:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.13.1
