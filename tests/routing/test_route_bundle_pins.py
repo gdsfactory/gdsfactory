@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.routing.route_bundle import route_bundle
+from gdsfactory.routing.add_pads import add_pads_bot
 
 
 def _make_pin(component: gf.Component, name: str, center: tuple[float, float], directions: list[str], width: float = 0.5, layer: int = 1) -> gf.Pin:
@@ -82,3 +83,41 @@ def test_route_bundle_ports_still_works():
     port2 = gf.Port(name="p2", center=(200, 0), width=0.5, orientation=180, layer=1)
     routes = route_bundle(c, [port1], [port2], cross_section="strip")
     assert len(routes) == 1
+
+
+def test_add_pads_bot_with_pin_pad():
+    """add_pads_bot works when pad component exposes Pins."""
+    @gf.cell
+    def pin_pad() -> gf.Component:
+        c = gf.Component()
+        size = 100
+        c.add_polygon(
+            [(0, 0), (size, 0), (size, size), (0, size)], layer=(1, 0)
+        )
+        cx, cy = size / 2, size / 2
+        p_n = c.add_port(name="pad_n", center=(cx, size), width=size, orientation=90, layer=(1, 0))
+        p_e = c.add_port(name="pad_e", center=(size, cy), width=size, orientation=0, layer=(1, 0))
+        p_s = c.add_port(name="pad_s", center=(cx, 0), width=size, orientation=270, layer=(1, 0))
+        p_w = c.add_port(name="pad_w", center=(0, cy), width=size, orientation=180, layer=(1, 0))
+        c.create_pin(name="pad", ports=[p_n, p_e, p_s, p_w], pin_type="DC")
+        return c
+
+    component = gf.components.nxn(
+        xsize=600,
+        ysize=200,
+        north=2,
+        south=0,
+        wg_width=10,
+        layer=(1, 0),
+        port_type="electrical",
+    )
+
+    # This should NOT raise the orientation assertion error
+    result = add_pads_bot(
+        component=component,
+        pad=pin_pad,
+        cross_section="strip",
+        port_names=("e1", "e2"),
+        allow_width_mismatch=True,
+    )
+    assert result is not None
