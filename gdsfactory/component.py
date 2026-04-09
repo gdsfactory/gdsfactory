@@ -1292,7 +1292,7 @@ class Component(ComponentBase, kf.DKCell):
         fig_height = img_array.shape[0] / dpi
 
         if ax is not None:
-            fig = ax.get_figure()
+            fig = plt.gcf()  # Get the current figure (global figure, not subfigure)
         else:
             fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
 
