@@ -23,6 +23,7 @@ from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import PathLengthConfig
 
 import gdsfactory as gf
+from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
@@ -166,8 +167,8 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: Literal["error", "show_error", "warning"] | None = "warning",
-    on_placer_error: Literal["error", "show_error", "warning"] | None = "warning",
+    on_collision: Literal["error", "show_error", "warning"] | None = None,
+    on_placer_error: Literal["error", "show_error", "warning"] | None = None,
     bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool | None = None,
     allow_layer_mismatch: bool | None = None,
@@ -186,7 +187,7 @@ def route_bundle(
     layer_transitions: LayerTransitions | None = None,
     show_waypoints: bool = False,
     layer_marker: LayerSpec | None = None,
-    raise_on_error: bool = False,
+    raise_on_error: bool | None = None,
     path_length_matching_config: PathLengthConfig | None = None,
     layer_label: LayerSpec | None = None,
     port1: Port | None = None,
@@ -266,6 +267,12 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    on_collision = on_collision or CONF.on_collision
+    on_placer_error = on_placer_error or CONF.on_placer_error
+
+    if raise_on_error is None:
+        raise_on_error = CONF.raise_on_error
+
     # Support deprecated port1/port2 keyword arguments
     if port1 is not None:
         if ports1 is not None:
@@ -580,8 +587,8 @@ def route_bundle(
             separation=separation,
             starts=start_straight_length,
             ends=end_straight_length,
-            on_collision=kf_on_collision,
-            on_placer_error=kf_on_placer_error,
+            on_collision=None,
+            on_placer_error=None,
             bboxes=bboxes,
             route_width=width,
             sort_ports=sort_ports,
