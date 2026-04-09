@@ -166,8 +166,8 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: Literal["error", "show_error"] | None = None,
-    on_placer_error: Literal["error", "show_error"] | None = None,
+    on_collision: Literal["error", "show_error", "warning"] | None = "warning",
+    on_placer_error: Literal["error", "show_error", "warning"] | None = "warning",
     bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool | None = None,
     allow_layer_mismatch: bool | None = None,
@@ -520,6 +520,11 @@ def route_bundle(
             return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
 
     try:
+        kf_on_collision = "error" if on_collision == "warning" else on_collision
+        kf_on_placer_error = (
+            "error" if on_placer_error == "warning" else on_placer_error
+        )
+
         route = kf.routing.optical.route_bundle(
             component,
             ports1_,
@@ -537,8 +542,8 @@ def route_bundle(
             ]
             if collision_check_layer_enums
             else None,
-            on_collision=on_collision,
-            on_placer_error=on_placer_error,
+            on_collision=kf_on_collision,
+            on_placer_error=kf_on_placer_error,
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
             allow_type_mismatch=allow_type_mismatch,
@@ -565,8 +570,8 @@ def route_bundle(
             e = ValueError("You need at least 2 waypoints or steps.")
         elif "non-manhattan" in str(e):
             e = ValueError("Waypoints need to be Manhattan (axis-aligned) coordinates.")
-
         gf.logger.error(f"Error in route_bundle: {e}")
+        warn(f"Routing failed: {e}", stacklevel=2)
         layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
         route = kf.routing.electrical.route_bundle(
             component,
