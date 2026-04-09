@@ -549,13 +549,19 @@ def route_bundle(
             sbend_factory=_sbend if sbend else None,
         )
     except Exception as e:
+        if raise_on_error:
+            if "kdb.Trans" in str(e):
+                raise ValueError("You need at least 2 waypoints or steps.") from e
+            if "non-manhattan" in str(e):
+                raise ValueError(
+                    "Waypoints need to be Manhattan (axis-aligned) coordinates."
+                ) from e
+            raise
+
         if "kdb.Trans" in str(e):
             e = ValueError("You need at least 2 waypoints or steps.")
         elif "non-manhattan" in str(e):
             e = ValueError("Waypoints need to be Manhattan (axis-aligned) coordinates.")
-
-        if raise_on_error:
-            raise
 
         gf.logger.error(f"Error in route_bundle: {e}")
         layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
