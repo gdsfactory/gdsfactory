@@ -167,6 +167,7 @@ def route_bundle(
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
     on_collision: Literal["error", "show_error"] | None = None,
+    on_placer_error: Literal["error", "show_error"] | None = None,
     bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool | None = None,
     allow_layer_mismatch: bool | None = None,
@@ -214,6 +215,7 @@ def route_bundle(
         port_type: type of port to place. Defaults to optical.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to None (ignore).
+        on_placer_error: action to take on placer error. Defaults to None (ignore).
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
         allow_layer_mismatch: allow different port layers to connect.
@@ -536,6 +538,7 @@ def route_bundle(
             if collision_check_layer_enums
             else None,
             on_collision=on_collision,
+            on_placer_error=on_placer_error,
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
             allow_type_mismatch=allow_type_mismatch,
@@ -573,6 +576,7 @@ def route_bundle(
             starts=start_straight_length,
             ends=end_straight_length,
             on_collision=on_collision,
+            on_placer_error=on_placer_error,
             bboxes=bboxes,
             route_width=width,
             sort_ports=sort_ports,
