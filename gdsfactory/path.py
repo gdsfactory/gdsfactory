@@ -8,7 +8,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import functools
 import hashlib
 import math
 import warnings
@@ -1657,46 +1656,48 @@ def arc(
     return path
 
 
-@functools.cache
-def _fresnel_coeffs(
-    n_iter: int = 8,
-) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.floating]]:
-    """Compute Fresnel coefficients (cached on first call).
+_SQRT_HALF_PI: float = float(np.sqrt(np.pi / 2))
+_SQRT_2_OVER_PI: float = float(np.sqrt(2 / np.pi))
 
-    Arrays are marked read-only to prevent accidental mutation of cached values.
+
+def _fresnel_scipy(t: npt.NDArray[np.floating]) -> npt.NDArray[np.floating]:
+    """Evaluate Fresnel integrals via scipy.special.fresnel.
+
+    Args:
+        t: 1-D array of normalised clothoid parameter values.
+
+    Returns:
+        Array of shape (2, len(t)): [x_coords, y_coords].
     """
-    n = np.arange(n_iter)
-    exp = np.array([4 * n + 1, 4 * n + 3])
-    den = np.empty(shape=(2, n_iter))
-    den[0] = [math.factorial(2 * i) * (4 * i + 1) for i in n]
-    den[1] = [math.factorial(2 * i + 1) * (4 * i + 3) for i in n]
-    den *= (-1.0) ** n
-    exp.flags.writeable = False
-    den.flags.writeable = False
-    return exp, den
+    from scipy.special import fresnel
+
+    sin_fresnel, cos_fresnel = fresnel(t * _SQRT_2_OVER_PI)
+    return np.array([cos_fresnel * _SQRT_HALF_PI, sin_fresnel * _SQRT_HALF_PI])
 
 
 def _fresnel(
     R0: float, s: float, num_pts: int, n_iter: int = 8
 ) -> npt.NDArray[np.floating]:
-    """Fresnel integral using a series expansion with cached coefficients."""
+    """Fresnel integral using scipy.
+
+    The n_iter parameter is accepted for compatibility but ignored.
+    """
     t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
-    exp, den = _fresnel_coeffs(n_iter)
-    series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
-    return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * series)
+    return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * _fresnel_scipy(t))
 
 
 def _fresnel_angular(
     R0: float, s: float, num_pts: int, n_iter: int = 8
 ) -> npt.NDArray[np.floating]:
-    """Fresnel integral with uniform angular sampling and cached coefficients."""
+    """Fresnel integral with uniform angular sampling via scipy.
+
+    The n_iter parameter is accepted for compatibility but ignored.
+    """
     t_max = s / float(np.sqrt(2) * R0)
     theta_max = t_max**2 / 2
     thetas = np.linspace(0, theta_max, num_pts)
     t = np.sqrt(2 * thetas)
-    exp, den = _fresnel_coeffs(n_iter)
-    series = (t ** exp[..., None] / den[..., None]).sum(axis=1)
-    return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * series)
+    return cast("npt.NDArray[np.floating]", np.sqrt(2) * R0 * _fresnel_scipy(t))
 
 
 def euler(
