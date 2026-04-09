@@ -97,19 +97,25 @@ def _make_schematic(
         "bottom": (0, -1, 270),
     }
 
+    # Pre-count ports per side for centering
+    side_counts: dict[str, int] = {}
+    for port in ports:
+        side_counts[port["side"]] = side_counts.get(port["side"], 0) + 1
+
     seen_sides: dict[str, int] = {}
+    spacing = 0.5
     for port in ports:
         side = port["side"]
         idx = seen_sides.get(side, 0)
         seen_sides[side] = idx + 1
+        total = side_counts[side]
         bx, by, orientation = side_to_xy[side]
 
-        # Offset multiple ports on the same side
+        # Center multiple ports on the same side
+        offset = (idx - (total - 1) / 2) * spacing
         if side in ("left", "right"):
-            offset = idx * 0.5 - (seen_sides.get(side, 1) - 1) * 0.25
             x, y = bx, by + offset
         else:
-            offset = idx * 0.5 - (seen_sides.get(side, 1) - 1) * 0.25
             x, y = bx + offset, by
 
         xs = "metal1_routing" if port["type"] == "electric" else "strip"
