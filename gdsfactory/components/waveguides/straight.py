@@ -8,8 +8,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import CrossSectionSpec
 
+from .._schematic import straight_schematic, wire_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=straight_schematic)
 def straight(
     length: float = 10.0,
     npoints: int = 2,
@@ -106,7 +108,7 @@ def straight_array(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=wire_schematic)
 def wire_straight(
     length: float = 10.0,
     npoints: int = 2,

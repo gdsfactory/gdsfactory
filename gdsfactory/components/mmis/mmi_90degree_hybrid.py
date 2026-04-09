@@ -6,10 +6,11 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import ckt_schematic
 from ..tapers.taper import taper as taper_function
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=ckt_schematic)
 def mmi_90degree_hybrid(
     width: float = 0.5,
     width_taper: float = 1.7,

@@ -11,8 +11,10 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import pn
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import modulator_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=modulator_schematic)
 def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionSpec = "pin",

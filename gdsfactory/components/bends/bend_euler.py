@@ -13,6 +13,8 @@ from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import euler
 from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
 
+from .._schematic import bend_schematic, sbend_schematic
+
 
 @overload
 def _bend_euler(
@@ -142,7 +144,7 @@ def _bend_euler(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=sbend_schematic)
 def bend_euler_s(
     radius: float | None = None,
     p: float = 0.5,
@@ -208,7 +210,7 @@ def bend_euler_s(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=bend_schematic)
 def bend_euler(
     radius: float | None = None,
     angle: float = 90.0,

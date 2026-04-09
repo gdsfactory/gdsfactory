@@ -23,10 +23,12 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
 
+from .._schematic import taper_schematic
+
 data = pathlib.Path(__file__).parent / "csv_data"
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=taper_schematic)
 def taper_from_csv(
     filepath: Path = data / "taper_strip_0p5_3_36.csv",
     cross_section: CrossSectionSpec = "strip",

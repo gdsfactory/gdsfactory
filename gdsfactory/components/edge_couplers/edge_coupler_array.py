@@ -10,8 +10,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
+from .._schematic import taper_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=taper_schematic)
 def edge_coupler_silicon(
     length: float = 100,
     width1: float = 0.5,

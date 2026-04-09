@@ -12,6 +12,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
+from .._schematic import grating_coupler_schematic
 from ..grating_couplers.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
@@ -70,7 +71,7 @@ parameters = (
 )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
     layer_slab: LayerSpec | None = "SLAB150",

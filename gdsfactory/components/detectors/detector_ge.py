@@ -8,8 +8,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import photodiode_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=photodiode_schematic)
 def ge_detector_straight_si_contacts(
     length: float = 40.0,
     cross_section: CrossSectionSpec = "pn_ge_detector_si_contacts",

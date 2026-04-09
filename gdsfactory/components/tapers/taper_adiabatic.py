@@ -12,6 +12,8 @@ import gdsfactory as gf
 from gdsfactory.path import transition_adiabatic
 from gdsfactory.typings import CrossSectionSpec
 
+from .._schematic import taper_schematic
+
 
 def neff_TE1550SOI_220nm(w: float) -> float:
     """Returns the effective index of the fundamental TE mode for a 220nm-thick core with 3.45 index, fully clad with 1.44 index.
@@ -45,7 +47,7 @@ def neff_TE1550SOI_220nm(w: float) -> float:
     return float(np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w).item())
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=taper_schematic)
 def taper_adiabatic(
     width1: float = 0.5,
     width2: float = 5.0,

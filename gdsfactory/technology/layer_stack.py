@@ -549,8 +549,9 @@ class LayerStack(BaseModel):
             level = layers[layer_name]
             if level.derived_layer:
                 unetched_layers_dict[level.derived_layer.layer].append(layer_name)
-                if level.derived_layer.layer in unetched_layers:
-                    unetched_layers.remove(level.derived_layer.layer)
+                derived = level.derived_layer.layer
+                if isinstance(derived, str) and derived in unetched_layers:
+                    unetched_layers.remove(derived)
 
         # Define layers
         out += "\n".join(

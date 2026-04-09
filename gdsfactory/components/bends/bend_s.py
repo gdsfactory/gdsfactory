@@ -14,6 +14,8 @@ from gdsfactory.config import ErrorType
 from gdsfactory.functions import angles_deg, curvature, snap_angle
 from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec, Size
 
+from .._schematic import sbend_schematic
+
 
 def bezier_curve(
     t: npt.NDArray[np.floating[Any]], control_points: Coordinates
@@ -37,7 +39,7 @@ def bezier_curve(
     return np.column_stack([xs, ys])
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=sbend_schematic)
 def bezier(
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 1.8), (10.0, 1.8)),
     npoints: int = 201,
@@ -160,7 +162,7 @@ def find_min_curv_bezier_control_points(
     return tuple(points)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=sbend_schematic)
 def bend_s(
     size: Size = (11.0, 1.8),
     npoints: int = 99,
@@ -246,7 +248,7 @@ def _get_euler_sbend_angle_middle_length_from_jog(
     return angle_deg, middle_length
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=sbend_schematic)
 def bend_s_offset(
     offset: float = 40.0,
     radius: float | None = 10.0,

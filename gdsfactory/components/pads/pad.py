@@ -26,8 +26,10 @@ from gdsfactory.typings import (
     Size,
 )
 
+from .._schematic import pad_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=pad_schematic)
 def pad(
     size: Size | str = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
@@ -103,7 +105,7 @@ pad_rectangular = partial(pad, size="pad_size")
 pad_small = partial(pad, size=(80, 80))
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=pad_schematic)
 def pad_array(
     pad: ComponentSpec = "pad",
     columns: int = 6,

@@ -7,8 +7,10 @@ from typing import Any
 import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import ckt_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=ckt_schematic)
 def mzi_pads_center(
     ps_top: ComponentSpec = "straight_heater_metal",
     ps_bot: ComponentSpec = "straight_heater_metal",

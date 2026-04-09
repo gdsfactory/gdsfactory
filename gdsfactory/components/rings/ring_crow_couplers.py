@@ -10,8 +10,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import ring_double_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=ring_double_schematic)
 def ring_crow_couplers(
     radius: Sequence[float] = (10.0,) * 3,
     bends: Sequence[ComponentSpec] = ("bend_circular",) * 3,

@@ -8,13 +8,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
+from .._schematic import grating_coupler_schematic
 from ..tapers.taper import taper
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
 def grating_coupler_rectangular_arbitrary(
     gaps: Floats = _gaps,
     widths: Floats = _widths,
