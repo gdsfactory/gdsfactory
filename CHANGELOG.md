@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.40.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.0) - 2026-04-09
+
+No significant changes.
+
+
 ## [9.39.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.3) - 2026-03-21
 
 - fix bend s offset [#4457](https://github.com/gdsfactory/gdsfactory/pull/4457)
