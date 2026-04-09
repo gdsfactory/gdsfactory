@@ -6,9 +6,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from .._schematic import bend_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=bend_schematic)
 def bend_circular_heater(
     radius: float | None = None,
     angle: float = 90,

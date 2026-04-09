@@ -8,6 +8,7 @@ from numpy import cos, pi, sin
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
+from .._schematic import ring_single_schematic
 
 
 @gf.cell_with_module_name

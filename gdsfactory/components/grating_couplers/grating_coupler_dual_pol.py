@@ -7,6 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from .._schematic import grating_coupler_schematic
 
 
 def _unit_cell() -> gf.Component:
@@ -15,7 +16,7 @@ def _unit_cell() -> gf.Component:
     )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
 def grating_coupler_dual_pol(
     unit_cell: ComponentSpec = _unit_cell,
     period_x: float = 0.58,

@@ -7,6 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from ..waveguides.straight import straight
+from .._schematic import spiral_schematic
 
 diagram = r"""
 
@@ -26,7 +27,7 @@ diagram = r"""
 """
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=spiral_schematic)
 def delay_snake_sbend(
     length: float = 100.0,
     length1: float = 0.0,

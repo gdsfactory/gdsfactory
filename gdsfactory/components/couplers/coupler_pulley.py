@@ -9,6 +9,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from .._schematic import coupler_schematic
 
 
 def _cubic_bezier(

@@ -14,6 +14,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpe
 
 from ..vias.via import via
 from ..vias.via_stack import via_stack
+from .._schematic import straight_schematic
 
 _via_stack = partial(
     via_stack,
@@ -38,7 +39,7 @@ _via_stack = partial(
 )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=straight_schematic)
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,

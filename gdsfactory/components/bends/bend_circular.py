@@ -11,6 +11,9 @@ from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from .._schematic import bend_schematic
+
+
 
 
 @overload
@@ -111,7 +114,7 @@ def _bend_circular(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=bend_schematic)
 def bend_circular(
     radius: float | None = None,
     angle: float = 90.0,

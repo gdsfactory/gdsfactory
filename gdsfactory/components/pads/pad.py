@@ -17,6 +17,7 @@ from typing import Any
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import valid_port_orientations
+from .._schematic import pad_schematic
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
@@ -27,7 +28,7 @@ from gdsfactory.typings import (
 )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=pad_schematic)
 def pad(
     size: Size | str = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
@@ -103,7 +104,7 @@ pad_rectangular = partial(pad, size="pad_size")
 pad_small = partial(pad, size=(80, 80))
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=pad_schematic)
 def pad_array(
     pad: ComponentSpec = "pad",
     columns: int = 6,

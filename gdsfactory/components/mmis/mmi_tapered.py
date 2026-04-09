@@ -7,9 +7,10 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 from ..tapers.taper import taper as taper_function
+from .._schematic import mmi_1x2_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=mmi_1x2_schematic)
 def mmi_tapered(
     inputs: int = 1,
     outputs: int = 2,

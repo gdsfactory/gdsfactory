@@ -9,9 +9,10 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from ..bends.bend_s import bend_s
+from .._schematic import ckt_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=ckt_schematic)
 def mode_converter(
     gap: float = 0.3,
     length: float = 10,

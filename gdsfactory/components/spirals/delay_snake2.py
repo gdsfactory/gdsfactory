@@ -9,6 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from ..containers.component_sequence import component_sequence
+from .._schematic import spiral_schematic
 
 diagram = """
        | length0 | length1 |
@@ -23,7 +24,7 @@ diagram = """
 """
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=spiral_schematic)
 def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,

@@ -8,9 +8,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import assert_on_2x_grid
 from gdsfactory.typings import ComponentSpec
+from .._schematic import ring_single_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=ring_single_schematic)
 def ring_single_dut(
     component: ComponentSpec = "straight",
     gap: float = 0.2,

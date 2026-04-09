@@ -8,6 +8,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
+from .._schematic import pad_schematic
 
 
 @gf.cell_with_module_name
@@ -64,7 +65,7 @@ def pad_gsg_short(
 pad_gsg_open = partial(pad_gsg_short, short=False)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=pad_schematic)
 def pad_gsg(length: float = 100, cross_section: str = "gsg") -> gf.Component:
     return gf.c.straight(cross_section=cross_section, length=length)
 

@@ -5,9 +5,10 @@ __all__ = ["mmi"]
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from .._schematic import ckt_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=ckt_schematic)
 def mmi(
     inputs: int = 1,
     outputs: int = 4,

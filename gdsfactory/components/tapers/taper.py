@@ -16,9 +16,12 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from .._schematic import taper_schematic, transition_schematic
 
 
-@gf.cell_with_module_name
+
+
+@gf.cell_with_module_name(schematic_function=taper_schematic)
 def taper(
     length: float = 10.0,
     width1: float = 0.5,
@@ -130,7 +133,7 @@ def taper(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=transition_schematic)
 def taper_strip_to_ridge(
     length: float = 10.0,
     width1: float = 0.5,
@@ -215,7 +218,7 @@ def taper_strip_to_ridge(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=transition_schematic)
 def taper_strip_to_ridge_trenches(
     length: float = 10.0,
     width: float = 0.5,
@@ -266,7 +269,7 @@ def taper_strip_to_ridge_trenches(
 taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=transition_schematic)
 def taper_sc_nc(
     width1: float = 0.5,
     width2: float = 1,
@@ -302,7 +305,7 @@ def taper_sc_nc(
     )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=transition_schematic)
 def taper_nc_sc(
     width1: float = 1,
     width2: float = 0.5,

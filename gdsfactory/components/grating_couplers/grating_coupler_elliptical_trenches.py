@@ -16,9 +16,10 @@ from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 from ..grating_couplers.functions import grating_tooth_points
+from .._schematic import grating_coupler_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     taper_length: float = 16.6,

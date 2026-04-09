@@ -5,9 +5,10 @@ __all__ = ["ring_asymmetric", "ring_crow"]
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from .._schematic import ring_double_schematic, ring_single_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=ring_double_schematic)
 def ring_crow(
     gaps: tuple[float, ...] = (0.2, 0.2, 0.2, 0.2),
     radius: tuple[float, ...] = (10.0, 10.0, 10.0),

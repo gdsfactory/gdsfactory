@@ -7,9 +7,10 @@ from collections.abc import Sequence
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Delta
+from .._schematic import mzi_2x2_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic)
 def mzit(
     w0: float = 0.5,
     w1: float = 0.45,
@@ -206,7 +207,7 @@ def mzit(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic)
 def mzit_lattice(
     coupler_lengths: Sequence[float] = (10.0, 20.0),
     coupler_gaps: Sequence[float] = (0.2, 0.3),

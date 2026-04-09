@@ -8,9 +8,10 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 from ..bends.bend_s import bend_s
+from .._schematic import mmi_2x2_schematic
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=mmi_2x2_schematic)
 def mmi2x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,

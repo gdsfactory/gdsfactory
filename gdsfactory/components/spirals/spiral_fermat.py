@@ -7,6 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
+from .._schematic import spiral_schematic
 
 
 @gf.cell_with_module_name
