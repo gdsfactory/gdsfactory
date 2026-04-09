@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
+from typing import Any, Literal, cast
+
 from kfactory.schematic import DSchematic
 
 # Port pattern: 2-port horizontal (straight, bend, taper, etc.)
@@ -79,16 +82,15 @@ _PHOTODIODE = [
 ]
 
 
-
 def _make_schematic(
     symbol: str,
     tags: list[str],
-    ports: list[dict],
+    ports: list[dict[str, str]],
 ) -> DSchematic:
     s = DSchematic()
-    s.info["tags"] = tags
+    s.info["tags"] = tags  # type: ignore[assignment]
     s.info["symbol"] = symbol
-    s.info["ports"] = ports
+    s.info["ports"] = ports  # type: ignore[assignment]
 
     side_to_xy = {
         "left": (-1, 0, 180),
@@ -114,9 +116,9 @@ def _make_schematic(
         # Center multiple ports on the same side
         offset = (idx - (total - 1) / 2) * spacing
         if side in ("left", "right"):
-            x, y = bx, by + offset
+            x, y = float(bx), by + offset
         else:
-            x, y = bx + offset, by
+            x, y = bx + offset, float(by)
 
         xs = "metal1_routing" if port["type"] == "electric" else "strip"
         s.create_port(
@@ -124,7 +126,7 @@ def _make_schematic(
             cross_section=xs,
             x=x,
             y=y,
-            orientation=orientation,
+            orientation=cast(Literal[0, 90, 180, 270], orientation),
         )
 
     return s
@@ -133,11 +135,11 @@ def _make_schematic(
 def schematic(
     symbol: str,
     tags: list[str],
-    ports: list[dict],
-):
+    ports: list[dict[str, str]],
+) -> Callable[..., DSchematic]:
     """Returns a schematic function for use with @gf.cell(schematic_function=...)."""
 
-    def _schematic_fn(**kwargs) -> DSchematic:
+    def _schematic_fn(**kwargs: Any) -> DSchematic:
         return _make_schematic(symbol, tags, ports)
 
     return _schematic_fn
@@ -163,22 +165,38 @@ spiral_schematic = schematic("spiral", ["spiral"], _LEFT_RIGHT)
 grating_coupler_schematic = schematic("grating-coupler", ["grating-coupler"], _GRATING)
 photodiode_schematic = schematic("photodiode", ["photodiode"], _PHOTODIODE)
 modulator_schematic = schematic("modulator", ["modulator"], _MODULATOR)
-inductor_schematic = schematic("inductor", ["inductor"], [
-    {"name": "P1", "side": "left", "type": "electric"},
-    {"name": "P2", "side": "right", "type": "electric"},
-])
-capacitor_schematic = schematic("capacitor", ["capacitor"], [
-    {"name": "o1", "side": "left", "type": "electric"},
-    {"name": "o2", "side": "right", "type": "electric"},
-])
-wire_schematic = schematic("straight", ["wire"], [
-    {"name": "e1", "side": "left", "type": "electric"},
-    {"name": "e2", "side": "right", "type": "electric"},
-])
-pad_schematic = schematic("pad", ["pad"], [
-    {"name": "e1", "side": "left", "type": "electric"},
-    {"name": "e2", "side": "top", "type": "electric"},
-    {"name": "e3", "side": "right", "type": "electric"},
-    {"name": "e4", "side": "bottom", "type": "electric"},
-])
+inductor_schematic = schematic(
+    "inductor",
+    ["inductor"],
+    [
+        {"name": "P1", "side": "left", "type": "electric"},
+        {"name": "P2", "side": "right", "type": "electric"},
+    ],
+)
+capacitor_schematic = schematic(
+    "capacitor",
+    ["capacitor"],
+    [
+        {"name": "o1", "side": "left", "type": "electric"},
+        {"name": "o2", "side": "right", "type": "electric"},
+    ],
+)
+wire_schematic = schematic(
+    "straight",
+    ["wire"],
+    [
+        {"name": "e1", "side": "left", "type": "electric"},
+        {"name": "e2", "side": "right", "type": "electric"},
+    ],
+)
+pad_schematic = schematic(
+    "pad",
+    ["pad"],
+    [
+        {"name": "e1", "side": "left", "type": "electric"},
+        {"name": "e2", "side": "top", "type": "electric"},
+        {"name": "e3", "side": "right", "type": "electric"},
+        {"name": "e4", "side": "bottom", "type": "electric"},
+    ],
+)
 ckt_schematic = schematic("ckt", [], _LEFT_RIGHT)
