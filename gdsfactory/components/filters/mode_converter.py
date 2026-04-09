@@ -8,8 +8,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from ..bends.bend_s import bend_s
 from .._schematic import ckt_schematic
+from ..bends.bend_s import bend_s
 
 
 @gf.cell_with_module_name(schematic_function=ckt_schematic)

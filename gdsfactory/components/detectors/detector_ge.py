@@ -7,6 +7,7 @@ __all__ = ["ge_detector_straight_si_contacts"]
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+
 from .._schematic import photodiode_schematic
 
 

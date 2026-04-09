@@ -6,11 +6,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import mmi_1x2_schematic
 from ..tapers.taper import taper as taper_function
 from ..waveguides.straight import straight as straight_function
-from .._schematic import mmi_1x2_schematic
-
-
 
 
 @gf.cell_with_module_name(schematic_function=mmi_1x2_schematic)

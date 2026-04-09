@@ -22,6 +22,7 @@ import numpy.typing as npt
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
+
 from .._schematic import taper_schematic
 
 data = pathlib.Path(__file__).parent / "csv_data"

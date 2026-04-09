@@ -17,7 +17,6 @@ from typing import Any
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import valid_port_orientations
-from .._schematic import pad_schematic
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
@@ -26,6 +25,8 @@ from gdsfactory.typings import (
     LayerSpec,
     Size,
 )
+
+from .._schematic import pad_schematic
 
 
 @gf.cell_with_module_name(schematic_function=pad_schematic)

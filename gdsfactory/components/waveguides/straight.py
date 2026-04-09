@@ -7,9 +7,8 @@ __all__ = ["straight", "straight_all_angle", "straight_array", "wire_straight"]
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import CrossSectionSpec
+
 from .._schematic import straight_schematic, wire_schematic
-
-
 
 
 @gf.cell_with_module_name(schematic_function=straight_schematic)

@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
+
 from .._schematic import bend_schematic
 
 

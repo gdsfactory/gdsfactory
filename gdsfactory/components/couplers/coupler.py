@@ -5,9 +5,8 @@ __all__ = ["coupler", "coupler_straight", "coupler_symmetric"]
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta
+
 from .._schematic import coupler_schematic
-
-
 
 
 @gf.cell_with_module_name

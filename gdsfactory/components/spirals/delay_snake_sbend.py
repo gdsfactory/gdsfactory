@@ -6,8 +6,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from ..waveguides.straight import straight
 from .._schematic import spiral_schematic
+from ..waveguides.straight import straight
 
 diagram = r"""
 

@@ -4,6 +4,7 @@ __all__ = ["spiral_inductor"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+
 from .._schematic import spiral_schematic
 
 

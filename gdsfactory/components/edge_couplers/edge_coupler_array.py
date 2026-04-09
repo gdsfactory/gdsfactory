@@ -9,6 +9,7 @@ __all__ = [
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+
 from .._schematic import taper_schematic
 
 

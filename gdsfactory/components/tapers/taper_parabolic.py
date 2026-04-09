@@ -7,6 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.path import transition_exponential
 from gdsfactory.typings import LayerSpec
+
 from .._schematic import taper_schematic
 
 

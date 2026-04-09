@@ -19,10 +19,10 @@ from gdsfactory.typings import (
     Port,
 )
 
+from .._schematic import spiral_schematic
 from ..bends.bend_euler import bend_euler
 from ..bends.bend_s import get_min_sbend_size
 from ..waveguides.straight import straight
-from .._schematic import spiral_schematic
 
 
 @gf.cell_with_module_name(schematic_function=spiral_schematic)

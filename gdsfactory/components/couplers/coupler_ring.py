@@ -6,11 +6,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import coupler_ring_schematic
 from ..couplers.coupler import coupler_straight
 from ..couplers.coupler90 import coupler90
-from .._schematic import coupler_ring_schematic
-
-
 
 
 @gf.cell_with_module_name(schematic_function=coupler_ring_schematic)

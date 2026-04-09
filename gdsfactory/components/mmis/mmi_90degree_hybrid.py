@@ -6,8 +6,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from ..tapers.taper import taper as taper_function
 from .._schematic import ckt_schematic
+from ..tapers.taper import taper as taper_function
 
 
 @gf.cell_with_module_name(schematic_function=ckt_schematic)

@@ -16,9 +16,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
+
 from .._schematic import taper_schematic, transition_schematic
-
-
 
 
 @gf.cell_with_module_name(schematic_function=taper_schematic)

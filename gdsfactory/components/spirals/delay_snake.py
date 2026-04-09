@@ -8,10 +8,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import spiral_schematic
 from ..bends.bend_euler import bend_euler180
 from ..containers.component_sequence import component_sequence
 from ..waveguides.straight import straight
-from .._schematic import spiral_schematic
 
 _diagram = r"""
                  | length0   |

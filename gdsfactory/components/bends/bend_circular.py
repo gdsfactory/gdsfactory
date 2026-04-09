@@ -11,9 +11,8 @@ from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
+
 from .._schematic import bend_schematic
-
-
 
 
 @overload

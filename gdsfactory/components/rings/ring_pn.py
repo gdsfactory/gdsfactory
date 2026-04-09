@@ -16,9 +16,9 @@ from gdsfactory.typings import (
     LayerSpec,
 )
 
+from .._schematic import ring_double_schematic, ring_single_schematic
 from ..vias.via import via
 from ..vias.via_stack import via_stack
-from .._schematic import ring_double_schematic, ring_single_schematic
 
 cross_section_rib = partial(
     gf.cross_section.strip,

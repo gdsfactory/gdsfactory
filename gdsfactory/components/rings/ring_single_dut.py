@@ -8,6 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import assert_on_2x_grid
 from gdsfactory.typings import ComponentSpec
+
 from .._schematic import ring_single_schematic
 
 

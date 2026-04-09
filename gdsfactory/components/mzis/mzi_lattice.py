@@ -7,6 +7,7 @@ from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
+
 from .._schematic import mzi_2x2_schematic
 
 

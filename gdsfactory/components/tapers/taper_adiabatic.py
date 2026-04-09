@@ -11,6 +11,7 @@ import numpy.typing as npt
 import gdsfactory as gf
 from gdsfactory.path import transition_adiabatic
 from gdsfactory.typings import CrossSectionSpec
+
 from .._schematic import taper_schematic
 
 

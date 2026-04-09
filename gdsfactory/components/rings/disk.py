@@ -8,13 +8,14 @@ import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.component import ComponentReference
 from gdsfactory.cross_section import CrossSection
-from .._schematic import ring_single_schematic
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
 )
+
+from .._schematic import ring_single_schematic
 
 
 def _compute_parameters(

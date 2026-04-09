@@ -5,9 +5,8 @@ __all__ = ["spiral"]
 import gdsfactory as gf
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.typings import ComponentSpec
+
 from .._schematic import spiral_schematic
-
-
 
 
 @gf.cell_with_module_name(schematic_function=spiral_schematic)

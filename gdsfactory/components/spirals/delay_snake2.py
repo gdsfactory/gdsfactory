@@ -8,8 +8,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from ..containers.component_sequence import component_sequence
 from .._schematic import spiral_schematic
+from ..containers.component_sequence import component_sequence
 
 diagram = """
        | length0 | length1 |

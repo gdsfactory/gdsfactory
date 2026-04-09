@@ -14,8 +14,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from ..containers.component_sequence import component_sequence
 from .._schematic import straight_schematic
+from ..containers.component_sequence import component_sequence
 
 
 @gf.cell_with_module_name(schematic_function=straight_schematic)

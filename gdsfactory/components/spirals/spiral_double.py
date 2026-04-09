@@ -5,6 +5,7 @@ __all__ = ["spiral_double"]
 import gdsfactory as gf
 from gdsfactory.path import spiral_archimedean
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+
 from .._schematic import spiral_schematic
 
 

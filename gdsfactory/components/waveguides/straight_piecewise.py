@@ -11,7 +11,6 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import Section
 from gdsfactory.path import Path
 from gdsfactory.typings import LayerSpec
-from .._schematic import straight_schematic
 
 
 @gf.cell_with_module_name

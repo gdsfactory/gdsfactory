@@ -5,7 +5,8 @@ __all__ = ["ring_asymmetric", "ring_crow"]
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
-from .._schematic import ring_double_schematic, ring_single_schematic
+
+from .._schematic import ring_double_schematic
 
 
 @gf.cell_with_module_name(schematic_function=ring_double_schematic)

@@ -22,8 +22,6 @@ from ..grating_couplers.functions import (
 )
 
 
-
-
 @gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
 def grating_coupler_elliptical(
     polarization: str = "te",

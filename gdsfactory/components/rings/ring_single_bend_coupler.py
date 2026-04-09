@@ -8,8 +8,12 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import AnyComponentFactory, ComponentSpec, CrossSectionSpec
 
+from .._schematic import (
+    coupler_ring_schematic,
+    coupler_schematic,
+    ring_single_schematic,
+)
 from ..bends.bend_circular import bend_circular_all_angle
-from .._schematic import coupler_ring_schematic, coupler_schematic, ring_single_schematic
 
 
 @gf.cell_with_module_name(schematic_function=coupler_schematic)

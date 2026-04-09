@@ -5,6 +5,7 @@ __all__ = ["mmi"]
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+
 from .._schematic import ckt_schematic
 
 

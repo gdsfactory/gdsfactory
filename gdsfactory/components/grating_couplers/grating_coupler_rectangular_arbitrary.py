@@ -8,8 +8,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
-from ..tapers.taper import taper
 from .._schematic import grating_coupler_schematic
+from ..tapers.taper import taper
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10

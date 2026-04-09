@@ -7,6 +7,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, Float2
+
 from .._schematic import ring_double_schematic
 
 

@@ -12,9 +12,9 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import Section
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs, Port
 
+from .._schematic import straight_schematic
 from ..vias.via import via
 from ..vias.via_stack import via_stack
-from .._schematic import straight_schematic
 
 _via_stack = partial(
     via_stack,

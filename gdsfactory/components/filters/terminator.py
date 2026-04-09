@@ -7,6 +7,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.typings import CrossSectionSpec, LayerSpecs
+
 from .._schematic import terminator_schematic
 
 

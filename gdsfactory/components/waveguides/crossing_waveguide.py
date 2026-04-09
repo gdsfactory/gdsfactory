@@ -18,8 +18,6 @@ from ..bends.bend_s import (
 )
 
 
-
-
 @gf.cell_with_module_name
 def crossing_arm(
     r1: float = 3.0,
@@ -204,7 +202,11 @@ def crossing_etched(
     return c
 
 
-@gf.cell(check_instances=CheckInstances.IGNORE, with_module_name=True, schematic_function=crossing_schematic)
+@gf.cell(
+    check_instances=CheckInstances.IGNORE,
+    with_module_name=True,
+    schematic_function=crossing_schematic,
+)
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,

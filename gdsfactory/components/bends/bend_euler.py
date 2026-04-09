@@ -12,9 +12,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import euler
 from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
+
 from .._schematic import bend_schematic, sbend_schematic
-
-
 
 
 @overload
