@@ -73,6 +73,5 @@ placements:
 
 nm = 1e-3
 if __name__ == "__main__":
-    c = gf.Component()
     c = gf.read.from_yaml(demo)
     c.show()
