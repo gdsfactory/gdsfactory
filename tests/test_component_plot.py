@@ -22,6 +22,15 @@ class TestComponentPlot:
         fig = component_under_test.plot(return_fig=True)
         assert fig is not None
 
+    def test_plot_with_ax_as_argument(self, component_under_test: Component) -> None:
+        """Test plot() with ax argument."""
+        import matplotlib.pyplot as plt
+
+        fig, ax = plt.subplots()
+        returned_fig = component_under_test.plot(ax=ax, return_fig=True)
+        # If no exceptions are raised, the test passes
+        assert returned_fig is fig  # Should return the same figure we passed in
+
     def test_plot_with_empty_pixel_buffer_options(
         self, component_under_test: Component
     ) -> None:
