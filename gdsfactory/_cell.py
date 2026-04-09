@@ -127,8 +127,7 @@ def cell(
         drop_params = ["self", "cls"]
     if post_process is None:
         post_process = []
-    c = _cell(  # type: ignore[call-overload,misc]
-        _func,
+    cell_kwargs: dict[str, Any] = dict(
         output_type=Component,
         set_settings=set_settings,
         set_name=set_name,
@@ -150,6 +149,7 @@ def cell(
         ports=ports,
         schematic_function=schematic_function,
     )
+    c = _cell(_func, **cell_kwargs)  # type: ignore[call-overload,misc]
 
     if _func is not None:
         c.is_gf_cell = True
@@ -164,29 +164,7 @@ def cell(
             bn = clean_name(
                 func.__name__ if mod == "__main__" else f"{func.__name__}_{mod}"
             )
-            decorated = _cell(  # type: ignore[call-overload,misc]
-                func,
-                output_type=Component,
-                set_settings=set_settings,
-                set_name=set_name,
-                check_ports=check_ports,
-                check_instances=check_instances,
-                snap_ports=snap_ports,
-                add_port_layers=add_port_layers,
-                cache=cache,
-                basename=bn,
-                drop_params=drop_params,
-                register_factory=register_factory,
-                overwrite_existing=overwrite_existing,
-                layout_cache=layout_cache,
-                info=info,
-                post_process=post_process,
-                debug_names=debug_names,
-                tags=tags,
-                lvs_equivalent_ports=lvs_equivalent_ports,
-                ports=ports,
-                schematic_function=schematic_function,
-            )
+            decorated = _cell(func, **{**cell_kwargs, "basename": bn})  # type: ignore[call-overload,misc]
         else:
             decorated = c(func)
         decorated.is_gf_cell = True
