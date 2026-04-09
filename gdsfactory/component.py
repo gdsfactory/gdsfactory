@@ -1243,7 +1243,7 @@ class Component(ComponentBase, kf.DKCell):
                 If None, uses default values (width=800, height=600, linewidth=0,
                 oversampling=0, resolution=0).
             return_fig: if True, returns the figure.
-            ax: Optional matplotlib Axes to plot on. If None, creates a new figure and axes.
+            ax: Optional matplotlib Axes to plot on. If None, creates a new figure and axes. When specified, fig_size and dpi are determined by the provided axes' figure.
         """
         from io import BytesIO
 
@@ -1292,7 +1292,7 @@ class Component(ComponentBase, kf.DKCell):
         fig_height = img_array.shape[0] / dpi
 
         if ax is not None:
-            fig = plt.gcf()
+            fig = ax.get_figure()
         else:
             fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
 

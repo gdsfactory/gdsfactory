@@ -29,7 +29,7 @@ class TestComponentPlot:
         fig, ax = plt.subplots()
         returned_fig = component_under_test.plot(ax=ax, return_fig=True)
         # If no exceptions are raised, the test passes
-        assert returned_fig == fig  # Should return the same figure we passed in
+        assert returned_fig is fig  # Should return the same figure we passed in
 
     def test_plot_with_empty_pixel_buffer_options(
         self, component_under_test: Component
