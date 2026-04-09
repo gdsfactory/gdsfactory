@@ -33,6 +33,7 @@ from kfactory.utils.violations import (
     fix_spacing_tiled,
     fix_width_minkowski_tiled,
 )
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
@@ -1204,6 +1205,7 @@ class Component(ComponentBase, kf.DKCell):
         show_ruler: bool = True,
         pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[True] = True,
+        ax: Axes | None = None,
     ) -> Figure: ...
 
     @overload
@@ -1216,6 +1218,7 @@ class Component(ComponentBase, kf.DKCell):
         show_ruler: bool = True,
         pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: Literal[False] = False,
+        ax: Axes | None = None,
     ) -> None: ...
 
     def plot(
@@ -1227,6 +1230,7 @@ class Component(ComponentBase, kf.DKCell):
         show_ruler: bool = True,
         pixel_buffer_options: PixelBufferOptions | None = None,
         return_fig: bool = False,
+        ax: Axes | None = None,
     ) -> Figure | None:
         """Plots the Component using klayout.
 
@@ -1239,6 +1243,7 @@ class Component(ComponentBase, kf.DKCell):
                 If None, uses default values (width=800, height=600, linewidth=0,
                 oversampling=0, resolution=0).
             return_fig: if True, returns the figure.
+            ax: Optional matplotlib Axes to plot on. If None, creates a new figure and axes.
         """
         from io import BytesIO
 
@@ -1286,7 +1291,10 @@ class Component(ComponentBase, kf.DKCell):
         fig_width = img_array.shape[1] / dpi
         fig_height = img_array.shape[0] / dpi
 
-        fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
+        if ax is not None:
+            fig = plt.gcf()
+        else:
+            fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
 
         # Remove margins and display the image
         ax.imshow(img_array)
