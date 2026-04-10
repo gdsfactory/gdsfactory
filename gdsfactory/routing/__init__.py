@@ -13,7 +13,13 @@ from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.routing.add_pads import add_pads_bot, add_pads_top
 from gdsfactory.routing.fanout2x2 import fanout2x2
 from gdsfactory.routing.resolve_pins import resolve_pin_pair, resolve_pins
-from gdsfactory.routing.route_astar import route_astar
+from gdsfactory.routing.route_astar import (
+    LayerConfig,
+    MultiLayerRouteResult,
+    route_astar,
+    route_astar_multilayer,
+    route_astar_multilayer_multi_net,
+)
 from gdsfactory.routing.route_bundle import route_bundle, route_bundle_electrical
 from gdsfactory.routing.route_bundle_all_angle import route_bundle_all_angle
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
@@ -30,8 +36,10 @@ from gdsfactory.routing.route_single_sbend import route_single_sbend
 from gdsfactory.routing.route_south import route_south
 
 __all__ = [
+    "LayerConfig",
     "LoopPosition",
     "LoopSide",
+    "MultiLayerRouteResult",
     "PathLengthConfig",
     "add_electrical_pads_shortest",
     "add_electrical_pads_top",
@@ -44,6 +52,8 @@ __all__ = [
     "resolve_pin_pair",
     "resolve_pins",
     "route_astar",
+    "route_astar_multilayer",
+    "route_astar_multilayer_multi_net",
     "route_bundle",
     "route_bundle",
     "route_bundle_all_angle",
