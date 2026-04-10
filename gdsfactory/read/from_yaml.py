@@ -568,12 +568,6 @@ def make_connection(
     else:
         src_port = instance_src.ports[port_src_name, src_ia, src_ib]
 
-    # if dst_ia is None or dst_ib is None:
-    #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=port_dst_name, use_mirror=True, mirror=True)
-    # else:
-    #     print('here')
-    #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=(port_dst_name, dst_ia, dst_ib), use_mirror=True, mirror=True)
-
     if dst_ia is None or dst_ib is None:
         dst_port = instance_dst.ports[port_dst_name]
     else:

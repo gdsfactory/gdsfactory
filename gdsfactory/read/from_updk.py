@@ -64,9 +64,6 @@ def from_updk(
         add_plot_to_docstring: if True, add a plot to the docstring.
         pdk_name: name of the pdk.
     """
-    optical_xsections = optical_xsections or []
-    electrical_xsections = electrical_xsections or []
-
     filepath = pathlib.Path(filepath)
     filepath = filepath.read_text()
     conf = yaml.safe_load(filepath)

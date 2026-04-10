@@ -249,6 +249,16 @@ class DerivedLayer(AbstractLayer):
         """
         return hash((self.layer1.__hash__(), self.layer2.__hash__(), self.operation))
 
+    def __eq__(self, other: object) -> bool:
+        """Check if two DerivedLayer instances are equal."""
+        if not isinstance(other, DerivedLayer):
+            return False
+        return (
+            self.layer1 == other.layer1
+            and self.layer2 == other.layer2
+            and self.operation == other.operation
+        )
+
     @property
     def keyword_to_symbol(self) -> dict[str, str]:
         return {
@@ -496,7 +506,7 @@ class LayerStack(BaseModel):
         """Access layer stack elements."""
         if key not in self.layers:
             layers = list(self.layers.keys())
-            raise ValueError(f"{key!r} not in {layers}")
+            raise KeyError(f"{key!r} not in {layers}")
 
         return self.layers[key]
 

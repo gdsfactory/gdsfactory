@@ -153,7 +153,7 @@ def crossing_etched(
         layer_slab: shallow etch layer.
     """
     layer_wg = gf.get_layer(layer_wg)
-    layer_slab = gf.get_layer(layer_slab)
+    _ = gf.get_layer(layer_slab)
 
     # Draw the ellipses
     c = Component()

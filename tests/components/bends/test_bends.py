@@ -39,7 +39,7 @@ def test_bend_circular() -> None:
     assert len(c.ports) == 2
 
     with pytest.warns(UserWarning):
-        c = bend_circular(radius=10, angle=45)
+        _ = bend_circular(radius=10, angle=45)
 
     with pytest.raises(ValueError):
         bend_circular(radius=1, allow_min_radius_violation=False)

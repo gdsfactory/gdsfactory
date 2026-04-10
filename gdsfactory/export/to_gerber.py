@@ -98,11 +98,6 @@ def to_gerber(
             resolution: float = 1e-6
             int_size: int = 4
     """
-    # Split references into polygons and circles (components will need to be recursively iterated through)
-    # for ref in component.references:
-    #     if ref.parent_cell.name.startswith("circle"):
-    #         radius = ref.parent_cell.settings["radius"]
-    #         center = ref.center
     # Each layer and a list of the polygons (as lists of points) on that layer
     layer_to_polygons = component.get_polygons_points()
 

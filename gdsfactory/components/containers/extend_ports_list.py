@@ -37,10 +37,10 @@ def extend_ports_list(
         extension_ref = c << extension
         extension_ref.connect(extension_port_name_or_port, port)
 
-        for port in extension_ref.ports:
-            port_name = port.name
+        for ext_port in extension_ref.ports:
+            port_name = ext_port.name
             if port_name not in ignore_ports:
-                c.add_port(f"{i}_{port_name}", port=port)
+                c.add_port(f"{i}_{port_name}", port=ext_port)
 
     c.auto_rename_ports()
     return c
