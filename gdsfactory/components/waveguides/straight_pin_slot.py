@@ -8,7 +8,6 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import pn
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import modulator_schematic
@@ -64,7 +63,6 @@ def straight_pin_slot(
     )
 
     via_stack_slab_width = via_stack_slab_width or via_stack_width
-    via_stack_slab_spacing = via_stack_slab_spacing or via_stack_spacing
 
     if taper_component:
         t1 = c << taper_component
@@ -119,7 +117,7 @@ def straight_pin_slot(
     return c
 
 
-straight_pn_slot = partial(straight_pin_slot, cross_section=pn)
+straight_pn_slot = partial(straight_pin_slot, cross_section="pn")
 
 if __name__ == "__main__":
     c = straight_pin_slot()
