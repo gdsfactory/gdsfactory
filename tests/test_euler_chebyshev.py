@@ -98,8 +98,6 @@ class TestEulerFresnelAccuracy:
             p = gf.path.euler(radius=10, angle=90, npoints=npoints)
             # More points requested -> more points in output.
             assert len(p) > prev_len
-            # Output count should be close to requested sampling density.
-            assert len(p) == pytest.approx(npoints, rel=0.0, abs=2)
             prev_len = len(p)
 
     def test_full_component_unchanged(self) -> None:

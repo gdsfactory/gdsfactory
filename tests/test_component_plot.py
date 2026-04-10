@@ -26,7 +26,7 @@ class TestComponentPlot:
         """Test plot() with ax argument."""
         import matplotlib.pyplot as plt
 
-        fig, ax = plt.subplots()
+        _fig, ax = plt.subplots()
         returned_fig = component_under_test.plot(ax=ax, return_fig=True)
         # If no exceptions are raised, the test passes
         assert returned_fig is ax.figure
@@ -86,6 +86,6 @@ class TestComponentPlot:
         low_size = fig_low.get_size_inches()
 
         # Sizes should be different
-        assert default_size != high_size
-        assert default_size != low_size
-        assert high_size != low_size
+        assert tuple(default_size) != tuple(high_size)
+        assert tuple(default_size) != tuple(low_size)
+        assert tuple(high_size) != tuple(low_size)
