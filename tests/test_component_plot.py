@@ -29,7 +29,7 @@ class TestComponentPlot:
         fig, ax = plt.subplots()
         returned_fig = component_under_test.plot(ax=ax, return_fig=True)
         # If no exceptions are raised, the test passes
-        assert returned_fig is fig  # Should return the same figure we passed in
+        assert returned_fig is ax.figure
 
     def test_plot_with_empty_pixel_buffer_options(
         self, component_under_test: Component
@@ -86,6 +86,6 @@ class TestComponentPlot:
         low_size = fig_low.get_size_inches()
 
         # Sizes should be different
-        assert not (default_size == high_size).all()
-        assert not (default_size == low_size).all()
-        assert not (high_size == low_size).all()
+        assert default_size != high_size
+        assert default_size != low_size
+        assert high_size != low_size
