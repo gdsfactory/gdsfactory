@@ -37,13 +37,61 @@ def test_container_cell_conflict_raises_error() -> None:
         pdk.get_component("add_pads_top")
 
 
-def test_pdk_copy() -> None:
-    """Regression test for #4485: copy.copy(pdk) must not raise AttributeError."""
-    import copy
-
-    pdk = gf.Pdk(
+def _make_pdk() -> gf.Pdk:
+    return gf.Pdk(
         name="test",
         layers=LAYER,
         cross_sections={"strip": gf.cross_section.strip},
     )
-    copy.copy(pdk)
+
+
+def test_pdk_has_pydantic_slots() -> None:
+    """Pdk.__init__ must initialise every BaseModel slot it overrides.
+
+    Regression guard for #4485: a missing slot (e.g. __pydantic_extra__) only
+    surfaces when downstream code touches it, so assert each slot directly.
+    """
+    pdk = _make_pdk()
+    # All slots Pdk.__init__ writes via object.__setattr__ must be present.
+    assert isinstance(pdk.__dict__, dict)
+    assert isinstance(pdk.__pydantic_fields_set__, set)
+    assert pdk.__pydantic_private__ is not None
+    # __pydantic_extra__ is the slot that broke in 9.40.0; reading it must not raise.
+    assert pdk.__pydantic_extra__ is None or isinstance(pdk.__pydantic_extra__, dict)
+
+
+def test_pdk_copy() -> None:
+    """Regression test for #4485: copy.copy(pdk) must not raise AttributeError."""
+    import copy
+
+    pdk = _make_pdk()
+    pdk_copy = copy.copy(pdk)
+    assert pdk_copy.name == pdk.name
+    assert pdk_copy.cross_sections == pdk.cross_sections
+
+
+def test_pdk_deepcopy() -> None:
+    """Deepcopy uses the same slot machinery as copy and must also work."""
+    import copy
+
+    pdk = _make_pdk()
+    pdk_copy = copy.deepcopy(pdk)
+    assert pdk_copy.name == pdk.name
+    assert pdk_copy.cross_sections.keys() == pdk.cross_sections.keys()
+
+
+def test_pdk_pickle_roundtrip() -> None:
+    """Pickling exercises __getstate__/__setstate__ which depend on the slots."""
+    import pickle
+
+    pdk = _make_pdk()
+    restored = pickle.loads(pickle.dumps(pdk))
+    assert restored.name == pdk.name
+    assert restored.cross_sections.keys() == pdk.cross_sections.keys()
+
+
+def test_pdk_model_dump() -> None:
+    """model_dump walks __pydantic_fields_set__/__pydantic_extra__ — guard it."""
+    pdk = _make_pdk()
+    dumped = pdk.model_dump()
+    assert dumped["name"] == "test"
