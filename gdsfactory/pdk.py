@@ -200,6 +200,7 @@ class Pdk(BaseModel):
             object.__setattr__(
                 self, "__pydantic_private__", {"_layer_views_cache": None}
             )
+        object.__setattr__(self, "__pydantic_extra__", constructed.__pydantic_extra__)
         self.model_post_init(None)
 
     def model_post_init(self, context: Any) -> None:
