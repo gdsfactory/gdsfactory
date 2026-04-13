@@ -1,4 +1,4 @@
-"""Tests for scipy-based Fresnel evaluation in gf.path.euler."""
+"""Tests for Euler-path Chebyshev-related behavior, including Fresnel cross-checks."""
 
 from __future__ import annotations
 
@@ -22,10 +22,17 @@ CONFIGS = [
 ]
 
 
+def _compute_t_max(s: float, R0: float) -> float:
+    """Return shared upper bound for Fresnel parameterization."""
+    return s / float(np.sqrt(2) * R0)
+
+
 class TestEulerFresnelAccuracy:
     """Verify euler path implementation against scipy reference."""
 
     CONFIGS: ClassVar[list[dict]] = CONFIGS
+    SQRT_HALF_PI: ClassVar[float] = np.sqrt(np.pi / 2)
+    SQRT_2_OVER_PI: ClassVar[float] = np.sqrt(2 / np.pi)
 
     @pytest.mark.parametrize("cfg", CONFIGS)
     def test_euler_path_unchanged(self, cfg: dict) -> None:
@@ -36,35 +43,43 @@ class TestEulerFresnelAccuracy:
 
     def test_fresnel_vs_scipy_reference(self) -> None:
         """Cross-check _fresnel output against direct scipy.special.fresnel call."""
-        R0, s, num_pts = 1.0, 0.886, 500  # R0=1, s for 90deg p=0.5
+        R0, num_pts = 1.0, 500
+        # For a 90-degree bend with p=0.5, the Euler parameter is:
+        # s = R0 * sqrt(p * alpha), with alpha in radians.
+        # alpha = pi/2 -> s ≈ 0.886226925 for R0=1.
+        p = 0.5
+        alpha = np.deg2rad(90.0)
+        s = R0 * np.sqrt(p * alpha)
         result = _fresnel(R0, s, num_pts)
         x, y = result[0], result[1]
 
         # Recompute the same t array and evaluate scipy directly
-        t = np.linspace(0, s / float(np.sqrt(2) * R0), num_pts)
-        sqrt_half_pi = np.sqrt(np.pi / 2)
-        sqrt_2_over_pi = np.sqrt(2 / np.pi)
-        S, C = scipy_fresnel(t * sqrt_2_over_pi)
-        ref_x = np.sqrt(2) * R0 * C * sqrt_half_pi
-        ref_y = np.sqrt(2) * R0 * S * sqrt_half_pi
+        t_max = _compute_t_max(s, R0)
+        t = np.linspace(0, t_max, num_pts)
+        S, C = scipy_fresnel(t * self.SQRT_2_OVER_PI)
+        ref_x = np.sqrt(2) * R0 * C * self.SQRT_HALF_PI
+        ref_y = np.sqrt(2) * R0 * S * self.SQRT_HALF_PI
 
         np.testing.assert_allclose(x, ref_x, atol=1e-14)
         np.testing.assert_allclose(y, ref_y, atol=1e-14)
 
     def test_fresnel_angular_vs_scipy_reference(self) -> None:
         """Cross-check _fresnel_angular output against direct scipy call."""
-        R0, s, num_pts = 1.0, 0.886, 500
+        R0, num_pts = 1.0, 500
+        # For a 90-degree bend with p=0.5, use s = R0 * sqrt(p * alpha)
+        # with alpha in radians (alpha = pi/2), so s ≈ 0.886226925 at R0=1.
+        p = 0.5
+        alpha = np.deg2rad(90.0)
+        s = R0 * np.sqrt(p * alpha)
         result = _fresnel_angular(R0, s, num_pts)
         x, y = result[0], result[1]
 
-        t_max = s / float(np.sqrt(2) * R0)
+        t_max = _compute_t_max(s, R0)
         thetas = np.linspace(0, t_max**2 / 2, num_pts)
         t = np.sqrt(2 * thetas)
-        sqrt_half_pi = np.sqrt(np.pi / 2)
-        sqrt_2_over_pi = np.sqrt(2 / np.pi)
-        S, C = scipy_fresnel(t * sqrt_2_over_pi)
-        ref_x = np.sqrt(2) * R0 * C * sqrt_half_pi
-        ref_y = np.sqrt(2) * R0 * S * sqrt_half_pi
+        S, C = scipy_fresnel(t * self.SQRT_2_OVER_PI)
+        ref_x = np.sqrt(2) * R0 * C * self.SQRT_HALF_PI
+        ref_y = np.sqrt(2) * R0 * S * self.SQRT_HALF_PI
 
         np.testing.assert_allclose(x, ref_x, atol=1e-14)
         np.testing.assert_allclose(y, ref_y, atol=1e-14)
@@ -77,11 +92,11 @@ class TestEulerFresnelAccuracy:
         np.testing.assert_allclose(p_pos.points[:, 1], -p_neg.points[:, 1], atol=1e-12)
 
     def test_euler_npoints_respected(self) -> None:
-        """Number of output points should be reasonable for each npoints setting."""
+        """Number of output points should track the requested npoints setting."""
         prev_len = 0
         for npoints in [32, 180, 720]:
             p = gf.path.euler(radius=10, angle=90, npoints=npoints)
-            # More points requested -> more points in output
+            # More points requested -> more points in output.
             assert len(p) > prev_len
             prev_len = len(p)
 
