@@ -887,7 +887,7 @@ def _sample_circuit() -> Component:
 def _width_mismatch_circuit() -> Component:
     """Create a simple circuit with a width mismatch for testing."""
     c = Component()
-    s1 = c.add_ref(gf.c.straight(length=10, width=0.5), name="s1")  # noqa: F841
+    c.add_ref(gf.c.straight(length=10, width=0.5), name="s1")
     s2 = c.add_ref(gf.c.straight(length=10, width=0.6), name="s2")
     s2.move((10, 0))  # Position s2 so its o1 aligns with s1's o2
     return c
@@ -926,7 +926,6 @@ def _instcell(inst: Instance) -> kf.ProtoTKCell[Any]:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
     from gdsfactory.gpdk import PDK
 
     PDK.activate()

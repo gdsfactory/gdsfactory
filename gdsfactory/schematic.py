@@ -88,8 +88,6 @@ class Instance(BaseModel):
 
         assert is_component_spec(component)
 
-        import gdsfactory as gf
-
         c = gf.get_component(component, settings=settings)
         component_info = c.info.model_dump(exclude_none=True)
         component_settings = c.settings.model_dump(exclude_none=True)
@@ -390,8 +388,6 @@ class Schematic(BaseModel):
 
     def from_component(self, component: Component) -> None:
         raise NotImplementedError
-        n = component.to_yaml()
-        self.netlist = Netlist.model_validate(n)
 
     def add_net(self, net: Net) -> None:
         """Add a net between two ports."""

@@ -47,7 +47,6 @@ def free_propagation_region(
     y1 = width1 / 2
     y2 = width2 / 2
     xs = gf.get_cross_section(cross_section)
-    o = 0
     layer = xs.layer
     assert layer is not None
 
@@ -87,8 +86,6 @@ def free_propagation_region(
             orientation=0,
             layer=layer,
         )
-
-    ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
 
     c.info["length"] = length
     c.info["width1"] = width1

@@ -41,14 +41,12 @@ def snspd(
         port_type: type of port to add to the component.
 
     """
-    if num_squares is not None:
-        xy = np.sqrt(num_squares * wire_pitch * wire_width)
-        size = (xy, xy)
-        num_squares = None
-
     xsize, ysize = size
     if num_squares is not None:
-        if xsize is None:
+        if xsize is None and ysize is None:
+            xy = np.sqrt(num_squares * wire_pitch * wire_width)
+            xsize, ysize = xy, xy
+        elif xsize is None:
             xsize = num_squares * wire_pitch * wire_width / ysize
         elif ysize is None:
             ysize = num_squares * wire_pitch * wire_width / xsize

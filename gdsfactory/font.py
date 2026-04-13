@@ -19,14 +19,17 @@ _cached_fonts: dict[str, freetype.Face] = {}
 try:
     import freetype
 except ImportError:
-    print(
+    import warnings
+
+    warnings.warn(
         "gdsfactory requires freetype to use real fonts. "
         "Either use the default DEPLOF font or install the freetype package:"
         "\n\n $ pip install freetype-py"
         "\n\n (Note: Windows users may have to find and replace the 'libfreetype.dll' "
         "file in their Python package directory /freetype/ with the correct one"
         "from here: https://github.com/ubawurinna/freetype-windows-binaries"
-        " -- be sure to rename 'freetype.dll' to 'libfreetype.dll') "
+        " -- be sure to rename 'freetype.dll' to 'libfreetype.dll') ",
+        stacklevel=2,
     )
 
 
@@ -136,8 +139,8 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
             else:
                 verts.append(segment[1])
                 codes.append(Path.CURVE3)
-                for i in range(1, len(segment) - 2):
-                    A, B = segment[i], segment[i + 1]
+                for k in range(1, len(segment) - 2):
+                    A, B = segment[k], segment[k + 1]
                     C = ((A[0] + B[0]) / 2.0, (A[1] + B[1]) / 2.0)
                     verts.extend([C, B])
                     codes.extend([Path.CURVE3, Path.CURVE3])

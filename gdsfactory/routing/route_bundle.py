@@ -325,8 +325,6 @@ def route_bundle(
             stacklevel=2,
         )
 
-    router = "optical"
-
     if cross_section is None:
         if layer is None or route_width is None:
             raise ValueError(

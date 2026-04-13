@@ -446,6 +446,16 @@ class Path(UMGeometricObject):
         """Computes a hash of the Path."""
         return self.hash_geometry()
 
+    def __eq__(self, other: object) -> bool:
+        """Check if two Path instances are equal."""
+        if not isinstance(other, Path):
+            return False
+        return (
+            np.array_equal(self.points, other.points)
+            and self.start_angle == other.start_angle
+            and self.end_angle == other.end_angle
+        )
+
     def hash_geometry(self, precision: float = 1e-4) -> int:
         """Computes an SHA1 hash of the points in the Path and the start_angle and end_angle.
 

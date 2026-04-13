@@ -339,24 +339,6 @@ class CrossSection(BaseModel):
         sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
         return self.model_copy(update={"sections": tuple(sections)})
 
-    # def apply_enclosure(self, component: Component) -> None:
-    #     """Apply enclosure to a target component according to :class:`CrossSection`."""
-
-    #     enclosure = kf.LayerEnclosure(
-    #         dsections=[(layer_tuple, layer_offset) for zip(self.bbox_layers, self.bbox_offsets)],
-    #         main_layer=LAYER.SLAB90,
-    #         name="enclosures",
-    #         kcl=kf.kcl,
-    #     )
-    #     kf.kcl.layer_enclosures = kf.kcell.LayerEnclosureModel(
-    #         enclosure_map=dict(enclosure_rc=enclosure_rc)
-    #     )
-
-    #     kf.kcl.enclosure = kf.DKCellEnclosure(
-    #         enclosures=[enclosure_rc],
-    #     )
-    #     component.kcl.enclosure.apply_minkowski_y(component)
-
     def add_bbox(
         self,
         component: typings.AnyComponentT,
@@ -439,10 +421,6 @@ class Transition(BaseModel, arbitrary_types_allowed=True):
         if isinstance(width_type, str):
             return width_type
         raise NotImplementedError("TODO")
-        t_values = np.linspace(0, 1, 10)
-        return ",".join(
-            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
-        )
 
 
 class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
@@ -2969,7 +2947,7 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
                     return issubclass(resolved_type, CrossSection)
 
             except (TypeError, AttributeError, ValueError):
-                pass
+                pass  # Ignore type resolution errors
 
             return False
 

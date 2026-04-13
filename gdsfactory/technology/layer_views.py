@@ -971,7 +971,7 @@ class LayerViews(BaseModel):
         try:
             return self.get_layer_views()[val]
         except Exception as error:
-            raise ValueError(
+            raise KeyError(
                 f"LayerView {val!r} not in LayerViews {list(self.layer_views.keys())}"
             ) from error
 

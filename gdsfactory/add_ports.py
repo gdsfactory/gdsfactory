@@ -713,8 +713,6 @@ def add_ports_from_siepic_pins(
         port_layer: layer for optical ports.
         port_type: optical, electrical.
     """
-    import gdsfactory as gf
-
     port_layer = port_layer or pin_layer
 
     pin_layer = gf.get_layer(pin_layer)

@@ -55,7 +55,7 @@ def coh_tx_single_pol(
     """
     from gdsfactory.components import straight as straight_function
 
-    combiner = combiner or splitter
+    combiner_spec = combiner or splitter
     pad_array = dict(component=pad_array, settings=dict(columns=1, rows=1))
 
     c = Component()
@@ -115,7 +115,7 @@ def coh_tx_single_pol(
         cross_section=cross_section,
     )
 
-    combiner = gf.get_component(combiner)
+    combiner = gf.get_component(combiner_spec)
     comb = c << combiner
     comb.mirror_x()
 

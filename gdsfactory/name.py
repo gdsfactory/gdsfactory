@@ -172,13 +172,6 @@ def clean_value(value: Any) -> str:
     return str(clean_value_json(value))
 
 
-# def testclean_value_json() -> None:
-#     assert clean_value(0.5) == "500n"
-#     assert clean_value(5) == "5"
-#     assert clean_value(5.0) == "5"
-#     assert clean_value(11.001) == "11p001"
-
-
 def test_clean_name() -> None:
     assert clean_name("wg(:_=_2852") == "wg___2852"
 

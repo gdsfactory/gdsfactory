@@ -7,7 +7,6 @@
   Automatically extracts default parameter values from function signatures
 """
 
-import functools
 import inspect
 import os
 
@@ -97,10 +96,6 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
 
             # Get the cell function or object
             cell = cells[name]
-
-            # Skip if it's an instance of functools.partial
-            if skip_partials and isinstance(cell, functools.partial):
-                continue
 
             sig = inspect.signature(cell)
 
