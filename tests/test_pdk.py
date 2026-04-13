@@ -35,3 +35,15 @@ def test_container_cell_conflict_raises_error() -> None:
 
     with pytest.raises(ValueError, match=r".* overlapping cell names .*add_pads_top.*"):
         pdk.get_component("add_pads_top")
+
+
+def test_pdk_copy() -> None:
+    """Regression test for #4485: copy.copy(pdk) must not raise AttributeError."""
+    import copy
+
+    pdk = gf.Pdk(
+        name="test",
+        layers=LAYER,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    copy.copy(pdk)
