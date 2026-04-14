@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "shapes"})
 def rounded_rectangle(
     width: float = 20.0,
     height: float = 10.0,

@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "shapes"})
 def L(
     width: int | float = 1,
     size: tuple[int, int] = (10, 20),

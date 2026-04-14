@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "containers"})
 def copy_layers(
     factory: ComponentSpec = "cross",
     layers: LayerSpecs = ((1, 0), (2, 0)),

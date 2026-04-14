@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "microfluidics"})
 def h_junction(
     main_width: float = 1.0,
     branch_width: float = 1.0,

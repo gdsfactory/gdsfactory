@@ -13,7 +13,7 @@ from gdsfactory.path import Path
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "waveguides"})
 def straight_piecewise(
     x: Sequence[float] | Path,
     widths: Sequence[float],

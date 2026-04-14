@@ -9,7 +9,7 @@ from gdsfactory.typings import LayerSpec
 from ..shapes.circle import circle
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "filters"})
 def fiber_array(
     n: int = 8,
     pitch: float = 127.0,

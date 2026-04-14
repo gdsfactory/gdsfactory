@@ -17,7 +17,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Size
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "vias"})
 def via_stack_with_offset(
     layers: LayerSpecs = ("PPP", "M1"),
     size: Size | None = (10, 10),

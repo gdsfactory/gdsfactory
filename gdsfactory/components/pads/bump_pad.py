@@ -14,7 +14,7 @@ from ..vias import via_stack
 __all__ = ["bump_pad", "bump_pad_grid"]
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "pads"})
 def bump_pad(
     size: float = 36.244,
     layer: LayerSpec = "MTOP",
@@ -104,7 +104,7 @@ def bump_pad(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "pads"})
 def bump_pad_grid(
     columns: int = 6,
     rows: int = 6,

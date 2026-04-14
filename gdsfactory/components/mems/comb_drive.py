@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "mems"})
 def comb_drive(
     finger_width: float = 0.5,
     finger_length: float = 10.0,

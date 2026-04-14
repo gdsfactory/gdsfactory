@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "grating_couplers"})
 def grating_coupler_tree(
     n: int = 4,
     straight_spacing: float = 4.0,

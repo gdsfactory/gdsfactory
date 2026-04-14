@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "pcms"})
 def vernier_scale(
     n_divisions: int = 10,
     pitch_main: float = 10.0,

@@ -44,7 +44,7 @@ def bbox_to_points(
     ]
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "shapes"})
 def bbox(
     component: gf.Component | ComponentReference,
     layer: LayerSpec,

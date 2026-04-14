@@ -10,7 +10,9 @@ from .._schematic import ring_double_schematic
 from ..bends.bend_circular import bend_circular_all_angle
 
 
-@gf.cell_with_module_name(schematic_function=ring_double_schematic)
+@gf.cell_with_module_name(
+    schematic_function=ring_double_schematic, tags={"type": "rings"}
+)
 def ring_double_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,

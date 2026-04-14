@@ -18,7 +18,7 @@ X   X
 """
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "texts"})
 def pixel_array(
     pixels: str = character_a,
     pixel_size: float = 10.0,

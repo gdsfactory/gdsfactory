@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "shapes"})
 def pie_arc(
     radius: float = 10.0,
     radius_y: float | None = None,

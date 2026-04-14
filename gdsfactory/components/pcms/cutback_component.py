@@ -12,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from ..containers.component_sequence import component_sequence
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "pcms"})
 def cutback_component(
     component: ComponentSpec = "taper_0p5_to_3_l36",
     cols: int = 4,

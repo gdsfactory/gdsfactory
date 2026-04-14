@@ -13,7 +13,9 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpe
 from .._schematic import straight_schematic
 
 
-@gf.cell_with_module_name(schematic_function=straight_schematic)
+@gf.cell_with_module_name(
+    schematic_function=straight_schematic, tags={"type": "waveguides"}
+)
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,

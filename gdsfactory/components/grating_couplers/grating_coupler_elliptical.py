@@ -22,7 +22,9 @@ from ..grating_couplers.functions import (
 )
 
 
-@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
+@gf.cell_with_module_name(
+    schematic_function=grating_coupler_schematic, tags={"type": "grating_couplers"}
+)
 def grating_coupler_elliptical(
     polarization: str = "te",
     taper_length: float = 16.6,

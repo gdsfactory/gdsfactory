@@ -22,7 +22,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from .._schematic import mzi_2x2_schematic
 
 
-@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic)
+@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic, tags={"type": "mzis"})
 def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,

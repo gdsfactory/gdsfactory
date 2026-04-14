@@ -11,7 +11,9 @@ from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, 
 from .._schematic import ring_double_schematic
 
 
-@gf.cell_with_module_name(schematic_function=ring_double_schematic)
+@gf.cell_with_module_name(
+    schematic_function=ring_double_schematic, tags={"type": "rings"}
+)
 def ring_double_heater(
     gap: float = 0.2,
     gap_top: float | None = None,

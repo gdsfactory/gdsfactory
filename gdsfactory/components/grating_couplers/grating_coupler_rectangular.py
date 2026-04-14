@@ -11,7 +11,9 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 from .._schematic import grating_coupler_schematic
 
 
-@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
+@gf.cell_with_module_name(
+    schematic_function=grating_coupler_schematic, tags={"type": "grating_couplers"}
+)
 def grating_coupler_rectangular(
     n_periods: int = 20,
     period: float = 0.75,

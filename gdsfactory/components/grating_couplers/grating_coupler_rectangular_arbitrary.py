@@ -15,7 +15,9 @@ _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
 
 
-@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
+@gf.cell_with_module_name(
+    schematic_function=grating_coupler_schematic, tags={"type": "grating_couplers"}
+)
 def grating_coupler_rectangular_arbitrary(
     gaps: Floats = _gaps,
     widths: Floats = _widths,

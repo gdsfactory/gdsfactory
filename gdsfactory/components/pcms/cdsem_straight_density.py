@@ -12,7 +12,7 @@ widths = 10 * (0.3,)
 gaps = 10 * (0.3,)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "pcms"})
 def cdsem_straight_density(
     widths: Floats = widths,
     gaps: Floats = gaps,

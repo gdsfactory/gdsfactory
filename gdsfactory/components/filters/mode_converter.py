@@ -12,7 +12,7 @@ from .._schematic import ckt_schematic
 from ..bends.bend_s import bend_s
 
 
-@gf.cell_with_module_name(schematic_function=ckt_schematic)
+@gf.cell_with_module_name(schematic_function=ckt_schematic, tags={"type": "filters"})
 def mode_converter(
     gap: float = 0.3,
     length: float = 10,

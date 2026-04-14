@@ -12,7 +12,9 @@ from gdsfactory.typings import LayerSpec
 from .._schematic import capacitor_schematic
 
 
-@gf.cell_with_module_name(schematic_function=capacitor_schematic)
+@gf.cell_with_module_name(
+    schematic_function=capacitor_schematic, tags={"type": "analog"}
+)
 def interdigital_capacitor(
     fingers: int = 4,
     finger_length: float | int = 20.0,

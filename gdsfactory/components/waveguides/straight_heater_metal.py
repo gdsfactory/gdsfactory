@@ -18,7 +18,9 @@ from .._schematic import straight_schematic
 from ..containers.component_sequence import component_sequence
 
 
-@gf.cell_with_module_name(schematic_function=straight_schematic)
+@gf.cell_with_module_name(
+    schematic_function=straight_schematic, tags={"type": "waveguides"}
+)
 def straight_heater_metal_undercut(
     length: float = 320.0,
     length_undercut_spacing: float = 6.0,
@@ -169,7 +171,9 @@ def straight_heater_metal_undercut(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=straight_schematic)
+@gf.cell_with_module_name(
+    schematic_function=straight_schematic, tags={"type": "waveguides"}
+)
 def straight_heater_metal_simple(
     length: float = 320.0,
     cross_section_heater: CrossSectionSpec = "heater_metal",

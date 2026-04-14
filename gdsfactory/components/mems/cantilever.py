@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "mems"})
 def cantilever(
     beam_width: float = 2.0,
     beam_length: float = 20.0,

@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "quantum"})
 def flux_qubit(
     loop_width: float = 50.0,
     loop_height: float = 50.0,
@@ -218,7 +218,7 @@ def flux_qubit(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "quantum"})
 def flux_qubit_asymmetric(
     loop_width: float = 60.0,
     loop_height: float = 40.0,

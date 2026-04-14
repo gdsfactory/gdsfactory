@@ -14,7 +14,7 @@ _list_of_dicts: tuple[dict[str, Any], ...] = (
 )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "rings"})
 def ring_single_array(
     ring: ComponentSpec = "ring_single",
     spacing: float = 15.0,

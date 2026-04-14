@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "mems"})
 def anchored_flexure(
     hinge_width: float = 0.3,
     hinge_length: float = 5.0,

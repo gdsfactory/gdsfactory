@@ -17,7 +17,7 @@ from ..texts.text_rectangular_font import (
 )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "texts"})
 def text_rectangular(
     text: str = "abcd",
     size: float = 10.0,
@@ -89,7 +89,7 @@ def text_rectangular(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "texts"})
 def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),

@@ -22,7 +22,7 @@ from gdsfactory.cross_section import (
 from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "waveguides"})
 def wire_corner(
     cross_section: CrossSectionSpec = "metal_routing",
     port_names: PortNames = port_names_electrical,
@@ -75,7 +75,7 @@ def wire_corner(
     return c
 
 
-@gf.cell
+@gf.cell(tags={"type": "waveguides"})
 def wire_corner45_straight(
     width: float | None = None,
     radius: float | None = None,
@@ -112,7 +112,7 @@ def wire_corner45_straight(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "waveguides"})
 def wire_corner45(
     cross_section: CrossSectionSpec = "metal_routing",
     radius: float = 10,
@@ -185,7 +185,7 @@ def wire_corner45(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "waveguides"})
 def wire_corner_sections(
     cross_section: CrossSectionSpec = "metal_routing",
     port_type: str = "electrical",

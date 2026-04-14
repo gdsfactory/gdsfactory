@@ -27,7 +27,9 @@ def inductor_min_diameter(width: float, space: float, turns: int, grid: float) -
     return round(min_d / grid) * grid
 
 
-@gf.cell_with_module_name(schematic_function=inductor_schematic)
+@gf.cell_with_module_name(
+    schematic_function=inductor_schematic, tags={"type": "analog"}
+)
 def inductor(
     width: float = 2.0,
     space: float = 2.1,

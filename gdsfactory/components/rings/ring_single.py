@@ -8,7 +8,9 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from .._schematic import ring_single_schematic
 
 
-@gf.cell_with_module_name(schematic_function=ring_single_schematic)
+@gf.cell_with_module_name(
+    schematic_function=ring_single_schematic, tags={"type": "rings"}
+)
 def ring_single(
     gap: float = 0.2,
     radius: float | None = None,

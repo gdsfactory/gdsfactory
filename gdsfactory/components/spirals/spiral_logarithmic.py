@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "spirals"})
 def spiral_logarithmic(
     width: float = 0.5,
     n_turns: int = 4,

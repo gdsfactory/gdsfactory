@@ -84,7 +84,7 @@ def move_polar_rad_copy(
     return np.array([pos[0] + dx, pos[1] + dy], dtype=float)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags={"type": "containers"})
 def extend_ports(
     component: ComponentSpec = "mmi1x2",
     port_names: PortNames | None = None,
