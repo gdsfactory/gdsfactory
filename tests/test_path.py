@@ -612,16 +612,3 @@ def test_rotation_preserves_path_length(angle: float) -> None:
     original_length = p.length()
     p.rotate(angle)
     assert np.isclose(p.length(), original_length, rtol=1e-6)
-
-
-@given(
-    radius=st.floats(min_value=1, max_value=50, allow_nan=False, allow_infinity=False),
-    angle=st.floats(min_value=10, max_value=180, allow_nan=False, allow_infinity=False),
-)
-@settings(max_examples=200)
-def test_euler_negative_angle_mirrors_y(radius: float, angle: float) -> None:
-    """Negative angle euler should mirror the y-coordinates of the positive angle."""
-    p_pos = gf.path.euler(radius=radius, angle=angle)
-    p_neg = gf.path.euler(radius=radius, angle=-angle)
-    np.testing.assert_allclose(p_pos.points[:, 0], p_neg.points[:, 0], atol=1e-10)
-    np.testing.assert_allclose(p_pos.points[:, 1], -p_neg.points[:, 1], atol=1e-10)

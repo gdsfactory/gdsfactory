@@ -28,16 +28,6 @@ def test_snap_to_grid_idempotent(x: float) -> None:
 
 @given(x=_grid_values)
 @settings(max_examples=200)
-def test_snap_to_grid_result_is_on_grid(x: float) -> None:
-    """After snapping, snapping again should not change the result (implied on-grid)."""
-    snapped = gf.snap.snap_to_grid(x)
-    # is_on_grid uses np.round which can differ from snap due to float precision,
-    # so we verify on-grid via idempotency instead.
-    assert gf.snap.snap_to_grid(snapped) == snapped
-
-
-@given(x=_grid_values)
-@settings(max_examples=200)
 def test_snap_to_grid2x_idempotent(x: float) -> None:
     """snap_to_grid2x should also be idempotent."""
     snapped = gf.snap.snap_to_grid2x(x)
