@@ -7,7 +7,11 @@ import gdsfactory as gf
 from gdsfactory.components.bends.bend_circular import bend_circular
 
 
-@given(padding=st.floats(min_value=0.1, max_value=100, allow_nan=False, allow_infinity=False))
+@given(
+    padding=st.floats(
+        min_value=0.1, max_value=100, allow_nan=False, allow_infinity=False
+    )
+)
 @settings(max_examples=200)
 def test_add_padding_size(padding: float) -> None:
     c = bend_circular().copy()
@@ -30,8 +34,12 @@ def test_add_padding_size(padding: float) -> None:
 
 
 @given(
-    xsize_extra=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
-    ysize_extra=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
+    xsize_extra=st.floats(
+        min_value=1, max_value=100, allow_nan=False, allow_infinity=False
+    ),
+    ysize_extra=st.floats(
+        min_value=1, max_value=100, allow_nan=False, allow_infinity=False
+    ),
 )
 @settings(max_examples=200)
 def test_add_padding_to_size(xsize_extra: float, ysize_extra: float) -> None:

@@ -10,7 +10,9 @@ import gdsfactory as gf
 # Hypothesis strategies
 # ---------------------------------------------------------------------------
 # Coordinates in GDS are typically in microns; keep values reasonable.
-_grid_values = st.floats(min_value=-1e3, max_value=1e3, allow_nan=False, allow_infinity=False)
+_grid_values = st.floats(
+    min_value=-1e3, max_value=1e3, allow_nan=False, allow_infinity=False
+)
 _nm_values = st.sampled_from([0.1, 0.5, 1, 2])
 _grid_factors = st.sampled_from([1, 2])
 
@@ -45,13 +47,17 @@ def test_snap_to_grid_bounded_error(x: float, nm: float, grid_factor: int) -> No
 
 @given(x=_grid_values, nm=_nm_values, grid_factor=_grid_factors)
 @settings(max_examples=200)
-def test_snap_to_grid_explicit_nm_idempotent(x: float, nm: float, grid_factor: int) -> None:
+def test_snap_to_grid_explicit_nm_idempotent(
+    x: float, nm: float, grid_factor: int
+) -> None:
     """Snapping with explicit nm and grid_factor is idempotent."""
     snapped = gf.snap.snap_to_grid(x, nm=nm, grid_factor=grid_factor)
     assert gf.snap.snap_to_grid(snapped, nm=nm, grid_factor=grid_factor) == snapped
 
 
-@given(x=st.floats(min_value=0.001, max_value=1e3, allow_nan=False, allow_infinity=False))
+@given(
+    x=st.floats(min_value=0.001, max_value=1e3, allow_nan=False, allow_infinity=False)
+)
 @settings(max_examples=200)
 def test_snap_to_grid_preserves_sign_symmetry(x: float) -> None:
     """snap(x) and snap(-x) should be symmetric up to sign (within one grid step)."""

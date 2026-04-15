@@ -36,12 +36,20 @@ class TestEulerFresnelAccuracy:
     SQRT_2_OVER_PI: ClassVar[float] = np.sqrt(2 / np.pi)
 
     @given(
-        radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
-        angle=st.floats(min_value=1, max_value=180, allow_nan=False, allow_infinity=False),
-        p=st.floats(min_value=0.1, max_value=1.0, allow_nan=False, allow_infinity=False),
+        radius=st.floats(
+            min_value=1, max_value=100, allow_nan=False, allow_infinity=False
+        ),
+        angle=st.floats(
+            min_value=1, max_value=180, allow_nan=False, allow_infinity=False
+        ),
+        p=st.floats(
+            min_value=0.1, max_value=1.0, allow_nan=False, allow_infinity=False
+        ),
     )
     @settings(max_examples=200)
-    def test_euler_path_finite_points(self, radius: float, angle: float, p: float) -> None:
+    def test_euler_path_finite_points(
+        self, radius: float, angle: float, p: float
+    ) -> None:
         """Bend path coordinates must be finite and have reasonable length."""
         path = gf.path.euler(radius=radius, angle=angle, p=p)
         assert len(path) >= 2
@@ -91,8 +99,12 @@ class TestEulerFresnelAccuracy:
         np.testing.assert_allclose(y, ref_y, atol=1e-14)
 
     @given(
-        radius=st.floats(min_value=1, max_value=50, allow_nan=False, allow_infinity=False),
-        angle=st.floats(min_value=10, max_value=180, allow_nan=False, allow_infinity=False),
+        radius=st.floats(
+            min_value=1, max_value=50, allow_nan=False, allow_infinity=False
+        ),
+        angle=st.floats(
+            min_value=10, max_value=180, allow_nan=False, allow_infinity=False
+        ),
     )
     @settings(max_examples=200)
     def test_euler_negative_angle(self, radius: float, angle: float) -> None:

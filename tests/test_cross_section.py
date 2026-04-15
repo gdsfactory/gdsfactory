@@ -11,7 +11,11 @@ import gdsfactory as gf
 from gdsfactory.gpdk import LAYER
 
 
-@given(width=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False))
+@given(
+    width=st.floats(
+        min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False
+    )
+)
 @settings(max_examples=200)
 def test_waveguide_setting(width: float) -> None:
     x = gf.cross_section.cross_section(width=width)

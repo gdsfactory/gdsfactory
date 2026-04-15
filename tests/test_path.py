@@ -466,7 +466,9 @@ def test_path_angle() -> None:
 
 
 @given(
-    angle=st.floats(min_value=-360, max_value=360, allow_nan=False, allow_infinity=False),
+    angle=st.floats(
+        min_value=-360, max_value=360, allow_nan=False, allow_infinity=False
+    ),
     radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
 )
 @settings(max_examples=200)
@@ -477,7 +479,9 @@ def test_euler_angles(angle: float, radius: float) -> None:
     assert len(p.points) >= 1
 
 
-@given(p_val=st.floats(min_value=0.0, max_value=1.0, allow_nan=False, allow_infinity=False))
+@given(
+    p_val=st.floats(min_value=0.0, max_value=1.0, allow_nan=False, allow_infinity=False)
+)
 @settings(max_examples=200)
 def test_euler_p_values(p_val: float) -> None:
     """Test euler with arbitrary p values in [0, 1]."""
@@ -535,7 +539,9 @@ def test_arc_length_analytical(radius: float, angle: float) -> None:
 
 
 @given(
-    angle=st.floats(min_value=0.1, max_value=359, allow_nan=False, allow_infinity=False),
+    angle=st.floats(
+        min_value=0.1, max_value=359, allow_nan=False, allow_infinity=False
+    ),
     radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
 )
 @settings(max_examples=200)
@@ -586,8 +592,12 @@ def test_euler_curvature_continuity() -> None:
 # Additional hypothesis property-based tests
 # ---------------------------------------------------------------------------
 @given(
-    length1=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
-    length2=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
+    length1=st.floats(
+        min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False
+    ),
+    length2=st.floats(
+        min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False
+    ),
 )
 @settings(max_examples=200)
 def test_straight_path_addition_length(length1: float, length2: float) -> None:
@@ -603,7 +613,9 @@ def test_straight_path_addition_length(length1: float, length2: float) -> None:
 
 
 @given(
-    angle=st.floats(min_value=-360, max_value=360, allow_nan=False, allow_infinity=False),
+    angle=st.floats(
+        min_value=-360, max_value=360, allow_nan=False, allow_infinity=False
+    ),
 )
 @settings(max_examples=200)
 def test_rotation_preserves_path_length(angle: float) -> None:
