@@ -6,6 +6,8 @@ import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
@@ -463,17 +465,22 @@ def test_path_angle() -> None:
     assert np.isclose(c.area("WG"), 11.409315999999999)
 
 
-@pytest.mark.parametrize("angle", [0, 1e-6, 1e-3, 0.1, 1, 10, 45, 90, 180, -45, -90])
-def test_euler_angles(angle: float) -> None:
-    """Test euler at various angles including zero and negative."""
-    p = gf.path.euler(radius=10, angle=angle)
-    assert not np.any(np.isnan(p.points)), f"nan at angle={angle}"
+@given(
+    angle=st.floats(min_value=-360, max_value=360, allow_nan=False, allow_infinity=False),
+    radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
+)
+@settings(max_examples=200)
+def test_euler_angles(angle: float, radius: float) -> None:
+    """Test euler at arbitrary angles and radii produces finite points."""
+    p = gf.path.euler(radius=radius, angle=angle)
+    assert not np.any(np.isnan(p.points)), f"nan at angle={angle}, radius={radius}"
     assert len(p.points) >= 1
 
 
-@pytest.mark.parametrize("p_val", [0.2, 0.5, 0.8, 1.0])
+@given(p_val=st.floats(min_value=0.0, max_value=1.0, allow_nan=False, allow_infinity=False))
+@settings(max_examples=200)
 def test_euler_p_values(p_val: float) -> None:
-    """Test euler with different p values."""
+    """Test euler with arbitrary p values in [0, 1]."""
     p = gf.path.euler(radius=10, angle=90, p=p_val)
     assert not np.any(np.isnan(p.points))
 
@@ -503,32 +510,39 @@ def test_arc_zero_angle_returns_origin() -> None:
     assert np.allclose(p.points, [[0, 0], [0, 0]])
 
 
-def test_euler_p0_matches_arc() -> None:
+@given(
+    radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
+    angle=st.floats(min_value=1, max_value=180, allow_nan=False, allow_infinity=False),
+)
+@settings(max_examples=200)
+def test_euler_p0_matches_arc(radius: float, angle: float) -> None:
     """Test that euler with p=0 is equivalent to arc."""
-    radius, angle = 10, 45
     euler_path = gf.path.euler(radius=radius, angle=angle, p=0)
     arc_path = gf.path.arc(radius=radius, angle=angle)
     assert np.allclose(euler_path.points, arc_path.points, atol=1e-10)
 
 
-def test_arc_length_analytical() -> None:
+@given(
+    radius=st.floats(min_value=5, max_value=100, allow_nan=False, allow_infinity=False),
+    angle=st.floats(min_value=10, max_value=360, allow_nan=False, allow_infinity=False),
+)
+@settings(max_examples=200)
+def test_arc_length_analytical(radius: float, angle: float) -> None:
     """Test arc path length matches analytical value: radius * angle_in_radians."""
-    radius, angle = 10, 90
     p = gf.path.arc(radius=radius, angle=angle)
     expected_length = radius * np.radians(angle)
     assert np.isclose(p.length(), expected_length, rtol=1e-3)
 
 
-def test_euler_angles_preserved() -> None:
+@given(
+    angle=st.floats(min_value=0.1, max_value=359, allow_nan=False, allow_infinity=False),
+    radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
+)
+@settings(max_examples=200)
+def test_euler_angles_preserved(angle: float, radius: float) -> None:
     """Test that euler start/end angles difference matches input."""
-    for angle in [45, 90, 180]:
-        p = gf.path.euler(radius=10, angle=angle)
-        assert p.end_angle - p.start_angle == angle
-    # Negative angles: difference may be normalized (e.g., -45 -> 315)
-    for angle in [-45, -90]:
-        p = gf.path.euler(radius=10, angle=angle)
-        diff = p.end_angle - p.start_angle
-        assert diff == angle or diff == angle + 360
+    p = gf.path.euler(radius=radius, angle=angle)
+    assert np.isclose(p.end_angle - p.start_angle, angle, atol=1e-6)
 
 
 def test_duplicate_points_warning() -> None:
@@ -566,3 +580,48 @@ def test_euler_curvature_continuity() -> None:
     curvature_diff = np.abs(np.diff(curvature))
     max_jump = np.max(curvature_diff)
     assert max_jump < 0.01, f"Curvature discontinuity detected: max jump = {max_jump}"
+
+
+# ---------------------------------------------------------------------------
+# Additional hypothesis property-based tests
+# ---------------------------------------------------------------------------
+@given(
+    length1=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
+    length2=st.floats(min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False),
+)
+@settings(max_examples=200)
+def test_straight_path_addition_length(length1: float, length2: float) -> None:
+    """Concatenating two straight paths should give a path whose length approximates the sum.
+
+    Grid snapping means the result may differ by up to 2x the grid resolution.
+    """
+    p1 = gf.path.straight(length=length1)
+    p2 = gf.path.straight(length=length2)
+    p3 = p1 + p2
+    # Allow tolerance for grid snapping (default 1nm = 0.001 um per endpoint)
+    assert np.isclose(p3.length(), length1 + length2, atol=0.002)
+
+
+@given(
+    angle=st.floats(min_value=-360, max_value=360, allow_nan=False, allow_infinity=False),
+)
+@settings(max_examples=200)
+def test_rotation_preserves_path_length(angle: float) -> None:
+    """Rotating a path should not change its total length."""
+    p = gf.path.euler(radius=10, angle=90)
+    original_length = p.length()
+    p.rotate(angle)
+    assert np.isclose(p.length(), original_length, rtol=1e-6)
+
+
+@given(
+    radius=st.floats(min_value=1, max_value=50, allow_nan=False, allow_infinity=False),
+    angle=st.floats(min_value=10, max_value=180, allow_nan=False, allow_infinity=False),
+)
+@settings(max_examples=200)
+def test_euler_negative_angle_mirrors_y(radius: float, angle: float) -> None:
+    """Negative angle euler should mirror the y-coordinates of the positive angle."""
+    p_pos = gf.path.euler(radius=radius, angle=angle)
+    p_neg = gf.path.euler(radius=radius, angle=-angle)
+    np.testing.assert_allclose(p_pos.points[:, 0], p_neg.points[:, 0], atol=1e-10)
+    np.testing.assert_allclose(p_pos.points[:, 1], -p_neg.points[:, 1], atol=1e-10)

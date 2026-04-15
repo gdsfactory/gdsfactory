@@ -58,6 +58,7 @@ version = "9.40.1"
 cad = ["kweb>=1.1.9,<2.1"]
 dev = [
   "codeflash",
+  "hypothesis",
   "ipykernel",
   "jupyterlab",
   "jsondiff",
