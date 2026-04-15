@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "pcms"})
+@gf.cell_with_module_name(tags=["pcms"])
 def ruler(
     height_long: float = 55,
     height_short: float = 5,

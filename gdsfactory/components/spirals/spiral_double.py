@@ -9,7 +9,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from .._schematic import spiral_schematic
 
 
-@gf.cell_with_module_name(schematic_function=spiral_schematic, tags={"type": "spirals"})
+@gf.cell_with_module_name(schematic_function=spiral_schematic, tags=["spirals"])
 def spiral_double(
     min_bend_radius: float = 10.0,
     separation: float = 2.0,

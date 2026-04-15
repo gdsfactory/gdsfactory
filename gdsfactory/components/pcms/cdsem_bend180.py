@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 LINE_LENGTH = 420.0
 
 
-@gf.cell_with_module_name(tags={"type": "pcms"})
+@gf.cell_with_module_name(tags=["pcms"])
 def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,

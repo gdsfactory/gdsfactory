@@ -93,7 +93,7 @@ def _vicsek_saltire(depth: int, size: float) -> list[list[tuple[float, float]]]:
     return polygons
 
 
-@gf.cell_with_module_name(tags={"type": "shapes"})
+@gf.cell_with_module_name(tags=["shapes"])
 def fractal(
     fractal_type: Literal[
         "sierpinski_triangle",

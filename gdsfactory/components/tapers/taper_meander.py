@@ -18,7 +18,7 @@ from gdsfactory.typings import LayerSpec
 from .._schematic import taper_schematic
 
 
-@gf.cell_with_module_name(schematic_function=taper_schematic, tags={"type": "tapers"})
+@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
 def taper_meander(
     x_taper: tuple[float, ...] | None = None,
     w_taper: tuple[float, ...] | None = None,
@@ -54,7 +54,7 @@ def taper_meander(
         """Interpolate width at a given x position."""
         return float(np.interp(x, x_taper_arr, w_taper_arr))
 
-    @gf.cell(tags={"type": "tapers"})
+    @gf.cell(tags=["tapers"])
     def taper_section(
         x_start: float, x_end: float, num_pts: int = 30, layer: LayerSpec = layer
     ) -> Component:
@@ -97,7 +97,7 @@ def taper_meander(
         )
         return c
 
-    @gf.cell(tags={"type": "tapers"})
+    @gf.cell(tags=["tapers"])
     def arc_tapered(
         radius: float = 10,
         width1: float = 1,

@@ -10,9 +10,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Size
 from .._schematic import straight_schematic
 
 
-@gf.cell_with_module_name(
-    schematic_function=straight_schematic, tags={"type": "waveguides"}
-)
+@gf.cell_with_module_name(schematic_function=straight_schematic, tags=["waveguides"])
 def straight_heater_doped_rib(
     length: float = 320.0,
     nsections: int = 3,
@@ -185,9 +183,7 @@ def straight_heater_doped_rib(
     return c
 
 
-@gf.cell_with_module_name(
-    schematic_function=straight_schematic, tags={"type": "waveguides"}
-)
+@gf.cell_with_module_name(schematic_function=straight_schematic, tags=["waveguides"])
 def straight_heater_doped_strip(
     length: float = 320.0,
     nsections: int = 3,

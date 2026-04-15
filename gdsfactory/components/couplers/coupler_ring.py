@@ -11,9 +11,7 @@ from ..couplers.coupler import coupler_straight
 from ..couplers.coupler90 import coupler90
 
 
-@gf.cell_with_module_name(
-    schematic_function=coupler_ring_schematic, tags={"type": "couplers"}
-)
+@gf.cell_with_module_name(schematic_function=coupler_ring_schematic, tags=["couplers"])
 def coupler_ring(
     gap: float = 0.2,
     radius: float | None = None,

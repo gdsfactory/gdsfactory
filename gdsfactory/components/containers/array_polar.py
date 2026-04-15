@@ -13,7 +13,7 @@ from gdsfactory.typings import ComponentSpec
 @gf.cell(
     with_module_name=True,
     check_instances=CheckInstances.IGNORE,
-    tags={"type": "containers"},
+    tags=["containers"],
 )
 def array_polar(
     component: ComponentSpec = "C",

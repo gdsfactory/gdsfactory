@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell_with_module_name(tags={"type": "pcms"})
+@gf.cell_with_module_name(tags=["pcms"])
 def cavity(
     component: ComponentSpec = "dbr",
     coupler: ComponentSpec = "coupler",

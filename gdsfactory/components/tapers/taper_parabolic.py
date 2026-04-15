@@ -11,7 +11,7 @@ from gdsfactory.typings import LayerSpec
 from .._schematic import taper_schematic
 
 
-@gf.cell_with_module_name(schematic_function=taper_schematic, tags={"type": "tapers"})
+@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
 def taper_parabolic(
     length: float = 20,
     width1: float = 0.5,

@@ -9,7 +9,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from .._schematic import ckt_schematic
 
 
-@gf.cell_with_module_name(schematic_function=ckt_schematic, tags={"type": "mmis"})
+@gf.cell_with_module_name(schematic_function=ckt_schematic, tags=["mmis"])
 def mmi(
     inputs: int = 1,
     outputs: int = 4,

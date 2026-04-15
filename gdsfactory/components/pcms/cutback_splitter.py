@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from ..containers.component_sequence import component_sequence
 
 
-@gf.cell_with_module_name(tags={"type": "pcms"})
+@gf.cell_with_module_name(tags=["pcms"])
 def cutback_splitter(
     component: ComponentSpec = "mmi1x2",
     cols: int = 4,

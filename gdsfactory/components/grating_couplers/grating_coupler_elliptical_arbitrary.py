@@ -25,7 +25,7 @@ _widths = (0.5,) * 10
 
 
 @gf.cell_with_module_name(
-    schematic_function=grating_coupler_schematic, tags={"type": "grating_couplers"}
+    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
 )
 def grating_coupler_elliptical_arbitrary(
     gaps: Floats = _gaps,
@@ -181,7 +181,7 @@ def grating_coupler_elliptical_arbitrary(
 
 
 @gf.cell_with_module_name(
-    schematic_function=grating_coupler_schematic, tags={"type": "grating_couplers"}
+    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
 )
 def grating_coupler_elliptical_uniform(
     n_periods: int = 20,

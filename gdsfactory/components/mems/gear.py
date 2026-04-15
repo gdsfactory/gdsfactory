@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "mems"})
+@gf.cell_with_module_name(tags=["mems"])
 def gear(
     n_teeth: int = 20,
     module_size: float = 2.0,

@@ -24,7 +24,7 @@ diagram = """
 """
 
 
-@gf.cell_with_module_name(schematic_function=spiral_schematic, tags={"type": "spirals"})
+@gf.cell_with_module_name(schematic_function=spiral_schematic, tags=["spirals"])
 def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,

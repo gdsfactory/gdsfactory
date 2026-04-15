@@ -23,7 +23,7 @@ from ..analog.microstrip import (
 )
 
 
-@gf.cell_with_module_name(schematic_function=taper_schematic, tags={"type": "tapers"})
+@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
 def taper_hecken(
     length: float = 200,
     B: float = 4.0091,

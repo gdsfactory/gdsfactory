@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell_with_module_name(tags={"type": "containers"})
+@gf.cell_with_module_name(tags=["containers"])
 def array_hexagonal(
     component: ComponentSpec = "circle",
     columns: int = 10,

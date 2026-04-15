@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell_with_module_name(tags={"type": "containers"})
+@gf.cell_with_module_name(tags=["containers"])
 def splitter_chain(
     splitter: ComponentSpec = "mmi1x2",
     columns: int = 3,

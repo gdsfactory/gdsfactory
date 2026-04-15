@@ -10,7 +10,7 @@ from .._schematic import mmi_1x2_schematic
 from ..tapers.taper import taper as taper_function
 
 
-@gf.cell_with_module_name(schematic_function=mmi_1x2_schematic, tags={"type": "mmis"})
+@gf.cell_with_module_name(schematic_function=mmi_1x2_schematic, tags=["mmis"])
 def mmi_tapered(
     inputs: int = 1,
     outputs: int = 2,

@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "quantum"})
+@gf.cell_with_module_name(tags=["quantum"])
 def coupler_capacitive(
     pad_width: float = 20.0,
     pad_height: float = 50.0,
@@ -107,7 +107,7 @@ def coupler_capacitive(
     return c
 
 
-@gf.cell_with_module_name(tags={"type": "quantum"})
+@gf.cell_with_module_name(tags=["quantum"])
 def coupler_interdigital(
     fingers: int = 6,
     finger_length: float = 30.0,
@@ -241,7 +241,7 @@ def coupler_interdigital(
     return c
 
 
-@gf.cell_with_module_name(tags={"type": "quantum"})
+@gf.cell_with_module_name(tags=["quantum"])
 def coupler_tunable(
     pad_width: float = 30.0,
     pad_height: float = 40.0,

@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "mems"})
+@gf.cell_with_module_name(tags=["mems"])
 def folded_spring(
     beam_width: float = 0.5,
     beam_length: float = 20.0,

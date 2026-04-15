@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "mems"})
+@gf.cell_with_module_name(tags=["mems"])
 def bolometer(
     absorber_width: float = 20.0,
     absorber_length: float = 20.0,

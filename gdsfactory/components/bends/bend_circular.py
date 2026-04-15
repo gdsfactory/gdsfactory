@@ -113,7 +113,7 @@ def _bend_circular(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=bend_schematic, tags={"type": "bends"})
+@gf.cell_with_module_name(schematic_function=bend_schematic, tags=["bends"])
 def bend_circular(
     radius: float | None = None,
     angle: float = 90.0,

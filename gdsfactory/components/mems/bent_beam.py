@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "mems"})
+@gf.cell_with_module_name(tags=["mems"])
 def bent_beam(
     beam_width: float = 1.0,
     beam_length: float = 40.0,

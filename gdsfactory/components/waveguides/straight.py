@@ -11,9 +11,7 @@ from gdsfactory.typings import CrossSectionSpec
 from .._schematic import straight_schematic, wire_schematic
 
 
-@gf.cell_with_module_name(
-    schematic_function=straight_schematic, tags={"type": "waveguides"}
-)
+@gf.cell_with_module_name(schematic_function=straight_schematic, tags=["waveguides"])
 def straight(
     length: float = 10.0,
     npoints: int = 2,
@@ -81,7 +79,7 @@ def straight_all_angle(
     return c
 
 
-@gf.cell_with_module_name(tags={"type": "waveguides"})
+@gf.cell_with_module_name(tags=["waveguides"])
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,
@@ -110,9 +108,7 @@ def straight_array(
     return c
 
 
-@gf.cell_with_module_name(
-    schematic_function=wire_schematic, tags={"type": "waveguides"}
-)
+@gf.cell_with_module_name(schematic_function=wire_schematic, tags=["waveguides"])
 def wire_straight(
     length: float = 10.0,
     npoints: int = 2,

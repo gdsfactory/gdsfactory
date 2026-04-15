@@ -10,7 +10,7 @@ from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "superconductors"})
+@gf.cell_with_module_name(tags=["superconductors"])
 def optimal_hairpin(
     width: float = 0.2,
     pitch: float = 0.6,

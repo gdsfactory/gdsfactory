@@ -10,9 +10,7 @@ from .._schematic import coupler_schematic
 from ..bends.bend_s import bezier
 
 
-@gf.cell_with_module_name(
-    schematic_function=coupler_schematic, tags={"type": "couplers"}
-)
+@gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["couplers"])
 def coupler_adiabatic(
     length1: float = 20.0,
     length2: float = 50.0,

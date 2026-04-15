@@ -17,7 +17,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "shapes"})
+@gf.cell_with_module_name(tags=["shapes"])
 def triangle(
     x: float = 10,
     xtop: float = 0,
@@ -53,7 +53,7 @@ def triangle(
     return c
 
 
-@gf.cell_with_module_name(tags={"type": "shapes"})
+@gf.cell_with_module_name(tags=["shapes"])
 def triangle2(spacing: float = 3, **kwargs: Any) -> Component:
     r"""Return 2 triangles (bot, top).
 
@@ -97,7 +97,7 @@ def triangle2(spacing: float = 3, **kwargs: Any) -> Component:
     return c
 
 
-@gf.cell_with_module_name(tags={"type": "shapes"})
+@gf.cell_with_module_name(tags=["shapes"])
 def triangle4(**kwargs: Any) -> Component:
     r"""Return 4 triangles.
 

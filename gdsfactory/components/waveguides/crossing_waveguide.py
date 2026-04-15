@@ -18,7 +18,7 @@ from ..bends.bend_s import (
 )
 
 
-@gf.cell_with_module_name(tags={"type": "waveguides"})
+@gf.cell_with_module_name(tags=["waveguides"])
 def crossing_arm(
     r1: float = 3.0,
     r2: float = 1.1,
@@ -83,9 +83,7 @@ def crossing_arm(
     return c
 
 
-@gf.cell_with_module_name(
-    schematic_function=crossing_schematic, tags={"type": "waveguides"}
-)
+@gf.cell_with_module_name(schematic_function=crossing_schematic, tags=["waveguides"])
 def crossing(
     arm: ComponentSpec = crossing_arm,
 ) -> gf.Component:
@@ -105,9 +103,7 @@ def crossing(
     return c
 
 
-@gf.cell_with_module_name(
-    schematic_function=crossing_schematic, tags={"type": "waveguides"}
-)
+@gf.cell_with_module_name(schematic_function=crossing_schematic, tags=["waveguides"])
 def crossing_linear_taper(
     width1: float = 2.5,
     width2: float = 0.5,
@@ -132,9 +128,7 @@ def crossing_linear_taper(
     return crossing(arm=arm)
 
 
-@gf.cell_with_module_name(
-    schematic_function=crossing_schematic, tags={"type": "waveguides"}
-)
+@gf.cell_with_module_name(schematic_function=crossing_schematic, tags=["waveguides"])
 def crossing_etched(
     width: float = 0.5,
     r1: float = 3.0,
@@ -212,7 +206,7 @@ def crossing_etched(
     check_instances=CheckInstances.IGNORE,
     with_module_name=True,
     schematic_function=crossing_schematic,
-    tags={"type": "waveguides"},
+    tags=["waveguides"],
 )
 def crossing45(
     crossing: ComponentSpec = crossing,

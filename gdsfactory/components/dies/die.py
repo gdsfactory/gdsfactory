@@ -10,7 +10,7 @@ import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, Size
 
 
-@gf.cell_with_module_name(tags={"type": "dies"})
+@gf.cell_with_module_name(tags=["dies"])
 def die(
     size: Size = (10000.0, 10000.0),
     street_width: float = 100.0,

@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "dies"})
+@gf.cell_with_module_name(tags=["dies"])
 def align_wafer(
     width: float = 10.0,
     spacing: float = 10.0,
@@ -72,7 +72,7 @@ def align_wafer(
     return c
 
 
-@gf.cell_with_module_name(tags={"type": "dies"})
+@gf.cell_with_module_name(tags=["dies"])
 def add_frame(
     component: ComponentSpec = "rectangle",
     width: float = 10.0,

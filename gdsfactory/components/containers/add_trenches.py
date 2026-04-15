@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "containers"})
+@gf.cell_with_module_name(tags=["containers"])
 def add_trenches(
     component: ComponentSpec = "coupler",
     layer_component: LayerSpec = "WG",

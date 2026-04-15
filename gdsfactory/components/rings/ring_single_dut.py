@@ -12,9 +12,7 @@ from gdsfactory.typings import ComponentSpec
 from .._schematic import ring_single_schematic
 
 
-@gf.cell_with_module_name(
-    schematic_function=ring_single_schematic, tags={"type": "rings"}
-)
+@gf.cell_with_module_name(schematic_function=ring_single_schematic, tags=["rings"])
 def ring_single_dut(
     component: ComponentSpec = "straight",
     gap: float = 0.2,

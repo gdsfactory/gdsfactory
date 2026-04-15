@@ -18,7 +18,7 @@ def _unit_cell() -> gf.Component:
 
 
 @gf.cell_with_module_name(
-    schematic_function=grating_coupler_schematic, tags={"type": "grating_couplers"}
+    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
 )
 def grating_coupler_dual_pol(
     unit_cell: ComponentSpec = _unit_cell,

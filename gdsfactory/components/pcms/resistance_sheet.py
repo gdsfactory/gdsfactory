@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Size
 
 
-@gf.cell_with_module_name(tags={"type": "pcms"})
+@gf.cell_with_module_name(tags=["pcms"])
 def resistance_sheet(
     width: float = 10.0,
     layers: LayerSpecs = ("HEATER",),

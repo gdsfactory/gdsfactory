@@ -93,9 +93,7 @@ def _generate_straights(
     return (c, straight_left, straight_right)
 
 
-@gf.cell_with_module_name(
-    schematic_function=ring_single_schematic, tags={"type": "rings"}
-)
+@gf.cell_with_module_name(schematic_function=ring_single_schematic, tags=["rings"])
 def disk(
     radius: float = 10.0,
     gap: float = 0.2,
@@ -165,9 +163,7 @@ def disk(
     return c
 
 
-@gf.cell_with_module_name(
-    schematic_function=ring_single_schematic, tags={"type": "rings"}
-)
+@gf.cell_with_module_name(schematic_function=ring_single_schematic, tags=["rings"])
 def disk_heater(
     radius: float = 10.0,
     gap: float = 0.2,

@@ -72,7 +72,7 @@ parameters = (
 
 
 @gf.cell_with_module_name(
-    schematic_function=grating_coupler_schematic, tags={"type": "grating_couplers"}
+    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
 )
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,

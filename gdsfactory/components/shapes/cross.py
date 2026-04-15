@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "shapes"})
+@gf.cell_with_module_name(tags=["shapes"])
 def cross(
     length: float = 10.0,
     width: float = 3.0,

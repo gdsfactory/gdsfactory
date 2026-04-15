@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "shapes"})
+@gf.cell_with_module_name(tags=["shapes"])
 def rect_taper(
     rect_width: float = 1.0,
     rect_length: float = 10.0,

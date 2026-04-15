@@ -29,7 +29,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Spacing
 from ..mzis import mzi1x2_2x2
 
 
-@gf.cell_with_module_name(tags={"type": "containers"})
+@gf.cell_with_module_name(tags=["containers"])
 def splitter_tree(
     coupler: ComponentSpec = "mmi1x2",
     noutputs: int = 4,

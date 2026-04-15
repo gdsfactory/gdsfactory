@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "analog"})
+@gf.cell_with_module_name(tags=["analog"])
 def interdigitated_electrodes(
     n_fingers: int = 10,
     finger_width: float = 0.5,

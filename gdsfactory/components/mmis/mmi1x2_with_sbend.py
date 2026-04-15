@@ -39,7 +39,7 @@ def mmi_widths(t: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     return cast("npt.NDArray[np.float64]", f(xnew))
 
 
-@gf.cell_with_module_name(schematic_function=mmi_1x2_schematic, tags={"type": "mmis"})
+@gf.cell_with_module_name(schematic_function=mmi_1x2_schematic, tags=["mmis"])
 def mmi1x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,

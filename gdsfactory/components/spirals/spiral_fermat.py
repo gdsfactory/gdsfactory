@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "spirals"})
+@gf.cell_with_module_name(tags=["spirals"])
 def spiral_fermat(
     width: float = 1.0,
     n_turns: int = 5,

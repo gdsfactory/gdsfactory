@@ -12,7 +12,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, LayerSpec, Size
 
 
-@gf.cell(tags={"type": "dies"})
+@gf.cell(tags=["dies"])
 def die_frame(
     size: Size = (11200.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
@@ -22,7 +22,7 @@ def die_frame(
     )
 
 
-@gf.cell(tags={"type": "dies"})
+@gf.cell(tags=["dies"])
 def die_frame_rf(
     size: Size = (10400.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
@@ -32,7 +32,7 @@ def die_frame_rf(
     )
 
 
-@gf.cell_with_module_name(tags={"type": "dies"})
+@gf.cell_with_module_name(tags=["dies"])
 def die_frame_with_pads(
     die_frame: ComponentSpec = "die_frame",
     ngratings: int = 14,
@@ -383,7 +383,7 @@ def die_frame_phix(
     return c
 
 
-@gf.cell_with_module_name(tags={"type": "dies"})
+@gf.cell_with_module_name(tags=["dies"])
 def die_frame_phix_dc(
     die_frame: ComponentSpec = "die_frame",
     nfibers: int = 32,
@@ -446,7 +446,7 @@ def die_frame_phix_dc(
     )
 
 
-@gf.cell_with_module_name(tags={"type": "dies"})
+@gf.cell_with_module_name(tags=["dies"])
 def die_frame_phix_rf(
     die_frame: ComponentSpec = "die_frame_rf",
     nfibers: int = 32,

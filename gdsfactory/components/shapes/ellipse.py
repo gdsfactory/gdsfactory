@@ -10,7 +10,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags={"type": "shapes"})
+@gf.cell_with_module_name(tags=["shapes"])
 def ellipse(
     radii: tuple[float, float] = (10.0, 5.0),
     angle_resolution: float = 2.5,

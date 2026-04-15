@@ -11,7 +11,7 @@ from ..tapers.taper import taper as taper_function
 from ..waveguides.straight import straight as straight_function
 
 
-@gf.cell_with_module_name(schematic_function=mmi_1x2_schematic, tags={"type": "mmis"})
+@gf.cell_with_module_name(schematic_function=mmi_1x2_schematic, tags=["mmis"])
 def mmi1x2(
     width: float | None = None,
     width_taper: float = 1.0,
