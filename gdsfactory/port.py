@@ -255,9 +255,9 @@ def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
         angle = p.angle * 90
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
+        elif angle <= 135:
             direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
+        elif angle <= 225:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)
@@ -298,9 +298,9 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
         angle = p.angle * 90
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
+        elif angle <= 135:
             direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
+        elif angle <= 225:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)
@@ -445,9 +445,9 @@ def get_ports_facing(
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
+        elif angle <= 135:
             direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
+        elif angle <= 225:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)
@@ -608,9 +608,9 @@ def rename_ports_by_orientation(
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
+        elif angle <= 135:
             direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
+        elif angle <= 225:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)
@@ -787,9 +787,9 @@ def map_ports_to_orientation_cw(
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
+        elif angle <= 135:
             direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
+        elif angle <= 225:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)

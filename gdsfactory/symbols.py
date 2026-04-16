@@ -62,7 +62,6 @@ def floorplan_with_block_letters(
         A component representing the symbol.
 
     """
-    import gdsfactory as gf
     from gdsfactory.components import rectangle, text
 
     w = component.dsize_info.width

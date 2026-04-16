@@ -26,8 +26,7 @@ from gdsfactory.typings import (
 
 
 def get_route_bend_count(route: Route) -> int:
-    """
-    Returns the number of 90° bends for any Route type.
+    """Returns the number of 90° bends for any Route type.
 
     ManhattanRoute → uses n_bend90 attribute
     OpticalAllAngleRoute → treated as having 100 Manhattan bends, so that it is
@@ -170,9 +169,9 @@ def route_astar_single(
     end_node: tuple[int, int] | None = None,
     **kwargs: Any,
 ) -> Route:
-    """
-    Runs a single A* routing attempt between two ports using explicitly
-    provided start and end grid-node indices.
+    """Runs a single A* routing attempt between two ports.
+
+    Uses explicitly provided start and end grid-node indices.
 
     Args:
         component: Component in which the final route geometry will be inserted.
@@ -271,10 +270,10 @@ def route_astar(
     bend: ComponentSpec = "wire_corner",
     **kwargs: Any,
 ) -> Route:
-    """
-    A* router that evaluates several start/end node options and returns the
-    route with the fewest bends. All candidates are computed on a temporary
-    copy of the component; only the optimized route is rebuilt on the real one.
+    """A* router that evaluates several start/end node options and returns the best route.
+
+    All candidates are computed on a temporary copy of the component;
+    only the optimized route is rebuilt on the real one.
 
     Args:
         component: Component on which the final (optimized) route will be built.

@@ -23,7 +23,9 @@ from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import PathLengthConfig
 
 import gdsfactory as gf
+from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -33,6 +35,7 @@ from gdsfactory.typings import (
     LayerSpec,
     LayerSpecs,
     LayerTransitions,
+    Pin,
     Port,
     Ports,
     Step,
@@ -151,8 +154,8 @@ def _ensure_manhattan_waypoints(
 
 def route_bundle(
     component: gf.Component,
-    ports1: Port | Ports | None = None,
-    ports2: Port | Ports | None = None,
+    ports1: Port | Ports | list[Pin] | None = None,
+    ports2: Port | Ports | list[Pin] | None = None,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
@@ -164,7 +167,8 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: Literal["error", "show_error"] | None = None,
+    on_collision: Literal["error", "show_error", "warning"] | None = None,
+    on_placer_error: Literal["error", "show_error", "warning"] | None = None,
     bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool | None = None,
     allow_layer_mismatch: bool | None = None,
@@ -183,7 +187,7 @@ def route_bundle(
     layer_transitions: LayerTransitions | None = None,
     show_waypoints: bool = False,
     layer_marker: LayerSpec | None = None,
-    raise_on_error: bool = False,
+    raise_on_error: bool | None = None,
     path_length_matching_config: PathLengthConfig | None = None,
     layer_label: LayerSpec | None = None,
     port1: Port | None = None,
@@ -212,6 +216,7 @@ def route_bundle(
         port_type: type of port to place. Defaults to optical.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to None (ignore).
+        on_placer_error: action to take on placer error. Defaults to None (ignore).
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
         allow_layer_mismatch: allow different port layers to connect.
@@ -234,7 +239,10 @@ def route_bundle(
         show_waypoints: if True, places markers at each waypoint using CONF.layer_marker.
         layer_marker: layer to place markers on the route. Overrides CONF.layer_marker when show_waypoints=True.
         raise_on_error: if True, raises an exception on routing error instead of adding error markers.
+        path_length_matching_config: path length matching configuration.
         layer_label: layer to place length labels on the route.
+        port1: single start port (alternative to ports1 for single-port routing).
+        port2: single end port (alternative to ports2 for single-port routing).
 
     .. plot::
         :include-source:
@@ -259,6 +267,12 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    on_collision = on_collision or CONF.on_collision
+    on_placer_error = on_placer_error or CONF.on_placer_error
+
+    if raise_on_error is None:
+        raise_on_error = CONF.raise_on_error
+
     # Support deprecated port1/port2 keyword arguments
     if port1 is not None:
         if ports1 is not None:
@@ -278,20 +292,38 @@ def route_bundle(
     if isinstance(ports2, kf.DPort):
         ports2 = [ports2]
 
+    # Ensure ports are lists (they may be reversed, generators, etc.)
+    port_list1 = list(ports1)
+    port_list2 = list(ports2)
+
+    # Resolve Pin inputs to Ports
+    if port_list1 and isinstance(port_list1[0], kf.DPin):
+        if not (port_list2 and isinstance(port_list2[0], kf.DPin)):
+            raise TypeError(
+                "Cannot mix Pins and Ports. "
+                "If ports1 contains Pins, ports2 must also contain Pins."
+            )
+        port_list1, port_list2 = resolve_pins(  # type: ignore[assignment]
+            cast(list[Pin], port_list1), cast(list[Pin], port_list2)
+        )
+    elif port_list2 and isinstance(port_list2[0], kf.DPin):
+        raise TypeError(
+            "Cannot mix Pins and Ports. "
+            "If ports2 contains Pins, ports1 must also contain Pins."
+        )
+
     if show_waypoints and layer_marker is None:
         layer_marker = gf.CONF.layer_marker
 
     component = gf.Component(base=component.base)  # type: ignore[call-overload]
-    ports1 = [gf.Port(base=p1.base) for p1 in ports1]
-    ports2 = [gf.Port(base=p2.base) for p2 in ports2]
+    ports1_resolved = [gf.Port(base=p1.base) for p1 in cast(list[kf.DPort], port_list1)]
+    ports2_resolved = [gf.Port(base=p2.base) for p2 in cast(list[kf.DPort], port_list2)]
 
     if router:
         warnings.warn(
             f"The argument {router=} is ignored and will be removed in a future release.",
             stacklevel=2,
         )
-
-    router = "optical"
 
     if cross_section is None:
         if layer is None or route_width is None:
@@ -304,8 +336,8 @@ def route_bundle(
         )
 
     c = component
-    ports1_ = list(ports1)
-    ports2_ = list(ports2)
+    ports1_ = ports1_resolved
+    ports2_ = ports2_resolved
     port_type = port_type or ports1_[0].port_type
 
     if cross_section is None:
@@ -493,6 +525,11 @@ def route_bundle(
             return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
 
     try:
+        kf_on_collision = "error" if on_collision == "warning" else on_collision
+        kf_on_placer_error = (
+            "error" if on_placer_error == "warning" else on_placer_error
+        )
+
         route = kf.routing.optical.route_bundle(
             component,
             ports1_,
@@ -510,7 +547,8 @@ def route_bundle(
             ]
             if collision_check_layer_enums
             else None,
-            on_collision=on_collision,
+            on_collision=kf_on_collision,
+            on_placer_error=kf_on_placer_error,
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
             allow_type_mismatch=allow_type_mismatch,
@@ -524,15 +562,21 @@ def route_bundle(
             sbend_factory=_sbend if sbend else None,
         )
     except Exception as e:
+        if raise_on_error:
+            if "kdb.Trans" in str(e):
+                raise ValueError("You need at least 2 waypoints or steps.") from e
+            if "non-manhattan" in str(e):
+                raise ValueError(
+                    "Waypoints need to be Manhattan (axis-aligned) coordinates."
+                ) from e
+            raise
+
         if "kdb.Trans" in str(e):
             e = ValueError("You need at least 2 waypoints or steps.")
         elif "non-manhattan" in str(e):
             e = ValueError("Waypoints need to be Manhattan (axis-aligned) coordinates.")
-
-        if raise_on_error:
-            raise
-
         gf.logger.error(f"Error in route_bundle: {e}")
+        warn(f"Routing failed: {e}", stacklevel=2)
         layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
         route = kf.routing.electrical.route_bundle(
             component,
@@ -541,7 +585,8 @@ def route_bundle(
             separation=separation,
             starts=start_straight_length,
             ends=end_straight_length,
-            on_collision=on_collision,
+            on_collision=None,
+            on_placer_error=None,
             bboxes=bboxes,
             route_width=width,
             sort_ports=sort_ports,

@@ -5,8 +5,10 @@ __all__ = ["ring_single"]
 import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import ring_single_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=ring_single_schematic)
 def ring_single(
     gap: float = 0.2,
     radius: float | None = None,

@@ -4,8 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import kfactory as kf
-import kfactory.utilities
-from kfactory import KCLayout
+from kfactory import KCLayout, utilities
 
 from gdsfactory.component import Component
 from gdsfactory.typings import PostProcesses
@@ -29,7 +28,7 @@ def import_gds(
 
     """
     temp_kcl = KCLayout(name=str(gdspath))
-    options = kf.utilities.load_layout_options()
+    options = utilities.load_layout_options()
     options.warn_level = 0
 
     if skip_new_cells:
@@ -115,6 +114,9 @@ def import_gds_multiple_top_cells(
     Args:
         gdspath: path to GDS file.
         cellnames: list of names of the cells to return. Defaults to all top cells.
+        post_process: list of post-processing functions to apply to each cell.
+        rename_duplicated_cells: if True, renames duplicated cells instead of raising an error.
+        skip_new_cells: if True, skips new cells instead of raising an error.
 
     Returns:
         dict of cellname to Component.
@@ -124,7 +126,7 @@ def import_gds_multiple_top_cells(
 
     """
     temp_kcl = KCLayout(name=str(gdspath))
-    options = kf.utilities.load_layout_options()
+    options = utilities.load_layout_options()
     options.warn_level = 0
 
     if skip_new_cells:

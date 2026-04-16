@@ -5,6 +5,8 @@ on:
   push:
       branches:
         - main
+permissions:
+  contents: read
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -80,6 +82,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.11"
       - run: make install
       - run: uv run mypy gdsfactory/
 

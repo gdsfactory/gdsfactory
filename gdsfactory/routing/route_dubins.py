@@ -147,10 +147,9 @@ def dubins_path_length(
 ) -> float:
     """Calculate the length of a Dubins path."""
     (sx, sy, syaw) = start
-    (ex, ey, eyaw) = end
+    (ex, ey, _) = end
     # convert the degree angle inputs to radians
     syaw = m.radians(syaw)
-    eyaw = m.radians(eyaw)
 
     ex = ex - sx
     ey = ey - sy

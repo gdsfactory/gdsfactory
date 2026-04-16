@@ -103,17 +103,25 @@ def add_pads_bot(
     ports_list: Sequence[Port] = ports or select_ports(cref.ports)
 
     pad_component = gf.get_component(pad)
-    if pad_port_name not in pad_component.ports:
-        pad_ports = list(pad_component.ports)
-        raise ValueError(
-            f"pad_port_name = {pad_port_name!r} not in {pad_component.name!r} ports {pad_ports}"
-        )
 
-    pad_orientation = int(pad_component[pad_port_name].orientation)
-    if pad_orientation != 180:
-        raise ValueError(
-            f"port.orientation={pad_orientation} for port {pad_port_name!r} needs to be 180 degrees."
-        )
+    # Detect Pin-based pads
+    pad_has_pins = len(pad_component.pins) > 0
+
+    if pad_has_pins:
+        # Pin-based pad: skip orientation assertion, routing will resolve directions
+        pass
+    else:
+        if pad_port_name not in pad_component.ports:
+            pad_ports = list(pad_component.ports)
+            raise ValueError(
+                f"pad_port_name = {pad_port_name!r} not in {pad_component.name!r} ports {pad_ports}"
+            )
+
+        pad_orientation = int(pad_component[pad_port_name].orientation)
+        if pad_orientation != 180:
+            raise ValueError(
+                f"port.orientation={pad_orientation} for port {pad_port_name!r} needs to be 180 degrees."
+            )
 
     if not ports_list:
         raise ValueError(

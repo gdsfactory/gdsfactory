@@ -251,7 +251,7 @@ def test_component_reference_properties() -> None:
     straight = gf.components.straight(length=10).copy()
     ref = c << straight
 
-    assert ref.center == ref.center
+    assert ref.center == ref.dcenter
     assert ref.x == ref.dx
     assert ref.y == ref.dy
     assert ref.xmin == ref.dxmin

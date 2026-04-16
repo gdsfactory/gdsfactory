@@ -16,6 +16,7 @@ from gdsfactory.typings import (
     LayerSpec,
 )
 
+from .._schematic import ring_double_schematic, ring_single_schematic
 from ..vias.via import via
 from ..vias.via_stack import via_stack
 
@@ -51,7 +52,7 @@ _heater_vias = partial(
 )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=ring_double_schematic)
 def ring_double_pn(
     add_gap: float = 0.3,
     drop_gap: float = 0.3,
@@ -210,7 +211,7 @@ def ring_double_pn(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=ring_single_schematic)
 def ring_single_pn(
     gap: float = 0.3,
     radius: float = 5.0,

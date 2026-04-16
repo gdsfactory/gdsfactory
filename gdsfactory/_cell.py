@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
-from functools import partial, wraps
+from functools import wraps
 from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, cast, overload
 
 import kfactory as kf
@@ -127,8 +127,7 @@ def cell(
         drop_params = ["self", "cls"]
     if post_process is None:
         post_process = []
-    c = _cell(  # type: ignore[call-overload,misc]
-        _func,
+    cell_kwargs: dict[str, Any] = dict(
         output_type=Component,
         set_settings=set_settings,
         set_name=set_name,
@@ -150,6 +149,7 @@ def cell(
         ports=ports,
         schematic_function=schematic_function,
     )
+    c: Any = _cell(_func, **cell_kwargs)  # type: ignore[arg-type]
 
     if _func is not None:
         c.is_gf_cell = True
@@ -159,7 +159,14 @@ def cell(
     def wrapper(
         func: ComponentFunc[ComponentParams],
     ) -> ComponentFunc[ComponentParams]:
-        decorated = c(func)
+        if with_module_name and basename is None:
+            mod = func.__module__
+            bn = clean_name(
+                func.__name__ if mod == "__main__" else f"{func.__name__}_{mod}"
+            )
+            decorated: Any = _cell(func, **{**cell_kwargs, "basename": bn})
+        else:
+            decorated = c(func)
         decorated.is_gf_cell = True
         return cast(ComponentFunc[ComponentParams], decorated)
 
@@ -251,14 +258,70 @@ def vcell(
     return wrapper
 
 
-def override_defaults(
-    func: Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]],
+@overload
+def cell_with_module_name(
+    _func: ComponentFunc[ComponentParams], /
+) -> ComponentFunc[ComponentParams]: ...
+
+
+@overload
+def cell_with_module_name(
+    *,
+    set_settings: bool = True,
+    set_name: bool = True,
+    check_ports: bool = True,
+    check_instances: CheckInstances | None = None,
+    snap_ports: bool = True,
+    add_port_layers: bool = True,
+    cache: Cache[int, Any] | dict[int, Any] | None = None,
+    basename: str | None = None,
+    drop_params: list[str] | None = None,
+    register_factory: bool = True,
+    overwrite_existing: bool | None = None,
+    layout_cache: bool | None = None,
+    info: dict[str, MetaData] | None = None,
+    post_process: Iterable[Callable[[Component], None]] | None = None,
+    debug_names: bool | None = None,
+    tags: list[str] | None = None,
+    lvs_equivalent_ports: list[list[str]] | None = None,
+    schematic_function: Callable[ComponentParams, Schematic],
+) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
+
+
+@overload
+def cell_with_module_name(
+    *,
+    set_settings: bool = True,
+    set_name: bool = True,
+    check_ports: bool = True,
+    check_instances: CheckInstances | None = None,
+    snap_ports: bool = True,
+    add_port_layers: bool = True,
+    cache: Cache[int, Any] | dict[int, Any] | None = None,
+    basename: str | None = None,
+    drop_params: list[str] | None = None,
+    register_factory: bool = True,
+    overwrite_existing: bool | None = None,
+    layout_cache: bool | None = None,
+    info: dict[str, MetaData] | None = None,
+    post_process: Iterable[Callable[[Component], None]] | None = None,
+    debug_names: bool | None = None,
+    tags: list[str] | None = None,
+    lvs_equivalent_ports: list[list[str]] | None = None,
+    schematic_function: None = None,
+) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
+
+
+def cell_with_module_name(
+    _func: ComponentFunc[ComponentParams] | None = None,
+    /,
     **kwargs: Any,
-) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]:
-    return partial(func, **kwargs)
-
-
-cell_with_module_name = override_defaults(cell, with_module_name=True)
+) -> (
+    ComponentFunc[ComponentParams]
+    | Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]
+):
+    """Decorator like ``cell`` but with ``with_module_name=True`` by default."""
+    return cell(_func, with_module_name=True, **kwargs)  # type: ignore[call-overload,no-any-return]
 
 
 @overload

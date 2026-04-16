@@ -3,6 +3,32 @@
 
 <!-- towncrier release notes start -->
 
+## [9.40.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.1) - 2026-04-13
+
+- ci: pin python-version on type_consistency setup-uv [#4487](https://github.com/gdsfactory/gdsfactory/pull/4487)
+- Fix standard code quality findings and static analysis alerts [#4484](https://github.com/gdsfactory/gdsfactory/pull/4484)
+- fix: copy __pydantic_extra__ in Pdk.__init__ [#4486](https://github.com/gdsfactory/gdsfactory/pull/4486)
+- Fix import mismatch, redundant assignment, unused variable, and test quality improvements [#4483](https://github.com/gdsfactory/gdsfactory/pull/4483)
+
+## [9.40.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.0) - 2026-04-09
+
+- perf: precompute Fresnel coefficients + Chebyshev basis in euler() [#4462](https://github.com/gdsfactory/gdsfactory/pull/4462)
+- add more shapes [#4465](https://github.com/gdsfactory/gdsfactory/pull/4465)
+- fix add_port storing hashed cross-section name instead of spec string [#4460](https://github.com/gdsfactory/gdsfactory/pull/4460)
+- feat: add schematic metadata to generic PDK cells [#4482](https://github.com/gdsfactory/gdsfactory/pull/4482)
+- fix: improve route_bundle error handling and add on_placer_error param [#4480](https://github.com/gdsfactory/gdsfactory/pull/4480)
+- Feature: adding an ax argument to gf.Component.plot() [#4481](https://github.com/gdsfactory/gdsfactory/pull/4481)
+- fix: raise user-friendly error in route_bundle [#4479](https://github.com/gdsfactory/gdsfactory/pull/4479)
+- feat: Pin support for multidirectional electrical routing [#4472](https://github.com/gdsfactory/gdsfactory/pull/4472)
+- Potential fix for code scanning alert no. 9: Workflow does not contain permissions [#4474](https://github.com/gdsfactory/gdsfactory/pull/4474)
+- Potential fix for code scanning alert no. 1: Workflow does not contain permissions [#4476](https://github.com/gdsfactory/gdsfactory/pull/4476)
+- Potential fix for code scanning alert no. 3: Workflow does not contain permissions [#4477](https://github.com/gdsfactory/gdsfactory/pull/4477)
+- Potential fix for code scanning alert no. 2: Workflow does not contain permissions [#4473](https://github.com/gdsfactory/gdsfactory/pull/4473)
+- add more hooks [#4471](https://github.com/gdsfactory/gdsfactory/pull/4471)
+- Show GitHub-contribution guide in expected location [#4467](https://github.com/gdsfactory/gdsfactory/pull/4467)
+- docs(skill): add KLayout API & DCplxTrans reference to gdsfactory-component-designer [#4463](https://github.com/gdsfactory/gdsfactory/pull/4463)
+
+
 ## [9.39.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.39.3) - 2026-03-21
 
 - fix bend s offset [#4457](https://github.com/gdsfactory/gdsfactory/pull/4457)

@@ -5,8 +5,10 @@ __all__ = ["spiral_inductor"]
 import gdsfactory as gf
 from gdsfactory.component import Component
 
+from .._schematic import spiral_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=spiral_schematic)
 def spiral_inductor(
     width: float = 3.0,
     pitch: float = 3.0,

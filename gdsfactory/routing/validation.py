@@ -25,8 +25,6 @@ def make_error_traces(
     Returns:
         A list of Routes (the error traces).
     """
-    import gdsfactory as gf
-
     warn(message, RouteWarning, stacklevel=3)
     for port1, port2 in zip(ports1, ports2, strict=False):
         path = gf.path.Path(np.array([port1.center, port2.center]))

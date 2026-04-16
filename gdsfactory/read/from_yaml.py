@@ -568,12 +568,6 @@ def make_connection(
     else:
         src_port = instance_src.ports[port_src_name, src_ia, src_ib]
 
-    # if dst_ia is None or dst_ib is None:
-    #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=port_dst_name, use_mirror=True, mirror=True)
-    # else:
-    #     print('here')
-    #     instance_src.connect(port=src_port, other=instance_dst, other_port_name=(port_dst_name, dst_ia, dst_ib), use_mirror=True, mirror=True)
-
     if dst_ia is None or dst_ib is None:
         dst_port = instance_dst.ports[port_dst_name]
     else:
@@ -2079,6 +2073,75 @@ instances:
       length: 10
 connections:
   b1,o1: s1,o2
+"""
+
+sample_route_bundle_electrical = """
+name: sample_route_bundle_electrical
+
+instances:
+  pad1:
+    component: pad
+    settings:
+      layer: metal1
+  pad2:
+    component: pad
+    settings: {}
+  pad3:
+    component: pad
+    settings: {}
+  pad4:
+    component: pad
+    settings: {}
+  via:
+    component: via1
+    settings: {}
+connections: {}
+routes:
+  bundle1:
+    links:
+      pad1,e3: pad2,e1
+    routing_strategy: route_bundle_electrical
+    settings:
+      auto_taper: false
+      allow_layer_mismatch: false
+  bundle3:
+    links:
+      pad3,e3: pad4,e1
+    routing_strategy: route_bundle_electrical
+    settings:
+      auto_taper: false
+nets: []
+ports: {}
+placements:
+  pad1:
+    x: 0
+    y: 0
+    dx: 437.67
+    dy: 26.62
+    rotation: 0
+    mirror: false
+  pad2:
+    dx: -74.566
+    dy: 328.078
+    rotation: 0
+    mirror: false
+  pad3:
+    x: 0
+    y: 0
+    dx: 4.157782554626465
+    dy: -99.9135284423828
+  pad4:
+    x: 0
+    y: 0
+    dx: 632.702
+    dy: 352.855
+    rotation: 0
+    mirror: false
+  via:
+    x: 100
+    y: 230
+    dx: 0
+    dy: 0
 """
 
 sample_all_angle = """

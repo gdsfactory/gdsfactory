@@ -125,7 +125,7 @@ def is_cell(
                 ):
                     return True
     except Exception:
-        pass
+        pass  # Ignore type resolution errors
     return False
 
 

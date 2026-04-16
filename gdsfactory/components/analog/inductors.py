@@ -8,6 +8,8 @@ import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.typings import LayerSpec, LayerSpecs
 
+from .._schematic import inductor_schematic
+
 
 def inductor_min_diameter(width: float, space: float, turns: int, grid: float) -> float:
     """Calculate minimum diameter for inductor.
@@ -25,7 +27,7 @@ def inductor_min_diameter(width: float, space: float, turns: int, grid: float) -
     return round(min_d / grid) * grid
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=inductor_schematic)
 def inductor(
     width: float = 2.0,
     space: float = 2.1,

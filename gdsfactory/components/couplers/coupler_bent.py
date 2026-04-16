@@ -4,6 +4,8 @@ import numpy as np
 
 import gdsfactory as gf
 
+from .._schematic import coupler_schematic
+
 
 @gf.cell_with_module_name
 def coupler_bent_half(
@@ -80,7 +82,7 @@ def coupler_bent_half(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=coupler_schematic)
 def coupler_bent(
     gap: float = 0.200,
     radius: float = 26,

@@ -18,9 +18,9 @@ def direction_ports_from_list_ports(
         orientation = (p.orientation + 360.0) % 360
         if orientation <= 45.0 or orientation >= 315:
             direction_ports["E"].append(p)
-        elif orientation <= 135.0 and orientation >= 45.0:
+        elif orientation <= 135.0:
             direction_ports["N"].append(p)
-        elif orientation <= 225.0 and orientation >= 135.0:
+        elif orientation <= 225.0:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)

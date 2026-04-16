@@ -2,6 +2,8 @@ name: Release package
 on:
   push:
     tags: "v*"
+permissions:
+  contents: read
 jobs:
   release_pypi:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
@@ -30,6 +32,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     needs: release_pypi
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -45,7 +48,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:9.39.3
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:9.40.1
           file: .devcontainer/Dockerfile.dev
   release_environment:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')

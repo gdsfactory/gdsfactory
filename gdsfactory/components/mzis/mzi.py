@@ -19,8 +19,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import mzi_2x2_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic)
 def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,
@@ -49,7 +51,7 @@ def mzi(
     auto_rename_ports: bool = True,
     auto_detect_port_names: bool = False,
 ) -> Component:
-    """Mzi.
+    r"""Mzi.
 
     Args:
         delta_length: bottom arm vertical extra length.

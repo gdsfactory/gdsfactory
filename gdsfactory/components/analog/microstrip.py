@@ -190,7 +190,6 @@ def _find_microstrip_wire_width(
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
         Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
     """
-
     _validate_positive("Z_target", Z_target)
     _validate_positive("dielectric_thickness", dielectric_thickness)
     _validate_positive("eps_r", eps_r)

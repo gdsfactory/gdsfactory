@@ -6,8 +6,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
 
+from .._schematic import coupler_schematic
 
-@gf.cell_with_module_name
+
+@gf.cell_with_module_name(schematic_function=coupler_schematic)
 def coupler_straight_asymmetric(
     length: float = 10.0,
     gap: float = 0.27,

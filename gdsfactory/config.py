@@ -8,6 +8,7 @@ import pathlib
 import sys
 import tempfile
 from enum import Enum, auto
+from typing import Literal
 
 from kfactory.conf import LogLevel, Settings, config, dotenv_path, get_affinity
 from pydantic import Field
@@ -15,8 +16,8 @@ from pydantic_settings import SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "9.39.3"
-__next_major_version__ = "9.39.3"
+__version__ = "9.40.1"
+__next_major_version__ = "9.40.1"
 
 PathType = str | pathlib.Path
 
@@ -144,6 +145,9 @@ class Config(Settings):
         validate_assignment=True,
         env_file=dotenv_path,
     )
+    on_collision: Literal["error", "show_error", "warning"] | None = "show_error"
+    on_placer_error: Literal["error", "show_error", "warning"] | None = "show_error"
+    raise_on_error: bool = False
 
 
 _defaults = Config()

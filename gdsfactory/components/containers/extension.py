@@ -150,7 +150,7 @@ def extend_ports(
     if auto_taper and cross_section:
         from gdsfactory.routing.auto_taper import add_auto_tapers
 
-        ports_to_extend = add_auto_tapers(
+        _ = add_auto_tapers(
             component=c, ports=ports_to_extend, cross_section=cross_section
         )
 

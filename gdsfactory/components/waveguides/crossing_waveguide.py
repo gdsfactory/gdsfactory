@@ -11,6 +11,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
 
+from .._schematic import crossing_schematic
 from ..bends.bend_s import (
     bezier,
     find_min_curv_bezier_control_points,
@@ -82,7 +83,7 @@ def crossing_arm(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=crossing_schematic)
 def crossing(
     arm: ComponentSpec = crossing_arm,
 ) -> gf.Component:
@@ -102,7 +103,7 @@ def crossing(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=crossing_schematic)
 def crossing_linear_taper(
     width1: float = 2.5,
     width2: float = 0.5,
@@ -127,7 +128,7 @@ def crossing_linear_taper(
     return crossing(arm=arm)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=crossing_schematic)
 def crossing_etched(
     width: float = 0.5,
     r1: float = 3.0,
@@ -152,7 +153,7 @@ def crossing_etched(
         layer_slab: shallow etch layer.
     """
     layer_wg = gf.get_layer(layer_wg)
-    layer_slab = gf.get_layer(layer_slab)
+    _ = gf.get_layer(layer_slab)
 
     # Draw the ellipses
     c = Component()
@@ -201,7 +202,11 @@ def crossing_etched(
     return c
 
 
-@gf.cell(check_instances=CheckInstances.IGNORE, with_module_name=True)
+@gf.cell(
+    check_instances=CheckInstances.IGNORE,
+    with_module_name=True,
+    schematic_function=crossing_schematic,
+)
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,

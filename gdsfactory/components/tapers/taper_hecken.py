@@ -14,6 +14,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
+from .._schematic import taper_schematic
 from ..analog.microstrip import (
     _G,
     _find_microstrip_wire_width,
@@ -22,7 +23,7 @@ from ..analog.microstrip import (
 )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=taper_schematic)
 def taper_hecken(
     length: float = 200,
     B: float = 4.0091,

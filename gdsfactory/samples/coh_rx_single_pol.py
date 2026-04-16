@@ -44,8 +44,6 @@ def coh_rx_single_pol(
        (signal_in_coupler)---|  hybrid  |--- detQ1 \\ __ q signal
                              |__________|--- detQ2 //
     """
-    bend = gf.get_component(bend, cross_section=cross_section)
-
     # ----- Draw 90 deg hybrid -----
 
     c = Component()

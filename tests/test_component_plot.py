@@ -22,6 +22,15 @@ class TestComponentPlot:
         fig = component_under_test.plot(return_fig=True)
         assert fig is not None
 
+    def test_plot_with_ax_as_argument(self, component_under_test: Component) -> None:
+        """Test plot() with ax argument."""
+        import matplotlib.pyplot as plt
+
+        _fig, ax = plt.subplots()
+        returned_fig = component_under_test.plot(ax=ax, return_fig=True)
+        # If no exceptions are raised, the test passes
+        assert returned_fig is ax.figure
+
     def test_plot_with_empty_pixel_buffer_options(
         self, component_under_test: Component
     ) -> None:
@@ -77,6 +86,6 @@ class TestComponentPlot:
         low_size = fig_low.get_size_inches()
 
         # Sizes should be different
-        assert not (default_size == high_size).all()
-        assert not (default_size == low_size).all()
-        assert not (high_size == low_size).all()
+        assert tuple(default_size) != tuple(high_size)
+        assert tuple(default_size) != tuple(low_size)
+        assert tuple(high_size) != tuple(low_size)

@@ -6,11 +6,12 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+from .._schematic import coupler_ring_schematic
 from ..couplers.coupler import coupler_straight
 from ..couplers.coupler90 import coupler90
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(schematic_function=coupler_ring_schematic)
 def coupler_ring(
     gap: float = 0.2,
     radius: float | None = None,
