@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["mems"])
 def doubly_clamped_beam(
     beam_width: float = 1.0,
     beam_length: float = 30.0,

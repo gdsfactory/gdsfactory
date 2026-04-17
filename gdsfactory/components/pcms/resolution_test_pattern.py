@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pcms"])
 def resolution_test_pattern(
     radius: float = 50.0,
     n_spokes: int = 36,

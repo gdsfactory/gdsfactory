@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pcms"])
 def resistance_meander(
     name: str = "net",
     pad_size: Size = (50.0, 50.0),

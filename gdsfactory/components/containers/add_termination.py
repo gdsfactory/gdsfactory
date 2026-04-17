@@ -13,7 +13,7 @@ from ..tapers.taper import taper
 _terminator_function = partial(taper, width2=0.1)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["containers"])
 def add_termination(
     component: ComponentSpec = "straight",
     port_names: tuple[str, ...] | None = None,

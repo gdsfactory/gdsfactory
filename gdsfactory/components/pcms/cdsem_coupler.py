@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pcms"])
 def cdsem_coupler(
     length: float = 420.0,
     gaps: Sequence[float] = (0.15, 0.2, 0.25),

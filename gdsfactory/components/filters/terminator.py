@@ -11,7 +11,7 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 from .._schematic import terminator_schematic
 
 
-@gf.cell_with_module_name(schematic_function=terminator_schematic)
+@gf.cell_with_module_name(schematic_function=terminator_schematic, tags=["filters"])
 def terminator(
     length: float | None = 50,
     cross_section_input: CrossSectionSpec = strip,

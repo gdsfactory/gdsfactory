@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["quantum"])
 def transmon(
     pad_width: float = 200.0,
     pad_height: float = 100.0,
@@ -123,7 +123,7 @@ def transmon(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["quantum"])
 def transmon_circular(
     pad_radius: float = 100.0,
     pad_gap: float = 6.0,

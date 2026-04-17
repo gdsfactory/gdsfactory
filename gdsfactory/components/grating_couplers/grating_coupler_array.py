@@ -10,7 +10,7 @@ from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["grating_couplers"])
 def grating_coupler_array(
     grating_coupler: ComponentSpec = "grating_coupler_elliptical",
     pitch: float = 127.0,

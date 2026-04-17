@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["shapes"])
 def circle_wave(
     radius: float = 10.0,
     amplitude: float = 1.0,

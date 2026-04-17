@@ -12,7 +12,7 @@ from gdsfactory.typings import LayerSpec
 from ..texts.text import text
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pcms"])
 def pixel(size: int = 1, layer: LayerSpec = "WG") -> Component:
     c = gf.Component()
     a = size / 2
@@ -20,7 +20,7 @@ def pixel(size: int = 1, layer: LayerSpec = "WG") -> Component:
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pcms"])
 def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Component:
     """Returns QRCode.
 
@@ -45,7 +45,7 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pcms"])
 def version_stamp(
     labels: tuple[str, ...] = ("demo_label",),
     with_qr_code: bool = False,

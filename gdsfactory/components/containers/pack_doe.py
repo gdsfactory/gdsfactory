@@ -54,7 +54,7 @@ def generate_doe(
     return component_list, settings_list
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["containers"])
 def pack_doe(
     doe: ComponentSpec | None = None,
     settings: Mapping[str, Sequence[kf.typings.MetaData]] | None = None,
@@ -108,7 +108,7 @@ def pack_doe(
     return component
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["containers"])
 def pack_doe_grid(
     doe: ComponentSpec | None = None,
     settings: Mapping[str, Sequence[kf.typings.MetaData]] | None = None,

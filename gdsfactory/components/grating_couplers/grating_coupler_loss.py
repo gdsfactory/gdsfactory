@@ -8,7 +8,7 @@ from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["grating_couplers"])
 def grating_coupler_loss(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_elliptical_trenches",

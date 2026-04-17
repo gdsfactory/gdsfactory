@@ -13,7 +13,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from .._schematic import modulator_schematic
 
 
-@gf.cell_with_module_name(schematic_function=modulator_schematic)
+@gf.cell_with_module_name(schematic_function=modulator_schematic, tags=["waveguides"])
 def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionSpec = "pin",

@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["superconductors"])
 def optimal_90deg(
     width: float = 100,
     num_pts: int = 15,

@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["quantum"])
 def resonator_cpw(
     length: float = 1000.0,
     width: float = 10.0,
@@ -156,7 +156,7 @@ def resonator_cpw(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["quantum"])
 def resonator_lumped(
     capacitor_fingers: int = 4,
     capacitor_finger_length: float = 20.0,
@@ -290,7 +290,7 @@ def resonator_lumped(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["quantum"])
 def resonator_quarter_wave(
     length: float = 2500.0,
     width: float = 10.0,

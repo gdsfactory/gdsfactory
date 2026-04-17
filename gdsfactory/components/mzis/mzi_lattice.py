@@ -11,7 +11,7 @@ from gdsfactory.component import Component, ComponentReference
 from .._schematic import mzi_2x2_schematic
 
 
-@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic)
+@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic, tags=["mzis"])
 def mzi_lattice(
     coupler_lengths: Sequence[float] = (10.0, 20.0),
     coupler_gaps: Sequence[float] = (0.2, 0.3),
@@ -123,7 +123,7 @@ def mzi_lattice(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic)
+@gf.cell_with_module_name(schematic_function=mzi_2x2_schematic, tags=["mzis"])
 def mzi_lattice_mmi(
     coupler_widths: tuple[float | None, float | None] = (None, None),
     coupler_widths_tapers: tuple[float, ...] = (

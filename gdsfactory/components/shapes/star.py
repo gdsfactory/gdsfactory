@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["shapes"])
 def star(
     inner_radius: float = 5.0,
     outer_radius: float = 10.0,

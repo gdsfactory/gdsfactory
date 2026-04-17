@@ -39,7 +39,7 @@ _via_stack = partial(
 )
 
 
-@gf.cell_with_module_name(schematic_function=straight_schematic)
+@gf.cell_with_module_name(schematic_function=straight_schematic, tags=["waveguides"])
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,

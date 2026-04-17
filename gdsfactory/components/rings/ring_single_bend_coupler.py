@@ -16,7 +16,7 @@ from .._schematic import (
 from ..bends.bend_circular import bend_circular_all_angle
 
 
-@gf.cell_with_module_name(schematic_function=coupler_schematic)
+@gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["rings"])
 def coupler_bend(
     radius: float | None = None,
     coupler_gap: float = 0.2,
@@ -95,7 +95,7 @@ def coupler_bend(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=coupler_ring_schematic)
+@gf.cell_with_module_name(schematic_function=coupler_ring_schematic, tags=["rings"])
 def coupler_ring_bend(
     radius: float | None = None,
     coupler_gap: float = 0.2,
@@ -157,7 +157,7 @@ def coupler_ring_bend(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=ring_single_schematic)
+@gf.cell_with_module_name(schematic_function=ring_single_schematic, tags=["rings"])
 def ring_single_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,

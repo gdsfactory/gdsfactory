@@ -9,7 +9,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from .._schematic import ring_double_schematic
 
 
-@gf.cell_with_module_name(schematic_function=ring_double_schematic)
+@gf.cell_with_module_name(schematic_function=ring_double_schematic, tags=["rings"])
 def ring_crow(
     gaps: tuple[float, ...] = (0.2, 0.2, 0.2, 0.2),
     radius: tuple[float, ...] = (10.0, 10.0, 10.0),
@@ -122,7 +122,7 @@ def ring_crow(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["rings"])
 def ring_asymmetric(
     radius: float = 10.0,
     length_x: float = 2.0,

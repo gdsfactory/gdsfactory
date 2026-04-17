@@ -9,7 +9,7 @@ from gdsfactory.typings import LayerSpec
 from .._schematic import taper_schematic
 
 
-@gf.cell_with_module_name(schematic_function=taper_schematic)
+@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
 def ramp(
     length: float = 10.0,
     width1: float = 5.0,

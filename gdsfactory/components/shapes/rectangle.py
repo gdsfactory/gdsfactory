@@ -13,7 +13,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import Ints, LayerSpec, LayerSpecs, Size
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["shapes"])
 def rectangle(
     size: Size = (4.0, 2.0),
     layer: LayerSpec = "WG",
@@ -47,7 +47,7 @@ marker_te = partial(rectangle, size=(fiber_size, fiber_size), layer="TE", center
 marker_tm = partial(rectangle, size=(fiber_size, fiber_size), layer="TM", centered=True)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["shapes"])
 def rectangles(
     size: Size = (4.0, 2.0),
     offsets: Sequence[float] | None = None,

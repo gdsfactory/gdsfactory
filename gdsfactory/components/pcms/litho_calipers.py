@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pcms"])
 def litho_calipers(
     notch_size: Size = (2.0, 5.0),
     notch_spacing: float = 2.0,

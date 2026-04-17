@@ -144,7 +144,7 @@ def _bend_euler(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=sbend_schematic)
+@gf.cell_with_module_name(schematic_function=sbend_schematic, tags=["bends"])
 def bend_euler_s(
     radius: float | None = None,
     p: float = 0.5,
@@ -210,7 +210,7 @@ def bend_euler_s(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=bend_schematic)
+@gf.cell_with_module_name(schematic_function=bend_schematic, tags=["bends"])
 def bend_euler(
     radius: float | None = None,
     angle: float = 90.0,

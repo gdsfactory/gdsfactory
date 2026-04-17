@@ -29,7 +29,7 @@ def _cubic_bezier(
     return result
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["couplers"])
 def coupler_pulley(
     radius: float = 10.0,
     ring_width: float | None = None,

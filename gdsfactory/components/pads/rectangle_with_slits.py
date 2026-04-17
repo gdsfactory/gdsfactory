@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["pads"])
 def rectangle_with_slits(
     size: Size = (100.0, 200.0),
     layer: LayerSpec = "WG",

@@ -9,7 +9,7 @@ from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import Ints, LayerSpec, Size
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["shapes"])
 def compass(
     size: Size = (4.0, 2.0),
     layer: LayerSpec = "WG",

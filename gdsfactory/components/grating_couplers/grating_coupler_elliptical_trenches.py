@@ -19,7 +19,9 @@ from .._schematic import grating_coupler_schematic
 from ..grating_couplers.functions import grating_tooth_points
 
 
-@gf.cell_with_module_name(schematic_function=grating_coupler_schematic)
+@gf.cell_with_module_name(
+    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
+)
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     taper_length: float = 16.6,

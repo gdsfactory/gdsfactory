@@ -52,7 +52,7 @@ _heater_vias = partial(
 )
 
 
-@gf.cell_with_module_name(schematic_function=ring_double_schematic)
+@gf.cell_with_module_name(schematic_function=ring_double_schematic, tags=["rings"])
 def ring_double_pn(
     add_gap: float = 0.3,
     drop_gap: float = 0.3,
@@ -211,7 +211,7 @@ def ring_double_pn(
     return c
 
 
-@gf.cell_with_module_name(schematic_function=ring_single_schematic)
+@gf.cell_with_module_name(schematic_function=ring_single_schematic, tags=["rings"])
 def ring_single_pn(
     gap: float = 0.3,
     radius: float = 5.0,

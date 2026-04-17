@@ -16,7 +16,7 @@ from gdsfactory.typings import CrossSectionSpec
 from .._schematic import transition_schematic
 
 
-@gf.cell_with_module_name(schematic_function=transition_schematic)
+@gf.cell_with_module_name(schematic_function=transition_schematic, tags=["tapers"])
 def taper_cross_section(
     cross_section1: CrossSectionSpec = "strip_rib_tip",
     cross_section2: CrossSectionSpec = "rib2",

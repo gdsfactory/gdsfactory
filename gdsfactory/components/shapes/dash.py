@@ -29,7 +29,7 @@ def _bezier3(
     return list(x), list(y)
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["shapes"])
 def dash(
     width: float = 10.0,
     width_end: float = 1.0,

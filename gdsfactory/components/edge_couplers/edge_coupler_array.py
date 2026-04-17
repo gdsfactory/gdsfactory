@@ -13,7 +13,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 from .._schematic import taper_schematic
 
 
-@gf.cell_with_module_name(schematic_function=taper_schematic)
+@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["edge_couplers"])
 def edge_coupler_silicon(
     length: float = 100,
     width1: float = 0.5,
@@ -46,7 +46,7 @@ def edge_coupler_silicon(
     )
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["edge_couplers"])
 def edge_coupler_array(
     edge_coupler: ComponentSpec = "edge_coupler_silicon",
     n: int = 5,
@@ -94,7 +94,7 @@ def edge_coupler_array(
     return c
 
 
-@gf.cell_with_module_name
+@gf.cell_with_module_name(tags=["edge_couplers"])
 def edge_coupler_array_with_loopback(
     edge_coupler: ComponentSpec = "edge_coupler_silicon",
     cross_section: CrossSectionSpec = "strip",

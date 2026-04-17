@@ -47,7 +47,7 @@ def neff_TE1550SOI_220nm(w: float) -> float:
     return float(np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w).item())
 
 
-@gf.cell_with_module_name(schematic_function=taper_schematic)
+@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
 def taper_adiabatic(
     width1: float = 0.5,
     width2: float = 5.0,
