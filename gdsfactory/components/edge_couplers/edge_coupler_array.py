@@ -152,8 +152,8 @@ def edge_coupler_array_with_loopback(
     )
     gf.routing.route_single(
         c,
-        p3,
         p4,
+        p3,
         cross_section=cross_section,
         radius=radius,
     )

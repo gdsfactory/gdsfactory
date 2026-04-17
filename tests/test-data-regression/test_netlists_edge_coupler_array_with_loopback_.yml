@@ -24,7 +24,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_889000_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_762000_A180_M:
     component: bend_euler
     info:
       dy: 10
@@ -74,7 +74,7 @@ instances:
       radius: 10
       width: 0.5
       with_arc_floorplan: true
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_772000_A270:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_879000_A90_M:
     component: bend_euler
     info:
       dy: 10
@@ -126,7 +126,7 @@ instances:
       length: 107
       npoints: 2
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_772000_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_879000_A270:
     component: straight
     info:
       length: 107
@@ -145,39 +145,39 @@ nets:
   p2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o2
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_127000_A180,o2
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_10000_A90,o2
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_889000_A180,o1
-  p2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o8
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_889000_A180,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_772000_A90,o2
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_762000_A180_M,o1
+  p2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o7
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_762000_A180_M,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_879000_A270,o2
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_10000_A270,o1
   p2: straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_10000_A90,o1
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_10000_A270,o2
   p2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o1
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_772000_A270,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_772000_A90,o1
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_772000_A270,o2
-  p2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o7
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_879000_A90_M,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_879000_A270,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_879000_A90_M,o2
+  p2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o8
 placements:
   bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_127000_A180:
     mirror: false
     rotation: 180
     x: 0
     y: 127
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_889000_A180:
-    mirror: false
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_0_762000_A180_M:
+    mirror: true
     rotation: 180
     x: 0
-    y: 889
+    y: 762
   bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_10000_A270:
     mirror: false
     rotation: 270
     x: -10
     y: 10
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_772000_A270:
-    mirror: false
-    rotation: 270
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724_m10000_879000_A90_M:
+    mirror: true
+    rotation: 90
     x: -10
-    y: 772
+    y: 879
   edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0:
     mirror: false
     rotation: 0
@@ -188,11 +188,11 @@ placements:
     rotation: 90
     x: -10
     y: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_772000_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36_m10000_879000_A270:
     mirror: false
-    rotation: 90
+    rotation: 270
     x: -10
-    y: 772
+    y: 879
 ports:
   o1: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o3
   o2: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e_0_0,o4

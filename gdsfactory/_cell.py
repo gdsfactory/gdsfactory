@@ -198,6 +198,7 @@ def vcell(
     register_factory: bool = True,
     ports: PortsDefinition | None = None,
     lvs_equivalent_ports: list[list[str]] | None = None,
+    tags: list[str] | None = None,
 ) -> Callable[
     [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
 ]: ...
@@ -217,6 +218,7 @@ def vcell(
     check_ports: bool = True,
     ports: PortsDefinition | None = None,
     lvs_equivalent_ports: list[list[str]] | None = None,
+    tags: list[str] | None = None,
 ) -> (
     ComponentAllAngleFunc[ComponentParams]
     | Callable[
@@ -238,6 +240,7 @@ def vcell(
         check_ports=check_ports,
         ports=ports,
         lvs_equivalent_ports=lvs_equivalent_ports,
+        tags=tags,
     )
 
     if _func is not None:
