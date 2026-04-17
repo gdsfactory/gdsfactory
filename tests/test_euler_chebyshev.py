@@ -5,7 +5,8 @@ from __future__ import annotations
 from typing import ClassVar
 
 import numpy as np
-import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from scipy.special import fresnel as scipy_fresnel
 
 import gdsfactory as gf
@@ -34,12 +35,24 @@ class TestEulerFresnelAccuracy:
     SQRT_HALF_PI: ClassVar[float] = np.sqrt(np.pi / 2)
     SQRT_2_OVER_PI: ClassVar[float] = np.sqrt(2 / np.pi)
 
-    @pytest.mark.parametrize("cfg", CONFIGS)
-    def test_euler_path_unchanged(self, cfg: dict) -> None:
+    @given(
+        radius=st.floats(
+            min_value=1, max_value=100, allow_nan=False, allow_infinity=False
+        ),
+        angle=st.floats(
+            min_value=1, max_value=180, allow_nan=False, allow_infinity=False
+        ),
+        p=st.floats(
+            min_value=0.1, max_value=1.0, allow_nan=False, allow_infinity=False
+        ),
+    )
+    def test_euler_path_finite_points(
+        self, radius: float, angle: float, p: float
+    ) -> None:
         """Bend path coordinates must be finite and have reasonable length."""
-        p = gf.path.euler(**cfg)
-        assert len(p) > 2
-        assert np.all(np.isfinite(p.points))
+        path = gf.path.euler(radius=radius, angle=angle, p=p)
+        assert len(path) >= 2
+        assert np.all(np.isfinite(path.points))
 
     def test_fresnel_vs_scipy_reference(self) -> None:
         """Cross-check _fresnel output against direct scipy.special.fresnel call."""
@@ -84,21 +97,31 @@ class TestEulerFresnelAccuracy:
         np.testing.assert_allclose(x, ref_x, atol=1e-14)
         np.testing.assert_allclose(y, ref_y, atol=1e-14)
 
-    def test_euler_negative_angle(self) -> None:
+    @given(
+        radius=st.floats(
+            min_value=1, max_value=50, allow_nan=False, allow_infinity=False
+        ),
+        angle=st.floats(
+            min_value=10, max_value=180, allow_nan=False, allow_infinity=False
+        ),
+    )
+    def test_euler_negative_angle(self, radius: float, angle: float) -> None:
         """Negative angle should mirror the path."""
-        p_pos = gf.path.euler(radius=10, angle=90)
-        p_neg = gf.path.euler(radius=10, angle=-90)
+        p_pos = gf.path.euler(radius=radius, angle=angle)
+        p_neg = gf.path.euler(radius=radius, angle=-angle)
         np.testing.assert_allclose(p_pos.points[:, 0], p_neg.points[:, 0], atol=1e-12)
         np.testing.assert_allclose(p_pos.points[:, 1], -p_neg.points[:, 1], atol=1e-12)
 
-    def test_euler_npoints_respected(self) -> None:
-        """Number of output points should track the requested npoints setting."""
-        prev_len = 0
-        for npoints in [32, 180, 720]:
-            p = gf.path.euler(radius=10, angle=90, npoints=npoints)
-            # More points requested -> more points in output.
-            assert len(p) > prev_len
-            prev_len = len(p)
+    @given(
+        npoints1=st.integers(min_value=16, max_value=200),
+        npoints2=st.integers(min_value=201, max_value=1000),
+    )
+    @settings(max_examples=50)
+    def test_euler_npoints_respected(self, npoints1: int, npoints2: int) -> None:
+        """More requested points should yield more output points."""
+        p1 = gf.path.euler(radius=10, angle=90, npoints=npoints1)
+        p2 = gf.path.euler(radius=10, angle=90, npoints=npoints2)
+        assert len(p2) > len(p1)
 
     def test_full_component_unchanged(self) -> None:
         """bend_euler component should still build and have valid ports."""

@@ -1,11 +1,18 @@
 import math
 
+from hypothesis import given
+from hypothesis import strategies as st
+
 import gdsfactory as gf
 from gdsfactory.components.bends.bend_circular import bend_circular
 
 
-def test_add_padding_size() -> None:
-    padding = 10
+@given(
+    padding=st.floats(
+        min_value=0.1, max_value=100, allow_nan=False, allow_infinity=False
+    )
+)
+def test_add_padding_size(padding: float) -> None:
     c = bend_circular().copy()
     xsize_before = c.xsize
     dxsize_before = c.dxsize
@@ -25,12 +32,18 @@ def test_add_padding_size() -> None:
     assert math.isclose(c.dysize - dysize_before, 2 * padding, abs_tol=0.01)
 
 
-def test_add_padding_to_size() -> None:
-    xsize = 10
-    ysize = 10
+@given(
+    xsize_extra=st.floats(
+        min_value=1, max_value=100, allow_nan=False, allow_infinity=False
+    ),
+    ysize_extra=st.floats(
+        min_value=1, max_value=100, allow_nan=False, allow_infinity=False
+    ),
+)
+def test_add_padding_to_size(xsize_extra: float, ysize_extra: float) -> None:
     c = bend_circular().copy()
-    xsize += c.xsize
-    ysize += c.ysize
+    xsize = xsize_extra + c.xsize
+    ysize = ysize_extra + c.ysize
 
     c = gf.add_padding_to_size(c, xsize=xsize, ysize=ysize)
 
