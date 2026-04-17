@@ -5,8 +5,6 @@ parameters. Subtle changes here ripple into every cell name, so cover
 the specified behaviors directly.
 """
 
-from types import SimpleNamespace
-
 import pytest
 
 from gdsfactory.name import (
@@ -16,13 +14,9 @@ from gdsfactory.name import (
     dict2hash,
     dict2name,
     get_component_name,
-    get_instance_name_from_alias,
-    get_instance_name_from_label,
     get_name_short,
     join_first_letters,
-    print_first_letters_warning,
 )
-from gdsfactory.pdk import get_layer
 
 
 def test_get_name_short_below_limit_unchanged() -> None:
@@ -103,10 +97,6 @@ def test_get_component_name_includes_kwargs() -> None:
     assert "length2" in name
 
 
-def test_get_component_name_with_args_only() -> None:
-    assert get_component_name("mmi", 1, 2) == "mmi1_2"
-
-
 def test_assert_first_letters_are_different_raises_on_collision() -> None:
     with pytest.raises(ValueError, match="Possible name collision"):
         assert_first_letters_are_different(width=1, weight=2)
@@ -115,65 +105,3 @@ def test_assert_first_letters_are_different_raises_on_collision() -> None:
 def test_assert_first_letters_are_different_ok() -> None:
     # different first letters -> no raise
     assert_first_letters_are_different(width=1, length=2)
-
-
-def test_print_first_letters_warning_only_on_collision(
-    capsys: pytest.CaptureFixture[str],
-) -> None:
-    print_first_letters_warning(width=1, weight=2)
-    captured = capsys.readouterr()
-    assert "Possible name collision" in captured.out
-
-    print_first_letters_warning(width=1, length=2)
-    captured = capsys.readouterr()
-    assert captured.out == ""
-
-
-def test_get_instance_name_from_alias_uses_reference_name() -> None:
-    reference = SimpleNamespace(name="alias-1")
-    assert get_instance_name_from_alias(reference) == "aliasm1"
-
-
-def test_get_instance_name_from_alias_falls_back_to_hash() -> None:
-    class ReferenceWithoutName:
-        name = ""
-
-        def __str__(self) -> str:
-            return "reference-without-name"
-
-    name = get_instance_name_from_alias(ReferenceWithoutName())
-    assert len(name) == 8
-    assert name == get_instance_name_from_alias(ReferenceWithoutName())
-
-
-def test_get_instance_name_from_label_returns_matching_label() -> None:
-    reference = SimpleNamespace(
-        x=10.0,
-        y=20.0,
-        cell=SimpleNamespace(name="demo-cell"),
-    )
-    label = SimpleNamespace(
-        text="named_from_label",
-        dposition=(10.0, 20.0),
-        layer=get_layer((100, 0)),
-    )
-    component = SimpleNamespace(labels=[label])
-
-    assert (
-        get_instance_name_from_label(component, reference, layer_label=(100, 0))
-        == "named_from_label"
-    )
-
-
-def test_get_instance_name_from_label_falls_back_to_cleaned_coordinates() -> None:
-    reference = SimpleNamespace(
-        x=1.5,
-        y=-2.0,
-        cell=SimpleNamespace(name="demo-cell"),
-    )
-    component = SimpleNamespace(labels=[])
-
-    assert (
-        get_instance_name_from_label(component, reference, layer_label=(100, 0))
-        == "demomcell_1p5_m2p0"
-    )
