@@ -6,7 +6,7 @@ import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
 import pytest
-from hypothesis import given, settings
+from hypothesis import given
 from hypothesis import strategies as st
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -471,7 +471,6 @@ def test_path_angle() -> None:
     ),
     radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
 )
-@settings(max_examples=200)
 def test_euler_angles(angle: float, radius: float) -> None:
     """Test euler at arbitrary angles and radii produces finite points."""
     p = gf.path.euler(radius=radius, angle=angle)
@@ -482,7 +481,6 @@ def test_euler_angles(angle: float, radius: float) -> None:
 @given(
     p_val=st.floats(min_value=0.0, max_value=1.0, allow_nan=False, allow_infinity=False)
 )
-@settings(max_examples=200)
 def test_euler_p_values(p_val: float) -> None:
     """Test euler with arbitrary p values in [0, 1]."""
     p = gf.path.euler(radius=10, angle=90, p=p_val)
@@ -518,7 +516,6 @@ def test_arc_zero_angle_returns_origin() -> None:
     radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
     angle=st.floats(min_value=1, max_value=180, allow_nan=False, allow_infinity=False),
 )
-@settings(max_examples=200)
 def test_euler_p0_matches_arc(radius: float, angle: float) -> None:
     """Test that euler with p=0 is equivalent to arc."""
     euler_path = gf.path.euler(radius=radius, angle=angle, p=0)
@@ -530,7 +527,6 @@ def test_euler_p0_matches_arc(radius: float, angle: float) -> None:
     radius=st.floats(min_value=5, max_value=100, allow_nan=False, allow_infinity=False),
     angle=st.floats(min_value=10, max_value=360, allow_nan=False, allow_infinity=False),
 )
-@settings(max_examples=200)
 def test_arc_length_analytical(radius: float, angle: float) -> None:
     """Test arc path length matches analytical value: radius * angle_in_radians."""
     p = gf.path.arc(radius=radius, angle=angle)
@@ -544,7 +540,6 @@ def test_arc_length_analytical(radius: float, angle: float) -> None:
     ),
     radius=st.floats(min_value=1, max_value=100, allow_nan=False, allow_infinity=False),
 )
-@settings(max_examples=200)
 def test_euler_angles_preserved(angle: float, radius: float) -> None:
     """Test that euler start/end angles difference matches input."""
     p = gf.path.euler(radius=radius, angle=angle)
@@ -599,7 +594,6 @@ def test_euler_curvature_continuity() -> None:
         min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False
     ),
 )
-@settings(max_examples=200)
 def test_straight_path_addition_length(length1: float, length2: float) -> None:
     """Concatenating two straight paths should give a path whose length approximates the sum.
 
@@ -617,7 +611,6 @@ def test_straight_path_addition_length(length1: float, length2: float) -> None:
         min_value=-360, max_value=360, allow_nan=False, allow_infinity=False
     ),
 )
-@settings(max_examples=200)
 def test_rotation_preserves_path_length(angle: float) -> None:
     """Rotating a path should not change its total length."""
     p = gf.path.euler(radius=10, angle=90)

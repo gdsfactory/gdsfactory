@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
-from hypothesis import given, settings
+from hypothesis import given
 from hypothesis import strategies as st
 
 import gdsfactory as gf
@@ -21,7 +21,6 @@ _grid_factors = st.sampled_from([1, 2])
 # Property-based tests
 # ---------------------------------------------------------------------------
 @given(x=_grid_values)
-@settings(max_examples=200)
 def test_snap_to_grid_idempotent(x: float) -> None:
     """Snapping an already-snapped value should be a no-op."""
     snapped = gf.snap.snap_to_grid(x)
@@ -29,7 +28,6 @@ def test_snap_to_grid_idempotent(x: float) -> None:
 
 
 @given(x=_grid_values)
-@settings(max_examples=200)
 def test_snap_to_grid2x_idempotent(x: float) -> None:
     """snap_to_grid2x should also be idempotent."""
     snapped = gf.snap.snap_to_grid2x(x)
@@ -37,7 +35,6 @@ def test_snap_to_grid2x_idempotent(x: float) -> None:
 
 
 @given(x=_grid_values, nm=_nm_values, grid_factor=_grid_factors)
-@settings(max_examples=200)
 def test_snap_to_grid_bounded_error(x: float, nm: float, grid_factor: int) -> None:
     """The snap error must not exceed half the effective grid size."""
     snapped = gf.snap.snap_to_grid(x, nm=nm, grid_factor=grid_factor)
@@ -46,7 +43,6 @@ def test_snap_to_grid_bounded_error(x: float, nm: float, grid_factor: int) -> No
 
 
 @given(x=_grid_values, nm=_nm_values, grid_factor=_grid_factors)
-@settings(max_examples=200)
 def test_snap_to_grid_explicit_nm_idempotent(
     x: float, nm: float, grid_factor: int
 ) -> None:
@@ -58,7 +54,6 @@ def test_snap_to_grid_explicit_nm_idempotent(
 @given(
     x=st.floats(min_value=0.001, max_value=1e3, allow_nan=False, allow_infinity=False)
 )
-@settings(max_examples=200)
 def test_snap_to_grid_preserves_sign_symmetry(x: float) -> None:
     """snap(x) and snap(-x) should be symmetric up to sign (within one grid step)."""
     pos = gf.snap.snap_to_grid(x, nm=1)
@@ -71,7 +66,6 @@ def test_snap_to_grid_preserves_sign_symmetry(x: float) -> None:
     x=st.floats(min_value=-1e3, max_value=1e3, allow_nan=False, allow_infinity=False),
     y=st.floats(min_value=-1e3, max_value=1e3, allow_nan=False, allow_infinity=False),
 )
-@settings(max_examples=200)
 def test_snap_point_on_grid_after_snap(x: float, y: float) -> None:
     """Snapping a 2-D point should be idempotent."""
     snapped = gf.snap.snap_to_grid(np.array([x, y]))

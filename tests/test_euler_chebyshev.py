@@ -46,7 +46,6 @@ class TestEulerFresnelAccuracy:
             min_value=0.1, max_value=1.0, allow_nan=False, allow_infinity=False
         ),
     )
-    @settings(max_examples=200)
     def test_euler_path_finite_points(
         self, radius: float, angle: float, p: float
     ) -> None:
@@ -106,7 +105,6 @@ class TestEulerFresnelAccuracy:
             min_value=10, max_value=180, allow_nan=False, allow_infinity=False
         ),
     )
-    @settings(max_examples=200)
     def test_euler_negative_angle(self, radius: float, angle: float) -> None:
         """Negative angle should mirror the path."""
         p_pos = gf.path.euler(radius=radius, angle=angle)

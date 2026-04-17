@@ -1,6 +1,6 @@
 import math
 
-from hypothesis import given, settings
+from hypothesis import given
 from hypothesis import strategies as st
 
 import gdsfactory as gf
@@ -12,7 +12,6 @@ from gdsfactory.components.bends.bend_circular import bend_circular
         min_value=0.1, max_value=100, allow_nan=False, allow_infinity=False
     )
 )
-@settings(max_examples=200)
 def test_add_padding_size(padding: float) -> None:
     c = bend_circular().copy()
     xsize_before = c.xsize
@@ -41,7 +40,6 @@ def test_add_padding_size(padding: float) -> None:
         min_value=1, max_value=100, allow_nan=False, allow_infinity=False
     ),
 )
-@settings(max_examples=200)
 def test_add_padding_to_size(xsize_extra: float, ysize_extra: float) -> None:
     c = bend_circular().copy()
     xsize = xsize_extra + c.xsize

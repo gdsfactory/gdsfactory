@@ -1,8 +1,12 @@
 import pathlib
 
 import pytest
+from hypothesis import settings
 
 from gdsfactory.config import PATH
+
+settings.register_profile("default", max_examples=200)
+settings.load_profile("default")
 
 
 @pytest.fixture(scope="session", autouse=True)

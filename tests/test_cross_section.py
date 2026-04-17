@@ -4,7 +4,7 @@ from functools import partial
 from typing import Any
 
 import jsondiff
-from hypothesis import given, settings
+from hypothesis import given
 from hypothesis import strategies as st
 
 import gdsfactory as gf
@@ -16,7 +16,6 @@ from gdsfactory.gpdk import LAYER
         min_value=0.01, max_value=100, allow_nan=False, allow_infinity=False
     )
 )
-@settings(max_examples=200)
 def test_waveguide_setting(width: float) -> None:
     x = gf.cross_section.cross_section(width=width)
     assert x.width == width
