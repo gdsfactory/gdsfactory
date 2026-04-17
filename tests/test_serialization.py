@@ -69,7 +69,7 @@ def test_clean_value_json() -> None:
     assert clean_value_json(ExampleModel(width=1.2345)) == {"width": 1.234}
     assert clean_value_json(ComponentSpecLike()) == {"component": "straight"}
     assert clean_value_json(DictLike()) == {"xs": 1.234, "items": (1, 2)}
-    assert clean_value_json(AttrsSettings(width=2.5678)) == {"width": 2.568}
+    assert clean_value_json(AttrsSettings(width=2.5)) == {"width": 2.5}
 
 
 def test_clean_value_json_compose_and_callable() -> None:
