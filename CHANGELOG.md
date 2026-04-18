@@ -1,12 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.39.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.40.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.40.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.2) - 2026-04-17
 
-No significant changes.
-
+- Refactor some tests to use hypothesis for property-based testing [#4494](https://github.com/gdsfactory/gdsfactory/pull/4494)
+- Add type tags to all cell decorated components [#4492](https://github.com/gdsfactory/gdsfactory/pull/4492)
+- Fix edge_coupler_array_with_loopback routing direction [#4498](https://github.com/gdsfactory/gdsfactory/pull/4498)
+- add tags arg to vcell [#4497](https://github.com/gdsfactory/gdsfactory/pull/4497)
+- test: add unit tests for name, component_layout, from_np utilities [#4490](https://github.com/gdsfactory/gdsfactory/pull/4490)
+- test: broaden Pdk slot coverage to catch __init__ regressions [#4489](https://github.com/gdsfactory/gdsfactory/pull/4489)
 
 ## [9.40.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.1) - 2026-04-13
 
