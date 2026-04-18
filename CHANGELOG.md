@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.40.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.2) - 2026-04-17
+
+No significant changes.
+
+
 ## [9.40.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.1) - 2026-04-13
 
 - ci: pin python-version on type_consistency setup-uv [#4487](https://github.com/gdsfactory/gdsfactory/pull/4487)
