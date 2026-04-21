@@ -135,8 +135,12 @@ def diff(
     output: pathlib.Path | None = None,
     sliver_tolerance: int = 1,
 ) -> None:
-    """Show boolean difference between two layout files."""
-    gf.diff(
+    """Show boolean difference between two layout files.
+
+    Exits with code 0 when files are equivalent,
+    1 on real failures, and 2 when differences are found.
+    """
+    different = gf.diff(
         path1,
         path2,
         test_name=output.stem if output else "gf",
@@ -146,6 +150,8 @@ def diff(
         out_file=output,
         sliver_tolerance=sliver_tolerance,
     )
+    if different:
+        raise typer.Exit(code=2)
 
 
 @app.command()
