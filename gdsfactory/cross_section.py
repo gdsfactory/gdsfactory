@@ -19,6 +19,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    NonNegativeFloat,
     PrivateAttr,
     field_serializer,
     model_validator,
@@ -72,12 +73,10 @@ class Section(BaseModel):
     """CrossSection to extrude a path with a waveguide.
 
     Parameters:
-        width: of the section (um) or parameterized function from 0 to 1. \
-                the width at t==0 is the width at the beginning of the Path. \
-                the width at t==1 is the width at the end.
-        offset: center offset (um) or function parameterized function from 0 to 1. \
-                the offset at t==0 is the offset at the beginning of the Path. \
-                the offset at t==1 is the offset at the end.
+        width: of the section (um). When `width_function` is set it takes \
+                precedence during extrusion, so `width` acts as a nominal value.
+        offset: center offset (um). When `offset_function` is set it takes \
+                precedence during extrusion, so `offset` acts as a nominal value.
         insets: distance (um) in x to inset section relative to end of the Path \
                 (i.e. (start inset, stop_inset)).
         layer: layer spec. If None does not draw the main section.
@@ -109,7 +108,7 @@ class Section(BaseModel):
             +offset
     """
 
-    width: float
+    width: NonNegativeFloat = 0
     offset: float = 0
     insets: tuple[float, float] | None = None
     layer: typings.LayerSpec
@@ -131,6 +130,12 @@ class Section(BaseModel):
             h = hashlib.md5(str(data).encode()).hexdigest()[:8]
             data["name"] = f"s_{h}"
         return data
+
+    @model_validator(mode="after")
+    def _require_width_value_or_function(self) -> Self:
+        if self.width == 0 and self.width_function is None:
+            raise ValueError("Section requires `width > 0` or a `width_function`.")
+        return self
 
     @field_serializer("width_function")
     def serialize_width_function(

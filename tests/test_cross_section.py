@@ -4,8 +4,10 @@ from functools import partial
 from typing import Any
 
 import jsondiff
+import pytest
 from hypothesis import given
 from hypothesis import strategies as st
+from pydantic import ValidationError
 
 import gdsfactory as gf
 from gdsfactory.gpdk import LAYER
@@ -169,6 +171,11 @@ def test_is_cross_section_invalid() -> None:
 
     assert not gf.cross_section.is_cross_section("not_xs", not_xs)
     assert not gf.cross_section.is_cross_section("len", len)
+
+
+def test_section_requires_width_value_or_function() -> None:
+    with pytest.raises(ValidationError):
+        gf.Section(layer=(1, 0))
 
 
 def test_is_cross_section_private() -> None:
