@@ -616,10 +616,12 @@ def cross_section(
 
         def _broadcast(
             value: float | typings.Floats | None, default: float | None
-        ) -> list[float | None]:
-            if isinstance(value, int | float):
+        ) -> list[Any]:
+            if isinstance(value, (int, float, np.number)):
                 return [float(value)] * len(cladding_layers)
-            return list(value or (default,) * len(cladding_layers))
+            if value is None or len(value) == 0:
+                return [default] * len(cladding_layers)
+            return list(value)
 
         cladding_simplify_not_none = _broadcast(cladding_simplify, None)
         cladding_offsets_not_none = _broadcast(cladding_offsets, 0)
