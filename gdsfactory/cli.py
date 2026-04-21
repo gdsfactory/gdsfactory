@@ -133,6 +133,7 @@ def diff(
     show: bool = False,
     stagger: bool = True,
     output: pathlib.Path | None = None,
+    sliver_tolerance: int = 1,
 ) -> None:
     """Show boolean difference between two layout files."""
     gf.diff(
@@ -143,6 +144,7 @@ def diff(
         show=show,
         stagger=stagger,
         out_file=output,
+        sliver_tolerance=sliver_tolerance,
     )
 
 
