@@ -535,8 +535,8 @@ def xsection(
 
 
 def cross_section(
-    width: float = 0.5,
-    offset: float = 0,
+    width: float | typings.WidthFunction = 0.5,
+    offset: float | typings.OffsetFunction = 0,
     layer: typings.LayerSpec = "WG",
     sections: Sections | None = None,
     port_names: typings.IOPorts = ("o1", "o2"),
@@ -554,8 +554,8 @@ def cross_section(
     """Return CrossSection.
 
     Args:
-        width: main Section width (um).
-        offset: main Section center offset (um).
+        width: main Section width (um) or parameterized function from 0 to 1.
+        offset: main Section center offset (um) or parameterized function from 0 to 1.
         layer: main section layer.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
@@ -654,8 +654,10 @@ def cross_section(
             )
     s = [
         Section(
-            width=width,
-            offset=offset,
+            width=0 if callable(width) else width,
+            width_function=width if callable(width) else None,
+            offset=0 if callable(offset) else offset,
+            offset_function=offset if callable(offset) else None,
             layer=layer,
             port_names=port_names,
             port_types=port_types,
@@ -669,15 +671,26 @@ def cross_section(
         and cladding_simplify_not_none
         and cladding_centers_not_none
     ):
+
+        def _cladding_width_kwargs(offset: float) -> dict[str, Any]:
+            if callable(width):
+                return {"width_function": lambda t: width(t) + 2 * offset}
+            return {"width": width + 2 * offset}
+
         s += [
             Section(
-                width=width + 2 * offset,
-                layer=layer,
-                simplify=simplify,
-                offset=center,
+                **_cladding_width_kwargs(cladding_offset),
+                layer=cladding_layer,
+                simplify=cladding_simplify,
+                offset=cladding_center,
                 name=f"cladding_{i}",
             )
-            for i, (layer, offset, simplify, center) in enumerate(
+            for i, (
+                cladding_layer,
+                cladding_offset,
+                cladding_simplify,
+                cladding_center,
+            ) in enumerate(
                 zip(
                     cladding_layers,
                     cladding_offsets_not_none,

@@ -4,6 +4,8 @@ from functools import partial
 from typing import Any
 
 import jsondiff
+import numpy as np
+import numpy.typing as npt
 import pytest
 from hypothesis import given
 from hypothesis import strategies as st
@@ -176,6 +178,31 @@ def test_is_cross_section_invalid() -> None:
 def test_section_requires_width_value_or_function() -> None:
     with pytest.raises(ValidationError):
         gf.Section(layer=(1, 0))
+
+
+def test_cross_section_callable_width_offset() -> None:
+    def width_fn(t: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
+        return 0.5 + 0.5 * t
+
+    def offset_fn(t: float) -> float:
+        return 0.1 * t
+
+    cladding_offset = 2.0
+    xs = gf.cross_section.cross_section(
+        width=width_fn,
+        offset=offset_fn,
+        layer=(1, 0),
+        cladding_layers=((2, 0),),
+        cladding_offsets=(cladding_offset,),
+    )
+    core, cladding = xs.sections
+    assert core.width_function is width_fn
+    assert core.offset_function is offset_fn
+    assert cladding.width_function is not None
+    sampled = cladding.width_function(np.array([0.0, 1.0]))
+    np.testing.assert_allclose(
+        sampled, width_fn(np.array([0.0, 1.0])) + 2 * cladding_offset
+    )
 
 
 def test_is_cross_section_private() -> None:
