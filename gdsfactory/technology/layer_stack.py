@@ -529,64 +529,65 @@ class LayerStack(BaseModel):
         if layer_views is None:
             layer_views = get_layer_views()
 
-        # Collect etch layers and unetched layers
-        etch_layers = [
-            layer_name
+        # Collect etch layers
+        etch_layers = {
+            layer_name: str(level.layer)
             for layer_name, level in layers.items()
             if isinstance(level.layer, DerivedLayer)
-        ]
+        }
 
-        unetched_layers = [
-            layer_name
+        from gdsfactory.pdk import get_layer_tuple
+
+        def get_base_layers(layer: AbstractLayer) -> dict[str, tuple[int, int]]:
+            base_layers = {}
+            if isinstance(layer, DerivedLayer):
+                base_layers.update(get_base_layers(layer.layer1))
+                base_layers.update(get_base_layers(layer.layer2))
+            elif isinstance(layer, LogicalLayer):
+                base_layers[str(layer)] = get_layer_tuple(layer.layer)
+            return base_layers
+
+        base_layers = {
+            k: v
+            for layer_name in etch_layers
+            for k, v in get_base_layers(layers[layer_name].layer).items()
+        }
+
+        unetched_layers = {
+            layer_name: get_layer_tuple(level.layer.layer)
             for layer_name, level in layers.items()
             if isinstance(level.layer, LogicalLayer)
-        ]
-        from gdsfactory.pdk import get_layer, get_layer_tuple
+        }
 
-        # Define input layers
-        out = "\n".join(
-            [
-                f"{layer_name} = input({(__layer := get_layer_tuple(level.derived_layer.layer))[0]}, {__layer[1]})"
-                for layer_name, level in layers.items()
-                if level.derived_layer
-            ]
-        )
-        out += "\n\n"
-
-        # Remove all etched layers from the grown layers
-        unetched_layers_dict: dict[BroadLayer, list[str]] = defaultdict(list)
-        for layer_name in etch_layers:
-            level = layers[layer_name]
-            if level.derived_layer:
-                unetched_layers_dict[level.derived_layer.layer].append(layer_name)
-                derived = level.derived_layer.layer
-                if isinstance(derived, str) and derived in unetched_layers:
-                    unetched_layers.remove(derived)
-
-        # Define layers
+        # Define base layers
+        out = "# base layers\n"
         out += "\n".join(
             [
-                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"  # type: ignore[index,union-attr]
-                for layer_name, level in layers.items()
-                if hasattr(level.layer, "layer")
+                f"{layer_name} = input({layer[0]}, {layer[1]})"
+                for layer_name, layer in base_layers.items()
             ]
         )
         out += "\n\n"
 
         # Define unetched layers
-        for layer_name_etched, etching_layers in unetched_layers_dict.items():
-            etching_layers_str = " - ".join(etching_layers)
-            out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers_str}\n"
+        out += "# unetched layers\n"
+        out += "\n".join(
+            [
+                f"{layer_name} = input({layer[0]}, {layer[1]})"
+                for layer_name, layer in unetched_layers.items()
+            ]
+        )
+        out += "\n\n"
 
-        out += "\n"
-
-        # Define slabs
-        for layer_name, level in layers.items():
-            if level.derived_layer:
-                _layer_from_derived = get_layer(level.derived_layer.layer)
-                out += f"slab_{_layer_from_derived}_{layer_name} = {_layer_from_derived} & {layer_name}\n"
-
-        out += "\n"
+        # Define etch layers
+        out += "# etch layers\n"
+        out += "\n".join(
+            [
+                f"{layer_name} = {layer_expr}"
+                for layer_name, layer_expr in etch_layers.items()
+            ]
+        )
+        out += "\n\n"
 
         for layer_name, level in layers.items():
             layer = level.layer
