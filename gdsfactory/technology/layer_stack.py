@@ -618,8 +618,8 @@ class LayerStack(BaseModel):
             txt = f"z({layer_name}, zstart: {zmin}, zstop: {zmax}, name: '{name}'"
 
             if layer_views:
-                if layer in layers_in_layer_views:
-                    props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
+                if layer_tuple in layers_in_layer_views:
+                    props = layer_views.get_from_tuple(layer_tuple)  # type: ignore[arg-type]
                     if (
                         hasattr(props, "color")
                         and hasattr(props.color, "fill")
