@@ -542,7 +542,7 @@ class LayerStack(BaseModel):
 
         from gdsfactory.pdk import get_layer_tuple
 
-        def get_base_layers(layer: AbstractLayer) -> dict[str, tuple[int, int]]:
+        def get_base_layers(layer: BroadLayer) -> dict[str, tuple[int, int]]:
             base_layers = {}
             if isinstance(layer, DerivedLayer):
                 base_layers.update(get_base_layers(layer.layer1))
@@ -610,6 +610,7 @@ class LayerStack(BaseModel):
             if layer_name in etch_layers:
                 layer = level.derived_layer
             elif layer_name in unetched_layers:
+                assert isinstance(level.layer, LogicalLayer)
                 layer = level.layer
 
             layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
@@ -619,7 +620,7 @@ class LayerStack(BaseModel):
 
             if layer_views:
                 if layer_tuple in layers_in_layer_views:
-                    props = layer_views.get_from_tuple(layer_tuple)  # type: ignore[arg-type]
+                    props = layer_views.get_from_tuple(layer_tuple)
                     if (
                         hasattr(props, "color")
                         and hasattr(props.color, "fill")
