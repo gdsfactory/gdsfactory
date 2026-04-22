@@ -521,7 +521,9 @@ def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
 
 
 def read_top_cell(arg0: pathlib.Path) -> kf.DKCell:
-    kcl = KCLayout(name=str(arg0))
+    filename = get_name_short(clean_name(str(arg0)))
+
+    kcl = KCLayout(name=filename)
     kcl.read(arg0)
     kcell = kcl.dkcells[kcl.top_cell().name]
 
