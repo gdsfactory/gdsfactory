@@ -523,11 +523,9 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
-        from gdsfactory.pdk import get_layer_views
-
-        layers = self.layers or {}
-        if layer_views is None:
-            layer_views = get_layer_views()
+        if self.layers is None:
+            return ""
+        layers = self.layers
 
         # Collect etch layers
         etch_layers = {
@@ -589,7 +587,12 @@ class LayerStack(BaseModel):
         )
         out += "\n\n"
 
+        if layer_views is None:
+            from gdsfactory.pdk import get_layer_views
+
+            layer_views = get_layer_views()
         layers_in_layer_views = layer_views.get_layer_tuples() if layer_views else set()
+
         for layer_name, level in layers.items():
             zmin = level.zmin
             zmax = zmin + level.thickness
