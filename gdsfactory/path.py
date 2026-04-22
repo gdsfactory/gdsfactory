@@ -104,8 +104,18 @@ class Path(UMGeometricObject):
         | Path
         | list[tuple[float, float]]
         | None = None,
+        start_angle: float | None = None,
+        end_angle: float | None = None,
     ) -> None:
-        """Creates an empty path."""
+        """Initializes a Path.
+
+        Args:
+            path: array-like[N][2], Path, or list of Paths.
+            start_angle: optional angle in degrees at the start of the path.
+                Overrides the angle inferred from the points.
+            end_angle: optional angle in degrees at the end of the path.
+                Overrides the angle inferred from the points.
+        """
         self.points: npt.NDArray[np.floating[Any]] = np.array(
             [[0, 0]], dtype=np.float64
         )
@@ -136,6 +146,10 @@ class Path(UMGeometricObject):
                     "Path() the `path` argument must be either blank, a path Object, "
                     "an array-like[N][2] list of points, or a list of these"
                 )
+        if start_angle is not None:
+            self.start_angle = mod(start_angle, 360)
+        if end_angle is not None:
+            self.end_angle = mod(end_angle, 360)
 
     def __repr__(self) -> str:
         """Returns path points."""
