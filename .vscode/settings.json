@@ -1,9 +1,11 @@
 {
-  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
-  "python.terminal.activateEnvironment": true,
-  "python.venvPath": "${workspaceFolder}",
-  "python.venvFolders": [
-    ".venv"
-  ],
-  "makefile.configureOnOpen": false
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "python.venvPath": "${workspaceFolder}",
+    "python.venvFolders": [
+        ".venv"
+    ],
+    "makefile.configureOnOpen": false,
+    "python-envs.defaultEnvManager": "ms-python.python:venv",
+    "python-envs.defaultPackageManager": "ms-python.python:pip"
 }
