@@ -539,9 +539,9 @@ def cross_section(
     bbox_layers: typings.LayerSpecs | None = None,
     bbox_offsets: typings.Floats | None = None,
     cladding_layers: typings.LayerSpecs | None = None,
-    cladding_offsets: typings.Floats | None = None,
-    cladding_simplify: typings.Floats | None = None,
-    cladding_centers: typings.Floats | None = None,
+    cladding_offsets: float | typings.Floats | None = None,
+    cladding_simplify: float | typings.Floats | None = None,
+    cladding_centers: float | typings.Floats | None = None,
     radius: float | None = 10.0,
     radius_min: float | None = 7.0,
     main_section_name: str = "_default",
@@ -558,11 +558,14 @@ def cross_section(
         bbox_layers: list of layers bounding boxes to extrude.
         bbox_offsets: list of offset from bounding box edge.
         cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
+        cladding_offsets: offset from main Section edge. Single float is
+            broadcast to all cladding layers.
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed.
-        cladding_centers: center offset for each cladding layer. Defaults to 0.
+                polygon by more than the value listed here will be removed. \
+                Single float is broadcast to all cladding layers.
+        cladding_centers: center offset for each cladding layer. Defaults to 0. \
+                Single float is broadcast to all cladding layers.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
         main_section_name: name of the main section. Defaults to _default
@@ -610,13 +613,19 @@ def cross_section(
     cladding_offsets_not_none: list[float] | None = None
     cladding_centers_not_none: list[float] | None = None
     if cladding_layers:
-        cladding_simplify_not_none = list(
-            cladding_simplify or (None,) * len(cladding_layers)
-        )
-        cladding_offsets_not_none = list(
-            cladding_offsets or (0,) * len(cladding_layers)
-        )
-        cladding_centers_not_none = list(cladding_centers or [0] * len(cladding_layers))
+
+        def _broadcast(
+            value: float | typings.Floats | None, default: float | None
+        ) -> list[Any]:
+            if isinstance(value, (int, float, np.number)):
+                return [float(value)] * len(cladding_layers)
+            if value is None or len(value) == 0:
+                return [default] * len(cladding_layers)
+            return list(value)
+
+        cladding_simplify_not_none = _broadcast(cladding_simplify, None)
+        cladding_offsets_not_none = _broadcast(cladding_offsets, 0)
+        cladding_centers_not_none = _broadcast(cladding_centers, 0)
 
         if (
             len(
