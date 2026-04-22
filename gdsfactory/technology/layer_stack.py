@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
 from kfactory.layer import LayerEnum
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from rich.console import Console
 from rich.table import Table
 
@@ -377,6 +377,12 @@ class LayerLevel(BaseModel):
         if isinstance(layer, LogicalLayer | DerivedLayer):
             return layer
         return LogicalLayer(layer=layer)
+
+    @model_validator(mode="after")
+    def check_derived_layer(self) -> LayerLevel:
+        if isinstance(self.layer, DerivedLayer) and self.derived_layer is None:
+            raise ValueError("derived_layer is required when layer is a DerivedLayer")
+        return self
 
     @property
     def bounds(self) -> tuple[float, float]:
