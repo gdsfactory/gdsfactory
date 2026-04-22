@@ -589,8 +589,8 @@ class LayerStack(BaseModel):
         )
         out += "\n\n"
 
+        layers_in_layer_views = layer_views.get_layer_tuples() if layer_views else set()
         for layer_name, level in layers.items():
-            layer = level.layer
             zmin = level.zmin
             zmax = zmin + level.thickness
             if dbu:
@@ -598,63 +598,33 @@ class LayerStack(BaseModel):
                 zmin = round(zmin, rnd_pl)
                 zmax = round(zmax, rnd_pl)
 
-            elif level.derived_layer:
-                derived_layer = level.derived_layer.layer
-                derived_layer_layer = get_layer_tuple(derived_layer)
-                slab_layer_name = f"slab_{layer}_{layer_name}"
-                slab_zmin = zmin
-                slab_zmax = zmax - level.thickness
-                name = f"{slab_layer_name}: {level.material} {derived_layer_layer[0]}/{derived_layer_layer[1]}"
-                txt = (
-                    f"z("
-                    f"{slab_layer_name}, "
-                    f"zstart: {slab_zmin}, "
-                    f"zstop: {slab_zmax}, "
-                    f"name: '{name}'"
-                )
-                if layer_views:
-                    txt += ", "
-                    if layer in layer_views:  # type: ignore[operator]
-                        props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
-                        if (
-                            hasattr(props, "color")
-                            and hasattr(props.color, "fill")
-                            and hasattr(props.color, "frame")
-                        ):
-                            if props.color.fill == props.color.frame:
-                                txt += f"color: {props.color.fill}"
-                            else:
-                                txt += (
-                                    f"fill: {props.color.fill}, "
-                                    f"frame: {props.color.frame}"
-                                )
-                txt += ")"
-                out += f"{txt}\n"
-
+            if layer_name in etch_layers:
+                layer = level.derived_layer
             elif layer_name in unetched_layers:
-                # TODO: Reimplement this
-                layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
-                name = (
-                    f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
-                )
-                txt = f"z({layer_name}, zstart: {zmin}, zstop: {zmax}, name: '{name}'"
-                if layer_views:
-                    txt += ", "
-                    props = layer_views.get_from_tuple(get_layer_tuple(layer_tuple))
+                layer = level.layer
+
+            layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
+
+            name = f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
+            txt = f"z({layer_name}, zstart: {zmin}, zstop: {zmax}, name: '{name}'"
+
+            if layer_views:
+                if layer in layers_in_layer_views:
+                    props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
                     if (
                         hasattr(props, "color")
                         and hasattr(props.color, "fill")
                         and hasattr(props.color, "frame")
                     ):
+                        txt += ", "
                         if props.color.fill == props.color.frame:
                             txt += f"color: {props.color.fill}"
                         else:
                             txt += (
                                 f"fill: {props.color.fill}, frame: {props.color.frame}"
                             )
-
-                txt += ")"
-                out += f"{txt}\n"
+            txt += ")"
+            out += f"{txt}\n"
 
         return out
 
