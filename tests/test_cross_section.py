@@ -9,6 +9,7 @@ import numpy.typing as npt
 import pytest
 from hypothesis import given
 from hypothesis import strategies as st
+from hypothesis.extra.numpy import arrays
 from pydantic import ValidationError
 
 import gdsfactory as gf
@@ -180,14 +181,36 @@ def test_section_requires_width_value_or_function() -> None:
         gf.Section(layer=(1, 0))
 
 
-def test_cross_section_callable_width_offset() -> None:
+@given(
+    t_points=arrays(
+        dtype=np.float64,
+        shape=st.integers(min_value=1, max_value=100),
+        elements=st.floats(
+            min_value=0.0, max_value=1.0, allow_nan=False, allow_infinity=False
+        ),
+    ),
+    cladding_offset=st.floats(
+        min_value=0.1, max_value=10.0, allow_nan=False, allow_infinity=False
+    ),
+    w_base=st.floats(
+        min_value=0.1, max_value=5.0, allow_nan=False, allow_infinity=False
+    ),
+    w_slope=st.floats(
+        min_value=-2.0, max_value=2.0, allow_nan=False, allow_infinity=False
+    ),
+)
+def test_cross_section_callable_width_offset(
+    t_points: npt.NDArray[np.float64],
+    cladding_offset: float,
+    w_base: float,
+    w_slope: float,
+) -> None:
     def width_fn(t: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
-        return 0.5 + 0.5 * t
+        return w_base + w_slope * t
 
     def offset_fn(t: float) -> float:
         return 0.1 * t
 
-    cladding_offset = 2.0
     xs = gf.cross_section.cross_section(
         width=width_fn,
         offset=offset_fn,
@@ -196,12 +219,15 @@ def test_cross_section_callable_width_offset() -> None:
         cladding_offsets=(cladding_offset,),
     )
     core, cladding = xs.sections
+
     assert core.width_function is width_fn
     assert core.offset_function is offset_fn
     assert cladding.width_function is not None
-    sampled = cladding.width_function(np.array([0.0, 1.0]))
+    sampled = cladding.width_function(t_points)
     np.testing.assert_allclose(
-        sampled, width_fn(np.array([0.0, 1.0])) + 2 * cladding_offset
+        sampled,
+        width_fn(t_points) + 2 * cladding_offset,
+        err_msg="Sampled cladding width does not match expected mathematical output.",
     )
 
 
