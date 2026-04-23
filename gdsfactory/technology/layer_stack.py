@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
 
 import kfactory as kf
 from kfactory.layer import LayerEnum
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from rich.console import Console
 from rich.table import Table
 
@@ -378,6 +378,12 @@ class LayerLevel(BaseModel):
             return layer
         return LogicalLayer(layer=layer)
 
+    @model_validator(mode="after")
+    def check_derived_layer(self) -> LayerLevel:
+        if isinstance(self.layer, DerivedLayer) and self.derived_layer is None:
+            raise ValueError("derived_layer is required when layer is a DerivedLayer")
+        return self
+
     @property
     def bounds(self) -> tuple[float, float]:
         """Calculates and returns the bounds of the layer level in the z-direction.
@@ -523,73 +529,77 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
-        from gdsfactory.pdk import get_layer_views
+        if self.layers is None:
+            return ""
+        layers = self.layers
 
-        layers = self.layers or {}
-        if layer_views is None:
-            layer_views = get_layer_views()
-
-        # Collect etch layers and unetched layers
-        etch_layers = [
-            layer_name
+        # Collect etch layers
+        etch_layers = {
+            layer_name: str(level.layer)
             for layer_name, level in layers.items()
             if isinstance(level.layer, DerivedLayer)
-        ]
+        }
 
-        unetched_layers = [
-            layer_name
+        from gdsfactory.pdk import get_layer_tuple
+
+        def get_base_layers(layer: BroadLayer) -> dict[str, tuple[int, int]]:
+            base_layers = {}
+            if isinstance(layer, DerivedLayer):
+                base_layers.update(get_base_layers(layer.layer1))
+                base_layers.update(get_base_layers(layer.layer2))
+            elif isinstance(layer, LogicalLayer):
+                base_layers[str(layer)] = get_layer_tuple(layer.layer)
+            return base_layers
+
+        base_layers = {
+            k: v
+            for layer_name in etch_layers
+            for k, v in get_base_layers(layers[layer_name].layer).items()
+        }
+
+        unetched_layers = {
+            layer_name: get_layer_tuple(level.layer.layer)
             for layer_name, level in layers.items()
             if isinstance(level.layer, LogicalLayer)
-        ]
-        from gdsfactory.pdk import get_layer, get_layer_tuple
+        }
 
-        # Define input layers
-        out = "\n".join(
-            [
-                f"{layer_name} = input({(__layer := get_layer_tuple(level.derived_layer.layer))[0]}, {__layer[1]})"
-                for layer_name, level in layers.items()
-                if level.derived_layer
-            ]
-        )
-        out += "\n\n"
-
-        # Remove all etched layers from the grown layers
-        unetched_layers_dict: dict[BroadLayer, list[str]] = defaultdict(list)
-        for layer_name in etch_layers:
-            level = layers[layer_name]
-            if level.derived_layer:
-                unetched_layers_dict[level.derived_layer.layer].append(layer_name)
-                derived = level.derived_layer.layer
-                if isinstance(derived, str) and derived in unetched_layers:
-                    unetched_layers.remove(derived)
-
-        # Define layers
+        # Define base layers
+        out = "# base layers\n"
         out += "\n".join(
             [
-                f"{layer_name} = input({level.layer.layer[0]}, {level.layer.layer[1]})"  # type: ignore[index,union-attr]
-                for layer_name, level in layers.items()
-                if hasattr(level.layer, "layer")
+                f"{layer_name} = input({layer[0]}, {layer[1]})"
+                for layer_name, layer in base_layers.items()
             ]
         )
         out += "\n\n"
 
         # Define unetched layers
-        for layer_name_etched, etching_layers in unetched_layers_dict.items():
-            etching_layers_str = " - ".join(etching_layers)
-            out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers_str}\n"
+        out += "# unetched layers\n"
+        out += "\n".join(
+            [
+                f"{layer_name} = input({layer[0]}, {layer[1]})"
+                for layer_name, layer in unetched_layers.items()
+            ]
+        )
+        out += "\n\n"
 
-        out += "\n"
+        # Define etch layers
+        out += "# etch layers\n"
+        out += "\n".join(
+            [
+                f"{layer_name} = {layer_expr}"
+                for layer_name, layer_expr in etch_layers.items()
+            ]
+        )
+        out += "\n\n"
 
-        # Define slabs
+        if layer_views is None:
+            from gdsfactory.pdk import get_layer_views
+
+            layer_views = get_layer_views()
+        layers_in_layer_views = layer_views.get_layer_tuples() if layer_views else set()
+
         for layer_name, level in layers.items():
-            if level.derived_layer:
-                _layer_from_derived = get_layer(level.derived_layer.layer)
-                out += f"slab_{_layer_from_derived}_{layer_name} = {_layer_from_derived} & {layer_name}\n"
-
-        out += "\n"
-
-        for layer_name, level in layers.items():
-            layer = level.layer
             zmin = level.zmin
             zmax = zmin + level.thickness
             if dbu:
@@ -597,63 +607,34 @@ class LayerStack(BaseModel):
                 zmin = round(zmin, rnd_pl)
                 zmax = round(zmax, rnd_pl)
 
-            elif level.derived_layer:
-                derived_layer = level.derived_layer.layer
-                derived_layer_layer = get_layer_tuple(derived_layer)
-                slab_layer_name = f"slab_{layer}_{layer_name}"
-                slab_zmin = zmin
-                slab_zmax = zmax - level.thickness
-                name = f"{slab_layer_name}: {level.material} {derived_layer_layer[0]}/{derived_layer_layer[1]}"
-                txt = (
-                    f"z("
-                    f"{slab_layer_name}, "
-                    f"zstart: {slab_zmin}, "
-                    f"zstop: {slab_zmax}, "
-                    f"name: '{name}'"
-                )
-                if layer_views:
-                    txt += ", "
-                    if layer in layer_views:  # type: ignore[operator]
-                        props = layer_views.get_from_tuple(layer)  # type: ignore[arg-type]
-                        if (
-                            hasattr(props, "color")
-                            and hasattr(props.color, "fill")
-                            and hasattr(props.color, "frame")
-                        ):
-                            if props.color.fill == props.color.frame:
-                                txt += f"color: {props.color.fill}"
-                            else:
-                                txt += (
-                                    f"fill: {props.color.fill}, "
-                                    f"frame: {props.color.frame}"
-                                )
-                txt += ")"
-                out += f"{txt}\n"
-
+            if layer_name in etch_layers:
+                layer = level.derived_layer
             elif layer_name in unetched_layers:
-                # TODO: Reimplement this
-                layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
-                name = (
-                    f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
-                )
-                txt = f"z({layer_name}, zstart: {zmin}, zstop: {zmax}, name: '{name}'"
-                if layer_views:
-                    txt += ", "
-                    props = layer_views.get_from_tuple(get_layer_tuple(layer_tuple))
+                assert isinstance(level.layer, LogicalLayer)
+                layer = level.layer
+
+            layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
+
+            name = f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
+            txt = f"z({layer_name}, zstart: {zmin}, zstop: {zmax}, name: '{name}'"
+
+            if layer_views:
+                if layer_tuple in layers_in_layer_views:
+                    props = layer_views.get_from_tuple(layer_tuple)
                     if (
                         hasattr(props, "color")
                         and hasattr(props.color, "fill")
                         and hasattr(props.color, "frame")
                     ):
+                        txt += ", "
                         if props.color.fill == props.color.frame:
                             txt += f"color: {props.color.fill}"
                         else:
                             txt += (
                                 f"fill: {props.color.fill}, frame: {props.color.frame}"
                             )
-
-                txt += ")"
-                out += f"{txt}\n"
+            txt += ")"
+            out += f"{txt}\n"
 
         return out
 
