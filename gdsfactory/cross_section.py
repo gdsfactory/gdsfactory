@@ -19,6 +19,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    NonNegativeFloat,
     PrivateAttr,
     field_serializer,
     model_validator,
@@ -72,12 +73,10 @@ class Section(BaseModel):
     """CrossSection to extrude a path with a waveguide.
 
     Parameters:
-        width: of the section (um) or parameterized function from 0 to 1. \
-                the width at t==0 is the width at the beginning of the Path. \
-                the width at t==1 is the width at the end.
-        offset: center offset (um) or function parameterized function from 0 to 1. \
-                the offset at t==0 is the offset at the beginning of the Path. \
-                the offset at t==1 is the offset at the end.
+        width: of the section (um). When `width_function` is set it takes \
+                precedence during extrusion, so `width` acts as a nominal value.
+        offset: center offset (um). When `offset_function` is set it takes \
+                precedence during extrusion, so `offset` acts as a nominal value.
         insets: distance (um) in x to inset section relative to end of the Path \
                 (i.e. (start inset, stop_inset)).
         layer: layer spec. If None does not draw the main section.
@@ -109,7 +108,7 @@ class Section(BaseModel):
             +offset
     """
 
-    width: float
+    width: NonNegativeFloat = 0
     offset: float = 0
     insets: tuple[float, float] | None = None
     layer: typings.LayerSpec
@@ -131,6 +130,12 @@ class Section(BaseModel):
             h = hashlib.md5(str(data).encode()).hexdigest()[:8]
             data["name"] = f"s_{h}"
         return data
+
+    @model_validator(mode="after")
+    def _require_width_value_or_function(self) -> Self:
+        if self.width == 0 and self.width_function is None:
+            raise ValueError("Section requires `width > 0` or a `width_function`.")
+        return self
 
     @field_serializer("width_function")
     def serialize_width_function(
@@ -530,8 +535,8 @@ def xsection(
 
 
 def cross_section(
-    width: float = 0.5,
-    offset: float = 0,
+    width: float | typings.WidthFunction = 0.5,
+    offset: float | typings.OffsetFunction = 0,
     layer: typings.LayerSpec = "WG",
     sections: Sections | None = None,
     port_names: typings.IOPorts = ("o1", "o2"),
@@ -549,8 +554,8 @@ def cross_section(
     """Return CrossSection.
 
     Args:
-        width: main Section width (um).
-        offset: main Section center offset (um).
+        width: main Section width (um) or parameterized function from 0 to 1.
+        offset: main Section center offset (um) or parameterized function from 0 to 1.
         layer: main section layer.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
@@ -649,8 +654,10 @@ def cross_section(
             )
     s = [
         Section(
-            width=width,
-            offset=offset,
+            width=0 if callable(width) else width,
+            width_function=width if callable(width) else None,
+            offset=0 if callable(offset) else offset,
+            offset_function=offset if callable(offset) else None,
             layer=layer,
             port_names=port_names,
             port_types=port_types,
@@ -664,15 +671,26 @@ def cross_section(
         and cladding_simplify_not_none
         and cladding_centers_not_none
     ):
+
+        def _cladding_width_kwargs(offset: float) -> dict[str, Any]:
+            if callable(width):
+                return {"width_function": lambda t: width(t) + 2 * offset}
+            return {"width": width + 2 * offset}
+
         s += [
             Section(
-                width=width + 2 * offset,
-                layer=layer,
-                simplify=simplify,
-                offset=center,
+                **_cladding_width_kwargs(cladding_offset),
+                layer=cladding_layer,
+                simplify=cladding_simplify,
+                offset=cladding_center,
                 name=f"cladding_{i}",
             )
-            for i, (layer, offset, simplify, center) in enumerate(
+            for i, (
+                cladding_layer,
+                cladding_offset,
+                cladding_simplify,
+                cladding_center,
+            ) in enumerate(
                 zip(
                     cladding_layers,
                     cladding_offsets_not_none,
