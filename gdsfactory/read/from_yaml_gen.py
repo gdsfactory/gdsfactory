@@ -107,11 +107,16 @@ def from_yaml_to_code(
     lines.append("from gdsfactory.pdk import get_active_pdk")
     lines.append("from gdsfactory.add_pins import add_instance_label")
 
-    # Check if we need kfactory for GridArray instances
+    # Check if we need kfactory for GridArray instances or boolean mirror
     for inst in net.instances.values():
         if isinstance(inst.array, GridArray):
             needs_kf = True
             break
+    if not needs_kf:
+        for placement in net.placements.values():
+            if placement.mirror is True and not placement.port:
+                needs_kf = True
+                break
 
     if needs_kf:
         lines.append("import kfactory as kf")
@@ -290,10 +295,11 @@ def _generate_instance_code(
 
 
 def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
-    """Generate code for placing an instance using chained rotate().mirror().move() pattern.
+    """Generate code for placing an instance matching from_yaml.py behaviour.
 
-    The order is always: rotate -> mirror -> move
-    This maps 1-1 to a KLayout DCplxTrans transformation.
+    The order is always: rotate -> mirror -> move.
+    Mirror uses ``dmirror_x`` / ``DCplxTrans`` to match from_yaml.py
+    (not ``mirror()`` which calls kfactory's ``imirror``).
 
     Args:
         inst_name: Instance name.
@@ -304,38 +310,33 @@ def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
     """
     lines: list[str] = []
 
-    # Build chained transformation: rotate().mirror().move()
-    chain_parts: list[str] = []
-
-    # 1. Rotation (if specified)
+    # 1. Rotation
     if placement.rotation and placement.rotation != 0:
         if placement.port:
             center_code = _get_anchor_point_code(inst_name, placement.port)
-            chain_parts.append(f"rotate({placement.rotation}, center={center_code})")
+            lines.append(
+                f"    {inst_name}.rotate({placement.rotation}, center={center_code})"
+            )
         else:
-            chain_parts.append(f"rotate({placement.rotation})")
+            lines.append(f"    {inst_name}.rotate({placement.rotation})")
 
-    # 2. Mirror (if specified)
+    # 2. Mirror (matches from_yaml.py: dmirror_x / DCplxTrans)
     if placement.mirror:
         if placement.mirror is True:
             if placement.port:
-                anchor_x_code = _get_anchor_value_code(inst_name, placement.port, "x")
-                chain_parts.append(
-                    f"mirror(p1=({anchor_x_code}, 0), p2=({anchor_x_code}, 1))"
-                )
+                ax = _get_anchor_value_code(inst_name, placement.port, "x")
+                lines.append(f"    {inst_name}.dmirror_x(x={ax})")
             else:
-                chain_parts.append("mirror()")
+                lines.append(
+                    f"    {inst_name}.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)"
+                )
         elif isinstance(placement.mirror, str):
             port_x = f"{inst_name}.ports[{_format_value(placement.mirror)}].x"
-            chain_parts.append(f"mirror(p1=({port_x}, 0), p2=({port_x}, 1))")
+            lines.append(f"    {inst_name}.dmirror_x({port_x})")
         else:
-            # Numeric mirror
-            chain_parts.append(
-                f"mirror(p1=({placement.mirror}, 0), p2=({placement.mirror}, 1))"
-            )
+            lines.append(f"    {inst_name}.dmirror_x(x={inst_name}.x)")
 
-    # 3. Calculate final position
-    # Start with port anchor offset if specified
+    # 3. Move
     x_offset_parts: list[str] = []
     y_offset_parts: list[str] = []
 
@@ -344,13 +345,10 @@ def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
         x_offset_parts.append(f"-{anchor_code}[0]")
         y_offset_parts.append(f"-{anchor_code}[1]")
 
-    # Add x/xmin/xmax positioning
     if placement.x is not None:
-        x_code = _generate_position_code(placement.x, "x")
-        x_offset_parts.append(x_code)
+        x_offset_parts.append(_generate_position_code(placement.x, "x"))
     elif placement.xmin is not None:
         xmin_code = _generate_position_code(placement.xmin, "x")
-        # For xmin, we need to calculate: target_xmin - current_xmin
         lines.append(f"    _target_xmin = {xmin_code}")
         lines.append(f"    _x_offset = _target_xmin - {inst_name}.xmin")
         x_offset_parts.append("_x_offset")
@@ -360,10 +358,8 @@ def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
         lines.append(f"    _x_offset = _target_xmax - {inst_name}.xmax")
         x_offset_parts.append("_x_offset")
 
-    # Add y/ymin/ymax positioning
     if placement.y is not None:
-        y_code = _generate_position_code(placement.y, "y")
-        y_offset_parts.append(y_code)
+        y_offset_parts.append(_generate_position_code(placement.y, "y"))
     elif placement.ymin is not None:
         ymin_code = _generate_position_code(placement.ymin, "y")
         lines.append(f"    _target_ymin = {ymin_code}")
@@ -375,22 +371,15 @@ def _generate_placement_code(inst_name: str, placement: Placement) -> list[str]:
         lines.append(f"    _y_offset = _target_ymax - {inst_name}.ymax")
         y_offset_parts.append("_y_offset")
 
-    # Add dx/dy offsets
     if placement.dx is not None:
         x_offset_parts.append(str(placement.dx))
     if placement.dy is not None:
         y_offset_parts.append(str(placement.dy))
 
-    # Build final position expression
     if x_offset_parts or y_offset_parts:
         x_expr = " + ".join(x_offset_parts) if x_offset_parts else "0"
         y_expr = " + ".join(y_offset_parts) if y_offset_parts else "0"
-        chain_parts.append(f"move(({x_expr}, {y_expr}))")
-
-    # Generate the chained call
-    if chain_parts:
-        chain = ".".join(chain_parts)
-        lines.append(f"    {inst_name}.{chain}")
+        lines.append(f"    {inst_name}.move(({x_expr}, {y_expr}))")
 
     return lines
 
