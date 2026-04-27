@@ -146,7 +146,7 @@ def route_single(
         )
 
     def straight_dbu(width: int, length: int) -> gf.Component:
-        return straight(c.kcl.to_dbu(width), c.kcl.to_dbu(length))
+        return straight(c.kcl.to_um(width), c.kcl.to_um(length))
 
     if steps and waypoints:
         raise ValueError("Provide only one of steps or waypoints")
