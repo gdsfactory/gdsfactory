@@ -341,7 +341,7 @@ def add_ports_from_markers_center(
                 "You can pass a port_name_prefix to add it with a different name."
             )
 
-        component.add_port(name=port_name, port=port)
+        component.add_port(name=_port_name_or_none, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
     return component
