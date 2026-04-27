@@ -16,7 +16,6 @@ from natsort import natsorted
 import gdsfactory as gf
 import gdsfactory.schematic as scm
 from gdsfactory.component import Component
-from gdsfactory.name import get_instance_name_from_alias as legacy_namer  # noqa: F401
 from gdsfactory.serialization import DEFAULT_SERIALIZATION_MAX_DIGITS, clean_value_json
 
 Instance: TypeAlias = kf.DInstance | kf.VInstance | kf.Instance
