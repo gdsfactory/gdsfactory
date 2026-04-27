@@ -203,7 +203,6 @@ def bend_euler_s(
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
     b2.connect(port1, b1[port2], mirror=True)
-    b2.connect(port1, b1[port2])
     c.add_port(port1, port=b1[port1])
     c.add_port(port2, port=b2[port2])
     c.info["length"] = 2 * b.info["length"]
