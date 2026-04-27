@@ -140,4 +140,4 @@ def triangle4(**kwargs: Any) -> Component:
 
 triangle_thin = partial(triangle, xtop=0.2, x=2, y=5)
 triangle2_thin = partial(triangle2, xtop=0.2, x=2, y=5)
-triangle4_thin = partial(triangle2, xtop=0.2, x=2, y=5)
+triangle4_thin = partial(triangle4, xtop=0.2, x=2, y=5)
