@@ -115,7 +115,6 @@ def route_fiber_array(
     """
     x = gf.get_cross_section(cross_section)
 
-    component_name = component_name or component_to_route.name
     excluded_ports = excluded_ports or []
     if port_names is None:
         to_route = list(select_ports(component_to_route.ports))
