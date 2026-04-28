@@ -43,7 +43,6 @@ def route_fiber_array(
     gc_port_name: str = "o1",
     gc_port_name_fiber: str = "o2",
     gc_rotation: int = -90,
-    component_name: str | None = None,
     x_grating_offset: float = 0,
     port_names: Strs | None = None,
     select_ports: PortsFactory = select_ports_optical,
@@ -94,7 +93,6 @@ def route_fiber_array(
         gc_port_name_fiber: grating_coupler port name, where to route fibers.
         gc_rotation: grating_coupler rotation (deg).
         layer_label: for measurement labels.
-        component_name: name of component.
         x_grating_offset: x offset.
         port_names: port names to route_to_fiber_array.
         select_ports: function to select ports for which to add grating couplers.
