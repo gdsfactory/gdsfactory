@@ -194,9 +194,7 @@ class FileWatcher(FileSystemEventHandler):
         if self.allowed_dirs is None:
             return True
         resolved = filepath.resolve()
-        return any(
-            resolved == d or d in resolved.parents for d in self.allowed_dirs
-        )
+        return any(resolved == d or d in resolved.parents for d in self.allowed_dirs)
 
     def get_component(self, filepath: PathType) -> Component | None:
         """Parse a file and return the component, writing GDS output.
@@ -245,9 +243,7 @@ class FileWatcher(FileSystemEventHandler):
                         )
                         return None
 
-                    self.logger.warning(
-                        "Executing Python file: %s", filepath.resolve()
-                    )
+                    self.logger.warning("Executing Python file: %s", filepath.resolve())
 
                     context = dict(locals(), **globals())
                     if self.run_main:
@@ -257,14 +253,10 @@ class FileWatcher(FileSystemEventHandler):
                     try:
                         exec(filepath.read_text(), context, context)
                     except SyntaxError:
-                        self.logger.exception(
-                            "Syntax error in %s", filepath
-                        )
+                        self.logger.exception("Syntax error in %s", filepath)
                         return None
                     except Exception:
-                        self.logger.exception(
-                            "Error executing %s", filepath
-                        )
+                        self.logger.exception("Error executing %s", filepath)
                         return None
 
                     if self.run_cells:
