@@ -58,9 +58,9 @@ c.show()
 
 Highlights:
 
-- 3M+ downloads
-- 105+ Contributors
-- 25+ PDKs available
+- 4M+ downloads
+- 116+ Contributors
+- 42+ PDKs available
 
 ![workflow](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/workflow.png)
 

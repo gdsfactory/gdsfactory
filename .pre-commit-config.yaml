@@ -45,6 +45,7 @@ repos:
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
+        exclude: uv\.lock
   - repo: https://github.com/aristanetworks/j2lint.git
     rev: v1.2.0
     hooks:
