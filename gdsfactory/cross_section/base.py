@@ -424,7 +424,6 @@ class Transition(BaseModel, arbitrary_types_allowed=True):
         if isinstance(width_type, str):
             return width_type
         # TODO: implement callable serialization for width_type.
-        # See https://github.com/gdsfactory/gdsfactory/issues/TODO-callable-serialization
         raise NotImplementedError(
             "Serialization of callable width_type is not yet supported. "
             "Use a string value ('sine', 'linear', or 'parabolic') instead."
@@ -457,7 +456,6 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
     ) -> str:
         if isinstance(width_type1, str):
             return width_type1
-        # TODO: implement callable serialization for width_type1.
         raise NotImplementedError(
             "Serialization of callable width_type1 is not yet supported. "
             "Use a string value ('sine', 'linear', or 'parabolic') instead."
@@ -470,7 +468,6 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
     ) -> str:
         if isinstance(width_type2, str):
             return width_type2
-        # TODO: implement callable serialization for width_type2.
         raise NotImplementedError(
             "Serialization of callable width_type2 is not yet supported. "
             "Use a string value ('sine', 'linear', or 'parabolic') instead."
@@ -483,7 +480,6 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
     ) -> str:
         if isinstance(offset_type1, str):
             return offset_type1
-        # TODO: implement callable serialization for offset_type1.
         raise NotImplementedError(
             "Serialization of callable offset_type1 is not yet supported. "
             "Use a string value ('sine', 'linear', or 'parabolic') instead."
@@ -496,7 +492,6 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
     ) -> str:
         if isinstance(offset_type2, str):
             return offset_type2
-        # TODO: implement callable serialization for offset_type2.
         raise NotImplementedError(
             "Serialization of callable offset_type2 is not yet supported. "
             "Use a string value ('sine', 'linear', or 'parabolic') instead."
