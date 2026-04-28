@@ -395,6 +395,68 @@ class CrossSection(BaseModel):
 
         return xmin, xmax
 
+    def to_kf_cross_section(self, kcl: Any = None) -> DCrossSection:
+        """Convert this GDSFactory CrossSection to a KFactory DCrossSection.
+
+        Maps each GDSFactory Section(width, offset, layer, port_names, ...)
+        to KFactory section format with metadata.
+
+        Args:
+            kcl: KCLayout to use. If None, uses the default gdsfactory kcl.
+
+        Returns:
+            A KFactory DCrossSection.
+        """
+        from kfactory.enclosure import LayerEnclosure
+
+        from gdsfactory.pdk import get_layer_info
+
+        if kcl is None:
+            from gdsfactory import kcl
+
+        main_section = self.sections[0]
+        main_layer = get_layer_info(main_section.layer)
+        main_width_dbu = kcl.to_dbu(main_section.width)
+
+        kf_sections: list[tuple] = []
+        for section in self.sections[1:]:
+            if section.layer is None:
+                continue
+            layer_info = get_layer_info(section.layer)
+            d_min_um = section.offset - section.width / 2
+            d_max_um = section.offset + section.width / 2
+            d_min_dbu = kcl.to_dbu(d_min_um)
+            d_max_dbu = kcl.to_dbu(d_max_um)
+            kf_sections.append((layer_info, d_min_dbu, d_max_dbu))
+
+        enclosure = LayerEnclosure(
+            sections=kf_sections,
+            main_layer=main_layer,
+        )
+
+        # Build bbox_sections
+        bbox_secs: dict = {}
+        if self.bbox_layers and self.bbox_offsets:
+            for bl, bo in zip(self.bbox_layers, self.bbox_offsets, strict=False):
+                bbox_secs[get_layer_info(bl)] = kcl.to_dbu(bo)
+
+        allow_odd = main_width_dbu % 2 != 0
+
+        # Use auto-generated name (not self.name) to allow GDS round-trip.
+        # The auto-generated name is deterministic from enclosure+width,
+        # so it can be reconstructed when reading GDS files back.
+        # Note: radius/radius_min are routing metadata and not included
+        # here to avoid name conflicts with cross_sections created from
+        # raw width+layer (which have radius=None).
+        xs = SymmetricalCrossSection(
+            width=main_width_dbu,
+            enclosure=enclosure,
+            bbox_sections=bbox_secs,
+            allow_odd_width=allow_odd,
+        )
+
+        return DCrossSection(kcl=kcl, base=xs)
+
 
 CrossSection.model_rebuild()
 
