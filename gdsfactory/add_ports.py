@@ -71,48 +71,30 @@ def _infer_port_direction(
         Tuple of (orientation, width, x, y) where orientation is in degrees
         (0=east, 90=north, 180=west, 270=south) and x, y are the center
         coordinates (unchanged from input for non-inside mode).
-
-    Args:
-        x: marker center x.
-        y: marker center y.
-        dx: marker width.
-        dy: marker height.
-        pxmin: marker bounding box left.
-        pymin: marker bounding box bottom.
-        pxmax: marker bounding box right.
-        pymax: marker bounding box top.
-        xc: component center x.
-        yc: component center y.
-        dxmin: component bounding box left.
-        dymin: component bounding box bottom.
-        dxmax: component bounding box right.
-        dymax: component bounding box top.
-        tol: tolerance for boundary detection.
-        ports_on_short_side: if True, port is on the short side.
     """
-    # Rectangular ports: orientation is easier to detect
-    if dy < dx if ports_on_short_side else dx < dy:
-        width = dy
-        orientation = 0.0 if x > xc else 180.0
-    elif dy > dx if ports_on_short_side else dx > dy:
-        width = dx
-        orientation = 90.0 if y > yc else 270.0
-    # Square ports: use boundary proximity
-    elif pxmax > dxmax - tol:
-        orientation, width = 0.0, dy
-    elif pxmin < dxmin + tol:
-        orientation, width = 180.0, dy
-    elif pymax > dymax - tol:
-        orientation, width = 90.0, dx
-    elif pymin < dymin + tol:
-        orientation, width = 270.0, dx
-    # Fallback: use center comparison
-    elif pxmax > xc:
-        orientation, width = 0.0, dy
-    else:
-        orientation, width = 180.0, dy
+    is_horizontal = (dy < dx) if ports_on_short_side else (dx < dy)
+    is_vertical = (dy > dx) if ports_on_short_side else (dx > dy)
 
-    return orientation, width, x, y
+    # Rectangular ports
+    if is_horizontal:
+        return (0.0 if x > xc else 180.0), dy, x, y
+    if is_vertical:
+        return (90.0 if y > yc else 270.0), dx, x, y
+
+    # Square ports: Check boundary proximity
+    boundaries = [
+        (0.0, dy, dxmax - pxmax),  # East
+        (180.0, dy, pxmin - dxmin),  # West
+        (90.0, dx, dymax - pymax),  # North
+        (270.0, dx, pymin - dymin),  # South
+    ]
+
+    for orientation, width, distance in boundaries:
+        if distance < tol:
+            return orientation, width, x, y
+
+    # Fallback: use center comparison
+    return (0.0 if pxmax > xc else 180.0), dy, x, y
 
 
 def _apply_inside_position(
@@ -126,36 +108,25 @@ def _apply_inside_position(
     inside: bool,
     use_opposite_side: bool = False,
 ) -> tuple[float, float]:
-    """Adjust port position for inside or opposite-side placement.
-
-    Args:
-        orientation: port orientation in degrees.
-        x: marker center x.
-        y: marker center y.
-        pxmin: marker bounding box left.
-        pymin: marker bounding box bottom.
-        pxmax: marker bounding box right.
-        pymax: marker bounding box top.
-        inside: whether markers are inside the component.
-        use_opposite_side: if True and inside=True, place at opposite edge.
-    """
+    """Adjust port position for inside or opposite-side placement."""
     if not inside:
         return x, y
 
-    if orientation in (0.0, 180.0):
-        # East/West: adjust x
-        if orientation == 0.0:
-            x = pxmin if use_opposite_side else pxmax
-        else:
-            x = pxmax if use_opposite_side else pxmin
-    else:
-        # North/South: adjust y
-        if orientation == 90.0:
-            y = pymin if use_opposite_side else pymax
-        else:
-            y = pymax if use_opposite_side else pymin
+    # Map to: (modifies_x_axis, default_value, opposite_value)
+    port_mapping = {
+        0.0: (True, pxmax, pxmin),  # East adjusts X
+        180.0: (True, pxmin, pxmax),  # West adjusts X
+        90.0: (False, pymax, pymin),  # North adjusts Y
+        270.0: (False, pymin, pymax),  # South adjusts Y
+    }
 
-    return x, y
+    # Fallback for non-Manhattan orientation
+    if orientation not in port_mapping:
+        return x, y
+
+    modifies_x, default_val, opp_val = port_mapping[orientation]
+    new_val = opp_val if use_opposite_side else default_val
+    return (new_val, y) if modifies_x else (x, new_val)
 
 
 def _snap_port_width(width: float, pin_extra_width: float) -> float:
@@ -451,15 +422,38 @@ def add_ports_from_markers_center(
         pxmin *= dbu
         pymin *= dbu
 
-        if _should_skip_marker(dx, dy, min_pin_area_um2, max_pin_area_um2, skip_square_ports, debug):
+        if _should_skip_marker(
+            dx, dy, min_pin_area_um2, max_pin_area_um2, skip_square_ports, debug
+        ):
             continue
 
         orientation, width, x, y = _infer_port_direction(
-            x, y, dx, dy, pxmin, pymin, pxmax, pymax,
-            xc, yc, dxmin, dymin, dxmax, dymax, tol, ports_on_short_side,
+            x,
+            y,
+            dx,
+            dy,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            xc,
+            yc,
+            dxmin,
+            dymin,
+            dxmax,
+            dymax,
+            tol,
+            ports_on_short_side,
         )
         x, y = _apply_inside_position(
-            orientation, x, y, pxmin, pymin, pxmax, pymax, inside,
+            orientation,
+            x,
+            y,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            inside,
         )
         # Note: pin_extra_width is subtracted twice, matching original behavior.
         width = _snap_port_width(width - pin_extra_width, pin_extra_width)
@@ -467,19 +461,27 @@ def add_ports_from_markers_center(
         _port_layer_idx = get_layer(layer)
         if auto_detect_port_layer:
             _port_layer_idx = _auto_detect_port_layer(
-                component, x, y, width, dbu, _port_layer_idx, pin_layer,
+                component,
+                x,
+                y,
+                width,
+                dbu,
+                _port_layer_idx,
+                pin_layer,
             )
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
-            ports.append(Port(
-                name=port_name,
-                center=(x, y),
-                width=width,
-                orientation=orientation,
-                layer=_port_layer_idx,
-                port_type=port_type,
-            ))
+            ports.append(
+                Port(
+                    name=port_name,
+                    center=(x, y),
+                    width=width,
+                    orientation=orientation,
+                    layer=_port_layer_idx,
+                    port_type=port_type,
+                )
+            )
 
     return _register_ports(component, ports, auto_rename_ports)
 
@@ -591,28 +593,54 @@ def add_ports_from_boxes(
         dy = abs(pymax - pymin)
         dx = abs(pxmax - pxmin)
 
-        if _should_skip_marker(dx, dy, min_pin_area_um2, max_pin_area_um2, skip_square_ports, debug):
+        if _should_skip_marker(
+            dx, dy, min_pin_area_um2, max_pin_area_um2, skip_square_ports, debug
+        ):
             continue
 
         orientation, width, x, y = _infer_port_direction(
-            x, y, dx, dy, pxmin, pymin, pxmax, pymax,
-            xc, yc, dxmin, dymin, dxmax, dymax, tol, ports_on_short_side,
+            x,
+            y,
+            dx,
+            dy,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            xc,
+            yc,
+            dxmin,
+            dymin,
+            dxmax,
+            dymax,
+            tol,
+            ports_on_short_side,
         )
         x, y = _apply_inside_position(
-            orientation, x, y, pxmin, pymin, pxmax, pymax, inside, use_opposite_side,
+            orientation,
+            x,
+            y,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            inside,
+            use_opposite_side,
         )
         width = _snap_port_width(width, pin_extra_width)
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
-            ports.append(Port(
-                name=port_name,
-                center=(x, y),
-                width=width,
-                orientation=orientation,
-                layer=layer,
-                port_type=port_type,
-            ))
+            ports.append(
+                Port(
+                    name=port_name,
+                    center=(x, y),
+                    width=width,
+                    orientation=orientation,
+                    layer=layer,
+                    port_type=port_type,
+                )
+            )
 
     return _register_ports(component, ports, auto_rename_ports, allow_none_names=True)
 
