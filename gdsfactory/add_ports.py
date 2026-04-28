@@ -224,7 +224,9 @@ def _register_ports(
         _port_name = port.name
         if allow_none_names and _port_name is None:
             continue
-        if _port_name in component.ports or port in component.ports:
+        if (
+            _port_name is not None and _port_name in component.ports
+        ) or port in component.ports:
             component_ports = [p.name for p in component.ports]
             raise ValueError(
                 f"port {_port_name!r} already in {component_ports}. "
