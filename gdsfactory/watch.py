@@ -237,13 +237,6 @@ class FileWatcher(FileSystemEventHandler):
                 if str(filepath).endswith(".pic.yml"):
                     return self.get_component_yaml(filepath, dirpath)
                 if str(filepath).endswith(".py"):
-                    # Validate file extension strictly
-                    if filepath.suffix != ".py":
-                        self.logger.error(
-                            "Rejected file %s: not a .py file", filepath
-                        )
-                        return None
-
                     # Check allowed directories
                     if not self._is_allowed_path(filepath):
                         self.logger.error(
