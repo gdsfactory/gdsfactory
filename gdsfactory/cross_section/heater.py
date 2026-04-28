@@ -13,7 +13,7 @@ from gdsfactory.cross_section.base import (
     port_types_electrical,
 )
 from gdsfactory.cross_section.presets import strip
-from gdsfactory.cross_section.utils import cross_section, xsection
+from gdsfactory.cross_section.utils import xsection
 
 
 @xsection

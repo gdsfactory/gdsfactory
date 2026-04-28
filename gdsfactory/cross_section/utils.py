@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Sequence
 from functools import partial, wraps
 from inspect import getmembers, isbuiltin, isfunction
 from types import BuiltinFunctionType, FunctionType, ModuleType
@@ -17,7 +17,6 @@ from gdsfactory.cross_section.base import (
     CrossSectionFactory,
     Section,
     Sections,
-    nm,
 )
 
 cross_sections: dict[str, CrossSectionFactory] = {}

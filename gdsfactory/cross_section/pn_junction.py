@@ -12,8 +12,6 @@ from gdsfactory.cross_section.base import (
     cladding_layers_optical,
     cladding_offsets_optical,
     cladding_simplify_optical,
-    port_names_electrical,
-    port_types_electrical,
 )
 from gdsfactory.cross_section.presets import strip
 from gdsfactory.cross_section.utils import cross_section, xsection
@@ -1125,4 +1123,3 @@ def pn_ge_detector_si_contacts(
         sections=tuple(section_list),
         **kwargs,
     )
-

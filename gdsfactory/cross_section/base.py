@@ -12,7 +12,7 @@ from collections.abc import Callable
 from typing import Any, Self, TypeAlias
 
 import numpy as np
-from kfactory import DCrossSection, SymmetricalCrossSection, logger
+from kfactory import DCrossSection, SymmetricalCrossSection
 from pydantic import (
     BaseModel,
     ConfigDict,
