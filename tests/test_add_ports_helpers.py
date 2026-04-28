@@ -226,7 +226,7 @@ class TestSnapPortWidth:
         assert abs(result - 0.4) < 1e-9
 
     def test_snaps_to_2nm(self) -> None:
-        # 0.501 - 0 = 0.501 -> round(0.501/0.002)*0.002 = round(250.5)*0.002 = 250*0.002 = 0.500
+        # 0.501 with no extra width -> round(0.501/0.002)*0.002 = round(250.5)*0.002 = 250*0.002 = 0.500
         result = _snap_port_width(0.501, 0.0)
         assert abs(result - 0.500) < 1e-9
 

@@ -461,6 +461,7 @@ def add_ports_from_markers_center(
         x, y = _apply_inside_position(
             orientation, x, y, pxmin, pymin, pxmax, pymax, inside,
         )
+        # Note: pin_extra_width is subtracted twice, matching original behavior.
         width = _snap_port_width(width - pin_extra_width, pin_extra_width)
 
         _port_layer_idx = get_layer(layer)
