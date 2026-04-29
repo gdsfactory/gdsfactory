@@ -42,9 +42,5 @@ def sample_routing_auto_taper_trenches() -> gf.Component:
 
 
 if __name__ == "__main__":
-    from gpdk import PDK
-
-    PDK.activate()
-
     c = sample_routing_auto_taper_trenches()
     c.show()
