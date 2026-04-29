@@ -1,11 +1,39 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.40.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.41.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.41.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.41.0) - 2026-04-29
 
-No significant changes.
+- Passing width/offset functions to cross_section [#4506](https://github.com/gdsfactory/gdsfactory/pull/4506)
+- fix: use per-end section widths and offsets in taper [#4525](https://github.com/gdsfactory/gdsfactory/pull/4525)
+- Remove unavailable `gpdk` import from sample_routing_auto_taper [#4523](https://github.com/gdsfactory/gdsfactory/pull/4523)
+- fix taper delta_width for multi-section cross sections [#4522](https://github.com/gdsfactory/gdsfactory/pull/4522)
+- Harden exec() usage in watch.py with input validation and security controls [#4518](https://github.com/gdsfactory/gdsfactory/pull/4518)
+- Refactor add_ports.py: extract helpers from 40+ branch functions [#4519](https://github.com/gdsfactory/gdsfactory/pull/4519)
+- refactor: Split cross_section.py (3,025 lines) into a package [#4520](https://github.com/gdsfactory/gdsfactory/pull/4520)
+- Fix for Unused local variable [#4517](https://github.com/gdsfactory/gdsfactory/pull/4517)
+- fix(from_yaml_gen): use dmirror_x/DCplxTrans for mirror transforms [#4513](https://github.com/gdsfactory/gdsfactory/pull/4513)
+- Fix: add_ports_from_markers_center uses stale port_name variable [#4512](https://github.com/gdsfactory/gdsfactory/pull/4512)
+- Fix: bend_euler_s duplicate connect undoes mirror [#4510](https://github.com/gdsfactory/gdsfactory/pull/4510)
+- Fix: triangle4_thin should use triangle4, not triangle2 [#4511](https://github.com/gdsfactory/gdsfactory/pull/4511)
+- Fix: remove duplicate entries in routing __all__ [#4509](https://github.com/gdsfactory/gdsfactory/pull/4509)
+- remove route single deprecation warning [#4507](https://github.com/gdsfactory/gdsfactory/pull/4507)
+- `LayerStack.get_klayout_3d_script()` fixes [#4505](https://github.com/gdsfactory/gdsfactory/pull/4505)
+- Improve geometry docs and add delete cell sample [#4504](https://github.com/gdsfactory/gdsfactory/pull/4504)
+- Optionally pass start and end angle in Path constructor [#4501](https://github.com/gdsfactory/gdsfactory/pull/4501)
+- Improvements to gf diff [#4502](https://github.com/gdsfactory/gdsfactory/pull/4502)
+- Broadcast single cladding value to all layers [#4503](https://github.com/gdsfactory/gdsfactory/pull/4503)
+- Increase coverage for name and serialization helpers [#4493](https://github.com/gdsfactory/gdsfactory/pull/4493)
+- Refactor some tests to use hypothesis for property-based testing [#4494](https://github.com/gdsfactory/gdsfactory/pull/4494)
+- Add type tags to all cell decorated components [#4492](https://github.com/gdsfactory/gdsfactory/pull/4492)
+- Fix edge_coupler_array_with_loopback routing direction [#4498](https://github.com/gdsfactory/gdsfactory/pull/4498)
+- add tags arg to vcell [#4497](https://github.com/gdsfactory/gdsfactory/pull/4497)
+- test: add unit tests for name, component_layout, from_np utilities [#4490](https://github.com/gdsfactory/gdsfactory/pull/4490)
+- test: broaden Pdk slot coverage to catch __init__ regressions [#4489](https://github.com/gdsfactory/gdsfactory/pull/4489)
+- update kfactory to 2.5.0 [#4521](https://github.com/gdsfactory/gdsfactory/pull/4521)
+- deps: update rich requirement from <15 to <16 [#4488](https://github.com/gdsfactory/gdsfactory/pull/4488)
+- deps: bump actions/upload-pages-artifact from 4 to 5 [#4491](https://github.com/gdsfactory/gdsfactory/pull/4491)
 
 
 ## [9.40.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.2) - 2026-04-17
