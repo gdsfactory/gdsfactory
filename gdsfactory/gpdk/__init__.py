@@ -59,6 +59,7 @@ def get_generic_pdk() -> Pdk:
 
     layer_transitions = {
         LAYER.WG: "taper",
+        LAYER.WG_ABSTRACT: partial(gf.c.taper, cross_section="rib_with_trenches"),
         (LAYER.WG, LAYER.WGN): "taper_sc_nc",
         (LAYER.WGN, LAYER.WG): "taper_nc_sc",
         LAYER.M3: "taper_electrical",
