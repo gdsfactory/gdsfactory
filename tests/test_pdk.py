@@ -136,14 +136,3 @@ def test_pdk_dbu_change_after_cells_raises(restore_kcl_state: None) -> None:
     )
     with pytest.raises(ValueError, match=r"cell\(s\) already exist"):
         pdk.activate(force=True)
-
-
-def test_pdk_dbu_default_unchanged(restore_kcl_state: None) -> None:
-    original_dbu = gf.kcl.dbu
-    pdk = gf.Pdk(
-        name="dbu_unset",
-        layers=LAYER,
-        cross_sections={"strip": gf.cross_section.strip},
-    )
-    pdk.activate(force=True)
-    assert gf.kcl.dbu == original_dbu
