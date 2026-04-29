@@ -1,9 +1,8 @@
 info: {}
-name: rectangle_with_slits_gdsfactorypcomponentsppadsprectang_442d6bfc
+name: rectangle_with_slits_gdsfactorypcomponentsppadsprectang_f03dfc73
 settings:
   centered: false
   layer: WG
-  layer_slit: SLAB150
   size:
   - 100
   - 200
