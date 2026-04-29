@@ -143,6 +143,8 @@ class Pdk(BaseModel):
         routing_strategies: functions enabled to route.
         bend_points_distance: default points distance for bends in um.
         connectivity: defines connectivity between layers through vias.
+        dbu: database unit in um. If set, applied to kf.kcl on activate().
+            Default None leaves kfactory's default of 0.001 (1 nm/dbu).
 
     """
 
@@ -176,6 +178,7 @@ class Pdk(BaseModel):
     bend_points_distance: float = 20 * nm
     connectivity: Sequence[ConnectivitySpec] | None = None
     max_cellname_length: int = CONF.max_cellname_length
+    dbu: float | None = Field(default=None, gt=0)
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
@@ -799,6 +802,15 @@ def get_constant(constant_name: Any) -> Any:
 
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
+
+    if pdk.dbu is not None and pdk.dbu != kf.kcl.dbu:
+        if len(kf.kcl.kcells) > 0:
+            raise ValueError(
+                f"Cannot change DBU from {kf.kcl.dbu} to {pdk.dbu}: "
+                f"{len(kf.kcl.kcells)} cell(s) already exist on the KCLayout."
+                "Activate the PDK before building any cells."
+            )
+
     _ACTIVE_PDK = pdk
 
     if pdk.layers is not None:
@@ -809,6 +821,9 @@ def _set_active_pdk(pdk: Pdk) -> None:
     else:
         kf.kcl.infos = kf.LayerInfos()
         kf.kcl.layers = kf.kcl.layerenum_from_dict(layers=kf.kcl.infos)
+
+    if pdk.dbu is not None and pdk.dbu != kf.kcl.dbu:
+        kf.kcl.layout.dbu = pdk.dbu
 
 
 def get_routing_strategies() -> RoutingStrategies:
