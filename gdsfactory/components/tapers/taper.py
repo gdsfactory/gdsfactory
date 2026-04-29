@@ -351,3 +351,8 @@ taper_electrical = partial(
     port_names=("e1", "e2"),
     cross_section="metal_routing",
 )
+
+taper_with_trenches = partial(
+    taper,
+    cross_section="rib_with_trenches",
+)

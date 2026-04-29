@@ -16,12 +16,14 @@ cells = get_cells([gf.components])
 
 pad_array_layer = partial(gf.c.pad_array, layer="M1")
 pad_array_size = partial(gf.c.pad_array, layer="M1", size=(100, 100))
+taper_with_trenches = partial(gf.c.taper, cross_section="rib_with_trenches")
 
 
 cells.update(
     {
         "pad_array_layer": pad_array_layer,
         "pad_array_size": pad_array_size,
+        "taper_with_trenches": taper_with_trenches,
     }
 )
 
