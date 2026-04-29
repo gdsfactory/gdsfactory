@@ -15,6 +15,230 @@ from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import AngleInDegrees, LayerSpec
 
 
+def _should_skip_marker(
+    dx: float,
+    dy: float,
+    min_pin_area_um2: float | None,
+    max_pin_area_um2: float | None,
+    skip_square_ports: bool,
+    debug: bool = False,
+) -> bool:
+    """Return True if a pin marker should be skipped based on area or shape.
+
+    Args:
+        dx: marker width.
+        dy: marker height.
+        min_pin_area_um2: minimum pin area in um^2.
+        max_pin_area_um2: maximum pin area in um^2.
+        skip_square_ports: whether to skip square markers.
+        debug: if True, print skip reasons.
+    """
+    area = dx * dy
+    if min_pin_area_um2 and area < min_pin_area_um2:
+        if debug:
+            print(f"skipping port at ({dx}, {dy}) with min_pin_area_um2 {area}")
+        return True
+    if max_pin_area_um2 and area > max_pin_area_um2:
+        return True
+    if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
+        if debug:
+            print(f"skipping square port at ({dx}, {dy})")
+        return True
+    return False
+
+
+def _infer_port_direction(
+    x: float,
+    y: float,
+    dx: float,
+    dy: float,
+    pxmin: float,
+    pymin: float,
+    pxmax: float,
+    pymax: float,
+    xc: float,
+    yc: float,
+    dxmin: float,
+    dymin: float,
+    dxmax: float,
+    dymax: float,
+    tol: float,
+    ports_on_short_side: bool = False,
+) -> tuple[float, float, float, float]:
+    """Infer port orientation, width, and center position from marker geometry.
+
+    Returns:
+        Tuple of (orientation, width, x, y) where orientation is in degrees
+        (0=east, 90=north, 180=west, 270=south) and x, y are the center
+        coordinates (unchanged from input for non-inside mode).
+    """
+    is_horizontal = (dy < dx) if ports_on_short_side else (dx < dy)
+    is_vertical = (dy > dx) if ports_on_short_side else (dx > dy)
+
+    # Rectangular ports
+    if is_horizontal:
+        return (0.0 if x > xc else 180.0), dy, x, y
+    if is_vertical:
+        return (90.0 if y > yc else 270.0), dx, x, y
+
+    # Square ports: Check boundary proximity
+    boundaries = [
+        (0.0, dy, dxmax - pxmax),  # East
+        (180.0, dy, pxmin - dxmin),  # West
+        (90.0, dx, dymax - pymax),  # North
+        (270.0, dx, pymin - dymin),  # South
+    ]
+
+    for orientation, width, distance in boundaries:
+        if distance < tol:
+            return orientation, width, x, y
+
+    # Fallback: use center comparison
+    return (0.0 if pxmax > xc else 180.0), dy, x, y
+
+
+def _apply_inside_position(
+    orientation: float,
+    x: float,
+    y: float,
+    pxmin: float,
+    pymin: float,
+    pxmax: float,
+    pymax: float,
+    inside: bool,
+    use_opposite_side: bool = False,
+) -> tuple[float, float]:
+    """Adjust port position for inside or opposite-side placement."""
+    if not inside:
+        return x, y
+
+    # Map to: (modifies_x_axis, default_value, opposite_value)
+    port_mapping = {
+        0.0: (True, pxmax, pxmin),  # East adjusts X
+        180.0: (True, pxmin, pxmax),  # West adjusts X
+        90.0: (False, pymax, pymin),  # North adjusts Y
+        270.0: (False, pymin, pymax),  # South adjusts Y
+    }
+
+    # Fallback for non-Manhattan orientation
+    if orientation not in port_mapping:
+        return x, y
+
+    modifies_x, default_val, opp_val = port_mapping[orientation]
+    new_val = opp_val if use_opposite_side else default_val
+    return (new_val, y) if modifies_x else (x, new_val)
+
+
+def _snap_port_width(width: float, pin_extra_width: float) -> float:
+    """Calculate and snap port width to the nearest 2 nm (0.002 µm).
+
+    Args:
+        width: raw port width.
+        pin_extra_width: extra width offset to subtract.
+    """
+    return float(np.round((width - pin_extra_width) / 0.002) * 0.002)
+
+
+def _auto_detect_port_layer(
+    component: Component,
+    x: float,
+    y: float,
+    width: float,
+    dbu: float,
+    default_layer_idx: int,
+    pin_layer: int,
+) -> int:
+    """Detect the actual port layer from adjacent component geometry.
+
+    When the specified port_layer has no geometry at the port position,
+    find the layer with a matching-width edge at the port position.
+
+    Args:
+        component: the component to search.
+        x: port center x in um.
+        y: port center y in um.
+        width: port width in um.
+        dbu: database unit.
+        default_layer_idx: default layer index to return.
+        pin_layer: pin layer index to exclude from search.
+
+    Returns:
+        The detected layer index, or default_layer_idx if no match found.
+    """
+    _tol = 0.001
+    _marker_box = gf.kdb.DBox(x - _tol, y - _tol, x + _tol, y + _tol)
+    _marker_region = gf.kdb.Region(gf.kdb.DPolygon(_marker_box).to_itype(dbu))
+
+    _layer_indexes = list(component.kcl.layer_indexes())
+
+    # Check if default layer already has geometry at this position
+    if default_layer_idx in _layer_indexes:
+        _region = gf.kdb.Region(component.begin_shapes_rec(default_layer_idx))
+        if not _region.edges().interacting(_marker_region).is_empty():
+            return default_layer_idx
+
+    # Search other layers for a matching-width edge
+    _best_idx = None
+    _best_area = float("inf")
+    for _li in _layer_indexes:
+        if _li in (default_layer_idx, pin_layer):
+            continue
+        _region = gf.kdb.Region(component.begin_shapes_rec(_li))
+        _edges = _region.edges().interacting(_marker_region)
+        if _edges.is_empty():
+            continue
+        _width_match = any(
+            np.isclose(e.length() * dbu, width, atol=0.1) for e in _edges.each()
+        )
+        if not _width_match:
+            continue
+        # Prefer the layer with the smallest polygon at port position
+        _polys = _region.interacting(_marker_region)
+        for _p in _polys.each():
+            _area = abs(_p.area()) * dbu * dbu
+            if _area < _best_area:
+                _best_area = _area
+                _best_idx = _li
+            break
+
+    return _best_idx if _best_idx is not None else default_layer_idx
+
+
+def _register_ports(
+    component: Component,
+    ports: list[Port],
+    auto_rename_ports: bool,
+    allow_none_names: bool = False,
+) -> Component:
+    """Sort, deduplicate, and add ports to a component.
+
+    Args:
+        component: target component.
+        ports: list of ports to add.
+        auto_rename_ports: if True, auto-rename ports after adding.
+        allow_none_names: if True, skip ports with None names instead of raising.
+    """
+    ports = sort_ports_clockwise(ports)
+
+    for port in ports:
+        _port_name = port.name
+        if allow_none_names and _port_name is None:
+            continue
+        if (
+            _port_name is not None and _port_name in component.ports
+        ) or port in component.ports:
+            component_ports = [p.name for p in component.ports]
+            raise ValueError(
+                f"port {_port_name!r} already in {component_ports}. "
+                "You can pass a port_name_prefix to add it with a different name."
+            )
+        component.add_port(name=_port_name, port=port)
+
+    if auto_rename_ports:
+        component.auto_rename_ports()
+    return component
+
+
 def add_ports_from_markers_square(
     component: Component,
     pin_layer: LayerSpec = "DEVREC",
@@ -184,13 +408,7 @@ def add_ports_from_markers_center(
         port_name = f"{port_name_prefix}{i + 1}" if port_name_prefix else str(i)
         bbox = p.bbox()
         pxmin, pymin, pxmax, pymax = map(
-            float,
-            (
-                (bbox.left),
-                (bbox.bottom),
-                (bbox.right),
-                (bbox.top),
-            ),
+            float, (bbox.left, bbox.bottom, bbox.right, bbox.top)
         )
 
         x = (pxmax + pxmin) / 2
@@ -199,152 +417,75 @@ def add_ports_from_markers_center(
         dx = abs(pxmax - pxmin)
         dx *= dbu
         dy *= dbu
-        x = x * dbu
-        y = y * dbu
+        x *= dbu
+        y *= dbu
         pxmax *= dbu
         pymax *= dbu
         pxmin *= dbu
         pymin *= dbu
 
-        if min_pin_area_um2 and dx * dy < min_pin_area_um2:
-            if debug:
-                print(f"skipping port at ({dx}, {dy}) with min_pin_area_um2 {dx * dy}")
+        if _should_skip_marker(
+            dx, dy, min_pin_area_um2, max_pin_area_um2, skip_square_ports, debug
+        ):
             continue
 
-        if max_pin_area_um2 and dx * dy > max_pin_area_um2:
-            continue
-
-        if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
-            if debug:
-                print(f"skipping square port at ({dx}, {dy})")
-            continue
-
-        orientation = -1
-
-        # rectangular ports orientation is easier to detect
-        if dy < dx if ports_on_short_side else dx < dy:
-            width = dy
-            if x > xc:  # east
-                orientation = 0
-                x = pxmax if inside else x
-            else:
-                orientation = 180
-                x = pxmin if inside else x
-        elif dy > dx if ports_on_short_side else dx > dy:
-            width = dx
-            if y > yc:  # north
-                orientation = 90
-                y = pymax if inside else y
-            else:
-                orientation = 270
-                y = pymin if inside else y
-
-        elif pxmax > dxmax - tol:  # east
-            orientation = 0
-            width = dy
-            x = pxmax if inside else x
-        elif pxmin < dxmin + tol:  # west
-            orientation = 180
-            width = dy
-            x = pxmin if inside else x
-        elif pymax > dymax - tol:  # north
-            orientation = 90
-            width = dx
-            y = pymax if inside else y
-        elif pymin < dymin + tol:  # south
-            orientation = 270
-            width = dx
-            y = pymin if inside else y
-
-        elif pxmax > xc:
-            orientation = 0
-            width = dy
-            x = pxmax if inside else x
-
-        else:
-            orientation = 180
-            width = dy
-            x = pxmin if inside else x
-
-        if orientation == -1:
-            raise ValueError(f"Unable to detect port at ({dx}, {dy})")
-
-        width = width - pin_extra_width
-
-        # Snap to the nearest 2 nm (0.002 µm)
-        width = np.round((width - pin_extra_width) / 0.002) * 0.002
+        orientation, width, x, y = _infer_port_direction(
+            x,
+            y,
+            dx,
+            dy,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            xc,
+            yc,
+            dxmin,
+            dymin,
+            dxmax,
+            dymax,
+            tol,
+            ports_on_short_side,
+        )
+        x, y = _apply_inside_position(
+            orientation,
+            x,
+            y,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            inside,
+        )
+        # Note: pin_extra_width is subtracted twice, matching original behavior.
+        width = _snap_port_width(width - pin_extra_width, pin_extra_width)
 
         _port_layer_idx = get_layer(layer)
-
         if auto_detect_port_layer:
-            # Detect actual port layer from adjacent component geometry.
-            # The specified port_layer may not have geometry at the port position
-            # find the layer that has a matching-width edge at the port position.
-            _tol = 0.001
-            _marker_box = gf.kdb.DBox(x - _tol, y - _tol, x + _tol, y + _tol)
-            _marker_region = gf.kdb.Region(gf.kdb.DPolygon(_marker_box).to_itype(dbu))
-            _has_edge = False
-            _layer_indexes = list(component.kcl.layer_indexes())
-            if _port_layer_idx in _layer_indexes:
-                _region = gf.kdb.Region(component.begin_shapes_rec(_port_layer_idx))
-                if not _region.edges().interacting(_marker_region).is_empty():
-                    _has_edge = True
-            if not _has_edge:
-                _best_idx = None
-                _best_area = float("inf")
-                for _li in _layer_indexes:
-                    if _li in (_port_layer_idx, pin_layer):
-                        continue
-                    _region = gf.kdb.Region(component.begin_shapes_rec(_li))
-                    _edges = _region.edges().interacting(_marker_region)
-                    if _edges.is_empty():
-                        continue
-                    _width_match = any(
-                        np.isclose(e.length() * dbu, width, atol=0.1)
-                        for e in _edges.each()
-                    )
-                    if not _width_match:
-                        continue
-                    # Prefer the layer with the smallest polygon at port
-                    # position (waveguide shapes are small, DEVREC/bounding
-                    # boxes are large)
-                    _polys = _region.interacting(_marker_region)
-                    for _p in _polys.each():
-                        _area = abs(_p.area()) * dbu * dbu
-                        if _area < _best_area:
-                            _best_area = _area
-                            _best_idx = _li
-                        break
-                if _best_idx is not None:
-                    _port_layer_idx = _best_idx
+            _port_layer_idx = _auto_detect_port_layer(
+                component,
+                x,
+                y,
+                width,
+                dbu,
+                _port_layer_idx,
+                pin_layer,
+            )
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
-            port = Port(
-                name=port_name,
-                center=(x, y),
-                width=width,
-                orientation=orientation,
-                layer=_port_layer_idx,
-                port_type=port_type,
-            )
-            ports.append(port)
-
-    ports = sort_ports_clockwise(ports)
-
-    for port in ports:
-        _port_name_or_none = port.name
-        if port in component.ports:
-            component_ports = [p.name for p in component.ports]
-            raise ValueError(
-                f"port {_port_name_or_none!r} already in {component_ports}. "
-                "You can pass a port_name_prefix to add it with a different name."
+            ports.append(
+                Port(
+                    name=port_name,
+                    center=(x, y),
+                    width=width,
+                    orientation=orientation,
+                    layer=_port_layer_idx,
+                    port_type=port_type,
+                )
             )
 
-        component.add_port(name=_port_name_or_none, port=port)
-    if auto_rename_ports:
-        component.auto_rename_ports()
-    return component
+    return _register_ports(component, ports, auto_rename_ports)
 
 
 def add_ports_from_boxes(
@@ -454,143 +595,56 @@ def add_ports_from_boxes(
         dy = abs(pymax - pymin)
         dx = abs(pxmax - pxmin)
 
-        if min_pin_area_um2 and dx * dy < min_pin_area_um2:
-            if debug:
-                print(f"skipping port at ({dx}, {dy}) with min_pin_area_um2 {dx * dy}")
+        if _should_skip_marker(
+            dx, dy, min_pin_area_um2, max_pin_area_um2, skip_square_ports, debug
+        ):
             continue
 
-        if max_pin_area_um2 and dx * dy > max_pin_area_um2:
-            continue
-
-        if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
-            if debug:
-                print(f"skipping square port at ({dx}, {dy})")
-            continue
-
-        orientation = -1
-
-        # rectangular ports orientation is easier to detect
-        if dy < dx if ports_on_short_side else dx < dy:
-            width = dy
-            if x > xc:  # east
-                orientation = 0
-                if inside:
-                    if use_opposite_side:
-                        x = pxmin
-                    else:
-                        x = pxmax
-            else:
-                orientation = 180
-                if inside:
-                    if use_opposite_side:
-                        x = pxmax
-                    else:
-                        x = pxmin
-        elif dy > dx if ports_on_short_side else dx > dy:
-            width = dx
-            if y > yc:  # north
-                orientation = 90
-                if inside:
-                    if use_opposite_side:
-                        y = pymin
-                    else:
-                        y = pymax
-            else:
-                orientation = 270
-                if inside:
-                    if use_opposite_side:
-                        y = pymax
-                    else:
-                        y = pymin
-
-        elif pxmax > dxmax - tol:  # east
-            orientation = 0
-            width = dy
-            if inside:
-                if use_opposite_side:
-                    x = pxmin
-                else:
-                    x = pxmax
-        elif pxmin < dxmin + tol:  # west
-            orientation = 180
-            width = dy
-            if inside:
-                if use_opposite_side:
-                    x = pxmax
-                else:
-                    x = pxmin
-        elif pymax > dymax - tol:  # north
-            orientation = 90
-            width = dx
-            if inside:
-                if use_opposite_side:
-                    y = pymin
-                else:
-                    y = pymax
-        elif pymin < dymin + tol:  # south
-            orientation = 270
-            width = dx
-            if inside:
-                if use_opposite_side:
-                    y = pymax
-                else:
-                    y = pymin
-
-        elif pxmax > xc:
-            orientation = 0
-            width = dy
-            if inside:
-                if use_opposite_side:
-                    x = pxmin
-                else:
-                    x = pxmax
-
-        else:
-            orientation = 180
-            width = dy
-            if inside:
-                if use_opposite_side:
-                    x = pxmax
-                else:
-                    x = pxmin
-
-        if orientation == -1:
-            raise ValueError(
-                f"Unable to detect port at ({dx=}, {dy=}, {x=}, {y=}, {xc=}, {yc=}"
-            )
-
-        # Snap to the nearest 2 nm (0.002 µm)
-        width = np.round((width - pin_extra_width) / 0.002) * 0.002
+        orientation, width, x, y = _infer_port_direction(
+            x,
+            y,
+            dx,
+            dy,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            xc,
+            yc,
+            dxmin,
+            dymin,
+            dxmax,
+            dymax,
+            tol,
+            ports_on_short_side,
+        )
+        x, y = _apply_inside_position(
+            orientation,
+            x,
+            y,
+            pxmin,
+            pymin,
+            pxmax,
+            pymax,
+            inside,
+            use_opposite_side,
+        )
+        width = _snap_port_width(width, pin_extra_width)
 
         if (x, y) not in port_locations:
             port_locations.append((x, y))
-            port = Port(
-                name=port_name,
-                center=(x, y),
-                width=width,
-                orientation=orientation,
-                layer=layer,
-                port_type=port_type,
-            )
-            ports.append(port)
-
-    ports = sort_ports_clockwise(ports)
-
-    for port in ports:
-        _port_name_or_none = port.name
-        if _port_name_or_none is None:
-            continue
-        if _port_name_or_none in component.ports:
-            component_ports = [p.name for p in component.ports]
-            raise ValueError(
-                f"port {_port_name_or_none!r} already in {component_ports}. "
-                "You can pass a port_name_prefix to add it with a different name."
+            ports.append(
+                Port(
+                    name=port_name,
+                    center=(x, y),
+                    width=width,
+                    orientation=orientation,
+                    layer=layer,
+                    port_type=port_type,
+                )
             )
 
-        component.add_port(name=_port_name_or_none, port=port)
-    if auto_rename_ports:
-        component.auto_rename_ports()
-    return component
+    return _register_ports(component, ports, auto_rename_ports, allow_none_names=True)
 
 
 add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=True)

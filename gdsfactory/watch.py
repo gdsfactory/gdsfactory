@@ -1,4 +1,11 @@
-"""FileWatcher based on watchdog. Looks for changes in files with .pic.yml extension."""
+"""FileWatcher based on watchdog. Looks for changes in files with .pic.yml extension.
+
+Security Warning:
+    This module uses exec() to dynamically execute Python files found in watched
+    directories. Only watch directories that contain trusted code. Files executed
+    via the watcher run with the full privileges of the Python interpreter. Consider
+    using the ``allowed_dirs`` parameter to restrict execution to known-safe directories.
+"""
 
 from __future__ import annotations
 
@@ -48,6 +55,7 @@ class FileWatcher(FileSystemEventHandler):
         run_main: bool = False,
         run_cells: bool = True,
         logger: logging.Logger | None = None,
+        allowed_dirs: list[PathType] | None = None,
     ) -> None:
         """Initialize the YAML event handler.
 
@@ -56,12 +64,23 @@ class FileWatcher(FileSystemEventHandler):
             run_main: if True, will execute the main function of the file.
             run_cells: if True, will execute the cells of the file.
             logger: the logger to use.
+            allowed_dirs: optional list of trusted directories. If provided, only
+                files within these directories will be executed. Paths are resolved
+                to absolute form for comparison.
+
+        Security Warning:
+            This watcher uses ``exec()`` to run Python files. Only watch directories
+            containing trusted code. Use ``allowed_dirs`` to restrict execution to
+            specific trusted directories.
         """
         super().__init__()
 
         self.logger = logger or logging.root
         self.run_cells = run_cells
         self.run_main = run_main
+        self.allowed_dirs: list[pathlib.Path] | None = (
+            [pathlib.Path(d).resolve() for d in allowed_dirs] if allowed_dirs else None
+        )
 
         pdk = get_active_pdk()
         pdk.register_cells_yaml(dirpath=path, update=True)
@@ -163,7 +182,35 @@ class FileWatcher(FileSystemEventHandler):
         else:
             print(f"Ignored {what}: {src_path}")
 
+    def _is_allowed_path(self, filepath: pathlib.Path) -> bool:
+        """Check if a file path is within the allowed directories.
+
+        Args:
+            filepath: the resolved path to check.
+
+        Returns:
+            True if allowed_dirs is not set, or if the file is within an allowed directory.
+        """
+        if self.allowed_dirs is None:
+            return True
+        resolved = filepath.resolve()
+        return any(resolved == d or d in resolved.parents for d in self.allowed_dirs)
+
     def get_component(self, filepath: PathType) -> Component | None:
+        """Parse a file and return the component, writing GDS output.
+
+        Security Warning:
+            Python files (``.py``) are executed via ``exec()`` with full interpreter
+            privileges. Only run this on files you trust. Use the ``allowed_dirs``
+            parameter on :class:`FileWatcher` to restrict which directories are
+            eligible for execution.
+
+        Args:
+            filepath: path to a ``.py`` or ``.pic.yml`` file.
+
+        Returns:
+            The component parsed from the file, or None.
+        """
         import pygit2
 
         from gdsfactory.get_factories import get_cells_from_dict
@@ -188,12 +235,29 @@ class FileWatcher(FileSystemEventHandler):
                 if str(filepath).endswith(".pic.yml"):
                     return self.get_component_yaml(filepath, dirpath)
                 if str(filepath).endswith(".py"):
+                    # Check allowed directories
+                    if not self._is_allowed_path(filepath):
+                        self.logger.error(
+                            "Rejected file %s: not in allowed directories",
+                            filepath,
+                        )
+                        return None
+
+                    self.logger.warning("Executing Python file: %s", filepath.resolve())
+
                     context = dict(locals(), **globals())
                     if self.run_main:
                         context.update(__name__="__main__")
 
                     # Read the content of the file and execute it within the updated context
-                    exec(filepath.read_text(), context, context)
+                    try:
+                        exec(filepath.read_text(), context, context)
+                    except SyntaxError:
+                        self.logger.exception("Syntax error in %s", filepath)
+                        return None
+                    except Exception:
+                        self.logger.exception("Error executing %s", filepath)
+                        return None
 
                     if self.run_cells:
                         cells = get_cells_from_dict(context)
@@ -233,6 +297,7 @@ def watch(
     pre_run: bool = False,
     logger: logging.Logger | None = None,
     run_embed: bool = True,
+    allowed_dirs: list[PathType] | None = None,
 ) -> None:
     """Starts the file watcher.
 
@@ -244,6 +309,13 @@ def watch(
         pre_run: build all cells on startup
         logger: the logger to use.
         run_embed: if True, will run the embed function.
+        allowed_dirs: optional list of trusted directories. When provided, only
+            Python files residing inside these directories will be executed.
+
+    Security Warning:
+        The watcher uses ``exec()`` to run Python files with full interpreter
+        privileges. Only watch directories that contain trusted code. Use
+        ``allowed_dirs`` to restrict which directories are eligible for execution.
     """
     path = str(path)
     logger = logger or logging.root
@@ -261,7 +333,11 @@ def watch(
 
     print(f"Watching {path=}, {pdk_name=} {run_main=}, {run_cells=}, {pre_run=}")
     watcher = FileWatcher(
-        path=path, run_main=run_main, run_cells=run_cells, logger=logger
+        path=path,
+        run_main=run_main,
+        run_cells=run_cells,
+        logger=logger,
+        allowed_dirs=allowed_dirs,
     )
     watcher.start()
     if pre_run:
