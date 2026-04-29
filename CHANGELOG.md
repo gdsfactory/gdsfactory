@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.41.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.41.0) - 2026-04-29
+
+No significant changes.
+
+
 ## [9.40.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.40.2) - 2026-04-17
 
 - Refactor some tests to use hypothesis for property-based testing [#4494](https://github.com/gdsfactory/gdsfactory/pull/4494)
