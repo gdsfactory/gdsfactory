@@ -87,22 +87,20 @@ def taper(
         )
         c.add_polygon(p1, layer=layer)
 
-        s0_width = x.sections[0].width
-
-        for section in x.sections[1:]:
-            delta_width = section.width - s0_width
-            y1 = (width1 + delta_width) / 2
-            y2 = (width2 + delta_width) / 2
-            offset = section.offset
+        for s1, s2 in zip(x1.sections[1:], x2.sections[1:], strict=False):
+            y1 = s1.width / 2
+            y2 = s2.width / 2
+            offset1 = s1.offset
+            offset2 = s2.offset
             p1 = gf.kdb.DPolygon(
                 [
-                    gf.kdb.DPoint(0, offset + y1),
-                    gf.kdb.DPoint(length, offset + y2),
-                    gf.kdb.DPoint(length, offset - y2),
-                    gf.kdb.DPoint(0, offset - y1),
+                    gf.kdb.DPoint(0, offset1 + y1),
+                    gf.kdb.DPoint(length, offset2 + y2),
+                    gf.kdb.DPoint(length, offset2 - y2),
+                    gf.kdb.DPoint(0, offset1 - y1),
                 ]
             )
-            c.add_polygon(p1, layer=section.layer)
+            c.add_polygon(p1, layer=s1.layer)
 
     if with_bbox:
         x.add_bbox(c)
