@@ -1,5 +1,5 @@
 info: {}
-name: die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_96550820
+name: die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_8923d116
 settings:
   bbox_layer: FLOORPLAN
   die_name: chip99
@@ -11,5 +11,6 @@ settings:
   street_length: 1000
   street_width: 100
   text: text
+  text_layer: WG
   text_location: SW
   text_size: 100
