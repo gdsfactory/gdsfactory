@@ -137,6 +137,7 @@ def test_pdk_dbu_change_after_cells_raises(restore_kcl_state: None) -> None:
     with pytest.raises(ValueError, match=r"cell\(s\) already exist"):
         pdk.activate(force=True)
 
+
 def test_pdk_same_dbu_with_existing_cells_allowed(restore_kcl_state: None) -> None:
     gf.components.straight()
     assert len(gf.kcl.kcells) > 0
