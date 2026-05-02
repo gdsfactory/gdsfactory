@@ -1,43 +1,4 @@
-instances:
-  array_gdsfactorypcomponentspcontainersparray_component__83c06869_19500_19500:
-    component: array
-    info: {}
-    settings:
-      add_ports: true
-      auto_rename_ports: false
-      centered: false
-      column_pitch: 20
-      columns: 4
-      component: rectangle_gdsfactorypcomponentspshapesprectangle_S1_1_L_87bf09b9
-      post_process: null
-      row_pitch: 20
-      rows: 9
-      size: null
-  rectangle_gdsfactorypcomponentspshapesprectangle_S100_2_1f6c5d69_0_0:
-    component: rectangle
-    info: {}
-    settings:
-      centered: false
-      layer: WG
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: null
-      size:
-      - 100
-      - 200
+instances: {}
 nets: []
-placements:
-  array_gdsfactorypcomponentspcontainersparray_component__83c06869_19500_19500:
-    mirror: false
-    rotation: 0
-    x: 19.5
-    y: 19.5
-  rectangle_gdsfactorypcomponentspshapesprectangle_S100_2_1f6c5d69_0_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
+placements: {}
 ports: {}
