@@ -59,7 +59,7 @@ def rectangle_with_slits(
                         size[0]
     """
     c = Component()
-    layer = gf.get_layer(layer)
+    layer_tuple = gf.get_layer_tuple(layer)
 
     rectangle = gf.c.rectangle(
         size=size, layer=layer, port_type=port_type, centered=centered
@@ -70,7 +70,7 @@ def rectangle_with_slits(
     rows = int(np.floor((size[1] - 2 * slit_enclosure) / slit_row_pitch))
 
     if layer_slit is None:
-        layer2 = (layer[0], layer[1] + 1)
+        layer2 = (layer_tuple[0], layer_tuple[1] + 1)
         slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer2)
         slits = gf.c.array(
             slit,
@@ -94,7 +94,7 @@ def rectangle_with_slits(
 
     else:
         slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer_slit)
-        slits = c << gf.c.array(
+        slits_ref = c << gf.c.array(
             slit,
             columns=columns,
             rows=rows,
@@ -102,5 +102,5 @@ def rectangle_with_slits(
             row_pitch=slit_row_pitch,
             centered=centered,
         )
-        slits.center = r.center
+        slits_ref.center = r.center
     return c
