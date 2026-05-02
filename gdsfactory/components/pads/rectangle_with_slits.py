@@ -13,7 +13,7 @@ from gdsfactory.typings import LayerSpec, Size
 def rectangle_with_slits(
     size: Size = (100.0, 200.0),
     layer: LayerSpec = "WG",
-    layer_slit: LayerSpec = "SLAB150",
+    layer_slit: LayerSpec | None = None,
     centered: bool = False,
     port_type: str | None = None,
     slit_size: Size = (1.0, 1.0),
@@ -59,21 +59,48 @@ def rectangle_with_slits(
                         size[0]
     """
     c = Component()
-    layer = gf.get_layer(layer)
+    layer_tuple = gf.get_layer_tuple(layer)
 
-    r = c << gf.c.rectangle(
+    rectangle = gf.c.rectangle(
         size=size, layer=layer, port_type=port_type, centered=centered
     )
+    r = c << rectangle
     c.add_ports(r.ports)
-    slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer_slit or layer)
-    columns = np.floor((size[0] - 2 * slit_enclosure) / slit_column_pitch)
-    rows = np.floor((size[1] - 2 * slit_enclosure) / slit_row_pitch)
-    slits = c << gf.c.array(
-        slit,
-        columns=columns,
-        rows=rows,
-        column_pitch=slit_column_pitch,
-        row_pitch=slit_row_pitch,
-    )
-    slits.center = r.center
+    columns = int(np.floor((size[0] - 2 * slit_enclosure) / slit_column_pitch))
+    rows = int(np.floor((size[1] - 2 * slit_enclosure) / slit_row_pitch))
+
+    if layer_slit is None:
+        layer2 = (layer_tuple[0], layer_tuple[1] + 1)
+        slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer2)
+        slits = gf.c.array(
+            slit,
+            columns=columns,
+            rows=rows,
+            column_pitch=slit_column_pitch,
+            row_pitch=slit_row_pitch,
+            centered=centered,
+        )
+        slits_ref = c << slits
+        slits_ref.center = r.center
+        c = gf.boolean(
+            rectangle,
+            slits_ref,
+            operation="not",
+            layer1=layer,
+            layer2=layer2,
+            layer=layer,
+        )
+        c.add_ports(rectangle.ports)
+
+    else:
+        slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer_slit)
+        slits_ref = c << gf.c.array(
+            slit,
+            columns=columns,
+            rows=rows,
+            column_pitch=slit_column_pitch,
+            row_pitch=slit_row_pitch,
+            centered=centered,
+        )
+        slits_ref.center = r.center
     return c
