@@ -1,53 +1,5 @@
 instances:
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_06916fad_10000000_60000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '41'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_0a1f8550_0_30000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '19'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_1397f308_0_50000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '34'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_229e5a8e_m30000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_0cf54b9f_m30000000_40000000:
     component: die
     info: {}
     settings:
@@ -61,89 +13,10 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2386961a_m20000000_20000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '10'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_28c0d74f_10000000_40000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '28'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2ccb9c0b_0_60000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '40'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_33ec6cc8_m20000000_30000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '17'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_34c0b4cf_m30000000_30000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '16'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_36d65b04_30000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_106f6999_30000000_30000000:
     component: die
     info: {}
     settings:
@@ -157,377 +30,10 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_38b3da58_20000000_20000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '14'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_42570cb2_m30000000_60000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '37'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_44225785_0_40000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '27'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_58572038_m10000000_20000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '11'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5cc77141_m10000000_50000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '33'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_61d12e5a_20000000_10000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '8'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6d349c38_m30000000_10000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '3'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6ff3ecb8_m20000000_50000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '32'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_71490482_20000000_30000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '21'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7c953756_m10000000_10000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '5'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7cc689e7_m10000000_40000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '26'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7ea13611_m20000000_10000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '4'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7f560616_30000000_40000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '30'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_86fb5f36_10000000_20000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '13'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_8d1a5985_m30000000_20000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '9'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_94e1cf7b_m10000000_60000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '39'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_95a87010_0_0:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '2'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9cd91486_20000000_60000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '42'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9fe31bef_m10000000_0:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '1'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a036bede_10000000_30000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '20'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a501a613_m30000000_50000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '31'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a64cb6e5_20000000_40000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '29'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ab27e161_m20000000_40000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '25'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ad91d358_0_70000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_11dbe92c_0_70000000:
     component: die
     info: {}
     settings:
@@ -541,14 +47,15 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_bf1c632c_20000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_15e2ec87_m10000000_20000000:
     component: die
     info: {}
     settings:
       bbox_layer: FLOORPLAN
-      die_name: '36'
+      die_name: '11'
       draw_corners: false
       layer: FLOORPLAN
       size:
@@ -557,9 +64,44 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c4981899_0_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_1c001243_m10000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '39'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_22f8d57e_m10000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '33'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2940af6f_0_10000000:
     component: die
     info: {}
     settings:
@@ -573,9 +115,27 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c7783a57_0_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2f039a91_20000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '8'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_386e5f89_0_20000000:
     component: die
     info: {}
     settings:
@@ -589,14 +149,15 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_cb4330c5_10000000_50000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_39095f50_m30000000_10000000:
     component: die
     info: {}
     settings:
       bbox_layer: FLOORPLAN
-      die_name: '35'
+      die_name: '3'
       draw_corners: false
       layer: FLOORPLAN
       size:
@@ -605,14 +166,15 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_d3c5f59a_10000000_10000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_3a59d7be_m10000000_10000000:
     component: die
     info: {}
     settings:
       bbox_layer: FLOORPLAN
-      die_name: '7'
+      die_name: '5'
       draw_corners: false
       layer: FLOORPLAN
       size:
@@ -621,14 +183,15 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e72add41_m40000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5429d601_0_40000000:
     component: die
     info: {}
     settings:
       bbox_layer: FLOORPLAN
-      die_name: '15'
+      die_name: '27'
       draw_corners: false
       layer: FLOORPLAN
       size:
@@ -637,14 +200,15 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e80e6ef4_m40000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_546ca18f_30000000_40000000:
     component: die
     info: {}
     settings:
       bbox_layer: FLOORPLAN
-      die_name: '23'
+      die_name: '30'
       draw_corners: false
       layer: FLOORPLAN
       size:
@@ -653,25 +217,10 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f6c85b5a_m20000000_60000000:
-    component: die
-    info: {}
-    settings:
-      bbox_layer: FLOORPLAN
-      die_name: '38'
-      draw_corners: false
-      layer: FLOORPLAN
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text: text
-      text_location: SW
-      text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fb158ce1_m10000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5e52cc64_m10000000_30000000:
     component: die
     info: {}
     settings:
@@ -685,9 +234,27 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fe1da1df_m10000000_70000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_60de95b1_0_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '40'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_62d0e6dc_m10000000_70000000:
     component: die
     info: {}
     settings:
@@ -701,228 +268,705 @@ instances:
       street_length: 1000
       street_width: 100
       text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_63d0d316_20000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '29'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_693e9e41_20000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '36'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6b495545_m30000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '16'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6cea4a8e_10000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '28'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_70e6743b_m20000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '25'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_72102e9c_m20000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '10'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_752ebacf_m40000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '15'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7879bffa_m20000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '32'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_988a0c07_10000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '13'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9e1d55ac_m40000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '23'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a4a10205_0_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '34'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a97b8684_m30000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '9'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_aa7af830_0_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '19'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b1827954_m20000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '17'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b1dc729d_10000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '41'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b37de06b_20000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '21'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b9987078_m20000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '38'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_bf8a412a_10000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '35'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c0b47aad_m10000000_40000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '26'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c304b743_10000000_30000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '20'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c4968a1e_20000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '42'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c5fc72fa_0_0:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '2'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_d7123d1f_m30000000_50000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '31'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_eae4051a_m20000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '4'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ecfaf4c3_10000000_10000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '7'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f4700ab2_20000000_20000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '14'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f4c80554_m10000000_0:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '1'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
+      text_location: SW
+      text_size: 100
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f54f85a6_m30000000_60000000:
+    component: die
+    info: {}
+    settings:
+      bbox_layer: FLOORPLAN
+      die_name: '37'
+      draw_corners: false
+      layer: FLOORPLAN
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text: text
+      text_layer: WG
       text_location: SW
       text_size: 100
 nets: []
 placements:
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_06916fad_10000000_60000000:
-    mirror: false
-    rotation: 0
-    x: 10000
-    y: 60000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_0a1f8550_0_30000000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_1397f308_0_50000000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 50000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_229e5a8e_m30000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_0cf54b9f_m30000000_40000000:
     mirror: false
     rotation: 0
     x: -30000
     y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2386961a_m20000000_20000000:
-    mirror: false
-    rotation: 0
-    x: -20000
-    y: 20000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_28c0d74f_10000000_40000000:
-    mirror: false
-    rotation: 0
-    x: 10000
-    y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2ccb9c0b_0_60000000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 60000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_33ec6cc8_m20000000_30000000:
-    mirror: false
-    rotation: 0
-    x: -20000
-    y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_34c0b4cf_m30000000_30000000:
-    mirror: false
-    rotation: 0
-    x: -30000
-    y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_36d65b04_30000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_106f6999_30000000_30000000:
     mirror: false
     rotation: 0
     x: 30000
     y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_38b3da58_20000000_20000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_11dbe92c_0_70000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 70000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_15e2ec87_m10000000_20000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 20000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_1c001243_m10000000_60000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 60000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_22f8d57e_m10000000_50000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 50000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2940af6f_0_10000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 10000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2f039a91_20000000_10000000:
     mirror: false
     rotation: 0
     x: 20000
+    y: 10000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_386e5f89_0_20000000:
+    mirror: false
+    rotation: 0
+    x: 0
     y: 20000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_42570cb2_m30000000_60000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_39095f50_m30000000_10000000:
     mirror: false
     rotation: 0
     x: -30000
-    y: 60000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_44225785_0_40000000:
+    y: 10000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_3a59d7be_m10000000_10000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 10000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5429d601_0_40000000:
     mirror: false
     rotation: 0
     x: 0
     y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_58572038_m10000000_20000000:
-    mirror: false
-    rotation: 0
-    x: -10000
-    y: 20000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5cc77141_m10000000_50000000:
-    mirror: false
-    rotation: 0
-    x: -10000
-    y: 50000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_61d12e5a_20000000_10000000:
-    mirror: false
-    rotation: 0
-    x: 20000
-    y: 10000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6d349c38_m30000000_10000000:
-    mirror: false
-    rotation: 0
-    x: -30000
-    y: 10000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6ff3ecb8_m20000000_50000000:
-    mirror: false
-    rotation: 0
-    x: -20000
-    y: 50000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_71490482_20000000_30000000:
-    mirror: false
-    rotation: 0
-    x: 20000
-    y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7c953756_m10000000_10000000:
-    mirror: false
-    rotation: 0
-    x: -10000
-    y: 10000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7cc689e7_m10000000_40000000:
-    mirror: false
-    rotation: 0
-    x: -10000
-    y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7ea13611_m20000000_10000000:
-    mirror: false
-    rotation: 0
-    x: -20000
-    y: 10000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7f560616_30000000_40000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_546ca18f_30000000_40000000:
     mirror: false
     rotation: 0
     x: 30000
     y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_86fb5f36_10000000_20000000:
-    mirror: false
-    rotation: 0
-    x: 10000
-    y: 20000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_8d1a5985_m30000000_20000000:
-    mirror: false
-    rotation: 0
-    x: -30000
-    y: 20000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_94e1cf7b_m10000000_60000000:
-    mirror: false
-    rotation: 0
-    x: -10000
-    y: 60000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_95a87010_0_0:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9cd91486_20000000_60000000:
-    mirror: false
-    rotation: 0
-    x: 20000
-    y: 60000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9fe31bef_m10000000_0:
-    mirror: false
-    rotation: 0
-    x: -10000
-    y: 0
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a036bede_10000000_30000000:
-    mirror: false
-    rotation: 0
-    x: 10000
-    y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a501a613_m30000000_50000000:
-    mirror: false
-    rotation: 0
-    x: -30000
-    y: 50000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a64cb6e5_20000000_40000000:
-    mirror: false
-    rotation: 0
-    x: 20000
-    y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ab27e161_m20000000_40000000:
-    mirror: false
-    rotation: 0
-    x: -20000
-    y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ad91d358_0_70000000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 70000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_bf1c632c_20000000_50000000:
-    mirror: false
-    rotation: 0
-    x: 20000
-    y: 50000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c4981899_0_10000000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 10000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c7783a57_0_20000000:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 20000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_cb4330c5_10000000_50000000:
-    mirror: false
-    rotation: 0
-    x: 10000
-    y: 50000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_d3c5f59a_10000000_10000000:
-    mirror: false
-    rotation: 0
-    x: 10000
-    y: 10000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e72add41_m40000000_30000000:
-    mirror: false
-    rotation: 0
-    x: -40000
-    y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_e80e6ef4_m40000000_40000000:
-    mirror: false
-    rotation: 0
-    x: -40000
-    y: 40000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f6c85b5a_m20000000_60000000:
-    mirror: false
-    rotation: 0
-    x: -20000
-    y: 60000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fb158ce1_m10000000_30000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5e52cc64_m10000000_30000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 30000
-  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_fe1da1df_m10000000_70000000:
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_60de95b1_0_60000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 60000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_62d0e6dc_m10000000_70000000:
     mirror: false
     rotation: 0
     x: -10000
     y: 70000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_63d0d316_20000000_40000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 40000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_693e9e41_20000000_50000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 50000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6b495545_m30000000_30000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 30000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6cea4a8e_10000000_40000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 40000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_70e6743b_m20000000_40000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 40000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_72102e9c_m20000000_20000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 20000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_752ebacf_m40000000_30000000:
+    mirror: false
+    rotation: 0
+    x: -40000
+    y: 30000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7879bffa_m20000000_50000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 50000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_988a0c07_10000000_20000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 20000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9e1d55ac_m40000000_40000000:
+    mirror: false
+    rotation: 0
+    x: -40000
+    y: 40000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a4a10205_0_50000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 50000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a97b8684_m30000000_20000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 20000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_aa7af830_0_30000000:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 30000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b1827954_m20000000_30000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 30000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b1dc729d_10000000_60000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 60000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b37de06b_20000000_30000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 30000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b9987078_m20000000_60000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 60000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_bf8a412a_10000000_50000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 50000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c0b47aad_m10000000_40000000:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 40000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c304b743_10000000_30000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 30000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c4968a1e_20000000_60000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 60000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c5fc72fa_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_d7123d1f_m30000000_50000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 50000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_eae4051a_m20000000_10000000:
+    mirror: false
+    rotation: 0
+    x: -20000
+    y: 10000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ecfaf4c3_10000000_10000000:
+    mirror: false
+    rotation: 0
+    x: 10000
+    y: 10000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f4700ab2_20000000_20000000:
+    mirror: false
+    rotation: 0
+    x: 20000
+    y: 20000
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f4c80554_m10000000_0:
+    mirror: false
+    rotation: 0
+    x: -10000
+    y: 0
+  die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f54f85a6_m30000000_60000000:
+    mirror: false
+    rotation: 0
+    x: -30000
+    y: 60000
 ports: {}
