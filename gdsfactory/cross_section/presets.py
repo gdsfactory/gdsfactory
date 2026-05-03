@@ -85,11 +85,22 @@ def rib(
     radius: float = radius_rib,
     radius_min: float | None = 7,
     cladding_layers: typings.LayerSpecs = ("SLAB90",),
-    cladding_offsets: typings.Floats = (3,),
-    cladding_simplify: typings.Floats = (50 * nm,),
+    cladding_offsets: typings.Floats | None = (3,),
+    cladding_simplify: typings.Floats | None = (50 * nm,),
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Rib cross_section."""
+    """Return Rib cross_section.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        cladding_layers: list of cladding layers.
+        cladding_offsets: cladding offsets from main Section edge (um).
+        cladding_simplify: tolerance for simplification algorithm (um).
+        kwargs: cross_section settings.
+    """
     return cross_section(
         width=width,
         layer=layer,
@@ -108,11 +119,21 @@ def rib_bbox(
     layer: typings.LayerSpec = "WG",
     radius: float = radius_rib,
     radius_min: float | None = None,
-    bbox_layers: typings.LayerSpecs = ("SLAB90",),
-    bbox_offsets: typings.Floats = (3,),
+    bbox_layers: typings.LayerSpecs | None = ("SLAB90",),
+    bbox_offsets: typings.Floats | None = (3,),
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Rib cross_section."""
+    """Return Rib cross_section with bounding box layers.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        bbox_layers: list of bounding box layers.
+        bbox_offsets: bounding box offsets (um).
+        kwargs: cross_section settings.
+    """
     return cross_section(
         width=width,
         layer=layer,
@@ -134,7 +155,17 @@ def rib2(
     width_slab: float = 6,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Rib cross_section."""
+    """Return Rib cross_section with explicit slab section.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        layer_slab: slab layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        width_slab: slab width (um).
+        kwargs: cross_section settings.
+    """
     sections = (
         Section(width=width_slab, layer=layer_slab, name="slab", simplify=50 * nm),
     )
@@ -156,7 +187,15 @@ def nitride(
     radius_min: float | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Strip cross_section."""
+    """Return Nitride cross_section.
+
+    Args:
+        width: main Section width (um).
+        layer: main section layer.
+        radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
+        kwargs: cross_section settings.
+    """
     return cross_section(
         width=width,
         layer=layer,
@@ -479,7 +518,7 @@ def metal1(
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Metal Strip cross_section."""
+    """Return Metal 1 cross_section."""
     radius = radius or width
     return cross_section(
         width=width,
@@ -500,7 +539,7 @@ def metal2(
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Metal Strip cross_section."""
+    """Return Metal 2 cross_section."""
     radius = radius or width
     return cross_section(
         width=width,
@@ -521,7 +560,7 @@ def metal3(
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Metal Strip cross_section."""
+    """Return Metal 3 cross_section."""
     radius = radius or width
     return cross_section(
         width=width,
@@ -540,9 +579,8 @@ def gs(
     gap: float = 120,
     layer_port: typings.LayerSpec = "M3_ABSTRACT",
     radius: float | None = None,
-    **kwargs: Any,
 ) -> CrossSection:
-    """Return Ground-Signal-Ground cross_section.
+    """Return Ground-Signal cross_section.
 
     Args:
         trace_width: in um.
@@ -550,7 +588,6 @@ def gs(
         gap: between metal lines in um.
         layer_port: port layer.
         radius: bend radius. Optional, defaults to 2*width+gap.
-        kwargs: cross_section settings. (ignored)
     """
     width = trace_width
     sections = [
@@ -580,7 +617,6 @@ def gsg(
         trace_width: in um.
         layer: metal layer.
         gap: between metal lines in um.
-        layer_port: port layer.
         radius: bend radius. Optional, defaults to 3*width+2*gap.
     """
     width = trace_width
@@ -607,7 +643,7 @@ def metal_routing(
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Metal Strip cross_section."""
+    """Return Metal routing cross_section."""
     radius = radius or width
 
     return cross_section(
@@ -629,7 +665,7 @@ def heater_metal(
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return Metal Strip cross_section."""
+    """Return Heater metal cross_section."""
     radius = radius or width
     return cross_section(
         width=width,
