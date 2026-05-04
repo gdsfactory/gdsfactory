@@ -1,0 +1,51 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: gpdk
+author: gdsfactory
+# Force re-execution of notebooks on each build.
+# See https://jupyterbook.org/content/execute.html
+execute:
+  execute_notebooks: cache
+  timeout: -1
+  allow_errors: false
+  # execute_notebooks: force
+  # execute_notebooks: "off"
+  # exclude_patterns:
+  #   - '*notebooks/devsim/01_pin_waveguide*'
+latex:
+  latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
+  use_jupyterbook_latex: true # use sphinx-jupyterbook-latex for pdf builds as default
+# Add a bibtex file so that we can create citations
+html:
+  home_page_in_navbar: true
+  use_edit_page_button: true
+  use_repository_button: true
+  use_issues_button: true
+  baseurl: https://github.com/gdsfactory/gpdk
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/gdsfactory/gpdk
+  path_to_book: docs # Optional path to your book, relative to the repository root
+  branch: main # Which branch of the repository should be used when creating links (optional)
+launch_buttons:
+  notebook_interface: jupyterlab
+  colab_url: "https://colab.research.google.com"
+sphinx:
+  extra_extensions:
+    - "sphinx.ext.autodoc"
+    - "sphinx.ext.autodoc.typehints"
+    - "sphinx.ext.autosummary"
+    - "sphinx.ext.napoleon"
+    - "sphinx.ext.viewcode"
+    - "matplotlib.sphinxext.plot_directive"
+  config:
+    #autodoc_typehints: description
+    autodoc_type_aliases:
+      "ComponentSpec": "ComponentSpec"
+    nb_execution_show_tb: True
+    nb_execution_raise_on_error: true
+    nb_custom_formats:
+      .py:
+        - jupytext.reads
+        - fmt: py

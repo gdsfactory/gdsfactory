@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=../../build/schemas/lvs_pass.json
+instances:
+  pad1:
+    component: pad
+    settings:
+      layer: M3
+  pad2:
+    component: pad
+    settings:
+      layer: M3
+  pad3:
+    component: pad
+    settings: {}
+  pad4:
+    component: pad
+    settings: {}
+connections: {}
+routes:
+  bundle3:
+    links:
+      pad3,e3: pad4,e1
+    routing_strategy: route_bundle_metal3
+    settings:
+      auto_taper: false
+nets: []
+ports: {}
+placements:
+  pad1:
+    x: 0
+    y: 0
+    dx: 310.207
+    dy: -159.886
+    rotation: 0
+    mirror: false
+  pad2:
+    dx: -74.566
+    dy: 328.078
+    rotation: 0
+    mirror: false
+  pad3:
+    x: 0
+    y: 0
+    dx: 4.157782554626465
+    dy: -99.9135284423828
+  pad4:
+    x: 0
+    y: 0
+    dx: 632.702
+    dy: 352.855
+    rotation: 0
+    mirror: false

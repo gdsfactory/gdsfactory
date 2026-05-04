@@ -1,0 +1,48 @@
+instances:
+  rings:
+    component: pack_doe
+    settings:
+      doe: ring_single
+      settings:
+        length_x:
+          - 1
+          - 2
+          - 3
+        radius:
+          - 5
+          - 10
+          - 20
+      do_permutations: true
+      function:
+        function: add_fiber_array
+        settings:
+          fanout_length: 200
+  mzis:
+    component: pack_doe_grid
+    settings:
+      doe: mzi
+      settings:
+        delta_length:
+          - 10
+          - 20
+          - 30
+          - 40
+      do_permutations: true
+      spacing:
+        - 10
+        - 10
+      function: add_fiber_array
+connections: {}
+routes: {}
+ports: {}
+placements:
+  rings:
+    x: 50
+    'y': 50
+  mzis:
+    xmin: rings,east
+    ymin: rings,south
+    dx: 189.822
+    dy: 1293.432
+    rotation: 0
+    mirror: false

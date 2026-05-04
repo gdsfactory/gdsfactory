@@ -1,0 +1,73 @@
+exploded: ''
+camera_transform:
+  translation:
+    x: -15.847548
+    y: -33.319572
+    z: 0.0
+  rotation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  scale:
+    x: 1.1327201
+    y: 1.1327201
+    z: 1.0
+transforms:
+  instance1:
+    translation:
+      x: -381.31512
+      y: -0.28641388
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+  instance2:
+    translation:
+      x: -75.351555
+      y: 131.49744
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+  instance3:
+    translation:
+      x: -113.13802
+      y: 411.36728
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+sizes:
+  instance1:
+    width: 100
+    height: 100
+  instance2:
+    width: 100
+    height: 100
+  instance3:
+    width: 100
+    height: 100
+link_paths: []
+layers:
+  instance1: 0
+  instance2: 0
+  instance3: 0

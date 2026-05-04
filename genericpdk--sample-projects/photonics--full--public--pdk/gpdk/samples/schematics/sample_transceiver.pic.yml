@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=../../../build/schemas/sample_transceiver.json
+instances:
+  detector_array:
+    component: ge_detector_straight_si_contacts
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100.0
+      row_pitch: 100.0
+  mzis:
+    component: mzi_phase_shifter
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100.0
+      row_pitch: 100.0
+  pad_array3:
+    component: pad
+    settings: {}
+    array:
+      columns: 1
+      rows: 6
+      column_pitch: 100.0
+      row_pitch: 150.0
+connections: {}
+routes:
+  pd_routes:
+    links:
+      detector_array<0.2>,bot: pad_array3<0.4>,e1
+      detector_array<0.0>,bot: pad_array3<0.0>,e1
+      detector_array<0.0>,top: pad_array3<0.1>,e1
+      detector_array<0.1>,bot: pad_array3<0.2>,e1
+      detector_array<0.2>,top: pad_array3<0.5>,e1
+      detector_array<0.1>,top: pad_array3<0.3>,e1
+    routing_strategy: route_bundle_metal3
+    settings: {}
+nets: []
+ports: {}
+placements:
+  detector_array:
+    x: 0.0
+    y: 0.0
+    dx: 258.115
+    dy: 131.794
+  mzis:
+    x: 0.0
+    y: 0.0
+    dx: -173.8990020751953
+    dy: 71.30500030517578
+    rotation: 0.0
+    mirror: false
+  pad_array3:
+    x: 258.115
+    y: 131.794
+    dx: 222.11700439453125
+    dy: -302.79901123046875
+    rotation: 0.0
+    mirror: false

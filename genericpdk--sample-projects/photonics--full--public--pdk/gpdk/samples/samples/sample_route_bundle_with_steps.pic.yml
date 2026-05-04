@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=../../../build/schemas/sample_route_bundle_with_steps.json
+instances:
+  r1:
+    component: straight
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100.0
+      row_pitch: 2.0
+  r2:
+    component: straight
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100.0
+      row_pitch: 2.0
+  s1:
+    component: straight
+    settings:
+      length: 29
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100.0
+      row_pitch: 2.0
+  s2:
+    component: straight
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 2.0
+      row_pitch: 2.0
+connections: {}
+routes:
+  bundle1:
+    links:
+      s2<0.1>,o2: r2<0.1>,o1
+      s2<0.2>,o2: r2<0.2>,o1
+      s2<0.0>,o2: r2<0.0>,o1
+    routing_strategy: route_bundle
+    settings:
+      sort_ports: true
+      steps:
+      - dx: 100
+        dy: 100
+      - dx: 200
+  bundle2:
+    links:
+      s1<0.2>,o2: r1<0.2>,o1
+      s1<0.1>,o2: r1<0.1>,o1
+      s1<0.0>,o2: r1<0.0>,o1
+    routing_strategy: route_bundle
+    settings: {}
+nets: []
+ports: {}
+placements:
+  r1:
+    x: 0
+    y: 0
+    dx: 56.724998474121094
+    dy: -96.03199768066406
+    rotation: 0.0
+    mirror: false
+  r2:
+    x: 0
+    y: 0
+    dx: 107.19000244140624
+    dy: -89.66400146484375
+    rotation: 0.0
+    mirror: false
+  s1:
+    x: 0
+    y: 0
+    dx: -13.333000183105469
+    dy: -25.988000869750977
+    rotation: 0.0
+    mirror: false
+  s2:
+    x: 0
+    y: 0
+    dx: -54.45162582397461
+    dy: -83.87503051757812
+name: sample_route_bundle_with_steps

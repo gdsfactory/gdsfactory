@@ -1,0 +1,503 @@
+LayerViews:
+  Waveguide:
+    layer: [1, 0]
+    hatch_pattern: dotted
+    width: 1
+    color: "#ff9d9d"
+  WGCLAD:
+    layer: [111, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    visible: false
+    width: 1
+    color: "silver"
+  SLAB150:
+    layer: [2, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    transparent: true
+    width: 1
+    color: "cyan"
+  SHALLOW_ETCH:
+    layer: [2, 6]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    color: "blue"
+  SLAB90:
+    layer: [3, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    transparent: true
+    width: 1
+    color: "#805000"
+  DEEP_ETCH:
+    layer: [3, 6]
+    layer_in_name: true
+    hatch_pattern: left-hatched
+    color: "#cc0000"
+  SLAB150CLAD:
+    layer: [2, 9]
+    layer_in_name: true
+    frame_color: "#9999cc"
+    fill_color: "#80a8ff"
+    hatch_pattern: coarsely dotted
+    visible: false
+    width: 1
+  SLAB90CLAD:
+    layer: [3, 1]
+    layer_in_name: true
+    frame_color: "#9999cc"
+    fill_color: "#80a8ff"
+    hatch_pattern: hollow
+    visible: false
+    width: 1
+  Doping:
+    group_members:
+      N:
+        layer: [20, 0]
+        layer_in_name: true
+        hatch_pattern: lightly left-hatched
+        width: 1
+        color: "red"
+      NP:
+        layer: [22, 0]
+        layer_in_name: true
+        hatch_pattern: lightly left-hatched
+        width: 1
+        color: "red"
+      NPP:
+        layer: [24, 0]
+        layer_in_name: true
+        hatch_pattern: coarsely dotted
+        width: 1
+        color: "red"
+      P_210:
+        layer: [21, 0]
+        hatch_pattern: lightly left-hatched
+        transparent: true
+        width: 1
+        color: "blue"
+      PP:
+        layer: [23, 0]
+        layer_in_name: true
+        hatch_pattern: lightly left-hatched
+        width: 1
+        color: "blue"
+      PPP:
+        layer: [25, 0]
+        layer_in_name: true
+        hatch_pattern: strongly left-hatched dense
+        width: 1
+        color: "blue"
+      PDPP:
+        layer: [27, 0]
+        layer_in_name: true
+        hatch_pattern: lightly cross-hatched
+        width: 1
+        color: "#ccb27f"
+      GENPP:
+        layer: [26, 0]
+        layer_in_name: true
+        hatch_pattern: plus
+        width: 1
+        color: "#cc00cc"
+      GEPPP:
+        layer: [29, 0]
+        layer_in_name: true
+        hatch_pattern: plus
+        width: 1
+        color: "#cc00cc"
+  WGN_Nitride:
+    layer: [34, 0]
+    layer_in_name: true
+    hatch_pattern: left-hatched
+    transparent: true
+    width: 1
+    color: "#ff8000"
+  WGclad_material:
+    layer: [36, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    visible: false
+    width: 1
+    color: "silver"
+  GE:
+    layer: [5, 0]
+    layer_in_name: true
+    hatch_pattern: dotted
+    width: 1
+    color: "magenta"
+  SILICIDE:
+    layer: [39, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    width: 1
+    color: "#cc4c00"
+  MH:
+    layer: [47, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    transparent: true
+    width: 1
+    color: "#ff8000"
+  M1:
+    layer: [41, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    width: 1
+    color: "#01ff6b"
+    brightness: -16
+  M2:
+    layer: [45, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    width: 1
+    color: "#008050"
+  M3:
+    layer: [49, 0]
+    layer_in_name: true
+    frame_color: "teal"
+    fill_color: "#800057"
+    hatch_pattern: coarsely dotted
+  VIAC:
+    layer: [40, 0]
+    layer_in_name: true
+    hatch_pattern: solid
+    width: 1
+    color: "#cc4c00"
+  VIA1:
+    layer: [44, 0]
+    layer_in_name: true
+    hatch_pattern: solid
+    width: 1
+    color: "grey"
+  VIA2:
+    layer: [43, 0]
+    layer_in_name: true
+    hatch_pattern: solid
+    width: 1
+    color: "#805000"
+  CAPACITOR:
+    layer: [42, 0]
+    layer_in_name: true
+    hatch_pattern: dotted
+    width: 1
+    color: "#805000"
+  METALOPEN:
+    layer: [46, 0]
+    layer_in_name: true
+    hatch_pattern: cross-hatched
+    width: 1
+    color: "#606060"
+  DEEPTRENCH:
+    layer: [4, 0]
+    layer_in_name: true
+    hatch_pattern: lightly right-hatched
+    width: 1
+    color: "#9999cc"
+  OXIDE_ETCH:
+    layer: [6, 0]
+    layer_in_name: true
+    hatch_pattern: strongly left-hatched dense
+    width: 1
+    color: "grey"
+  SITILES:
+    layer: [190, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    width: 1
+    color: "grey"
+  M1TILES:
+    layer: [191, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    width: 1
+    color: "#91ff00"
+  LABEL_OPTICAL_IO:
+    layer: [201, 0]
+    layer_in_name: true
+    hatch_pattern: hollow
+    width: 1
+    color: "blue"
+  LABEL_SETTINGS:
+    layer: [202, 0]
+    layer_in_name: true
+    hatch_pattern: hollow
+    visible: false
+    width: 1
+    color: "magenta"
+  TE:
+    layer: [203, 0]
+    layer_in_name: true
+    transparent: true
+    width: 1
+    color: "blue"
+  TM:
+    layer: [204, 0]
+    layer_in_name: true
+    width: 1
+    color: "red"
+  LABEL_INSTANCES:
+    layer: [206, 0]
+    layer_in_name: true
+    hatch_pattern: lightly left-hatched
+    color: "red"
+  DICING:
+    layer: [65, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    width: 1
+    color: "#cc0000"
+  DRC_EXCLUDE:
+    layer: [67, 0]
+    layer_in_name: true
+    hatch_pattern: hollow
+    visible: false
+    width: 2
+    color: "grey"
+  FLOORPLAN:
+    layer: [64, 0]
+    layer_in_name: true
+    hatch_pattern: hollow
+    color: "pink"
+  simulation:
+    group_members:
+      SIM_REGION:
+        layer: [100, 0]
+        layer_in_name: true
+        hatch_pattern: hollow
+        color: "grey"
+      MONITOR:
+        layer: [101, 0]
+        layer_in_name: true
+        hatch_pattern: hollow
+        color: "blue"
+      SOURCE:
+        layer: [110, 0]
+        layer_in_name: true
+        hatch_pattern: hollow
+        color: "red"
+  Lumerical:
+    layer: [733, 0]
+    hatch_pattern: hollow
+    width: 3
+    color: "#800057"
+  DevRec:
+    layer: [68, 0]
+    hatch_pattern: hollow
+    visible: false
+    transparent: true
+    width: 1
+    color: "#004080"
+  PinRec:
+    layer: [1, 10]
+    hatch_pattern: hollow
+    color: "#404040"
+  FbrTgt:
+    layer: [81, 0]
+    hatch_pattern: lightly right-hatched
+    width: 2
+    color: "#004080"
+  Text:
+    layer: [66, 0]
+    hatch_pattern: hollow
+    width: 1
+    color: "gray"
+  Errors:
+    layer: [69, 0]
+    hatch_pattern: hollow
+    width: 1
+    color: "gray"
+  PinRecM:
+    layer: [1, 11]
+    hatch_pattern: hollow
+    width: 1
+    color: "#004080"
+  XSECTION:
+    group_members:
+      XS_BOX:
+        layer: [300, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_SI:
+        layer: [301, 0]
+        layer_in_name: true
+        width: 1
+        color: "grey"
+        hatch_pattern: solid
+      XS_SIN:
+        layer: [319, 0]
+        layer_in_name: true
+        width: 1
+        color: "grey"
+        hatch_pattern: solid
+      XS_N:
+        layer: [320, 0]
+        layer_in_name: true
+        width: 1
+        color: "#008ca5"
+        hatch_pattern: solid
+      XS_NPP:
+        layer: [321, 0]
+        layer_in_name: true
+        width: 1
+        color: "#004ca5"
+        hatch_pattern: solid
+      XS_P:
+        layer: [330, 0]
+        layer_in_name: true
+        width: 1
+        color: "#00f233"
+        hatch_pattern: solid
+      XS_PDPP:
+        layer: [327, 0]
+        layer_in_name: true
+        width: 1
+        color: "#00f233"
+        hatch_pattern: solid
+      XS_PPP:
+        layer: [331, 0]
+        layer_in_name: true
+        width: 1
+        color: "#00b233"
+        hatch_pattern: solid
+      XS_SI_SLAB:
+        layer: [313, 0]
+        layer_in_name: true
+        width: 1
+        color: "#80a8ff"
+        hatch_pattern: solid
+      XS_OVERLAY:
+        layer: [311, 0]
+        layer_in_name: true
+        width: 1
+        color: "blue"
+        hatch_pattern: solid
+      XS_OX_SI:
+        layer: [302, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_GE:
+        layer: [315, 0]
+        layer_in_name: true
+        width: 1
+        color: "#004ca5"
+        hatch_pattern: solid
+      XS_VIAC:
+        layer: [303, 0]
+        layer_in_name: true
+        width: 1
+        color: "grey"
+        hatch_pattern: solid
+      XS_OX_NIT_CLAD:
+        layer: [304, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_OXIDE_M1:
+        layer: [305, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_MH:
+        layer: [306, 0]
+        layer_in_name: true
+        width: 1
+        color: "green"
+        hatch_pattern: solid
+      XS_OXIDE_M2:
+        layer: [307, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_OXIDE_MH:
+        layer: [317, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_OXIDE_ML:
+        layer: [309, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_VIA1:
+        layer: [308, 0]
+        layer_in_name: true
+        width: 1
+        color: "grey"
+        hatch_pattern: solid
+      XS_M2:
+        layer: [399, 0]
+        layer_in_name: true
+        width: 1
+        color: "#805000"
+        hatch_pattern: solid
+      XS_OXIDE_M3:
+        layer: [311, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f3ff80"
+        hatch_pattern: solid
+      XS_VIA2:
+        layer: [310, 0]
+        layer_in_name: true
+        width: 1
+        color: "grey"
+        hatch_pattern: solid
+      XS_SIN2:
+        layer: [305, 0]
+        layer_in_name: true
+        width: 1
+        color: "#805000"
+        hatch_pattern: solid
+  DRC_MARKER:
+    layer: [205, 0]
+    layer_in_name: true
+    transparent: true
+    width: 3
+    color: "red"
+  NOTILE_M1:
+    layer: [71, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    visible: false
+    color: "grey"
+  NOTILE_M2:
+    layer: [72, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    visible: false
+    color: "grey"
+  NOTILE_M3:
+    layer: [73, 0]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    visible: false
+    color: "#606060"
+  gdsfactory:
+    group_members:
+      ERROR_PATH:
+        layer: [1000, 0]
+        layer_in_name: true
+        transparent: true
+        width: 3
+        color: "red"
+      SHOW_PORTS:
+        layer: [1, 12]
+        layer_in_name: true
+        hatch_pattern: lightly left-hatched
+        color: "#ff80a8"
+      WAFER:
+        layer: [999, 0]
+        hatch_pattern: lightly left-hatched
+        color: "#ff80a8"
+        visible: false

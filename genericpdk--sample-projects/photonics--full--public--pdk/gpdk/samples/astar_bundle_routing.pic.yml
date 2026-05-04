@@ -1,0 +1,107 @@
+instances:
+  l1:
+    component: straight
+    settings: {}
+  l2:
+    component: straight
+    settings: {}
+  l3:
+    component: straight
+    settings: {}
+  l4:
+    component: straight
+    settings: {}
+  o1:
+    component: straight
+    settings:
+      length: 20
+      width: 100
+  o2:
+    component: straight
+    settings:
+      length: 20
+      width: 20
+  o3:
+    component: straight
+    settings:
+      length: 100
+      width: 20
+  o4:
+    component: straight
+    settings:
+      length: 20
+      width: 100
+  r1:
+    component: straight
+    settings: {}
+  r2:
+    component: straight
+    settings: {}
+  r3:
+    component: straight
+    settings: {}
+  r4:
+    component: straight
+    settings: {}
+connections: {}
+routes:
+  my_bundle:
+    links:
+      r1,o1: l1,o2
+      r2,o1: l2,o2
+      r3,o1: l3,o2
+      r4,o1: l4,o2
+    routing_strategy: route_astar
+    settings:
+      bend:
+        component: bend_euler
+        settings:
+          radius: 10
+      spacing: 2
+nets: []
+ports: {}
+placements:
+  l1:
+    'y': 100
+  l2:
+    'y': 0
+  l3:
+    'y': -100
+  l4:
+    'y': -200
+  o1:
+    x: 50
+    'y': -50
+    dx: 13.051
+    dy: 13.299
+    rotation: 0
+    mirror: false
+  o2:
+    x: 120
+    'y': -60
+    dx: -25.397
+    dy: -53.32
+    rotation: 0
+    mirror: false
+  o3:
+    dx: 63.663
+    dy: -95.996
+    rotation: 0
+    mirror: false
+  o4:
+    dx: 95.657
+    dy: -162.891
+    rotation: 0
+    mirror: false
+  r1:
+    x: 200
+    'y': 100
+  r2:
+    x: 200
+    'y': 0
+  r3:
+    x: 200
+    'y': -100
+  r4:
+    x: 200
+    'y': -200

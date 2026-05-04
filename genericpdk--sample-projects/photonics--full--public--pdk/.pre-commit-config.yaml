@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-json
+      - id: check-toml
+      - id: debug-statements
+      - id: mixed-line-ending
+      - id: name-tests-test
+        args: [--pytest-test-first]
+        exclude: "tests/.*/data/.*\\.py$"
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+      - id: detect-private-key
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.8
+    hooks:
+      - id: ruff
+        args: [--fix]
+        exclude: ".*\\.ipynb$"
+      - id: ruff-format
+        exclude: ".*\\.ipynb$"
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.390
+    hooks:
+      - id: pyright
+        exclude: ".*\\.ipynb$"
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
+        files: ".*\\.ipynb$"

@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../build/schemas/rings_filter.json
+instances:
+  instance1:
+    component: ring_single
+    settings: {}
+  instance2:
+    component: ring_single
+    settings: {}
+connections: {}
+routes:
+  bundle1:
+    links:
+      instance1,o2: instance2,o1
+    routing_strategy: route_bundle
+    settings: {}
+nets: []
+ports:
+  o1: instance1,o1
+  o2: instance2,o2
+placements:
+  instance1:
+    x: 0.0
+    y: 0.0
+    dx: -99.893
+    dy: -4.617
+  instance2:
+    x: 0.0
+    y: 0.0
+    dx: 61.416
+    dy: -78.918

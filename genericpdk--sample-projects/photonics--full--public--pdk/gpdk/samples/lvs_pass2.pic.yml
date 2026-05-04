@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=../../build/schemas/lvs_pass2.json
+instances:
+  instance1:
+    component: via_stack_m1_m3
+    settings: {}
+  instance2:
+    component: via_stack_m1_m3
+    settings: {}
+  pad1:
+    component: pad
+    settings: {}
+  pad2:
+    component: pad
+    settings: {}
+  pad3:
+    component: pad
+    settings: {}
+  pad4:
+    component: pad
+    settings: {}
+connections: {}
+routes:
+  bundle1:
+    links:
+      pad1,e3: instance1,e1
+    routing_strategy: route_bundle_metal3
+    settings:
+      allow_layer_mismatch: false
+      allow_type_mismatch: false
+      allow_width_mismatch: false
+  bundle2:
+    links:
+      instance2,e3: pad2,e1
+    routing_strategy: route_bundle_metal3
+    settings:
+      allow_layer_mismatch: false
+      allow_type_mismatch: false
+      allow_width_mismatch: false
+  bundle4:
+    links:
+      pad3,e3: pad4,e1
+    routing_strategy: route_bundle_metal3
+    settings: {}
+  low_metal:
+    links:
+      instance2,e1: instance1,e3
+    routing_strategy: route_bundle_metal1
+    settings:
+      allow_layer_mismatch: true
+      allow_type_mismatch: false
+      allow_width_mismatch: true
+      auto_taper: false
+nets: []
+ports: {}
+placements:
+  instance1:
+    x: 0.0
+    y: 0.0
+    dx: -5.781
+    dy: -99.833
+  instance2:
+    x: 468.192
+    y: -60.452
+    dx: -97.357
+    dy: -22.839
+  pad1:
+    x: 0
+    y: 0
+    dx: -150.659
+    dy: 214.218
+    rotation: 0
+    mirror: false
+  pad2:
+    x: 0
+    y: 0
+    dx: 468.192
+    dy: -60.452
+    rotation: 0
+    mirror: false
+  pad3:
+    x: 0
+    y: 0
+    dx: -54.044
+    dy: -458.372
+    rotation: 0
+    mirror: false
+  pad4:
+    x: 60.943485260009766
+    y: -79.28361511230469
+    dx: 284.508
+    dy: 250.265
+    rotation: 0
+    mirror: false

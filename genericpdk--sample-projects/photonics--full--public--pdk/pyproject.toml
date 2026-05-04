@@ -1,0 +1,151 @@
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit-core>=3.2,<4"]
+
+[project]
+authors = [{name = "gdsfactory", email = "contact@gdsfactory.com"}]
+classifiers = [
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12"
+]
+dependencies = [
+  "elvis-lvs>=0.1.9",
+  "gdsfactory~=9.39.3",
+  "gdsfactoryplus",
+  "gplugins[femwell,sax,tidy3d]==2.0.1",
+  "pytz",
+  "doroutes"
+]
+description = "Sample Photonics PDK"
+keywords = ["python"]
+license = {file = "LICENSE"}
+name = "gpdk"
+readme = "README.md"
+requires-python = "~=3.12.0"
+version = "0.0.0"
+optional-dependencies.dev = [
+  "jsondiff",
+  "pre-commit",
+  "pytest",
+  "pytest-cov",
+  "pytest-github-actions-annotate-failures",
+  "pytest-regressions"
+]
+optional-dependencies.docs = ["jupyter-book==1.0.4", "jupytext", "matplotlib"]
+
+[tool.basedpyright]
+pythonPlatform = "Linux"
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnusedCallResult = false
+
+[tool.codespell]
+ignore-words-list = "te, TE, te/tm, ba, fpr, fpr_spacing, ro, nd, donot, schem, distrubuted, Synopsys"
+
+[tool.elvis]
+short-layers = [[49, 0]]
+
+[tool.elvis.equivalent-ports]
+pad = ['e1', 'e2', 'e3', 'e4', 'pad']
+
+[tool.gdsfactoryplus]
+drc.pdk = "demopdk"
+drc.timeout = 300
+
+[tool.gdsfactoryplus.lvs]
+engine = "elvis"
+pdk.name = "gpdk"
+sim.wls.max = 1.6
+sim.wls.min = 1.5
+sim.wls.num = 3000
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[tool.pylsp-mypy]
+enabled = true
+live_mode = true
+strict = true
+
+[tool.pytest]
+# addopts = --tb=no
+ini_options.addopts = "--tb=short"
+ini_options.norecursedirs = ["extra/*.py"]
+ini_options.python_files = ["gpdk/*.py", "notebooks/*.ipynb", "tests/*.py"]
+ini_options.testpaths = ["gpdk/", "tests"]
+
+[tool.ruff]
+fix = true
+lint.ignore = [
+  "B008",  # do not perform function calls in argument defaults
+  "B905",  # `zip()` without an explicit `strict=` parameter
+  "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
+  "C901",  # too complex
+  "D100",  # Missing docstring in public module
+  "D101",  # Missing docstring in public class
+  "D102",  # Missing docstring in public method
+  "D103",  # Missing docstring in public function
+  "D104",  # Missing docstring in public package
+  "E501"
+]
+lint.select = [
+  "B",  # flake8-bugbear
+  "C",  # flake8-comprehensions
+  "D",  # pydocstyle
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "I",  # isort
+  "T10",  # flake8-debugger
+  "UP",  # pyupgrade
+  "W"  # pycodestyle warnings
+]
+lint.per-file-ignores."**/__init__.py" = [
+  "F401",
+  "F403",
+  "F405"
+]  # allowing star imports to aggregate modules
+lint.pydocstyle.convention = "google"
+
+[tool.setuptools]
+package-data."*" = [
+  "*.csv",
+  "*.yaml",
+  "*.yml",
+  "*.gds",
+  "*.lyp",
+  "*.oas",
+  "*.lyt",
+  "*.dat",
+  "*.nc",
+  "*.svg",
+  "*.GDS",
+  "*.json",
+  "*.txt",
+  "*.md",
+  "*.OAS"
+]
+packages.find = {}
+
+[tool.tbump]
+file = [
+  {src = "README.md"},
+  {src = "pyproject.toml"},
+  {src = "gpdk/__init__.py"}
+]
+git.message_template = "Bump to {new_version}"
+git.tag_template = "v{new_version}"
+version.current = "0.0.0"
+# Example of a semver regexp.
+# Make sure this matches current_version before
+# using tbump
+version.regex = '''  (?P<major>\d+)
+  \.
+  (?P<minor>\d+)
+  \.
+  (?P<patch>\d+)
+  '''

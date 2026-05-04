@@ -1,0 +1,148 @@
+exploded: ''
+camera_transform:
+  translation:
+    x: -73.93523
+    y: -54.627068
+    z: 0.0
+  rotation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  scale:
+    x: 1.6692488
+    y: 1.6692488
+    z: 1.0
+transforms:
+  instance1:
+    translation:
+      x: -7.5174103
+      y: 129.81183
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+  instance2:
+    translation:
+      x: 51.767044
+      y: -295.025
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+  pad1:
+    translation:
+      x: -348.61725
+      y: 149.07033
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+  pad2:
+    translation:
+      x: 286.67764
+      y: -239.91663
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+  pad3:
+    translation:
+      x: -302.4527
+      y: -66.46542
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+  pad4:
+    translation:
+      x: 252.31491
+      y: -85.58918
+      z: 1.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    scale:
+      x: 1.0
+      y: 1.0
+      z: 1.0
+sizes:
+  instance1:
+    width: 100
+    height: 100
+  instance2:
+    width: 100
+    height: 100
+  pad1:
+    width: 100
+    height: 100
+  pad2:
+    width: 100
+    height: 100
+  pad3:
+    width: 100
+    height: 100
+  pad4:
+    width: 100
+    height: 100
+link_paths: []
+layers:
+  instance1: 0
+  instance2: 0
+  pad1: 0
+  pad2: 0
+  pad3: 0
+  pad4: 0
+fan_point_positions:
+  bundle1:
+  - x: -238.34229
+    y: 129.73698
+  - x: -117.79237
+    y: 129.81183
+  bundle2:
+  - x: 135.49469
+    y: -295.025
+  - x: 202.95
+    y: -239.91663
+  bundle4:
+  - x: -138.7608
+    y: -85.79877
+  - x: 88.62301
+    y: -85.58918
+  low_metal:
+  - x: 1.7670441
+    y: -188.8158
+  - x: 42.48259
+    y: 23.602623

@@ -1,0 +1,66 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+change-template: '- $TITLE [#$NUMBER](https://github.com/gdsfactory/cspdk/pull/$NUMBER)'
+template: |
+  # What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+categories:
+  - title: 'Breaking'
+    label: 'breaking'
+  - title: 'New'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: 'Bug Fixes'
+    label: 'bug'
+  - title: 'Maintenance'
+    labels:
+      - 'maintenance'
+      - 'github_actions'
+  - title: 'Documentation'
+    label: 'documentation'
+  - title: 'Other changes'
+  - title: 'Dependency Updates'
+    label: 'dependencies'
+    collapse-after: 5
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+      - 'major'
+  minor:
+    labels:
+      - 'feature'
+      - 'minor'
+      - 'enhancement'
+  patch:
+    labels:
+      - 'bug'
+      - 'maintenance'
+      - 'github_actions'
+      - 'documentation'
+      - 'dependencies'
+      - 'security'
+  default: patch
+exclude-labels:
+  - 'skip-changelog'
+autolabeler:
+  - label: 'documentation'
+    files:
+      - '*.md'
+    branch:
+      - '/docs-.+/'
+  - label: 'bug'
+    branch:
+      - '/fix-.+/'
+    title:
+      - '/fix/i'
+  - label: 'enhancement'
+    branch:
+      - '/feature-.+/'
+      - '/add-.+/'
+    title:
+      - '/^add\s/i'

@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=../build/schemas/sample_lvs.json
+instances:
+  instance1:
+    component: straight
+    settings: {}
+  instance2:
+    component: bend_euler
+    settings: {}
+  instance3:
+    component: straight
+    settings: {}
+connections:
+  instance2,o1: instance1,o2
+  instance3,o1: instance1,o1
+  instance3,o2: instance2,o2
+routes: {}
+nets: []
+ports: {}
+placements:
+  instance1:
+    x: 0.0
+    y: 0.0
+    dx: -100.0
+    dy: 0.075
+  instance2:
+    x: 0.0
+    y: 0.0
+    dx: -49.718
+    dy: -86.765
+  instance3:
+    x: -49.718
+    y: -86.765
+    dx: -13.38
+    dy: 99.101

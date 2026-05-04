@@ -1,0 +1,75 @@
+instances:
+  s1:
+    component: straight
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100
+      row_pitch: 25
+  s2:
+    component: straight
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100
+      row_pitch: 35
+  s3:
+    component: straight
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100
+      row_pitch: 25
+  s4:
+    component: straight
+    settings: {}
+    array:
+      columns: 1
+      rows: 3
+      column_pitch: 100
+      row_pitch: 35
+connections: {}
+routes:
+  bundle1:
+    links:
+      s1<0.2>,o2: s2<0.2>,o1
+      s1<0.0>,o2: s2<0.0>,o1
+      s1<0.1>,o2: s2<0.1>,o1
+    routing_strategy: route_bundle
+    settings: {}
+  bundle2:
+    links:
+      s3<0.0>,o2: s4<0.0>,o1
+      s3<0.2>,o2: s4<0.2>,o1
+      s3<0.1>,o2: s4<0.1>,o1
+    routing_strategy: route_bundle
+    settings: {}
+nets: []
+ports: {}
+placements:
+  s1:
+    x: 0
+    'y': 0
+    dx: -280.751
+    dy: 45.696
+  s2:
+    x: -99.95
+    'y': 3.155
+    dy: 100
+  s3:
+    x: -280.7510070800781
+    'y': 45.69599914550781
+    dx: -15.093
+    dy: 131.818
+    rotation: 0
+    mirror: false
+  s4:
+    x: -280.7510070800781
+    'y': 145.6959991455078
+    dx: 123.22
+    dy: 60.707
+    rotation: 0
+    mirror: false
