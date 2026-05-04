@@ -13,7 +13,7 @@ classifiers = [
 ]
 dependencies = [
   "elvis-lvs>=0.1.9",
-  "gdsfactory~=9.39.3",
+  "gdsfactory~=9.41.0",
   "gdsfactoryplus",
   "gplugins[femwell,sax,tidy3d]==2.0.1",
   "pytz",

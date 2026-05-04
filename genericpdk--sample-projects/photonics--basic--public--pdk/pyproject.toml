@@ -13,7 +13,7 @@ classifiers = [
 ]
 dependencies = [
   "doroutes>=0.2",
-  "gdsfactory~=9.39.0",
+  "gdsfactory~=9.41.0",
   "gdsfactoryplus",
   "gplugins[femwell,sax,tidy3d]==2.0.1"
 ]
