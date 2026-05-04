@@ -11,7 +11,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
 from .._schematic import transition_schematic
 
@@ -24,6 +24,7 @@ def taper_cross_section(
     npoints: int = 100,
     linear: bool = False,
     width_type: str = "sine",
+    exclude_layers: LayerSpecs | None = None,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.
 
@@ -34,6 +35,8 @@ def taper_cross_section(
         npoints: number of points.
         linear: shape of the transition, sine when False.
         width_type: shape of the transition ONLY IF linear is False
+        exclude_layers: layers to exclude from the transition.
+            Sections on these layers will not be tapered.
 
 
     .. code::
@@ -51,6 +54,24 @@ def taper_cross_section(
     """
     x1 = gf.get_cross_section(cross_section1)
     x2 = gf.get_cross_section(cross_section2)
+
+    if x1 == x2:
+        return gf.components.straight(length=length, cross_section=x1)
+
+    if exclude_layers:
+        excluded = {gf.get_layer(layer) for layer in exclude_layers}
+
+        def _mark_skip(sections: tuple[gf.Section, ...]) -> tuple[gf.Section, ...]:
+            return tuple(
+                s.model_copy(update={"skip_transition": True})
+                if gf.get_layer(s.layer) in excluded
+                else s
+                for s in sections
+            )
+
+        x1 = x1.model_copy(update={"sections": _mark_skip(x1.sections)})
+        x2 = x2.model_copy(update={"sections": _mark_skip(x2.sections)})
+
     transition = gf.path.transition(
         cross_section1=x1,
         cross_section2=x2,

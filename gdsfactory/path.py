@@ -952,6 +952,8 @@ def along_path(
 def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     named_sections: dict[str, Section] = {}
     for section in sections:
+        if section.skip_transition:
+            continue
         name = section.name or get_layer_name(section.layer)
         if name in named_sections:
             raise ValueError(
