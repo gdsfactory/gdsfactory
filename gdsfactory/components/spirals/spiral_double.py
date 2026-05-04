@@ -30,11 +30,15 @@ def spiral_double(
     """
     component = gf.Component()
 
-    bend = gf.get_component(
+    bend_inner = gf.get_component(
         bend, radius=min_bend_radius / 2, angle=180, cross_section=cross_section
     )
-    bend1 = component.add_ref(bend)
-    bend2 = component.add_ref(bend)
+    bend_outer = gf.get_component(
+        bend, radius=min_bend_radius / 2, angle=90, cross_section=cross_section
+    )
+
+    bend1 = component.add_ref(bend_inner)
+    bend2 = component.add_ref(bend_inner)
     bend2.connect("o2", bend1.ports["o1"], mirror=True)
 
     path = spiral_archimedean(
@@ -54,8 +58,15 @@ def spiral_double(
     spiral2.connect("o1", bend2.ports["o1"])
     spiral1.connect("o1", bend1.ports["o2"], mirror=True)
 
-    component.add_port("o1", port=spiral1.ports["o2"])
-    component.add_port("o2", port=spiral2.ports["o2"])
-    component.info["length"] = float(path.length() + bend.info["length"]) * 2
+    bout1 = component.add_ref(bend_outer)
+    bout1.connect("o1", spiral1.ports["o2"], mirror=True)
+    bout2 = component.add_ref(bend_outer)
+    bout2.connect("o1", spiral2.ports["o2"], mirror=True)
+
+    component.add_port("o1", port=bout1.ports["o2"])
+    component.add_port("o2", port=bout2.ports["o2"])
+    component.info["length"] = (
+        float(path.length() + bend_inner.info["length"] + bend_outer.info["length"]) * 2
+    )
     component.flatten()
     return component
