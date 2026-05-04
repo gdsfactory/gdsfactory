@@ -4,9 +4,9 @@ instances:
     info:
       length: 100
       route_info_length: 100
-      route_info_type: xs_f6f850f9
+      route_info_type: xs_28f5a27d
       route_info_weight: 100
-      route_info_xs_f6f850f9_length: 100
+      route_info_xs_28f5a27d_length: 100
       width: 0.3
     settings:
       cross_section: strip_no_ports
@@ -18,9 +18,9 @@ instances:
     info:
       length: 100
       route_info_length: 100
-      route_info_type: xs_78831902
+      route_info_type: xs_1f5bd993
       route_info_weight: 100
-      route_info_xs_78831902_length: 100
+      route_info_xs_1f5bd993_length: 100
       width: 0.2
     settings:
       cross_section: strip_no_ports
@@ -32,9 +32,9 @@ instances:
     info:
       length: 100
       route_info_length: 100
-      route_info_type: xs_94d99b41
+      route_info_type: xs_6f4217dd
       route_info_weight: 100
-      route_info_xs_94d99b41_length: 100
+      route_info_xs_6f4217dd_length: 100
       width: 0.1
     settings:
       cross_section: strip_no_ports
@@ -46,9 +46,9 @@ instances:
     info:
       length: 100
       route_info_length: 100
-      route_info_type: xs_83e87d78
+      route_info_type: xs_caa9c64e
       route_info_weight: 100
-      route_info_xs_83e87d78_length: 100
+      route_info_xs_caa9c64e_length: 100
       width: 0.4
     settings:
       cross_section: strip_no_ports
