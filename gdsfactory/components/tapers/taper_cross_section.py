@@ -36,7 +36,7 @@ def taper_cross_section(
         linear: shape of the transition, sine when False.
         width_type: shape of the transition ONLY IF linear is False
         exclude_layers: layers to exclude from the transition.
-            Sections on these layers will not be tapered.
+            Sections on these layers will be omitted from the component.
 
 
     .. code::
