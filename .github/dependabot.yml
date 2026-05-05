@@ -1,20 +1,16 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
-    directory: "/" # Location of Python package manifests (e.g., requirements.txt or pyproject.toml)
+  - package-ecosystem: "uv"
+    cooldown:
+      default-days: 7
+    directory: "/"
     schedule:
-      interval: "daily" # Check for updates daily
-    commit-message:
-      prefix: "deps" # Customize commit message prefix for Python updates
-    open-pull-requests-limit: 10 # Limit the number of open PRs to avoid overload
-    labels:
-      - "dependencies"
-  - package-ecosystem: "github-actions"
-    directory: "/" # Location of GitHub Actions workflows
+      interval: monthly
+    ignore:
+      - dependency-name: "jupyter-book"
+  - package-ecosystem: github-actions
+    cooldown:
+      default-days: 7
+    directory: /
     schedule:
-      interval: "daily" # Check for updates daily
-    commit-message:
-      prefix: "deps" # Customize commit message prefix for GitHub Actions updates
-    open-pull-requests-limit: 5 # Limit the number of open PRs for GitHub Actions
-    labels:
-      - "github-actions"
+      interval: monthly
