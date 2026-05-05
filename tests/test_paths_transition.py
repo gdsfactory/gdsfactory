@@ -81,3 +81,15 @@ def test_transition_asymmetric_ports() -> None:
 
     assert c.ports["o1"].width == width1, c.ports["o1"].width
     assert c.ports["o2"].width == width2, c.ports["o2"].width
+
+
+def test_taper_cross_section_round_tripped_layer_spec() -> None:
+    xs1 = gf.cross_section.strip(width=0.5)
+    xs2 = gf.cross_section.strip(width=1.0)
+
+    t1 = gf.components.taper_cross_section(xs1, xs2, length=10, linear=True)
+    xs1_rt = gf.get_cross_section(t1.ports["o1"].cross_section)
+    assert xs1_rt.sections[0].layer == xs1.sections[0].layer
+
+    t2 = gf.components.taper_cross_section(xs1_rt, xs2, length=10, linear=True)
+    assert any(t2.get_polygons(merge=False).values())
