@@ -85,6 +85,8 @@ class Section(BaseModel):
         simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
+        skip_transition: if True, this section is excluded from cross-section \
+                transitions (will not be tapered between two CrossSections).
         width_function: parameterized function from 0 to 1.
         offset_function: parameterized function from 0 to 1.
 
@@ -115,6 +117,7 @@ class Section(BaseModel):
     name: str | None = None
     hidden: bool = False
     simplify: float | None = None
+    skip_transition: bool = False
 
     width_function: typings.WidthFunction | None = None
     offset_function: typings.OffsetFunction | None = None
