@@ -524,10 +524,17 @@ class Pdk(BaseModel):
                 cross_section_ = cross_section.base
             else:
                 cross_section_ = cross_section
+
+            layer: LayerSpec = kf.kcl.layout.layer(cross_section_.main_layer)
+            try:
+                layer = self.get_layer_name(layer)
+            except ValueError:
+                pass
+
             section_ = Section(
                 name="_default",
                 width=kf.kcl.to_um(cross_section_.width),
-                layer=kf.kcl.layout.layer(cross_section_.main_layer),
+                layer=layer,
                 port_names=("o1", "o2"),
             )
             xs_ = CrossSection(

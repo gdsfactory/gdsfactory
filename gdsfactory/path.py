@@ -1062,7 +1062,7 @@ def extrude(
         width_value: float | npt.NDArray[np.floating[Any]] = section.width
         width_function = section.width_function
         offset_function = section.offset_function
-        layer = section.layer
+        layer = get_layer(section.layer)
 
         xsection_points.append([width_value, offset_value])
 
@@ -1447,14 +1447,14 @@ def extrude_transition(
         else:
             raise NotImplementedError
 
-        if section1.layer != section2.layer:
+        layer1 = get_layer(section1.layer)
+        layer2 = get_layer(section2.layer)
+        if layer1 != layer2:
             hidden = True
-            layer1 = get_layer(section1.layer)
-            layer2 = get_layer(section2.layer)
             layers = [layer1, layer2]
         else:
             hidden = section1.hidden
-            layer = get_layer(section1.layer)
+            layer = layer1
             layers = [layer, layer]
 
         end_angle = p.end_angle
