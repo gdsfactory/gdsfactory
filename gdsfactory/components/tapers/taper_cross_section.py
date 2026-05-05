@@ -56,7 +56,12 @@ def taper_cross_section(
     x2 = gf.get_cross_section(cross_section2)
 
     if exclude_layers:
-        layers = exclude_layers if isinstance(exclude_layers, (list, tuple)) and not (len(exclude_layers) == 2 and isinstance(exclude_layers[0], int)) else [exclude_layers]
+        layers = (
+            exclude_layers
+            if isinstance(exclude_layers, (list, tuple))
+            and not (len(exclude_layers) == 2 and isinstance(exclude_layers[0], int))
+            else [exclude_layers]
+        )
         excluded = {gf.get_layer(layer) for layer in layers}
 
         def _mark_skip(sections: tuple[gf.Section, ...]) -> tuple[gf.Section, ...]:
