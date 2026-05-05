@@ -1062,7 +1062,7 @@ def extrude(
         width_value: float | npt.NDArray[np.floating[Any]] = section.width
         width_function = section.width_function
         offset_function = section.offset_function
-        layer = section.layer
+        layer = get_layer(section.layer)
 
         xsection_points.append([width_value, offset_value])
 
