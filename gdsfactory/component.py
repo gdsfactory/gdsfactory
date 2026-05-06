@@ -1139,7 +1139,7 @@ class Component(ComponentBase, kf.DKCell):
             overlap=overlap,
             smooth=smooth,
         )
-        self.shapes(layer).clear()
+        cast(kdb.Shapes, self.shapes(layer)).clear()  # type: ignore[redundant-cast]
         self.shapes(layer).insert(fix)
 
     def offset(
@@ -1278,7 +1278,10 @@ class Component(ComponentBase, kf.DKCell):
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
         pixel_buffer = layout_view.get_pixels_with_options(
-            **({"width": 800, "height": 600} | (pixel_buffer_options or {}))
+            **cast(
+                dict[str, Any],
+                ({"width": 800, "height": 600} | (pixel_buffer_options or {})),
+            )
         )
         png_data = pixel_buffer.to_png_data()
 
@@ -1505,7 +1508,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         return c
 
-    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> None:
+    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
@@ -1521,7 +1524,8 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         polygon = points_to_polygon(points)
 
-        return self.shapes(_layer).insert(polygon)
+        res = self.shapes(_layer).insert(polygon)  # type: ignore[func-returns-value]
+        return res  # type: ignore[no-any-return]
 
     def get_polygons(self, layer: LayerSpec) -> list[kf.kdb.DPolygon]:
         """Returns a list of polygons from the Component."""

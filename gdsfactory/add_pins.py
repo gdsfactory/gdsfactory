@@ -14,7 +14,7 @@ import json
 import warnings
 from collections.abc import Sequence
 from functools import partial
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import kfactory as kf
 import numpy as np
@@ -428,7 +428,7 @@ def add_pins(
 
     # This should only select ports according to the port type
     ports = select_ports(
-        ports=component.ports,
+        ports=cast(typings.Ports, component.ports),
         port_type=port_type,
     )
     if skip_cross_sections:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, cast
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -124,7 +124,10 @@ def add_fiber_single(
         )
 
     grating_coupler = (
-        [gf.get_component(i) for i in grating_coupler]
+        [
+            gf.get_component(i)
+            for i in cast(list[ComponentSpec], grating_coupler)  # type: ignore[redundant-cast]
+        ]
         if isinstance(grating_coupler, list)
         else gf.get_component(grating_coupler)
     )

@@ -159,12 +159,13 @@ def cell(
     def wrapper(
         func: ComponentFunc[ComponentParams],
     ) -> ComponentFunc[ComponentParams]:
+        decorated: Any
         if with_module_name and basename is None:
             mod = func.__module__
             bn = clean_name(
                 func.__name__ if mod == "__main__" else f"{func.__name__}_{mod}"
             )
-            decorated: Any = _cell(func, **{**cell_kwargs, "basename": bn})
+            decorated = _cell(func, **{**cell_kwargs, "basename": bn})
         else:
             decorated = c(func)
         decorated.is_gf_cell = True

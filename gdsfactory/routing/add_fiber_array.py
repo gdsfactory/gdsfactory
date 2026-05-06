@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -92,7 +92,7 @@ def add_fiber_array(
     orientation = gc.ports[gc_port_name].orientation
 
     grating_coupler = (
-        [gf.get_component(i) for i in grating_coupler]
+        [gf.get_component(i) for i in cast(list[Any], grating_coupler)]
         if isinstance(grating_coupler, list)
         else gf.get_component(grating_coupler)
     )

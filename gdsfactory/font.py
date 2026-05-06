@@ -5,6 +5,8 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+from typing import Any
+
 import freetype
 import numpy as np
 import numpy.typing as npt
@@ -77,11 +79,12 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
             "Load a font using _get_font_by_name first."
         )
 
-    if getattr(font, "gds_glyphs", None) is None:
-        font.gds_glyphs = {}
+    glyphs: dict[str, Any] = getattr(font, "gds_glyphs", {})
+    if not glyphs:
+        font.gds_glyphs = glyphs
 
-    if letter in font.gds_glyphs:
-        return font.gds_glyphs[letter]  # type: ignore[no-any-return]
+    if letter in glyphs:
+        return glyphs[letter]  # type: ignore[no-any-return]
 
     # Get the font name
     font_name = font.family_name.decode().replace(" ", "_")
@@ -96,8 +99,8 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     if not outline.contours:
         component = Component()
         component.name = block_name
-        font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
-        return font.gds_glyphs[letter]  # type: ignore[no-any-return]
+        glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
+        return glyphs[letter]  # type: ignore[no-any-return]
 
     # Add polylines
     start, end = 0, -1
@@ -176,8 +179,8 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     component.name = block_name
 
     # Cache the return value and return it
-    font.gds_glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
-    return font.gds_glyphs[letter]  # type: ignore[no-any-return]
+    glyphs[letter] = (component, glyph.advance.x, font.size.ascender)
+    return glyphs[letter]  # type: ignore[no-any-return]
 
 
 def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:

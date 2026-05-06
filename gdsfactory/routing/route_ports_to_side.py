@@ -101,9 +101,7 @@ def route_ports_to_side(
             **kwargs,
         )
     if side in {"east", "west"}:
-        x_value = x if x is not None else side
-        if isinstance(x_value, str):
-            x_value = cast("Literal['east', 'west']", x_value)
+        x_value = x if x is not None else cast("Literal['east', 'west']", side)
         side = cast("Literal['west', 'east']", side)
         return route_ports_to_x(
             component=component,
