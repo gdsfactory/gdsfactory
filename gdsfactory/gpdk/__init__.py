@@ -3,7 +3,7 @@ from __future__ import annotations
 import typing
 from functools import cache, partial
 
-from gdsfactory.config import PATH
+from gdsfactory.config import CONF, PATH
 from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.gpdk.layer_stack import LAYER_STACK
 from gdsfactory.typings import RoutingStrategy
@@ -12,6 +12,8 @@ if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
 
     PDK: Pdk
+
+CONF.pdk = "generic"
 
 __all__ = ["LAYER", "LAYER_STACK", "get_generic_pdk"]
 
