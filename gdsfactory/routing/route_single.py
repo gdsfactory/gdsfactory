@@ -207,7 +207,7 @@ def route_single(
                 pts=w,
                 port_type=port_type,
                 allow_width_mismatch=allow_width_mismatch,
-                route_width=c.kcl.to_dbu(route_width),
+                route_width=c.kcl.to_dbu(width),
             )
         except Exception as e:
             # error_route((ps, pe, router.start.pts, router.width))
