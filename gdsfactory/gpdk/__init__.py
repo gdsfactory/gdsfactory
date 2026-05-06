@@ -91,21 +91,14 @@ def get_generic_pdk() -> Pdk:
     )
 
 
-# Lazy PDK instantiation to avoid circular imports and import-time side effects.
-# Accessing `gdsfactory.gpdk.PDK` activates the generic PDK on first access,
-# so users can do `from gdsfactory.gpdk import PDK; PDK.get_component(...)`
-# without an explicit `PDK.activate()` call -- mirroring how cspdk packages
-# behave when their own package is imported -- while *importing* gdsfactory
-# (which imports gdsfactory.gpdk) still has no global side effect on CONF.pdk.
+# Lazy PDK instantiation to avoid circular imports
 _PDK = None
 
 
 def _get_pdk() -> Pdk:
     global _PDK
     if _PDK is None:
-        pdk = get_generic_pdk()
-        pdk.activate()
-        _PDK = pdk
+        _PDK = get_generic_pdk()
     return _PDK
 
 
