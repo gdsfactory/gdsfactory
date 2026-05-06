@@ -192,6 +192,7 @@ def route_bundle(
     layer_label: LayerSpec | None = None,
     port1: Port | None = None,
     port2: Port | None = None,
+    name: str | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -243,6 +244,8 @@ def route_bundle(
         layer_label: layer to place length labels on the route.
         port1: single start port (alternative to ports1 for single-port routing).
         port2: single end port (alternative to ports2 for single-port routing).
+        name: Name for the route. This is not important yet, but once constraints are implemented, the constraint, depending
+            on the constraint class, might check against names to make enforcement or checking decisions.
 
     .. plot::
         :include-source:
@@ -267,6 +270,7 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    name = name or "unnamed_route_bundle"
     on_collision = on_collision or CONF.on_collision
     on_placer_error = on_placer_error or CONF.on_placer_error
 
@@ -524,6 +528,23 @@ def route_bundle(
             sb_ref = component << sb
             return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
 
+    if path_length_matching_config is not None:
+        constraints = [
+            kf.schematic.PathLengthMatch(
+                route_names=[name],
+                instance_names=[],
+                on_failure=None,
+                loops=path_length_matching_config["loops"],
+                loop_side=path_length_matching_config["loop_side"],
+                element=path_length_matching_config["element"],
+                loop_position=path_length_matching_config["loop_position"],
+                length=path_length_matching_config["total_length"],
+                all=True,
+            )
+        ]
+    else:
+        constraints = []
+
     try:
         kf_on_collision = "error" if on_collision == "warning" else on_collision
         kf_on_placer_error = (
@@ -558,7 +579,7 @@ def route_bundle(
             waypoints=waypoints_,
             end_angles=end_angles,
             start_angles=start_angles,
-            path_length_matching_config=path_length_matching_config,
+            constraints=constraints,
             sbend_factory=_sbend if sbend else None,
         )
     except Exception as e:

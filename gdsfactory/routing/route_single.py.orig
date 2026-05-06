@@ -28,7 +28,7 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Any, Literal, cast
+from typing import Literal, cast
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
@@ -138,11 +138,19 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
 
-    def straight_(width: float, length: float, **kwargs: Any) -> gf.Component:
-        return gf.get_component(straight, length=length, **kwargs)
+    def straight_(width: float, length: float) -> gf.Component:
+        return gf.get_component(
+            straight,
+            length=length,
+            cross_section=xs,
+        )
 
-    def straight_dbu(width: int, length: int, **kwargs: Any) -> gf.Component:
-        return straight_(c.kcl.to_um(width), c.kcl.to_um(length), **kwargs)
+    def straight_dbu(width: int, length: int) -> gf.Component:
+<<<<<<< HEAD
+        return straight_(c.kcl.to_dbu(width), c.kcl.to_dbu(length))
+=======
+        return straight(c.kcl.to_um(width), c.kcl.to_um(length))
+>>>>>>> 844655ebb (fix unti conversion)
 
     if steps and waypoints:
         raise ValueError("Provide only one of steps or waypoints")

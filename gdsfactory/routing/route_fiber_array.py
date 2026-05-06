@@ -330,6 +330,7 @@ def route_fiber_array(
         auto_taper=auto_taper,
         waypoints=waypoints,
         steps=steps,
+        raise_on_error=True,
         **kwargs,
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
