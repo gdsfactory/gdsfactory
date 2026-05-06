@@ -3,7 +3,7 @@ from __future__ import annotations
 import typing
 from functools import cache, partial
 
-from gdsfactory.config import CONF, PATH
+from gdsfactory.config import PATH
 from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.gpdk.layer_stack import LAYER_STACK
 from gdsfactory.typings import RoutingStrategy
@@ -12,8 +12,6 @@ if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
 
     PDK: Pdk
-
-CONF.pdk = "generic"
 
 __all__ = ["LAYER", "LAYER_STACK", "get_generic_pdk"]
 
@@ -93,14 +91,21 @@ def get_generic_pdk() -> Pdk:
     )
 
 
-# Lazy PDK instantiation to avoid circular imports
+# Lazy PDK instantiation to avoid circular imports and import-time side effects.
+# Accessing `gdsfactory.gpdk.PDK` activates the generic PDK on first access,
+# so users can do `from gdsfactory.gpdk import PDK; PDK.get_component(...)`
+# without an explicit `PDK.activate()` call -- mirroring how cspdk packages
+# behave when their own package is imported -- while *importing* gdsfactory
+# (which imports gdsfactory.gpdk) still has no global side effect on CONF.pdk.
 _PDK = None
 
 
 def _get_pdk() -> Pdk:
     global _PDK
     if _PDK is None:
-        _PDK = get_generic_pdk()
+        pdk = get_generic_pdk()
+        pdk.activate()
+        _PDK = pdk
     return _PDK
 
 
