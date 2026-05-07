@@ -5,9 +5,9 @@ from __future__ import annotations
 import importlib
 import pathlib
 import warnings
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Callable, Iterator, Mapping, MutableMapping, Sequence
 from functools import cached_property, partial
-from typing import Any, cast, overload
+from typing import Any, TypeVar, cast, overload
 
 import kfactory as kf
 import yaml
@@ -39,6 +39,116 @@ from gdsfactory.typings import (
     PathType,
     RoutingStrategies,
 )
+
+_VT = TypeVar("_VT")
+
+
+class LibraryRegistry(MutableMapping[str, _VT]):
+    """Dict-like container that organizes items by library name.
+
+    Stores items as ``{library_name: {item_name: item}}`` while exposing a
+    flat dict interface for backward compatibility.  Flat lookups search all
+    libraries; writes go to the ``"default"`` library unless a library name
+    is specified via :meth:`register_library`.
+    """
+
+    def __init__(self, data: Mapping[str, _VT] | None = None) -> None:
+        self._libraries: dict[str, dict[str, _VT]] = {}
+        if data is not None:
+            if isinstance(data, LibraryRegistry):
+                for lib_name, lib_dict in data._libraries.items():
+                    self._libraries[lib_name] = dict(lib_dict)
+            else:
+                self._libraries["default"] = dict(data)
+
+    # -- MutableMapping interface (flat view) ---------------------------------
+
+    def __getitem__(self, key: str) -> _VT:
+        """Return item by name, searching all libraries."""
+        for lib in self._libraries.values():
+            if key in lib:
+                return lib[key]
+        raise KeyError(key)
+
+    def __setitem__(self, key: str, value: _VT) -> None:
+        """Set item in the default library."""
+        self._libraries.setdefault("default", {})[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        """Delete item from the first library that contains it."""
+        for lib in self._libraries.values():
+            if key in lib:
+                del lib[key]
+                return
+        raise KeyError(key)
+
+    def __contains__(self, key: object) -> bool:
+        """Check if key exists in any library."""
+        return any(key in lib for lib in self._libraries.values())
+
+    def __iter__(self) -> Iterator[str]:
+        """Iterate over unique keys across all libraries."""
+        seen: set[str] = set()
+        for lib in self._libraries.values():
+            for key in lib:
+                if key not in seen:
+                    seen.add(key)
+                    yield key
+
+    def __len__(self) -> int:
+        """Return total number of unique keys."""
+        return sum(1 for _ in self)
+
+    def __bool__(self) -> bool:
+        """Return True if any library has items."""
+        return any(bool(lib) for lib in self._libraries.values())
+
+    # -- dict-compatible helpers ----------------------------------------------
+
+    def update(self, other: Any = (), /, **kwargs: Any) -> None:  # type: ignore[override]
+        """Merge *other* into this registry.
+
+        If *other* is a :class:`LibraryRegistry`, libraries are merged
+        name-by-name.  Otherwise items go into the ``"default"`` library.
+        """
+        if isinstance(other, LibraryRegistry):
+            for lib_name, lib_dict in other._libraries.items():
+                self._libraries.setdefault(lib_name, {}).update(lib_dict)
+        elif isinstance(other, Mapping):
+            self._libraries.setdefault("default", {}).update(other)
+        else:
+            for k, v in other:
+                self[k] = v
+        if kwargs:
+            self._libraries.setdefault("default", {}).update(kwargs)
+
+    # -- Library-level operations ---------------------------------------------
+
+    def register_library(self, name: str, items: dict[str, _VT]) -> None:
+        """Register (or extend) a named library of items."""
+        if name in self._libraries:
+            self._libraries[name].update(items)
+        else:
+            self._libraries[name] = dict(items)
+
+    def get_library(self, name: str) -> dict[str, _VT]:
+        """Return items belonging to a single library."""
+        if name not in self._libraries:
+            raise KeyError(
+                f"Library {name!r} not found. Available: {list(self._libraries.keys())}"
+            )
+        return self._libraries[name]
+
+    @property
+    def libraries(self) -> dict[str, dict[str, _VT]]:
+        """Return the underlying dict-of-dicts."""
+        return self._libraries
+
+    def __repr__(self) -> str:
+        """Return a concise representation showing library names and their keys."""
+        libs = {name: list(d.keys()) for name, d in self._libraries.items()}
+        return f"LibraryRegistry({libs})"
+
 
 _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
@@ -150,13 +260,15 @@ class Pdk(BaseModel):
 
     name: str
     version: str = ""
-    cross_sections: dict[str, CrossSectionFactory] = Field(
-        default_factory=dict, exclude=True
+    cross_sections: LibraryRegistry[CrossSectionFactory] = Field(
+        default_factory=LibraryRegistry, exclude=True
     )
     cross_section_default_names: dict[str, str] = Field(
         default_factory=dict, exclude=True
     )
-    cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
+    cells: LibraryRegistry[ComponentFactory] = Field(
+        default_factory=LibraryRegistry, exclude=True
+    )
     containers: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     models: dict[str, Callable[..., Any]] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
@@ -211,11 +323,19 @@ class Pdk(BaseModel):
     def model_post_init(self, context: Any) -> None:
         super().model_post_init(context)
 
+        # Convert plain dicts to LibraryRegistry if needed
+        if isinstance(self.cells, dict) and not isinstance(self.cells, LibraryRegistry):
+            self.cells = LibraryRegistry(self.cells)
+        if isinstance(self.cross_sections, dict) and not isinstance(
+            self.cross_sections, LibraryRegistry
+        ):
+            self.cross_sections = LibraryRegistry(self.cross_sections)
+
         # update the cross sections and cells from base pdks
         # precedence goes from first to last base PDK, and then finally to this PDK
         # (duplicates in the last base PDK will overwrite the others, and this PDK will overwrite that)
-        cross_sections = {}
-        cells = {}
+        cross_sections: LibraryRegistry[CrossSectionFactory] = LibraryRegistry()
+        cells: LibraryRegistry[ComponentFactory] = LibraryRegistry()
         for pdk in self.base_pdks:
             cross_sections.update(pdk.cross_sections)
             cells.update(pdk.cells)
@@ -281,6 +401,28 @@ class Pdk(BaseModel):
             if name in self.cross_sections:
                 warnings.warn(f"Overwriting cross_section {name!r}", stacklevel=3)
             self.cross_sections[name] = cross_section
+
+    def register_cell_library(
+        self, library_name: str, cells: dict[str, ComponentFactory]
+    ) -> None:
+        """Register a named library of cell factories.
+
+        Args:
+            library_name: name for the library (e.g. ``"cband"``, ``"oband"``).
+            cells: mapping of cell names to factory functions.
+        """
+        self.cells.register_library(library_name, cells)
+
+    def register_cross_section_library(
+        self, library_name: str, cross_sections: dict[str, CrossSectionFactory]
+    ) -> None:
+        """Register a named library of cross-section factories.
+
+        Args:
+            library_name: name for the library (e.g. ``"cband"``, ``"oband"``).
+            cross_sections: mapping of cross-section names to factory functions.
+        """
+        self.cross_sections.register_library(library_name, cross_sections)
 
     def register_cells_yaml(
         self,
@@ -397,7 +539,7 @@ class Pdk(BaseModel):
             component=component, cells=cells, settings=settings, **kwargs
         )
 
-    def _get_cells_and_containers(self) -> dict[str, ComponentFactory]:
+    def _get_cells_and_containers(self) -> Mapping[str, ComponentFactory]:
         """Returns a dictionary of cells and containers."""
         cells_and_containers = {**self.cells, **self.containers}
         conflicting_names = set(self.cells.keys()).intersection(self.containers.keys())
@@ -421,7 +563,7 @@ class Pdk(BaseModel):
     def _get_component(
         self,
         component: ComponentSpec,
-        cells: dict[str, ComponentFactory],
+        cells: Mapping[str, ComponentFactory],
         settings: Mapping[str, Any] | None = None,
         **kwargs: Any,
     ) -> Component:
