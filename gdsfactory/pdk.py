@@ -43,6 +43,36 @@ from gdsfactory.typings import (
 _VT = TypeVar("_VT")
 
 
+class _LibraryNamespace:
+    """Attribute-access wrapper around a library dict.
+
+    Enables ``registry.cband.strip`` style access with tab-completion
+    in IDEs and IPython (via ``__dir__``).
+    """
+
+    def __init__(self, name: str, items: dict[str, Any]) -> None:
+        self._name = name
+        self._items = items
+
+    def __getattr__(self, name: str) -> Any:
+        """Return an item from this library by attribute name."""
+        try:
+            return self._items[name]
+        except KeyError:
+            raise AttributeError(
+                f"Library {self._name!r} has no item {name!r}. "
+                f"Available: {list(self._items.keys())}"
+            ) from None
+
+    def __dir__(self) -> list[str]:
+        """List item names for tab-completion."""
+        return list(self._items.keys())
+
+    def __repr__(self) -> str:
+        """Show library name and item keys."""
+        return f"Library({self._name!r}, items={list(self._items.keys())})"
+
+
 class LibraryRegistry(MutableMapping[str, _VT]):
     """Dict-like container that organizes items by library name.
 
@@ -143,6 +173,23 @@ class LibraryRegistry(MutableMapping[str, _VT]):
     def libraries(self) -> dict[str, dict[str, _VT]]:
         """Return the underlying dict-of-dicts."""
         return self._libraries
+
+    # -- Attribute access (IDE / tab-completion) --------------------------------
+
+    def __getattr__(self, name: str) -> _LibraryNamespace:
+        """Access a library as an attribute (e.g. ``registry.cband.strip``)."""
+        if name.startswith("_"):
+            raise AttributeError(name)
+        try:
+            return _LibraryNamespace(name, self._libraries[name])
+        except KeyError:
+            raise AttributeError(
+                f"No library named {name!r}. Available: {list(self._libraries.keys())}"
+            ) from None
+
+    def __dir__(self) -> list[str]:
+        """List library names for tab-completion alongside normal attributes."""
+        return list(super().__dir__()) + list(self._libraries.keys())
 
     def __repr__(self) -> str:
         """Return a concise representation showing library names and their keys."""
