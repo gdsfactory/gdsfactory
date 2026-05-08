@@ -144,8 +144,8 @@ def interdigitated_electrodes(
     )
 
     if port_type == "electrical":
-        bot_ports = [p for p in c.ports if p.name.startswith("bot_")]
-        top_ports = [p for p in c.ports if p.name.startswith("top_")]
+        bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
+        top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
         if bot_ports:
             c.create_pin(ports=bot_ports, name="bot")
         if top_ports:
