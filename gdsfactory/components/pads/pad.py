@@ -98,7 +98,7 @@ def pad(
                 )
             )
     c.flatten()
-    elec = [p for p in c.ports if p.port_type == "electrical"]
+    elec = [p for p in c.ports if p.port_type in {"electrical", "pad"}]
     if elec:
         c.create_pin(ports=elec, name="pad")
     return c
