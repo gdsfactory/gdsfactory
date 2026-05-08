@@ -282,6 +282,10 @@ def mzi(
         c.add_ports(sxt.ports.filter(port_type="optical"), prefix="top_")
         c.add_ports(sxb.ports.filter(port_type="optical"), prefix="bot_")
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     if auto_rename_ports:
         c.auto_rename_ports()
     return c

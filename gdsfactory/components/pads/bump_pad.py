@@ -164,6 +164,10 @@ def bump_pad_grid(
             pad.center = center
             c.add_ports(pad.ports, prefix=f"e{row + 1}_{col + 1}_")
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     if auto_rename_ports:
         c.auto_rename_ports()
     return c

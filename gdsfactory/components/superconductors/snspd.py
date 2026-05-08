@@ -96,6 +96,10 @@ def snspd(
     D.add_port(port=start_nw.ports["e1"], name="e1")
     D.add_port(port=finish_se.ports["e1"], name="e2")
 
+    for p in list(D.ports):
+        if p.name and p.port_type == "electrical":
+            D.create_pin(ports=[p], name=p.name)
+
     D.info["num_squares"] = num_meanders * (xsize / wire_width)
     D.info["area"] = xsize * ysize
     D.info["xsize"] = xsize

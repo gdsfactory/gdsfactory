@@ -158,4 +158,8 @@ def greek_cross_with_pads(
             port=pad_ref.ports[pad_port_name],
         )
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     return c

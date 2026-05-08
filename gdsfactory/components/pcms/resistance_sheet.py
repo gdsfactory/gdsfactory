@@ -58,12 +58,16 @@ def resistance_sheet(
     c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0
     c.info["length"] = length
     c.info["width"] = width
-    c.add_port(
+    p1 = c.add_port(
         name="pad1",
         port=pad1.ports[pad_port_name],
     )
-    c.add_port(
+    p2 = c.add_port(
         name="pad2",
         port=pad2.ports[pad_port_name],
     )
+    if p1.port_type == "electrical":
+        c.create_pin(ports=[p1], name="pad1")
+    if p2.port_type == "electrical":
+        c.create_pin(ports=[p2], name="pad2")
     return c

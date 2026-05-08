@@ -80,6 +80,14 @@ def straight_pin(
 
     c.add_ports(via_stack_bot.ports, prefix="bot_")
     c.add_ports(via_stack_top.ports, prefix="top_")
+
+    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
+    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
+    if top_ports:
+        c.create_pin(ports=top_ports, name="top")
+    if bot_ports:
+        c.create_pin(ports=bot_ports, name="bot")
+
     return c
 
 

@@ -150,6 +150,11 @@ def folded_spring(
         port_type=port_type,
     )
 
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
     return c
 
 

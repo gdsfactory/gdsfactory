@@ -114,6 +114,13 @@ def straight_pin_slot(
         slot_bot.x = wg.x
         slot_bot.ymax = -via_stack_slab_spacing / 2
 
+    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
+    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
+    if top_ports:
+        c.create_pin(ports=top_ports, name="top")
+    if bot_ports:
+        c.create_pin(ports=bot_ports, name="bot")
+
     return c
 
 

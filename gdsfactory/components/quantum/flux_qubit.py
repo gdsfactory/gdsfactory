@@ -215,6 +215,12 @@ def flux_qubit(
     c.info["alpha_beta_ratio"] = (alpha_junction_width * alpha_junction_height) / (
         junction_width * junction_height
     )
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
     return c
 
 
@@ -348,5 +354,11 @@ def flux_qubit_asymmetric(
     c.info["alpha_beta_ratio"] = (alpha_junction_width * alpha_junction_height) / (
         junction_width * junction_height
     )
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
     c.flatten()
     return c

@@ -226,5 +226,13 @@ def disk_heater(
     c.add_ports(disk_instance.ports)
     c.add_ports(c1.ports.filter(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")
+
+    e1_ports = [p for p in c.ports if p.name and p.name.startswith("e1")]
+    e2_ports = [p for p in c.ports if p.name and p.name.startswith("e2")]
+    if e1_ports:
+        c.create_pin(ports=e1_ports, name="e1")
+    if e2_ports:
+        c.create_pin(ports=e2_ports, name="e2")
+
     c.auto_rename_ports()
     return c
