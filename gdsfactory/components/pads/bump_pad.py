@@ -101,6 +101,10 @@ def bump_pad(
             )
     c.info["size"] = size_
 
+    elec = [p for p in c.ports if p.port_type == "electrical"]
+    if elec:
+        c.create_pin(ports=elec, name="pad")
+
     return c
 
 

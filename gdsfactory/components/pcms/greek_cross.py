@@ -85,6 +85,9 @@ def greek_cross(
 
     c.flatten()
     c.auto_rename_ports()
+    for port in c.ports:
+        if port.port_type == "electrical":
+            c.create_pin(ports=[port], name=port.name)
     return c
 
 
