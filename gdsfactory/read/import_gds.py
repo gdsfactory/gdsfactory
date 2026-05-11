@@ -6,7 +6,7 @@ from typing import Any
 import kfactory as kf
 from kfactory import KCLayout, utilities
 
-from gdsfactory.component import Component
+from gdsfactory.component import Component, _fix_pin_metadata
 from gdsfactory.typings import PostProcesses
 
 
@@ -67,9 +67,11 @@ def import_gds(
 
 def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
     kcell.set_meta_data()
+    _fix_pin_metadata(kcell)
 
     for ci in kcell.called_cells():
         kcell.kcl[ci].set_meta_data()
+        _fix_pin_metadata(kcell.kcl[ci])
 
     c = Component()
     c.name = kcell.name
