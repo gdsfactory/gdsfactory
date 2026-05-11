@@ -417,6 +417,20 @@ def spiral_racetrack_heater_metal(
     else:
         c.add_port("e1", port=heater_bot["e2"])
         c.add_port("e2", port=heater_top["e2"])
+
+    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
+    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
+    if top_ports:
+        c.create_pin(ports=top_ports, name="top")
+    if bot_ports:
+        c.create_pin(ports=bot_ports, name="bot")
+    e1_port = [p for p in c.ports if p.name == "e1"]
+    e2_port = [p for p in c.ports if p.name == "e2"]
+    if e1_port:
+        c.create_pin(ports=e1_port, name="e1")
+    if e2_port:
+        c.create_pin(ports=e2_port, name="e2")
+
     return c
 
 
@@ -491,4 +505,12 @@ def spiral_racetrack_heater_doped(
     c.add_ports(spiral.ports)
     c.add_ports(prefix="top_", ports=heater_top.ports)
     c.add_ports(prefix="bot_", ports=heater_bot.ports)
+
+    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
+    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
+    if top_ports:
+        c.create_pin(ports=top_ports, name="top")
+    if bot_ports:
+        c.create_pin(ports=bot_ports, name="bot")
+
     return c

@@ -129,4 +129,9 @@ def add_fiber_array_optical_south_electrical_north(
     )
 
     c.add_ports(ports2)
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     return c

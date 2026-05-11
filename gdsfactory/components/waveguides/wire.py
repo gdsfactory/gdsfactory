@@ -72,6 +72,9 @@ def wire_corner(
     c.info["length"] = width
     c.info["dy"] = width
     x.add_bbox(c)
+    for port in c.ports:
+        if port.port_type == "electrical":
+            c.create_pin(ports=[port], name=port.name)
     return c
 
 
@@ -109,6 +112,9 @@ def wire_corner45_straight(
     else:
         xs = gf.get_cross_section(cross_section)
     c = p.extrude(cross_section=xs)
+    for port in c.ports:
+        if port.port_type == "electrical":
+            c.create_pin(ports=[port], name=port.name)
     return c
 
 
@@ -182,6 +188,9 @@ def wire_corner45(
             port_type="electrical",
         )
     c.info["length"] = float(np.sqrt(2) * radius)
+    for port in c.ports:
+        if port.port_type == "electrical":
+            c.create_pin(ports=[port], name=port.name)
     return c
 
 
@@ -250,4 +259,7 @@ def wire_corner_sections(
     c.info["length"] = ymax - xmin
     c.info["dy"] = ymax - xmin
     x.add_bbox(c)
+    if port_type == "electrical":
+        for port in c.ports:
+            c.create_pin(ports=[port], name=port.name)
     return c

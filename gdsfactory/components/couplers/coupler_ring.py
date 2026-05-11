@@ -97,6 +97,11 @@ def coupler_ring(
     c.add_ports(
         gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr"
     )
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     c.auto_rename_ports()
     c.flatten()
     c.info["radius"] = radius

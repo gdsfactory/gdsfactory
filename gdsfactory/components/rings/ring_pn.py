@@ -192,10 +192,14 @@ def ring_double_pn(
     c.add_port("o1", port=th_waveguide.ports["o1"])
     c.add_port("o2", port=th_waveguide.ports["o2"])
 
-    c.add_port(name="htr_top_sig", port=top_l_heater_via["e2"])
-    c.add_port(name="htr_top_gnd", port=top_r_heater_via["e2"])
-    c.add_port(name="htr_bot_sig", port=bottom_l_heater_via["e2"])
-    c.add_port(name="htr_bot_gnd", port=bottom_r_heater_via["e2"])
+    htr_top_sig = c.add_port(name="htr_top_sig", port=top_l_heater_via["e2"])
+    htr_top_gnd = c.add_port(name="htr_top_gnd", port=top_r_heater_via["e2"])
+    htr_bot_sig = c.add_port(name="htr_bot_sig", port=bottom_l_heater_via["e2"])
+    htr_bot_gnd = c.add_port(name="htr_bot_gnd", port=bottom_r_heater_via["e2"])
+    c.create_pin(ports=[htr_top_sig], name="htr_top_sig")
+    c.create_pin(ports=[htr_top_gnd], name="htr_top_gnd")
+    c.create_pin(ports=[htr_bot_sig], name="htr_bot_sig")
+    c.create_pin(ports=[htr_bot_gnd], name="htr_bot_gnd")
 
     if with_drop:
         drop_waveguide_path = gf.Path()
@@ -332,6 +336,11 @@ def ring_single_pn(
     c.add_port("o1", port=bus_waveguide.ports["o1"])
     c.add_port("o2", port=bus_waveguide.ports["o2"])
     c.add_ports(ring.ports)
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     c.flatten()
     return c
 

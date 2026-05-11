@@ -45,4 +45,7 @@ def L(
         port_type=port_type,
         layer=layer,
     )
+    if port_type == "electrical":
+        for port in D.ports:
+            D.create_pin(ports=[port], name=port.name)
     return D

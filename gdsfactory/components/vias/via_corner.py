@@ -111,4 +111,7 @@ def via_corner(
         x0 = -a + cw + w / 2
         y0 = -b + ch + h / 2
         ref.move((x0, y0))
+    elec = [p for p in c.ports if p.port_type == "electrical"]
+    if elec:
+        c.create_pin(ports=elec, name="pad")
     return c

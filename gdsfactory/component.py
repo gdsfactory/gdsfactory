@@ -26,7 +26,7 @@ from kfactory import (
     save_layout_options,
 )
 from kfactory.exceptions import LockedError
-from kfactory.kcell import BaseKCell, ProtoKCell
+from kfactory.kcell import BaseKCell, BasePin, ProtoKCell  # type: ignore[attr-defined]
 from kfactory.port import ProtoPort
 from kfactory.utils.fill import fill_tiled
 from kfactory.utils.violations import (
@@ -42,6 +42,24 @@ from typing_extensions import override
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.serialization import DEFAULT_SERIALIZATION_MAX_DIGITS, clean_value_json
 from gdsfactory.utils import to_kdb_dpoints
+
+
+def _fix_pin_metadata(cell: kf.kcell.ProtoTKCell[Any]) -> None:
+    """Rewrite pin metadata so port indices are strings, not ints.
+
+    kfactory 2.5.1 stores pin port indices as ints in set_meta_data but
+    deserializes the ports dict with string keys in get_meta_data, causing
+    KeyError on GDS read. Converting indices to strings at write time avoids
+    the mismatch.
+    """
+    pin_entries: dict[str, Any] = {}
+    for meta in cell.each_meta_info():
+        if meta.name.startswith("kfactory:pins"):
+            pin_entries[meta.name] = meta.value
+    for name, value in pin_entries.items():
+        cell.remove_meta_info(name)
+        value["ports"] = [str(p) for p in value["ports"]]
+        cell.add_meta_info(kdb.LayoutMetaInfo(name, value, None, True))
 
 
 class AddPortError(ValueError):
@@ -622,6 +640,65 @@ class Component(ComponentBase, kf.DKCell):
     """
 
     routes: dict[str, Route] = Field(default_factory=dict)
+
+    def dup(self, new_name: str | None = None) -> Self:
+        """Copy the full cell.
+
+        Overrides kfactory's dup() to fix pin port mapping during copy.
+        kfactory builds port_mapping from ephemeral Port wrappers, but pin
+        ports are BasePort objects — the id() values never match.
+        """
+        saved_pins = self._base.pins
+        self._base.pins = []
+        try:
+            c = super().dup(new_name=new_name)
+        finally:
+            self._base.pins = saved_pins
+        if saved_pins:
+            port_mapping = {id(b): i for i, b in enumerate(self.ports._bases)}
+            c._base.pins = [
+                BasePin(
+                    name=p.name,
+                    kcl=self.kcl,
+                    ports=[c.base.ports[port_mapping[id(port)]] for port in p.ports],
+                    pin_type=p.pin_type,
+                    info=p.info,
+                )
+                for p in saved_pins
+            ]
+        return c
+
+    @override
+    def write(
+        self,
+        filename: str | pathlib.Path,
+        save_options: kdb.SaveLayoutOptions | None = None,
+        convert_external_cells: bool = False,
+        set_meta_data: bool = True,
+        autoformat_from_file_extension: bool = True,
+    ) -> None:
+        """Write component to GDS, fixing pin metadata for kfactory compat."""
+        if set_meta_data:
+            self.insert_vinsts()
+            self.kcl.set_meta_data()
+            for ci in self.called_cells():
+                kcell = self.kcl[ci]
+                if not kcell._destroyed():
+                    if convert_external_cells and kcell.is_library_cell():
+                        kcell.convert_to_static(recursive=True)
+                    kcell.set_meta_data()
+                    _fix_pin_metadata(kcell)
+            if convert_external_cells and self.is_library_cell():
+                self.convert_to_static(recursive=True)
+            self.set_meta_data()
+            _fix_pin_metadata(self)
+        super().write(
+            filename,
+            save_options=save_options,
+            convert_external_cells=False,
+            set_meta_data=False,
+            autoformat_from_file_extension=autoformat_from_file_extension,
+        )
 
     @property
     def layers(self) -> list[Layer]:

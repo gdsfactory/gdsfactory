@@ -119,6 +119,10 @@ def mzi_lattice(
     for port in sprevious.ports.filter(orientation=0, port_type="optical"):
         c.add_port(f"o_{port.name}", port=port)
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     c.auto_rename_ports()
     return c
 
@@ -332,6 +336,10 @@ def mzi_lattice_mmi(
 
     for port in sprevious.ports.filter(orientation=0, port_type="optical"):
         c.add_port(f"o_{port.name}", port=port)
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
 
     c.auto_rename_ports()
     return c
