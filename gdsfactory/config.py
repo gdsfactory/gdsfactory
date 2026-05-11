@@ -17,7 +17,7 @@ from rich.console import Console
 from rich.table import Table
 
 __version__ = "9.41.0"
-__next_major_version__ = "9.41.0"
+__next_major_version__ = "10.0.0"
 
 PathType = str | pathlib.Path
 
