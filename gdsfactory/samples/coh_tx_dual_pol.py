@@ -6,6 +6,8 @@ from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.samples.coh_tx_single_pol import coh_tx_single_pol
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def coh_tx_dual_pol(

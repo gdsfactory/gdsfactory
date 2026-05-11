@@ -12,6 +12,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentFactory, Layer
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def crossing_arm(

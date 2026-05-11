@@ -1,5 +1,8 @@
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.Component()
     columns = 2

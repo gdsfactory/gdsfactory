@@ -8,6 +8,8 @@ from gdsfactory.components.containers.add_fiber_array_optical_south_electrical_n
 )
 from gdsfactory.components.spirals.spiral import spiral
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def spiral_gc(**kwargs: Any) -> gf.Component:

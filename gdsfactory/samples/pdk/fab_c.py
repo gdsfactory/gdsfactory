@@ -13,6 +13,8 @@ from gdsfactory.port import select_ports
 from gdsfactory.technology import LayerLevel, LayerStack, LogicalLayer
 from gdsfactory.typings import Layer
 
+gf.gpdk.PDK.activate()
+
 
 class LAYER(gf.LayerEnum):
     layout = gf.constant(gf.kcl.layout)

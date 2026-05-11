@@ -15,6 +15,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def crossing_arm(

@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def sample_lidar_with_pads(
