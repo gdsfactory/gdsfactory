@@ -115,4 +115,9 @@ def optimal_hairpin(
         layer=layer,
         port_type=port_type,
     )
+
+    for p in list(c.ports):
+        if p.name and p.port_type == "electrical":
+            c.create_pin(ports=[p], name=p.name)
+
     return c

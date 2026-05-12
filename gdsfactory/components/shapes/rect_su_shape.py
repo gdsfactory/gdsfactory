@@ -102,6 +102,9 @@ def rect_su_shape(
             port_type=port_type,
         )
         c.auto_rename_ports()
+    if port_type == "electrical":
+        for port in c.ports:
+            c.create_pin(ports=[port], name=port.name)
     return c
 
 

@@ -152,6 +152,12 @@ def resonator_cpw(
     c.info["frequency_estimate"] = (
         3e8 / (2 * actual_length * 1e-6) / 1e9
     )  # GHz, rough estimate
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
     c.flatten()
     return c
 
@@ -287,6 +293,11 @@ def resonator_lumped(
     c.info["inductor_turns"] = inductor_turns
     c.info["inductor_radius"] = inductor_radius
 
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
     return c
 
 
@@ -379,5 +390,10 @@ def resonator_quarter_wave(
     c.info["frequency_estimate"] = (
         3e8 / (4 * length * 1e-6) / 1e9
     )  # GHz, rough estimate
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
 
     return c

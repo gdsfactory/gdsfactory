@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.42.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.42.0) - 2026-05-11
+
+No significant changes.
+
+
 ## [9.41.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.41.0) - 2026-04-29
 
 - Passing width/offset functions to cross_section [#4506](https://github.com/gdsfactory/gdsfactory/pull/4506)

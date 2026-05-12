@@ -98,6 +98,9 @@ def pad(
                 )
             )
     c.flatten()
+    elec = [p for p in c.ports if p.port_type in {"electrical", "pad"}]
+    if elec:
+        c.create_pin(ports=elec, name="pad")
     return c
 
 
@@ -185,6 +188,9 @@ def pad_array(
             )
     if auto_rename_ports:
         c.auto_rename_ports()
+    for port in c.ports:
+        if port.port_type == "electrical":
+            c.create_pin(ports=[port], name=f"pad_{port.name}")
     return c
 
 

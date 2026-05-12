@@ -101,6 +101,10 @@ def bump_pad(
             )
     c.info["size"] = size_
 
+    elec = [p for p in c.ports if p.port_type in {"electrical", "pad"}]
+    if elec:
+        c.create_pin(ports=elec, name="pad")
+
     return c
 
 
@@ -159,6 +163,10 @@ def bump_pad_grid(
             center = (col * column_pitch, row * row_pitch + (col % 2) * offset)
             pad.center = center
             c.add_ports(pad.ports, prefix=f"e{row + 1}_{col + 1}_")
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
 
     if auto_rename_ports:
         c.auto_rename_ports()

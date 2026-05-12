@@ -36,4 +36,7 @@ def pads_shorted(
         centered=True,
     )
     c.add_ref(short)
+    elec = [p for p in c.ports if p.port_type == "electrical"]
+    if elec:
+        c.create_pin(ports=elec, name="pad")
     return c

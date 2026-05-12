@@ -82,6 +82,10 @@ def array(
                     name = f"{port.name}_{iy + 1}_{ix + 1}"
                     c.add_port(name, port=port)
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     if post_process:
         for f in post_process:
             f(c)

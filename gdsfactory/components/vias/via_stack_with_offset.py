@@ -188,6 +188,9 @@ def via_stack_with_offset(
         port_orientations=None,
     )
     ref.ymin = ref_layer.ymin
+    elec = [p for p in c.ports if p.port_type == "electrical"]
+    if elec:
+        c.create_pin(ports=elec, name="pad")
     return c
 
 

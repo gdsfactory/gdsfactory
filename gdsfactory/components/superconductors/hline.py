@@ -63,4 +63,10 @@ def hline(
 
     c.info["width"] = width
     c.info["length"] = length
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
     return c

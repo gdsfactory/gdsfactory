@@ -155,6 +155,8 @@ def via_chain(
 
     contact1.ymax = top_wires.ymin + wire_width + contact_offset
     contact2.ymin = top_wires.ymax - wire_width - contact_offset
-    c.add_port(name="e1", port=contact1.ports["e1"])
-    c.add_port(name="e2", port=contact2.ports["e1"])
+    e1 = c.add_port(name="e1", port=contact1.ports["e1"])
+    e2 = c.add_port(name="e2", port=contact2.ports["e1"])
+    c.create_pin(ports=[e1], name="e1")
+    c.create_pin(ports=[e2], name="e2")
     return c

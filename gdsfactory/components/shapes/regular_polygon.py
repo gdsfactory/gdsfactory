@@ -61,6 +61,10 @@ def regular_polygon(
             )
 
     c.auto_rename_ports()
+    if port_type == "electrical":
+        elec = [p for p in c.ports if p.port_type == "electrical"]
+        if elec:
+            c.create_pin(ports=elec, name="pad")
     return c
 
 
