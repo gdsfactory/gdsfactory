@@ -2033,8 +2033,11 @@ def topic(
 
     # Split number of points between TOP, circular and TOP' sections.
     # Circular gets the percentage of total points corresponding to its arc length / the arc length if the whole bend was circular
-    n_points_circ = int(npoints * (Rc * theta_t - 2 * theta_p) / (radius / theta_t))
+    n_points_circ = int(npoints * (Rc * (theta_t - 2 * theta_p)) / (radius * theta_t))
     n_points_top = (npoints - n_points_circ) // 2
+
+    print(f"number of circ points = {n_points_circ}")
+    print(f"number of top points = {n_points_top}")
     # Add another point to circular arc if there is one left
     if 2 * n_points_top + n_points_circ == npoints - 1:
         n_points_circ += 1
@@ -2081,7 +2084,7 @@ def topic(
 
         return x_top, y_top
 
-    x_top, y_top = compute_TOP_coordinates(Rc, theta_p, n_points=n_points_circ)
+    x_top, y_top = compute_TOP_coordinates(Rc, theta_p, n_points=n_points_top)
 
     # 4. Generate circular segment, starting from the end of TOP with center (x0, y0), radius Rc, and angle = angle(1-2*p)
     theta_list = np.linspace(
