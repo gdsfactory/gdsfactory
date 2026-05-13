@@ -240,6 +240,13 @@ def straight_heater_meander_doped(
         c.add_ports(ports1, prefix="l_")
         c.add_ports(ports2, prefix="r_")
 
+    l_ports = [p for p in c.ports if p.name and p.name.startswith("l_")]
+    r_ports = [p for p in c.ports if p.name and p.name.startswith("r_")]
+    if l_ports:
+        c.create_pin(ports=l_ports, name="l")
+    if r_ports:
+        c.create_pin(ports=r_ports, name="r")
+
     # delete any straights with zero length
     for inst in list(c.insts):
         if inst.cell.settings.get("length") == 0.0:

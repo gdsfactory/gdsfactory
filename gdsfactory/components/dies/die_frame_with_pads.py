@@ -125,6 +125,10 @@ def die_frame_with_pads(
             port=pad_ref.ports[pad_port_name_bot],
         )
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     c.auto_rename_ports()
     return c
 
@@ -379,6 +383,11 @@ def die_frame_phix(
     bot_right = c << gf.c.circle(layer=layer_fiducial, radius=75)
     bot_right.xmin = pad_ref.xmax + 480
     bot_right.ymin = -ys / 2 + edge_to_pad_distance
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     c.auto_rename_ports()
     return c
 

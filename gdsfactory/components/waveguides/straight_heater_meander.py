@@ -250,6 +250,14 @@ def straight_heater_meander(
 
         c.add_ports(p1, prefix="l_")
         c.add_ports(p2, prefix="r_")
+
+    l_ports = [p for p in c.ports if p.name and p.name.startswith("l_")]
+    r_ports = [p for p in c.ports if p.name and p.name.startswith("r_")]
+    if l_ports:
+        c.create_pin(ports=l_ports, name="l")
+    if r_ports:
+        c.create_pin(ports=r_ports, name="r")
+
     c.info["length"] = total_length
     c.flatten()
     return c

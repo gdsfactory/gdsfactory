@@ -104,6 +104,11 @@ def coupler_capacitive(
     c.info["gap"] = gap
     c.info["coupling_area"] = pad_width * pad_height
 
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
     return c
 
 
@@ -237,6 +242,11 @@ def coupler_interdigital(
     c.info["finger_width"] = finger_width
     c.info["finger_gap_horizontal"] = finger_gap_horizontal
     c.info["finger_gap_vertical"] = finger_gap_vertical
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
 
     return c
 
@@ -418,5 +428,10 @@ def coupler_tunable(
     c.info["tuning_pad_width"] = tuning_pad_width
     c.info["tuning_pad_height"] = tuning_pad_height
     c.info["tuning_gap"] = tuning_gap
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
 
     return c

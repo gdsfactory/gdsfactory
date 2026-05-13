@@ -22,6 +22,11 @@ if TYPE_CHECKING:
 ComponentParams = ParamSpec("ComponentParams")
 
 
+def _module_basename(func: Callable[..., Any]) -> str:
+    name, module = func.__name__, func.__module__
+    return clean_name(name if module == "__main__" else f"{name}_{module}")
+
+
 class ComponentFunc(Protocol[ComponentParams]):
     __name__: str
 
@@ -118,10 +123,7 @@ def cell(
     from gdsfactory.component import Component
 
     if with_module_name and _func is not None:
-        mod = _func.__module__
-        basename = basename or clean_name(
-            _func.__name__ if mod == "__main__" else f"{_func.__name__}_{mod}"
-        )
+        basename = basename or _module_basename(_func)
 
     if drop_params is None:
         drop_params = ["self", "cls"]
@@ -160,11 +162,9 @@ def cell(
         func: ComponentFunc[ComponentParams],
     ) -> ComponentFunc[ComponentParams]:
         if with_module_name and basename is None:
-            mod = func.__module__
-            bn = clean_name(
-                func.__name__ if mod == "__main__" else f"{func.__name__}_{mod}"
+            decorated: Any = _cell(
+                func, **{**cell_kwargs, "basename": _module_basename(func)}
             )
-            decorated: Any = _cell(func, **{**cell_kwargs, "basename": bn})
         else:
             decorated = c(func)
         decorated.is_gf_cell = True
@@ -199,6 +199,7 @@ def vcell(
     ports: PortsDefinition | None = None,
     lvs_equivalent_ports: list[list[str]] | None = None,
     tags: list[str] | None = None,
+    with_module_name: bool = False,
 ) -> Callable[
     [ComponentAllAngleFunc[ComponentParams]], ComponentAllAngleFunc[ComponentParams]
 ]: ...
@@ -219,6 +220,7 @@ def vcell(
     ports: PortsDefinition | None = None,
     lvs_equivalent_ports: list[list[str]] | None = None,
     tags: list[str] | None = None,
+    with_module_name: bool = False,
 ) -> (
     ComponentAllAngleFunc[ComponentParams]
     | Callable[
@@ -227,8 +229,10 @@ def vcell(
 ):
     from gdsfactory.component import ComponentAllAngle
 
-    vc = _vcell(  # type: ignore[call-overload, misc]
-        _func,
+    if with_module_name and _func is not None:
+        basename = basename or _module_basename(_func)
+
+    vcell_kwargs: dict[str, Any] = dict(
         output_type=ComponentAllAngle,
         set_settings=set_settings,
         set_name=set_name,
@@ -242,6 +246,7 @@ def vcell(
         lvs_equivalent_ports=lvs_equivalent_ports,
         tags=tags,
     )
+    vc: Any = _vcell(_func, **vcell_kwargs)  # type: ignore[arg-type]
 
     if _func is not None:
         vc.is_gf_vcell = True
@@ -251,7 +256,12 @@ def vcell(
     def wrapper(
         func: ComponentAllAngleFunc[ComponentParams],
     ) -> ComponentAllAngleFunc[ComponentParams]:
-        decorated = vc(func)
+        if with_module_name and basename is None:
+            decorated: Any = _vcell(
+                func, **{**vcell_kwargs, "basename": _module_basename(func)}
+            )
+        else:
+            decorated = vc(func)
         decorated.is_gf_vcell = True
         return cast(ComponentAllAngleFunc[ComponentParams], decorated)
 

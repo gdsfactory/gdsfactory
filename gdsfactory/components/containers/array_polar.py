@@ -60,6 +60,10 @@ def array_polar(
                 name = f"{port.name}_{i + 1}"
                 c.add_port(name, port=port.copy(ref.trans))
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     return c
 
 

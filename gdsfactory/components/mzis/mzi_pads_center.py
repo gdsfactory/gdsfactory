@@ -129,4 +129,9 @@ def mzi_pads_center(
         )
 
     c.add_ports(m.ports)
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     return c

@@ -81,4 +81,9 @@ def optimal_90deg(
         layer=layer,
         port_type=port_type,
     )
+
+    for p in list(D.ports):
+        if p.name and p.port_type == "electrical":
+            D.create_pin(ports=[p], name=p.name)
+
     return D

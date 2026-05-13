@@ -120,6 +120,10 @@ def transmon(
     c.info["pad_gap"] = pad_gap
     c.info["junction_area"] = junction_width * junction_height
 
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
     return c
 
 
@@ -226,5 +230,9 @@ def transmon_circular(
     c.info["pad_radius"] = pad_radius
     c.info["pad_gap"] = pad_gap
     c.info["junction_area"] = junction_width * junction_height
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
 
     return c

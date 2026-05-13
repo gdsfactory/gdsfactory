@@ -76,6 +76,8 @@ def ge_detector_straight_si_contacts(
     via_stack_top.ymin = +via_stack_spacing / 2 + via_stack_offset
     via_stack_bot.ymax = -via_stack_spacing / 2 + via_stack_offset
 
-    c.add_port(port=via_stack_bot.ports["e3"], name="bot")
-    c.add_port(port=via_stack_top.ports["e3"], name="top")
+    bot_port = c.add_port(port=via_stack_bot.ports["e3"], name="bot")
+    top_port = c.add_port(port=via_stack_top.ports["e3"], name="top")
+    c.create_pin(ports=[bot_port], name="bot")
+    c.create_pin(ports=[top_port], name="top")
     return c

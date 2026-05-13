@@ -127,6 +127,9 @@ def taper(
     c.info["length"] = length
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)
+    for port in c.ports:
+        if port.port_type == "electrical":
+            c.create_pin(ports=[port], name=port.name)
     return c
 
 
