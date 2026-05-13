@@ -8,6 +8,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import Float2, Layer
 
+gf.gpdk.PDK.activate()
+
+
 layer = (1, 0)
 
 

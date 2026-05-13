@@ -4,6 +4,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Size
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def big_device(

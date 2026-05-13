@@ -14,6 +14,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def component_with_port(

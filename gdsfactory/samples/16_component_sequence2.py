@@ -4,6 +4,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components import component_sequence, straight, taper_strip_to_ridge
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def cutback_phase(

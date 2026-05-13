@@ -2,6 +2,9 @@ import time
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.Component()
     time_start = time.time()

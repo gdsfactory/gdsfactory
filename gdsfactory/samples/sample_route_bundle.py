@@ -1,6 +1,8 @@
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    gf.gpdk.PDK.activate()
+
     # gf.CONF.pdk = 'gdsfactory.gpdk'
 
     pitch = 127.0
