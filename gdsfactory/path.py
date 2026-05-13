@@ -1942,7 +1942,7 @@ def topic(
         x_arc = np.array([radius * np.sin(theta) for theta in theta_list])
         y_arc = np.array([radius * (1 - np.cos(theta)) for theta in theta_list])
 
-        points = np.concatenate((x_arc, y_arc))
+        points = np.column_stack((x_arc, y_arc))
         topic_path = gf.path.Path()
         topic_path.points = points
         return topic_path
