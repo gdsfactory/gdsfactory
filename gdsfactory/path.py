@@ -2036,8 +2036,6 @@ def topic(
     n_points_circ = int(npoints * (Rc * (theta_t - 2 * theta_p)) / (radius * theta_t))
     n_points_top = (npoints - n_points_circ) // 2
 
-    print(f"number of circ points = {n_points_circ}")
-    print(f"number of top points = {n_points_top}")
     # Add another point to circular arc if there is one left
     if 2 * n_points_top + n_points_circ == npoints - 1:
         n_points_circ += 1
@@ -2087,12 +2085,16 @@ def topic(
     x_top, y_top = compute_TOP_coordinates(Rc, theta_p, n_points=n_points_top)
 
     # 4. Generate circular segment, starting from the end of TOP with center (x0, y0), radius Rc, and angle = angle(1-2*p)
+    # In order to avoid overlap between TOP's last point and circ first point, ignore the first and last points of the arc.
     theta_list = np.linspace(
-        start=theta_p, stop=theta_t - theta_p, num=n_points_circ, endpoint=True
+        start=theta_p,
+        stop=theta_t - theta_p,
+        num=n_points_circ + 2,
+        endpoint=True,  # n_points_circ+2 to avoid the first and last one
     )
 
-    x_arc = np.array([x0 + Rc * np.sin(theta) for theta in theta_list])
-    y_arc = np.array([y0 - Rc * np.cos(theta) for theta in theta_list])
+    x_arc = np.array([x0 + Rc * np.sin(theta) for theta in theta_list[1:-1]])
+    y_arc = np.array([y0 - Rc * np.cos(theta) for theta in theta_list[1:-1]])
 
     # 5. Generate TOP' segment by mirroring TOP with respect to the bisector of the angle.
     # The goal is to do a rotation of each point of TOP, centered to (0,radius).
@@ -2111,6 +2113,8 @@ def topic(
 
     topic_path = gf.path.Path()
     topic_path.points = points
+    # Adding end angle for extrude function
+    topic_path.end_angle = angle
 
     return topic_path
 
