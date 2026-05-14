@@ -1934,24 +1934,17 @@ def topic(
         p = gf.path.topic(radius=10, angle=110, p=0.1, npoints=720)
         p.plot()
     """
-    if p == 0:
-        theta_list = np.linspace(
-            start=0, stop=np.radians(angle), num=npoints, endpoint=True
-        )
-
-        x_arc = np.array([radius * np.sin(theta) for theta in theta_list])
-        y_arc = np.array([radius * (1 - np.cos(theta)) for theta in theta_list])
-
-        points = np.column_stack((x_arc, y_arc))
-        topic_path = gf.path.Path()
-        topic_path.points = points
-        topic_path.end_angle = angle
-        return topic_path
     if p < 0.0 or p >= 0.5:
         raise ValueError(
             "The angle of bend during the transition from the TOP segment to the circular is p*angle . "
             "topic() requires the transition angle to be between 0 (circular bend) and 0.5*angle . "
         )
+    if angle <= 1e-6:
+        raise ValueError("The bend's total angle should be larger than 1e-6.")
+    if p < 1e-6:
+        topic_path = gf.path.arc(radius=radius, angle=angle, npoints=npoints)
+        topic_path.end_angle = angle
+        return topic_path
 
     # 1. Define transition angle as p*angle.
     theta_t = np.radians(angle)
