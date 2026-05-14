@@ -1602,7 +1602,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         polygon = points_to_polygon(points)
 
         res = self.shapes(_layer).insert(polygon)  # type: ignore[func-returns-value]
-        return res  # type: ignore[no-any-return]
+        return res
 
     def get_polygons(self, layer: LayerSpec) -> list[kf.kdb.DPolygon]:
         """Returns a list of polygons from the Component."""
