@@ -1945,6 +1945,7 @@ def topic(
         points = np.column_stack((x_arc, y_arc))
         topic_path = gf.path.Path()
         topic_path.points = points
+        topic_path.end_angle = angle
         return topic_path
     if p < 0.0 or p >= 0.5:
         raise ValueError(
