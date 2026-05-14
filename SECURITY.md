@@ -4,7 +4,7 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 9.x     | :white_check_mark: |
+| 9.x     | Latest minor only  |
 | < 9.0   | :x:                |
 
 Only the latest minor release of the current major version receives security updates.
