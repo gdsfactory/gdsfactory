@@ -1,16 +1,17 @@
+from __future__ import annotations
+
+__all__ = ["bend_topic", "bend_topic180", "bend_topic_all_angle", "bend_topic_s"]
+
 import warnings
 from functools import partial
 from typing import Literal, overload
 
 import numpy as np
 
-from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
-
-__all__ = ["bend_topic", "bend_topic180", "bend_topic_all_angle", "bend_topic_s"]
-
 import gdsfactory as gf
+from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import topic
+from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
 
 from .._schematic import bend_schematic, sbend_schematic
 
