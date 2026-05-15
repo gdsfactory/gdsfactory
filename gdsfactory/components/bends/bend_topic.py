@@ -39,7 +39,7 @@ def _bend_topic(
     allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    all_angle: Literal[False] = True,
+    all_angle: Literal[True] = True,
 ) -> ComponentAllAngle: ...
 
 
@@ -189,7 +189,7 @@ def bend_topic_all_angle(
     allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
-) -> Component:
+) -> ComponentAllAngle:
     """Returns a Third Order Polynomial Interconnected Circular (TOPIC) bend component of arbitrary angle.
 
     The implementation follows the description in this publication https://arxiv.org/html/2411.15025v1.
