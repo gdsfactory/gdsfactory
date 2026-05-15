@@ -63,7 +63,7 @@ import yaml
 
 from gdsfactory import typings
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.component import Component, ComponentAllAngle, ComponentReference
 from gdsfactory.schematic import (
     Bundle,
     GridArray,
@@ -807,7 +807,7 @@ def from_yaml(
     c = _add_routes(c, refs, net.routes, routing_strategies)
     c = _add_ports(c, refs, net.ports)
     c = _add_labels(c, refs, label_instance_function)
-    c.name = name or net.name or c.name
+    c.name = name or net.name or c.name  # pyright: ignore
     return c
 
 
@@ -951,19 +951,25 @@ def _place_and_connect(
                 if i1a is not None and i1b is not None:
                     port1 = refs[i1name].ports[p1, i1a, i1b]
                     if i2a is not None and i2b is not None:
-                        refs[i1name].connect(port1, refs[i2name].ports[p2, i2a, i2b])
+                        cast("ComponentReference", refs[i1name]).connect(
+                            port1, refs[i2name].ports[p2, i2a, i2b]
+                        )
                     else:
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1name].connect(port1, other=refs[i2], other_port_name=p2)
+                        cast("ComponentReference", refs[i1name]).connect(
+                            port1,
+                            other=cast("ComponentReference", refs[i2]),
+                            other_port_name=p2,
+                        )
 
                 else:
                     if i2a is not None and i2b is not None:
                         if i1 not in refs:
                             raise ValueError(f"{i1!r} not in {list(refs)}")
-                        refs[i1].connect(
+                        cast("ComponentReference", refs[i1]).connect(
                             p1,
-                            other=refs[i2name],  # type: ignore[arg-type]
+                            other=cast("ComponentReference", refs[i2name]),
                             other_port_name=(p2, i2a, i2b),
                         )
                     else:
@@ -971,7 +977,11 @@ def _place_and_connect(
                             raise ValueError(f"{i1!r} not in {list(refs)}")
                         if i2 not in refs:
                             raise ValueError(f"{i2!r} not in {list(refs)}")
-                        refs[i1].connect(p1, other=refs[i2], other_port_name=p2)
+                        cast("ComponentReference", refs[i1]).connect(
+                            p1,
+                            other=cast("ComponentReference", refs[i2]),
+                            other_port_name=p2,
+                        )
 
 
 def _add_routes(

@@ -161,8 +161,9 @@ def cell(
     def wrapper(
         func: ComponentFunc[ComponentParams],
     ) -> ComponentFunc[ComponentParams]:
+        decorated: Any
         if with_module_name and basename is None:
-            decorated: Any = _cell(
+            decorated = _cell(
                 func, **{**cell_kwargs, "basename": _module_basename(func)}
             )
         else:

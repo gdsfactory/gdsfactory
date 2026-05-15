@@ -244,7 +244,9 @@ class Pdk(BaseModel):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
         return cross_section_xsection(
-            func, self.cross_sections, self.cross_section_default_names
+            cast("CrossSectionFactory", func),  # type: ignore[redundant-cast]
+            self.cross_sections,
+            self.cross_section_default_names,
         )
 
     def activate(self, force: bool = False) -> None:
@@ -358,10 +360,11 @@ class Pdk(BaseModel):
                     raise ValueError(
                         f"Invalid setting {key!r} not in {component_settings}"
                     )
-            settings = dict(cell.get("settings", {}))
+            cell_dict = cast("dict[str, Any]", cell)  # type: ignore[redundant-cast]
+            settings = dict(cell_dict.get("settings", {}))
             settings.update(**kwargs)
 
-            cell_name = cell.get("function")
+            cell_name = cell_dict.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
                 matching_cells = [
                     c
@@ -378,7 +381,7 @@ class Pdk(BaseModel):
             )
         if settings:
             return partial(cell_func, **settings)
-        return cell_func
+        return cast("ComponentFactory | ComponentAllAngleFactory", cell_func)  # type: ignore[redundant-cast]
 
     def get_component(
         self,
@@ -439,10 +442,9 @@ class Pdk(BaseModel):
         kwargs = kwargs or {}
         kwargs.update(settings)
 
-        if isinstance(component, kf.ProtoTKCell):
-            return Component(base=component.base)
-        if isinstance(component, kf.VKCell):
-            return ComponentAllAngle(base=component.base)
+        if isinstance(component, Component | ComponentAllAngle):
+            return component
+
         if callable(component):
             _component = component(**kwargs)
             return type(_component)(base=_component.base)  # type: ignore[call-overload,no-any-return]
@@ -467,11 +469,12 @@ class Pdk(BaseModel):
                     raise ValueError(
                         f"Invalid setting {key!r} not in {component_settings}"
                     )
-            settings = dict(component.get("settings", {}))
+            component_dict = cast("dict[str, Any]", component)  # type: ignore[redundant-cast]
+            settings = dict(component_dict.get("settings", {}))
             settings.update(**kwargs)
 
-            cell_name = component.get("component", None)
-            cell_name = cell_name or component.get("function")
+            cell_name = component_dict.get("component", None)
+            cell_name = cell_name or component_dict.get("function")
             cell_name = str(cell_name).split(".")[-1]
 
             if cell_name not in cells:
@@ -506,10 +509,11 @@ class Pdk(BaseModel):
                 xs._name = self.cross_section_default_names[xs.name]
             return xs
         if isinstance(cross_section, dict):
-            xs_name = cross_section.get("cross_section", None)
+            xs_dict = cast("dict[str, Any]", cross_section)  # type: ignore[redundant-cast]
+            xs_name = xs_dict.get("cross_section", None)
             if xs_name is None:
                 raise ValueError("cross_section name is required")
-            settings = cross_section.get("settings", {})
+            settings = xs_dict.get("settings", {})
             return self.get_cross_section(xs_name, **settings)
         if isinstance(cross_section, CrossSection):
             if kwargs:

@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, isbuiltin, isfunction
 from types import BuiltinFunctionType, FunctionType, ModuleType
-from typing import Any, ParamSpec, Protocol
+from typing import Any, ParamSpec, Protocol, cast
 
 import numpy as np
 from kfactory import logger
@@ -180,10 +180,12 @@ def cross_section(
             )
     s = [
         Section(
-            width=0 if callable(width) else width,
-            width_function=width if callable(width) else None,
-            offset=0 if callable(offset) else offset,
-            offset_function=offset if callable(offset) else None,
+            width=0 if callable(width) else cast(Any, width),
+            width_function=cast(Callable[..., Any], width) if callable(width) else None,
+            offset=0 if callable(offset) else cast(Any, offset),
+            offset_function=cast(Callable[..., Any], offset)
+            if callable(offset)
+            else None,
             layer=layer,
             port_names=port_names,
             port_types=port_types,
@@ -200,8 +202,11 @@ def cross_section(
 
         def _cladding_width_kwargs(offset: float) -> dict[str, Any]:
             if callable(width):
-                return {"width_function": lambda t: width(t) + 2 * offset}
-            return {"width": width + 2 * offset}
+                return {
+                    "width_function": lambda t: cast(Callable[..., Any], width)(t)
+                    + 2 * offset
+                }
+            return {"width": cast(Any, width) + 2 * offset}
 
         s += [
             Section(

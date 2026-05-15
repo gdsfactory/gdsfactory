@@ -33,7 +33,8 @@ def symbol_from_cell(func: _F, to_symbol: ToSymbol) -> _F:
     @functools.wraps(func)
     def _symbol(*args: Any, **kwargs: Any) -> Component:
         component = func(*args, **kwargs)
-        c_symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")
+        func_name = getattr(func, "__name__", str(func))
+        c_symbol = to_symbol(component, prefix=f"SYMBOL_{func_name}")
         return c_symbol
 
     _symbol._symbol = True  # type: ignore[attr-defined]
@@ -97,9 +98,9 @@ def floorplan_with_block_letters(
         justify="center",
     )
 
-    text = sym << text_component
-    text.x = component.x
-    text.y = component.y
+    text_instance = sym << text_component
+    text_instance.x = component.x
+    text_instance.y = component.y
 
     sym.add_ports(component.ports)
 

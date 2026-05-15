@@ -325,7 +325,7 @@ class Path(UMGeometricObject):
         else:
             points = self.centerpoint_offset_curve(
                 self.points,
-                offset_distance=offset,
+                offset_distance=cast(float, offset),  # type: ignore[redundant-cast]
                 start_angle=self.start_angle,
                 end_angle=self.end_angle,
             )
@@ -673,7 +673,12 @@ def _sinusoidal_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
     def sine(t: T) -> T:
-        return cast("T", y1 + (1 - np.cos(np.pi * t)) / 2 * dy)
+        return cast(
+            T,
+            np.add(
+                y1, np.multiply(np.subtract(1, np.cos(np.multiply(np.pi, t))), dy / 2)
+            ),
+        )
 
     return sine
 
@@ -682,7 +687,7 @@ def _parabolic_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
     def parabolic(t: T) -> T:
-        return cast("T", y1 + np.sqrt(t) * dy)
+        return cast(T, np.add(y1, np.multiply(np.sqrt(t), dy)))
 
     return parabolic
 
@@ -691,7 +696,7 @@ def _linear_transition(y1: float, y2: float) -> Callable[[T], T]:
     dy = y2 - y1
 
     def linear(t: T) -> T:
-        return y1 + t * dy
+        return cast(T, np.add(y1, np.multiply(t, dy)))
 
     return linear
 
@@ -1497,7 +1502,7 @@ def extrude_transition(
             assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[:2],
-                offset_distance=offset_value1[:2],
+                offset_distance=cast(Sequence[float], offset_value1)[:2],
                 start_angle=start_angle,
                 end_angle=None,
             )[0]
@@ -1517,7 +1522,7 @@ def extrude_transition(
             assert not isinstance(offset_value1, float)
             center = p.centerpoint_offset_curve(
                 points[-2:],
-                offset_distance=offset_value1[-2:],
+                offset_distance=cast(Sequence[float], offset_value1)[-2:],
                 start_angle=None,
                 end_angle=end_angle,
             )[-1]
