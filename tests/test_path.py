@@ -515,7 +515,7 @@ def test_euler_zero_angle_returns_origin() -> None:
     )
 )
 def test_topic_p_values(p_val: float) -> None:
-    """Test topic with arbitrary p values in [0, 5)."""
+    """Test topic with arbitrary p values in [0, 0.5)."""
     p = gf.path.topic(radius=10, angle=90, p=p_val)
     assert not np.any(np.isnan(p.points))
 

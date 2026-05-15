@@ -1944,11 +1944,12 @@ def topic(
             "The angle of bend during the transition from the TOP segment to the circular is p*angle . "
             "topic() requires the transition angle to be between 0 (circular bend) and 0.5*angle . "
         )
-    if angle <= 1e-6:
+    if abs(angle) <= 1e-6:
         raise ValueError("The bend's total angle should be larger than 1e-6.")
-    if p < 1e-6:
+    if p < 1e-4:
         topic_path = gf.path.arc(radius=radius, angle=angle, npoints=npoints)
         topic_path.end_angle = angle
+        topic_path.info["Rmin"] = radius
         return topic_path
 
     # 1. Define transition angle as p*angle.
@@ -2035,6 +2036,8 @@ def topic(
     n_points_circ = int(npoints * (Rc * (theta_t - 2 * theta_p)) / (radius * theta_t))
     n_points_top = (npoints - n_points_circ) // 2
 
+    n_points_top = max(2, (npoints - n_points_circ) // 2)
+
     # Add another point to circular arc if there is one left
     if 2 * n_points_top + n_points_circ == npoints - 1:
         n_points_circ += 1
@@ -2058,26 +2061,16 @@ def topic(
             n_points: number of sample points along the curve
 
         Returns:
-            l_vals: arc length parameter values
-            x_vals: x coordinates
-            y_vals: y coordinates
+            x_top: x coordinates
+            y_top: y coordinates
         """
         l_max = 2 * Rc * theta_p
 
         l_vals = np.linspace(0, l_max, n_points)
-        x_top = np.zeros(n_points)
-        y_top = np.zeros(n_points)
+        theta_vals = np.array([theta_of_s(s, Rc) for s in l_vals])
 
-        # x(l) = integral_0^l cos(theta(s)) ds
-        # y(l) = integral_0^l sin(theta(s)) ds
-        # Evaluated incrementally for efficiency
-        for i, length in enumerate(l_vals):
-            x_top[i], _ = integrate.quad(
-                lambda s: np.cos(theta_of_s(s=s, Rc=Rc)), 0, length
-            )
-            y_top[i], _ = integrate.quad(
-                lambda s: np.sin(theta_of_s(s=s, Rc=Rc)), 0, length
-            )
+        x_top = integrate.cumulative_trapezoid(np.cos(theta_vals), l_vals, initial=0)
+        y_top = integrate.cumulative_trapezoid(np.sin(theta_vals), l_vals, initial=0)
 
         return x_top, y_top
 
@@ -2098,7 +2091,7 @@ def topic(
     # 5. Generate TOP' segment by mirroring TOP with respect to the bisector of the angle.
     # The goal is to do a rotation of each point of TOP, centered to (0,radius).
     dist = np.sqrt(x_top**2 + (radius - y_top) ** 2)
-    thetas = np.asin(x_top / dist)
+    thetas = np.asin(np.clip(x_top / dist, -1, 1))
     # The first point of TOP corresponds to the last point of TOP', this is why we reverse the vectors
     x_top_prime = dist * np.sin(theta_t - thetas)
     x_top_prime = x_top_prime[::-1]
@@ -2114,6 +2107,7 @@ def topic(
     topic_path.points = points
     # Adding end angle for extrude function
     topic_path.end_angle = angle
+    topic_path.info["Rmin"] = Rc
 
     return topic_path
 

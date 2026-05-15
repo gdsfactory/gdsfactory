@@ -70,7 +70,7 @@ def _bend_topic(
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        all_angle: if True, the bend is drawn with a single euler curve.
+        all_angle: if True, use all-angle extrusion/component handling for the TOPIC bend.
 
     .. code::
 
@@ -87,14 +87,9 @@ def _bend_topic(
     if radius is None:
         raise ValueError("radius must be specified")
 
-    if layer and width:
-        x = gf.get_cross_section(
-            cross_section, layer=layer or x.layer, width=width or x.width
-        )
-    elif layer:
-        x = gf.get_cross_section(cross_section, layer=layer or x.layer)
-    elif width:
-        x = gf.get_cross_section(cross_section, width=width or x.width)
+    x = gf.get_cross_section(
+        cross_section, layer=layer or x.layer, width=width or x.width
+    )
 
     path = topic(
         radius=radius,
@@ -105,12 +100,13 @@ def _bend_topic(
 
     c = path.extrude(x, all_angle=all_angle)
 
-    # The minimum bend radius is the one at the start and end of the bend, which is the one defined by the user.
-    c.info["min_bend_radius"] = radius
+    min_bend_radius = float(np.round(path.info["Rmin"], 3))
+    c.info["min_bend_radius"] = float(min_bend_radius)
+
     c.info["radius"] = radius
     c.info["length"] = float(np.round(path.length(), 3))
     c.info["dy"] = float(
-        np.round(abs(float(path.points[0][0] - path.points[-1][0])), 3)
+        np.round(abs(float(path.points[0][1] - path.points[-1][1])), 3)
     )
     c.info["width"] = float(width or x.width)
 

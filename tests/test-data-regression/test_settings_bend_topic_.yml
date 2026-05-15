@@ -1,7 +1,7 @@
 info:
   dy: 10
   length: 16.257
-  min_bend_radius: 10
+  min_bend_radius: 8.625
   radius: 10
   route_info_length: 16.257
   route_info_min_bend_radius: 10
