@@ -1957,10 +1957,10 @@ def topic(
 
     def theta_of_s(s: float, Rc: float) -> float:
         """Accumulated angle along the TOP spiral section."""
-        return (4 * Rc * theta_p * s**3 - s**4) / (16 * Rc**4 * theta_p**3)
+        return float((4 * Rc * theta_p * s**3 - s**4) / (16 * Rc**4 * theta_p**3))
 
     # 2. Calculate the center and radius of the circular path. Some auxiliary functions are needed to solve the system of equations.
-    def solve_bend_equations(theta_t: float, R: float) -> dict:
+    def solve_bend_equations(theta_t: float, R: float) -> dict[str, float]:
         """Solve for x0, y0, Rc given theta_t (total angle), R (initial radius).
 
         The system:
@@ -1995,7 +1995,7 @@ def topic(
             if Rc <= 0:
                 return 1e9
             x0, y0 = compute_x0_y0(Rc)
-            return x0 * np.cos(theta_t / 2) + (y0 - R) * np.sin(theta_t / 2)
+            return float(x0 * np.cos(theta_t / 2) + (y0 - R) * np.sin(theta_t / 2))
 
         # --- Root-find Rc ---
         # Initial bracket: Rc is usually close to R for small p, larger for p→1
@@ -2042,7 +2042,7 @@ def topic(
     # 3. Generate TOP segment.
     def compute_TOP_coordinates(
         Rc: float, theta_p: float, n_points: int = 300
-    ) -> tuple:
+    ) -> tuple[float, float]:
         """Compute (x(l), y(l)) along the TOP spiral section via Eq. 6 of the original paper.
 
         Integrates:
