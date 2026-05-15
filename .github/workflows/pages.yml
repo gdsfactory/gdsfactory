@@ -24,10 +24,10 @@ jobs:
             ~/.gdsfactory/
           key: 0.0.1
           restore-keys: 0.0.1
-      - name: Set up Python 3.11
+      - name: Set up Python 3.12
         uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.12'
       - name: Install uv
         uses: astral-sh/setup-uv@v7
       - name: Installing the library
