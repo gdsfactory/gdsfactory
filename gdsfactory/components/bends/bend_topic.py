@@ -1,4 +1,5 @@
 import warnings
+from functools import partial
 from typing import overload
 
 import numpy as np
@@ -6,7 +7,7 @@ import numpy as np
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
 
-__all__ = ["bend_topic", "bend_topic_all_angle", "bend_topic_s"]
+__all__ = ["bend_topic", "bend_topic180", "bend_topic_all_angle", "bend_topic_s"]
 
 import gdsfactory as gf
 from gdsfactory.path import topic
@@ -285,3 +286,6 @@ def bend_topic_s(
     c.add_port(port2, port=b2[port2])
     c.info["length"] = 2 * b.info["length"]
     return c
+
+
+bend_topic180 = partial(bend_topic, angle=180)

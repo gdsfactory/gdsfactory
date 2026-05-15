@@ -2,6 +2,7 @@ from .bend_circular import *
 from .bend_circular_heater import *
 from .bend_euler import *
 from .bend_s import *
+from .bend_topic import *
 
 __all__ = [
     "bend_circular",
@@ -14,5 +15,9 @@ __all__ = [
     "bend_euler_s",
     "bend_s",
     "bend_s_offset",
+    "bend_topic",
+    "bend_topic180",
+    "bend_topic_all_angle",
+    "bend_topic_s",
     "bezier",
 ]
