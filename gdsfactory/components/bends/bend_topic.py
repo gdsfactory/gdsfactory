@@ -1,6 +1,6 @@
 import warnings
 from functools import partial
-from typing import overload
+from typing import Literal, overload
 
 import numpy as np
 
@@ -25,7 +25,7 @@ def _bend_topic(
     allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    all_angle: bool = False,
+    all_angle: Literal[False] = False,
 ) -> Component: ...
 
 
@@ -39,7 +39,7 @@ def _bend_topic(
     allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    all_angle: bool = True,
+    all_angle: Literal[False] = True,
 ) -> ComponentAllAngle: ...
 
 
