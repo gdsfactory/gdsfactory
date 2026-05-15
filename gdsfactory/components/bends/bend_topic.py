@@ -21,6 +21,7 @@ def _bend_topic(
     p: float = 0.1,
     npoints: float = 100,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
     all_angle: bool = False,
@@ -34,6 +35,7 @@ def _bend_topic(
     p: float = 0.1,
     npoints: float = 100,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
     all_angle: bool = True,
@@ -46,6 +48,7 @@ def _bend_topic(
     p: float = 0.1,
     npoints: float = 100,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
     all_angle: bool = False,
@@ -63,6 +66,7 @@ def _bend_topic(
         p: used to calculate the angle of the bend at the end of TOP / start of circular arc, as p*angle. It should be within [0, 0.5).
         npoints: Number of points used per 360 degrees.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         all_angle: if True, the bend is drawn with a single euler curve.
@@ -102,11 +106,15 @@ def _bend_topic(
 
     # The minimum bend radius is the one at the start and end of the bend, which is the one defined by the user.
     c.info["min_bend_radius"] = radius
+    c.info["radius"] = radius
     c.info["length"] = float(np.round(path.length(), 3))
     c.info["dy"] = float(
         np.round(abs(float(path.points[0][0] - path.points[-1][0])), 3)
     )
     c.info["width"] = float(width or x.width)
+
+    if not allow_min_radius_violation:
+        x.validate_radius(radius)
 
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None
@@ -128,6 +136,7 @@ def bend_topic(
     p: float = 0.1,
     npoints: float = 100,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
 ) -> Component:
@@ -146,6 +155,7 @@ def bend_topic(
         p: used to calculate the angle of the bend at the end of TOP / start of circular arc, as p*angle. It should be within [0, 0.5).
         npoints: Number of points used per 360 degrees.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
     """
@@ -161,6 +171,7 @@ def bend_topic(
         p=p,
         npoints=npoints,
         cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
         layer=layer,
         width=width,
         all_angle=False,
@@ -174,6 +185,7 @@ def bend_topic_all_angle(
     p: float = 0.1,
     npoints: float = 100,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
     layer: LayerSpec | None = None,
     width: float | None = None,
 ) -> Component:
@@ -192,6 +204,7 @@ def bend_topic_all_angle(
         p: used to calculate the angle of the bend at the end of TOP / start of circular arc, as p*angle. It should be within [0, 0.5).
         npoints: Number of points used per 360 degrees.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
     """
@@ -207,6 +220,7 @@ def bend_topic_all_angle(
         p=p,
         npoints=npoints,
         cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
         layer=layer,
         width=width,
         all_angle=True,
@@ -221,6 +235,7 @@ def bend_topic_s(
     layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
     port1: str = "o1",
     port2: str = "o2",
 ) -> Component:
@@ -231,6 +246,7 @@ def bend_topic_s(
         p: used to calculate the angle of the bend at the end of TOP / start of circular arc, as p*angle. It should be within [0, 0.5).
         npoints: Number of points used per 360 degrees.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         port1: input port name.
@@ -259,6 +275,7 @@ def bend_topic_s(
         npoints=npoints,
         layer=layer,
         width=width,
+        allow_min_radius_violation=allow_min_radius_violation,
         cross_section=cross_section,
     )
     b1 = c.add_ref(b)
