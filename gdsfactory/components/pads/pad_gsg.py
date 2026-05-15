@@ -5,6 +5,9 @@ from __future__ import annotations
 __all__ = ["pad_gs", "pad_gsg", "pad_gsg_open", "pad_gsg_short"]
 
 from functools import partial
+from typing import cast
+
+import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
@@ -57,9 +60,17 @@ def pad_gsg_short(
         c, gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal
     )
     gf.routing.route_quad(
-        c, gnd_top.ports["e2"], pads.ports["e1_3_1"], layer=layer_metal
+        c,
+        cast("kf.DPort", gnd_top.ports["e2"]),  # type: ignore[redundant-cast]
+        cast("kf.DPort", pads.ports["e1_3_1"]),  # type: ignore[redundant-cast]
+        layer=layer_metal,
     )
-    gf.routing.route_quad(c, via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal)
+    gf.routing.route_quad(
+        c,
+        cast("kf.DPort", via.ports["e3"]),  # type: ignore[redundant-cast]
+        cast("kf.DPort", pads.ports["e1_2_1"]),  # type: ignore[redundant-cast]
+        layer=layer_metal,
+    )
     return c
 
 

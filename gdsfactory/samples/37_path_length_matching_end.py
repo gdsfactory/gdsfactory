@@ -8,6 +8,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     xs = gf.get_cross_section("strip")
     layer = gf.get_layer(xs.sections[0].layer)

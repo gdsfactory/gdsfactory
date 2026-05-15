@@ -6,6 +6,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port, Spacing
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def coh_rx_single_pol(

@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.Component()
     aref = c.add_ref(gf.components.straight_array(), columns=3, column_pitch=20)

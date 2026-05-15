@@ -5,6 +5,8 @@ from typing import Any
 import gdsfactory as gf
 from gdsfactory.typings import LayerSpec, Ports
 
+gf.gpdk.PDK.activate()
+
 layer_label = "TEXT"
 
 

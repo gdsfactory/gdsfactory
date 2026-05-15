@@ -8,6 +8,9 @@ You can use gf.add_labels.add_labels_to_ports.
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.components.pack_doe_grid(
         gf.components.straight,

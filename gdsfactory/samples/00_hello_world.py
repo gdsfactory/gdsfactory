@@ -1,5 +1,8 @@
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.Component()
     ref1 = c.add_ref(gf.components.rectangle(size=(10, 10), layer=(1, 0)))

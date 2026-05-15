@@ -1,7 +1,7 @@
 import os
 import pathlib
 from inspect import Parameter, Signature, signature
-from typing import IO, TYPE_CHECKING, Any
+from typing import IO, TYPE_CHECKING, Any, cast
 
 import jinja2
 import yaml
@@ -61,7 +61,9 @@ def _split_yaml_definition(subpic_yaml: _YamlDefinition) -> tuple[str, dict[str,
     else:
         with pathlib.Path(subpic_yaml).open() as f:
             subpic_text = f.readlines()
-    main_file, default_settings_string = split_default_settings_from_yaml(subpic_text)
+    main_file, default_settings_string = split_default_settings_from_yaml(
+        cast(list[str], subpic_text)  # type: ignore[redundant-cast]
+    )
     if default_settings_string:
         default_settings = yaml.safe_load(default_settings_string)["default_settings"]
     else:

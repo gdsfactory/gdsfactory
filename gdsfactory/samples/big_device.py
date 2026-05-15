@@ -9,6 +9,8 @@ from gdsfactory.component import Component
 from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.typings import CrossSectionSpec, Size
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def big_device(

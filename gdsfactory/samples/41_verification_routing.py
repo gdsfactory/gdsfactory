@@ -1,5 +1,8 @@
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c1 = gf.components.straight_heater_doped_strip(width=1)
     c2 = gf.c.add_fiber_array_optical_south_electrical_north(

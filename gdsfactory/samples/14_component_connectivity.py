@@ -4,6 +4,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def ring_single_sample(

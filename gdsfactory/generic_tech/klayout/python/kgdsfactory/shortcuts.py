@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-import pya
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing import Any
+
+    pya: Any
+else:
+    import pya
 
 
 def set_shortcuts() -> None:

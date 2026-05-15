@@ -2,6 +2,8 @@
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def sample_routing_auto_taper_slot() -> gf.Component:
