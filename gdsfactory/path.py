@@ -2042,7 +2042,7 @@ def topic(
     # 3. Generate TOP segment.
     def compute_TOP_coordinates(
         Rc: float, theta_p: float, n_points: int = 300
-    ) -> tuple[np.ndarray, np.ndarray]:
+    ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
         """Compute (x(l), y(l)) along the TOP spiral section via Eq. 6 of the original paper.
 
         Integrates:
