@@ -4,6 +4,8 @@ import gdsfactory as gf
 from gdsfactory.cross_section import CrossSection, cross_section, xsection
 from gdsfactory.typings import LayerSpec
 
+gf.gpdk.PDK.activate()
+
 
 @xsection
 def strip3(

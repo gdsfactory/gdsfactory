@@ -5,6 +5,9 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.samples.big_device_electrical import big_device
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     w = h = 18 * 50
     c = big_device()

@@ -1,6 +1,9 @@
 import gdsfactory as gf
 from gdsfactory.components import bend_s_offset
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.Component()
 

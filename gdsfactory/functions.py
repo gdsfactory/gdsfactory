@@ -3,7 +3,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, cast
 
 import kfactory as kf
 import numpy as np
@@ -15,6 +15,8 @@ import gdsfactory as gf
 if TYPE_CHECKING:
     from gdsfactory.component import Component, ComponentReference
     from gdsfactory.typings import LayerSpec, LayerSpecs
+
+kdb = kf.kdb
 
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
@@ -538,7 +540,7 @@ def remove_shapes_near_exclusion(
 
     # Get target shapes
     target_layer_kdb = gf.get_layer(target_layer)
-    target_region = kdb.Region(c.shapes(target_layer_kdb))
+    target_region = kdb.Region(cast(kf.kdb.Shapes, c.shapes(target_layer_kdb)))  # type: ignore[redundant-cast]
 
     if remove_entire_shapes:
         # Remove entire shapes that interact with the exclusion halo
@@ -550,6 +552,6 @@ def remove_shapes_near_exclusion(
         cleaned_region = target_region - halo_region
 
     # Clear target layer and add cleaned geometry
-    c.shapes(target_layer_kdb).clear()
+    cast(kdb.Shapes, c.shapes(target_layer_kdb)).clear()  # type: ignore[redundant-cast]
     c.shapes(target_layer_kdb).insert(cleaned_region)
     return c

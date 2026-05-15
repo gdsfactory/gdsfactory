@@ -10,6 +10,8 @@ from gdsfactory.component import Component
 from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.typings import Size
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def sample_reticle(

@@ -5,6 +5,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.samples.big_device import big_device
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def big_device_with_gratings() -> gf.Component:

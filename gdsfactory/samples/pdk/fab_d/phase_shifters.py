@@ -9,6 +9,8 @@ import gdsfactory as gf
 from gdsfactory.cross_section import strip_heater_metal
 from gdsfactory.typings import ComponentFactory, Layer
 
+gf.gpdk.PDK.activate()
+
 
 @pydantic.dataclasses.dataclass
 class LayerMap:

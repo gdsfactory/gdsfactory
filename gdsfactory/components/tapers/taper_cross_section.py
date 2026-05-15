@@ -11,7 +11,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, LayerSpecs
+from gdsfactory.typings import CrossSectionSpec, LayerSpec, LayerSpecs
 
 from .._schematic import transition_schematic
 
@@ -56,11 +56,11 @@ def taper_cross_section(
     x2 = gf.get_cross_section(cross_section2)
 
     if exclude_layers:
-        layers = (
-            exclude_layers
+        layers: list[LayerSpec] = (
+            list(exclude_layers)
             if isinstance(exclude_layers, (list, tuple))
             and not (len(exclude_layers) == 2 and isinstance(exclude_layers[0], int))
-            else [exclude_layers]
+            else [exclude_layers]  # type: ignore[list-item]
         )
         excluded = {gf.get_layer(layer) for layer in layers}
 

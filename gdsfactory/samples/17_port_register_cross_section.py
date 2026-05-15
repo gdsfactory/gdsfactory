@@ -11,6 +11,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def component_with_registered_cross_section(

@@ -1,5 +1,8 @@
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 radius = 25.0
 offsets = [10, 30, 50, 75, 100, 200, 500]
 

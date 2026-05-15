@@ -189,7 +189,7 @@ def port_array(
                     ),
                 ),
                 orientation=orientation,
-                cross_section=sym_xs,
+                cross_section=cast(Any, sym_xs),
                 **kwargs,
             )  # type: ignore[call-overload]
             for i in range(n)
@@ -740,13 +740,13 @@ def map_ports_layer_to_orientation(
             p.name_original = p.name  # type: ignore[attr-defined]
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
-                direction_ports["E"].append(p)
+                direction_ports["E"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
             elif angle <= 135 and angle >= 45:
-                direction_ports["N"].append(p)
+                direction_ports["N"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
             elif angle <= 225 and angle >= 135:
-                direction_ports["W"].append(p)
+                direction_ports["W"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
             else:
-                direction_ports["S"].append(p)
+                direction_ports["S"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
         layer_tuple = layer if isinstance(layer, kf.LayerEnum) else (layer, 0)
         function(direction_ports, prefix=f"{layer_tuple[0]}_{layer_tuple[1]}_")
         m |= {p.name: p.name_original for p in ports_on_layer}  # type: ignore[attr-defined,misc]
@@ -833,18 +833,24 @@ def auto_rename_ports_layer_orientation(
             p.name_original = p.name  # type: ignore[attr-defined]
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
-                direction_ports["E"].append(p)
+                direction_ports["E"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
             elif angle <= 135 and angle >= 45:
-                direction_ports["N"].append(p)
+                direction_ports["N"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
             elif angle <= 225 and angle >= 135:
-                direction_ports["W"].append(p)
+                direction_ports["W"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
             else:
-                direction_ports["S"].append(p)
+                direction_ports["S"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
 
         layer_tuple = layer if isinstance(layer, kf.LayerEnum) else (layer, 0)
 
         function(direction_ports, prefix=f"{layer_tuple[0]}_{layer_tuple[1]}_")
-        new_ports |= {p.name: p for p in ports_on_layer if p.name is not None}
+        new_ports.update(
+            {
+                p.name: cast(kf.DPort, p)  # type: ignore[redundant-cast]
+                for p in ports_on_layer
+                if p.name is not None
+            }
+        )
 
 
 __all__ = [

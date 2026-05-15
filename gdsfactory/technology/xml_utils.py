@@ -1,5 +1,6 @@
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
+from typing import Any, cast
 from xml.dom.minidom import Node
 
 
@@ -11,7 +12,7 @@ def strip_xml(node: Node) -> None:
     for x in node.childNodes:
         if x.nodeType == Node.TEXT_NODE:
             if x.nodeValue:
-                x.nodeValue = x.nodeValue.strip()
+                cast(Any, x).nodeValue = x.nodeValue.strip()
         elif x.nodeType == Node.ELEMENT_NODE:
             strip_xml(x)
 

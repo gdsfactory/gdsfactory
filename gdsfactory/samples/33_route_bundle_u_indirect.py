@@ -5,6 +5,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.port import Port
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def test_connect_bundle_u_indirect(

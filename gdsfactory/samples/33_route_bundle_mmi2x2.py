@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.Component()
     c1 = c << gf.components.mmi2x2()

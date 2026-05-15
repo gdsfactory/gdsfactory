@@ -1,6 +1,9 @@
 import gdsfactory as gf
 from gdsfactory.config import home
 
+gf.gpdk.PDK.activate()
+
+
 if __name__ == "__main__":
     c = gf.Component()
     s = c << gf.components.straight(width=1)

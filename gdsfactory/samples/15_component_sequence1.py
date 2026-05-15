@@ -19,6 +19,8 @@ from gdsfactory.components import (
     straight_pn,
 )
 
+gf.gpdk.PDK.activate()
+
 
 @gf.cell
 def cutback_pn() -> Component:

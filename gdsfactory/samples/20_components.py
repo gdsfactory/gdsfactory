@@ -7,6 +7,8 @@ from typing import Any
 
 import gdsfactory as gf
 
+gf.gpdk.PDK.activate()
+
 
 def straight_wide1(width: float = 10, **kwargs: Any) -> gf.Component:
     return gf.components.straight(width=width, **kwargs)
