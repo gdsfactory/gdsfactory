@@ -5,10 +5,7 @@
 
 ## [9.43.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.43.0) - 2026-05-16
 
-No significant changes.
-
-
-- Bump release-drafter/release-drafter from 7 to 7.2.0 [#4538](https://github.com/gdsfactory/gdsfactory/pull/4538)
+- update changelog [#4565](https://github.com/gdsfactory/gdsfactory/pull/4565)
 - Topic bend [#4562](https://github.com/gdsfactory/gdsfactory/pull/4562)
 - fix euler angular_step arc angle and add bend point examples [#4564](https://github.com/gdsfactory/gdsfactory/pull/4564)
 - Address `ty` diagnostics [#4546](https://github.com/gdsfactory/gdsfactory/pull/4546)
@@ -16,17 +13,18 @@ No significant changes.
 - Remove .env-file [#4551](https://github.com/gdsfactory/gdsfactory/pull/4551)
 - docs: improve cells notebook and add tags example [#4560](https://github.com/gdsfactory/gdsfactory/pull/4560)
 - Adding with_module_name to vcell [#4559](https://github.com/gdsfactory/gdsfactory/pull/4559)
+
+## [9.42.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.42.0) - 2026-05-11
+
+- Add a text_layer parameter to die [#4528](https://github.com/gdsfactory/gdsfactory/pull/4528)
+- fix: boolean subtraction for rectangle_with_slits [#4527](https://github.com/gdsfactory/gdsfactory/pull/4527)
+- Setting the DBU on PDK activation [#4526](https://github.com/gdsfactory/gdsfactory/pull/4526)
 - feat(gpdk): add Pin structure to electrical components [#4558](https://github.com/gdsfactory/gdsfactory/pull/4558)
 - Remove docker build-and-push-image CI workflow [#4549](https://github.com/gdsfactory/gdsfactory/pull/4549)
 - Fixing issues from mismatch between GF/KF cross-section [#4547](https://github.com/gdsfactory/gdsfactory/pull/4547)
 - Fix exclude_layers parsing in taper_cross_section [#4545](https://github.com/gdsfactory/gdsfactory/pull/4545)
 - Update dependabot config to use uv and monthly schedule [#4534](https://github.com/gdsfactory/gdsfactory/pull/4534)
 - Add skip_transition field to Section [#4532](https://github.com/gdsfactory/gdsfactory/pull/4532)
-
-## [9.42.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.42.0) - 2026-05-11
-- Add a text_layer parameter to die [#4528](https://github.com/gdsfactory/gdsfactory/pull/4528)
-- fix: boolean subtraction for rectangle_with_slits [#4527](https://github.com/gdsfactory/gdsfactory/pull/4527)
-- Setting the DBU on PDK activation [#4526](https://github.com/gdsfactory/gdsfactory/pull/4526)
 
 
 ## [9.41.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.41.0) - 2026-04-29
