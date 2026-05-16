@@ -1907,6 +1907,46 @@ def euler(
     return path
 
 
+def _find_root_in_range(
+    equation: Callable[[float], float],
+    variable_range: tuple[float, float],
+) -> tuple[float, float]:
+    """Find a root of `equation` within the given range using Brent's method.
+
+    Falls back to a coarse scan if the initial bracket has no sign change.
+
+    Args:
+        equation: a scalar function f(x) whose zero is sought.
+        variable_range: (lower, upper) bounds for the search.
+
+    Returns:
+        (root, residual): the found root and the constraint value at it.
+
+    Raises:
+        RuntimeError: if no sign change is found within the range.
+    """
+    var_lo, var_hi = variable_range
+
+    try:
+        root = float(optimize.brentq(equation, var_lo, var_hi, xtol=1e-9, maxiter=500))
+    except ValueError:
+        x_vals = np.linspace(var_lo, var_hi, 1000)
+        residuals = [equation(x) for x in x_vals]
+        sign_changes = np.where(np.diff(np.sign(residuals)))[0]
+        if len(sign_changes) == 0:
+            raise RuntimeError(
+                f"No root found in [{var_lo}, {var_hi}]. "
+                "Verify that the constraint changes sign within the bracket."
+            )
+        root = float(
+            optimize.brentq(
+                equation, x_vals[sign_changes[0]], x_vals[sign_changes[0] + 1]
+            )
+        )
+
+    return root, float(equation(root))
+
+
 def topic(
     radius: float = 10.0, angle: float = 90.0, p: float = 0.1, npoints: int = 100
 ) -> Path:
@@ -1960,76 +2000,30 @@ def topic(
         """Accumulated angle along the TOP spiral section."""
         return float((4 * Rc * theta_p * s**3 - s**4) / (16 * Rc**4 * theta_p**3))
 
-    # 2. Calculate the center and radius of the circular path. Some auxiliary functions are needed to solve the system of equations.
-    def solve_bend_equations(theta_t: float, R: float) -> dict[str, float]:
-        """Solve for x0, y0, Rc given theta_t (total angle), R (initial radius).
+    def compute_x0_y0(Rc: float) -> tuple[float, float]:
+        """Numerically integrate the Fresnel-like integrals for a given Rc.
 
-        The system:
-            x0 * cos(theta_t/2) + (y0 - R) * sin(theta_t/2) = 0   [constraint, center at bisector]
-            x0 = integral(cos(theta), 0, 2*Rc*theta_p) - Rc * sin(theta_p)
-            y0 = integral(sin(theta), 0, 2*Rc*theta_p) + Rc * cos(theta_p)
-            theta(s) = (4*Rc*theta_p*s^3 - s^4) / (16 * Rc^4 * theta_p^3)
-
-        Args:
-            theta_t: total bend angle in radians
-            R:       radius at start of TOP segment
-
-        Returns dict with x0, y0, Rc and diagnostics.
+        Integration limit: s_max = 2 * Rc * theta_p (full Euler section arc length)
         """
+        s_max = 2 * Rc * theta_p
 
-        def compute_x0_y0(Rc: float) -> tuple[float, float]:
-            """Numerically integrate the Fresnel-like integrals for a given Rc.
+        x0_int, _ = integrate.quad(lambda s: np.cos(theta_of_s(s, Rc)), 0, s_max)
+        y0_int, _ = integrate.quad(lambda s: np.sin(theta_of_s(s, Rc)), 0, s_max)
 
-            Integration limit: s_max = 2 * Rc * theta_p (full Euler section arc length)
-            """
-            s_max = 2 * Rc * theta_p
+        x0 = x0_int - Rc * np.sin(theta_p)
+        y0 = y0_int + Rc * np.cos(theta_p)
+        return x0, y0
 
-            x0_int, _ = integrate.quad(lambda s: np.cos(theta_of_s(s, Rc)), 0, s_max)
-            y0_int, _ = integrate.quad(lambda s: np.sin(theta_of_s(s, Rc)), 0, s_max)
-
-            x0 = x0_int - Rc * np.sin(theta_p)
-            y0 = y0_int + Rc * np.cos(theta_p)
-            return x0, y0
-
-        def constraint(Rc: float) -> float:
-            """Residual of the first equation: should equal zero."""
-            if Rc <= 0:
-                return 1e9
-            x0, y0 = compute_x0_y0(Rc)
-            return float(x0 * np.cos(theta_t / 2) + (y0 - R) * np.sin(theta_t / 2))
-
-        # --- Root-find Rc ---
-        # Initial bracket: Rc is usually close to R for small p, larger for p→1
-        Rc_lo, Rc_hi = R * 1e-5, R
-
-        try:
-            result = optimize.brentq(constraint, Rc_lo, Rc_hi, xtol=1e-9, maxiter=500)
-            Rc = result
-        except ValueError:
-            # Fallback: scan for sign change if bracket missed
-            Rc_vals = np.linspace(Rc_lo, Rc_hi, 1000)
-            residuals = [constraint(rc) for rc in Rc_vals]
-            sign_changes = np.where(np.diff(np.sign(residuals)))[0]
-            if len(sign_changes) == 0:
-                raise RuntimeError("No solution found — check theta_t and R inputs.")
-            Rc = optimize.brentq(
-                constraint, Rc_vals[sign_changes[0]], Rc_vals[sign_changes[0] + 1]
-            )
-
+    def constraint(Rc: float) -> float:
+        """Residual of the first equation of the paper: should equal zero."""
+        if Rc <= 0:
+            return 1e9
         x0, y0 = compute_x0_y0(Rc)
-        residual = constraint(Rc)
+        return float(x0 * np.cos(theta_t / 2) + (y0 - radius) * np.sin(theta_t / 2))
 
-        return {
-            "x0": x0,
-            "y0": y0,
-            "Rc": Rc,
-            "residual": residual,  # should be ~0
-        }
+    Rc, _ = _find_root_in_range(constraint, [1e-3 * radius, radius])
 
-    sol = solve_bend_equations(theta_t, radius)
-    Rc = sol["Rc"]
-    x0 = sol["x0"]
-    y0 = sol["y0"]
+    x0, y0 = compute_x0_y0(Rc)
 
     # Split number of points between TOP, circular and TOP' sections.
     # Circular gets the percentage of total points corresponding to its arc length / the arc length if the whole bend was circular
