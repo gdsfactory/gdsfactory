@@ -1804,9 +1804,11 @@ def euler(
         npoints = math.ceil(abs(angle / angular_step)) + 1
         # For angular discretization, distribute points based on angle proportion
         euler_angle = p * angle / 2  # Angle covered by each Euler section
-        arc_angle = (1 - p) * angle  # Angle covered by arc section
-        num_pts_euler = max(1, int(euler_angle / angular_step))
-        num_pts_arc = max(1, int(arc_angle / angular_step)) + 1
+        arc_angle = (
+            (1 - p) * angle / 2
+        )  # Angle covered by arc section (half, then mirrored)
+        num_pts_euler = max(2, math.ceil(euler_angle / angular_step))
+        num_pts_arc = max(2, math.ceil(arc_angle / angular_step) + 1)
         npoints = (
             2 * num_pts_euler + num_pts_arc - 2
         )  # Total points (avoiding duplicates)
@@ -1848,7 +1850,7 @@ def euler(
     if not is_small_angle:
         if angular_step is not None:
             # Original angular_step behavior (different from npoints mode)
-            arc_angle_section = alpha * (1 - p)
+            arc_angle_section = alpha * (1 - p) / 2
             theta = np.linspace(0, arc_angle_section, num_pts_arc)
             arc_angles = theta + p * alpha / 2
         else:
