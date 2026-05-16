@@ -1,0 +1,21 @@
+info:
+  dy: 10
+  length: 16.552
+  min_bend_radius: 7.061
+  radius: 10
+  route_info_length: 16.552
+  route_info_min_bend_radius: 7.061
+  route_info_n_bend_90: 1
+  route_info_strip_length: 16.552
+  route_info_type: strip
+  route_info_weight: 16.552
+  width: 0.5
+name: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_232dea27
+settings:
+  allow_min_radius_violation: false
+  angle: 90
+  angular_step: 20
+  cross_section: strip
+  p: 0.5
+  radius: 10
+  with_arc_floorplan: true
