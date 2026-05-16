@@ -3,6 +3,10 @@
 
 <!-- towncrier release notes start -->
 
+## [9.43.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.43.0) - 2026-05-16
+
+No significant changes.
+
 
 - Bump release-drafter/release-drafter from 7 to 7.2.0 [#4538](https://github.com/gdsfactory/gdsfactory/pull/4538)
 - Topic bend [#4562](https://github.com/gdsfactory/gdsfactory/pull/4562)
