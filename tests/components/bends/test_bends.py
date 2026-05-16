@@ -9,6 +9,7 @@ from gdsfactory.components.bends.bend_circular import (
 from gdsfactory.components.bends.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bends.bend_euler import bend_euler, bend_euler_all_angle
 from gdsfactory.components.bends.bend_s import bend_s, get_min_sbend_size
+from gdsfactory.components.bends.bend_topic import bend_topic, bend_topic_all_angle
 
 
 def test_bend_circular_heater_min_radius() -> None:
@@ -104,11 +105,47 @@ def test_bend_euler() -> None:
     assert len(c6.layers) > 0
 
 
+def test_bend_topic() -> None:
+    c1 = bend_topic(radius=10, angle=90)
+    assert isinstance(c1, gf.Component)
+    assert not isinstance(c1, gf.ComponentAllAngle)
+
+    c2 = bend_topic_all_angle(radius=10, angle=90)
+    assert isinstance(c2, gf.ComponentAllAngle)
+
+    c3 = bend_topic(radius=10, layer=(2, 0), width=0.5)
+    assert isinstance(c3, gf.Component)
+    assert c3.info["width"] == 0.5
+    assert (2, 0) in c3.layers
+
+    c4 = bend_topic(radius=10, layer=(3, 0))
+    assert isinstance(c4, gf.Component)
+    assert (3, 0) in c4.layers
+
+    c5 = bend_topic(radius=10, width=0.8)
+    assert isinstance(c5, gf.Component)
+    assert c5.info["width"] == 0.8
+
+    c6 = bend_topic(radius=10)
+    assert isinstance(c6, gf.Component)
+    assert c6.info["width"] > 0
+    assert len(c6.layers) > 0
+
+
 def test_bend_euler_allow_min_radius_violation() -> None:
     with pytest.raises(ValueError):
         bend_euler(radius=1, allow_min_radius_violation=False)
 
     c = bend_euler(radius=1, allow_min_radius_violation=True)
+    assert c.info["radius"] == 1
+    assert len(c.ports) == 2
+
+
+def test_bend_topic_allow_min_radius_violation() -> None:
+    with pytest.raises(ValueError):
+        bend_topic(radius=1, allow_min_radius_violation=False)
+
+    c = bend_topic(radius=1, allow_min_radius_violation=True)
     assert c.info["radius"] == 1
     assert len(c.ports) == 2
 

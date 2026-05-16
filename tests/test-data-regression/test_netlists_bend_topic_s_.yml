@@ -1,0 +1,64 @@
+instances:
+  bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_0_0:
+    component: bend_topic
+    info:
+      dy: 10
+      length: 16.257
+      min_bend_radius: 8.625
+      radius: 10
+      route_info_length: 16.257
+      route_info_min_bend_radius: 8.625
+      route_info_n_bend_90: 1
+      route_info_strip_length: 16.257
+      route_info_type: strip
+      route_info_weight: 16.257
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      layer: null
+      npoints: 100
+      p: 0.1
+      radius: null
+      width: null
+  bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_10000_10000_A90_M:
+    component: bend_topic
+    info:
+      dy: 10
+      length: 16.257
+      min_bend_radius: 8.625
+      radius: 10
+      route_info_length: 16.257
+      route_info_min_bend_radius: 8.625
+      route_info_n_bend_90: 1
+      route_info_strip_length: 16.257
+      route_info_type: strip
+      route_info_weight: 16.257
+      width: 0.5
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      layer: null
+      npoints: 100
+      p: 0.1
+      radius: null
+      width: null
+nets:
+- p1: bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_0_0,o2
+  p2: bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_10000_10000_A90_M,o1
+placements:
+  bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_10000_10000_A90_M:
+    mirror: true
+    rotation: 90
+    x: 10
+    y: 10
+ports:
+  o1: bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_0_0,o1
+  o2: bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d_10000_10000_A90_M,o2
