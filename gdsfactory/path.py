@@ -20,7 +20,7 @@ import numpy as np
 import numpy.typing as npt
 from kfactory.geometry import UMGeometricObject
 from numpy import mod
-from scipy import integrate, optimize
+from scipy import optimize
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
@@ -1947,6 +1947,71 @@ def _find_root_in_range(
     return root, float(equation(root))
 
 
+def _topic_theta_of_s(s: float, Rc: float, theta_p: float) -> float:
+    """Accumulated angle along the TOP spiral section."""
+    return float((4 * Rc * theta_p * s**3 - s**4) / (16 * Rc**4 * theta_p**3))
+
+
+def _topic_compute_x0_y0(Rc: float, theta_p: float) -> tuple[float, float]:
+    """Numerically integrate the Fresnel-like integrals for a given Rc.
+
+    Args:
+        Rc: minimum radius of curvature.
+        theta_p: transition angle in radians (= p * theta_t).
+
+    Returns:
+        (x0, y0): center of the circular arc segment.
+    """
+    from scipy import integrate
+
+    s_max = 2 * Rc * theta_p
+
+    x0_int, _ = integrate.quad(
+        lambda s: np.cos(_topic_theta_of_s(s, Rc, theta_p)), 0, s_max
+    )
+    y0_int, _ = integrate.quad(
+        lambda s: np.sin(_topic_theta_of_s(s, Rc, theta_p)), 0, s_max
+    )
+
+    x0 = x0_int - Rc * np.sin(theta_p)
+    y0 = y0_int + Rc * np.cos(theta_p)
+    return x0, y0
+
+
+def _topic_compute_top_coordinates(
+    Rc: float, theta_p: float, n_points: int = 300
+) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+    """Compute (x, y) along the TOP spiral section via Eq. 6 of the paper.
+
+    Integrates:
+        x(l) = integral_0^l cos(theta(s)) ds
+        y(l) = integral_0^l sin(theta(s)) ds
+
+    where theta(s) = (4*Rc*theta_p*s^3 - s^4) / (16 * Rc^4 * theta_p^3)
+    and l ranges from 0 to 2*Rc*theta_p.
+
+    Args:
+        Rc: minimum radius of curvature (from solver).
+        theta_p: transition angle in radians (= p * theta_t).
+        n_points: number of sample points along the curve.
+
+    Returns:
+        x_top: x coordinates.
+        y_top: y coordinates.
+    """
+    from scipy import integrate
+
+    l_max = 2 * Rc * theta_p
+
+    l_vals = np.linspace(0, l_max, n_points)
+    theta_vals = np.array([_topic_theta_of_s(s, Rc, theta_p) for s in l_vals])
+
+    x_top = integrate.cumulative_trapezoid(np.cos(theta_vals), l_vals, initial=0)
+    y_top = integrate.cumulative_trapezoid(np.sin(theta_vals), l_vals, initial=0)
+
+    return x_top, y_top
+
+
 def topic(
     radius: float = 10.0, angle: float = 90.0, p: float = 0.1, npoints: int = 100
 ) -> Path:
@@ -1968,7 +2033,6 @@ def topic(
         radius: radius at the start and end of bend.
         angle: total angle of the curve in degrees.
         p: used to calculate the angle of the bend at the end of TOP / start of circular arc, as p*angle. It should be within [0, 0.5).
-        .
         npoints: Number of points used per 360 degrees.
 
     .. plot::
@@ -1987,7 +2051,7 @@ def topic(
     if abs(angle) <= 1e-6:
         raise ValueError("The bend's total angle should be larger than 1e-6.")
     if p < 1e-4:
-        topic_path = gf.path.arc(radius=radius, angle=angle, npoints=npoints)
+        topic_path = arc(radius=radius, angle=angle, npoints=npoints)
         topic_path.end_angle = angle
         topic_path.info["Rmin"] = radius
         return topic_path
@@ -1996,40 +2060,20 @@ def topic(
     theta_t = np.radians(angle)
     theta_p = p * theta_t
 
-    def theta_of_s(s: float, Rc: float) -> float:
-        """Accumulated angle along the TOP spiral section."""
-        return float((4 * Rc * theta_p * s**3 - s**4) / (16 * Rc**4 * theta_p**3))
-
-    def compute_x0_y0(Rc: float) -> tuple[float, float]:
-        """Numerically integrate the Fresnel-like integrals for a given Rc.
-
-        Integration limit: s_max = 2 * Rc * theta_p (full Euler section arc length)
-        """
-        s_max = 2 * Rc * theta_p
-
-        x0_int, _ = integrate.quad(lambda s: np.cos(theta_of_s(s, Rc)), 0, s_max)
-        y0_int, _ = integrate.quad(lambda s: np.sin(theta_of_s(s, Rc)), 0, s_max)
-
-        x0 = x0_int - Rc * np.sin(theta_p)
-        y0 = y0_int + Rc * np.cos(theta_p)
-        return x0, y0
-
     def constraint(Rc: float) -> float:
         """Residual of the first equation of the paper: should equal zero."""
         if Rc <= 0:
             return 1e9
-        x0, y0 = compute_x0_y0(Rc)
+        x0, y0 = _topic_compute_x0_y0(Rc, theta_p)
         return float(x0 * np.cos(theta_t / 2) + (y0 - radius) * np.sin(theta_t / 2))
 
-    Rc, _ = _find_root_in_range(constraint, [1e-3 * radius, radius])
+    Rc, _ = _find_root_in_range(constraint, (1e-3 * radius, radius))
 
-    x0, y0 = compute_x0_y0(Rc)
+    x0, y0 = _topic_compute_x0_y0(Rc, theta_p)
 
     # Split number of points between TOP, circular and TOP' sections.
     # Circular gets the percentage of total points corresponding to its arc length / the arc length if the whole bend was circular
     n_points_circ = int(npoints * (Rc * (theta_t - 2 * theta_p)) / (radius * theta_t))
-    n_points_top = (npoints - n_points_circ) // 2
-
     n_points_top = max(2, (npoints - n_points_circ) // 2)
 
     # Add another point to circular arc if there is one left
@@ -2037,38 +2081,7 @@ def topic(
         n_points_circ += 1
 
     # 3. Generate TOP segment.
-    def compute_TOP_coordinates(
-        Rc: float, theta_p: float, n_points: int = 300
-    ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
-        """Compute (x(l), y(l)) along the TOP spiral section via Eq. 6 of the original paper.
-
-        Integrates:
-            x(l) = integral_0^l cos(theta(s)) ds
-            y(l) = integral_0^l sin(theta(s)) ds
-
-        where theta(s) = (4*Rc*theta_p*s^3 - s^4) / (16 * Rc^4 * theta_p^3)
-        and l ranges from 0 to 2*Rc*theta_p.
-
-        Args:
-            Rc:       minimum radius of curvature (from solver)
-            theta_p:  junction angle in radians (= p * theta_t / 2)
-            n_points: number of sample points along the curve
-
-        Returns:
-            x_top: x coordinates
-            y_top: y coordinates
-        """
-        l_max = 2 * Rc * theta_p
-
-        l_vals = np.linspace(0, l_max, n_points)
-        theta_vals = np.array([theta_of_s(s, Rc) for s in l_vals])
-
-        x_top = integrate.cumulative_trapezoid(np.cos(theta_vals), l_vals, initial=0)
-        y_top = integrate.cumulative_trapezoid(np.sin(theta_vals), l_vals, initial=0)
-
-        return x_top, y_top
-
-    x_top, y_top = compute_TOP_coordinates(Rc, theta_p, n_points=n_points_top)
+    x_top, y_top = _topic_compute_top_coordinates(Rc, theta_p, n_points=n_points_top)
 
     # 4. Generate circular segment, starting from the end of TOP with center (x0, y0), radius Rc, and angle = angle(1-2*p)
     # In order to avoid overlap between TOP's last point and circ first point, ignore the first and last points of the arc.
@@ -2097,9 +2110,8 @@ def topic(
 
     points = np.column_stack((x_all, y_all))
 
-    topic_path = gf.path.Path()
+    topic_path = Path()
     topic_path.points = points
-    # Adding end angle for extrude function
     topic_path.end_angle = angle
     topic_path.info["Rmin"] = Rc
 

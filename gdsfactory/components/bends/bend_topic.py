@@ -88,9 +88,12 @@ def _bend_topic(
     if radius is None:
         raise ValueError("radius must be specified")
 
-    x = gf.get_cross_section(
-        cross_section, layer=layer or x.layer, width=width or x.width
-    )
+    if layer and width:
+        x = gf.get_cross_section(cross_section, layer=layer, width=width)
+    elif layer:
+        x = gf.get_cross_section(cross_section, layer=layer)
+    elif width:
+        x = gf.get_cross_section(cross_section, width=width)
 
     path = topic(
         radius=radius,
@@ -112,7 +115,7 @@ def _bend_topic(
     c.info["width"] = float(width or x.width)
 
     if not allow_min_radius_violation:
-        x.validate_radius(radius)
+        x.validate_radius(min_bend_radius)
 
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None
@@ -121,7 +124,7 @@ def _bend_topic(
         cross_section=x,
         length=c.info["length"],
         n_bend_90=abs(angle / 90.0),
-        min_bend_radius=radius,
+        min_bend_radius=min_bend_radius,
     )
 
     return c
@@ -206,12 +209,6 @@ def bend_topic_all_angle(
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
     """
-    if abs(angle) not in {90, 180}:
-        warnings.warn(
-            f"bend_topic angle should be 90 or 180. Got {angle}. Use bend_topic_all_angle instead.",
-            UserWarning,
-            stacklevel=3,
-        )
     return _bend_topic(
         radius=radius,
         angle=angle,

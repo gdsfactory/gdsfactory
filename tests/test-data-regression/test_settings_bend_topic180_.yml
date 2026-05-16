@@ -4,7 +4,7 @@ info:
   min_bend_radius: 9.902
   radius: 10
   route_info_length: 37.328
-  route_info_min_bend_radius: 10
+  route_info_min_bend_radius: 9.902
   route_info_n_bend_90: 2
   route_info_strip_length: 37.328
   route_info_type: strip
