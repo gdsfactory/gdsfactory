@@ -14,7 +14,12 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 from gdsfactory.gpdk import LAYER
-from gdsfactory.path import Path, _parabolic_transition
+from gdsfactory.path import (
+    Path,
+    _parabolic_transition,
+    _topic_compute_top_coordinates,
+    _topic_compute_x0_y0,
+)
 
 
 def test_path_zero_length() -> None:
@@ -524,6 +529,26 @@ def test_topic_zero_angle_raises_error() -> None:
     """Test that topic(angle=0) raises error."""
     with pytest.raises(ValueError):
         gf.path.topic(angle=0)
+
+
+def test_topic_numba_matches_scipy() -> None:
+    pytest.importorskip("numba")
+
+    Rc = 12.5
+    theta_p = float(np.radians(11.25))
+
+    x0_scipy, y0_scipy = _topic_compute_x0_y0(Rc, theta_p, use_numba=False)
+    x0_numba, y0_numba = _topic_compute_x0_y0(Rc, theta_p, use_numba=True)
+    assert np.allclose((x0_numba, y0_numba), (x0_scipy, y0_scipy), atol=1e-6)
+
+    x_top_scipy, y_top_scipy = _topic_compute_top_coordinates(
+        Rc, theta_p, n_points=300, use_numba=False
+    )
+    x_top_numba, y_top_numba = _topic_compute_top_coordinates(
+        Rc, theta_p, n_points=300, use_numba=True
+    )
+    assert np.allclose(x_top_numba, x_top_scipy, atol=1e-9)
+    assert np.allclose(y_top_numba, y_top_scipy, atol=1e-9)
 
 
 def test_arc_zero_angle_returns_origin() -> None:

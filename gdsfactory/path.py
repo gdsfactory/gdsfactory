@@ -12,6 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable, Sequence
+from functools import lru_cache
 from typing import Any, Literal, TypeVar, cast, overload
 
 import kfactory as kf
@@ -1954,7 +1955,87 @@ def _topic_theta_of_s(s: float, Rc: float, theta_p: float) -> float:
     return float((4 * Rc * theta_p * s**3 - s**4) / (16 * Rc**4 * theta_p**3))
 
 
-def _topic_compute_x0_y0(Rc: float, theta_p: float) -> tuple[float, float]:
+_TOPIC_NUMBA_INTEGRATION_STEPS = 512
+
+
+def _topic_compute_x0_y0_numba_impl(
+    Rc: float, theta_p: float, n_steps: int
+) -> tuple[float, float]:
+    s_max = 2.0 * Rc * theta_p
+    h = s_max / (n_steps - 1)
+    x0_int = 0.0
+    y0_int = 0.0
+
+    prev_theta = (4.0 * Rc * theta_p * 0.0 - 0.0) / (16.0 * Rc**4 * theta_p**3)
+    prev_cos = np.cos(prev_theta)
+    prev_sin = np.sin(prev_theta)
+
+    for index in range(1, n_steps):
+        s = h * index
+        theta = (4.0 * Rc * theta_p * s**3 - s**4) / (16.0 * Rc**4 * theta_p**3)
+        cos_theta = np.cos(theta)
+        sin_theta = np.sin(theta)
+        x0_int += 0.5 * h * (prev_cos + cos_theta)
+        y0_int += 0.5 * h * (prev_sin + sin_theta)
+        prev_cos = cos_theta
+        prev_sin = sin_theta
+
+    x0 = x0_int - Rc * np.sin(theta_p)
+    y0 = y0_int + Rc * np.cos(theta_p)
+    return x0, y0
+
+
+def _topic_compute_top_coordinates_numba_impl(
+    Rc: float, theta_p: float, n_points: int
+) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+    s_max = 2.0 * Rc * theta_p
+    x_top = np.empty(n_points, dtype=np.float64)
+    y_top = np.empty(n_points, dtype=np.float64)
+    x_top[0] = 0.0
+    y_top[0] = 0.0
+
+    if n_points == 1:
+        return x_top, y_top
+
+    h = s_max / (n_points - 1)
+    x_acc = 0.0
+    y_acc = 0.0
+    prev_theta = (4.0 * Rc * theta_p * 0.0 - 0.0) / (16.0 * Rc**4 * theta_p**3)
+    prev_cos = np.cos(prev_theta)
+    prev_sin = np.sin(prev_theta)
+
+    for index in range(1, n_points):
+        s = h * index
+        theta = (4.0 * Rc * theta_p * s**3 - s**4) / (16.0 * Rc**4 * theta_p**3)
+        cos_theta = np.cos(theta)
+        sin_theta = np.sin(theta)
+        x_acc += 0.5 * h * (prev_cos + cos_theta)
+        y_acc += 0.5 * h * (prev_sin + sin_theta)
+        x_top[index] = x_acc
+        y_top[index] = y_acc
+        prev_cos = cos_theta
+        prev_sin = sin_theta
+
+    return x_top, y_top
+
+
+@lru_cache(maxsize=1)
+def _get_topic_numba_kernels() -> tuple[Callable[..., Any], Callable[..., Any]] | None:
+    try:
+        from numba import njit
+    except ImportError:
+        return None
+
+    try:
+        return (
+            njit(cache=True)(_topic_compute_x0_y0_numba_impl),
+            njit(cache=True)(_topic_compute_top_coordinates_numba_impl),
+        )
+    except Exception:
+        return None
+
+
+def _topic_compute_x0_y0_scipy(Rc: float, theta_p: float) -> tuple[float, float]:
     """Numerically integrate the Fresnel-like integrals for a given Rc.
 
     Args:
@@ -1980,7 +2061,22 @@ def _topic_compute_x0_y0(Rc: float, theta_p: float) -> tuple[float, float]:
     return x0, y0
 
 
-def _topic_compute_top_coordinates(
+def _topic_compute_x0_y0(
+    Rc: float, theta_p: float, use_numba: bool | None = None
+) -> tuple[float, float]:
+    if use_numba is not False:
+        kernels = _get_topic_numba_kernels()
+        if kernels is not None:
+            compute_x0_y0_numba, _ = kernels
+            return cast(
+                tuple[float, float],
+                compute_x0_y0_numba(Rc, theta_p, _TOPIC_NUMBA_INTEGRATION_STEPS),
+            )
+
+    return _topic_compute_x0_y0_scipy(Rc, theta_p)
+
+
+def _topic_compute_top_coordinates_scipy(
     Rc: float, theta_p: float, n_points: int = 300
 ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
     """Compute (x, y) along the TOP spiral section via Eq. 6 of the paper.
@@ -2006,12 +2102,29 @@ def _topic_compute_top_coordinates(
     l_max = 2 * Rc * theta_p
 
     l_vals = np.linspace(0, l_max, n_points)
-    theta_vals = np.array([_topic_theta_of_s(s, Rc, theta_p) for s in l_vals])
+    theta_vals = (4 * Rc * theta_p * l_vals**3 - l_vals**4) / (
+        16 * Rc**4 * theta_p**3
+    )
 
     x_top = integrate.cumulative_trapezoid(np.cos(theta_vals), l_vals, initial=0)
     y_top = integrate.cumulative_trapezoid(np.sin(theta_vals), l_vals, initial=0)
 
     return x_top, y_top
+
+
+def _topic_compute_top_coordinates(
+    Rc: float, theta_p: float, n_points: int = 300, use_numba: bool | None = None
+) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+    if use_numba is not False:
+        kernels = _get_topic_numba_kernels()
+        if kernels is not None:
+            _, compute_top_coordinates_numba = kernels
+            return cast(
+                tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]],
+                compute_top_coordinates_numba(Rc, theta_p, n_points),
+            )
+
+    return _topic_compute_top_coordinates_scipy(Rc, theta_p, n_points)
 
 
 def topic(
@@ -2094,8 +2207,9 @@ def topic(
         endpoint=True,  # n_points_circ+2 to avoid the first and last one
     )
 
-    x_arc = np.array([x0 + Rc * np.sin(theta) for theta in theta_list[1:-1]])
-    y_arc = np.array([y0 - Rc * np.cos(theta) for theta in theta_list[1:-1]])
+    theta_arc = theta_list[1:-1]
+    x_arc = x0 + Rc * np.sin(theta_arc)
+    y_arc = y0 - Rc * np.cos(theta_arc)
 
     # 5. Generate TOP' segment by mirroring TOP with respect to the bisector of the angle.
     # The goal is to do a rotation of each point of TOP, centered to (0,radius).

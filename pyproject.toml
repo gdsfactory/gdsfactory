@@ -82,6 +82,7 @@ docs = [
   "plotly",
   "Sphinx==7.4.7"
 ]
+performance = ["numba>=0.65,<1"]
 full = [
   "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d]>=1.1,<3.0",
   "scikit-rf",
