@@ -187,6 +187,7 @@ def straight_heater_metal_simple(
     port_orientation2: int | None = None,
     heater_taper_length: float = 5.0,
     ohms_per_square: float | None = None,
+    heater_width: float | None = None,
 ) -> Component:
     """Returns a thermal phase shifter that has properly fixed electrical connectivity to extract a suitable electrical netlist and models.
 
@@ -202,6 +203,7 @@ def straight_heater_metal_simple(
         port_orientation2: right via stack port orientation. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
+        heater_width: optional heater width override. Defaults to cross_section_heater width.
     """
     c = Component()
     straight_heater_section = gf.components.straight(
@@ -211,7 +213,7 @@ def straight_heater_metal_simple(
 
     c.add_ref(straight_heater_section)
     x = gf.get_cross_section(cross_section_heater)
-    heater_width = x.width
+    heater_width = heater_width or x.width
     c.add_ports(straight_heater_section.ports)
 
     if via_stack:
