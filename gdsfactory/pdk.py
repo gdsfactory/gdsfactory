@@ -533,7 +533,7 @@ class Pdk(BaseModel):
             try:
                 layer = self.get_layer_name(layer)
             except ValueError:
-                pass
+                logger.debug("Could not resolve layer name for %r, using as-is", layer)
 
             section_ = Section(
                 name="_default",
@@ -573,11 +573,13 @@ class Pdk(BaseModel):
         assert self.layers is not None
         try:
             return str(self.layers[layer_index])  # type: ignore[index]
-        except Exception:
+        except (KeyError, IndexError, TypeError):
             try:
                 return str(self.layers(layer_index))  # type: ignore[call-arg]
-            except Exception:
-                raise ValueError(f"Could not find name for layer {layer_index}")
+            except (KeyError, TypeError, ValueError) as inner_exc:
+                raise ValueError(
+                    f"Could not find name for layer {layer_index}"
+                ) from inner_exc
 
     def get_layer_views(self) -> LayerViews:
         if self._layer_views_cache is not None:
@@ -598,9 +600,9 @@ class Pdk(BaseModel):
     def get_constant(self, key: str) -> Any:
         try:
             return getattr(self.constants, key)
-        except AttributeError:
+        except AttributeError as e:
             constants = list(self.constants.model_dump().keys())
-            raise AttributeError(f"{key!r} not in {constants}")
+            raise AttributeError(f"{key!r} not in {constants}") from e
 
     def to_updk(self, exclude: Sequence[str] | None = None) -> str:
         """Export to uPDK YAML definition."""
