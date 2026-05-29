@@ -206,14 +206,17 @@ def straight_heater_metal_simple(
         heater_width: optional heater width override. Defaults to cross_section_heater width.
     """
     c = Component()
+    x = gf.get_cross_section(cross_section_heater)
+    heater_width = heater_width or x.width
+
     straight_heater_section = gf.components.straight(
-        cross_section=cross_section_waveguide_heater,
+        cross_section=gf.get_cross_section(
+            cross_section_waveguide_heater, heater_width=heater_width
+        ),
         length=length,
     )
 
     c.add_ref(straight_heater_section)
-    x = gf.get_cross_section(cross_section_heater)
-    heater_width = heater_width or x.width
     c.add_ports(straight_heater_section.ports)
 
     if via_stack:
