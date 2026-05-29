@@ -4,6 +4,7 @@
 # isort: skip_file
 
 from __future__ import annotations
+import importlib
 import sys
 import warnings
 from functools import partial
@@ -46,19 +47,9 @@ from gdsfactory import cross_section
 from gdsfactory import port
 from gdsfactory import components
 from gdsfactory import containers
-from gdsfactory import labels
 from gdsfactory import typings
 from gdsfactory import path
 from gdsfactory import snap
-from gdsfactory import read
-from gdsfactory import add_ports
-from gdsfactory import write_cells
-from gdsfactory import add_pins
-from gdsfactory import technology
-from gdsfactory import routing
-from gdsfactory import export
-from gdsfactory import functions
-from gdsfactory import gpdk
 
 from gdsfactory.add_padding import (
     add_padding,
@@ -84,6 +75,29 @@ from gdsfactory.grid import grid, grid_with_text
 
 c = components
 Region = kdb.Region
+
+# Lazy-loaded submodules (PEP 562) — imported on first access to reduce startup time
+_LAZY_SUBMODULES = {
+    "add_ports",
+    "add_pins",
+    "export",
+    "functions",
+    "gpdk",
+    "labels",
+    "read",
+    "routing",
+    "technology",
+    "write_cells",
+}
+
+
+def __getattr__(name: str) -> object:
+    if name in _LAZY_SUBMODULES:
+        module = importlib.import_module(f"gdsfactory.{name}")
+        globals()[name] = module
+        return module
+    raise AttributeError(f"module 'gdsfactory' has no attribute {name!r}")
+
 
 # Check Python version and issue a warning if using Python 3.10
 if sys.version_info[:2] == (3, 10):

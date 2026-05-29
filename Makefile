@@ -12,6 +12,7 @@ UV_INSTALLED := $(shell command -v uv)
 	cov \
 	dev-cov \
 	test-samples \
+	benchmark \
 	docker-debug \
 	docker-build \
 	docker-run \
@@ -34,7 +35,7 @@ install: uv ## Install all dependencies using uv
 	uv sync --all-extras --no-extra full
 
 dev: uv ## Set up dev environment and install pre-commit
-	uv venv -p 3.12
+	uv venv -p 3.11
 	uv sync --all-extras --no-extra full
 	uv run pre-commit install
 	uv run gf install-klayout-genericpdk
@@ -66,6 +67,9 @@ dev-cov: ## Run tests in parallel with coverage
 
 test-samples: ## Test that samples run without error
 	uv run pytest tests/test_samples.py
+
+benchmark: ## Run performance benchmarks
+	uv run pytest tests/benchmarks --benchmark-only -v
 
 docker-debug: ## Start a debug shell in Docker
 	docker run -it joamatab/gdsfactory sh

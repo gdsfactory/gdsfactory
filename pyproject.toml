@@ -16,14 +16,14 @@ dependencies = [
   "jinja2<4",
   "loguru<1",
   "matplotlib<4",
-  "numpy",
+  "numpy<3",
   "orjson<4",
-  "pandas",
-  "pydantic>=2",
+  "pandas<3",
+  "pydantic>=2,<3",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
-  "pyyaml",
-  "qrcode",
+  "pyyaml<7",
+  "qrcode<9",
   "rectpack<1",
   "rich<16",
   "scipy<2",
@@ -33,18 +33,18 @@ dependencies = [
   "typer<1",
   "kfactory[ipy]~=2.5.0",
   "watchdog<7",
-  "freetype-py",
-  "mapbox_earcut",
-  "networkx",
-  "scikit-image",
-  "trimesh>=4.4.1",
-  "ipykernel",
-  "attrs",
-  "graphviz",
+  "freetype-py<3",
+  "mapbox_earcut<2",
+  "networkx<4",
+  "scikit-image<1",
+  "trimesh>=4.4.1,<5",
+  "ipykernel<7",
+  "attrs<25",
+  "graphviz<1",
   "pyglet<3",
-  "typing-extensions",
-  "pygit2",
-  "natsort"
+  "typing-extensions<5",
+  "pygit2<2",
+  "natsort<9"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -66,6 +66,7 @@ dev = [
   "pre-commit",
   "pylsp-mypy",
   "pytest",
+  "pytest-benchmark",
   "pytest-cov",
   "pytest_regressions",
   "types-PyYAML",
@@ -153,7 +154,7 @@ reportUnusedExpression = false
 
 [tool.pytest.ini_options]
 # addopts = --tb=no
-addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py --ignore=tests/test_samples.py'
+addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py --ignore=tests/test_samples.py --ignore=tests/benchmarks'
 norecursedirs = [
   "gdsfactory/geometry",
   "gdsfactory/plugins",
@@ -163,7 +164,8 @@ norecursedirs = [
   "gdsfactory/schematic_editor.py",
   "gdsfactory/gpdk/klayout",
   "gdsfactory/generic_tech/klayout",
-  "docs"
+  "docs",
+  "tests/benchmarks"
 ]
 python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory", "tests"]
