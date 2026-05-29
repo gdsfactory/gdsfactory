@@ -13,6 +13,8 @@ from typing import Any, TypeVar
 
 from gdsfactory.config import __version__, __next_major_version__
 
+from kfactory import logger
+
 F = TypeVar("F", bound=Callable[..., Any])
 
 # Centralized registry of all active deprecations.
@@ -127,4 +129,7 @@ def _version_gte(current: str, target: str) -> bool:
         target_parts = tuple(int(x) for x in target.split(".")[:3])
         return current_parts >= target_parts
     except (ValueError, AttributeError):
+        logger.debug(
+            f"Could not parse versions for comparison: {current!r} vs {target!r}"
+        )
         return False
