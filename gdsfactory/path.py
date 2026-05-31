@@ -354,31 +354,16 @@ class Path(UMGeometricObject):
             end_angle: float or None The angle at the end of the path.
 
         """
-        new_points = np.array(points, dtype=np.float64)
-        dx = np.diff(points[:, 0])
-        dy = np.diff(points[:, 1])
-        theta = np.arctan2(dy, dx)
-        theta = np.concatenate([theta[:1], theta, theta[-1:]])
-        theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
-        dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
-        offset_distance_array = np.array(offset_distance) / np.sin(dtheta_int / 2)
-
-        new_points[:, 0] -= offset_distance_array * np.cos(theta_mid)
-        new_points[:, 1] -= offset_distance_array * np.sin(theta_mid)
-
-        if start_angle is not None:
-            start_angle_rad = start_angle * np.pi / 180
-            new_points[0, :] = points[0, :] + (
-                np.sin(start_angle_rad) * offset_distance_array[0],
-                -np.cos(start_angle_rad) * offset_distance_array[0],
-            )
-        if end_angle is not None:
-            end_angle_rad = end_angle * np.pi / 180
-            new_points[-1, :] = points[-1, :] + (
-                np.sin(end_angle_rad) * offset_distance_array[-1],
-                -np.cos(end_angle_rad) * offset_distance_array[-1],
-            )
-        return new_points
+        cos_mid, sin_mid, sin_half = _compute_offset_directions(points)
+        return _offset_curve_from_directions(
+            points,
+            offset_distance,
+            cos_mid,
+            sin_mid,
+            sin_half,
+            start_angle=start_angle,
+            end_angle=end_angle,
+        )
 
     def _parametric_offset_curve(
         self,
@@ -1582,6 +1567,45 @@ def _compute_offset_directions(
     return np.cos(theta_mid), np.sin(theta_mid), sin_half
 
 
+def _offset_curve_from_directions(
+    points: npt.NDArray[np.floating[Any]],
+    offset_distance: float | npt.NDArray[np.floating[Any]],
+    cos_theta_mid: npt.NDArray[np.floating[Any]],
+    sin_theta_mid: npt.NDArray[np.floating[Any]],
+    sin_half_dtheta_int: npt.NDArray[np.floating[Any]],
+    start_angle: float | None = None,
+    end_angle: float | None = None,
+) -> npt.NDArray[np.floating[Any]]:
+    """Single offset curve from pre-computed direction vectors.
+
+    Equivalent to calling ``centerpoint_offset_curve`` but avoids
+    recomputing the direction trig.
+    """
+    new_points = points.copy()
+    offset_array = offset_distance / sin_half_dtheta_int
+
+    new_points[:, 0] -= offset_array * cos_theta_mid
+    new_points[:, 1] -= offset_array * sin_theta_mid
+
+    if start_angle is not None:
+        sa = start_angle * np.pi / 180
+        sin_sa, cos_sa = np.sin(sa), np.cos(sa)
+        new_points[0, :] = points[0, :] + (
+            sin_sa * offset_array[0],
+            -cos_sa * offset_array[0],
+        )
+
+    if end_angle is not None:
+        ea = end_angle * np.pi / 180
+        sin_ea, cos_ea = np.sin(ea), np.cos(ea)
+        new_points[-1, :] = points[-1, :] + (
+            sin_ea * offset_array[-1],
+            -cos_ea * offset_array[-1],
+        )
+
+    return new_points
+
+
 def _apply_offsets(
     points: npt.NDArray[np.floating[Any]],
     offset_distance1: float | npt.NDArray[np.floating[Any]],
@@ -1595,36 +1619,26 @@ def _apply_offsets(
     npt.NDArray[np.floating[Any]],
     npt.NDArray[np.floating[Any]],
 ]:
-    """Compute two offset curves from pre-computed direction vectors.
-
-    Equivalent to calling ``centerpoint_offset_curve`` twice with
-    ``offset_distance1`` and ``offset_distance2``, but shares the trig
-    computation for both offsets.
-    """
-    new_pts1 = np.array(points, dtype=np.float64)
-    new_pts2 = np.array(points, dtype=np.float64)
-
-    off1 = np.array(offset_distance1, dtype=np.float64) / sin_half_dtheta_int
-    off2 = np.array(offset_distance2, dtype=np.float64) / sin_half_dtheta_int
-
-    new_pts1[:, 0] -= off1 * cos_theta_mid
-    new_pts1[:, 1] -= off1 * sin_theta_mid
-    new_pts2[:, 0] -= off2 * cos_theta_mid
-    new_pts2[:, 1] -= off2 * sin_theta_mid
-
-    if start_angle is not None:
-        sa = start_angle * np.pi / 180
-        sin_sa, cos_sa = np.sin(sa), np.cos(sa)
-        new_pts1[0, :] = points[0, :] + (sin_sa * off1[0], -cos_sa * off1[0])
-        new_pts2[0, :] = points[0, :] + (sin_sa * off2[0], -cos_sa * off2[0])
-
-    if end_angle is not None:
-        ea = end_angle * np.pi / 180
-        sin_ea, cos_ea = np.sin(ea), np.cos(ea)
-        new_pts1[-1, :] = points[-1, :] + (sin_ea * off1[-1], -cos_ea * off1[-1])
-        new_pts2[-1, :] = points[-1, :] + (sin_ea * off2[-1], -cos_ea * off2[-1])
-
-    return new_pts1, new_pts2
+    return (
+        _offset_curve_from_directions(
+            points,
+            offset_distance1,
+            cos_theta_mid,
+            sin_theta_mid,
+            sin_half_dtheta_int,
+            start_angle=start_angle,
+            end_angle=end_angle,
+        ),
+        _offset_curve_from_directions(
+            points,
+            offset_distance2,
+            cos_theta_mid,
+            sin_theta_mid,
+            sin_half_dtheta_int,
+            start_angle=start_angle,
+            end_angle=end_angle,
+        ),
+    )
 
 
 def _rotated_delta(
