@@ -1569,7 +1569,7 @@ def _compute_offset_directions(
 
 def _offset_curve_from_directions(
     points: npt.NDArray[np.floating[Any]],
-    offset_distance: float | npt.NDArray[np.floating[Any]],
+    offset_distance: float | Sequence[float] | npt.NDArray[np.floating[Any]],
     cos_theta_mid: npt.NDArray[np.floating[Any]],
     sin_theta_mid: npt.NDArray[np.floating[Any]],
     sin_half_dtheta_int: npt.NDArray[np.floating[Any]],
@@ -1608,8 +1608,8 @@ def _offset_curve_from_directions(
 
 def _apply_offsets(
     points: npt.NDArray[np.floating[Any]],
-    offset_distance1: float | npt.NDArray[np.floating[Any]],
-    offset_distance2: float | npt.NDArray[np.floating[Any]],
+    offset_distance1: float | Sequence[float] | npt.NDArray[np.floating[Any]],
+    offset_distance2: float | Sequence[float] | npt.NDArray[np.floating[Any]],
     cos_theta_mid: npt.NDArray[np.floating[Any]],
     sin_theta_mid: npt.NDArray[np.floating[Any]],
     sin_half_dtheta_int: npt.NDArray[np.floating[Any]],
