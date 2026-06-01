@@ -624,12 +624,12 @@ class Path(UMGeometricObject):
         Allows different transition methods for the upper and lower edges.
 
         Args:
-            transition: Transition or TransitionAsymmetric object describing the \
+            transition: Transition or TransitionAsymmetric object describing the
                 cross-sections and default transition types.
             all_angle: if True, returns a ComponentAllAngle.
 
         Returns:
-            Component: The extruded component with the specified transition methods \
+            AnyComponent: The extruded component with the specified transition methods
                 for each edge.
         """
         return extrude_transition(p=self, transition=transition, all_angle=all_angle)
