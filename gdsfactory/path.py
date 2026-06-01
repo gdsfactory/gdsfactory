@@ -619,6 +619,19 @@ class Path(UMGeometricObject):
         transition: Transition | TransitionAsymmetric,
         all_angle: bool = False,
     ) -> AnyComponent:
+        """Extrudes a path along a transition.
+
+        Allows different transition methods for the upper and lower edges.
+
+        Args:
+            transition: Transition or TransitionAsymmetric object describing the \
+                cross-sections and default transition types.
+            all_angle: if True, returns a ComponentAllAngle.
+
+        Returns:
+            Component: The extruded component with the specified transition methods \
+                for each edge.
+        """
         return extrude_transition(p=self, transition=transition, all_angle=all_angle)
 
     def copy(self) -> Path:
