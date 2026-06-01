@@ -1,5 +1,5 @@
 info: {}
-name: awg_gdsfactorypcomponentspfilterspawg_A10_O3_FPRIFFfree_290103a6
+name: awg_gdsfactorypcomponentspfilterspawg_A10_O3_FPRIFFfree_c8e43e3e
 settings:
   arm_spacing: 1
   arms: 10
@@ -7,4 +7,5 @@ settings:
   fpr_spacing: 50
   free_propagation_region_input_function: Ffree_propagation_region_Mgdsfactorypcomponentspfilterspawg_SI1
   free_propagation_region_output_function: Ffree_propagation_region_Mgdsfactorypcomponentspfilterspawg_SI10_W10_W20
+  length_increment: 0
   outputs: 3
