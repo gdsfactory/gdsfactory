@@ -86,6 +86,7 @@ sphinx:
       "gdsfactory.typings.PathType": "PathType"
       "CrossSection | str | dict[str, Any] | Callable[[...], CrossSection] | SymmetricalCrossSection | DCrossSection": "CrossSectionSpec"
       "Component | ComponentAllAngle | str | dict[str, Any] | Callable[[...], Component]": "ComponentSpec"
+    html_extra_path: ["llms.txt", "llms-full.txt"]
     nb_execution_show_tb: True
     html_js_files:
       - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
