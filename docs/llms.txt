@@ -1,0 +1,39 @@
+# GDSFactory
+
+> GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMS), PCBs, and 3D-printable objects. It outputs CAD files (GDS, OASIS, STL, GERBER) from Python code.
+
+## Documentation
+
+- [Getting Started](https://gdsfactory.github.io/gdsfactory/getting_started.html): Installation, setup, and prerequisites
+- [Layout](https://gdsfactory.github.io/gdsfactory/layout.html): Core layout concepts, geometry, components, routing
+- [Schematic](https://gdsfactory.github.io/gdsfactory/schematic.html): Schematic-driven layout and YAML components
+- [PDK](https://gdsfactory.github.io/gdsfactory/pdk.html): Process Design Kit setup and customization
+- [API Reference](https://gdsfactory.github.io/gdsfactory/api.html): Full API documentation
+- [Routing API](https://gdsfactory.github.io/gdsfactory/api_routing.html): Routing functions reference
+- [Components](https://gdsfactory.github.io/gdsfactory/components.html): All built-in component factories
+- [Migration](https://gdsfactory.github.io/gdsfactory/migration.html): Version migration guides
+- [Contributing](https://gdsfactory.github.io/gdsfactory/contributing.html): How to contribute
+
+## Tutorials
+
+- [Geometry](https://gdsfactory.github.io/gdsfactory/notebooks/00_geometry.html): Polygons, paths, and boolean operations
+- [References](https://gdsfactory.github.io/gdsfactory/notebooks/01_references.html): Component instances and hierarchy
+- [Cells & Caching](https://gdsfactory.github.io/gdsfactory/notebooks/03_cells_autoname_and_cache.html): The @cell decorator and autoname
+- [Paths & CrossSections](https://gdsfactory.github.io/gdsfactory/notebooks/03_Path_CrossSection.html): Waveguide paths and cross-sections
+- [Component Shapes](https://gdsfactory.github.io/gdsfactory/notebooks/04_components_shapes.html): Built-in parametric shapes
+- [Component Geometry](https://gdsfactory.github.io/gdsfactory/notebooks/04_components_geometry.html): Geometry operations
+- [Component Hierarchy](https://gdsfactory.github.io/gdsfactory/notebooks/04_components_hierarchy.html): Building complex layouts
+- [Packing](https://gdsfactory.github.io/gdsfactory/notebooks/04_components_pack.html): Component packing and grid
+- [Routing](https://gdsfactory.github.io/gdsfactory/notebooks/04_routing.html): Optical routing
+- [Electrical Routing](https://gdsfactory.github.io/gdsfactory/notebooks/04_routing_electrical.html): Electrical routing
+- [Mask Assembly](https://gdsfactory.github.io/gdsfactory/notebooks/07_mask.html): Full mask/reticle assembly
+- [PDK Tutorial](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html): Creating and using PDKs
+- [PDK Import](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html): Importing external PDKs
+- [Schematic Tutorial](https://gdsfactory.github.io/gdsfactory/notebooks/10_schematic.html): Schematic-driven design
+- [YAML Components](https://gdsfactory.github.io/gdsfactory/notebooks/10_yaml_component.html): Defining components in YAML
+- [Best Practices](https://gdsfactory.github.io/gdsfactory/notebooks/11_best_practices.html): Design best practices
+- [Grid Snapping](https://gdsfactory.github.io/gdsfactory/notebooks/12_grid_snapping.html): Grid and snapping rules
+
+## LLM-Optimized
+
+- [llms-full.txt](https://gdsfactory.github.io/gdsfactory/llms-full.txt): Complete API reference and usage guide in a single document for LLM context
