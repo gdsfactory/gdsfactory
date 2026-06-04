@@ -39,7 +39,7 @@ from gdsfactory.cross_section import (
     xsection,
     get_cross_sections,
 )
-from gdsfactory.difftest import difftest, diff
+from gdsfactory.difftest import DiffResult, LayerDiff, difftest, diff
 from gdsfactory.boolean import boolean
 
 from gdsfactory import cross_section
@@ -140,7 +140,9 @@ __all__ = (
     "containers",
     "cross_section",
     "diff",
+    "DiffResult",
     "difftest",
+    "LayerDiff",
     "export",
     "functions",
     "get_active_pdk",
