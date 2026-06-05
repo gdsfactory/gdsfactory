@@ -218,7 +218,7 @@ def route_single(
             db = kf.rdb.ReportDatabase("Route Placing Errors")
             cell = db.create_cell(
                 (
-                    c.kcl.future_cell_name or c.name
+                    c.kcl._future_cell_name or c.name
                     if c.name is not None and c.name.startswith("Unnamed_")
                     else c.name
                 )
@@ -239,7 +239,7 @@ def route_single(
             it.add_value(c.kcl.to_um(path.polygon()))
             if on_error == "error":
                 c.name = (
-                    c.kcl.future_cell_name or c.name
+                    c.kcl._future_cell_name or c.name
                     if c.name is not None and c.name.startswith("Unnamed_")
                     else c.name
                 ) or ""
