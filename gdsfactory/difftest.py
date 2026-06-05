@@ -436,6 +436,7 @@ def diff(
                         xor_bbox = region_xor.bbox()
                         ref_empty = region_ref.is_empty()
                         run_empty = region_run.is_empty()
+                        present_in: Literal["both", "ref_only", "run_only"]
                         if ref_empty:
                             present_in = "run_only"
                         elif run_empty:

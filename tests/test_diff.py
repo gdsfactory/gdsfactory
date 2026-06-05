@@ -130,3 +130,5 @@ def test_diff_missing_layer(tmp_path: Path) -> None:
     assert layer.ref_area > 0
     assert layer.polygon_count_run == 0
     assert layer.polygon_count_ref == 1
+
+    gf.clear_cache()
