@@ -34,6 +34,7 @@ class DiffResult:
     layers: list[LayerDiff] = field(default_factory=list)
 
     def __bool__(self) -> bool:
+        """Return ``True`` if any differences were detected."""
         return self.has_differences
 
 
@@ -441,17 +442,24 @@ def diff(
                             present_in = "ref_only"
                         else:
                             present_in = "both"
-                        layer_diffs.append(LayerDiff(
-                            layer=(layer.layer, layer.datatype),
-                            xor_area=xor_area,
-                            ref_area=ref_area,
-                            run_area=run_area,
-                            iou=iou,
-                            bbox=(xor_bbox.left * dbu, xor_bbox.bottom * dbu, xor_bbox.right * dbu, xor_bbox.top * dbu),
-                            polygon_count_ref=region_ref.count(),
-                            polygon_count_run=region_run.count(),
-                            present_in=present_in,
-                        ))
+                        layer_diffs.append(
+                            LayerDiff(
+                                layer=(layer.layer, layer.datatype),
+                                xor_area=xor_area,
+                                ref_area=ref_area,
+                                run_area=run_area,
+                                iou=iou,
+                                bbox=(
+                                    xor_bbox.left * dbu,
+                                    xor_bbox.bottom * dbu,
+                                    xor_bbox.right * dbu,
+                                    xor_bbox.top * dbu,
+                                ),
+                                polygon_count_ref=region_ref.count(),
+                                polygon_count_run=region_run.count(),
+                                present_in=present_in,
+                            )
+                        )
                 # only in new
                 elif new.kcl.layout.find_layer(layer) is not None:
                     layer_id = new.layer(layer)
@@ -461,17 +469,24 @@ def diff(
                     equivalent = False
                     run_area = region.area() * dbu2
                     bbox = region.bbox()
-                    layer_diffs.append(LayerDiff(
-                        layer=(layer.layer, layer.datatype),
-                        xor_area=run_area,
-                        ref_area=0.0,
-                        run_area=run_area,
-                        iou=0.0,
-                        bbox=(bbox.left * dbu, bbox.bottom * dbu, bbox.right * dbu, bbox.top * dbu),
-                        polygon_count_ref=0,
-                        polygon_count_run=region.count(),
-                        present_in="run_only",
-                    ))
+                    layer_diffs.append(
+                        LayerDiff(
+                            layer=(layer.layer, layer.datatype),
+                            xor_area=run_area,
+                            ref_area=0.0,
+                            run_area=run_area,
+                            iou=0.0,
+                            bbox=(
+                                bbox.left * dbu,
+                                bbox.bottom * dbu,
+                                bbox.right * dbu,
+                                bbox.top * dbu,
+                            ),
+                            polygon_count_ref=0,
+                            polygon_count_run=region.count(),
+                            present_in="run_only",
+                        )
+                    )
 
                 # only in old
                 elif old.kcl.layout.find_layer(layer) is not None:
@@ -482,17 +497,24 @@ def diff(
                     equivalent = False
                     ref_area = region.area() * dbu2
                     bbox = region.bbox()
-                    layer_diffs.append(LayerDiff(
-                        layer=(layer.layer, layer.datatype),
-                        xor_area=ref_area,
-                        ref_area=ref_area,
-                        run_area=0.0,
-                        iou=0.0,
-                        bbox=(bbox.left * dbu, bbox.bottom * dbu, bbox.right * dbu, bbox.top * dbu),
-                        polygon_count_ref=region.count(),
-                        polygon_count_run=0,
-                        present_in="ref_only",
-                    ))
+                    layer_diffs.append(
+                        LayerDiff(
+                            layer=(layer.layer, layer.datatype),
+                            xor_area=ref_area,
+                            ref_area=ref_area,
+                            run_area=0.0,
+                            iou=0.0,
+                            bbox=(
+                                bbox.left * dbu,
+                                bbox.bottom * dbu,
+                                bbox.right * dbu,
+                                bbox.top * dbu,
+                            ),
+                            polygon_count_ref=region.count(),
+                            polygon_count_run=0,
+                            present_in="ref_only",
+                        )
+                    )
 
             _ = c << diff
             if equivalent:
