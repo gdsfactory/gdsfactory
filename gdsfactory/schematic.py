@@ -1,7 +1,7 @@
 import json
 import pathlib
 from pathlib import Path
-from typing import Any, Self, TypeAlias
+from typing import Any, Self
 
 import networkx as nx
 import yaml
@@ -47,7 +47,7 @@ class GridArray(BaseModel):
     pitch_b: tuple[float, float] = (0.0, 1.0)
 
 
-Array: TypeAlias = OrthogonalGridArray | GridArray
+type Array = OrthogonalGridArray | GridArray
 
 
 class Instance(BaseModel):

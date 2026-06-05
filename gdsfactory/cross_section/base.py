@@ -9,7 +9,7 @@ from __future__ import annotations
 import hashlib
 import warnings
 from collections.abc import Callable
-from typing import Any, Self, TypeAlias
+from typing import Any, Self
 
 import numpy as np
 from kfactory import DCrossSection, SymmetricalCrossSection
@@ -501,8 +501,8 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
         )
 
 
-CrossSectionFactory: TypeAlias = Callable[..., "CrossSection"]
-CrossSectionSpec: TypeAlias = (
+type CrossSectionFactory = Callable[..., "CrossSection"]
+type CrossSectionSpec = (
     CrossSection
     | str
     | dict[str, Any]
