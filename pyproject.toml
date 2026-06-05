@@ -124,7 +124,7 @@ exclude = [
   "docs/notebooks/*"
 ]
 explicit_package_bases = true
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 
 [tool.pylsp-mypy]
@@ -134,7 +134,7 @@ strict = true
 
 [tool.pyright]
 exclude = ["gdsfactory/samples", "notebooks", "docs"]
-pythonVersion = "3.11"
+pythonVersion = "3.12"
 reportArgumentType = false
 reportAttributeAccessIssue = false
 reportCallIssue = false
