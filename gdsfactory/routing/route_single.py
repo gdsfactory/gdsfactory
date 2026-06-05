@@ -28,12 +28,11 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Literal, cast
+from typing import Any, Literal, cast
 
 import kfactory as kf
-from kfactory.routing.electrical import route_elec
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import place_manhattan, route
+from kfactory.routing.optical import place_manhattan
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -139,16 +138,11 @@ def route_single(
         p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
 
-    def straight_dbu(width: int, length: int) -> kf.KCell:
-        return gf.get_component(
-            straight,
-            length=c.kcl.to_um(length),
-            cross_section=xs,
-        ).to_itype()
+    def straight_(width: float, length: float, **kwargs: Any) -> gf.Component:
+        return gf.get_component(straight, length=length, **kwargs)
 
-    end_straight = c.kcl.to_dbu(end_straight_length)
-    start_straight = c.kcl.to_dbu(start_straight_length)
-    route_width = c.kcl.to_dbu(width)
+    def straight_dbu(width: int, length: int, **kwargs: Any) -> gf.Component:
+        return straight_(c.kcl.to_um(width), c.kcl.to_um(length), **kwargs)
 
     if steps and waypoints:
         raise ValueError("Provide only one of steps or waypoints")
@@ -213,7 +207,7 @@ def route_single(
                 pts=w,
                 port_type=port_type,
                 allow_width_mismatch=allow_width_mismatch,
-                route_width=route_width,
+                route_width=c.kcl.to_dbu(width),
             )
         except Exception as e:
             # error_route((ps, pe, router.start.pts, router.width))
@@ -224,7 +218,7 @@ def route_single(
             db = kf.rdb.ReportDatabase("Route Placing Errors")
             cell = db.create_cell(
                 (
-                    c.kcl.future_cell_name or c.name
+                    c.kcl._future_cell_name or c.name
                     if c.name is not None and c.name.startswith("Unnamed_")
                     else c.name
                 )
@@ -237,11 +231,15 @@ def route_single(
                 f" points (dbu): {pts}"
             )
             it.add_value(f"Exception: {e}")
-            path = kf.kdb.Path(pts, route_width or c.kcl.to_dbu(ps.width))
+            if route_width is not None:
+                path = kf.kdb.Path(pts, c.kcl.to_dbu(route_width))
+            else:
+                path = kf.kdb.Path(pts, c.kcl.to_dbu(ps.width))
+
             it.add_value(c.kcl.to_um(path.polygon()))
             if on_error == "error":
                 c.name = (
-                    c.kcl.future_cell_name or c.name
+                    c.kcl._future_cell_name or c.name
                     if c.name is not None and c.name.startswith("Unnamed_")
                     else c.name
                 ) or ""
@@ -260,18 +258,19 @@ def route_single(
             )
 
     else:
-        return route(
-            component.to_itype(),
-            p1=p1.to_itype(),
-            p2=p2.to_itype(),
-            straight_factory=straight_dbu,
-            bend90_cell=bend90.to_itype(),
-            start_straight=start_straight,
-            end_straight=end_straight,
-            port_type=port_type,
+        return kf.routing.optical.route_bundle(
+            c=component,
+            start_ports=[p1],
+            end_ports=[p2],
+            straight_factory=straight_,
+            bend90_cell=bend90,
+            starts=start_straight_length,
+            ends=end_straight_length,
+            separation=0,
+            place_port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
             route_width=route_width,
-        )
+        )[0]
 
 
 def route_single_electrical(
@@ -297,23 +296,19 @@ def route_single_electrical(
         cross_section: The cross section of the route.
 
     """
-    c = component
     xs = gf.get_cross_section(cross_section)
     layer = layer or xs.layer
     width = width or xs.width
     layer = gf.get_layer(layer)
-    start_straight_length = (
-        c.kcl.to_dbu(start_straight_length) if start_straight_length else None
-    )
-    end_straight_length = (
-        c.kcl.to_dbu(end_straight_length) if end_straight_length else None
-    )
-    route_elec(
-        c=component.to_itype(),
-        p1=port1.to_itype(),
-        p2=port2.to_itype(),
-        layer=layer,
-        width=c.kcl.to_dbu(width),
-        start_straight=start_straight_length,
-        end_straight=end_straight_length,
+    kf.routing.electrical.route_bundle(
+        c=component,
+        start_ports=[port1],
+        end_ports=[port2],
+        separation=0,
+        route_width=width,
+        place_layer=kf.kdb.LayerInfo(layer[0], layer[1])
+        if isinstance(layer, tuple)
+        else None,
+        starts=start_straight_length,
+        ends=end_straight_length,
     )

@@ -5,14 +5,14 @@ from __future__ import annotations
 import warnings
 from collections.abc import Sequence
 from functools import partial
-from typing import Any, TypeAlias, TypeVar, cast, overload
+from typing import Any, TypeVar, cast, overload
 
 import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
 
-Value: TypeAlias = float | Sequence[float] | npt.NDArray[np.floating[Any]]
+type Value = float | Sequence[float] | npt.NDArray[np.floating[Any]]
 
 
 def is_on_grid(
@@ -54,7 +54,7 @@ _T = TypeVar("_T", bound=npt.NDArray[np.floating[Any]])
 
 
 @overload
-def snap_to_grid(
+def snap_to_grid[T: npt.NDArray[np.floating[Any]]](
     x: _T,
     nm: int | None = None,
     grid_factor: int = 1,
@@ -71,7 +71,7 @@ def snap_to_grid(
     nm: int | None = None,
     grid_factor: int = 1,
 ) -> float: ...
-def snap_to_grid(
+def snap_to_grid[T: npt.NDArray[np.floating[Any]]](
     x: float | Sequence[float] | _T,
     nm: int | None = None,
     grid_factor: int = 1,

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import kfactory as kf
 from kfactory.layer import LayerEnum
@@ -316,9 +316,7 @@ class DerivedLayer(AbstractLayer):
     __str__ = __repr__
 
 
-BroadLayer: TypeAlias = (
-    LogicalLayer | DerivedLayer | int | str | tuple[int, int] | LayerEnum
-)
+type BroadLayer = LogicalLayer | DerivedLayer | int | str | tuple[int, int] | LayerEnum
 
 
 class LayerLevel(BaseModel):

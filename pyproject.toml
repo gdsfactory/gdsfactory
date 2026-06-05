@@ -7,7 +7,6 @@ requires = ["flit_core >=3.2,<4"]
 [project]
 authors = [{name = "gdsfactory community", email = "contact@gdsfactory.com"}]
 classifiers = [
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Operating System :: OS Independent"
@@ -31,7 +30,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]~=2.5.0",
+  "kfactory[ipy]>=3.0.0rc4,<3.1",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -51,7 +50,7 @@ keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 version = "9.43.0"
 
 [project.optional-dependencies]
@@ -125,7 +124,7 @@ exclude = [
   "docs/notebooks/*"
 ]
 explicit_package_bases = true
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 
 [tool.pylsp-mypy]
@@ -135,7 +134,7 @@ strict = true
 
 [tool.pyright]
 exclude = ["gdsfactory/samples", "notebooks", "docs"]
-pythonVersion = "3.11"
+pythonVersion = "3.12"
 reportArgumentType = false
 reportAttributeAccessIssue = false
 reportCallIssue = false

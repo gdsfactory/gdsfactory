@@ -34,10 +34,11 @@ import functools
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict, Unpack, cast
+from typing import TYPE_CHECKING, Any, Literal, TypedDict, Unpack, cast
 
 import kfactory as kf
 import numpy as np
+from kfactory import DPort as Port  # runtime re-export of a class
 from rich.console import Console
 from rich.table import Table
 
@@ -113,9 +114,6 @@ def pprint_ports(ports: Ports) -> None:
         table.add_row(*row)
 
     console.print(table)
-
-
-Port: TypeAlias = kf.DPort
 
 
 def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:

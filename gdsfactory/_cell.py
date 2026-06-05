@@ -36,13 +36,13 @@ class ComponentFunc(Protocol[ComponentParams]):
 
 
 @overload
-def cell(
+def cell[**ComponentParams](
     _func: ComponentFunc[ComponentParams], /
 ) -> ComponentFunc[ComponentParams]: ...
 
 
 @overload
-def cell(
+def cell[**ComponentParams](
     *,
     set_settings: bool = True,
     set_name: bool = True,
@@ -183,7 +183,7 @@ class ComponentAllAngleFunc(Protocol[ComponentParams]):
 
 
 @overload
-def vcell(
+def vcell[**ComponentParams](
     _func: ComponentAllAngleFunc[ComponentParams], /
 ) -> ComponentAllAngleFunc[ComponentParams]: ...
 
@@ -206,7 +206,7 @@ def vcell(
 ]: ...
 
 
-def vcell(
+def vcell[**ComponentParams](
     _func: ComponentAllAngleFunc[ComponentParams] | None = None,
     /,
     *,
@@ -270,13 +270,13 @@ def vcell(
 
 
 @overload
-def cell_with_module_name(
+def cell_with_module_name[**ComponentParams](
     _func: ComponentFunc[ComponentParams], /
 ) -> ComponentFunc[ComponentParams]: ...
 
 
 @overload
-def cell_with_module_name(
+def cell_with_module_name[**ComponentParams](
     *,
     set_settings: bool = True,
     set_name: bool = True,
@@ -323,7 +323,7 @@ def cell_with_module_name(
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
-def cell_with_module_name(
+def cell_with_module_name[**ComponentParams](
     _func: ComponentFunc[ComponentParams] | None = None,
     /,
     **kwargs: Any,
@@ -336,7 +336,7 @@ def cell_with_module_name(
 
 
 @overload
-def schematic_cell(
+def schematic_cell[**ComponentParams](
     _func: Callable[ComponentParams, DSchematic], /
 ) -> ComponentFunc[ComponentParams]: ...
 
@@ -364,7 +364,7 @@ def schematic_cell(
 ) -> Callable[[ComponentFunc[ComponentParams]], ComponentFunc[ComponentParams]]: ...
 
 
-def schematic_cell(
+def schematic_cell[**ComponentParams](
     _func: Callable[ComponentParams, DSchematic] | None = None,
     /,
     *,

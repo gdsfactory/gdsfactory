@@ -6,7 +6,15 @@ import pathlib
 import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable, Sequence
-from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, cast, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Literal,
+    Self,
+    cast,
+    overload,
+    override,
+)
 
 import kfactory as kf
 import klayout.lay as lay
@@ -16,8 +24,9 @@ import numpy.typing as npt
 import yaml
 from graphviz import Digraph
 from kfactory import (
-    DInstance,
-    DInstances,
+    DInstance as ComponentReference,
+)
+from kfactory import (
     DPort,
     DPorts,
     VInstance,
@@ -37,7 +46,6 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from pydantic import Field
 from trimesh.scene.scene import Scene
-from typing_extensions import override
 
 from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.serialization import DEFAULT_SERIALIZATION_MAX_DIGITS, clean_value_json
@@ -93,7 +101,7 @@ if TYPE_CHECKING:
 
 cell_without_validator = cell
 
-_PolygonPoints: TypeAlias = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
+type _PolygonPoints = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
 
 
 def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
@@ -151,10 +159,6 @@ boolean_operations = {
 
 def copy(region: kdb.Region) -> kdb.Region:
     return region.dup()
-
-
-ComponentReference: TypeAlias = DInstance
-ComponentReferences: TypeAlias = DInstances
 
 
 class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
@@ -620,7 +624,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         return ref
 
 
-Route: TypeAlias = (
+type Route = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
 )
 
