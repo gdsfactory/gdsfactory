@@ -6,6 +6,7 @@ import filecmp
 import pathlib
 import shutil
 from dataclasses import dataclass, field
+from typing import Literal
 
 import kfactory as kf
 from kfactory import DKCell, KCLayout, kdb, logger
@@ -25,7 +26,7 @@ class LayerDiff:
     bbox: tuple[float, float, float, float] | None
     polygon_count_ref: int
     polygon_count_run: int
-    present_in: str
+    present_in: Literal["both", "ref_only", "run_only"]
 
 
 @dataclass
@@ -469,6 +470,16 @@ def diff(
                     equivalent = False
                     run_area = region.area() * dbu2
                     bbox = region.bbox()
+                    bbox_um = (
+                        (
+                            bbox.left * dbu,
+                            bbox.bottom * dbu,
+                            bbox.right * dbu,
+                            bbox.top * dbu,
+                        )
+                        if not region.is_empty()
+                        else None
+                    )
                     layer_diffs.append(
                         LayerDiff(
                             layer=(layer.layer, layer.datatype),
@@ -476,12 +487,7 @@ def diff(
                             ref_area=0.0,
                             run_area=run_area,
                             iou=0.0,
-                            bbox=(
-                                bbox.left * dbu,
-                                bbox.bottom * dbu,
-                                bbox.right * dbu,
-                                bbox.top * dbu,
-                            ),
+                            bbox=bbox_um,
                             polygon_count_ref=0,
                             polygon_count_run=region.count(),
                             present_in="run_only",
@@ -497,6 +503,16 @@ def diff(
                     equivalent = False
                     ref_area = region.area() * dbu2
                     bbox = region.bbox()
+                    bbox_um = (
+                        (
+                            bbox.left * dbu,
+                            bbox.bottom * dbu,
+                            bbox.right * dbu,
+                            bbox.top * dbu,
+                        )
+                        if not region.is_empty()
+                        else None
+                    )
                     layer_diffs.append(
                         LayerDiff(
                             layer=(layer.layer, layer.datatype),
@@ -504,12 +520,7 @@ def diff(
                             ref_area=ref_area,
                             run_area=0.0,
                             iou=0.0,
-                            bbox=(
-                                bbox.left * dbu,
-                                bbox.bottom * dbu,
-                                bbox.right * dbu,
-                                bbox.top * dbu,
-                            ),
+                            bbox=bbox_um,
                             polygon_count_ref=region.count(),
                             polygon_count_run=0,
                             present_in="ref_only",
@@ -530,7 +541,7 @@ def diff(
                 c.show()
 
         return DiffResult(has_differences=not equivalent, layers=layer_diffs)
-    return DiffResult(has_differences=False)
+    return DiffResult(has_differences=not equivalent)
 
 
 def difftest(

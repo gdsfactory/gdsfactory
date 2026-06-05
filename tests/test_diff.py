@@ -89,6 +89,11 @@ def test_diff_layer_metrics() -> None:
 
     # bbox of XOR region should cover the big rect extent
     assert layer.bbox is not None
+    left, bottom, right, top = layer.bbox
+    assert left <= right
+    assert bottom <= top
+    assert (right - left) == pytest.approx(1.55, abs=0.01)
+    assert (top - bottom) == pytest.approx(1.28, abs=0.01)
 
     assert layer.polygon_count_ref == 1
     assert layer.polygon_count_run == 1
