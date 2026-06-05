@@ -18,12 +18,16 @@ pad_array_layer = partial(gf.c.pad_array, layer="M1")
 pad_array_size = partial(gf.c.pad_array, layer="M1", size=(100, 100))
 taper_with_trenches = partial(gf.c.taper, cross_section="rib_with_trenches")
 
+bend_euler_angular_resolution = partial(
+    gf.components.bend_euler, radius=10, angle=90, angular_step=20
+)
 
 cells.update(
     {
         "pad_array_layer": pad_array_layer,
         "pad_array_size": pad_array_size,
         "taper_with_trenches": taper_with_trenches,
+        "bend_euler_angular_resolution": bend_euler_angular_resolution,
     }
 )
 

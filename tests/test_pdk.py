@@ -151,3 +151,14 @@ def test_pdk_same_dbu_with_existing_cells_allowed(restore_kcl_state: None) -> No
         dbu=existing_dbu,
     )
     pdk.activate(force=True)
+
+
+def test_get_layer_name_exception_chaining() -> None:
+    pdk = _make_pdk()
+    with pytest.raises(ValueError) as exc_info:
+        pdk.get_layer_name((999, 999))
+
+    assert "Could not find name for layer" in str(exc_info.value)
+    # Ensure that exception chaining has occurred with the inner exception, which should be ValueError
+    assert exc_info.value.__cause__ is not None
+    assert isinstance(exc_info.value.__cause__, (ValueError, KeyError, TypeError))

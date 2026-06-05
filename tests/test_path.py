@@ -505,6 +505,27 @@ def test_euler_zero_angle_returns_origin() -> None:
     assert p.end_angle == 0
 
 
+@given(
+    p_val=st.floats(
+        min_value=0.0,
+        max_value=0.5,
+        allow_nan=False,
+        allow_infinity=False,
+        exclude_max=True,
+    )
+)
+def test_topic_p_values(p_val: float) -> None:
+    """Test topic with arbitrary p values in [0, 0.5)."""
+    p = gf.path.topic(radius=10, angle=90, p=p_val)
+    assert not np.any(np.isnan(p.points))
+
+
+def test_topic_zero_angle_raises_error() -> None:
+    """Test that topic(angle=0) raises error."""
+    with pytest.raises(ValueError):
+        gf.path.topic(angle=0)
+
+
 def test_arc_zero_angle_returns_origin() -> None:
     """Test that arc(angle=0) returns 2 points at origin."""
     p = gf.path.arc(radius=10, angle=0)

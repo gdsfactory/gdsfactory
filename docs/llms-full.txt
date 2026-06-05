@@ -1,0 +1,686 @@
+# GDSFactory — Complete LLM Reference
+
+GDSFactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMS), PCBs, and 3D-printable objects. It outputs CAD files (GDS, OASIS, STL, GERBER) from Python code.
+
+- Version: 9.x (Python 3.11+)
+- License: MIT
+- Docs: https://gdsfactory.github.io/gdsfactory/
+- Source: https://github.com/gdsfactory/gdsfactory
+
+## Installation
+
+```bash
+pip install gdsfactory
+```
+
+## Core Concepts
+
+GDSFactory's design model is built on a few key abstractions:
+
+- **Component**: The fundamental building block. A Component contains polygons, ports, and references to other components. Think of it as a reusable cell in a GDS file.
+- **Port**: A named connection point on a Component with a position, orientation, width, and layer. Ports enable components to be connected together.
+- **Reference (Instance)**: A placed instance of one Component inside another. References share geometry — changing the referenced component updates all instances.
+- **CrossSection**: Defines the layer stack of a waveguide or wire (core width, cladding layers, offsets). Used with Path to create routed structures.
+- **Path**: A 2D curve that, when combined with a CrossSection, produces a waveguide or wire component via extrusion.
+- **PDK (Process Design Kit)**: A collection of layers, cross-sections, and cell factories that define the rules for a specific fabrication process.
+- **Cell decorator (`@gf.cell`)**: A decorator that adds automatic naming, caching, and port validation to component factory functions.
+
+## Quick Start
+
+```python
+import gdsfactory as gf
+
+# Create a simple component
+c = gf.Component()
+ref = c.add_ref(gf.components.rectangle(size=(10, 10), layer=(1, 0)))
+c.show()  # opens in KLayout via klive
+
+# Use a built-in parametric component
+mmi = gf.components.mmi1x2(length_mmi=10, width_mmi=5)
+mmi.show()
+
+# Write to file
+mmi.write_gds("mmi.gds")
+```
+
+## Creating Components
+
+### Using the @cell decorator
+
+```python
+import gdsfactory as gf
+
+@gf.cell
+def my_component(length: float = 10.0, width: float = 0.5) -> gf.Component:
+    c = gf.Component()
+    ref = c.add_ref(gf.components.straight(length=length, cross_section="strip"))
+    c.add_ports(ref.ports)
+    return c
+```
+
+The `@gf.cell` decorator provides:
+- Automatic naming based on function name and parameters
+- Caching: same parameters return the same component instance
+- Port validation
+
+Always use `gf.clear_cache()` when regenerating components with changed parameters in interactive sessions.
+
+### Component Operations
+
+```python
+c = gf.Component()
+
+# Add references
+ref1 = c.add_ref(gf.components.straight(length=10))
+ref2 = c.add_ref(gf.components.bend_euler(radius=10))
+
+# Connect ports
+ref2.connect("o1", ref1.ports["o2"])
+
+# Add ports from references
+c.add_port("o1", port=ref1.ports["o1"])
+c.add_port("o2", port=ref2.ports["o2"])
+
+# Movement
+ref1.move((10, 5))
+ref1.rotate(90)
+ref1.mirror_x()  # mirror about x-axis
+ref1.mirror_y()  # mirror about y-axis
+
+# Access component info
+print(c.ports)        # dict of ports
+print(c.bbox)         # bounding box
+print(c.size_info)    # size information
+```
+
+### Polygons and Geometry
+
+```python
+c = gf.Component()
+
+# Add polygon directly
+c.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=(1, 0))
+
+# Boolean operations (using KLayout regions)
+import kfactory as kf
+# Union, intersection, difference, XOR available via kfactory/klayout
+
+# Add labels
+c.add_label("my_label", position=(5, 2.5), layer=(10, 0))
+```
+
+### Ports
+
+```python
+# Add a port
+c.add_port(
+    name="o1",
+    center=(0, 0),
+    width=0.5,
+    orientation=180,  # degrees, 0=East, 90=North, 180=West, 270=South
+    layer=(1, 0),
+    port_type="optical",  # or "electrical", "placement"
+)
+
+# Naming convention:
+# "o1", "o2" — optical ports
+# "e1", "e2" — electrical ports
+```
+
+## Paths and Cross-Sections
+
+### Creating Paths
+
+```python
+from gdsfactory.path import straight, euler, arc, smooth
+
+# Simple straight path
+p = straight(length=10)
+
+# Euler bend (adiabatic)
+p = euler(radius=10, angle=90)
+
+# Arc (circular)
+p = arc(radius=10, angle=90)
+
+# Smooth path through waypoints
+p = smooth(points=[(0, 0), (50, 0), (50, 50), (100, 50)], radius=10)
+```
+
+### Cross-Sections
+
+```python
+from gdsfactory.cross_section import cross_section, strip, rib, metal1
+
+# Built-in cross sections
+xs = strip()      # standard strip waveguide (500nm wide on WG layer)
+xs = rib()        # rib waveguide
+xs = metal1()     # metal routing layer
+
+# Custom cross section
+xs = gf.CrossSection(
+    sections=[
+        gf.Section(width=0.5, layer="WG", name="core"),
+        gf.Section(width=3.0, layer="SLAB90", name="slab"),
+    ]
+)
+```
+
+### Extrusion
+
+```python
+# Extrude a path with a cross section to create a component
+import gdsfactory as gf
+
+p = gf.path.straight(length=10)
+xs = gf.cross_section.strip()
+c = gf.path.extrude(p, xs)
+
+# Transition between cross sections
+xs1 = gf.cross_section.strip()
+xs2 = gf.cross_section.rib()
+transition = gf.path.extrude_transition(
+    p, cross_section1=xs1, cross_section2=xs2
+)
+```
+
+## Routing
+
+### route_single — Connect Two Ports
+
+```python
+import gdsfactory as gf
+
+c = gf.Component()
+mmi1 = c.add_ref(gf.components.mmi1x2())
+mmi2 = c.add_ref(gf.components.mmi1x2())
+mmi2.move((100, 50))
+
+route = gf.routing.route_single(
+    c,
+    port1=mmi1.ports["o3"],
+    port2=mmi2.ports["o1"],
+    cross_section="strip",
+)
+```
+
+### route_bundle — Connect Groups of Ports
+
+```python
+import gdsfactory as gf
+
+c = gf.Component()
+mmi1 = c.add_ref(gf.components.mmi1x2())
+mmi2 = c.add_ref(gf.components.mmi1x2())
+mmi2.move((100, 50))
+
+routes = gf.routing.route_bundle(
+    c,
+    ports1=[mmi1.ports["o2"], mmi1.ports["o3"]],
+    ports2=[mmi2.ports["o1"], mmi2.ports["o1"]],
+    cross_section="strip",
+    separation=5.0,
+)
+```
+
+### Routing with Steps
+
+```python
+routes = gf.routing.route_bundle(
+    c,
+    ports1=left_ports,
+    ports2=right_ports,
+    cross_section="strip",
+    steps=[
+        {"dx": 100},   # relative x step
+        {"dy": 50},    # relative y step
+        {"x": 200},    # absolute x position
+    ],
+)
+```
+
+### All Routing Functions
+
+- `gf.routing.route_single` — single optical route between two ports
+- `gf.routing.route_single_electrical` — single electrical route
+- `gf.routing.route_single_sbend` — S-bend route
+- `gf.routing.route_bundle` — bundle of optical routes (non-crossing)
+- `gf.routing.route_bundle_electrical` — bundle of electrical routes
+- `gf.routing.route_bundle_all_angle` — bundle routing at arbitrary angles
+- `gf.routing.route_bundle_sbend` — S-bend bundle routing
+- `gf.routing.route_quad` — route to four sides
+- `gf.routing.route_sharp` — sharp-corner route
+- `gf.routing.route_astar` — A* pathfinding route
+- `gf.routing.route_dubins` — Dubins path (minimum curvature)
+- `gf.routing.route_ports_to_side` — route ports to a single side
+- `gf.routing.route_ports_to_x` — route ports to an x coordinate
+- `gf.routing.route_ports_to_y` — route ports to a y coordinate
+- `gf.routing.route_south` — route all ports southward
+- `gf.routing.add_fiber_array` — add fiber array coupling
+- `gf.routing.add_fiber_single` — add single fiber coupling
+- `gf.routing.add_pads_top` — add electrical pads on top
+- `gf.routing.add_pads_bot` — add electrical pads on bottom
+- `gf.routing.add_electrical_pads_top` — add electrical pads on top
+- `gf.routing.add_electrical_pads_shortest` — add pads with shortest routes
+- `gf.routing.fanout2x2` — fan out 2x2 coupler ports
+
+## PDK (Process Design Kit)
+
+### Creating a PDK
+
+```python
+import gdsfactory as gf
+
+# Define layers
+class LAYER(gf.LayerEnum):
+    WG = (1, 0)
+    SLAB = (2, 0)
+    METAL = (3, 0)
+
+# Define cross sections
+strip_xs = gf.cross_section.strip(width=0.5, layer=LAYER.WG)
+
+# Register cells
+cells = {"straight": gf.components.straight, "bend": gf.components.bend_euler}
+
+# Create and activate PDK
+pdk = gf.Pdk(
+    name="my_pdk",
+    cells=cells,
+    cross_sections={"strip": strip_xs},
+    layers=LAYER,
+)
+pdk.activate()
+```
+
+### Using PDK Components
+
+```python
+# After PDK activation, use string references
+c = gf.components.straight(cross_section="strip")
+
+# ComponentSpec: can be string, dict, or function
+c = gf.get_component("straight")
+c = gf.get_component({"component": "straight", "settings": {"length": 20}})
+
+# CrossSectionSpec: can be string, dict, or function
+xs = gf.get_cross_section("strip")
+```
+
+### Generic PDK Layers
+
+The built-in generic PDK includes these layers:
+
+| Layer Name | GDS Layer | Purpose |
+|-----------|-----------|---------|
+| WG | (1, 0) | Waveguide core |
+| WGCLAD | (111, 0) | Waveguide cladding |
+| SLAB150 | (2, 0) | 150nm slab |
+| SLAB90 | (3, 0) | 90nm slab |
+| DEEP_ETCH | (4, 0) | Deep etch |
+| WGN | (34, 0) | Nitride waveguide |
+| WGN_CLAD | (36, 0) | Nitride cladding |
+| N | (20, 0) | N doping |
+| NP | (22, 0) | N+ doping |
+| NPP | (24, 0) | N++ doping |
+| P | (21, 0) | P doping |
+| PP | (23, 0) | P+ doping |
+| PPP | (25, 0) | P++ doping |
+| GE | (5, 0) | Germanium |
+| HEATER | (47, 0) | Heater |
+| M1 | (41, 0) | Metal 1 |
+| M2 | (45, 0) | Metal 2 |
+| MTOP | (49, 0) | Top metal |
+| VIAC | (40, 0) | Via to M1 |
+| VIA1 | (44, 0) | Via M1-M2 |
+| VIA2 | (43, 0) | Via M2-MTOP |
+| TE | (203, 0) | TE polarization marker |
+| TM | (204, 0) | TM polarization marker |
+| TEXT | (66, 0) | Text labels |
+| FLOORPLAN | (64, 0) | Floorplan boundary |
+
+## YAML Components
+
+Components can be defined declaratively in YAML:
+
+```yaml
+# my_circuit.pic.yml
+name: my_mzi
+instances:
+  mmi1:
+    component: mmi1x2
+  mmi2:
+    component: mmi1x2
+  straight1:
+    component: straight
+    settings:
+      length: 100
+
+connections:
+  straight1,o1: mmi1,o2
+  mmi2,o1: straight1,o2
+
+ports:
+  o1: mmi1,o1
+  o2: mmi2,o2
+  o3: mmi2,o3
+```
+
+```python
+c = gf.read.from_yaml("my_circuit.pic.yml")
+```
+
+## Writing Output Files
+
+```python
+# GDS (standard IC layout format)
+c.write_gds("output.gds")
+
+# OASIS (compressed layout format)
+c.write_oas("output.oas")
+
+# Reading GDS
+c = gf.read.import_gds("input.gds")
+```
+
+## Component Visualization
+
+```python
+# Show in KLayout (requires klive package)
+c.show()
+
+# Plot with matplotlib
+c.plot()
+
+# Plot to file (for headless/agent use)
+import matplotlib.pyplot as plt
+fig = c.plot()
+plt.savefig("component.png", dpi=150, bbox_inches="tight")
+plt.close()
+```
+
+## Built-in Components Reference
+
+GDSFactory ships with 300+ parametric component factories under `gf.components`. Below is the complete list with their default parameters.
+
+### Waveguides
+
+- `gf.components.straight(length=10.0, npoints=2, cross_section='strip')` — straight waveguide
+- `gf.components.straight_array(n=4, spacing=4.0, length=10.0, cross_section='strip')` — array of parallel straights
+- `gf.components.wire_straight(length=10.0, npoints=2, cross_section='metal_routing')` — straight electrical wire
+
+### Bends
+
+- `gf.components.bend_euler(radius=None, angle=90.0, p=0.5, cross_section='strip')` — Euler (adiabatic) bend
+- `gf.components.bend_euler180(radius=None, angle=180, p=0.5)` — 180° Euler bend
+- `gf.components.bend_circular(radius=None, angle=90.0, cross_section='strip')` — circular arc bend
+- `gf.components.bend_circular180(radius=None, angle=180)` — 180° circular bend
+- `gf.components.bend_s(size=(11.0, 1.8), npoints=99, cross_section='strip')` — S-bend
+- `gf.components.bend_s_offset(offset=40.0, radius=10.0, cross_section='strip')` — S-bend with offset
+- `gf.components.bezier(control_points=((0,0),(5,0),(5,1.8),(10,1.8)), cross_section='strip')` — Bezier curve
+
+### MMIs (Multimode Interference)
+
+- `gf.components.mmi1x2(width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25)` — 1x2 MMI splitter
+- `gf.components.mmi2x2(width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25)` — 2x2 MMI coupler
+- `gf.components.mmi(inputs=1, outputs=4, width_mmi=5, length_mmi=5.5)` — generic NxM MMI
+- `gf.components.mmi1x2_with_sbend(with_sbend=True, cross_section='strip')` — 1x2 MMI with S-bends
+- `gf.components.mmi2x2_with_sbend(with_sbend=True, cross_section='strip')` — 2x2 MMI with S-bends
+
+### Couplers
+
+- `gf.components.coupler(gap=0.236, length=20.0, dy=4.0, dx=10.0)` — directional coupler
+- `gf.components.coupler_ring(gap=0.2, radius=None, length_x=4.0)` — ring coupler
+- `gf.components.coupler_adiabatic(length1=20.0, length2=50.0, length3=30.0, wg_sep=1.0)` — adiabatic coupler
+- `gf.components.coupler_full(coupling_length=40.0, dx=10.0, dy=4.8, gap=0.5)` — full coupler
+- `gf.components.coupler_broadband(w_sc=0.5, gap_sc=0.2, w_top=0.6, gap_pc=0.3)` — broadband coupler
+- `gf.components.coupler_straight(length=10.0, gap=0.27, cross_section='strip')` — straight parallel coupler
+- `gf.components.coupler_symmetric(bend='bend_s', gap=0.234, dy=4.0, dx=10.0)` — symmetric coupler
+- `gf.components.coupler90(gap=0.2, radius=None, bend='bend_euler')` — 90° coupler
+- `gf.components.coupler_bent(gap=0.2, radius=26, length=8.6)` — bent coupler
+
+### Rings
+
+- `gf.components.ring_single(gap=0.2, radius=None, length_x=4.0, length_y=0.6)` — single bus ring resonator
+- `gf.components.ring_double(gap=0.2, radius=None, length_x=0.01, length_y=0.01)` — double bus ring resonator
+- `gf.components.ring_single_heater(gap=0.2, radius=None, length_x=1.0)` — ring with heater
+- `gf.components.ring_double_heater(gap=0.2, radius=None, length_x=1.0)` — double ring with heater
+- `gf.components.ring_single_pn(gap=0.3, radius=5.0, doping_angle=250)` — ring with PN junction
+- `gf.components.ring_double_pn(add_gap=0.3, drop_gap=0.3, radius=5.0)` — double ring with PN
+- `gf.components.ring_crow(gaps=(0.2,0.2,0.2,0.2), radius=(10.0,10.0,10.0))` — coupled resonator optical waveguide
+- `gf.components.disk(radius=10.0, gap=0.2, wrap_angle_deg=180.0)` — disk resonator
+- `gf.components.disk_heater(radius=10.0, gap=0.2, wrap_angle_deg=180.0)` — disk with heater
+
+### Grating Couplers
+
+- `gf.components.grating_coupler_te(taper_length=16.6, taper_angle=35, wavelength=1.53)` — TE grating coupler (elliptical trenches)
+- `gf.components.grating_coupler_tm(taper_length=16.6, taper_angle=30.0, wavelength=1.53)` — TM grating coupler
+- `gf.components.grating_coupler_elliptical(taper_length=16.6, taper_angle=40.0, wavelength=1.554)` — elliptical grating coupler
+- `gf.components.grating_coupler_rectangular(n_periods=20, period=0.75, fill_factor=0.5)` — rectangular grating coupler
+- `gf.components.grating_coupler_dual_pol(period_x=0.58, period_y=0.58)` — dual-polarization grating coupler
+- `gf.components.grating_coupler_array(grating_coupler='grating_coupler_elliptical', pitch=127.0, n=6)` — array of grating couplers
+
+### MZIs (Mach-Zehnder Interferometers)
+
+- `gf.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1)` — basic MZI
+- `gf.components.mzi1x2(delta_length=10.0, length_y=2.0, length_x=0.1)` — 1x2 MZI
+- `gf.components.mzi2x2_2x2(delta_length=10.0, length_y=2.0)` — 2x2 MZI
+- `gf.components.mzi_phase_shifter(delta_length=10.0, length_x=200, straight_x_top='straight_heater_metal')` — MZI with phase shifter
+- `gf.components.mzi_pin(delta_length=0.0, length_x=100, straight_x_top='straight_pin')` — MZI with PIN phase shifter
+- `gf.components.mzi_lattice(coupler_lengths=(10.0,20.0), coupler_gaps=(0.2,0.3), delta_lengths=(10.0,))` — lattice filter MZI
+
+### Tapers
+
+- `gf.components.taper(length=10.0, width1=0.5, width2=None, cross_section='strip')` — linear taper
+- `gf.components.taper_cross_section(cross_section1='strip_rib_tip', cross_section2='rib2', length=10)` — cross-section transition taper
+- `gf.components.taper_strip_to_ridge(length=10.0, width1=0.5, width2=0.5, w_slab2=6.0)` — strip to ridge taper
+- `gf.components.taper_parabolic(length=20, width1=0.5, width2=5.0, exp=0.5)` — parabolic taper
+- `gf.components.taper_adiabatic(width1=0.5, width2=5.0, length=0)` — adiabatic taper
+
+### Phase Shifters / Heaters
+
+- `gf.components.straight_heater_metal(length=320.0, cross_section='strip')` — metal heater on waveguide
+- `gf.components.straight_heater_metal_simple(length=320.0)` — simple metal heater
+- `gf.components.straight_heater_metal_undercut(length=320.0)` — metal heater with undercut
+- `gf.components.straight_heater_doped_rib(length=320.0, nsections=3)` — doped rib heater
+- `gf.components.straight_heater_meander(length=300.0, spacing=2.0)` — meandered heater
+- `gf.components.straight_pin(length=500.0, cross_section='pin')` — PIN phase shifter
+- `gf.components.straight_pn(length=2000, cross_section='pn')` — PN phase shifter
+
+### Spirals
+
+- `gf.components.spiral(length=100, cross_section='strip', spacing=3.0, n_loops=6)` — compact spiral
+- `gf.components.spiral_racetrack(min_radius=None, straight_length=20.0)` — racetrack spiral
+- `gf.components.spiral_racetrack_fixed_length(length=1000, n_straight_sections=8)` — fixed-length spiral
+- `gf.components.spiral_double(min_bend_radius=10.0, number_of_loops=3)` — double spiral
+- `gf.components.spiral_rectangular(n_turns=4, width=1.0, pitch=3.0)` — rectangular spiral
+- `gf.components.spiral_inductor(width=3.0, pitch=3.0, turns=16)` — inductor spiral
+
+### Edge Couplers
+
+- `gf.components.edge_coupler_silicon(length=100, width1=0.5, width2=0.2)` — silicon edge coupler
+- `gf.components.edge_coupler_array(edge_coupler='edge_coupler_silicon', n=5, pitch=127.0)` — edge coupler array
+- `gf.components.edge_coupler_array_with_loopback(n=8, pitch=127.0)` — edge coupler array with loopback
+
+### Pads and Vias
+
+- `gf.components.pad(size=(100.0, 100.0), layer='MTOP')` — electrical pad
+- `gf.components.pad_array(pad='pad', columns=6, rows=1, column_pitch=150.0)` — pad array
+- `gf.components.via_stack(size=(11.0, 11.0), layers=('M1', 'M2', 'MTOP'))` — via stack
+- `gf.components.via(size=(0.7, 0.7), layer='VIAC', pitch=2)` — single via
+
+### DBR (Distributed Bragg Reflector)
+
+- `gf.components.dbr(w1=0.45, w2=0.55, l1=0.159, l2=0.159, n=10)` — DBR grating
+- `gf.components.dbr_tapered(length=10.0, period=0.85, dc=0.5)` — tapered DBR
+- `gf.components.cavity(component='dbr', coupler='coupler', length=0.1, gap=0.2)` — Fabry-Perot cavity
+
+### AWG
+
+- `gf.components.awg(arms=10, outputs=3, length_increment=0.0)` — arrayed waveguide grating
+
+### Delay Lines
+
+- `gf.components.delay_snake(length=1600.0, n=2, cross_section='strip')` — snake delay line
+- `gf.components.delay_snake2(length=1600.0, n=2)` — alternative snake delay
+- `gf.components.delay_snake_sbend(length=100.0, radius=5.0)` — S-bend delay line
+
+### Test Structures
+
+- `gf.components.cutback_bend(component='bend_euler', rows=6, cols=5)` — bend cutback test
+- `gf.components.cutback_component(component='taper_0p5_to_3_l36', cols=4, rows=5)` — component cutback
+- `gf.components.cutback_loss(component='mmi1x2', loss=(1.0,2.0,3.0))` — loss measurement cutback
+- `gf.components.cdsem_all(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1.0))` — CDSEM test structures
+- `gf.components.greek_cross(length=30, layers=('WG', 'N'))` — Greek cross (sheet resistance)
+- `gf.components.verniers(widths=(0.1, 0.2, 0.3, 0.4, 0.5))` — vernier alignment marks
+- `gf.components.litho_ruler(height=2, width=0.5, spacing=2.0)` — lithography ruler
+
+### Die and Mask Assembly
+
+- `gf.components.die(size=(10000.0, 10000.0), die_name='chip99')` — die with frame and labels
+- `gf.components.die_frame(size=(11200.0, 5000.0))` — die frame outline
+- `gf.components.wafer(reticle='die', cols=(2, 6, 6, 8, 8, 6, 6, 2))` — full wafer layout
+- `gf.components.seal_ring(size=(500, 500), width=10)` — seal ring around die
+
+### Shapes and Primitives
+
+- `gf.components.rectangle(size=(4.0, 2.0), layer='WG')` — rectangle
+- `gf.components.circle(radius=10.0, layer='WG')` — circle
+- `gf.components.ellipse(radii=(10.0, 5.0), layer='WG')` — ellipse
+- `gf.components.cross(length=10.0, width=3.0, layer='WG')` — cross shape
+- `gf.components.triangle(x=10, y=20, layer='WG')` — triangle
+- `gf.components.hexagon(sides=6, side_length=10, layer='WG')` — hexagon
+- `gf.components.regular_polygon(sides=6, side_length=10, layer='WG')` — regular polygon
+- `gf.components.ring(radius=10.0, width=0.5, layer='WG')` — ring shape (not resonator)
+- `gf.components.compass(size=(4.0, 2.0), layer='WG')` — compass rose (ports on all sides)
+- `gf.components.C(width=1.0, size=(10.0, 20.0), layer='WG')` — C shape
+- `gf.components.L(width=1, size=(10, 20), layer='MTOP')` — L shape
+- `gf.components.star(inner_radius=5.0, outer_radius=10.0, n_points=5)` — star shape
+
+### Text
+
+- `gf.components.text(text='abcd', size=10.0, layer='WG')` — text label
+- `gf.components.text_rectangular(text='abcd', size=10.0, layer='WG')` — rectangular font text
+- `gf.components.text_freetype(text='a', size=10, layer='WG')` — FreeType font text
+- `gf.components.text_klayout(text='a', layer='WG')` — KLayout text
+
+### Alignment and Fiducials
+
+- `gf.components.alignment_mark_cross(arm_width=2.0, arm_length=20.0, layer='WG')` — alignment cross
+- `gf.components.align_wafer(width=10.0, spacing=10.0)` — wafer alignment marks
+- `gf.components.fiducial_squares(layers=('WG',), size=(5, 5))` — fiducial squares
+
+### Crossings
+
+- `gf.components.crossing()` — waveguide crossing
+- `gf.components.crossing45(crossing='crossing', port_spacing=40.0)` — 45° crossing
+- `gf.components.crossing_etched(width=0.5, r1=3.0, r2=1.1)` — etched crossing
+
+### Loop Mirror
+
+- `gf.components.loop_mirror(component='mmi1x2', bend90='bend_euler')` — loop mirror
+
+### Detectors
+
+- `gf.components.ge_detector_straight_si_contacts(length=40.0)` — Ge detector with Si contacts
+
+### SNSPD
+
+- `gf.components.snspd(wire_width=0.2, wire_pitch=0.6, size=(10, 8))` — superconducting nanowire SPD
+
+### MEMS
+
+- `gf.components.comb_drive(finger_width=0.5, finger_length=10.0, n_fingers=20)` — comb drive actuator
+- `gf.components.cantilever(beam_width=2.0, beam_length=20.0)` — cantilever beam
+- `gf.components.doubly_clamped_beam(beam_width=1.0, beam_length=30.0)` — doubly clamped beam
+- `gf.components.anchored_flexure(hinge_width=0.3, hinge_length=5.0)` — anchored flexure
+
+### Quantum
+
+- `gf.components.transmon(pad_width=200.0, pad_height=100.0, pad_gap=6.0)` — transmon qubit
+- `gf.components.transmon_circular(pad_radius=100.0, pad_gap=6.0)` — circular transmon
+- `gf.components.flux_qubit(loop_width=50.0, loop_height=50.0, junction_width=0.15)` — flux qubit
+
+### Containers / Utilities
+
+- `gf.components.array(component='pad', columns=6, rows=1, column_pitch=150)` — generic array
+- `gf.components.array_polar(component='C', n_items=6, radius=50.0)` — polar array
+- `gf.components.extend_ports(component='mmi1x2', length=5.0)` — extend component ports
+- `gf.components.copy_layers(factory='cross', layers=((1,0),(2,0)))` — copy to multiple layers
+- `gf.components.add_fiber_array_optical_south_electrical_north(component='straight_heater_metal')` — add fiber and pad IO
+- `gf.components.add_termination(component='straight')` — add port terminations
+- `gf.components.component_sequence(sequence, symbol_to_component)` — sequence of components
+
+### Packing and Grid
+
+```python
+# Pack components tightly
+packed = gf.pack([comp1, comp2, comp3], spacing=5)
+
+# Grid layout
+grid = gf.grid([comp1, comp2, comp3], columns=3, spacing=(10, 10))
+
+# Grid with text labels
+grid = gf.grid_with_text([comp1, comp2], text_prefix="device_")
+```
+
+## Cross-Section Functions Reference
+
+Built-in cross-section factory functions:
+
+- `gf.cross_section.strip()` — standard strip waveguide (500nm, WG layer)
+- `gf.cross_section.rib()` — rib waveguide
+- `gf.cross_section.rib2()` — alternative rib
+- `gf.cross_section.slot()` — slot waveguide
+- `gf.cross_section.nitride()` — silicon nitride waveguide
+- `gf.cross_section.metal1()` — metal 1 routing
+- `gf.cross_section.metal2()` — metal 2 routing
+- `gf.cross_section.metal3()` — metal 3 (top metal) routing
+- `gf.cross_section.metal_routing()` — general metal routing
+- `gf.cross_section.heater_metal()` — heater metal
+- `gf.cross_section.pin()` — PIN junction cross-section
+- `gf.cross_section.pn()` — PN junction cross-section
+- `gf.cross_section.strip_heater_metal()` — strip waveguide with metal heater
+- `gf.cross_section.strip_heater_doped()` — strip with doped heater
+- `gf.cross_section.rib_heater_doped()` — rib with doped heater
+- `gf.cross_section.strip_rib_tip()` — strip-to-rib transition tip
+- `gf.cross_section.strip_nitride_tip()` — strip-to-nitride transition tip
+
+## Common Type Aliases
+
+- `ComponentSpec` — `Component | str | dict | Callable` — specifies a component (name, factory function, or dict with settings)
+- `CrossSectionSpec` — `CrossSection | str | dict | Callable` — specifies a cross-section
+- `LayerSpec` — `Layer | str | int` — specifies a GDS layer (tuple, name, or int)
+
+## Best Practices
+
+1. **Always use `@gf.cell`** for custom component functions — it enables caching and proper naming.
+2. **Clear cache** with `gf.clear_cache()` before regenerating components in interactive sessions.
+3. **Use grid snapping** — gdsfactory snaps to a 1nm grid by default. Avoid coordinates that don't align.
+4. **Connect ports** rather than moving components manually — `ref.connect("o1", other_ref.ports["o2"])` ensures proper alignment.
+5. **Use string references** for components and cross-sections when possible (e.g., `cross_section="strip"`) — this enables PDK portability.
+6. **Write regression tests** — use `difftest()` to catch unintended geometry changes.
+7. **Avoid `mag != 1.0`** in transformations — no foundry accepts scaled instances.
+
+## Open-Source PDKs
+
+- [Cornerstone (CSPDK)](https://github.com/gdsfactory/cspdk) — `pip install cspdk`
+- [SiEPIC Ebeam UBC](https://github.com/gdsfactory/ubc) — `pip install ubcpdk`
+- [VTT](https://github.com/gdsfactory/vtt) — `pip install vtt`
+- [GlobalFoundries 180nm](https://gdsfactory.github.io/gf180mcu/)
+- [SkyWater 130nm](https://gdsfactory.github.io/skywater130/)
+- [IHP](https://gdsfactory.github.io/IHP)
+- [Quantum RF PDK](https://github.com/gdsfactory/quantum-rf-pdk)
+
+## Simulation Plugins
+
+GDSFactory integrates with simulation tools via the `gplugins` package:
+
+```bash
+pip install gplugins[tidy3d]    # Tidy3D FDTD
+pip install gplugins[meep]      # MEEP FDTD
+pip install gplugins[sax]       # SAX circuit simulation
+pip install gplugins[devsim]    # DEVSIM device simulation
+```
+
+Docs: https://gdsfactory.github.io/gplugins/

@@ -1,4 +1,4 @@
-# GDSFactory 9.42.0
+# GDSFactory 9.43.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -210,6 +210,15 @@ Join us and be part of the community. 🚀
 - **Validation**: Automated chip analysis and data pipelines
 - **Multi-format Output**: Generate GDSII, OASIS, STL, and GERBER files
 - **Extensible**: Easy to add new components and functionality
+
+## LLM-Friendly Documentation
+
+GDSFactory provides machine-readable documentation optimized for LLM agents and AI-assisted development:
+
+- [llms.txt](https://gdsfactory.github.io/gdsfactory/llms.txt) — concise overview with links to all documentation sections
+- [llms-full.txt](https://gdsfactory.github.io/gdsfactory/llms-full.txt) — complete API reference and usage guide in a single document
+
+These follow the [llms.txt standard](https://llmstxt.org/) for making documentation easily ingestable by large language models.
 
 ## Community
 

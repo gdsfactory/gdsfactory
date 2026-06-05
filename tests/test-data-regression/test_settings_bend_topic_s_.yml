@@ -1,0 +1,10 @@
+info:
+  length: 32.514
+name: bend_topic_s_gdsfactorypcomponentspbendspbend_topic_RNo_d06a41da
+settings:
+  allow_min_radius_violation: false
+  cross_section: strip
+  npoints: 100
+  p: 0.1
+  port1: o1
+  port2: o2

@@ -413,6 +413,7 @@ class Schematic(BaseModel):
     def to_yaml_graph_networkx(
         self,
     ) -> tuple[nx.Graph, dict[str, str], dict[str, tuple[float, float]]]:
+        """Generates a netlist graph using NetworkX."""
         return to_yaml_graph_networkx(self.netlist, self.nets)
 
     def plot_graphviz(self, interactive: bool = False, splines: str = "ortho") -> None:
