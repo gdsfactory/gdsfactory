@@ -20,7 +20,7 @@ from warnings import warn
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import PathLengthConfig
+from kfactory.routing.optical import LoopPosition, LoopSide, PathLengthConfig
 
 import gdsfactory as gf
 from gdsfactory.config import CONF
@@ -534,11 +534,13 @@ def route_bundle(
                 route_names=[name],
                 instance_names=[],
                 on_failure=None,
-                loops=path_length_matching_config["loops"],
-                loop_side=path_length_matching_config["loop_side"],
-                element=path_length_matching_config["element"],
-                loop_position=path_length_matching_config["loop_position"],
-                length=path_length_matching_config["total_length"],
+                loops=path_length_matching_config.get("loops", 1),
+                loop_side=path_length_matching_config.get("loop_side", LoopSide.left),
+                element=path_length_matching_config.get("element", -1),
+                loop_position=path_length_matching_config.get(
+                    "loop_position", LoopPosition.start
+                ),
+                length=path_length_matching_config.get("total_length"),
                 all=True,
             )
         ]

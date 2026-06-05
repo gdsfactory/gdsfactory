@@ -53,6 +53,7 @@ def get_generic_pdk() -> Pdk:
     from gdsfactory.get_factories import get_cells
     from gdsfactory.gpdk.simulation_settings import materials_index
     from gdsfactory.pdk import GenericConstants, Pdk
+    from gdsfactory.routing.factories import support_nets
 
     cells = get_cells([gf.components])
     containers_dict = get_cells([gf.containers])
@@ -65,12 +66,14 @@ def get_generic_pdk() -> Pdk:
         LAYER.M3: "taper_electrical",
     }
     routing_strategies: dict[str, RoutingStrategy] = dict(
-        route_bundle=partial(gf.routing.route_bundle, cross_section="strip"),
-        route_bundle_all_angle=partial(
-            gf.routing.route_bundle_all_angle, cross_section="strip"
+        route_bundle=support_nets(
+            partial(gf.routing.route_bundle, cross_section="strip")
         ),
-        route_bundle_electrical=partial(
-            gf.routing.route_bundle_electrical, cross_section="metal_routing"
+        route_bundle_all_angle=support_nets(
+            partial(gf.routing.route_bundle_all_angle, cross_section="strip")
+        ),
+        route_bundle_electrical=support_nets(
+            partial(gf.routing.route_bundle_electrical, cross_section="metal_routing")
         ),
     )
 
