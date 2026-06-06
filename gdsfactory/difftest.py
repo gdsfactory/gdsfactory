@@ -1,8 +1,12 @@
 """GDS regression test. Inspired by lytest."""
 
+from __future__ import annotations
+
 import filecmp
 import pathlib
 import shutil
+from dataclasses import dataclass, field
+from typing import Literal
 
 import kfactory as kf
 from kfactory import DKCell, KCLayout, kdb, logger
@@ -10,6 +14,29 @@ from kfactory import DKCell, KCLayout, kdb, logger
 import gdsfactory as gf
 from gdsfactory.config import CONF, PATH
 from gdsfactory.name import clean_name, get_name_short
+
+
+@dataclass
+class LayerDiff:
+    layer: tuple[int, int]
+    xor_area: float
+    ref_area: float
+    run_area: float
+    iou: float
+    bbox: tuple[float, float, float, float] | None
+    polygon_count_ref: int
+    polygon_count_run: int
+    present_in: str
+
+
+@dataclass
+class DiffResult:
+    has_differences: bool
+    layers: list[LayerDiff] = field(default_factory=list)
+
+    def __bool__(self) -> bool:
+        """Return True if differences were found."""
+        return self.has_differences
 
 
 class GeometryDifference(Exception):
@@ -222,8 +249,8 @@ def diff(
     stagger: bool = True,
     out_file: PathType | None = None,
     sliver_tolerance: int = 1,
-) -> bool:
-    """Returns True if files are different, prints differences and shows them in klayout.
+) -> DiffResult:
+    """Returns DiffResult with per-layer metrics. Truthy when files differ (backward compatible).
 
     Args:
         ref_file: reference (old) file.
@@ -240,7 +267,7 @@ def diff(
     """
     ref_file, run_file = pathlib.Path(ref_file), pathlib.Path(run_file)
     if ref_file == run_file:
-        return False
+        return DiffResult(has_differences=False)
 
     old = read_top_cell(ref_file)
     new = read_top_cell(run_file)
@@ -262,6 +289,9 @@ def diff(
     if sliver_tolerance < 0:
         raise ValueError(f"{sliver_tolerance=} must be positive")
 
+    dbu = old.kcl.dbu
+    dbu2 = dbu * dbu
+    layer_diffs: list[LayerDiff] = []
     equivalent = True
     ld = kdb.LayoutDiff()
 
@@ -397,6 +427,41 @@ def diff(
                         else:
                             equivalent = False
                         print(message)
+
+                        ref_area = region_ref.area() * dbu2
+                        run_area = region_run.area() * dbu2
+                        xor_area = region_xor.area() * dbu2
+                        intersection = (ref_area + run_area - xor_area) / 2
+                        union = ref_area + run_area - intersection
+                        iou = intersection / union if union > 0 else 1.0
+                        xor_bbox = region_xor.bbox()
+                        ref_empty = region_ref.is_empty()
+                        run_empty = region_run.is_empty()
+                        present_in: Literal["both", "ref_only", "run_only"]
+                        if ref_empty:
+                            present_in = "run_only"
+                        elif run_empty:
+                            present_in = "ref_only"
+                        else:
+                            present_in = "both"
+                        layer_diffs.append(
+                            LayerDiff(
+                                layer=(layer.layer, layer.datatype),
+                                xor_area=xor_area,
+                                ref_area=ref_area,
+                                run_area=run_area,
+                                iou=iou,
+                                bbox=(
+                                    xor_bbox.left * dbu,
+                                    xor_bbox.bottom * dbu,
+                                    xor_bbox.right * dbu,
+                                    xor_bbox.top * dbu,
+                                ),
+                                polygon_count_ref=region_ref.count(),
+                                polygon_count_run=region_run.count(),
+                                present_in=present_in,
+                            )
+                        )
                 # only in new
                 elif new.kcl.layout.find_layer(layer) is not None:
                     layer_id = new.layer(layer)
@@ -404,6 +469,26 @@ def diff(
                     diff.shapes(c.kcl.layer(layer)).insert(region)
                     print(f"{test_name}: layer {layer} only exists in updated cell")
                     equivalent = False
+                    run_area = region.area() * dbu2
+                    bbox = region.bbox()
+                    layer_diffs.append(
+                        LayerDiff(
+                            layer=(layer.layer, layer.datatype),
+                            xor_area=run_area,
+                            ref_area=0.0,
+                            run_area=run_area,
+                            iou=0.0,
+                            bbox=(
+                                bbox.left * dbu,
+                                bbox.bottom * dbu,
+                                bbox.right * dbu,
+                                bbox.top * dbu,
+                            ),
+                            polygon_count_ref=0,
+                            polygon_count_run=region.count(),
+                            present_in="run_only",
+                        )
+                    )
 
                 # only in old
                 elif old.kcl.layout.find_layer(layer) is not None:
@@ -412,6 +497,26 @@ def diff(
                     diff.shapes(c.kcl.layer(layer)).insert(region)
                     print(f"{test_name}: layer {layer} missing from updated cell")
                     equivalent = False
+                    ref_area = region.area() * dbu2
+                    bbox = region.bbox()
+                    layer_diffs.append(
+                        LayerDiff(
+                            layer=(layer.layer, layer.datatype),
+                            xor_area=ref_area,
+                            ref_area=ref_area,
+                            run_area=0.0,
+                            iou=0.0,
+                            bbox=(
+                                bbox.left * dbu,
+                                bbox.bottom * dbu,
+                                bbox.right * dbu,
+                                bbox.top * dbu,
+                            ),
+                            polygon_count_ref=region.count(),
+                            polygon_count_run=0,
+                            present_in="ref_only",
+                        )
+                    )
 
             _ = c << diff
             if equivalent:
@@ -426,8 +531,8 @@ def diff(
             if show:
                 c.show()
 
-        return not equivalent
-    return False
+        return DiffResult(has_differences=not equivalent, layers=layer_diffs)
+    return DiffResult(has_differences=False)
 
 
 def difftest(
