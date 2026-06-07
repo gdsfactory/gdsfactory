@@ -6,6 +6,7 @@ import pathlib
 import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable, Sequence
+from copy import deepcopy
 from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, cast, overload
 
 import kfactory as kf
@@ -301,9 +302,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if port is not None:
             # preserve metadata from the source port (a resolved cross_section
-            # below takes precedence over any inherited one).
+            # below takes precedence over any inherited one). deepcopy so list/
+            # dict info values aren't shared with the source port.
             for key, value in dict(port.info).items():
-                _port.info[key] = value
+                _port.info[key] = deepcopy(value)
 
         if xs_name:
             _port.info["cross_section"] = xs_name

@@ -101,9 +101,15 @@ def test_add_port_preserves_info() -> None:
         layer=(1, 0),
     )
     child.ports["signal"].info["my_extra"] = "value"
+    child.ports["signal"].info["tags"] = ["a", "b"]
 
     parent = gf.Component()
     parent.add_ref(child)
     promoted = parent.add_port(port=child.ports["signal"])
 
     assert promoted.info["my_extra"] == "value"
+    assert promoted.info["tags"] == ["a", "b"]
+
+    # mutable info values are deep-copied, not shared with the source port
+    promoted.info["tags"].append("c")
+    assert child.ports["signal"].info["tags"] == ["a", "b"]
