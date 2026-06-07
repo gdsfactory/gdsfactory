@@ -299,6 +299,12 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             dcplx_trans=trans,
         )
 
+        if port is not None:
+            # preserve metadata from the source port (a resolved cross_section
+            # below takes precedence over any inherited one).
+            for key, value in dict(port.info).items():
+                _port.info[key] = value
+
         if xs_name:
             _port.info["cross_section"] = xs_name
             if register_cross_section:

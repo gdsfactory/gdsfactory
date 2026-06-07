@@ -85,3 +85,25 @@ def test_rename_ports(port_type: str, data_regression: DataRegressionFixture) ->
 def test_port() -> None:
     p = gf.Port(name="foo", orientation=359, center=(0, 0), width=5, layer=0)
     assert p.orientation == 359
+
+
+def test_add_port_preserves_info() -> None:
+    """Component.add_port(port=...) must keep the source port's info (#4554)."""
+    gf.gpdk.PDK.activate()
+
+    child = gf.Component()
+    child.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=(1, 0))
+    child.add_port(
+        name="signal",
+        center=(1, 0.5),
+        width=1.0,
+        orientation=0,
+        layer=(1, 0),
+    )
+    child.ports["signal"].info["my_extra"] = "value"
+
+    parent = gf.Component()
+    parent.add_ref(child)
+    promoted = parent.add_port(port=child.ports["signal"])
+
+    assert promoted.info["my_extra"] == "value"
