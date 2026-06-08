@@ -291,12 +291,20 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         layer = get_layer(layer)
 
+        # preserve metadata from the source port (a resolved cross_section
+        # below takes precedence over any inherited one); deep copy so list/
+        # dict info values aren't shared with the source port.
+        info = (
+            port.info.model_copy(deep=True).model_dump() if port is not None else None
+        )
+
         _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
             name=name,
             width=width,
             layer=layer,
             port_type=port_type,
             dcplx_trans=trans,
+            info=info,
         )
 
         if xs_name:
