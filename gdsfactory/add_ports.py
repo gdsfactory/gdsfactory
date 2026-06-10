@@ -72,6 +72,20 @@ def _infer_port_direction(
         (0=east, 90=north, 180=west, 270=south) and x, y are the center
         coordinates (unchanged from input for non-inside mode).
     """
+    boundaries = [
+        (0.0, dy, dxmax - pxmax),  # East
+        (180.0, dy, pxmin - dxmin),  # West
+        (90.0, dx, dymax - pymax),  # North
+        (270.0, dx, pymin - dymin),  # South
+    ]
+
+    # Pin flush with exactly one component boundary: port faces outward from it.
+    # Aspect ratio cannot decide here, pins can align long or short side.
+    flush = [b for b in boundaries if b[2] < tol]
+    if len(flush) == 1:
+        orientation, width, _ = flush[0]
+        return orientation, width, x, y
+
     is_horizontal = (dy < dx) if ports_on_short_side else (dx < dy)
     is_vertical = (dy > dx) if ports_on_short_side else (dx > dy)
 
@@ -81,14 +95,7 @@ def _infer_port_direction(
     if is_vertical:
         return (90.0 if y > yc else 270.0), dx, x, y
 
-    # Square ports: Check boundary proximity
-    boundaries = [
-        (0.0, dy, dxmax - pxmax),  # East
-        (180.0, dy, pxmin - dxmin),  # West
-        (90.0, dx, dymax - pymax),  # North
-        (270.0, dx, pymin - dymin),  # South
-    ]
-
+    # Square ports near multiple boundaries: first flush boundary wins
     for orientation, width, distance in boundaries:
         if distance < tol:
             return orientation, width, x, y
