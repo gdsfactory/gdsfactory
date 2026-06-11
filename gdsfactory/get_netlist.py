@@ -859,11 +859,11 @@ def _sample_circuit() -> Component:
     ring = c.add_ref(gf.c.ring_single(), name="ring").move((100, 0))
     mzi = c.add_ref_off_grid(gf.c.mzi()).rotate(33).move((0, 20))
     mzi.name = "mzi"
-    s1 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=90 - 33)).connect(  # type: ignore[arg-type]
+    s1 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=90 - 33)).connect(
         "o1", mzi["o1"]
     )
     s1.name = "s1"
-    s2 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=33)).connect(  # type: ignore[arg-type]
+    s2 = c.add_ref_off_grid(gf.c.bend_euler_all_angle(angle=33)).connect(
         "o2", mzi["o2"]
     )
     s2.name = "s2"
