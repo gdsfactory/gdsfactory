@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 import gdsfactory as gf
+from gdsfactory.config import CONF
 from gdsfactory.gpdk import LAYER
 from gdsfactory.technology import LayerMap
 
@@ -225,6 +226,37 @@ def test_activate_custom_pdk_keeps_layers_with_geometry(
     pdk.activate(force=True)
 
     assert (1, 0) in _registered_layers()  # kept because it still holds shapes
+
+
+def test_activate_custom_pdk_preserves_error_layer(
+    restore_kcl_state: None,
+) -> None:
+    """The on-demand routing-error layer is never pruned (#4595).
+
+    Even with no geometry on it, ``CONF.layer_error_path`` is kept when a custom
+    PDK that omits it is activated, so routing-error markers still have a home.
+    """
+    import klayout.db as kdb
+
+    gf.gpdk.PDK.activate(force=True)
+    error_layer = tuple(CONF.layer_error_path)
+    # Register the error layer slot with no shapes, so only the explicit keep --
+    # not the holds-geometry fallback -- can save it from pruning.
+    gf.kcl.layout.layer(kdb.LayerInfo(error_layer[0], error_layer[1]))
+    assert error_layer in _registered_layers()
+
+    class MyFabLayers(LayerMap):
+        MY_WG = (10, 0)
+
+    pdk = gf.Pdk(
+        name="error_layer_fab",
+        layers=MyFabLayers,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    pdk.activate(force=True)
+
+    assert error_layer in _registered_layers()  # error layer is always kept
+    assert (1, 0) not in _registered_layers()  # but generic layers still pruned
 
 
 def test_get_layer_name_exception_chaining() -> None:
