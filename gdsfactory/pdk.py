@@ -832,12 +832,41 @@ def _set_active_pdk(pdk: Pdk) -> None:
         kf.kcl.infos = kf.LayerInfos(
             **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in pdk.layers},  # type: ignore[attr-defined]
         )
+        _prune_foreign_layers(pdk)
     else:
         kf.kcl.infos = kf.LayerInfos()
         kf.kcl.layers = kf.kcl.layerenum_from_dict(layers=kf.kcl.infos)
 
     if pdk.dbu != kf.kcl.dbu:
         kf.kcl.layout.dbu = pdk.dbu
+
+
+def _prune_foreign_layers(pdk: Pdk) -> None:
+    """Remove physical layers left over from a previously active PDK.
+
+    Defining a ``LayerMap`` registers every one of its layers into the shared
+    ``kf.kcl.layout`` (``LayerEnum.__new__`` calls ``layout.layer(...)``), so the
+    generic layermap registered when ``gdsfactory`` is imported persists after a
+    custom PDK is activated and keeps being written out and shown even though it is
+    no longer active (https://github.com/gdsfactory/gdsfactory/issues/4595).
+    Reassigning ``kf.kcl.layers``/``infos`` only updates the name bookkeeping, not
+    the layout's physical layer slots, so drop any registered layer that is not
+    part of the active PDK. Empty layers are removed; layers that already hold
+    geometry are kept so activating a PDK after building cells never silently
+    discards shapes (and the on-demand error layer is always kept).
+    """
+    if pdk.layers is None:
+        return
+    layout = kf.kcl.layout
+    keep = {(layer.layer, layer.datatype) for layer in pdk.layers}  # type: ignore[attr-defined]
+    keep.add(tuple(CONF.layer_error_path))
+    for index in list(layout.layer_indexes()):
+        info = layout.get_info(index)
+        if (info.layer, info.datatype) in keep:
+            continue
+        if any(not cell.shapes(index).is_empty() for cell in layout.each_cell()):
+            continue
+        layout.delete_layer(index)
 
 
 def get_routing_strategies() -> RoutingStrategies:
