@@ -1794,7 +1794,7 @@ def arc(
         npoints = math.ceil(abs(angle / angular_step)) + 1
     elif not npoints:
         npoints = int(abs(angle) / 360 * radius / PDK.bend_points_distance / 2)
-        npoints = max(int(npoints), _bend_npoints_floor(angle), 2)
+        npoints = max(npoints, _bend_npoints_floor(angle), 2)
     else:
         npoints = max(int(npoints), 2)
 
