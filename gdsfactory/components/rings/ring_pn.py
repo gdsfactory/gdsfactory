@@ -121,16 +121,16 @@ def ring_double_pn(
 
     r = gf.ComponentAllAngle()
     left_doped_ring_ref = r.add_ref_off_grid(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)  # type: ignore[arg-type]
+        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
     )
     right_doped_ring_ref = r.add_ref_off_grid(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)  # type: ignore[arg-type]
+        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
     )
     bottom_undoped_ring_ref = r.add_ref_off_grid(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)  # type: ignore[arg-type]
+        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
     )
     top_undoped_ring_ref = r.add_ref_off_grid(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)  # type: ignore[arg-type]
+        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
     )
 
     bottom_undoped_ring_ref.rotate(-undoping_angle / 2)
@@ -140,7 +140,7 @@ def ring_double_pn(
     right_doped_ring_ref.connect("o2", bottom_undoped_ring_ref.ports["o2"])
     top_undoped_ring_ref.connect("o2", left_doped_ring_ref.ports["o2"])
 
-    ring = c.add_ref_off_grid(r)  # type: ignore[arg-type]
+    ring = c.add_ref_off_grid(r)
     ring.center = (0, 0)
 
     drop_waveguide_dy = (
