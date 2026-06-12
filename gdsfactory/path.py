@@ -1941,7 +1941,7 @@ def euler(
     else:
         if not npoints:
             npoints = abs(int(angle / 360 * radius / pdk.bend_points_distance / 2))
-            npoints = max(int(npoints), _bend_npoints_floor(angle), 2)
+            npoints = max(npoints, _bend_npoints_floor(angle), 2)
         else:
             npoints = max(int(npoints), 2)
         # Use simplified form: sp/(s0/2) = 2p/(p+1), avoids 0/0 at alpha=0
