@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.44.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.44.0) - 2026-06-12
+
+No significant changes.
+
+
 ## [9.43.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.43.0) - 2026-05-16
 
 - update changelog [#4565](https://github.com/gdsfactory/gdsfactory/pull/4565)
