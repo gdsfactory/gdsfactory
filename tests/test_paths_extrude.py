@@ -278,6 +278,31 @@ def test_extrude_component_along_path() -> None:
     assert c
 
 
+def test_extrude_component_along_path_deterministic_name() -> None:
+    # The container holding the components placed along the path must get a
+    # deterministic, content-based cell name rather than a session-counter
+    # ``Unnamed_N`` one, otherwise the GDS and netlist output is
+    # nondeterministic (it depends on what was built earlier in the session).
+    # See https://github.com/gdsfactory/gdsfactory/issues/4598
+    via = gf.cross_section.ComponentAlongPath(
+        component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
+    )
+    s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
+    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
+
+    # build some unrelated cells first so the global "Unnamed" counter advances
+    for length in (1.0, 2.0, 3.0):
+        gf.components.straight(length=length)
+
+    c = gf.path.extrude(gf.path.straight(length=20), cross_section=x)
+    instance_cell_names = [inst.cell.name for inst in c.insts]
+
+    assert instance_cell_names, "expected a components-along-path container instance"
+    assert all(not name.startswith("Unnamed") for name in instance_cell_names), (
+        instance_cell_names
+    )
+
+
 def test_extrude_cross_section_list_of_sections() -> None:
     s = gf.Section(width=0.5, offset=0.5, layer="WG")
     xs = gf.CrossSection(sections=(s,))
