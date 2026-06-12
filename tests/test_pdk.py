@@ -162,3 +162,26 @@ def test_get_layer_name_exception_chaining() -> None:
     # Ensure that exception chaining has occurred with the inner exception, which should be ValueError
     assert exc_info.value.__cause__ is not None
     assert isinstance(exc_info.value.__cause__, (ValueError, KeyError, TypeError))
+
+
+def test_get_cross_section_instance_applies_kwargs() -> None:
+    """Overrides apply to CrossSection instances like they do for string specs (#4588)."""
+    xs = gf.get_cross_section("strip")
+    xs_wide = gf.get_cross_section(xs, width=2)
+    assert xs_wide.width == 2
+    # the copy gets a derived name so it caches separately from the original
+    assert xs_wide.name != xs.name
+    # no overrides still returns the instance unchanged
+    assert gf.get_cross_section(xs) is xs
+
+
+def test_taper_cross_section_instance_matches_str_spec() -> None:
+    """Taper with a resolved CrossSection tapers like the string spec (#4588).
+
+    The instance form is built first: it must not depend on a previously
+    cached string-spec cell.
+    """
+    t_obj = gf.components.taper(width2=10, cross_section=gf.get_cross_section("strip"))
+    t_str = gf.components.taper(width2=10, cross_section="strip")
+    assert [p.width for p in t_obj.ports] == [0.5, 10.0]
+    assert [p.width for p in t_str.ports] == [0.5, 10.0]
