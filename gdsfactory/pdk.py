@@ -519,11 +519,10 @@ class Pdk(BaseModel):
             return self.get_cross_section(xs_name, **settings)
         if isinstance(cross_section, CrossSection):
             if kwargs:
-                warnings.warn(
-                    f"{kwargs} ignored for cross_section {cross_section.name!r}",
-                    stacklevel=3,
-                )
-
+                # apply overrides like the str/factory branches do; the copy
+                # gets a derived name, so it caches separately from the
+                # registered cross_section
+                return cross_section.copy(**kwargs)
             return cross_section
         if isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
             if isinstance(cross_section, kf.DCrossSection):
