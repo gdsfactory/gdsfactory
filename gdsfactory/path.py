@@ -18,11 +18,13 @@ import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
+from kfactory.conf import CheckInstances
 from kfactory.geometry import UMGeometricObject
 from numpy import mod
 from scipy import optimize
 
 import gdsfactory as gf
+from gdsfactory._cell import cell
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
     rotate_points,
@@ -891,6 +893,7 @@ def transition_asymmetric(
     )
 
 
+@cell(check_instances=CheckInstances.IGNORE)
 def along_path(
     p: Path,
     component: ComponentSpec,

@@ -615,7 +615,10 @@ def difftest(
 
 
 def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
-    val = input("Save current GDS as the new reference (Y)? [Y/n]")
+    try:
+        val = input("Save current GDS as the new reference (Y)? [Y/n]")
+    except EOFError:
+        raise GeometryDifference
     if val.upper().startswith("N"):
         raise GeometryDifference
 
