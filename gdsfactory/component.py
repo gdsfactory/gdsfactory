@@ -5,6 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from abc import ABC, abstractmethod
+from collections import Counter
 from collections.abc import Callable, Iterable, Sequence
 from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, cast, overload
 
@@ -485,6 +486,19 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if not with_metadata:
             save_options.write_context_info = False
+
+        # Deduplicate cell names to avoid write errors
+        dupes = [
+            s for s, n in Counter(c.name for c in self.kcl.cells("*")).items() if n > 1
+        ]
+        for dup in dupes:
+            dup_cells = self.kcl.cells(dup)[1:]
+            for kcell in dup_cells:
+                was_locked = kcell.locked
+                kcell.locked = False
+                kcell.name = self.kcl.unique_cell_name(dup)
+                if was_locked:
+                    kcell.locked = True
 
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)

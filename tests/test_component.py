@@ -1,3 +1,4 @@
+import pathlib
 from typing import Any
 
 import kfactory as kf
@@ -480,6 +481,20 @@ def test_component_write_gds() -> None:
     path = c.write_gds(gdspath=GDSDIR_TEMP / "custom_name.gds")
     assert path.exists()
     assert path.name == "custom_name.gds"
+
+
+def test_write_gds_deduplicates_cell_names(tmp_path: pathlib.Path) -> None:
+    """write_gds should rename duplicate cells instead of raising."""
+    straight = gf.components.straight(cross_section="strip")
+    gdspath = tmp_path / "straight.gds"
+    straight.write_gds(gdspath)
+    imported = gf.import_gds(gdspath)
+
+    c = gf.Component()
+    c << straight
+    c << imported
+    out = c.write_gds(tmp_path / "merged.gds")
+    assert out.exists()
 
 
 def test_component_copy_child_info() -> None:
