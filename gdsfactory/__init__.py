@@ -27,6 +27,7 @@ from gdsfactory.component import (
     ComponentAllAngle,
     ComponentReference,
     container,
+    deduplicate_cell_names,
 )
 from gdsfactory.config import CONF, PATH, __version__
 from gdsfactory.port import Port
@@ -141,6 +142,7 @@ __all__ = (
     "container",
     "containers",
     "cross_section",
+    "deduplicate_cell_names",
     "diff",
     "difftest",
     "export",

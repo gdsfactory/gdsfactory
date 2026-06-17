@@ -159,8 +159,12 @@ ComponentReference: TypeAlias = DInstance
 ComponentReferences: TypeAlias = DInstances
 
 
-def _deduplicate_cell_names(component: ComponentBase) -> None:
-    """Rename duplicate cell names in the component hierarchy before writing."""
+def deduplicate_cell_names(component: ComponentBase) -> None:
+    """Rename duplicate cell names in the component hierarchy so it can be written.
+
+    Call this before ``write_gds`` when the component may contain cells with
+    colliding names (e.g. after ``import_gds`` or ``pack``).
+    """
     if hasattr(component, "kdb_cell"):
         called = set(component.kdb_cell.called_cells())
         called.add(component.kdb_cell.cell_index())
@@ -505,8 +509,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if not with_metadata:
             save_options.write_context_info = False
-
-        _deduplicate_cell_names(self)
 
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
