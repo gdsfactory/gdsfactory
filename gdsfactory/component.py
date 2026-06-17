@@ -5,6 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from abc import ABC, abstractmethod
+from collections import Counter
 from collections.abc import Callable, Iterable, Sequence
 from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, cast, overload
 
@@ -60,6 +61,28 @@ def _fix_pin_metadata(cell: kf.kcell.ProtoTKCell[Any]) -> None:
         cell.remove_meta_info(name)
         value["ports"] = [str(p) for p in value["ports"]]
         cell.add_meta_info(kdb.LayoutMetaInfo(name, value, None, True))
+
+
+def _deduplicate_cell_names(layout: kdb.Layout) -> None:
+    """Rename cells that share the same name so the layout can be written.
+
+    Some component factories (e.g. spiral_racetrack_fixed_length) create
+    multiple internal cells with the same name due to failed routing retries.
+    KLayout's writer rejects layouts with duplicate cell names, so we append
+    ``_1``, ``_2``, … to the duplicates (keeping the first occurrence as-is).
+    """
+    name_counts: Counter[str] = Counter()
+    cells_by_name: dict[str, list[kdb.Cell]] = {}
+    for c in layout.each_cell():
+        n = c.name
+        name_counts[n] += 1
+        cells_by_name.setdefault(n, []).append(c)
+
+    for n, count in name_counts.items():
+        if count <= 1:
+            continue
+        for i, c in enumerate(cells_by_name[n][1:], start=1):
+            c.name = f"{n}_{i}"
 
 
 class AddPortError(ValueError):
@@ -701,6 +724,7 @@ class Component(ComponentBase, kf.DKCell):
                 self.convert_to_static(recursive=True)
             self.set_meta_data()
             _fix_pin_metadata(self)
+        _deduplicate_cell_names(self.kcl.layout)
         super().write(
             filename,
             save_options=save_options,
