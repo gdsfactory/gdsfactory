@@ -288,11 +288,3 @@ def pack(
         df.to_csv(csvpath, index=True)
 
     return components_packed_list
-
-
-@gf.cell
-def ellipse(number: int = 0) -> Component:
-    """Example component to pack."""
-    n = number
-    radii = (np.random.rand() * n + 2, np.random.rand() * n + 2)
-    return gf.components.ellipse(radii=radii)
