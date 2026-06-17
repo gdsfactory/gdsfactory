@@ -5,7 +5,6 @@ from __future__ import annotations
 import pathlib
 import warnings
 from abc import ABC, abstractmethod
-from collections import Counter
 from collections.abc import Callable, Iterable, Sequence
 from typing import TYPE_CHECKING, Any, Literal, Self, TypeAlias, cast, overload
 
