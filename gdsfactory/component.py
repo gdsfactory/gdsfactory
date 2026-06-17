@@ -487,12 +487,17 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if not with_metadata:
             save_options.write_context_info = False
 
-        # Deduplicate cell names to avoid write errors
+        # Deduplicate cell names within this component's hierarchy
+        called = set(self.kdb_cell.called_cells())
+        called.add(self.kdb_cell.cell_index())
+        hierarchy_cells = [self.kcl[ci] for ci in called]
         dupes = [
-            s for s, n in Counter(c.name for c in self.kcl.cells("*")).items() if n > 1
+            s
+            for s, n in Counter(c.name for c in hierarchy_cells).items()
+            if n > 1
         ]
         for dup in dupes:
-            dup_cells = self.kcl.cells(dup)[1:]
+            dup_cells = [c for c in hierarchy_cells if c.name == dup][1:]
             for kcell in dup_cells:
                 was_locked = kcell.locked
                 kcell.locked = False
