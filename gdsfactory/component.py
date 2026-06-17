@@ -165,12 +165,10 @@ def deduplicate_cell_names(component: ComponentBase) -> None:
     Call this before ``write_gds`` when the component may contain cells with
     colliding names (e.g. after ``import_gds`` or ``pack``).
     """
-    if hasattr(component, "kdb_cell"):
-        called = set(component.kdb_cell.called_cells())
-        called.add(component.kdb_cell.cell_index())
-        cells = [component.kcl[ci] for ci in called]
-    else:
-        cells = list(component.kcl.cells("*"))
+    kdb_cell: kdb.Cell = component.kdb_cell  # type: ignore[attr-defined]
+    called = set(kdb_cell.called_cells())
+    called.add(kdb_cell.cell_index())
+    cells = [component.kcl[ci] for ci in called]
 
     dupes = [s for s, n in Counter(c.name for c in cells).items() if n > 1]
     for dup in dupes:
@@ -180,6 +178,7 @@ def deduplicate_cell_names(component: ComponentBase) -> None:
             kcell.name = component.kcl.unique_cell_name(dup)
             if was_locked:
                 kcell.locked = True
+
 
 
 class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
@@ -510,7 +509,31 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if not with_metadata:
             save_options.write_context_info = False
 
-        self.write(filename=gdspath, save_options=save_options)
+        kdb_cell: kdb.Cell = self.kdb_cell  # type: ignore[attr-defined]
+        called = set(kdb_cell.called_cells())
+        called.add(kdb_cell.cell_index())
+        cells = [self.kcl[ci] for ci in called]
+
+        renamed: list[tuple[kf.KCell, str, bool]] = []
+        dupes = [s for s, n in Counter(c.name for c in cells).items() if n > 1]
+        for dup in dupes:
+            for kcell in [c for c in cells if c.name == dup][1:]:
+                was_locked = kcell.locked
+                original_name = kcell.name
+                kcell.locked = False
+                kcell.name = self.kcl.unique_cell_name(dup)
+                if was_locked:
+                    kcell.locked = True
+                renamed.append((kcell, original_name, was_locked))
+
+        try:
+            self.write(filename=gdspath, save_options=save_options)
+        finally:
+            for kcell, original_name, was_locked in renamed:
+                kcell.locked = False
+                kcell.name = original_name
+                if was_locked:
+                    kcell.locked = True
         return pathlib.Path(gdspath)
 
     def pprint_ports(self, **kwargs: Any) -> None:

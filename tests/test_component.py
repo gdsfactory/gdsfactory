@@ -483,9 +483,10 @@ def test_component_write_gds() -> None:
     assert path.name == "custom_name.gds"
 
 
-def test_deduplicate_cell_names(tmp_path: pathlib.Path) -> None:
-    """deduplicate_cell_names should rename duplicate cells so write_gds succeeds."""
+def test_write_gds_deduplicates_cell_names(tmp_path: pathlib.Path) -> None:
+    """write_gds should handle duplicate cell names without polluting the cache."""
     straight = gf.components.straight(cross_section="strip")
+    original_name = straight.name
     gdspath = tmp_path / "straight.gds"
     straight.write_gds(gdspath)
     imported = gf.import_gds(gdspath)
@@ -493,9 +494,9 @@ def test_deduplicate_cell_names(tmp_path: pathlib.Path) -> None:
     c = gf.Component()
     c << straight
     c << imported
-    gf.deduplicate_cell_names(c)
     out = c.write_gds(tmp_path / "merged.gds")
     assert out.exists()
+    assert straight.name == original_name
 
 
 def test_component_copy_child_info() -> None:
