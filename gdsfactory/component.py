@@ -159,6 +159,25 @@ ComponentReference: TypeAlias = DInstance
 ComponentReferences: TypeAlias = DInstances
 
 
+def _deduplicate_cell_names(component: ComponentBase) -> None:
+    """Rename duplicate cell names in the component hierarchy before writing."""
+    if hasattr(component, "kdb_cell"):
+        called = set(component.kdb_cell.called_cells())
+        called.add(component.kdb_cell.cell_index())
+        cells = [component.kcl[ci] for ci in called]
+    else:
+        cells = list(component.kcl.cells("*"))
+
+    dupes = [s for s, n in Counter(c.name for c in cells).items() if n > 1]
+    for dup in dupes:
+        for kcell in [c for c in cells if c.name == dup][1:]:
+            was_locked = kcell.locked
+            kcell.locked = False
+            kcell.name = component.kcl.unique_cell_name(dup)
+            if was_locked:
+                kcell.locked = True
+
+
 class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
     """Canvas where you add polygons, instances and ports.
 
@@ -487,23 +506,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if not with_metadata:
             save_options.write_context_info = False
 
-        # Deduplicate cell names within this component's hierarchy
-        called = set(self.kdb_cell.called_cells())
-        called.add(self.kdb_cell.cell_index())
-        hierarchy_cells = [self.kcl[ci] for ci in called]
-        dupes = [
-            s
-            for s, n in Counter(c.name for c in hierarchy_cells).items()
-            if n > 1
-        ]
-        for dup in dupes:
-            dup_cells = [c for c in hierarchy_cells if c.name == dup][1:]
-            for kcell in dup_cells:
-                was_locked = kcell.locked
-                kcell.locked = False
-                kcell.name = self.kcl.unique_cell_name(dup)
-                if was_locked:
-                    kcell.locked = True
+        _deduplicate_cell_names(self)
 
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
