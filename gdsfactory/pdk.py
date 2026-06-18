@@ -859,7 +859,7 @@ def _prune_foreign_layers(pdk: Pdk) -> None:
         return
     layout = kf.kcl.layout
     keep = {(layer.layer, layer.datatype) for layer in pdk.layers}  # type: ignore[attr-defined]
-    keep.add(tuple(CONF.layer_error_path))
+    keep.add(CONF.layer_error_path)
     for index in list(layout.layer_indexes()):
         info = layout.get_info(index)
         if (info.layer, info.datatype) in keep:
