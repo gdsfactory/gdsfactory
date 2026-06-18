@@ -491,12 +491,12 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         # multiple cells share the same name.
         seen: dict[str, int] = {}
         duplicates: list[tuple[int, str]] = []
-        for cell in self.kcl.layout.each_cell():
-            name = cell.name
-            if name in seen:
-                duplicates.append((cell.cell_index(), name))
+        for layout_cell in self.kcl.layout.each_cell():
+            cell_name = layout_cell.name
+            if cell_name in seen:
+                duplicates.append((layout_cell.cell_index(), cell_name))
             else:
-                seen[name] = cell.cell_index()
+                seen[cell_name] = layout_cell.cell_index()
         for cell_index, name in duplicates:
             new_name = self.kcl.layout.unique_cell_name(name)
             self.kcl.layout.rename_cell(cell_index, new_name)
