@@ -482,6 +482,48 @@ def test_component_write_gds() -> None:
     assert path.name == "custom_name.gds"
 
 
+def test_component_write_gds_duplicate_cell_names() -> None:
+    """write_gds deduplicates cell names to prevent kfactory write errors.
+
+    When cells with duplicate names exist (from import_gds or pack),
+    write_gds should rename them to unique names before writing.
+    """
+    import tempfile
+    from pathlib import Path
+
+    # Create a GDS with a named cell
+    td = tempfile.mkdtemp()
+    gdspath = Path(td) / "test.gds"
+    layout = kf.kdb.Layout()
+    layout.dbu = 0.001
+    c1 = layout.create_cell("dup_cell")
+    c1.shapes(layout.layer(1, 0)).insert(kf.kdb.Box(0, 0, 1000, 1000))
+    layout.write(str(gdspath))
+
+    # Import it twice into kf.kcl to create duplicate cell names
+    def _import_to_kcl(path: str) -> None:
+        temp_kcl = kf.KCLayout(name=f"temp_{hash(str(path))}")
+        temp_kcl.read(path)
+        kcell = temp_kcl[temp_kcl.layout.top_cell().name]
+        c = kf.DKCell()
+        c.kdb_cell.copy_tree(kcell.kdb_cell)
+        c.name = kcell.name
+
+    _import_to_kcl(str(gdspath))
+    _import_to_kcl(str(gdspath))
+
+    # At this point kf.kcl has two cells named 'dup_cell'
+    # write_gds should deduplicate them and succeed
+    c = gf.Component(name="test_dup_write")
+    out_path = c.write_gds(gdspath=Path(td) / "out.gds")
+    assert out_path.exists()
+
+    # Clean up temp
+    import shutil
+
+    shutil.rmtree(td)
+
+
 def test_component_copy_child_info() -> None:
     c1 = gf.Component()
     c2 = gf.Component()

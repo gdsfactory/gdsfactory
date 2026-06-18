@@ -486,6 +486,21 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if not with_metadata:
             save_options.write_context_info = False
 
+        # Deduplicate cell names before writing — duplicate names can arise
+        # from import_gds or pack, and kfactory raises a RuntimeError when
+        # multiple cells share the same name.
+        seen: dict[str, int] = {}
+        duplicates: list[tuple[int, str]] = []
+        for cell in self.kcl.layout.each_cell():
+            name = cell.name
+            if name in seen:
+                duplicates.append((cell.cell_index(), name))
+            else:
+                seen[name] = cell.cell_index()
+        for cell_index, name in duplicates:
+            new_name = self.kcl.layout.unique_cell_name(name)
+            self.kcl.layout.rename_cell(cell_index, new_name)
+
         self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
 
