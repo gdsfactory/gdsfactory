@@ -81,7 +81,7 @@ def _infer_port_direction(
 
     # Pin flush with exactly one component boundary: port faces outward from it.
     # Aspect ratio cannot decide here, pins can align long or short side.
-    flush = [b for b in boundaries if b[2] < tol]
+    flush = [b for b in boundaries if abs(b[2]) < tol]
     if len(flush) == 1:
         orientation, width, _ = flush[0]
         return orientation, width, x, y
@@ -97,7 +97,7 @@ def _infer_port_direction(
 
     # Square ports near multiple boundaries: first flush boundary wins
     for orientation, width, distance in boundaries:
-        if distance < tol:
+        if abs(distance) < tol:
             return orientation, width, x, y
 
     # Fallback: use center comparison
