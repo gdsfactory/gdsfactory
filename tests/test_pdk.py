@@ -259,6 +259,35 @@ def test_activate_custom_pdk_preserves_error_layer(
     assert (1, 0) not in _registered_layers()  # but generic layers still pruned
 
 
+def test_reactivate_pdk_moves_wrong_index_layer_with_geometry(
+    restore_kcl_state: None,
+) -> None:
+    """Restoring a PDK moves wrongly registered geometry back to enum indexes."""
+
+    class MyFabLayers(LayerMap):
+        MY_WG = (10, 0)
+
+    custom_pdk = gf.Pdk(
+        name="wrong_index_fab",
+        layers=MyFabLayers,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    custom_pdk.activate(force=True)
+
+    no_layers_pdk = gf.Pdk(name="no_layers")
+    no_layers_pdk.activate(force=True)
+
+    c = gf.Component()
+    c.add_polygon([(0, 0), (5, 0), (5, 5), (0, 5)], layer=(1, 0))
+    wrong_index = gf.kcl.layout.find_layer(1, 0)
+    assert wrong_index != int(LAYER.WG)
+
+    gf.gpdk.PDK.activate(force=True)
+
+    assert gf.kcl.layout.find_layer(1, 0) == int(LAYER.WG)
+    assert not c.shapes(int(LAYER.WG)).is_empty()
+
+
 def test_get_layer_name_exception_chaining() -> None:
     pdk = _make_pdk()
     with pytest.raises(ValueError) as exc_info:
