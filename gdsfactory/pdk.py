@@ -828,15 +828,113 @@ def _set_active_pdk(pdk: Pdk) -> None:
 
     if pdk.layers is not None:
         kf.kcl.layers = pdk.layers
+        # LayerInfos registers missing physical layers, so restore enum indexes first.
+        _ensure_pdk_layers_registered(pdk)
         kf.kcl.infos = kf.LayerInfos(
             **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in pdk.layers},  # type: ignore[attr-defined]
         )
+        _prune_foreign_layers(pdk)
+        _ensure_pdk_layers_registered(pdk)
     else:
         kf.kcl.infos = kf.LayerInfos()
         kf.kcl.layers = kf.kcl.layerenum_from_dict(layers=kf.kcl.infos)
 
     if pdk.dbu != kf.kcl.dbu:
         kf.kcl.layout.dbu = pdk.dbu
+
+
+def _ensure_pdk_layers_registered(pdk: Pdk) -> None:
+    """Restore active PDK physical layers at their LayerEnum indexes."""
+    if pdk.layers is None:
+        return
+    layout = kf.kcl.layout
+    for layer in pdk.layers:  # type: ignore[attr-defined]
+        target_index = int(layer)
+        info = kf.kdb.LayerInfo(layer.layer, layer.datatype)
+        existing_index = layout.find_layer(info)
+        if existing_index == target_index:
+            continue
+        if existing_index is not None:
+            if not layout.is_valid_layer(target_index):
+                layout.insert_layer_at(target_index, info)
+            else:
+                existing_info = layout.get_info(target_index)
+                if (existing_info.layer, existing_info.datatype) != (
+                    info.layer,
+                    info.datatype,
+                ):
+                    logger.debug(
+                        "Layer index %s is already occupied by %s; cannot restore %s",
+                        target_index,
+                        existing_info,
+                        info,
+                    )
+                    continue
+            try:
+                layout.move_layer(existing_index, target_index)
+                layout.delete_layer(existing_index)
+            except RuntimeError:
+                logger.debug(
+                    "Could not move layer %s from index %s to %s",
+                    info,
+                    existing_index,
+                    target_index,
+                    exc_info=True,
+                )
+            continue
+        if layout.is_valid_layer(target_index):
+            existing_info = layout.get_info(target_index)
+            if (existing_info.layer, existing_info.datatype) == (
+                info.layer,
+                info.datatype,
+            ):
+                continue
+            logger.debug(
+                "Layer index %s is already occupied by %s; cannot restore %s",
+                target_index,
+                existing_info,
+                info,
+            )
+            continue
+        layout.insert_layer_at(target_index, info)
+
+
+def _prune_foreign_layers(pdk: Pdk) -> None:
+    """Remove physical layers left over from a previously active PDK.
+
+    Defining a ``LayerMap`` registers every one of its layers into the shared
+    ``kf.kcl.layout`` (``LayerEnum.__new__`` calls ``layout.layer(...)``), so the
+    generic layermap registered when ``gdsfactory`` is imported persists after a
+    custom PDK is activated and keeps being written out and shown even though it is
+    no longer active (https://github.com/gdsfactory/gdsfactory/issues/4595).
+    Reassigning ``kf.kcl.layers``/``infos`` only updates the name bookkeeping, not
+    the layout's physical layer slots, so drop any registered layer that is not
+    part of the active PDK. Empty layers are removed; layers that already hold
+    geometry are kept so activating a PDK after building cells never silently
+    discards shapes (and the on-demand error layer is always kept).
+    """
+    if pdk.layers is None:
+        return
+    layout = kf.kcl.layout
+    keep = {(layer.layer, layer.datatype) for layer in pdk.layers}  # type: ignore[attr-defined]
+    keep.add(CONF.layer_error_path)
+    delete_indexes: list[int] = []
+    for index in list(layout.layer_indexes()):
+        info = layout.get_info(index)
+        if (info.layer, info.datatype) in keep:
+            continue
+        if any(not cell.shapes(index).is_empty() for cell in layout.each_cell()):
+            continue
+        delete_indexes.append(index)
+
+    for index in sorted(delete_indexes, reverse=True):
+        info = layout.get_info(index)
+        try:
+            layout.delete_layer(index)
+        except RuntimeError:
+            logger.debug(
+                "Could not delete empty inactive layer %s", info, exc_info=True
+            )
 
 
 def get_routing_strategies() -> RoutingStrategies:

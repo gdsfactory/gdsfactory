@@ -1,9 +1,12 @@
 from collections.abc import Iterator
+from pathlib import Path
 
 import pytest
 
 import gdsfactory as gf
+from gdsfactory.config import CONF
 from gdsfactory.gpdk import LAYER
+from gdsfactory.technology import LayerMap
 
 
 def test_get_cross_section() -> None:
@@ -151,6 +154,138 @@ def test_pdk_same_dbu_with_existing_cells_allowed(restore_kcl_state: None) -> No
         dbu=existing_dbu,
     )
     pdk.activate(force=True)
+
+
+def _registered_layers() -> set[tuple[int, int]]:
+    layout = gf.kcl.layout
+    return {
+        (layout.get_info(i).layer, layout.get_info(i).datatype)
+        for i in layout.layer_indexes()
+    }
+
+
+def test_activate_custom_pdk_prunes_generic_layers(
+    restore_kcl_state: None, tmp_path: Path
+) -> None:
+    """Activating a custom PDK drops the import-time generic layermap (#4595).
+
+    The generic layers are then no longer registered, written out, or shown.
+    """
+
+    class MyFabLayers(LayerMap):
+        MY_WG = (10, 0)
+        MY_SLAB = (11, 0)
+
+    pdk = gf.Pdk(
+        name="prune_fab",
+        layers=MyFabLayers,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    pdk.activate(force=True)
+
+    registered = _registered_layers()
+    assert (1, 0) not in registered  # generic WG no longer registered
+    assert {(10, 0), (11, 0)} <= registered  # the active PDK's layers remain
+
+    c = gf.Component()
+    c.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=(10, 0))
+    path = tmp_path / "prune_fab.oas"
+    c.write(path)
+
+    import klayout.db as kdb
+
+    layout = kdb.Layout()
+    layout.read(str(path))
+    written = {
+        (layout.get_info(i).layer, layout.get_info(i).datatype)
+        for i in layout.layer_indexes()
+    }
+    assert (10, 0) in written  # the active layer is written
+    assert (1, 0) not in written  # generic layers are not
+
+
+def test_activate_custom_pdk_keeps_layers_with_geometry(
+    restore_kcl_state: None,
+) -> None:
+    """A layer outside the new PDK that holds shapes is kept, not pruned (#4595).
+
+    Switching PDKs must never silently discard geometry.
+    """
+    gf.gpdk.PDK.activate(force=True)
+    c = gf.Component()
+    c.add_polygon([(0, 0), (5, 0), (5, 5), (0, 5)], layer=(1, 0))  # WG holds geometry
+
+    class MyFabLayers(LayerMap):
+        MY_WG = (10, 0)
+
+    pdk = gf.Pdk(
+        name="keep_fab",
+        layers=MyFabLayers,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    pdk.activate(force=True)
+
+    assert (1, 0) in _registered_layers()  # kept because it still holds shapes
+
+
+def test_activate_custom_pdk_preserves_error_layer(
+    restore_kcl_state: None,
+) -> None:
+    """The on-demand routing-error layer is never pruned (#4595).
+
+    Even with no geometry on it, ``CONF.layer_error_path`` is kept when a custom
+    PDK that omits it is activated, so routing-error markers still have a home.
+    """
+    import klayout.db as kdb
+
+    gf.gpdk.PDK.activate(force=True)
+    error_layer = tuple(CONF.layer_error_path)
+    # Register the error layer slot with no shapes, so only the explicit keep --
+    # not the holds-geometry fallback -- can save it from pruning.
+    gf.kcl.layout.layer(kdb.LayerInfo(error_layer[0], error_layer[1]))
+    assert error_layer in _registered_layers()
+
+    class MyFabLayers(LayerMap):
+        MY_WG = (10, 0)
+
+    pdk = gf.Pdk(
+        name="error_layer_fab",
+        layers=MyFabLayers,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    pdk.activate(force=True)
+
+    assert error_layer in _registered_layers()  # error layer is always kept
+    assert (1, 0) not in _registered_layers()  # but generic layers still pruned
+
+
+def test_reactivate_pdk_moves_wrong_index_layer_with_geometry(
+    restore_kcl_state: None,
+) -> None:
+    """Restoring a PDK moves wrongly registered geometry back to enum indexes."""
+
+    class MyFabLayers(LayerMap):
+        MY_WG = (10, 0)
+
+    custom_pdk = gf.Pdk(
+        name="wrong_index_fab",
+        layers=MyFabLayers,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    custom_pdk.activate(force=True)
+
+    no_layers_pdk = gf.Pdk(name="no_layers")
+    no_layers_pdk.activate(force=True)
+
+    c = gf.Component()
+    c.add_polygon([(0, 0), (5, 0), (5, 5), (0, 5)], layer=(1, 0))
+    wrong_index = gf.kcl.layout.find_layer(1, 0)
+    assert wrong_index != int(LAYER.WG)
+
+    gf.gpdk.PDK.activate(force=True)
+
+    assert gf.kcl.layout.find_layer(1, 0) == int(LAYER.WG)
+    assert not c.shapes(int(LAYER.WG)).is_empty()
 
 
 def test_get_layer_name_exception_chaining() -> None:
