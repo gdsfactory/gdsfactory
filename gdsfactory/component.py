@@ -62,6 +62,28 @@ def _fix_pin_metadata(cell: kf.kcell.ProtoTKCell[Any]) -> None:
         cell.add_meta_info(kdb.LayoutMetaInfo(name, value, None, True))
 
 
+def _rename_duplicate_cell_names(layout: kdb.Layout) -> list[tuple[int, str]]:
+    """Temporarily rename duplicate cells before writing a layout."""
+    seen: set[str] = set()
+    renamed_cells: list[tuple[int, str]] = []
+    for layout_cell in layout.each_cell():
+        cell_name = layout_cell.name
+        if cell_name in seen:
+            cell_index = layout_cell.cell_index()
+            renamed_cells.append((cell_index, cell_name))
+            layout.rename_cell(cell_index, layout.unique_cell_name(cell_name))
+        else:
+            seen.add(cell_name)
+    return renamed_cells
+
+
+def _restore_cell_names(
+    layout: kdb.Layout, renamed_cells: list[tuple[int, str]]
+) -> None:
+    for cell_index, cell_name in reversed(renamed_cells):
+        layout.rename_cell(cell_index, cell_name)
+
+
 class AddPortError(ValueError):
     """Error raised when adding a port fails."""
 
@@ -486,7 +508,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if not with_metadata:
             save_options.write_context_info = False
 
-        self.write(filename=gdspath, save_options=save_options)
+        renamed_cells = _rename_duplicate_cell_names(self.kcl.layout)
+        try:
+            self.write(filename=gdspath, save_options=save_options)
+        finally:
+            _restore_cell_names(self.kcl.layout, renamed_cells)
         return pathlib.Path(gdspath)
 
     def pprint_ports(self, **kwargs: Any) -> None:
