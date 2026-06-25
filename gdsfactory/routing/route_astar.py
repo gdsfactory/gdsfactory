@@ -391,13 +391,17 @@ def route_astar_single(
         A single `Route` object created from the computed A* path.
 
     Raises:
-        ValueError: If start_node or end_node is None.
+        ValueError: If any required grid input is None.
         nx.NetworkXNoPath: If no valid A* route exists between the nodes.
     """
-    assert x is not None, "x array must not be None"
-    assert y is not None, "y array must not be None"
-    assert start_node is not None, "start_node must not be None"
-    assert end_node is not None, "end_node must not be None"
+    if x is None:
+        raise ValueError("x array must not be None")
+    if y is None:
+        raise ValueError("y array must not be None")
+    if start_node is None:
+        raise ValueError("start_node must not be None")
+    if end_node is None:
+        raise ValueError("end_node must not be None")
 
     waypoints_ = route_astar_waypoints(
         port1=port1,
