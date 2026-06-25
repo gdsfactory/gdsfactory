@@ -165,9 +165,9 @@ def nearest_open_node(
     blocked: npt.NDArray[np.bool_],
 ) -> tuple[int, int]:
     """Return the closest unblocked grid node using local breadth-first search."""
-    nx, ny = blocked.shape
-    i = min(max(node[0], 0), nx - 1)
-    j = min(max(node[1], 0), ny - 1)
+    shape_x, shape_y = blocked.shape
+    i = min(max(node[0], 0), shape_x - 1)
+    j = min(max(node[1], 0), shape_y - 1)
     if not blocked[i, j]:
         return i, j
 
@@ -181,7 +181,7 @@ def nearest_open_node(
             (ci, cj - 1),
             (ci, cj + 1),
         ):
-            if ni < 0 or nj < 0 or ni >= nx or nj >= ny or (ni, nj) in seen:
+            if ni < 0 or nj < 0 or ni >= shape_x or nj >= shape_y or (ni, nj) in seen:
                 continue
             if not blocked[ni, nj]:
                 return ni, nj
@@ -280,13 +280,14 @@ def count_bends(waypoints: Sequence[DPoint]) -> int:
     if len(waypoints) < 3:
         return 0
     bends = 0
-    previous_direction: tuple[int, int] | None = None
+    previous_direction: tuple[float, float] | None = None
     for p1, p2 in pairwise(waypoints):
         dx = p2.x - p1.x
         dy = p2.y - p1.y
-        direction = (0 if abs(dx) < 1e-9 else int(dx > 0) * 2 - 1, 0)
-        if abs(dy) >= 1e-9:
-            direction = (0, int(dy > 0) * 2 - 1)
+        if abs(dx) < 1e-9 and abs(dy) < 1e-9:
+            continue
+        length = np.hypot(dx, dy)
+        direction = (round(dx / length, 4), round(dy / length, 4))
         if previous_direction is not None and direction != previous_direction:
             bends += 1
         previous_direction = direction
@@ -461,7 +462,7 @@ def route_astar(
         distance: Clearance distance from obstacles in microns.
         cross_section: Cross-section specification for the routed waveguide.
         bend: Component to use for bends (e.g. ``wire_corner`` or ``bend_euler``).
-        **kwargs: Additional keyword arguments forwarded to the cross-section.
+        **kwargs: Additional keyword arguments forwarded to the cross-section or route_bundle.
 
     Returns:
         Route: The route generated using the start/end node pairing
@@ -471,7 +472,13 @@ def route_astar(
         RuntimeError: If all A* attempts fail for all start/end node combinations.
         ValueError: If a port has an unsupported orientation.
     """
-    cross_section = gf.get_cross_section(cross_section, **kwargs)
+    route_bundle_kwargs = {
+        key: value for key, value in kwargs.items() if key in ROUTE_BUNDLE_KWARGS
+    }
+    cross_section_kwargs = {
+        key: value for key, value in kwargs.items() if key not in ROUTE_BUNDLE_KWARGS
+    }
+    cross_section = gf.get_cross_section(cross_section, **cross_section_kwargs)
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
     blocked_grid = grid == 1
 
@@ -629,4 +636,5 @@ def route_astar(
         waypoints=optimized_waypoints,
         cross_section=cross_section,
         bend=bend,
+        **route_bundle_kwargs,
     )[0]

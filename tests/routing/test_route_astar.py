@@ -104,6 +104,45 @@ def test_route_astar_accepts_cross_section_kwargs() -> None:
     assert route.length > 0
 
 
+def test_route_astar_forwards_route_bundle_kwargs(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    captured_raise_on_error: list[bool | None] = []
+    route_bundle = route_astar_module.gf.routing.route_bundle
+
+    def wrapped_route_bundle(*args: object, **kwargs: object) -> object:
+        raise_on_error = kwargs.get("raise_on_error")
+        captured_raise_on_error.append(
+            raise_on_error if isinstance(raise_on_error, bool) else None
+        )
+        return route_bundle(*args, **kwargs)
+
+    monkeypatch.setattr(
+        route_astar_module.gf.routing, "route_bundle", wrapped_route_bundle
+    )
+
+    c = gf.Component()
+    straight = gf.components.straight(width=1)
+    left = c << straight
+    right = c << straight
+    right.move((80, 0))
+
+    route = gf.routing.route_astar(
+        component=c,
+        port1=left.ports["o2"],
+        port2=right.ports["o1"],
+        cross_section="strip",
+        width=1,
+        raise_on_error=False,
+        resolution=10,
+        distance=5,
+        bend=gf.components.bend_euler,
+    )
+
+    assert route.length > 0
+    assert captured_raise_on_error[-1] is False
+
+
 def test_route_astar_does_not_copy_input_component(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -129,6 +168,18 @@ def test_route_astar_does_not_copy_input_component(
     )
 
     assert route.length > 0
+
+
+def test_count_bends_skips_duplicate_points_and_handles_non_manhattan() -> None:
+    waypoints = [
+        gf.kdb.DPoint(0, 0),
+        gf.kdb.DPoint(0, 0),
+        gf.kdb.DPoint(1, 1),
+        gf.kdb.DPoint(2, 2),
+        gf.kdb.DPoint(2, 3),
+    ]
+
+    assert route_astar_module.count_bends(waypoints) == 1
 
 
 def test_route_astar_selects_fewest_actual_bends() -> None:
