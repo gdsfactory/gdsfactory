@@ -4,7 +4,7 @@ import heapq
 from collections import deque
 from collections.abc import Sequence
 from itertools import pairwise
-from typing import Any
+from typing import Any, cast
 
 import klayout.dbcore as kdb
 import networkx as nx
@@ -273,7 +273,7 @@ def path_from_nodes(
         G.nodes,
         key=lambda node: float(np.linalg.norm(np.array(node) - np.array(end_node))),
     )
-    return nx.astar_path(G, start_node, end_node)
+    return cast("list[tuple[int, int]]", nx.astar_path(G, start_node, end_node))
 
 
 def count_bends(waypoints: Sequence[DPoint]) -> int:
