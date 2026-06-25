@@ -182,7 +182,9 @@ def test_route_astar_single_preserves_kwargs(
         )
         return [SimpleNamespace(length=1)]
 
-    monkeypatch.setattr(route_astar_module.gf.routing, "route_bundle", fake_route_bundle)
+    monkeypatch.setattr(
+        route_astar_module.gf.routing, "route_bundle", fake_route_bundle
+    )
 
     c = gf.Component()
     straight = gf.components.straight(width=1)
@@ -195,6 +197,8 @@ def test_route_astar_single_preserves_kwargs(
         port2=right.ports["o1"],
         cross_section="strip",
         width=1,
+        layer="M2",
+        radius=7,
         raise_on_error=True,
         resolution=10,
         blocked_grid=np.zeros((20, 5), dtype=bool),
@@ -206,5 +210,9 @@ def test_route_astar_single_preserves_kwargs(
 
     assert route.length == 1
     assert captured_kwargs["cross_section"].width == 1
+    assert captured_kwargs["cross_section"].layer == "M2"
+    assert captured_kwargs["cross_section"].radius == 7
     assert captured_kwargs["raise_on_error"] is True
     assert "width" not in captured_kwargs
+    assert "layer" not in captured_kwargs
+    assert "radius" not in captured_kwargs

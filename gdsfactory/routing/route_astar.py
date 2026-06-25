@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import heapq
-import inspect
 from collections import deque
 from collections.abc import Sequence
 from itertools import pairwise
@@ -27,6 +26,8 @@ from gdsfactory.typings import (
     Port,
     Route,
 )
+
+ROUTE_BUNDLE_KWARGS = {"raise_on_error"}
 
 
 def get_route_bend_count(route: Route) -> int:
@@ -409,14 +410,11 @@ def route_astar_single(
         start_node=start_node,
         end_node=end_node,
     )
-    route_bundle_parameters = inspect.signature(gf.routing.route_bundle).parameters
     route_bundle_kwargs = {
-        key: value for key, value in kwargs.items() if key in route_bundle_parameters
+        key: value for key, value in kwargs.items() if key in ROUTE_BUNDLE_KWARGS
     }
     cross_section_kwargs = {
-        key: value
-        for key, value in kwargs.items()
-        if key not in route_bundle_parameters
+        key: value for key, value in kwargs.items() if key not in ROUTE_BUNDLE_KWARGS
     }
     cross_section = (
         gf.get_cross_section(cross_section, **cross_section_kwargs)
