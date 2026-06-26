@@ -266,8 +266,6 @@ def _req_straight_len(
     straight_lengths = np.linspace(min_straigth_length, 0.9 * in_out_port_spacing, 100)
 
     for str_len in straight_lengths:
-        c = gf.Component()
-
         _spiral = spiral_racetrack(
             min_radius=min_radius,
             straight_length=str_len,
@@ -279,34 +277,28 @@ def _req_straight_len(
             cross_section_s=cross_section_s_bend,
             extra_90_deg_bend=True,
         )
-        spiral = c << _spiral
-        c.info["length"] = _spiral.info["length"]
 
-        if spiral.ports["o1"].x > spiral.ports["o2"].x:
-            spiral.mirror_x()
+        o1 = _spiral.ports["o1"]
+        o2 = _spiral.ports["o2"]
+        if o1.x > o2.x:
+            o1_x = -o1.x
+            o2_x = -o2.x
+            xmin = -_spiral.xmax
+        else:
+            o1_x = o1.x
+            o2_x = o2.x
+            xmin = _spiral.xmin
 
-        c.info["length"] += spiral.ports["o1"].x - spiral.xmin
+        total_length = _spiral.info["length"]
+        total_length += o1_x - xmin
 
-        c.add_port(
-            "o2",
-            center=(
-                spiral.ports["o1"].x + in_out_port_spacing,
-                spiral.ports["o1"].y,
-            ),
-            orientation=180,
-            cross_section=gf.get_cross_section(cross_section_s_bend),
-        )
-        routes = route_bundle(
-            c,
-            spiral.ports["o2"],
-            c.ports["o2"],
-            straight=straight,
-            bend=bend,
-            cross_section=cross_section_s_bend,
-            radius=min_radius,
-        )
-        c.info["length"] += c.kcl.dbu * routes[0].length
-        lens.append(c.info["length"])
+        target_x = o1_x + in_out_port_spacing
+        target_y = o1.y
+        dx = abs(target_x - o2_x)
+        dy = abs(target_y - o2.y)
+        route_length = dx + dy + min_radius * (np.pi / 2 - 2)
+        total_length += route_length
+        lens.append(total_length)
 
     # get the required spacing to achieve the required length (interpolate)
     f = interp1d(lens, straight_lengths)
