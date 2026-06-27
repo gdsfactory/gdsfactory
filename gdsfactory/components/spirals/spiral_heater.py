@@ -308,7 +308,7 @@ def _req_straight_len(
         target_y = o1.y
         dx = abs(target_x - o2_x)
         dy = abs(target_y - o2.y)
-        route_length = dx + dy + min_radius * (np.pi / 2 - 2)
+        route_length = dx - tx + dy - ty + bend_length
         total_length += route_length
         lens.append(total_length)
 
