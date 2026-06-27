@@ -265,6 +265,18 @@ def _req_straight_len(
 
     straight_lengths = np.linspace(min_straigth_length, 0.9 * in_out_port_spacing, 100)
 
+    _bend = gf.get_component(
+        bend,
+        angle=90,
+        radius=min_radius,
+        cross_section=cross_section_s_bend,
+    )
+    ports = list(_bend.ports.values())
+    p1, p2 = ports[0], ports[1]
+    tx = abs(p1.x - p2.x)
+    ty = abs(p1.y - p2.y)
+    bend_length = _bend.info.get("length", min_radius * np.pi / 2)
+
     for str_len in straight_lengths:
         _spiral = spiral_racetrack(
             min_radius=min_radius,
