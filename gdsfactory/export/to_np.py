@@ -10,7 +10,7 @@ from gdsfactory.typings import Floats, Layers
 def to_np(
     component: Component,
     nm_per_pixel: int = 20,
-    layers: Layers = ((1, 0),),
+    layers: Layers | None = ((1, 0),),
     values: Floats | None = None,
     pad_width: int = 1,
 ) -> npt.NDArray[np.float64]:
@@ -19,7 +19,8 @@ def to_np(
     Args:
         component: Component.
         nm_per_pixel: you can go from 20 (coarse) to 4 (fine).
-        layers: to convert. Order matters (latter overwrite former).
+        layers: to convert. Order matters (latter overwrite former). Defaults
+            to WG. If None, converts all layers.
         values: associated to each layer (defaults to 1).
         pad_width: padding pixels around the image.
 
@@ -37,8 +38,9 @@ def to_np(
         int(np.ceil(ymax - ymin) * pixels_per_um),
     )
     img = np.zeros(shape, dtype=float)
-    layer_to_polygons = component.get_polygons_points(by="tuple")
+    layer_to_polygons = component.get_polygons_points(by="tuple", layers=layers)
 
+    layers = tuple(layer_to_polygons) if layers is None else layers
     values = values or [1] * len(layers)
 
     for layer, value in zip(layers, values, strict=False):
