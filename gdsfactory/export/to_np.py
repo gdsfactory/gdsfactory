@@ -40,7 +40,11 @@ def to_np(
     img = np.zeros(shape, dtype=float)
     layer_to_polygons = component.get_polygons_points(by="tuple", layers=layers)
 
-    layers = tuple(layer_to_polygons) if layers is None else layers
+    layers = (
+        tuple(layer for layer in layer_to_polygons if isinstance(layer, tuple))
+        if layers is None
+        else layers
+    )
     values = values or [1] * len(layers)
 
     for layer, value in zip(layers, values, strict=False):
