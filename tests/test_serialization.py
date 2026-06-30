@@ -48,12 +48,17 @@ def test_clean_dict() -> None:
 def test_complex_encoder() -> None:
     result = complex_encoder(1 + 2j, digits=2)
     assert result == {"real": 1.0, "imag": 2.0}
+    assert complex_encoder(np.complex128(1.23456 + 2.34567j), digits=3) == {
+        "real": 1.235,
+        "imag": 2.346,
+    }
 
 
 def test_clean_value_json() -> None:
     assert clean_value_json(1) == 1
     assert clean_value_json(True) is True
     assert clean_value_json(1.23456) == 1.235
+    assert clean_value_json(np.float64(1.23456)) == 1.235
     assert clean_value_json(1.0) == 1
     assert clean_value_json(complex(1, 2)) == {"real": 1.0, "imag": 2.0}
     assert clean_value_json(np.array([1.23456])) == [1.235]

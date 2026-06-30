@@ -47,8 +47,8 @@ def clean_dict(
 def complex_encoder(
     obj: complex | np.complexfloating, digits: int = DEFAULT_SERIALIZATION_MAX_DIGITS
 ) -> dict[str, Any]:
-    real_part = np.round(obj.real, digits)
-    imag_part = np.round(obj.imag, digits)
+    real_part = round(float(obj.real), digits)
+    imag_part = round(float(obj.imag), digits)
     return {"real": real_part, "imag": imag_part}
 
 
@@ -116,7 +116,7 @@ def clean_value_json(
     if isinstance(value, float | np.floating):
         if value == round(value):
             return int(value)
-        return float(np.round(value, serialization_max_digits))
+        return round(float(value), serialization_max_digits)
 
     if isinstance(value, complex | np.complexfloating):
         return complex_encoder(value)
