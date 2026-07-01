@@ -24,6 +24,42 @@ def test_write_cells() -> None:
     assert len(gdspaths) == 3, len(gdspaths)
 
 
+def test_write_cells_route_collision_preserves_cached_ports() -> None:
+    gdspath = PATH.gdsdir / "mzi2x2.gds"
+    gf.clear_cache()
+    write_cells_recursively(gdspath=gdspath, dirpath=GDSDIR_TEMP)
+
+    c = gf.Component()
+    w = gf.components.straight()
+    left = c << w
+    right = c << w
+    right.dmove((100, 80))
+    obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.dymin = 40
+    obstacle2.dxmin = 25
+
+    with pytest.warns(UserWarning, match="Routing failed"):
+        gf.routing.route_bundle(
+            c,
+            cross_section="strip",
+            port1=left.ports["o2"],
+            port2=right.ports["o2"],
+            steps=[
+                {"x": 20},
+                {"y": 20},
+                {"x": 120},
+                {"y": 80},
+            ],
+        )
+
+    mmi = gf.get_active_pdk().get_component(
+        component="mmi1x2", settings={"length_mmi": 10, "width_mmi": 4.5}
+    )
+    assert [p.name for p in mmi.ports] == ["o1", "o2", "o3"]
+
+
 def test_get_import_gds_script() -> None:
     path = GDSDIR_TEMP / "test.gds"
     gf.components.mzi().write_gds(path)

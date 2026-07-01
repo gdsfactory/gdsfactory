@@ -524,6 +524,7 @@ def route_bundle(
             sb_ref = component << sb
             return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
 
+    component_name = component.name
     try:
         kf_on_collision = "error" if on_collision == "warning" else on_collision
         kf_on_placer_error = (
@@ -562,6 +563,9 @@ def route_bundle(
             sbend_factory=_sbend if sbend else None,
         )
     except Exception as e:
+        if component.name != component_name:
+            component.name = component_name
+
         if raise_on_error:
             if "kdb.Trans" in str(e):
                 raise ValueError("You need at least 2 waypoints or steps.") from e
