@@ -123,6 +123,8 @@ def test_remove_layers_recursive_multiple_layers() -> None:
     assert c.area((1, 0)) == 200, f"{c.area((1, 0))}"
     assert c.area((2, 0)) == 0, f"{c.area((2, 0))}"
     assert c.area((3, 0)) == 0, f"{c.area((3, 0))}"
+    c.delete()
+    child.delete()
 
 
 def test_locked_cell() -> None:
@@ -566,6 +568,24 @@ def test_remap_layers() -> None:
     assert c.area((3, 0)) == 100, f"{c.area((3, 0))}"
 
 
+def test_remap_layers_recursive_multiple_layers() -> None:
+    child = gf.Component()
+    child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
+
+    c = gf.Component()
+    ref = c.add_ref(child)
+    c.remap_layers({(1, 0): (3, 0), (2, 0): (4, 0)}, recursive=True)
+
+    component_ref_cell = gf.Component(base=ref.cell.base)
+    assert component_ref_cell.area((1, 0)) == 0
+    assert component_ref_cell.area((2, 0)) == 0
+    assert component_ref_cell.area((3, 0)) == 100
+    assert component_ref_cell.area((4, 0)) == 100
+    c.delete()
+    child.delete()
+
+
 def test_copy_layers() -> None:
     c = gf.Component()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
@@ -588,6 +608,27 @@ def test_copy_layers() -> None:
     component_ref_cell = gf.Component(base=ref2.cell.base)
     assert component_ref_cell.area((1, 0)) == 100, f"{component_ref_cell.area((1, 0))}"
     assert component_ref_cell.area((3, 0)) == 100, f"{component_ref_cell.area((3, 0))}"
+
+
+def test_copy_layers_recursive_multiple_layers_restores_lock() -> None:
+    child = gf.Component()
+    child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
+    child.locked = True
+
+    c = gf.Component()
+    ref = c.add_ref(child)
+    c.copy_layers({(1, 0): (3, 0), (2, 0): (4, 0)}, recursive=True)
+
+    component_ref_cell = gf.Component(base=ref.cell.base)
+    assert component_ref_cell.area((1, 0)) == 100
+    assert component_ref_cell.area((2, 0)) == 100
+    assert component_ref_cell.area((3, 0)) == 100
+    assert component_ref_cell.area((4, 0)) == 100
+    assert component_ref_cell.locked
+    child.locked = False
+    c.delete()
+    child.delete()
 
 
 def test_get_labels() -> None:
