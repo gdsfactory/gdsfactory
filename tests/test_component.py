@@ -106,6 +106,25 @@ def test_remove_layers() -> None:
     assert c.area((2, 0)) == 0, f"{c.area((2, 0))}"
 
 
+def test_remove_layers_recursive_multiple_layers() -> None:
+    child = gf.Component()
+    child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(2, 0))
+    child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(3, 0))
+
+    c = gf.Component()
+    c.add_ref(child)
+    c.add_polygon([(20, 0), (20, 10), (30, 10), (30, 0)], layer=(1, 0))
+    c.add_polygon([(20, 0), (20, 10), (30, 10), (30, 0)], layer=(2, 0))
+    c.add_polygon([(20, 0), (20, 10), (30, 10), (30, 0)], layer=(3, 0))
+
+    c.remove_layers(layers=[(2, 0), (3, 0)], recursive=True)
+
+    assert c.area((1, 0)) == 200, f"{c.area((1, 0))}"
+    assert c.area((2, 0)) == 0, f"{c.area((2, 0))}"
+    assert c.area((3, 0)) == 0, f"{c.area((3, 0))}"
+
+
 def test_locked_cell() -> None:
     c = gf.Component()
     c.locked = True

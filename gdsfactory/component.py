@@ -1062,16 +1062,16 @@ class Component(ComponentBase, kf.DKCell):
         for layer_index in layers:
             assert isinstance(layer_index, int)
             self.kdb_cell.shapes(layer_index).clear()
-            if recursive:
-                for ci in self.kdb_cell.called_cells():
-                    for layer_idx in layers:
-                        assert isinstance(layer_idx, int)
-                        was_locked = self.kcl[ci].locked
-                        if recursive:
-                            self.kcl[ci].locked = False
-                        self.kcl[ci].kdb_cell.shapes(layer_idx).clear()
-                        if recursive and was_locked:
-                            self.kcl[ci].locked = True
+
+        if recursive:
+            for ci in self.kdb_cell.called_cells():
+                was_locked = self.kcl[ci].locked
+                self.kcl[ci].locked = False
+                for layer_idx in layers:
+                    assert isinstance(layer_idx, int)
+                    self.kcl[ci].kdb_cell.shapes(layer_idx).clear()
+                if was_locked:
+                    self.kcl[ci].locked = True
         return self
 
     def remap_layers(
