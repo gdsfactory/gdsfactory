@@ -442,6 +442,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         with_metadata: bool = True,
         exclude_layers: Sequence[LayerSpec] | None = None,
         no_empty_cells: bool = False,
+        deduplicate_cell_names: bool = True,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
@@ -452,6 +453,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             with_metadata: if True, writes metadata (ports, settings) to the GDS file.
             exclude_layers: list of layers to exclude from the GDS file.
             no_empty_cells: if True, does not save empty cells.
+            deduplicate_cell_names: if True, renames cells with identical names to
+                `cell_name$1`, `cell_name$2` etc.
         """
         from gdsfactory.pdk import get_layer
 
@@ -486,7 +489,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if not with_metadata:
             save_options.write_context_info = False
 
-        self.write(filename=gdspath, save_options=save_options)
+        self.write(
+            filename=gdspath,
+            save_options=save_options,
+            deduplicate_cell_names=deduplicate_cell_names,
+        )
         return pathlib.Path(gdspath)
 
     def pprint_ports(self, **kwargs: Any) -> None:
@@ -685,6 +692,7 @@ class Component(ComponentBase, kf.DKCell):
         convert_external_cells: bool = False,
         set_meta_data: bool = True,
         autoformat_from_file_extension: bool = True,
+        deduplicate_cell_names: bool = True,
     ) -> None:
         """Write component to GDS, fixing pin metadata for kfactory compat."""
         if set_meta_data:
@@ -707,6 +715,7 @@ class Component(ComponentBase, kf.DKCell):
             convert_external_cells=False,
             set_meta_data=False,
             autoformat_from_file_extension=autoformat_from_file_extension,
+            deduplicate_cell_names=deduplicate_cell_names,
         )
 
     @property

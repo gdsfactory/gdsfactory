@@ -119,7 +119,7 @@ def write_cells_recursively(
     for cell_index in gf.kcl.each_cell_bottom_up():
         component = gf.kcl[cell_index]
         gdspath = dirpath / f"{component.name}.gds"
-        component.write(gdspath)
+        component.write(gdspath, deduplicate_cell_names=True)
         gdspaths[component.name] = gdspath
     return gdspaths
 
@@ -149,6 +149,6 @@ def write_cells(
 
     for component in components:
         gdspath = dirpath / f"{component.name}.gds"
-        component.write(gdspath)
+        component.write(gdspath, deduplicate_cell_names=True)
         gdspaths[component.name] = gdspath
     return gdspaths
