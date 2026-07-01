@@ -38,13 +38,11 @@ def to_np(
         int(np.ceil(ymax - ymin) * pixels_per_um),
     )
     img = np.zeros(shape, dtype=float)
-    layer_to_polygons = component.get_polygons_points(by="tuple", layers=layers)
-
-    layers = (
-        tuple(layer for layer in layer_to_polygons if isinstance(layer, tuple))
-        if layers is None
-        else layers
-    )
+    if layers is None:
+        layer_to_polygons = component.get_polygons_points(by="tuple")
+        layers = tuple(layer for layer in layer_to_polygons if isinstance(layer, tuple))
+    else:
+        layer_to_polygons = component.get_polygons_points(by="tuple", layers=layers)
     values = values or [1] * len(layers)
 
     for layer, value in zip(layers, values, strict=False):
