@@ -442,6 +442,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         with_metadata: bool = True,
         exclude_layers: Sequence[LayerSpec] | None = None,
         no_empty_cells: bool = False,
+        deduplicate_cell_names: bool = True,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
@@ -452,6 +453,8 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             with_metadata: if True, writes metadata (ports, settings) to the GDS file.
             exclude_layers: list of layers to exclude from the GDS file.
             no_empty_cells: if True, does not save empty cells.
+            deduplicate_cell_names: if True, renames cells with identical names to
+                `cell_name$1`, `cell_name$2` etc.
         """
         from gdsfactory.pdk import get_layer
 
@@ -486,7 +489,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if not with_metadata:
             save_options.write_context_info = False
 
-        self.write(filename=gdspath, save_options=save_options)
+        self.write(
+            filename=gdspath,
+            save_options=save_options,
+            deduplicate_cell_names=deduplicate_cell_names,
+        )
         return pathlib.Path(gdspath)
 
     def pprint_ports(self, **kwargs: Any) -> None:
@@ -685,6 +692,7 @@ class Component(ComponentBase, kf.DKCell):
         convert_external_cells: bool = False,
         set_meta_data: bool = True,
         autoformat_from_file_extension: bool = True,
+        deduplicate_cell_names: bool = True,
     ) -> None:
         """Write component to GDS, fixing pin metadata for kfactory compat."""
         if set_meta_data:
@@ -707,6 +715,7 @@ class Component(ComponentBase, kf.DKCell):
             convert_external_cells=False,
             set_meta_data=False,
             autoformat_from_file_extension=autoformat_from_file_extension,
+            deduplicate_cell_names=deduplicate_cell_names,
         )
 
     @property
@@ -1022,18 +1031,26 @@ class Component(ComponentBase, kf.DKCell):
         if self.locked:
             raise LockedError(self)
 
-        for layer, new_layer in layer_map.items():
-            src_layer_index = get_layer(layer)
-            dst_layer_index = get_layer(new_layer)
-            self.kdb_cell.copy(src_layer_index, dst_layer_index)
+        layer_index_pairs = [
+            (get_layer(layer), get_layer(new_layer))
+            for layer, new_layer in layer_map.items()
+        ]
+        kdb_cell = self.kdb_cell
+        for src_layer_index, dst_layer_index in layer_index_pairs:
+            kdb_cell.copy(src_layer_index, dst_layer_index)
 
-            if recursive:
-                for ci in self.kdb_cell.called_cells():
-                    was_locked = self.kcl[ci].locked
-                    self.kcl[ci].locked = False
-                    self.kcl[ci].kdb_cell.copy(src_layer_index, dst_layer_index)
+        if recursive:
+            for ci in kdb_cell.called_cells():
+                child = self.kcl[ci]
+                child_cell = child.kdb_cell
+                was_locked = child.locked
+                child.locked = False
+                try:
+                    for src_layer_index, dst_layer_index in layer_index_pairs:
+                        child_cell.copy(src_layer_index, dst_layer_index)
+                finally:
                     if was_locked:
-                        self.kcl[ci].locked = True
+                        child.locked = True
         return self
 
     def remove_layers(
@@ -1057,21 +1074,28 @@ class Component(ComponentBase, kf.DKCell):
 
         layer_indexes = self.kcl.layer_indexes()
         layer_indexes_to_remove = [get_layer(layer) for layer in layers]
-        layers = [layer for layer in layer_indexes_to_remove if layer in layer_indexes]
+        layer_indices = [
+            layer for layer in layer_indexes_to_remove if layer in layer_indexes
+        ]
+        if not layer_indices:
+            return self
 
-        for layer_index in layers:
-            assert isinstance(layer_index, int)
-            self.kdb_cell.shapes(layer_index).clear()
-            if recursive:
-                for ci in self.kdb_cell.called_cells():
-                    for layer_idx in layers:
-                        assert isinstance(layer_idx, int)
-                        was_locked = self.kcl[ci].locked
-                        if recursive:
-                            self.kcl[ci].locked = False
-                        self.kcl[ci].kdb_cell.shapes(layer_idx).clear()
-                        if recursive and was_locked:
-                            self.kcl[ci].locked = True
+        kdb_cell = self.kdb_cell
+        for layer_index in layer_indices:
+            kdb_cell.shapes(layer_index).clear()
+
+        if recursive:
+            for ci in kdb_cell.called_cells():
+                child = self.kcl[ci]
+                child_cell = child.kdb_cell
+                was_locked = child.locked
+                child.locked = False
+                try:
+                    for layer_idx in layer_indices:
+                        child_cell.shapes(layer_idx).clear()
+                finally:
+                    if was_locked:
+                        child.locked = True
         return self
 
     def remap_layers(
@@ -1088,14 +1112,19 @@ class Component(ComponentBase, kf.DKCell):
         if self.locked:
             raise LockedError(self)
 
-        for layer, new_layer in layer_map.items():
-            src_layer_index = get_layer(layer)
-            dst_layer_index = get_layer(new_layer)
-            self.kdb_cell.move(src_layer_index, dst_layer_index)
+        layer_index_pairs = [
+            (get_layer(layer), get_layer(new_layer))
+            for layer, new_layer in layer_map.items()
+        ]
+        kdb_cell = self.kdb_cell
+        for src_layer_index, dst_layer_index in layer_index_pairs:
+            kdb_cell.move(src_layer_index, dst_layer_index)
 
-            if recursive:
-                for ci in self.kdb_cell.called_cells():
-                    self.kcl[ci].kdb_cell.move(src_layer_index, dst_layer_index)
+        if recursive:
+            for ci in kdb_cell.called_cells():
+                child_cell = self.kcl[ci].kdb_cell
+                for src_layer_index, dst_layer_index in layer_index_pairs:
+                    child_cell.move(src_layer_index, dst_layer_index)
         return self
 
     def to_3d(

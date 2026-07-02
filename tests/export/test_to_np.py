@@ -1,7 +1,13 @@
-import numpy as np
+from typing import Literal
 
+import numpy as np
+import pytest
+
+import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.components import bend_circular, straight
 from gdsfactory.export.to_np import to_np
+from gdsfactory.typings import LayerSpecs
 
 
 def test_to_np_basic() -> None:
@@ -22,6 +28,41 @@ def test_to_np_with_layers() -> None:
     c = straight()
     img = to_np(c, nm_per_pixel=20, layers=((1, 0), (2, 0)))
     assert np.max(img) == 1
+
+
+def test_to_np_with_layers_none() -> None:
+    c = gf.Component()
+    c << gf.components.rectangle(size=(1, 1), layer=(1, 0))
+    c << gf.components.rectangle(size=(1, 1), layer=(2, 0))
+
+    img = to_np(c, nm_per_pixel=100, layers=None)
+
+    assert np.max(img) == 1
+
+
+def test_to_np_forwards_layer_filter(monkeypatch: pytest.MonkeyPatch) -> None:
+    c = straight()
+    layers = ((1, 0),)
+    original_get_polygons_points = Component.get_polygons_points
+    called_with: dict[str, LayerSpecs | None] = {}
+
+    def spy_get_polygons_points(
+        self: Component,
+        merge: bool = False,
+        scale: float | None = None,
+        by: Literal["index", "name", "tuple"] = "index",
+        layers: LayerSpecs | None = None,
+    ) -> dict[object, object]:
+        called_with["layers"] = layers
+        return original_get_polygons_points(
+            self, merge=merge, scale=scale, by=by, layers=layers
+        )
+
+    monkeypatch.setattr(Component, "get_polygons_points", spy_get_polygons_points)
+
+    to_np(c, nm_per_pixel=20, layers=layers)
+
+    assert called_with["layers"] == layers
 
 
 def test_to_np_with_values() -> None:
