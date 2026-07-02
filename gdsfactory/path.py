@@ -1056,6 +1056,7 @@ def extrude(
 
     xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
+    path_length = p.length()
 
     layer = get_layer(layer or x.layer)
 
@@ -1251,7 +1252,7 @@ def extrude(
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
-        if not hidden and p_sec.length() > 1e-3:
+        if not hidden and (p_sec.length() if path_changed else path_length) > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
@@ -1296,7 +1297,7 @@ def extrude(
                 register_cross_section=register_cross_section,
             )
 
-    c.info["length"] = float(np.round(p.length(), 3))
+    c.info["length"] = path_length
 
     for via in x.components_along_path:
         if via.offset:
@@ -1394,6 +1395,7 @@ def extrude_transition(
     dx = np.diff(p.points[:, 0])
     dy = np.diff(p.points[:, 1])
     lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
+    path_length = float(np.round(lengths[-1], 3))
     lengths = np.concatenate([[0], lengths]) / lengths[-1]
 
     for section_name in common_sections:
@@ -1513,7 +1515,7 @@ def extrude_transition(
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
-        if not hidden and p.length() > 1e-3:
+        if not hidden and path_length > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified

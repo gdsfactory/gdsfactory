@@ -42,6 +42,23 @@ def test_container_cell_conflict_raises_error() -> None:
         pdk.get_component("add_pads_top")
 
 
+def test_container_cell_conflict_raises_for_string_fast_path() -> None:
+    """String lookups must still validate global cell/container name conflicts."""
+    pdk = gf.Pdk(
+        name="test",
+        layers=LAYER,
+        cross_sections={"strip": gf.cross_section.strip},
+        cells={
+            "straight": gf.components.straight,
+            "add_pads_top": gf.containers.add_pads_top,
+        },
+        containers={"add_pads_top": gf.containers.add_pads_top},
+    )
+
+    with pytest.raises(ValueError, match=r".* overlapping cell names .*add_pads_top.*"):
+        pdk.get_component("straight")
+
+
 def _make_pdk() -> gf.Pdk:
     return gf.Pdk(
         name="test",
