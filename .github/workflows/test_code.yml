@@ -66,6 +66,7 @@ jobs:
           file: coverage.xml
           language: Python
           label: code-coverage/pytest
+          fail-on-error: false
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
         with:
