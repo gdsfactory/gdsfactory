@@ -1251,8 +1251,11 @@ def extrude(
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
+        # Unchanged sections use the original path, so this preserves the old
+        # per-section threshold without recomputing the same length each time.
+        section_length = p_sec.length() if path_changed else path_length
 
-        if not hidden and (p_sec.length() if path_changed else path_length) > 1e-3:
+        if not hidden and section_length > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
