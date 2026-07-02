@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import heapq
+from collections import deque
 from collections.abc import Sequence
+from itertools import pairwise
 from typing import Any, cast
 
 import klayout.dbcore as kdb
@@ -23,6 +26,8 @@ from gdsfactory.typings import (
     Port,
     Route,
 )
+
+ROUTE_BUNDLE_KWARGS = {"raise_on_error"}
 
 
 def get_route_bend_count(route: Route) -> int:
@@ -155,52 +160,111 @@ def simplify_path(waypoints: Coordinates, tolerance: float) -> list[Coordinate]:
     return list(simplified_line.coords)
 
 
-def route_astar_single(
-    component: Component,
-    port1: Port,
-    port2: Port,
-    resolution: float = 1,
-    cross_section: CrossSectionSpec = "strip",
-    bend: ComponentSpec = "wire_corner",
-    G: nx.Graph | None = None,
-    x: npt.NDArray[np.number[Any]] | None = None,
-    y: npt.NDArray[np.number[Any]] | None = None,
-    start_node: tuple[int, int] | None = None,
-    end_node: tuple[int, int] | None = None,
-    **kwargs: Any,
-) -> Route:
-    """Runs a single A* routing attempt between two ports.
+def nearest_open_node(
+    node: tuple[int, int],
+    blocked: npt.NDArray[np.bool_],
+) -> tuple[int, int]:
+    """Return the closest unblocked grid node using local breadth-first search."""
+    shape_x, shape_y = blocked.shape
+    i = min(max(node[0], 0), shape_x - 1)
+    j = min(max(node[1], 0), shape_y - 1)
+    if not blocked[i, j]:
+        return i, j
 
-    Uses explicitly provided start and end grid-node indices.
+    queue: deque[tuple[int, int]] = deque([(i, j)])
+    seen = {(i, j)}
+    while queue:
+        ci, cj = queue.popleft()
+        for ni, nj in (
+            (ci - 1, cj),
+            (ci + 1, cj),
+            (ci, cj - 1),
+            (ci, cj + 1),
+        ):
+            if ni < 0 or nj < 0 or ni >= shape_x or nj >= shape_y or (ni, nj) in seen:
+                continue
+            if not blocked[ni, nj]:
+                return ni, nj
+            seen.add((ni, nj))
+            queue.append((ni, nj))
 
-    Args:
-        component: Component in which the final route geometry will be inserted.
-        port1: Start port of the route.
-        port2: End port of the route.
-        resolution: Grid discretization step in microns.
-        cross_section: Cross-section specification for the routed waveguide.
-        bend: Component used for bends (e.g. wire_corner or bend_euler).
-        G: Precomputed NetworkX grid graph with obstacle nodes removed.
-        x: 1D array of x-coordinates for grid columns.
-        y: 1D array of y-coordinates for grid rows.
-        start_node: Approximate (i, j) index of the start grid cell.
-        end_node: Approximate (i, j) index of the end grid cell.
-        **kwargs: Additional arguments passed into the cross-section.
+    raise RuntimeError("No open grid nodes available for A* routing.")
 
-    Returns:
-        A single `Route` object created from the computed A* path.
 
-    Raises:
-        ValueError: If start_node or end_node is None.
-        nx.NetworkXNoPath: If no valid A* route exists between the nodes.
-    """
+def astar_grid(
+    blocked: npt.NDArray[np.bool_],
+    start_node: tuple[int, int],
+    end_node: tuple[int, int],
+) -> list[tuple[int, int]]:
+    """Find a shortest Manhattan grid path without constructing a NetworkX graph."""
+    start = nearest_open_node(start_node, blocked)
+    end = nearest_open_node(end_node, blocked)
+    if start == end:
+        return [start]
+
+    nx_, ny_ = blocked.shape
+    g_score = np.full(blocked.shape, np.inf)
+    closed = np.zeros(blocked.shape, dtype=bool)
+    came_from: dict[tuple[int, int], tuple[int, int]] = {}
+
+    def heuristic(node: tuple[int, int]) -> int:
+        return abs(node[0] - end[0]) + abs(node[1] - end[1])
+
+    g_score[start] = 0
+    heap: list[tuple[float, int, tuple[int, int]]] = [(heuristic(start), 0, start)]
+
+    while heap:
+        _, current_g, current = heapq.heappop(heap)
+        if closed[current]:
+            continue
+        if current == end:
+            path = [current]
+            while current in came_from:
+                current = came_from[current]
+                path.append(current)
+            path.reverse()
+            return path
+
+        closed[current] = True
+        ci, cj = current
+        for neighbor in (
+            (ci - 1, cj),
+            (ci + 1, cj),
+            (ci, cj - 1),
+            (ci, cj + 1),
+        ):
+            ni, nj = neighbor
+            if (
+                ni < 0
+                or nj < 0
+                or ni >= nx_
+                or nj >= ny_
+                or blocked[neighbor]
+                or closed[neighbor]
+            ):
+                continue
+            tentative_g = current_g + 1
+            if tentative_g < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g
+                heapq.heappush(
+                    heap, (tentative_g + heuristic(neighbor), tentative_g, neighbor)
+                )
+
+    raise nx.NetworkXNoPath(f"No path between {start_node} and {end_node}.")
+
+
+def path_from_nodes(
+    *,
+    G: nx.Graph | None,
+    blocked_grid: npt.NDArray[np.bool_] | None,
+    start_node: tuple[int, int],
+    end_node: tuple[int, int],
+) -> list[tuple[int, int]]:
+    if blocked_grid is not None:
+        return astar_grid(blocked_grid, start_node, end_node)
+
     assert G is not None, "route_astar_with_nodes: G must not be None"
-    assert x is not None, "x array must not be None"
-    assert y is not None, "y array must not be None"
-    assert start_node is not None, "start_node must not be None"
-    assert end_node is not None, "end_node must not be None"
-
-    # Find the indices of the closest valid nodes
     start_node = min(
         G.nodes,
         key=lambda node: float(np.linalg.norm(np.array(node) - np.array(start_node))),
@@ -209,8 +273,45 @@ def route_astar_single(
         G.nodes,
         key=lambda node: float(np.linalg.norm(np.array(node) - np.array(end_node))),
     )
+    return cast("list[tuple[int, int]]", nx.astar_path(G, start_node, end_node))
 
-    path = nx.astar_path(G, start_node, end_node)  # Find shortest path
+
+def count_bends(waypoints: Sequence[DPoint]) -> int:
+    if len(waypoints) < 3:
+        return 0
+    bends = 0
+    previous_direction: tuple[float, float] | None = None
+    for p1, p2 in pairwise(waypoints):
+        dx = p2.x - p1.x
+        dy = p2.y - p1.y
+        if abs(dx) < 1e-9 and abs(dy) < 1e-9:
+            continue
+        length = np.hypot(dx, dy)
+        direction = (round(dx / length, 4), round(dy / length, 4))
+        if previous_direction is not None and direction != previous_direction:
+            bends += 1
+        previous_direction = direction
+    return bends
+
+
+def route_astar_waypoints(
+    *,
+    port1: Port,
+    port2: Port,
+    resolution: float,
+    G: nx.Graph | None,
+    blocked_grid: npt.NDArray[np.bool_] | None,
+    x: npt.NDArray[np.number[Any]],
+    y: npt.NDArray[np.number[Any]],
+    start_node: tuple[int, int],
+    end_node: tuple[int, int],
+) -> list[DPoint]:
+    path = path_from_nodes(
+        G=G,
+        blocked_grid=blocked_grid,
+        start_node=start_node,
+        end_node=end_node,
+    )
 
     # Convert path to waypoints, move to center of grid cell
     waypoints = [(x[i] + resolution / 2, y[j] + resolution / 2) for i, j in path]
@@ -228,6 +329,8 @@ def route_astar_single(
     ]
 
     for port, closest_index, second_closest_index in port_data:
+        if len(my_waypoints) < 2:
+            continue
         # If the orientation of the port is vertical and the path leading to it is vertical
         if (
             port.orientation in [90, 270]
@@ -247,15 +350,90 @@ def route_astar_single(
             my_waypoints[second_closest_index][1] = port.y
             my_waypoints[closest_index][1] = port.y
 
-    # Convert to native floats or Point instances
     waypoints_ = [DPoint(x, y) for x, y in my_waypoints]
+    return gf.kf.routing.manhattan.clean_points(waypoints_)
+
+
+def route_astar_single(
+    component: Component,
+    port1: Port,
+    port2: Port,
+    resolution: float = 1,
+    cross_section: CrossSectionSpec = "strip",
+    bend: ComponentSpec = "wire_corner",
+    G: nx.Graph | None = None,
+    x: npt.NDArray[np.number[Any]] | None = None,
+    y: npt.NDArray[np.number[Any]] | None = None,
+    start_node: tuple[int, int] | None = None,
+    end_node: tuple[int, int] | None = None,
+    blocked_grid: npt.NDArray[np.bool_] | None = None,
+    **kwargs: Any,
+) -> Route:
+    """Runs a single A* routing attempt between two ports.
+
+    Uses explicitly provided start and end grid-node indices.
+
+    Args:
+        component: Component in which the final route geometry will be inserted.
+        port1: Start port of the route.
+        port2: End port of the route.
+        resolution: Grid discretization step in microns.
+        cross_section: Cross-section specification for the routed waveguide.
+        bend: Component used for bends (e.g. wire_corner or bend_euler).
+        G: Precomputed NetworkX grid graph with obstacle nodes removed.
+        x: 1D array of x-coordinates for grid columns.
+        y: 1D array of y-coordinates for grid rows.
+        start_node: Approximate (i, j) index of the start grid cell.
+        end_node: Approximate (i, j) index of the end grid cell.
+        blocked_grid: Precomputed grid with blocked obstacle cells.
+        **kwargs: Additional arguments passed into the cross-section or route_bundle.
+
+    Returns:
+        A single `Route` object created from the computed A* path.
+
+    Raises:
+        ValueError: If any required grid input is None.
+        nx.NetworkXNoPath: If no valid A* route exists between the nodes.
+    """
+    if x is None:
+        raise ValueError("x array must not be None")
+    if y is None:
+        raise ValueError("y array must not be None")
+    if start_node is None:
+        raise ValueError("start_node must not be None")
+    if end_node is None:
+        raise ValueError("end_node must not be None")
+
+    waypoints_ = route_astar_waypoints(
+        port1=port1,
+        port2=port2,
+        resolution=resolution,
+        G=G,
+        blocked_grid=blocked_grid,
+        x=x,
+        y=y,
+        start_node=start_node,
+        end_node=end_node,
+    )
+    route_bundle_kwargs = {
+        key: value for key, value in kwargs.items() if key in ROUTE_BUNDLE_KWARGS
+    }
+    cross_section_kwargs = {
+        key: value for key, value in kwargs.items() if key not in ROUTE_BUNDLE_KWARGS
+    }
+    cross_section = (
+        gf.get_cross_section(cross_section, **cross_section_kwargs)
+        if cross_section_kwargs
+        else cross_section
+    )
     return gf.routing.route_bundle(
         component=component,
         ports1=[port1],
         ports2=[port2],
-        waypoints=gf.kf.routing.manhattan.clean_points(waypoints_),
+        waypoints=waypoints_,
         cross_section=cross_section,
         bend=bend,
+        **route_bundle_kwargs,
     )[0]
 
 
@@ -272,8 +450,8 @@ def route_astar(
 ) -> Route:
     """A* router that evaluates several start/end node options and returns the best route.
 
-    All candidates are computed on a temporary copy of the component;
-    only the optimized route is rebuilt on the real one.
+    Candidate paths are computed on a grid, validated on a scratch component,
+    and only the optimized route is built on the real component.
 
     Args:
         component: Component on which the final (optimized) route will be built.
@@ -284,7 +462,7 @@ def route_astar(
         distance: Clearance distance from obstacles in microns.
         cross_section: Cross-section specification for the routed waveguide.
         bend: Component to use for bends (e.g. ``wire_corner`` or ``bend_euler``).
-        **kwargs: Additional keyword arguments forwarded to the cross-section.
+        **kwargs: Additional keyword arguments forwarded to the cross-section or route_bundle.
 
     Returns:
         Route: The route generated using the start/end node pairing
@@ -294,18 +472,15 @@ def route_astar(
         RuntimeError: If all A* attempts fail for all start/end node combinations.
         ValueError: If a port has an unsupported orientation.
     """
-    # Create a copy of the component to run preliminary A* attempts
-    copy_of_component = component.copy()
-    cross_section = gf.get_cross_section(cross_section, **kwargs)
+    route_bundle_kwargs = {
+        key: value for key, value in kwargs.items() if key in ROUTE_BUNDLE_KWARGS
+    }
+    cross_section_kwargs = {
+        key: value for key, value in kwargs.items() if key not in ROUTE_BUNDLE_KWARGS
+    }
+    cross_section = gf.get_cross_section(cross_section, **cross_section_kwargs)
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
-    G_ = nx.grid_2d_graph(len(x), len(y))
-    G = cast("nx.Graph", G_)
-
-    # Remove nodes representing obstacles
-    for i in range(len(x)):
-        for j in range(len(y)):
-            if grid[i, j] == 1:
-                G.remove_node((i, j))
+    blocked_grid = grid == 1
 
     distance_from_node_to_port = 3 * (cross_section.radius or 3)  # in um
 
@@ -386,14 +561,13 @@ def route_astar(
     else:
         raise ValueError("port2 orientation must be in [0, 90, 180, 270]")
 
-    # List of all attempted routes with their start/end coordinates, in order to select the one with fewest bends
-    candidates: list[tuple[Route, tuple[float, float], tuple[float, float]]] = []
+    # Score candidate paths without placing temporary geometry.
+    candidates: list[tuple[int, int, list[DPoint]]] = []
 
     for start_coords in start_node_coordinates:
         for end_coords in end_node_coordinates:
             try:
-                route = route_astar_single(
-                    component=copy_of_component,
+                waypoints = route_astar_waypoints(
                     port1=port1,
                     port2=port2,
                     start_node=(
@@ -405,47 +579,62 @@ def route_astar(
                         round((end_coords[1] - y.min()) / resolution),
                     ),
                     resolution=resolution,
-                    cross_section=cross_section,
-                    bend=bend,
-                    G=G,
+                    G=None,
+                    blocked_grid=blocked_grid,
                     x=x,
                     y=y,
-                    **kwargs,
                 )
-                candidates.append((route, start_coords, end_coords))
+                candidates.append(
+                    (
+                        count_bends(waypoints),
+                        len(waypoints),
+                        waypoints,
+                    )
+                )
 
-            except Exception as e:
-                print(f"Attempt failed: {e}")
+            except Exception:
                 continue
 
     if not candidates:
         raise RuntimeError("All A* routing attempts failed.")
 
-    # Choose the route with the fewest bends
-    _, optimized_start_coords, optimized_end_coords = min(
-        candidates, key=lambda item: get_route_bend_count(item[0])
+    # Validate generated waypoints against route_bundle before selecting a route.
+    # A low-bend A* path can still be unbuildable once bend-radius and collision
+    # constraints are applied downstream.
+    valid_candidates: list[tuple[int, int, list[DPoint]]] = []
+    for _, waypoint_count, waypoints in sorted(
+        candidates, key=lambda item: (item[0], item[1])
+    ):
+        try:
+            route = gf.routing.route_bundle(
+                component=gf.Component(),
+                ports1=[port1],
+                ports2=[port2],
+                waypoints=waypoints,
+                cross_section=cross_section,
+                bend=bend,
+                raise_on_error=True,
+            )
+        except Exception:
+            continue
+        valid_candidates.append(
+            (get_route_bend_count(route[0]), waypoint_count, waypoints)
+        )
+
+    if not valid_candidates:
+        raise RuntimeError("All A* routing attempts failed.")
+
+    _, _, optimized_waypoints = min(
+        valid_candidates, key=lambda item: (item[0], item[1])
     )
 
     # Build optimized route on real component
-    return route_astar_single(
+    return gf.routing.route_bundle(
         component=component,
-        port1=port1,
-        port2=port2,
-        start_node=(
-            round((optimized_start_coords[0] - x.min()) / resolution),
-            round((optimized_start_coords[1] - y.min()) / resolution),
-        ),
-        end_node=(
-            round((optimized_end_coords[0] - x.min()) / resolution),
-            round((optimized_end_coords[1] - y.min()) / resolution),
-        ),
-        resolution=resolution,
-        avoid_layers=avoid_layers,
-        distance=distance,
+        ports1=[port1],
+        ports2=[port2],
+        waypoints=optimized_waypoints,
         cross_section=cross_section,
         bend=bend,
-        G=G,
-        x=x,
-        y=y,
-        **kwargs,
-    )
+        **route_bundle_kwargs,
+    )[0]
