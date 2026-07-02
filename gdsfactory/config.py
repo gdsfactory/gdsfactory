@@ -145,8 +145,8 @@ class Config(Settings):
         validate_assignment=True,
         env_file=dotenv_path,
     )
-    on_collision: Literal["error", "show_error", "warning"] | None = "show_error"
-    on_placer_error: Literal["error", "show_error", "warning"] | None = "show_error"
+    on_collision: Literal["error", "show_error", "warning"] | None = "warning"
+    on_placer_error: Literal["error", "show_error", "warning"] | None = "warning"
     raise_on_error: bool = False
 
 
