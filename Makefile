@@ -59,7 +59,7 @@ test-force: ## Run tests with force-regen
 	uv run pytest -n logical --force-regen -s
 
 cov: ## Run tests with coverage
-	uv run pytest --cov=gdsfactory --cov-report=term-missing:skip-covered
+	uv run pytest --cov=gdsfactory --cov-report=xml --cov-report=term-missing:skip-covered
 
 dev-cov: ## Run tests in parallel with coverage
 	uv run pytest -s -n logical --cov=gdsfactory --cov-report=term-missing:skip-covered --durations=10
