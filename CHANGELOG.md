@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.45.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.45.0) - 2026-07-03
+
+No significant changes.
+
+
 ## [9.44.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.44.0) - 2026-06-12
 
 - fix port orientation for pins flush with one component boundary [#4594](https://github.com/gdsfactory/gdsfactory/pull/4594)
