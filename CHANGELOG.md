@@ -1,7 +1,28 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.44.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.45.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.45.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.45.0) - 2026-07-03
+
+- perf: speed up component lookup and path extrusion [#4632](https://github.com/gdsfactory/gdsfactory/pull/4632)
+- warn on collision instead of error [#4631](https://github.com/gdsfactory/gdsfactory/pull/4631)
+- perf: avoid repeated recursive layer removal [#4617](https://github.com/gdsfactory/gdsfactory/pull/4617)
+- perf: filter polygons by layer in to_np export [#4615](https://github.com/gdsfactory/gdsfactory/pull/4615)
+- Improve route_astar path search performance [#4613](https://github.com/gdsfactory/gdsfactory/pull/4613)
+- Update kf [#4629](https://github.com/gdsfactory/gdsfactory/pull/4629)
+- Prune leftover layers when activating a custom PDK (#4595) [#4596](https://github.com/gdsfactory/gdsfactory/pull/4596)
+- fix: abs() in _infer_port_direction flush distance check [#4608](https://github.com/gdsfactory/gdsfactory/pull/4608)
+- Remove duplicated ellipse function from pack.py [#4606](https://github.com/gdsfactory/gdsfactory/pull/4606)
+- Fix EOFError in difftest when running in CI [#4602](https://github.com/gdsfactory/gdsfactory/pull/4602)
+- fix: make components-along-path container a deterministic cell (#4598) [#4599](https://github.com/gdsfactory/gdsfactory/pull/4599)
+- Set up GitHub-native code coverage reporting [#4630](https://github.com/gdsfactory/gdsfactory/pull/4630)
+- Bump docker/setup-qemu-action from 4 to 4.1.0 [#4619](https://github.com/gdsfactory/gdsfactory/pull/4619)
+- Bump codecov/codecov-action from 6 to 7 [#4621](https://github.com/gdsfactory/gdsfactory/pull/4621)
+- Bump release-drafter/release-drafter from 7.3.1 to 7.4.0 [#4622](https://github.com/gdsfactory/gdsfactory/pull/4622)
+- Bump actions/cache from 5 to 6.1.0 [#4623](https://github.com/gdsfactory/gdsfactory/pull/4623)
+- Bump actions/checkout from 6.0.2 to 7.0.0 [#4620](https://github.com/gdsfactory/gdsfactory/pull/4620)
+
 
 ## [9.44.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.44.0) - 2026-06-12
 

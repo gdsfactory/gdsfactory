@@ -38,7 +38,7 @@ def test_snap_to_grid2x_idempotent(x: float) -> None:
 def test_snap_to_grid_bounded_error(x: float, nm: float, grid_factor: int) -> None:
     """The snap error must not exceed half the effective grid size."""
     snapped = gf.snap.snap_to_grid(x, nm=nm, grid_factor=grid_factor)
-    grid_um = nm / 1000
+    grid_um = (nm / 1000) * grid_factor
     assert abs(snapped - x) <= grid_um / 2 + 1e-12
 
 
@@ -104,3 +104,16 @@ def test_snap_to_grid_rounding() -> None:
     assert gf.snap.snap_to_grid(-0.00149, nm=1) == -0.001
     assert gf.snap.snap_to_grid(-0.0015, nm=1) == -0.001
     assert gf.snap.snap_to_grid(-0.00151, nm=1) == -0.002
+
+
+def test_snap_to_grid_grid_factor_applies_with_explicit_nm() -> None:
+    """grid_factor must scale the grid even when nm is explicitly set."""
+    assert gf.snap.snap_to_grid(0.0012, nm=2) == 0.002
+    assert gf.snap.snap_to_grid(0.0012, grid_factor=2) == 0.002
+    assert gf.snap.snap_to_grid(0.0012, nm=1, grid_factor=2) == 0.002
+    assert gf.snap.snap_to_grid2x(0.0012, nm=2) == 0.0
+    assert (
+        gf.snap.snap_to_grid(0.0037, nm=4)
+        == gf.snap.snap_to_grid2x(0.0037, nm=2)
+        == 0.004
+    )
