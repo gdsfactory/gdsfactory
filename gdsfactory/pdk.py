@@ -394,7 +394,16 @@ class Pdk(BaseModel):
     ) -> Component:
         """Returns component from a component spec."""
         if include_containers:
-            cells = self._get_cells_and_containers()
+            if isinstance(component, str):
+                self.validate_cells_and_containers_unique()
+                if component in self.cells:
+                    cells = self.cells
+                elif component in self.containers:
+                    cells = self.containers
+                else:
+                    cells = self._get_cells_and_containers()
+            else:
+                cells = self._get_cells_and_containers()
         else:
             cells = self.cells
 
@@ -402,15 +411,17 @@ class Pdk(BaseModel):
             component=component, cells=cells, settings=settings, **kwargs
         )
 
-    def _get_cells_and_containers(self) -> dict[str, ComponentFactory]:
-        """Returns a dictionary of cells and containers."""
-        cells_and_containers = {**self.cells, **self.containers}
-        conflicting_names = set(self.cells.keys()).intersection(self.containers.keys())
+    def validate_cells_and_containers_unique(self) -> None:
+        conflicting_names = self.cells.keys() & self.containers.keys()
         if conflicting_names:
             raise ValueError(
                 f"PDK {self.name!r} has overlapping cell names between cells and containers: {list(conflicting_names)}. "
             )
-        return cells_and_containers
+
+    def _get_cells_and_containers(self) -> dict[str, ComponentFactory]:
+        """Returns a dictionary of cells and containers."""
+        self.validate_cells_and_containers_unique()
+        return {**self.cells, **self.containers}
 
     def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
         """Returns a component's symbol from a component spec."""
@@ -438,8 +449,6 @@ class Pdk(BaseModel):
             settings: settings to override.
             kwargs: settings to override.
         """
-        cell_names = sorted(cells)
-
         settings = settings or {}
         kwargs = kwargs or {}
         kwargs.update(settings)
@@ -451,7 +460,7 @@ class Pdk(BaseModel):
             _component = component(**kwargs)
             return type(_component)(base=_component.base)  # type: ignore[call-overload,no-any-return]
         if isinstance(component, str):
-            if component not in cell_names:
+            if component not in cells:
                 substring = component
                 matching_cells: list[str] = []
 

@@ -1,0 +1,4 @@
+paths:
+  .github/workflows/test_code.yml:
+    ignore:
+      - 'unknown permission scope "code-quality"'

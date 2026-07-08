@@ -16,7 +16,7 @@ from pydantic_settings import SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "9.44.0"
+__version__ = "9.45.0"
 __next_major_version__ = "10.0.0"
 
 PathType = str | pathlib.Path
@@ -145,8 +145,8 @@ class Config(Settings):
         validate_assignment=True,
         env_file=dotenv_path,
     )
-    on_collision: Literal["error", "show_error", "warning"] | None = "show_error"
-    on_placer_error: Literal["error", "show_error", "warning"] | None = "show_error"
+    on_collision: Literal["error", "show_error", "warning"] | None = "warning"
+    on_placer_error: Literal["error", "show_error", "warning"] | None = "warning"
     raise_on_error: bool = False
 
 
