@@ -18,6 +18,11 @@ class _FailingLibrary:
         raise _CleanupError("cleanup failed")
 
 
+class _SuccessfulLibrary:
+    def delete(self) -> None:
+        pass
+
+
 class _FakeLayout:
     kcls: ClassVar[dict[str, "_FakeKcl"]] = {}
 
@@ -58,3 +63,17 @@ def test_temporary_kcl_raises_cleanup_error_after_success(
             pass
 
     assert "temporary" not in _FakeLayout.kcls
+
+
+def test_temporary_kcl_does_not_unregister_replaced_entry(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _FakeLayout.kcls.clear()
+    monkeypatch.setattr(_kcl, "kf", _FakeKFactory)
+    replacement = object()
+
+    with _kcl.temporary_kcl("temporary") as kcl:
+        kcl.library = _SuccessfulLibrary()
+        _FakeLayout.kcls[kcl.name] = replacement  # type: ignore[assignment]
+
+    assert _FakeLayout.kcls["temporary"] is replacement
