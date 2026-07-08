@@ -362,9 +362,9 @@ def select_ports(
 
     from gdsfactory.pdk import get_layer
 
-    if layer:
-        layer = get_layer(layer)
-        ports_ = [p for p in ports_ if get_layer(p.layer) == layer]
+    if layer is not None:
+        layer_index = get_layer(layer)
+        ports_ = [p for p in ports_ if p.layer == layer_index]
     else:
         ports_ = list(ports_)
 
@@ -376,7 +376,8 @@ def select_ports(
         ports_ = [p for p in ports_ if np.isclose(p.orientation, orientation)]
 
     if layers_excluded:
-        ports_ = [p for p in ports_ if p.layer not in map(get_layer, layers_excluded)]
+        excluded_layers = {get_layer(layer) for layer in layers_excluded}
+        ports_ = [p for p in ports_ if p.layer not in excluded_layers]
     if width:
         ports_ = [p for p in ports_ if p.width == width]
     if port_type:
