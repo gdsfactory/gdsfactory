@@ -206,7 +206,7 @@ def route_bundle(
         ports2: end port or list of end ports.
         cross_section: CrossSection or function that returns a cross_section.
         layer: layer to use for the route.
-        separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
+        separation: bundle separation (center to center), in um.
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
