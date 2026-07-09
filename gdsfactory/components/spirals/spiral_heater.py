@@ -271,7 +271,7 @@ def _req_straight_len(
         radius=min_radius,
         cross_section=cross_section_s_bend,
     )
-    ports = list(_bend.ports.values())
+    ports = list(_bend.ports)
     p1, p2 = ports[0], ports[1]
     tx = abs(p1.x - p2.x)
     ty = abs(p1.y - p2.y)
