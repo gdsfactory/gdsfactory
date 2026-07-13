@@ -26,16 +26,23 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory._deprecation import deprecate
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
 
 @gf.cell_with_module_name(tags=["vias"])
 def via_stack(
+    bottom_layer: LayerSpec | None = None,
+    top_layer: LayerSpec | None = None,
     size: Size = (11.0, 11.0),
-    layers: LayerSpecs = ("M1", "M2", "MTOP"),
+    via_between: ComponentSpec | None = None,
+    columns: int | None = None,
+    rows: int | None = None,
+    *,
+    layers: LayerSpecs | None = ("M1", "M2", "MTOP"),
     layer_offsets: Floats | tuple[float | tuple[float, float], ...] | None = None,
-    vias: Sequence[ComponentSpec | None] = ("via1", "via2", None),
+    vias: Sequence[ComponentSpec | None] | None = ("via1", "via2", None),
     layer_to_port_orientations: dict[LayerSpec, list[int]] | None = None,
     correct_size: bool = False,
     slot_horizontal: bool = False,
@@ -52,11 +59,26 @@ def via_stack(
     http://www.vlsi-expert.com/2017/12/vias.html
 
     Args:
-        size: of the layers.
-        layers: layers on which to draw rectangles.
+        bottom_layer: convenience 2-layer form -- if given (with top_layer),
+            equivalent to layers=(bottom_layer, top_layer). Mutually
+            exclusive with layers/vias.
+        top_layer: see bottom_layer.
+        size: of the layers. If the first positional argument is a 2-tuple
+            of numbers instead of a layer, it is treated as the legacy
+            `size` positional argument and this call falls back to the
+            pre-IHP-convenience argument order, with a DeprecationWarning.
+        via_between: via ComponentSpec to use between bottom_layer and
+            top_layer. Only used together with bottom_layer/top_layer.
+        columns: if set, caps the auto-fit via column count to at most
+            this many columns (the fit is still auto-computed from size;
+            this only ever shrinks it).
+        rows: like columns, for rows.
+        layers: layers on which to draw rectangles. Ignored if
+            bottom_layer/top_layer are given.
         layer_offsets: Optional offsets for each layer with respect to size.
             positive grows, negative shrinks the size. If a tuple, it is the offset in x and y.
-        vias: vias to use to fill the rectangles.
+        vias: vias to use to fill the rectangles. Ignored if
+            bottom_layer/top_layer are given.
         layer_to_port_orientations: dictionary of layer to port_orientations.
         correct_size: if True, if the specified dimensions are too small it increases
             them to the minimum possible to fit a via.
@@ -64,9 +86,47 @@ def via_stack(
         slot_vertical: if True, then vias are vertical.
         port_orientations: list of port_orientations to add. None does not add ports.
     """
-    width_m, height_m = size
+    if (
+        isinstance(bottom_layer, tuple)
+        and len(bottom_layer) == 2
+        and all(isinstance(v, int | float) for v in bottom_layer)
+    ):
+        # Legacy positional call: via_stack(size, layers, layer_offsets, vias, ...).
+        deprecate(
+            "via_stack(size, layers, layer_offsets, vias, ...) positional call",
+            "via_stack(bottom_layer=, top_layer=, size=, ...) or explicit keywords",
+        )
+        legacy_positional = (top_layer, size, via_between, columns, rows)
+        legacy_names = (
+            "layers",
+            "layer_offsets",
+            "vias",
+            "layer_to_port_orientations",
+            "correct_size",
+        )
+        legacy_values = dict(zip(legacy_names, legacy_positional, strict=False))
+        size = bottom_layer
+        layers = legacy_values.get("layers", layers)  # type: ignore[assignment]
+        layer_offsets = legacy_values.get("layer_offsets", layer_offsets)  # type: ignore[assignment]
+        vias = legacy_values.get("vias", vias)  # type: ignore[assignment]
+        bottom_layer = None
+        top_layer = None
+
+    if bottom_layer is not None or top_layer is not None:
+        if bottom_layer is None or top_layer is None:
+            raise ValueError("Pass both bottom_layer and top_layer, or neither.")
+        if layers != ("M1", "M2", "MTOP") or vias != ("via1", "via2", None):
+            raise ValueError(
+                "Pass either (bottom_layer, top_layer[, via_between]) or "
+                "(layers, vias), not both."
+            )
+        layers = (bottom_layer, top_layer)
+        vias = (via_between,)
 
     layers = layers or []
+    vias = vias or []
+
+    width_m, height_m = size
     layer_indices = [gf.get_layer(layer) for layer in layers]
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_to_port_orientations_list = layer_to_port_orientations or {
@@ -220,6 +280,10 @@ def via_stack(
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
+            if columns is not None:
+                nb_vias_x = min(nb_vias_x, columns)
+            if rows is not None:
+                nb_vias_y = min(nb_vias_y, rows)
             ref = c.add_ref(
                 via,
                 columns=nb_vias_x,
