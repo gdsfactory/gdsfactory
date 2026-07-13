@@ -44,6 +44,7 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: "./docs/_build/html/"
+          retention-days: 7
   deploy-docs:
     needs: build-docs
     if: ${{ github.ref == 'refs/heads/main' }}
