@@ -89,7 +89,7 @@ def via_stack(
     if (
         isinstance(bottom_layer, tuple)
         and len(bottom_layer) == 2
-        and all(isinstance(v, int | float) for v in bottom_layer)
+        and any(isinstance(v, float) for v in bottom_layer)
     ):
         # Legacy positional call: via_stack(size, layers, layer_offsets, vias, ...).
         deprecate(
@@ -281,9 +281,9 @@ def via_stack(
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
             if columns is not None:
-                nb_vias_x = min(nb_vias_x, columns)
+                nb_vias_x = max(1, min(nb_vias_x, columns))
             if rows is not None:
-                nb_vias_y = min(nb_vias_y, rows)
+                nb_vias_y = max(1, min(nb_vias_y, rows))
             ref = c.add_ref(
                 via,
                 columns=nb_vias_x,
