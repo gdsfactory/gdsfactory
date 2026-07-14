@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "project": "gdsfactory",
+  "project_url": "https://github.com/gdsfactory/gdsfactory",
+  "repo": ".",
+  "branches": [
+    "main"
+  ],
+  "pythons": [
+    "3.11"
+  ],
+  "benchmark_dir": "benchmarks",
+  "results_dir": ".asv/results",
+  "html_dir": ".asv/html",
+  "environment_type": "virtualenv",
+  "build_command": [
+    "python -m build --wheel --outdir {build_cache_dir}"
+  ],
+  "install_command": [
+    "python -m pip install {wheel_file}"
+  ],
+  "uninstall_command": [
+    "return-code=any python -m pip uninstall -y gdsfactory"
+  ],
+  "show_commit_url": "https://github.com/gdsfactory/gdsfactory/commit/",
+  "skip_existing_commits": true
+}

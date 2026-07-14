@@ -55,6 +55,7 @@ requires-python = ">=3.11,<3.14"
 version = "9.45.0"
 
 [project.optional-dependencies]
+bench = ["asv>=0.6,<1"]
 cad = ["kweb>=1.1.9,<2.1"]
 dev = [
   "codeflash",

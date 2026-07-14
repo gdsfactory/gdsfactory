@@ -104,6 +104,40 @@ pytest --force-regen -s
 
 Note that the `--force-regen` flag will regenerate textual reference files, via [pytest-regressions](https://pytest-regressions.readthedocs.io/en/latest/overview.html). When GDS file regressions are found, the `-s` flag will cause pytest to step through the failures one-by-one, so you can inspect the XOR result in Klayout (automatically loaded via klive) and debug messages in the terminal. You will be prompted if you would like to accept or reject the set of changes for each file.
 
+## Benchmarks
+
+`gdsfactory` includes an [airspeed velocity](https://asv.readthedocs.io/) benchmark suite for representative layout workloads:
+
+- high number of instances of the same cell
+- high number of unique cells
+- high number of trivial polygons
+- low number of highly complex polygons
+
+Initialize your local machine definition once:
+
+```shell
+uv run --extra bench asv machine --yes
+```
+
+Run the benchmark suite for the current checkout:
+
+```shell
+uv run --extra bench asv run
+```
+
+Compare your branch against `main`:
+
+```shell
+uv run --extra bench asv continuous main HEAD
+```
+
+Publish the benchmark report locally:
+
+```shell
+uv run --extra bench asv publish
+uv run --extra bench asv preview
+```
+
 ## Build your own Reticles/projects/PDKs
 
 We recommend creating a separate python project for each mask and PDK.
