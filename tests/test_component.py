@@ -513,9 +513,7 @@ def test_component_write_gds_without_metadata_skips_metadata_generation(
     def fail_fix_pin_metadata(cell: Any) -> None:
         raise AssertionError("pin metadata should not be fixed when metadata is off")
 
-    monkeypatch.setattr(
-        "gdsfactory.component._fix_pin_metadata", fail_fix_pin_metadata
-    )
+    monkeypatch.setattr("gdsfactory.component._fix_pin_metadata", fail_fix_pin_metadata)
 
     path = c.write_gds(gdspath=tmp_path / "no_metadata.gds", with_metadata=False)
 
