@@ -112,6 +112,7 @@ Note that the `--force-regen` flag will regenerate textual reference files, via 
 - high number of unique cells
 - high number of trivial polygons
 - low number of highly complex polygons
+- end-to-end PIC workflows, including routing-heavy fiber arrays, pad fanout, reticle packing, GDS write/import round trips, recursive netlists, label extraction, and raster export
 
 Initialize your local machine definition once:
 
