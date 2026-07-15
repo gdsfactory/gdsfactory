@@ -6,9 +6,6 @@
   "branches": [
     "main"
   ],
-  "pythons": [
-    "3.11"
-  ],
   "benchmark_dir": "benchmarks",
   "results_dir": ".asv/results",
   "html_dir": ".asv/html",

@@ -97,15 +97,6 @@ REPRESENTATIVE_LAYOUT_FACTORIES: dict[str, ComponentFactory] = {
 WORKLOADS = tuple(REPRESENTATIVE_LAYOUT_FACTORIES)
 
 
-class TemporaryGdsPath:
-    def __init__(self) -> None:
-        self._tmpdir = TemporaryDirectory()
-        self.path = Path(self._tmpdir.name) / "component.gds"
-
-    def cleanup(self) -> None:
-        self._tmpdir.cleanup()
-
-
 class TimeRepresentativeLayoutBuild:
     param_names: ClassVar[tuple[str, ...]] = ("workload",)
     params: ClassVar[tuple[tuple[str, ...], ...]] = (WORKLOADS,)
@@ -123,10 +114,11 @@ class TimeRepresentativeLayoutWriteGds:
 
     def setup(self, workload: str) -> None:
         self.component = REPRESENTATIVE_LAYOUT_FACTORIES[workload]()
-        self.gds_path = TemporaryGdsPath()
+        self._tmpdir = TemporaryDirectory()
+        self.gds_path = Path(self._tmpdir.name) / "component.gds"
 
     def teardown(self, workload: str) -> None:
-        self.gds_path.cleanup()
+        self._tmpdir.cleanup()
 
     def time_write_gds(self, workload: str) -> None:
-        self.component.write_gds(gdspath=self.gds_path.path, with_metadata=False)
+        self.component.write_gds(gdspath=self.gds_path, with_metadata=False)
