@@ -2282,7 +2282,9 @@ def spiral_archimedean(
 
     Args:
         min_bend_radius: Inner radius of the spiral.
-        separation: Separation between the loops in um.
+        separation: Half the radial separation between loops in um. The
+            current formula is retained for compatibility with existing
+            layouts, so adjacent turns are separated by ``2 * separation``.
         number_of_loops: number of loops.
         npoints: number of Points.
 
@@ -2295,7 +2297,7 @@ def spiral_archimedean(
         p.plot()
 
     """
-    theta = np.linspace(0, number_of_loops * 2 * np.pi, npoints)
+    theta = np.linspace(0, number_of_loops * 2 * np.pi, int(npoints))
     points = (separation / np.pi * theta + min_bend_radius)[:, None] * np.column_stack(
         (np.sin(theta), np.cos(theta))
     )
