@@ -2296,8 +2296,9 @@ def spiral_archimedean(
 
     """
     theta = np.linspace(0, number_of_loops * 2 * np.pi, npoints)
-    radius = separation / np.pi * theta + min_bend_radius
-    points = np.column_stack((radius * np.sin(theta), radius * np.cos(theta)))
+    points = (separation / np.pi * theta + min_bend_radius)[:, None] * np.column_stack(
+        (np.sin(theta), np.cos(theta))
+    )
     return Path(points)
 
 
