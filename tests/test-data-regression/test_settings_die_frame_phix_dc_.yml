@@ -1,5 +1,5 @@
 info: {}
-name: die_frame_phix_dc_gdsfactorypcomponentspdiespdie_frame__874088ce
+name: die_frame_phix_dc_gdsfactorypcomponentspdiespdie_frame__9963cae9
 settings:
   cross_section: strip
   die_frame: die_frame
@@ -20,6 +20,7 @@ settings:
   pad_port_name_top: e4
   pad_rotation_dc_north: 0
   pad_rotation_dc_south: 0
+  pad_side_distance: 1160
   ruler_bbox_offset: 3
   ruler_xoffset: 0
   ruler_yoffset: 0

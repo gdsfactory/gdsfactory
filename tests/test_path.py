@@ -638,3 +638,36 @@ def test_rotation_preserves_path_length(angle: float) -> None:
     original_length = p.length()
     p.rotate(angle)
     assert np.isclose(p.length(), original_length, rtol=1e-6)
+
+
+@pytest.mark.parametrize("bend", [gf.path.arc, gf.path.euler])
+def test_small_radius_bend_stays_curved(bend: Any) -> None:
+    """Small-radius bends must keep enough points to be a curve, not a chord (#4557).
+
+    The arc-length npoints formula underflows for small radii, so before the floor
+    a tight bend collapsed to 2-3 points (a straight chord).
+    """
+    # a tight 90 degree bend should be sampled as a curve
+    assert len(bend(radius=0.5, angle=90).points) > 10
+    # even a shallow tight bend should not be a bare 2-point chord
+    assert len(bend(radius=0.5, angle=10).points) >= 3
+
+
+@pytest.mark.parametrize("bend", [gf.path.arc, gf.path.euler])
+def test_bend_npoints_floor_does_not_change_default_radius(bend: Any) -> None:
+    """The floor must not alter default-radius bends (arc-length count dominates)."""
+    # radius=10 is the default; the arc-length count (>50) already dominates the
+    # angular floor (19 points for a 90 degree bend), so geometry is unchanged.
+    assert len(bend(radius=10, angle=90).points) > 50
+
+
+@pytest.mark.parametrize("bend", [gf.path.arc, gf.path.euler])
+def test_bend_zero_angle_does_not_explode(bend: Any) -> None:
+    """A near-zero angle must not blow up npoints (the #4337 failure mode)."""
+    assert len(bend(radius=0.5, angle=0).points) <= 3
+    assert len(bend(radius=0.5, angle=1e-4).points) <= 5
+
+
+def test_bend_explicit_npoints_is_honored() -> None:
+    """An explicit npoints must win over the floor, unchanged from prior behavior."""
+    assert len(gf.path.arc(radius=0.5, angle=90, npoints=4).points) == 4

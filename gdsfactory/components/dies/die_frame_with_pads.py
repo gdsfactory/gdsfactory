@@ -147,6 +147,7 @@ def die_frame_phix(
     pad: ComponentSpec = "pad",
     pad_gsg: ComponentSpec = "pad_gsg",
     edge_to_pad_distance: float = 200.0,
+    edge_to_pad_distance_left: float | None = None,
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
     pad_port_name_rf: str = "e2",
@@ -161,7 +162,7 @@ def die_frame_phix(
     with_left_fiber_coupler: bool = True,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = "text_rectangular",
-    xoffset_dc_pads: float = -100,
+    pad_side_distance: float = 1160.0,
     xoffset_rf_pads: float = 50,
     pad_rotation_dc_north: float = 0,
     pad_rotation_dc_south: float = 0,
@@ -184,6 +185,7 @@ def die_frame_phix(
         pad: the pad component.
         pad_gsg: the GSG pad component.
         edge_to_pad_distance: the distance from the edge to the pads, in um.
+        edge_to_pad_distance_left: Optional distance from the left edge to the pads, in um. If None, uses edge_to_pad_distance for both sides.
         pad_port_name_top: name of the pad port name at the top facing south.
         pad_port_name_bot: name of the pad port name at the bottom facing north.
         pad_port_name_rf: name of the RF pad port name.
@@ -198,7 +200,7 @@ def die_frame_phix(
         with_left_fiber_coupler: if True, adds edge couplers on the left side.
         text_offset: offset for text.
         text: text component spec.
-        xoffset_dc_pads: DC pads x-offset.
+        pad_side_distance: distance from the die frame side to the first pad, in um.
         xoffset_rf_pads: RF pads x-offset.
         pad_rotation_dc_north: rotation for DC pads.
         pad_rotation_dc_south: rotation for DC pads.
@@ -218,6 +220,8 @@ def die_frame_phix(
 
     # Add optical ports
     x0 = xs / 2
+
+    edge_to_pad_distance_left = edge_to_pad_distance_left or edge_to_pad_distance
 
     if edge_coupler or grating_coupler:
         if edge_coupler:
@@ -340,9 +344,7 @@ def die_frame_phix(
     # Add electrical ports
     pad = gf.get_component(pad)
 
-    x0_pads = (
-        -npads * pad_pitch / 2 + edge_to_pad_distance - pad_pitch / 2 + xoffset_dc_pads
-    )
+    x0_pads = -xs / 2 + pad_side_distance
     x0 = x0_pads
 
     top_left = c << gf.c.cross(layer=layer_fiducial, length=150, width=20)
@@ -422,6 +424,7 @@ def die_frame_phix_dc(
     text: ComponentSpec | None = None,
     pad_rotation_dc_north: float = 0,
     pad_rotation_dc_south: float = 0,
+    pad_side_distance: float = 1160.0,
 ) -> Component:
     return die_frame_phix(
         die_frame=die_frame,
@@ -452,6 +455,7 @@ def die_frame_phix_dc(
         fiber_coupler_xoffset=fiber_coupler_xoffset,
         pad_rotation_dc_north=pad_rotation_dc_north,
         pad_rotation_dc_south=pad_rotation_dc_south,
+        pad_side_distance=pad_side_distance,
     )
 
 
@@ -484,7 +488,7 @@ def die_frame_phix_rf(
     fiber_coupler_xoffset: float = 0,
     text_offset: Float2 = (20, 10),
     text: ComponentSpec | None = None,
-    xoffset_dc_pads: float = -500,
+    pad_side_distance: float = 350.0,
     xoffset_rf_pads: float = 50,
     pad_rotation_rf: float = 0,
     pad_rotation_dc_north: float = 0,
@@ -517,7 +521,7 @@ def die_frame_phix_rf(
         with_left_fiber_coupler=with_left_fiber_coupler,
         text_offset=text_offset,
         text=text,
-        xoffset_dc_pads=xoffset_dc_pads,
+        pad_side_distance=pad_side_distance,
         fiber_coupler_xoffset=fiber_coupler_xoffset,
         xoffset_rf_pads=xoffset_rf_pads,
         pad_rotation_dc_south=pad_rotation_dc_south,

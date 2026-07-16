@@ -15,7 +15,7 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6.0.2
+    - uses: actions/checkout@v7.0.0
     - uses: actions/setup-python@v6
     - uses: pre-commit/action@v3.0.1
 
@@ -27,7 +27,7 @@ jobs:
         python-version: ["3.12", "3.13", "3.14"]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.0
       - uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
@@ -40,8 +40,13 @@ jobs:
 
   test_code_coverage:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      code-quality: write
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -54,8 +59,16 @@ jobs:
       - name: Test with pytest
         run: |
           make cov
+      - name: Upload coverage to GitHub
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/upload-code-coverage@v1
+        with:
+          file: coverage.xml
+          language: Python
+          label: code-coverage/pytest
+          fail-on-error: false
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
@@ -63,7 +76,7 @@ jobs:
   test_samples:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.0
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -80,7 +93,7 @@ jobs:
   type_consistency:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.0
       - uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.12"
@@ -97,7 +110,7 @@ jobs:
           - "3.14"
         os: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.0
       - uses: astral-sh/setup-uv@v7
       - name: Run ty check
         run: uv run --extra dev ty check gdsfactory || true

@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.13.1
-      - uses: actions/checkout@v6.0.2
-      - uses: actions/cache@v5
+      - uses: actions/checkout@v7.0.0
+      - uses: actions/cache@v6.1.0
         with:
           path: |
             ~/.gdsfactory/
@@ -44,6 +44,7 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: "./docs/_build/html/"
+          retention-days: 7
   deploy-docs:
     needs: build-docs
     if: ${{ github.ref == 'refs/heads/main' }}

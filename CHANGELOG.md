@@ -1,7 +1,47 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.43.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.45.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.45.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.45.0) - 2026-07-03
+
+- perf: speed up component lookup and path extrusion [#4632](https://github.com/gdsfactory/gdsfactory/pull/4632)
+- warn on collision instead of error [#4631](https://github.com/gdsfactory/gdsfactory/pull/4631)
+- perf: avoid repeated recursive layer removal [#4617](https://github.com/gdsfactory/gdsfactory/pull/4617)
+- perf: filter polygons by layer in to_np export [#4615](https://github.com/gdsfactory/gdsfactory/pull/4615)
+- Improve route_astar path search performance [#4613](https://github.com/gdsfactory/gdsfactory/pull/4613)
+- Update kf [#4629](https://github.com/gdsfactory/gdsfactory/pull/4629)
+- Prune leftover layers when activating a custom PDK (#4595) [#4596](https://github.com/gdsfactory/gdsfactory/pull/4596)
+- fix: abs() in _infer_port_direction flush distance check [#4608](https://github.com/gdsfactory/gdsfactory/pull/4608)
+- Remove duplicated ellipse function from pack.py [#4606](https://github.com/gdsfactory/gdsfactory/pull/4606)
+- Fix EOFError in difftest when running in CI [#4602](https://github.com/gdsfactory/gdsfactory/pull/4602)
+- fix: make components-along-path container a deterministic cell (#4598) [#4599](https://github.com/gdsfactory/gdsfactory/pull/4599)
+- Set up GitHub-native code coverage reporting [#4630](https://github.com/gdsfactory/gdsfactory/pull/4630)
+- Bump docker/setup-qemu-action from 4 to 4.1.0 [#4619](https://github.com/gdsfactory/gdsfactory/pull/4619)
+- Bump codecov/codecov-action from 6 to 7 [#4621](https://github.com/gdsfactory/gdsfactory/pull/4621)
+- Bump release-drafter/release-drafter from 7.3.1 to 7.4.0 [#4622](https://github.com/gdsfactory/gdsfactory/pull/4622)
+- Bump actions/cache from 5 to 6.1.0 [#4623](https://github.com/gdsfactory/gdsfactory/pull/4623)
+- Bump actions/checkout from 6.0.2 to 7.0.0 [#4620](https://github.com/gdsfactory/gdsfactory/pull/4620)
+
+
+## [9.44.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.44.0) - 2026-06-12
+
+- fix port orientation for pins flush with one component boundary [#4594](https://github.com/gdsfactory/gdsfactory/pull/4594)
+- Bump release-drafter/release-drafter from 7.2.0 to 7.3.1 [#4580](https://github.com/gdsfactory/gdsfactory/pull/4580)
+- Bump actions/checkout from 6 to 6.0.2 [#4579](https://github.com/gdsfactory/gdsfactory/pull/4579)
+- Add missing docstrings in API docs [#4577](https://github.com/gdsfactory/gdsfactory/pull/4577)
+- Apply setting overrides to CrossSection instances in get_cross_section [#4590](https://github.com/gdsfactory/gdsfactory/pull/4590)
+- fix: restore npoints floor so small-radius bends stay curved [#4591](https://github.com/gdsfactory/gdsfactory/pull/4591)
+- broaden the typehint of add_ref_off_grid component to include ComponentAllAngle [#4592](https://github.com/gdsfactory/gdsfactory/pull/4592)
+- preserve source port info in Component.add_port (#4554) [#4589](https://github.com/gdsfactory/gdsfactory/pull/4589)
+- fix: resolve CI failures in structured DiffResult PR [#4587](https://github.com/gdsfactory/gdsfactory/pull/4587)
+- Add llms.txt for LLM-friendly documentation [#4578](https://github.com/gdsfactory/gdsfactory/pull/4578)
+- Optimize extrude() section loop by sharing trig computations across offset curves [#4574](https://github.com/gdsfactory/gdsfactory/pull/4574)
+- feat: add length_increment to AWG [#4575](https://github.com/gdsfactory/gdsfactory/pull/4575)
+- Copy containers when using base_pdks [#4573](https://github.com/gdsfactory/gdsfactory/pull/4573)
+- Improve exception handling in `pdk.py` [#4572](https://github.com/gdsfactory/gdsfactory/pull/4572)
+- Add new code owners [#4568](https://github.com/gdsfactory/gdsfactory/pull/4568)
+- Bug archimedean spiral [#4566](https://github.com/gdsfactory/gdsfactory/pull/4566)
 
 ## [9.43.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.43.0) - 2026-05-16
 

@@ -51,6 +51,51 @@ def test_add_ports_from_pins_path() -> None:
     assert math.isclose(c2.ports["o2"].center[0], x), c2.ports["o2"].center[0]
 
 
+def test_add_ports_from_boxes_rect_pin_flush_with_boundary() -> None:
+    """Pin flush with one component boundary points outward from that boundary.
+
+    Aspect ratio alone would classify this 1x2 pin as north/south with
+    ports_on_short_side=True, but the pin is flush with the east edge.
+    """
+    c = gf.Component()
+    c.add_polygon([(0, -10), (100, -10), (100, 10), (0, 10)], layer=(1, 0))
+    c.shapes(gf.get_layer((2, 0))).insert(gf.kdb.DBox(99, -1, 100, 1))
+    gf.add_ports.add_ports_from_boxes(
+        c,
+        pin_layer=(2, 0),
+        inside=True,
+        use_opposite_side=True,
+        ports_on_short_side=True,
+    )
+    port = c.ports["o1"]
+    assert port.orientation == 0, port.orientation
+    assert port.width == 2, port.width
+    assert port.center == (99, 0), port.center
+
+
+def test_add_ports_from_boxes_square_pin_float_noise() -> None:
+    """Square pin with float noise near a cell corner keeps boundary orientation.
+
+    dy = -1.7 - (-2.7) = 1.0000000000000002 != dx = 1.0, so an exact dx/dy
+    comparison misclassifies the pin as a vertical rectangle and flips the
+    port to the closest axis instead of the flush east boundary.
+    """
+    c = gf.Component()
+    c.add_polygon([(0, -10), (100, -10), (100, 30), (0, 30)], layer=(1, 0))
+    c.shapes(gf.get_layer((2, 0))).insert(gf.kdb.DBox(99, -2.7, 100, -1.7))
+    gf.add_ports.add_ports_from_boxes(
+        c,
+        pin_layer=(2, 0),
+        inside=True,
+        use_opposite_side=True,
+        ports_on_short_side=True,
+    )
+    port = c.ports["o1"]
+    assert port.orientation == 0, port.orientation
+    assert port.width == 1, port.width
+    assert port.center == (99, -2.2), port.center
+
+
 def test_add_ports_from_labels() -> None:
     x = 1.238
     c = gf.components.straight(length=x)

@@ -394,7 +394,16 @@ class Pdk(BaseModel):
     ) -> Component:
         """Returns component from a component spec."""
         if include_containers:
-            cells = self._get_cells_and_containers()
+            if isinstance(component, str):
+                self.validate_cells_and_containers_unique()
+                if component in self.cells:
+                    cells = self.cells
+                elif component in self.containers:
+                    cells = self.containers
+                else:
+                    cells = self._get_cells_and_containers()
+            else:
+                cells = self._get_cells_and_containers()
         else:
             cells = self.cells
 
@@ -402,15 +411,17 @@ class Pdk(BaseModel):
             component=component, cells=cells, settings=settings, **kwargs
         )
 
-    def _get_cells_and_containers(self) -> dict[str, ComponentFactory]:
-        """Returns a dictionary of cells and containers."""
-        cells_and_containers = {**self.cells, **self.containers}
-        conflicting_names = set(self.cells.keys()).intersection(self.containers.keys())
+    def validate_cells_and_containers_unique(self) -> None:
+        conflicting_names = self.cells.keys() & self.containers.keys()
         if conflicting_names:
             raise ValueError(
                 f"PDK {self.name!r} has overlapping cell names between cells and containers: {list(conflicting_names)}. "
             )
-        return cells_and_containers
+
+    def _get_cells_and_containers(self) -> dict[str, ComponentFactory]:
+        """Returns a dictionary of cells and containers."""
+        self.validate_cells_and_containers_unique()
+        return {**self.cells, **self.containers}
 
     def get_symbol(self, component: ComponentSpec, **kwargs: Any) -> Component:
         """Returns a component's symbol from a component spec."""
@@ -438,8 +449,6 @@ class Pdk(BaseModel):
             settings: settings to override.
             kwargs: settings to override.
         """
-        cell_names = sorted(cells)
-
         settings = settings or {}
         kwargs = kwargs or {}
         kwargs.update(settings)
@@ -451,7 +460,7 @@ class Pdk(BaseModel):
             _component = component(**kwargs)
             return type(_component)(base=_component.base)  # type: ignore[call-overload,no-any-return]
         if isinstance(component, str):
-            if component not in cell_names:
+            if component not in cells:
                 substring = component
                 matching_cells: list[str] = []
 
@@ -519,11 +528,10 @@ class Pdk(BaseModel):
             return self.get_cross_section(xs_name, **settings)
         if isinstance(cross_section, CrossSection):
             if kwargs:
-                warnings.warn(
-                    f"{kwargs} ignored for cross_section {cross_section.name!r}",
-                    stacklevel=3,
-                )
-
+                # apply overrides like the str/factory branches do; the copy
+                # gets a derived name, so it caches separately from the
+                # registered cross_section
+                return cross_section.copy(**kwargs)
             return cross_section
         if isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
             if isinstance(cross_section, kf.DCrossSection):
@@ -829,15 +837,113 @@ def _set_active_pdk(pdk: Pdk) -> None:
 
     if pdk.layers is not None:
         kf.kcl.layers = pdk.layers
+        # LayerInfos registers missing physical layers, so restore enum indexes first.
+        _ensure_pdk_layers_registered(pdk)
         kf.kcl.infos = kf.LayerInfos(
             **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in pdk.layers},  # type: ignore[attr-defined]
         )
+        _prune_foreign_layers(pdk)
+        _ensure_pdk_layers_registered(pdk)
     else:
         kf.kcl.infos = kf.LayerInfos()
         kf.kcl.layers = kf.kcl.layerenum_from_dict(layers=kf.kcl.infos)
 
     if pdk.dbu != kf.kcl.dbu:
         kf.kcl.layout.dbu = pdk.dbu
+
+
+def _ensure_pdk_layers_registered(pdk: Pdk) -> None:
+    """Restore active PDK physical layers at their LayerEnum indexes."""
+    if pdk.layers is None:
+        return
+    layout = kf.kcl.layout
+    for layer in pdk.layers:  # type: ignore[attr-defined]
+        target_index = int(layer)
+        info = kf.kdb.LayerInfo(layer.layer, layer.datatype)
+        existing_index = layout.find_layer(info)
+        if existing_index == target_index:
+            continue
+        if existing_index is not None:
+            if not layout.is_valid_layer(target_index):
+                layout.insert_layer_at(target_index, info)
+            else:
+                existing_info = layout.get_info(target_index)
+                if (existing_info.layer, existing_info.datatype) != (
+                    info.layer,
+                    info.datatype,
+                ):
+                    logger.debug(
+                        "Layer index %s is already occupied by %s; cannot restore %s",
+                        target_index,
+                        existing_info,
+                        info,
+                    )
+                    continue
+            try:
+                layout.move_layer(existing_index, target_index)
+                layout.delete_layer(existing_index)
+            except RuntimeError:
+                logger.debug(
+                    "Could not move layer %s from index %s to %s",
+                    info,
+                    existing_index,
+                    target_index,
+                    exc_info=True,
+                )
+            continue
+        if layout.is_valid_layer(target_index):
+            existing_info = layout.get_info(target_index)
+            if (existing_info.layer, existing_info.datatype) == (
+                info.layer,
+                info.datatype,
+            ):
+                continue
+            logger.debug(
+                "Layer index %s is already occupied by %s; cannot restore %s",
+                target_index,
+                existing_info,
+                info,
+            )
+            continue
+        layout.insert_layer_at(target_index, info)
+
+
+def _prune_foreign_layers(pdk: Pdk) -> None:
+    """Remove physical layers left over from a previously active PDK.
+
+    Defining a ``LayerMap`` registers every one of its layers into the shared
+    ``kf.kcl.layout`` (``LayerEnum.__new__`` calls ``layout.layer(...)``), so the
+    generic layermap registered when ``gdsfactory`` is imported persists after a
+    custom PDK is activated and keeps being written out and shown even though it is
+    no longer active (https://github.com/gdsfactory/gdsfactory/issues/4595).
+    Reassigning ``kf.kcl.layers``/``infos`` only updates the name bookkeeping, not
+    the layout's physical layer slots, so drop any registered layer that is not
+    part of the active PDK. Empty layers are removed; layers that already hold
+    geometry are kept so activating a PDK after building cells never silently
+    discards shapes (and the on-demand error layer is always kept).
+    """
+    if pdk.layers is None:
+        return
+    layout = kf.kcl.layout
+    keep = {(layer.layer, layer.datatype) for layer in pdk.layers}  # type: ignore[attr-defined]
+    keep.add(CONF.layer_error_path)
+    delete_indexes: list[int] = []
+    for index in list(layout.layer_indexes()):
+        info = layout.get_info(index)
+        if (info.layer, info.datatype) in keep:
+            continue
+        if any(not cell.shapes(index).is_empty() for cell in layout.each_cell()):
+            continue
+        delete_indexes.append(index)
+
+    for index in sorted(delete_indexes, reverse=True):
+        info = layout.get_info(index)
+        try:
+            layout.delete_layer(index)
+        except RuntimeError:
+            logger.debug(
+                "Could not delete empty inactive layer %s", info, exc_info=True
+            )
 
 
 def get_routing_strategies() -> RoutingStrategies:

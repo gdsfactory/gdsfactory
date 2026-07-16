@@ -236,3 +236,52 @@ def test_is_cross_section_private() -> None:
         return gf.cross_section.cross_section(width=1.0, layer=(1, 0))
 
     assert not gf.cross_section.is_cross_section("_private_xs", _private_xs)
+
+
+def test_taper_cross_section_instance_matches_name() -> None:
+    """Taper must honor width overrides when cross_section is a CrossSection.
+
+    Passing a CrossSection instance used to drop the taper's width overrides
+    (and reuse one geometry for both ports), giving a different result than the
+    equivalent string spec and poisoning the cell cache (#4588).
+    """
+    from gdsfactory.cross_section import CrossSection, Section, xsection
+
+    @xsection
+    def _xs_4588(width: float = 0.5) -> CrossSection:
+        return CrossSection(
+            sections=(
+                Section(
+                    width=width,
+                    layer=(1, 0),
+                    port_names=("o1", "o2"),
+                    port_types=("optical", "optical"),
+                ),
+            ),
+        )
+
+    def _from_spec() -> gf.Component:
+        return gf.components.taper(
+            width2=10, cross_section=gf.get_cross_section("_xs_4588")
+        )
+
+    def _from_str() -> gf.Component:
+        return gf.components.taper(width2=10, cross_section="_xs_4588")
+
+    pdk = gf.get_active_pdk()
+    previous = pdk.cross_sections.get("_xs_4588")
+    pdk.cross_sections["_xs_4588"] = _xs_4588
+    try:
+        # build the instance- and string-based tapers in both orders, so the
+        # test catches cache poisoning regardless of which one is built first
+        for builders in ((_from_spec, _from_str), (_from_str, _from_spec)):
+            gf.clear_cache()
+            for build in builders:
+                taper = build()
+                assert taper.ports["o1"].width == 0.5
+                assert taper.ports["o2"].width == 10.0
+    finally:
+        if previous is None:
+            pdk.cross_sections.pop("_xs_4588", None)
+        else:
+            pdk.cross_sections["_xs_4588"] = previous

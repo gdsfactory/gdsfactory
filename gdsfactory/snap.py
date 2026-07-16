@@ -80,13 +80,10 @@ def snap_to_grid[T: npt.NDArray[np.floating[Any]]](
 
     Args:
         x: value to snap.
-        nm: Optional grid size in nm. If None, it will use the default grid size from PDK multiplied by grid_factor.
-        grid_factor: snap to grid_factor * grid_size.
+        nm: Optional grid size in nm. If None, uses the default grid size from the PDK.
+        grid_factor: multiplies the grid size (`nm`, or the PDK default if `nm` is None) by this factor.
     """
-    if nm is None:
-        grid_um = gf.kcl.dbu * grid_factor
-    else:
-        grid_um = nm / 1000
+    grid_um = (nm / 1000 if nm is not None else gf.kcl.dbu) * grid_factor
 
     # Round half up
     res = grid_um * np.floor(np.asarray(x, dtype=np.float64) / grid_um + 0.5)

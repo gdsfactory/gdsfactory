@@ -18,11 +18,13 @@ import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
+from kfactory.conf import CheckInstances
 from kfactory.geometry import UMGeometricObject
 from numpy import mod
 from scipy import optimize
 
 import gdsfactory as gf
+from gdsfactory._cell import cell
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.component_layout import (
     rotate_points,
@@ -891,6 +893,7 @@ def transition_asymmetric(
     )
 
 
+@cell(check_instances=CheckInstances.IGNORE)
 def along_path(
     p: Path,
     component: ComponentSpec,
@@ -1053,6 +1056,7 @@ def extrude(
 
     xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
+    path_length = p.length()
 
     layer = get_layer(layer or x.layer)
 
@@ -1247,8 +1251,11 @@ def extrude(
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
+        # Unchanged sections use the original path, so this preserves the old
+        # per-section threshold without recomputing the same length each time.
+        section_length = p_sec.length() if path_changed else path_length
 
-        if not hidden and p_sec.length() > 1e-3:
+        if not hidden and section_length > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
@@ -1293,7 +1300,7 @@ def extrude(
                 register_cross_section=register_cross_section,
             )
 
-    c.info["length"] = float(np.round(p.length(), 3))
+    c.info["length"] = path_length
 
     for via in x.components_along_path:
         if via.offset:
@@ -1391,6 +1398,7 @@ def extrude_transition(
     dx = np.diff(p.points[:, 0])
     dy = np.diff(p.points[:, 1])
     lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
+    path_length = float(np.round(lengths[-1], 3))
     lengths = np.concatenate([[0], lengths]) / lengths[-1]
 
     for section_name in common_sections:
@@ -1510,7 +1518,7 @@ def extrude_transition(
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
-        if not hidden and p.length() > 1e-3:
+        if not hidden and path_length > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
@@ -1738,6 +1746,19 @@ def _cut_path_with_ray(
     return np.array(points)
 
 
+# Floor on the angular resolution of an auto-computed bend, in degrees per point.
+# The arc-length based npoints formula underflows for small radii, so a tight bend
+# would otherwise collapse to a 2-point chord (#4557). This floor keeps it curved.
+# It is bounded (<= 360 / _MAX_DEG_PER_BEND_POINT points per turn) so it can't blow
+# up near angle=0, unlike the inverted 360 / abs(angle) floor removed in #4337.
+_MAX_DEG_PER_BEND_POINT = 5.0
+
+
+def _bend_npoints_floor(angle: float) -> int:
+    """Minimum points for an auto-computed bend so it stays a curve, not a chord."""
+    return math.ceil(abs(angle) / _MAX_DEG_PER_BEND_POINT) + 1
+
+
 def arc(
     radius: float | None = 10.0,
     angle: float = 90,
@@ -1779,10 +1800,10 @@ def arc(
 
     if angular_step is not None:
         npoints = math.ceil(abs(angle / angular_step)) + 1
+    elif not npoints:
+        npoints = int(abs(angle) / 360 * radius / PDK.bend_points_distance / 2)
+        npoints = max(npoints, _bend_npoints_floor(angle), 2)
     else:
-        npoints = npoints or int(
-            abs(angle) / 360 * radius / PDK.bend_points_distance / 2
-        )
         npoints = max(int(npoints), 2)
 
     t = np.linspace(
@@ -1926,10 +1947,11 @@ def euler(
             2 * num_pts_euler + num_pts_arc - 2
         )  # Total points (avoiding duplicates)
     else:
-        npoints = npoints or abs(
-            int(angle / 360 * radius / pdk.bend_points_distance / 2)
-        )
-        npoints = max(int(npoints), 2)
+        if not npoints:
+            npoints = abs(int(angle / 360 * radius / pdk.bend_points_distance / 2))
+            npoints = max(npoints, _bend_npoints_floor(angle), 2)
+        else:
+            npoints = max(int(npoints), 2)
         # Use simplified form: sp/(s0/2) = 2p/(p+1), avoids 0/0 at alpha=0
         num_pts_euler = int(np.round(2 * p / (p + 1) * npoints))
         num_pts_arc = npoints - num_pts_euler
