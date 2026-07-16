@@ -278,7 +278,8 @@ def path_V(port1: typings.Port, port2: typings.Port) -> Path:
 
     # Solve for intersection
     e = np.column_stack((e1, -1 * e2))
-    pt2 = np.matmul(np.linalg.inv(e), np.array(pt3) - np.array(pt1))[0] * e1 + pt1
+    distance = np.linalg.solve(e, np.asarray(pt3) - pt1)[0]
+    pt2 = distance * e1 + pt1
     return Path(np.array([pt1, pt2, pt3]))
 
 
