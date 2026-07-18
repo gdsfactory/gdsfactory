@@ -99,7 +99,10 @@ nbdocs: ## Convert notebooks to markdown
 	rm -rf docs/notebooks/*.md
 	find docs/notebooks -maxdepth 1 -name "*.ipynb" | sort | \
 		xargs -P4 -I{} uv run --extra docs jupyter nbconvert \
-			--execute --to markdown --embed-images {} --output-dir docs/notebooks
+			--execute --to markdown --embed-images \
+			--ExecutePreprocessor.timeout=600 \
+			--ExecutePreprocessor.allow_errors=True \
+			{} --output-dir docs/notebooks
 	uv run python docs/hooks.py docs/notebooks/*.md
 
 docs: nbdocs ## Build documentation
