@@ -15,19 +15,21 @@ def process(markdown: str) -> str:
 def _escape_curly_braces(markdown: str) -> str:
     r"""Escape {WORD} patterns that mkdocstrings would try to resolve.
 
-    Skips content inside ``$...$`` and ``$$...$$`` math delimiters so that
-    LaTeX commands like ``\mathrm{FWHM}`` are not broken.
+    Skips content inside code blocks, inline code, and math delimiters.
     """
-    _MATH = re.compile(r"\$\$.*?\$\$|\$(?!\s)[^$]+?(?<!\s)\$", re.DOTALL)
-    parts = _MATH.split(markdown)
-    maths = _MATH.findall(markdown)
+    _IGNORE = re.compile(
+        r"```.*?```|`[^`\n]+`|\$\$.*?\$\$|\$(?!\s)[^$]+?(?<!\s)\$",
+        re.DOTALL,
+    )
+    parts = _IGNORE.split(markdown)
+    ignored = _IGNORE.findall(markdown)
     for i, part in enumerate(parts):
         parts[i] = re.sub(r"\{([A-Z_]+)\}", r"\1", part)
     result: list[str] = []
     for i, part in enumerate(parts):
         result.append(part)
-        if i < len(maths):
-            result.append(maths[i])
+        if i < len(ignored):
+            result.append(ignored[i])
     return "".join(result)
 
 
@@ -35,8 +37,8 @@ def _myst_to_material_admonitions(markdown: str) -> str:
     r"""Convert MyST ```{type}\n...\n``` to Material !!! type\n\n    ..."""
 
     def _replace(match: re.Match[str]) -> str:
-        kind = match.group(1)
-        body = match.group(2)
+        kind = match.group("kind")
+        body = match.group("body")
         lines = body.splitlines()
         title = ""
         while lines and not lines[0].strip():
@@ -54,10 +56,9 @@ def _myst_to_material_admonitions(markdown: str) -> str:
         return header + "\n\n" + "\n".join(indented)
 
     return re.sub(
-        r"```\{(\w+)\}\s*\n(.*?)```",
+        r"(?ms)^(?P<fence>`{3,})\{(?P<kind>\w+)\}\s*\n(?P<body>.*?)\n(?P=fence)$",
         _replace,
         markdown,
-        flags=re.DOTALL,
     )
 
 
@@ -66,10 +67,10 @@ def main() -> None:
         path = Path(path_str)
         if not path.exists():
             continue
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
         processed = process(text)
         if processed != text:
-            path.write_text(processed)
+            path.write_text(processed, encoding="utf-8")
 
 
 if __name__ == "__main__":
