@@ -22,7 +22,11 @@ from gdsfactory.samples.sample_reticle_with_labels import (
 
 ComponentFactory = Callable[[], gf.Component]
 
-gf.gpdk.PDK.activate()
+
+def setup_benchmark() -> None:
+    """Activate the benchmark PDK and start with a clean component cache."""
+    gf.gpdk.PDK.activate()
+    gf.clear_cache()
 
 
 class TemporaryGdsPath:
@@ -45,14 +49,12 @@ class TemporaryCsvPath:
 
 def build_mzi_fiber_array() -> gf.Component:
     """MZI with routed grating-coupler IO."""
-    gf.clear_cache()
     component = gf.components.mzi(delta_length=100, length_x=200)
     return gf.routing.add_fiber_array(component)
 
 
 def build_big_device_fiber_array() -> gf.Component:
     """High-port optical block routed to a fiber array."""
-    gf.clear_cache()
     component = optical_big_device(nports=10)
     return gf.routing.add_fiber_array(
         component=component,
@@ -64,7 +66,6 @@ def build_big_device_fiber_array() -> gf.Component:
 
 def build_big_device_electrical_pads() -> gf.Component:
     """High-port electrical block routed to top pads."""
-    gf.clear_cache()
     component = electrical_big_device(nports=32)
     top_port_names = tuple(port.name for port in component.ports.filter(orientation=90))
     return gf.routing.add_pads_top(
@@ -78,7 +79,6 @@ def build_big_device_electrical_pads() -> gf.Component:
 
 def build_lidar_with_pads(elements: int = 16) -> gf.Component:
     """Phased-array style splitter, heater, antenna, and pad routing."""
-    gf.clear_cache()
     component = gf.Component()
 
     splitter_tree = component << gf.components.splitter_tree(
@@ -143,31 +143,26 @@ def build_lidar_with_pads(elements: int = 16) -> gf.Component:
 
 def build_coherent_tx_dual_pol() -> gf.Component:
     """Nested dual-polarization coherent transmitter sample."""
-    gf.clear_cache()
     return coh_tx_dual_pol(combiner="mmi2x2")
 
 
 def build_coherent_rx_single_pol() -> gf.Component:
     """Single-polarization coherent receiver sample."""
-    gf.clear_cache()
     return coh_rx_single_pol()
 
 
 def build_optical_reticle_pack() -> gf.Component:
     """Packed optical reticle with MZIs, rings, spirals, pads, and IO."""
-    gf.clear_cache()
     return sample_reticle(grid=False)
 
 
 def build_labeled_reticle_pack() -> gf.Component:
     """Packed reticle with optical/electrical test labels."""
-    gf.clear_cache()
     return sample_reticle_with_labels(grid=False)
 
 
 def build_awg_32x8() -> gf.Component:
     """Arrayed waveguide grating with many routed arms."""
-    gf.clear_cache()
     return gf.components.awg(
         arms=32,
         outputs=8,
@@ -178,13 +173,11 @@ def build_awg_32x8() -> gf.Component:
 
 def build_cutback_taper() -> gf.Component:
     """PCM-style daisy chain for cutback loss measurements."""
-    gf.clear_cache()
     return gf.components.cutback_component(cols=5, rows=8)
 
 
 def build_cutback_bend() -> gf.Component:
     """PCM-style bend cutback chain."""
-    gf.clear_cache()
     return gf.components.cutback_bend(cols=10, rows=10)
 
 
@@ -223,6 +216,7 @@ class TimeEndToEndWorkflowBuild:
     params: ClassVar[tuple[tuple[str, ...], ...]] = (WORKFLOWS,)
 
     def setup(self, workflow: str) -> None:
+        setup_benchmark()
         self.factory = WORKFLOW_FACTORIES[workflow]
 
     def time_build_workflow(self, workflow: str) -> None:
@@ -237,6 +231,7 @@ class TimeEndToEndWorkflowWriteGds:
     )
 
     def setup(self, workflow: str, with_metadata: bool) -> None:
+        setup_benchmark()
         self.component = WORKFLOW_FACTORIES[workflow]()
         self.gds_path = TemporaryGdsPath()
 
@@ -255,6 +250,7 @@ class TimeEndToEndWorkflowImportGds:
     params: ClassVar[tuple[tuple[str, ...], ...]] = (WORKFLOWS,)
 
     def setup(self, workflow: str) -> None:
+        setup_benchmark()
         self.gds_path = TemporaryGdsPath()
         component = WORKFLOW_FACTORIES[workflow]()
         component.write_gds(gdspath=self.gds_path.path, with_metadata=True)
@@ -274,6 +270,7 @@ class TimeEndToEndWorkflowNetlist:
     params: ClassVar[tuple[tuple[str, ...], ...]] = (NETLIST_WORKFLOWS,)
 
     def setup(self, workflow: str) -> None:
+        setup_benchmark()
         self.component = WORKFLOW_FACTORIES[workflow]()
 
     def time_get_netlist_recursive(self, workflow: str) -> None:
@@ -286,6 +283,7 @@ class TimeEndToEndWorkflowNetlist:
 
 class TimeEndToEndWorkflowLabels:
     def setup(self) -> None:
+        setup_benchmark()
         self.gds_path = TemporaryGdsPath()
         self.csv_path = TemporaryCsvPath()
         self.component = build_labeled_reticle_pack()
@@ -309,6 +307,7 @@ class TimeEndToEndWorkflowRaster:
     params: ClassVar[tuple[tuple[str, ...], ...]] = (RASTER_WORKFLOWS,)
 
     def setup(self, workflow: str) -> None:
+        setup_benchmark()
         self.component = WORKFLOW_FACTORIES[workflow]()
 
     def time_to_np(self, workflow: str) -> None:
@@ -325,6 +324,7 @@ class TimeEndToEndWorkflowRoundTrip:
     params: ClassVar[tuple[tuple[str, ...], ...]] = (ROUNDTRIP_WORKFLOWS,)
 
     def setup(self, workflow: str) -> None:
+        setup_benchmark()
         self.factory = WORKFLOW_FACTORIES[workflow]
         self.gds_path = TemporaryGdsPath()
 

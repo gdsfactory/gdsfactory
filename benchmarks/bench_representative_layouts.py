@@ -12,12 +12,15 @@ import gdsfactory as gf
 
 ComponentFactory = Callable[[], gf.Component]
 
-gf.gpdk.PDK.activate()
+
+def setup_benchmark() -> None:
+    """Activate the benchmark PDK and start with a clean component cache."""
+    gf.gpdk.PDK.activate()
+    gf.clear_cache()
 
 
 def build_many_instances_component(count: int = 5000) -> gf.Component:
     """One cell containing many references to the same straight."""
-    gf.clear_cache()
     component = gf.Component()
     straight = gf.components.straight(length=100, width=0.5)
     columns = math.ceil(math.sqrt(count))
@@ -33,7 +36,6 @@ def build_many_instances_component(count: int = 5000) -> gf.Component:
 
 def build_many_unique_cells_component(count: int = 2000) -> gf.Component:
     """One top cell referencing many unique straight cells."""
-    gf.clear_cache()
     component = gf.Component()
     columns = math.ceil(math.sqrt(count))
     pitch_x = 40.0
@@ -49,7 +51,6 @@ def build_many_unique_cells_component(count: int = 2000) -> gf.Component:
 
 def build_many_trivial_polygons_component(count: int = 2000) -> gf.Component:
     """One cell containing many simple box polygons."""
-    gf.clear_cache()
     component = gf.Component()
     columns = math.ceil(math.sqrt(count))
     size = 5.0
@@ -70,7 +71,6 @@ def build_complex_polygons_component(
     count: int = 50, points_per_polygon: int = 10_000
 ) -> gf.Component:
     """One cell containing a few polygons with many points."""
-    gf.clear_cache()
     component = gf.Component()
     columns = math.ceil(math.sqrt(count))
     theta = np.linspace(0, 2 * np.pi, points_per_polygon, endpoint=False)
@@ -102,6 +102,7 @@ class TimeRepresentativeLayoutBuild:
     params: ClassVar[tuple[tuple[str, ...], ...]] = (WORKLOADS,)
 
     def setup(self, workload: str) -> None:
+        setup_benchmark()
         self.factory = REPRESENTATIVE_LAYOUT_FACTORIES[workload]
 
     def time_build_layout(self, workload: str) -> None:
@@ -113,6 +114,7 @@ class TimeRepresentativeLayoutWriteGds:
     params: ClassVar[tuple[tuple[str, ...], ...]] = (WORKLOADS,)
 
     def setup(self, workload: str) -> None:
+        setup_benchmark()
         self.component = REPRESENTATIVE_LAYOUT_FACTORIES[workload]()
         self._tmpdir = TemporaryDirectory()
         self.gds_path = Path(self._tmpdir.name) / "component.gds"
