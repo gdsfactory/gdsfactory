@@ -11,7 +11,7 @@ concurrency:
 jobs:
   build-docs:
     runs-on: ubuntu-latest
-    name: Sphinx docs to gh-pages
+    name: Build docs
     permissions:
       contents: read
     steps:
