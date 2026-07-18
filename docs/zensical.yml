@@ -1,6 +1,7 @@
 site_name: GDSFactory
 repo_url: https://github.com/gdsfactory/gdsfactory
 site_url: https://gdsfactory.github.io/gdsfactory
+docs_dir: .
 site_dir: _build/html
 
 nav:
@@ -82,7 +83,7 @@ markdown_extensions:
       emoji_index: !!python/name:zensical.extensions.emoji.twemoji
       emoji_generator: !!python/name:zensical.extensions.emoji.to_svg
   - pymdownx.snippets:
-      base_path: ["..", "docs"]
+      base_path: ["..", "."]
       check_paths: true
   - pymdownx.arithmatex:
       generic: true
