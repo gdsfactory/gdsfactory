@@ -78,7 +78,7 @@ def route_quad(
     center = np.mean(vertices, axis=0)
     displacements = vertices - center
     # sort vertices by angle from center of quadrilateral to make convex polygon
-    angles = np.array([np.arctan2(disp[0], disp[1]) for disp in displacements])
+    angles = np.arctan2(displacements[:, 0], displacements[:, 1])
     sorted_vertices: npt.NDArray[np.floating[Any]] = np.array(
         [
             vert
