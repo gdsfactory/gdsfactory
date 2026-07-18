@@ -51,7 +51,7 @@ skip_plot = [
 skip_settings = {"vias"}
 skip_partials = False
 
-with open(filepath, "w+") as f:
+with open(filepath, "w+", encoding="utf-8") as f:
     f.write(
         """# PCells
 
