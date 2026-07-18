@@ -11,7 +11,7 @@
 ## route_bundle
 
 When you need to route groups of ports together without them crossing each other you can use a bundle/river/bus router.
-`route_bundle` is the generic river bundle bus routing function that will call different function depending on
+`route_bundle` is the generic river bundle bus routing function that will call different functions depending on
 the port orientation. Get bundle acts as a high level entry point. Based on the angle
 configurations of the banks of ports, it decides which sub-routine to call:
 
