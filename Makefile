@@ -19,7 +19,9 @@ UV_INSTALLED := $(shell command -v uv)
 	upload-devpi \
 	upload-twine \
 	lint \
+	nbdocs \
 	docs \
+	docs-serve \
 	git-rm-merged \
 	notebooks \
 	clean \
@@ -93,9 +95,23 @@ upload-twine: build ## Upload package to PyPI using twine
 lint: ## Run linting and formatting checks
 	uv run pre-commit run --all-files
 
-docs: ## Build documentation
+nbdocs: ## Convert notebooks to markdown
+	rm -rf docs/notebooks/*.md
+	find docs/notebooks -maxdepth 1 -name "*.ipynb" | sort | \
+		xargs -P4 -I{} uv run --extra docs jupyter nbconvert \
+			--execute --to markdown --embed-images \
+			--ExecutePreprocessor.timeout=600 \
+			--ExecutePreprocessor.allow_errors=True \
+			{} --output-dir docs/notebooks
+	uv run python docs/hooks.py docs/notebooks/*.md
+
+docs: nbdocs ## Build documentation
 	uv run python docs/write_cells.py
-	uv run jb build docs
+	uv run --extra docs zensical build --strict -f docs/zensical.yml
+
+docs-serve: nbdocs ## Serve documentation locally
+	uv run python docs/write_cells.py
+	uv run --extra docs zensical serve -f docs/zensical.yml -a localhost:8080
 
 git-rm-merged: ## Delete merged git branches
 	git fetch --prune

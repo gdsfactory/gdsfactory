@@ -9,7 +9,7 @@ repos:
       - id: check-symlinks
       - id: check-json
       - id: check-yaml
-        exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml)
+        exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml|docs/zensical\.yml)
       - id: check-toml
       - id: debug-statements
       - id: mixed-line-ending
@@ -59,7 +59,7 @@ repos:
     hooks:
       - id: yamlfmt
         args: [-conf, ".github/.yamlfmt.yaml"]
-        exclude: ".*.tests*|.*.pic.yml"
+        exclude: ".*.tests*|.*.pic.yml|docs/zensical.yml"
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.7
     hooks:
