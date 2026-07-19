@@ -13,10 +13,9 @@ import os
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.pyplot as plt
 
-import gdsfactory as gf  # noqa: E402
-
+import gdsfactory as gf
 from gdsfactory.config import PATH
 from gdsfactory.get_factories import get_cells
 from gdsfactory.serialization import clean_value_json
