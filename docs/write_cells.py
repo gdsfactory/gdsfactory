@@ -3,12 +3,17 @@
 - Walks through the `gdsfactory/components` directory
 - Finds all component modules (subfolders with __init__.py)
 - Extracts all cell functions from each module
-- Generates Markdown with mkdocstrings directives and component plots
+- Generates Markdown with mkdocstrings directives and rendered component plots
 - Writes to `docs/components.md`
 """
 
 import inspect
 import os
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 from gdsfactory.config import PATH
 from gdsfactory.get_factories import get_cells
@@ -16,6 +21,8 @@ from gdsfactory.serialization import clean_value_json
 
 components = PATH.module / "components"
 filepath = PATH.repo / "docs" / "components.md"
+img_dir = PATH.repo / "docs" / "components_images"
+img_dir.mkdir(exist_ok=True)
 
 skip = {
     "bbox",
@@ -50,6 +57,10 @@ skip_plot = [
 
 skip_settings = {"vias"}
 skip_partials = False
+
+import gdsfactory as gf
+
+gf.gpdk.PDK.activate()
 
 with open(filepath, "w+", encoding="utf-8") as f:
     f.write(
@@ -104,8 +115,19 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
             f.write(f"::: {module_path}.{name}\n\n")
 
             if name not in skip_plot:
-                f.write(
-                    f"""```python
+                img_path = img_dir / f"{name}.png"
+                try:
+                    c = gf.components.__getattr__(name)().copy()
+                    c.draw_ports()
+                    fig = c.plot(return_fig=True)
+                    fig.savefig(str(img_path), bbox_inches="tight", pad_inches=0, dpi=80)
+                    plt.close(fig)
+                    f.write(f"![{name}](components_images/{name}.png)\n\n")
+                    print(f"  Plotted {name}")
+                except Exception as e:
+                    print(f"  Error plotting {name}: {e}")
+                    f.write(
+                        f"""```python
 import gdsfactory as gf
 
 gf.gpdk.PDK.activate()
@@ -116,4 +138,4 @@ c.plot()
 ```
 
 """
-                )
+                    )
