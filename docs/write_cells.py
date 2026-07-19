@@ -13,7 +13,9 @@ import os
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # noqa: E402
+
+import gdsfactory as gf  # noqa: E402
 
 from gdsfactory.config import PATH
 from gdsfactory.get_factories import get_cells
@@ -57,8 +59,6 @@ skip_plot = [
 
 skip_settings = {"vias"}
 skip_partials = False
-
-import gdsfactory as gf
 
 gf.gpdk.PDK.activate()
 
@@ -120,7 +120,9 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
                     c = gf.components.__getattr__(name)().copy()
                     c.draw_ports()
                     fig = c.plot(return_fig=True)
-                    fig.savefig(str(img_path), bbox_inches="tight", pad_inches=0, dpi=80)
+                    fig.savefig(
+                        str(img_path), bbox_inches="tight", pad_inches=0, dpi=80
+                    )
                     plt.close(fig)
                     f.write(f"![{name}](components_images/{name}.png)\n\n")
                     print(f"  Plotted {name}")
