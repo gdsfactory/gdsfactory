@@ -6,6 +6,8 @@ matching to the second route (element=1).
 
 from __future__ import annotations
 
+import kfactory as kf
+
 import gdsfactory as gf
 
 gf.gpdk.PDK.activate()
@@ -35,18 +37,29 @@ if __name__ == "__main__":
     ]
 
     c = gf.Component()
+    # Path length matching can be requested in two equivalent ways:
+    #   1. the ``path_length_matching_config`` convenience dict, or
+    #   2. passing kfactory constraints directly via ``constraints`` (shown below).
+    # The two are mutually exclusive, so pick one. Here we build the constraint
+    # explicitly, which lets you combine several constraints or tune fields not
+    # exposed by the convenience dict.
     gf.routing.route_bundle(
         c,
         start_ports,
         end_ports,
         start_straight_length=300,
         cross_section="strip",
-        path_length_matching_config={
-            "element": 1,
-            "loop_side": gf.routing.LoopSide.center,
-            "loops": 2,
-            "loop_position": gf.routing.LoopPosition.center,
-        },
+        name="match_center",
+        constraints=[
+            kf.schematic.PathLengthMatch(
+                route_names=["match_center"],
+                element=1,
+                loop_side=gf.routing.LoopSide.center,
+                loops=2,
+                loop_position=gf.routing.LoopPosition.center,
+                all=True,
+            )
+        ],
     )
 
     c.show()
