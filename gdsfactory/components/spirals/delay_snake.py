@@ -51,6 +51,7 @@ def delay_snake(
 
                  | length0   |
 
+    ```text
                  >---------\
                             \bend180.info['length']
                             /
@@ -59,6 +60,7 @@ def delay_snake(
        |------------------->------->|
                             length2
        |   delta_length    |        |
+    ```
 
 
     """

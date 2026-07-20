@@ -346,6 +346,7 @@ def rib_heater_doped_via_stack(
         sections: list of sections to add to the cross_section.
         kwargs: cross_section settings.
 
+    ```text
                                    |<----width------>|
        slab_gap                     __________________ via_stack_gap     via_stack width
        <-->                        |                 |<------------>|<--------------->
@@ -359,6 +360,7 @@ def rib_heater_doped_via_stack(
                                                                     heater_width
        <------------------------------------------------------------------------------>
                                        slab_width
+    ```
 
     .. plot::
         :include-source:

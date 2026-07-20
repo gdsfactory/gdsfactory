@@ -234,6 +234,7 @@ def csv2port(csvpath: PathType) -> dict[str, list[str]]:
 def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     """Sort and return ports in the clockwise direction.
 
+    ```text
         3   4
         |___|_
     2 -|      |- 5
@@ -241,6 +242,7 @@ def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     1 -|______|- 6
         |   |
         8   7
+    ```
 
     """
     direction_ports: PortsDictGeneric[TPort] = {x: [] for x in ["E", "N", "W", "S"]}
@@ -275,6 +277,7 @@ def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     """Sort and return ports in the counter-clockwise direction.
 
+    ```text
         4   3
         |___|_
     5 -|      |- 2
@@ -282,6 +285,7 @@ def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     6 -|______|- 1
         |   |
         7   8
+    ```
 
     """
     direction_ports: PortsDictGeneric[TPort] = {x: [] for x in ["E", "N", "W", "S"]}

@@ -49,6 +49,7 @@ def delay_snake2(
 
        | length0 | length1 |
 
+    ```text
                  >---------|
                            | bend180.length
        |-------------------|
@@ -56,6 +57,7 @@ def delay_snake2(
        |------------------->------- |
                             length2
        |   delta_length    |        |
+    ```
     """
     if n % 2:
         warnings.warn(f"rounding {n} to {n // 2 * 2}", stacklevel=3)

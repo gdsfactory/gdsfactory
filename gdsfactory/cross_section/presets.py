@@ -422,6 +422,7 @@ def l_with_trenches(
              |        |         |
              |________|         |
 
+    ```text
        _________________________
              <------->          |
             width_trench
@@ -430,6 +431,7 @@ def l_with_trenches(
                                 |
        <------------------------>
             width_slab
+    ```
 
 
 

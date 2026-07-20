@@ -215,6 +215,7 @@ def mzit_lattice(
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 
+    ```text
                     cp1
     o4  o2 __                  __ o3___w0_t2   _w2___
              \                /                      \
@@ -233,6 +234,7 @@ def mzit_lattice(
            __/                 \_                     |
     o1  o1                      \___w0___t2___w1_____/
                     cpN       o4
+    ```
 
 
     """

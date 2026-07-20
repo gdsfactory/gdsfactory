@@ -44,6 +44,7 @@ def coh_tx_single_pol(
         pad_array: array of pads spec.
         cross_section: for routing (splitter to mzms and mzms to combiners).
 
+    ```text
                                 ___ mzm_i __ ps_i__
                                 |                  |
                                 |                  |
@@ -52,6 +53,7 @@ def coh_tx_single_pol(
                                 |                  |
                                 |                  |
                                 |___ mzm_q __ ps_q_|
+    ```
     """
     from gdsfactory.components import straight as straight_function
 

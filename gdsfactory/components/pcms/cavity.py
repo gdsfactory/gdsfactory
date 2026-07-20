@@ -29,6 +29,7 @@ def cavity(
         gap: coupler gap.
         kwargs: coupler_settings.
 
+    ```text
       ml (mirror left)              mr (mirror right)
        |                               |
        |o1 - o2__             __o3 - o1|
@@ -36,6 +37,7 @@ def cavity(
                   \         /
                 ---=========---
          o1  o1    length      o4    o2
+    ```
 
     """
     mirror = gf.get_component(component)

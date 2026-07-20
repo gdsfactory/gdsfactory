@@ -32,12 +32,14 @@ def coupler90(
         cross_section_bend: optional bend cross_section spec.
         length_straight: optional length of the straight waveguide.
 
+    ```text
             o3
              |
             /
            /
        o2_/
        o1___o4
+    ```
 
     """
     c = Component()

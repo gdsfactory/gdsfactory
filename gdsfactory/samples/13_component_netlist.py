@@ -10,11 +10,13 @@ gf.gpdk.PDK.activate()
 def netlist_yaml() -> Component:
     """Test netlist yaml.
 
+    ```text
         arm_top
          _____
         |     |
     CP1=       =CP2=
         |_____|
+    ```
 
          arm_bot
 

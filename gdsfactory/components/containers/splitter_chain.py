@@ -20,15 +20,19 @@ def splitter_chain(
         columns: number of splitters to chain.
         bend: bend to connect splitters.
 
+    ```text
                  __o5
               __|
            __|  |__o4
       o1 _|  |__o3
           |__o2
+    ```
 
+    ```text
            __o2
       o1 _|
           |__o3
+    ```
     """
     c = gf.Component()
     splitter_component = gf.get_component(splitter)

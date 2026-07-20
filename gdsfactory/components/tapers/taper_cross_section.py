@@ -38,6 +38,7 @@ def taper_cross_section(
         exclude_layers: layers to exclude from the transition.
             Sections on these layers will be omitted from the component.
 
+    ```text
                            _____________________
                           /
                   _______/______________________
@@ -46,6 +47,7 @@ def taper_cross_section(
                   ______\_______________________
                          \
                           \_____________________
+    ```
 
 
     """
