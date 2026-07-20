@@ -36,8 +36,6 @@ def rectangle_with_slits(
         slit_row_pitch: pitch for rows of slits.
         slit_enclosure: from slit to rectangle edge.
 
-    .. code::
-
         slit_enclosure
         _____________________________________
         |<--->                              |

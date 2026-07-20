@@ -632,8 +632,6 @@ def cell_from_yaml(
         name: Optional name.
         kwargs: function settings for creating YAML PCells.
 
-    .. code::
-
         valid variables:
 
         name: Optional Component name
@@ -662,9 +660,6 @@ def cell_from_yaml(
             library: optical
             links:
                 instance1,port1: instance2,port2
-
-
-    .. code::
 
         settings:
             length_mmi: 5
@@ -726,8 +721,6 @@ def from_yaml(
         label_instance_function: to label each instance.
         name: Optional name.
 
-    .. code::
-
         valid variables:
 
         name: Optional Component name
@@ -756,9 +749,6 @@ def from_yaml(
             library: optical
             links:
                 instance1,port1: instance2,port2
-
-
-    .. code::
 
         settings:
             length_mmi: 5

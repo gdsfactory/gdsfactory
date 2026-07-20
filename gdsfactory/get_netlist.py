@@ -8,7 +8,7 @@ from collections import defaultdict
 from collections.abc import Iterable
 from hashlib import md5
 from itertools import chain, product
-from typing import Any, Literal, Protocol, TypeAlias, cast
+from typing import Any, Literal, Protocol, cast
 
 import kfactory as kf
 from natsort import natsorted
@@ -19,8 +19,8 @@ from gdsfactory.component import Component
 from gdsfactory.name import get_instance_name_from_alias as legacy_namer  # noqa: F401
 from gdsfactory.serialization import DEFAULT_SERIALIZATION_MAX_DIGITS, clean_value_json
 
-Instance: TypeAlias = kf.DInstance | kf.VInstance | kf.Instance
-ErrorBehavior: TypeAlias = Literal["ignore", "warn", "error"]
+type Instance = kf.DInstance | kf.VInstance | kf.Instance
+type ErrorBehavior = Literal["ignore", "warn", "error"]
 
 
 class ComponentNamer(Protocol):
@@ -179,7 +179,7 @@ class CountedNetlistNamer:
 # - False: ports don't match
 # - True: ports match with no metadata
 # - dict: ports match with metadata (stored in net's 'settings' field)
-MatchResult: TypeAlias = bool | dict[str, Any]
+type MatchResult = bool | dict[str, Any]
 
 
 class PortMatcher(Protocol):

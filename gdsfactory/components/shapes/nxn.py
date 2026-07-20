@@ -38,8 +38,6 @@ def nxn(
         wg_margin: margin from straight to component edge.
         kwargs: port_settings.
 
-    .. code::
-
             3   4
             |___|_
         2 -|      |- 5

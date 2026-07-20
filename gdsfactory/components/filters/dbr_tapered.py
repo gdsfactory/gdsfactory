@@ -91,8 +91,6 @@ def dbr_tapered(
        fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
        cross_section: cross_section spec.
 
-    .. code::
-
                  period
         <-----><-------->
                 _________

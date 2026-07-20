@@ -26,8 +26,6 @@ def straight(
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
-    .. code::
-
         o1  ──────────────── o2
                 length
     """
@@ -59,8 +57,6 @@ def straight_all_angle(
         npoints: number of points.
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
-
-    .. code::
 
         o1  ──────────────── o2
                 length
@@ -122,8 +118,6 @@ def wire_straight(
         npoints: number of points.
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
-
-    .. code::
 
         o1  ──────────────── o2
                 length

@@ -33,9 +33,6 @@ def ring_single_sample(
         bend: 90 degrees bend function.
         cross_section: spec.
 
-
-    .. code::
-
           bl-wt-br
           |      |
           wl     wr length_y

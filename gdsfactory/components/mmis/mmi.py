@@ -44,8 +44,6 @@ def mmi(
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
 
-    .. code::
-
                    length_mmi
                     <------>
                     ________

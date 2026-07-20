@@ -38,8 +38,6 @@ def array(
         ValueError: If columns > 1 and spacing[0] = 0.
         ValueError: If rows > 1 and spacing[1] = 0.
 
-    .. code::
-
         2 rows x 4 columns
 
           column_pitch

@@ -3,7 +3,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, cast
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 import kfactory as kf
 import numpy as np
@@ -125,7 +125,7 @@ def move_port(
     return c
 
 
-GetPolygonsResult: TypeAlias = "dict[LayerSpec, list[kf.kdb.Polygon]]"
+type GetPolygonsResult = "dict[LayerSpec, list[kf.kdb.Polygon]]"
 
 
 def get_polygons(

@@ -32,8 +32,6 @@ def coh_tx_dual_pol(
         output_coupler: Optional coupler to add after the combiner.
         cross_section: for routing (splitter to mzms and mzms to combiners).
 
-     .. code::
-
                                  ___ single_pol_tx__
                                  |                  |
                                  |                  |

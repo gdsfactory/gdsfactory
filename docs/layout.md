@@ -1,4 +1,1 @@
 # Layout
-
-```{tableofcontents}
-```
