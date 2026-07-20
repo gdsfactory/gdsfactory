@@ -24,9 +24,7 @@ import numpy.typing as npt
 import yaml
 from graphviz import Digraph
 from kfactory import (
-    DInstance as ComponentReference,
-)
-from kfactory import (
+    DInstance,
     DPort,
     DPorts,
     VInstance,
@@ -160,6 +158,9 @@ boolean_operations = {
 
 def copy(region: kdb.Region) -> kdb.Region:
     return region.dup()
+
+
+ComponentReference = DInstance
 
 
 class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
