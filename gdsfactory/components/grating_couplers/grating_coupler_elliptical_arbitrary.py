@@ -72,8 +72,6 @@ def grating_coupler_elliptical_arbitrary(
     e = (1 - (b1 / a1) ** 2) ** 0.5
     print(e)
 
-    .. code::
-
                       fiber
 
                    /  /  /  /
@@ -214,8 +212,6 @@ def grating_coupler_elliptical_uniform(
             Positive bias increases gap and reduces width to keep period constant.
         cross_section: cross_section spec for waveguide port.
         kwargs: cross_section settings.
-
-    .. code::
 
                       fiber
 

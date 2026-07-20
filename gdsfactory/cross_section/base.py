@@ -90,8 +90,6 @@ class Section(BaseModel):
         width_function: parameterized function from 0 to 1.
         offset_function: parameterized function from 0 to 1.
 
-    .. code::
-
          0
 
          │        ┌───────┐
@@ -189,8 +187,6 @@ class CrossSection(BaseModel):
         radius_min: minimum acceptable bend radius.
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
-
-    .. code::
 
 
            ┌────────────────────────────────────────────────────────────┐

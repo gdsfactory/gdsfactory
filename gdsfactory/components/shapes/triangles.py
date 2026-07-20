@@ -34,8 +34,6 @@ def triangle(
         ybot: bottom ysize.
         layer: layer.
 
-    .. code::
-
         xtop
            _
           | \
@@ -67,8 +65,6 @@ def triangle2(spacing: float = 3, **kwargs: Any) -> Component:
         y: ysize.
         ybot: bottom ysize.
         layer: layer.
-
-    .. code::
 
           _
          | \
@@ -110,8 +106,6 @@ def triangle4(**kwargs: Any) -> Component:
         y: ysize.
         ybot: bottom ysize.
         layer: layer.
-
-    .. code::
 
                   / | \
                  /  |  \

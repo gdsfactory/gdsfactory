@@ -116,7 +116,7 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
             if name not in skip_plot:
                 img_path = img_dir / f"{name}.png"
                 try:
-                    c = getattr(gf.components, name)().copy()
+                    c = cell().copy()
                     c.draw_ports()
                     fig = c.plot(return_fig=True)
                     fig.savefig(

@@ -40,8 +40,6 @@ def mzi_lattice(
         straight_x_bot: bottom straight for length_x.
         cross_section: for routing (sxtop/sxbot to combiner).
 
-    .. code::
-
                ______             ______
               |      |           |      |
               |      |           |      |
@@ -187,8 +185,6 @@ def mzi_lattice_mmi(
         straight_x_top: top straight for length_x.
         straight_x_bot: bottom straight for length_x.
         cross_section: for routing (sxtop/sxbot to combiner).
-
-    .. code::
 
                ______             ______
               |      |           |      |

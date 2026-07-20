@@ -38,8 +38,6 @@ def via_chain(
         min_metal_spacing: min_metal_spacing.
         contact_offset: contact offset.
 
-    .. code::
-
         side view:
                                               min_metal_spacing
            ┌────────────────────────────────────┐              ┌────────────────────────────────────┐

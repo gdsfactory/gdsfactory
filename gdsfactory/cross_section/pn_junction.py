@@ -57,8 +57,7 @@ def pin(
 
     https://doi.org/10.1364/OE.26.029983
 
-    .. code::
-
+    ```text
                                       layer
                                 |<----width--->|
                                  _______________ via_stack_gap           slab_gap
@@ -71,6 +70,7 @@ def pin(
                                                               via_stack_width
        <---------------------------------------------------------------------->
                                    slab_width
+    ```
 
     .. plot::
         :include-source:
@@ -185,8 +185,6 @@ def pn(
                 polygon by more than the value listed here will be removed.
         slab_inset: slab inset in um.
         kwargs: cross_section settings.
-
-    .. code::
 
                               offset_low_doping
                                 <------>
@@ -378,8 +376,7 @@ def pn_with_trenches(
         sections: optional list of sections.
         kwargs: cross_section settings.
 
-    .. code::
-
+    ```text
                                    offset_low_doping
                                      <------>
                                     |       |
@@ -399,6 +396,7 @@ def pn_with_trenches(
                                     gap_medium_doping
        <------------------------------------------------------------>
                                 width_slab
+    ```
 
     .. plot::
         :include-source:
@@ -596,8 +594,7 @@ def pn_with_trenches_asymmetric(
         sections: optional list of sections.
         kwargs: cross_section settings.
 
-    .. code::
-
+    ```text
                                    gap_low_doping[1]
                                      <------>
                                     |       |
@@ -617,6 +614,7 @@ def pn_with_trenches_asymmetric(
                                     gap_medium_doping[1]
        <------------------------------------------------------------>
                                 width_slab
+    ```
 
     .. plot::
         :include-source:
@@ -826,8 +824,7 @@ def l_wg_doped_with_trenches(
         sections: optional list of sections.
         kwargs: cross_section settings.
 
-    .. code::
-
+    ```text
                                           gap_low_doping
                                            <------>
                                                   |
@@ -850,6 +847,7 @@ def l_wg_doped_with_trenches(
                              gap_high_doping
        <------------------------------------------->
                         width_slab
+    ```
 
     .. plot::
         :include-source:
@@ -1016,8 +1014,6 @@ def pn_ge_detector_si_contacts(
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
         kwargs: cross_section settings.
-
-    .. code::
 
                                    layer_si
                            |<------width_si---->|
