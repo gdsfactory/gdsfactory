@@ -11,6 +11,7 @@ from typing import (
     Any,
     Literal,
     Self,
+    TypeAlias,
     cast,
     overload,
     override,
@@ -160,7 +161,7 @@ def copy(region: kdb.Region) -> kdb.Region:
     return region.dup()
 
 
-ComponentReference = DInstance
+ComponentReference: TypeAlias = DInstance  # noqa: UP040
 
 
 class ComponentBase(ProtoKCell[float, BaseKCell], ABC):

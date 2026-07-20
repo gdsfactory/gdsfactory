@@ -14,11 +14,11 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
+import gdsfactory as gf
 from gdsfactory.config import PATH
 from gdsfactory.get_factories import get_cells
 from gdsfactory.serialization import clean_value_json
-
-import gdsfactory as gf
 
 components = PATH.module / "components"
 filepath = PATH.repo / "docs" / "components.md"
