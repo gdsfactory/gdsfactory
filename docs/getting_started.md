@@ -1,4 +1,1 @@
 # Getting started
-
-```{tableofcontents}
-```

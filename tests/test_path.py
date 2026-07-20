@@ -24,6 +24,28 @@ def test_path_zero_length() -> None:
     assert c.area((1, 0)) == 0
 
 
+@pytest.mark.parametrize("npoints", [17, 100])
+def test_spiral_archimedean_matches_reference(npoints: int) -> None:
+    min_bend_radius = 5.0
+    separation = 2.0
+    number_of_loops = 3.0
+    theta = np.linspace(0, number_of_loops * 2 * np.pi, npoints)
+    expected = np.array(
+        [
+            (separation / np.pi * t + min_bend_radius)
+            * np.array((np.sin(t), np.cos(t)))
+            for t in theta
+        ]
+    )
+
+    actual = gf.path.spiral_archimedean(
+        min_bend_radius, separation, number_of_loops, npoints
+    ).points
+
+    np.testing.assert_allclose(actual, expected, rtol=0, atol=1e-14)
+    assert actual.shape == (npoints, 2)
+
+
 def test_path_append() -> None:
     """Append paths."""
     P = gf.Path()
