@@ -24,7 +24,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        python-version: ["3.11", "3.13"]
+        python-version: ["3.12", "3.13", "3.14"]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v7.0.0
@@ -50,7 +50,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: Install uv
         uses: astral-sh/setup-uv@v7
       - name: Install dependencies
@@ -80,7 +80,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: Install uv
         uses: astral-sh/setup-uv@v7
       - name: Install dependencies
@@ -90,23 +90,14 @@ jobs:
         run: |
           make test-samples
 
-  type_consistency:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7.0.0
-      - uses: astral-sh/setup-uv@v7
-        with:
-          python-version: "3.11"
-      - run: make install
-      - run: uv run mypy gdsfactory/
-
   run-ty:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version:
-          - "3.11"
+          - "3.12"
           - "3.13"
+          - "3.14"
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v7.0.0

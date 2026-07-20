@@ -12,7 +12,7 @@ import re
 import warnings
 import xml.etree.ElementTree as ET
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeAlias
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import yaml
@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 PathLike = pathlib.Path | str
 Layer = tuple[int, int]
-IncEx: TypeAlias = (
+type IncEx = (
     set[int] | set[str] | Mapping[int, "IncEx | bool"] | Mapping[str, "IncEx | bool"]
 )
 

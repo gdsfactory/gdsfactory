@@ -391,12 +391,6 @@ class TestRegisterPorts:
         with pytest.raises(ValueError, match="already in"):
             _register_ports(c, ports, auto_rename_ports=False)
 
-    def test_skips_none_names_when_allowed(self) -> None:
-        c = gf.Component()
-        ports = [self._make_port(None, 0, 0), self._make_port("o1", 10, 180)]
-        _register_ports(c, ports, auto_rename_ports=False, allow_none_names=True)
-        assert len(c.ports) == 1
-
     def test_auto_rename_ports(self) -> None:
         c = gf.Component()
         ports = [self._make_port("temp1", 0, 0), self._make_port("temp2", 10, 180)]

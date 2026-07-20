@@ -7,9 +7,9 @@ requires = ["flit_core >=3.2,<4"]
 [project]
 authors = [{name = "gdsfactory community", email = "contact@gdsfactory.com"}]
 classifiers = [
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Operating System :: OS Independent"
 ]
 dependencies = [
@@ -31,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]~=2.6.1",
+  "kfactory[ipy]~=3.0.0",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -51,8 +51,8 @@ keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
-version = "9.45.0"
+requires-python = ">=3.12,<3.15"
+version = "9.44.0"
 
 [project.optional-dependencies]
 cad = ["kweb>=1.1.9,<2.1"]
@@ -126,7 +126,7 @@ exclude = [
   "docs/notebooks/*"
 ]
 explicit_package_bases = true
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 
 [tool.pylsp-mypy]
@@ -136,7 +136,7 @@ strict = true
 
 [tool.pyright]
 exclude = ["gdsfactory/samples", "notebooks", "docs"]
-pythonVersion = "3.11"
+pythonVersion = "3.12"
 reportArgumentType = false
 reportAttributeAccessIssue = false
 reportCallIssue = false
@@ -309,7 +309,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "9.45.0"
+current = "9.44.0"
 regex = '''
   (?P<major>\d+)
   \.
