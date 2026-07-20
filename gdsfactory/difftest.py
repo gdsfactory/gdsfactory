@@ -631,11 +631,13 @@ def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
 def read_top_cell(arg0: pathlib.Path) -> kf.DKCell:
     filename = get_name_short(clean_name(str(arg0)))
 
+    # Read into a dedicated KCLayout so the file's cross-sections stay isolated.
+    # Registering them into the global kf.kcl would pollute the process-wide
+    # cross-section registry: an older file may store an enclosure under a name
+    # that differs from the one current code generates for the same structure,
+    # which under kfactory>=3 raises CrossSectionNamingConflictError and makes
+    # subsequent GDS writes/reads in the same session non-deterministic. The
+    # geometry XOR only needs the layout, not the global registry.
     kcl = KCLayout(name=filename)
     kcl.read(arg0)
-    kcell = kcl.dkcells[kcl.top_cell().name]
-
-    if hasattr(kcl, "cross_sections"):
-        for cross_section in kcl.cross_sections.cross_sections.values():
-            kf.kcl.get_symmetrical_cross_section(cross_section)
-    return kcell
+    return kcl.dkcells[kcl.top_cell().name]

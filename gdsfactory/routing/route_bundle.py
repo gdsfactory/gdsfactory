@@ -21,6 +21,7 @@ from warnings import warn
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
 from kfactory.routing.optical import PathLengthConfig
+from kfactory.schematic import Constraint
 
 import gdsfactory as gf
 from gdsfactory.config import CONF
@@ -189,9 +190,11 @@ def route_bundle(
     layer_marker: LayerSpec | None = None,
     raise_on_error: bool | None = None,
     path_length_matching_config: PathLengthConfig | None = None,
+    constraints: Sequence[Constraint] | None = None,
     layer_label: LayerSpec | None = None,
     port1: Port | None = None,
     port2: Port | None = None,
+    name: str | None = None,
 ) -> list[ManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
@@ -206,7 +209,7 @@ def route_bundle(
         ports2: end port or list of end ports.
         cross_section: CrossSection or function that returns a cross_section.
         layer: layer to use for the route.
-        separation: bundle separation (center to center), in um.
+        separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
@@ -239,10 +242,17 @@ def route_bundle(
         show_waypoints: if True, places markers at each waypoint using CONF.layer_marker.
         layer_marker: layer to place markers on the route. Overrides CONF.layer_marker when show_waypoints=True.
         raise_on_error: if True, raises an exception on routing error instead of adding error markers.
-        path_length_matching_config: path length matching configuration.
+        path_length_matching_config: path length matching configuration. Convenience \
+            shortcut that is converted into a single ``kf.schematic.PathLengthMatch`` \
+            constraint. Mutually exclusive with ``constraints``.
+        constraints: list of kfactory routing constraints (``kf.schematic.Constraint`` \
+            instances, e.g. ``kf.schematic.PathLengthMatch``) passed through to \
+            kfactory. Mutually exclusive with ``path_length_matching_config``.
         layer_label: layer to place length labels on the route.
         port1: single start port (alternative to ports1 for single-port routing).
         port2: single end port (alternative to ports2 for single-port routing).
+        name: Name for the route. This is not important yet, but once constraints are implemented, the constraint, depending
+            on the constraint class, might check against names to make enforcement or checking decisions.
 
     .. plot::
         :include-source:
@@ -267,6 +277,7 @@ def route_bundle(
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
     """
+    name = name or "unnamed_route_bundle"
     on_collision = on_collision or CONF.on_collision
     on_placer_error = on_placer_error or CONF.on_placer_error
 
@@ -524,7 +535,29 @@ def route_bundle(
             sb_ref = component << sb
             return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
 
-    component_name = component.name
+    if path_length_matching_config is not None and constraints is not None:
+        raise ValueError(
+            "path_length_matching_config and constraints are mutually exclusive. "
+            "Pass a kf.schematic.PathLengthMatch constraint via constraints instead."
+        )
+
+    if path_length_matching_config is not None:
+        route_constraints: list[Constraint] = [
+            kf.schematic.PathLengthMatch(
+                route_names=[name],
+                instance_names=[],
+                on_failure=None,
+                loops=path_length_matching_config.get("loops", 1),
+                loop_side=path_length_matching_config.get("loop_side", -1),
+                element=path_length_matching_config.get("element", -1),
+                loop_position=path_length_matching_config.get("loop_position", -1),
+                length=path_length_matching_config.get("total_length"),
+                all=True,
+            )
+        ]
+    else:
+        route_constraints = list(constraints or [])
+
     try:
         kf_on_collision = "error" if on_collision == "warning" else on_collision
         kf_on_placer_error = (
@@ -559,13 +592,10 @@ def route_bundle(
             waypoints=waypoints_,
             end_angles=end_angles,
             start_angles=start_angles,
-            path_length_matching_config=path_length_matching_config,
+            constraints=route_constraints,
             sbend_factory=_sbend if sbend else None,
         )
     except Exception as e:
-        if component.name != component_name:
-            component.name = component_name
-
         if raise_on_error:
             if "kdb.Trans" in str(e):
                 raise ValueError("You need at least 2 waypoints or steps.") from e

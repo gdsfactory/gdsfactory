@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
+from warnings import warn
 
 import kfactory as kf
 from kfactory import KCLayout, utilities
+from kfactory.exceptions import CrossSectionNamingConflictError
 
 from gdsfactory.component import Component, _fix_pin_metadata
 from gdsfactory.typings import PostProcesses
@@ -54,7 +56,39 @@ def import_gds(
 
     if hasattr(temp_kcl, "cross_sections"):
         for cross_section in temp_kcl.cross_sections.cross_sections.values():
-            kf.kcl.get_symmetrical_cross_section(cross_section)
+            try:
+                kf.kcl.get_symmetrical_cross_section(cross_section)
+            except CrossSectionNamingConflictError:
+                # The same structure is already registered in the global kcl
+                # under a different name (e.g. an older GDS stored it under a
+                # legacy name). Alias the file's name to the canonical
+                # cross-section so imported ports resolve to the existing one
+                # instead of failing (ports are serialized by cross-section name,
+                # so an unregistered name would raise KeyError in get_meta_data).
+                canonical = kf.kcl.cross_sections.cross_sections.get(
+                    cross_section.auto_name()
+                )
+                radius_conflict = canonical is not None and (
+                    (
+                        cross_section.radius is not None
+                        and cross_section.radius != canonical.radius
+                    )
+                    or (
+                        cross_section.radius_min is not None
+                        and cross_section.radius_min != canonical.radius_min
+                    )
+                )
+                if canonical is None or radius_conflict:
+                    # Genuine conflict: same name for a different structure, or
+                    # same structure with an incompatible radius. Let it surface.
+                    raise
+                warn(
+                    f"Cross section {cross_section.name!r} in {gdspath} matches "
+                    f"already-registered {canonical.name!r}; imported ports will "
+                    f"use {canonical.name!r}.",
+                    stacklevel=2,
+                )
+                kf.kcl.cross_sections.cross_sections[cross_section.name] = canonical
 
     c = kcell_to_component(kcell)
     for pp in post_process or []:

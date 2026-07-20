@@ -31,7 +31,7 @@ class CrossSectionCallable(Protocol[P]):
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> CrossSection: ...
 
 
-def xsection(
+def xsection[**P](
     func: CrossSectionCallable[P],
     xs_container: dict[str, CrossSectionFactory] = cross_sections,
     xs_default_mapping: dict[str, str] = _cross_section_default_names,
