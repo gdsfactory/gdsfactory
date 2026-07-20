@@ -468,8 +468,6 @@ class Path(UMGeometricObject):
         Returns:
             str Hash result in the form of an SHA1 hex digest string.
 
-        .. code::
-
             hash(
                 hash(First layer information: [layer1, datatype1]),
                 hash(Polygon 1 on layer 1 points: [(x1,y1),(x2,y2),(x3,y3)] ),

@@ -29,8 +29,6 @@ def ring_single_array(
         list_of_dicts: settings for each ring.
         cross_section: spec.
 
-    .. code::
-
            ______               ______
           |      |             |      |
           |      |  length_y   |      |

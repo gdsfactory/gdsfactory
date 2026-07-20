@@ -43,8 +43,6 @@ def dbr_cell(
         n: number of periods.
         cross_section: cross_section spec.
 
-    .. code::
-
            l1      l2
         <-----><-------->
                 _________
@@ -91,8 +89,6 @@ def dbr(
         n: number of periods.
         cross_section: cross_section spec.
         straight_length: length of the straight section between cutbacks.
-
-    .. code::
 
            l1      l2
         <-----><-------->

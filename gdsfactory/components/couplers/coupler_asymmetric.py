@@ -24,8 +24,6 @@ def coupler_asymmetric(
         dx: bend length in x direction.
         cross_section: spec.
 
-    .. code::
-
                         dx
                      |-----|
                       _____ o2

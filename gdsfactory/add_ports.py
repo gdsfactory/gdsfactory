@@ -344,9 +344,8 @@ def add_ports_from_markers_center(
             component geometry when port_layer has no geometry at the port position.
         debug: if True prints ports that are skipped.
 
+    ```text
     For inside=False the port location is at the middle of the PIN
-
-    .. code::
            _______________
           |               |
           |               |
@@ -357,10 +356,10 @@ def add_ports_from_markers_center(
           |      __       |
           |_____|__|______|
                 |__|
+    ```
 
+    ```text
     For inside=True all the pin is inside the port
-
-    .. code::
            _______________
           |               |
           |               |
@@ -370,6 +369,7 @@ def add_ports_from_markers_center(
           |               |
           |      __       |
           |_____|__|______|
+    ```
 
     dx < dy: port is east or west
         dx > xc: east
@@ -535,9 +535,8 @@ def add_ports_from_boxes(
         auto_rename_ports: if True auto rename ports to avoid duplicates.
         debug: if True prints ports that are skipped.
 
+    ```text
     For inside=False the port location is at the middle of the PIN
-
-    .. code::
            _______________
           |               |
           |               |
@@ -548,10 +547,10 @@ def add_ports_from_boxes(
           |      __       |
           |_____|__|______|
                 |__|
+    ```
 
+    ```text
     For inside=True all the pin is inside the port
-
-    .. code::
            _______________
           |               |
           |               |
@@ -561,6 +560,7 @@ def add_ports_from_boxes(
           |               |
           |      __       |
           |_____|__|______|
+    ```
 
     dx < dy: port is east or west
         dx > xc: east

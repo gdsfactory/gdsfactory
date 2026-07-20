@@ -1,2 +1,5 @@
 mask*
-components.rst
+components.md
+components_images/
+notebooks/*.md
+_build/

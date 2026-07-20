@@ -25,12 +25,15 @@ import pathlib
 from collections.abc import Callable, Generator, Sequence
 from enum import IntEnum
 from functools import partial
-from typing import Any, Literal, ParamSpec, Protocol, TypeAlias, TypedDict, TypeVar
+from typing import Any, Literal, ParamSpec, Protocol, TypedDict, TypeVar
 
 import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import numpy.typing as npt
+from kfactory import DPin as Pin  # runtime re-export of a class
+from kfactory import DPins as Pins  # runtime re-export of a class
+from kfactory import DPort as Port  # runtime re-export of a class
 from kfactory.layer import LayerEnum
 
 STEP_DIRECTIVES = {
@@ -93,7 +96,7 @@ class PixelBufferOptions(TypedDict, total=False):
     resolution: float
 
 
-Anchor: TypeAlias = Literal[
+type Anchor = Literal[
     "ce",
     "cw",
     "nc",
@@ -105,142 +108,137 @@ Anchor: TypeAlias = Literal[
     "center",
     "cc",
 ]
-Axis: TypeAlias = Literal["x", "y"]
-NSEW: TypeAlias = Literal["N", "S", "E", "W"]
-WidthTypes: TypeAlias = Literal["sine", "linear", "parabolic"]
+type Axis = Literal["x", "y"]
+type NSEW = Literal["N", "S", "E", "W"]
+type WidthTypes = Literal["sine", "linear", "parabolic"]
 
-Float2: TypeAlias = tuple[float, float]
-Float3: TypeAlias = tuple[float, float, float]
-Floats: TypeAlias = Sequence[float]
-Strs: TypeAlias = Sequence[str]
-Int2: TypeAlias = tuple[int, int]
-Int3: TypeAlias = tuple[int, int, int]
-Ints: TypeAlias = tuple[int, ...] | list[int]
+type Float2 = tuple[float, float]
+type Float3 = tuple[float, float, float]
+type Floats = Sequence[float]
+type Strs = Sequence[str]
+type Int2 = tuple[int, int]
+type Int3 = tuple[int, int, int]
+type Ints = tuple[int, ...] | list[int]
 
-BoundingBox: TypeAlias = tuple[float, float, float, float]
-BoundingBoxes: TypeAlias = Sequence[BoundingBox]
-Size: TypeAlias = tuple[float, float]
-Spacing: TypeAlias = tuple[float, float]
-Position: TypeAlias = tuple[float, float]
-Radius: TypeAlias = float
+type BoundingBox = tuple[float, float, float, float]
+type BoundingBoxes = Sequence[BoundingBox]
+type Size = tuple[float, float]
+type Spacing = tuple[float, float]
+type Position = tuple[float, float]
+type Radius = float
 
-Delta: TypeAlias = float
-AngleInDegrees: TypeAlias = float
+type Delta = float
+type AngleInDegrees = float
 
-Layer: TypeAlias = tuple[int, int]
-Layers: TypeAlias = Sequence[Layer]
-LayerSpec: TypeAlias = Layer | str | int | LayerEnum
-LayerSpecs: TypeAlias = Sequence[LayerSpec]
+type Layer = tuple[int, int]
+type Layers = Sequence[Layer]
+type LayerSpec = Layer | str | int | LayerEnum
+type LayerSpecs = Sequence[LayerSpec]
 
-Number: TypeAlias = float | int
-Coordinate: TypeAlias = tuple[float, float]
-Coordinates: TypeAlias = Sequence[Coordinate]
-WayPoints: TypeAlias = Sequence[Coordinate | kdb.DPoint]
+type Number = float | int
+type Coordinate = tuple[float, float]
+type Coordinates = Sequence[Coordinate]
+type WayPoints = Sequence[Coordinate | kdb.DPoint]
 
-MaterialSpec: TypeAlias = (
+type MaterialSpec = (
     str | float | tuple[float, float] | Callable[..., Any] | npt.NDArray[np.float64]
 )
 
-WidthFunction: TypeAlias = Callable[..., npt.NDArray[np.floating[Any]]]
-OffsetFunction: TypeAlias = Callable[[float], float]
+type WidthFunction = Callable[..., npt.NDArray[np.floating[Any]]]
+type OffsetFunction = Callable[[float], float]
 
-PathType: TypeAlias = str | pathlib.Path
-PathTypes: TypeAlias = Sequence[PathType]
-Metadata: TypeAlias = dict[str, int | float | str]
+type PathType = str | pathlib.Path
+type PathTypes = Sequence[PathType]
+type Metadata = dict[str, int | float | str]
 
-Port: TypeAlias = kf.DPort
 TPort = TypeVar("TPort", bound=Port)
-IOPorts: TypeAlias = tuple[str, str]
-PortFactory: TypeAlias = Callable[..., Port]
-PortsFactory: TypeAlias = Callable[..., Sequence[Port]]
-PortSymmetries: TypeAlias = dict[str, Sequence[str]]
-PortDict: TypeAlias = dict[str, Port]
-Ports: TypeAlias = kf.DPorts | Sequence[Port] | kf.DInstancePorts
-SelectPorts: TypeAlias = Callable[..., Sequence[Port]]
+type IOPorts = tuple[str, str]
+type PortFactory = Callable[..., Port]
+type PortsFactory = Callable[..., Sequence[Port]]
+type PortSymmetries = dict[str, Sequence[str]]
+type PortDict = dict[str, Port]
+type Ports = kf.DPorts | Sequence[Port] | kf.DInstancePorts
+type SelectPorts = Callable[..., Sequence[Port]]
 
-Pin: TypeAlias = kf.DPin
-Pins: TypeAlias = kf.DPins
+type PortType = str
+type PortName = str
 
-PortType: TypeAlias = str
-PortName: TypeAlias = str
+type PortTypes = Sequence[PortType]
+type PortNames = Sequence[PortName]
 
-PortTypes: TypeAlias = Sequence[PortType]
-PortNames: TypeAlias = Sequence[PortName]
+type PortsDict = dict[str, list[Port]]
+type PortsDictGeneric[TPort: Port] = dict[str, list[TPort]]
 
-PortsDict: TypeAlias = dict[str, list[Port]]
-PortsDictGeneric: TypeAlias = dict[str, list[TPort]]
+type ConductorConductorName = tuple[str, str]
+type ConductorViaConductorName = tuple[str, str, str] | ConductorConductorName
+type ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
 
-ConductorConductorName: TypeAlias = tuple[str, str]
-ConductorViaConductorName: TypeAlias = tuple[str, str, str] | ConductorConductorName
-ConnectivitySpec: TypeAlias = ConductorConductorName | ConductorViaConductorName
+type Sparameters = dict[str, npt.NDArray[np.float64]]
 
-Sparameters: TypeAlias = dict[str, npt.NDArray[np.float64]]
-
-Route: TypeAlias = (
+type Route = (
     kf.routing.generic.ManhattanRoute | kf.routing.aa.optical.OpticalAllAngleRoute
 )
-RoutingStrategy: TypeAlias = Callable[..., Sequence[Route]]
-RoutingStrategies: TypeAlias = dict[str, RoutingStrategy]
+type RoutingStrategy = Callable[..., Sequence[Route]]
+type RoutingStrategies = dict[str, RoutingStrategy]
 
 
 from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec  # noqa: E402
 
-MultiCrossSectionAngleSpec: TypeAlias = Sequence[
-    tuple[CrossSectionSpec, tuple[int, ...]]
-]
+type MultiCrossSectionAngleSpec = Sequence[tuple[CrossSectionSpec, tuple[int, ...]]]
 
 from gdsfactory import component  # noqa: E402
 
-AnyComponent: TypeAlias = component.Component | component.ComponentAllAngle
+type AnyComponent = component.Component | component.ComponentAllAngle
 AnyComponentT = TypeVar("AnyComponentT", bound=AnyComponent)
-AnyComponentFactory: TypeAlias = Callable[..., AnyComponent]
-AnyComponentPostProcess: TypeAlias = (
+type AnyComponentFactory = Callable[..., AnyComponent]
+type AnyComponentPostProcess = (
     Callable[[component.Component], None]
     | Callable[[component.ComponentAllAngle], None]
 )
 
 ComponentParams = ParamSpec("ComponentParams")
-ComponentFactory: TypeAlias = Callable[..., component.Component]
-ComponentAllAngleFactory: TypeAlias = Callable[..., component.ComponentAllAngle]
-ComponentBaseFactory: TypeAlias = Callable[..., component.ComponentBase]
-ComponentFactoryDict: TypeAlias = dict[str, ComponentFactory]
-ComponentFactories: TypeAlias = Sequence[ComponentFactory]
+type ComponentFactory = Callable[..., component.Component]
+type ComponentAllAngleFactory = Callable[..., component.ComponentAllAngle]
+type ComponentBaseFactory = Callable[..., component.ComponentBase]
+type ComponentFactoryDict = dict[str, ComponentFactory]
+type ComponentFactories = Sequence[ComponentFactory]
 
-ComponentSpec: TypeAlias = (
+type ComponentSpec = (
     str | ComponentFactory | dict[str, Any] | kf.DKCell | partial[component.Component]
 )
-ComponentAllAngleSpec: TypeAlias = (
+type ComponentAllAngleSpec = (
     str | ComponentAllAngleFactory | dict[str, Any] | component.ComponentAllAngle
 )
-ComponentSpecOrComponent: TypeAlias = ComponentSpec | component.Component
-ComponentSpecs: TypeAlias = Sequence[ComponentSpec]
-ComponentSpecsOrComponents: TypeAlias = Sequence[ComponentSpecOrComponent]
+type ComponentSpecOrComponent = ComponentSpec | component.Component
+type ComponentSpecs = Sequence[ComponentSpec]
+type ComponentSpecsOrComponents = Sequence[ComponentSpecOrComponent]
 
 
 class _PostProcess(Protocol):
     def __call__(self, component: component.Component, **kwargs: Any) -> Any: ...
 
 
-PostProcess: TypeAlias = (
+type PostProcess = (
     _PostProcess | Callable[[component.Component], None] | partial[component.Component]
 )
-PostProcesses: TypeAlias = Sequence[PostProcess]
+type PostProcesses = Sequence[PostProcess]
 
-Instance: TypeAlias = component.ComponentReference
-InstanceOrVInstance: TypeAlias = component.ComponentReference | kf.VInstance
-ComponentOrPath: TypeAlias = PathType | component.Component
-ComponentOrReference: TypeAlias = component.Component | component.ComponentReference
-NameToFunctionDict: TypeAlias = dict[str, ComponentFactory]
+from gdsfactory.component import ComponentReference as Instance  # noqa: E402
+
+type InstanceOrVInstance = component.ComponentReference | kf.VInstance
+type ComponentOrPath = PathType | component.Component
+type ComponentOrReference = component.Component | component.ComponentReference
+type NameToFunctionDict = dict[str, ComponentFactory]
 
 
-ComponentSpecOrList: TypeAlias = ComponentSpec | list[ComponentSpec]
-CellSpec: TypeAlias = (
+type ComponentSpecOrList = ComponentSpec | list[ComponentSpec]
+type CellSpec = (
     str | ComponentFactory | dict[str, Any]  # PCell function, function name or dict
 )
-CellAllAngleSpec: TypeAlias = str | ComponentAllAngleFactory | dict[str, Any]
-ComponentSpecDict: TypeAlias = dict[str, ComponentSpec]
+type CellAllAngleSpec = str | ComponentAllAngleFactory | dict[str, Any]
+type ComponentSpecDict = dict[str, ComponentSpec]
 
-LayerTransitions: TypeAlias = dict[
+type LayerTransitions = dict[
     LayerSpec | tuple[LayerEnum | Layer, LayerEnum | Layer], ComponentSpec
 ]
 
@@ -299,6 +297,8 @@ __all__ = (
     "Number",
     "PathType",
     "PathTypes",
+    "Pin",
+    "Pins",
     "Port",
     "PortDict",
     "PortName",

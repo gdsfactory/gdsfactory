@@ -61,9 +61,6 @@ def grating_coupler_elliptical_trenches(
         taper: taper function.
         cross_section: cross_section spec.
 
-
-    .. code::
-
                       fiber
 
                    /  /  /  /

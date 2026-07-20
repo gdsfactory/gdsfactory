@@ -26,9 +26,6 @@ def coupler90bend(
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
 
-
-    .. code::
-
             r   3 4
             |   | |
             |  / /

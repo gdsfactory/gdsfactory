@@ -1,5 +1,6 @@
 """Returns a switch_tree.
 
+```text
           __
         _|  |_
   __   | |  |_   _
@@ -9,6 +10,7 @@ _|  |__          |dy
        |_|  |_   |
          |  |_   -
          |__|
+```
 
    |<-dx->|
 
@@ -47,8 +49,6 @@ def splitter_tree(
         bend_s: Sbend function for termination.
         bend_s_xsize: xsize for the sbend.
         cross_section: cross_section.
-
-    .. code::
 
              __|
           __|  |__
