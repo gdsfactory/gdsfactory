@@ -90,16 +90,6 @@ jobs:
         run: |
           make test-samples
 
-  type_consistency:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7.0.0
-      - uses: astral-sh/setup-uv@v7
-        with:
-          python-version: "3.12"
-      - run: make install
-      - run: uv run mypy gdsfactory/
-
   run-ty:
     runs-on: ${{ matrix.os }}
     strategy:
