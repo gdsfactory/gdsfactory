@@ -73,8 +73,6 @@ def _bend_topic(
         width: width to use. Defaults to cross_section.width.
         all_angle: if True, use all-angle extrusion/component handling for the TOPIC bend.
 
-    .. code::
-
                   o2
                   |
                  /
@@ -246,9 +244,6 @@ def bend_topic_s(
         width: width to use. Defaults to cross_section.width.
         port1: input port name.
         port2: output port name.
-
-
-    .. code::
 
                         _____ o2
                        /

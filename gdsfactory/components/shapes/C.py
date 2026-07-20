@@ -24,8 +24,6 @@ def C(
         layer: layer spec.
         port_type: optical or electrical.
 
-    .. code::
-
          ______
         |       o1
         |   ___

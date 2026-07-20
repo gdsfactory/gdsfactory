@@ -32,8 +32,6 @@ def coupler90(
         cross_section_bend: optional bend cross_section spec.
         length_straight: optional length of the straight waveguide.
 
-    .. code::
-
             o3
              |
             /

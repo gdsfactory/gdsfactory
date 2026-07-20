@@ -54,8 +54,6 @@ def delay_snake_sbend(
         sbend_xsize: sbend size.
         cross_section: cross_section spec.
 
-    .. code::
-
                          length1
          <----------------------------
                length2    spacing    |

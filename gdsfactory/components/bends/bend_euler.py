@@ -87,8 +87,6 @@ def _bend_euler(
         all_angle: if True, the bend is drawn with a single euler curve.
         angular_step: if not None, the angle step in degrees for the all_angle bend.
 
-    .. code::
-
                   o2
                   |
                  /
@@ -172,9 +170,6 @@ def bend_euler_s(
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         port1: input port name.
         port2: output port name.
-
-
-    .. code::
 
                         _____ o2
                        /

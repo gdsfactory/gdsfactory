@@ -2,8 +2,6 @@
 
 we follow start from the bottom left and name the ports counter-clock-wise
 
-.. code::
-
          3   4
          |___|_
      2 -|      |- 5
@@ -13,8 +11,6 @@ we follow start from the bottom left and name the ports counter-clock-wise
          8   7
 
 You can also rename them with W,E,S,N prefix (west, east, south, north).
-
-    .. code::
 
              N0  N1
              |___|_
@@ -238,15 +234,13 @@ def csv2port(csvpath: PathType) -> dict[str, list[str]]:
 def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     """Sort and return ports in the clockwise direction.
 
-    .. code::
-
-            3   4
-            |___|_
-        2 -|      |- 5
-           |      |
-        1 -|______|- 6
-            |   |
-            8   7
+        3   4
+        |___|_
+    2 -|      |- 5
+       |      |
+    1 -|______|- 6
+        |   |
+        8   7
 
     """
     direction_ports: PortsDictGeneric[TPort] = {x: [] for x in ["E", "N", "W", "S"]}
@@ -281,15 +275,13 @@ def sort_ports_clockwise(ports: Sequence[TPort]) -> list[TPort]:
 def sort_ports_counter_clockwise(ports: Sequence[TPort]) -> list[TPort]:
     """Sort and return ports in the counter-clockwise direction.
 
-    .. code::
-
-            4   3
-            |___|_
-        5 -|      |- 2
-           |      |
-        6 -|______|- 1
-            |   |
-            7   8
+        4   3
+        |___|_
+    5 -|      |- 2
+       |      |
+    6 -|______|- 1
+        |   |
+        7   8
 
     """
     direction_ports: PortsDictGeneric[TPort] = {x: [] for x in ["E", "N", "W", "S"]}
@@ -587,8 +579,6 @@ def rename_ports_by_orientation(
         prefix: to add on each port name.
         kwargs: select_ports settings.
 
-    .. code::
-
              N0  N1
              |___|_
         W1 -|      |- E1
@@ -718,8 +708,6 @@ def map_ports_layer_to_orientation(
         function: to rename ports.
         kwargs: for the function to rename ports.
 
-    .. code::
-
              N0  N1
              |___|_
         W1 -|      |- E1
@@ -766,9 +754,6 @@ def map_ports_to_orientation_cw(
         function: to rename ports.
         kwargs: for the function to rename ports.
 
-
-    .. code::
-
              N0  N1
              |___|_
         W1 -|      |- E1
@@ -810,8 +795,6 @@ def auto_rename_ports_layer_orientation(
     """Renames port names with layer_orientation  (1_0_W0).
 
     port orientation (E, N, W, S) numbering is clockwise
-
-    .. code::
 
              N0  N1
              |___|_

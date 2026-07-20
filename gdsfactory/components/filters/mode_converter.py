@@ -43,8 +43,6 @@ def mode_converter(
         taper_length: taper length.
         cross_section: cross_section spec.
 
-    .. code::
-
         o2 ---           --- o4
               \         /
                \       /

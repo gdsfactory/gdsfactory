@@ -20,8 +20,6 @@ def splitter_chain(
         columns: number of splitters to chain.
         bend: bend to connect splitters.
 
-    .. code::
-
                  __o5
               __|
            __|  |__o4

@@ -45,8 +45,6 @@ def strip_heater_metal_undercut(
         sections: cross_section sections.
         kwargs: cross_section settings.
 
-    .. code::
-
               |<-------heater_width--------->|
                ______________________________
               |                              |
@@ -169,8 +167,6 @@ def strip_heater_doped(
         sections: cross_section sections.
         kwargs: cross_section settings.
 
-    .. code::
-
                                   |<------width------>|
           ____________             ___________________               ______________
          |            |           |     undoped Si    |             |              |
@@ -241,8 +237,6 @@ def rib_heater_doped(
     """Returns rib cross_section with N++ doped heaters on both sides.
 
     dimensions from https://doi.org/10.1364/OE.27.010456
-
-    .. code::
 
                                     |<------width------>|
                                      ____________________  heater_gap           slab_gap
@@ -351,8 +345,6 @@ def rib_heater_doped_via_stack(
         with_bot_heater: adds bottom/right heater.
         sections: list of sections to add to the cross_section.
         kwargs: cross_section settings.
-
-    .. code::
 
                                    |<----width------>|
        slab_gap                     __________________ via_stack_gap     via_stack width

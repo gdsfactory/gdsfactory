@@ -55,8 +55,6 @@ def mzit(
         coupler2: coupler2 spec.
         cross_section: cross_section spec.
 
-    .. code::
-
                            cp1
             4   2 __                  __  3___w0_t2   _w2___
                     \                /                      \
@@ -217,26 +215,24 @@ def mzit_lattice(
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 
-    .. code::
-
-                           cp1
-           o4  o2 __                  __ o3___w0_t2   _w2___
-                    \                /                      \
+                    cp1
+    o4  o2 __                  __ o3___w0_t2   _w2___
+             \                /                      \
                      \    length1   /                        |
-                      ============== gap1                    |
-                     /              \                        |
-                  __/                \_____w0___t1   _w1     |
-           o3  o1                       o4               \   | .
-                            ...                          |   | .
-           o2  o2                    o3                  |   | .
-                  __                  _____w0___t1___w1__/   |
-                    \                /                       |
-                     \    lengthN   /                        |
-                      ============== gapN                    |
-                     /               \                       |
-                  __/                 \_                     |
-           o1  o1                      \___w0___t2___w1_____/
-                           cpN       o4
+               ============== gap1                    |
+              /              \                        |
+           __/                \_____w0___t1   _w1     |
+    o3  o1                       o4               \   | .
+                     ...                          |   | .
+    o2  o2                    o3                  |   | .
+           __                  _____w0___t1___w1__/   |
+             \                /                       |
+              \    lengthN   /                        |
+               ============== gapN                    |
+              /               \                       |
+           __/                 \_                     |
+    o1  o1                      \___w0___t2___w1_____/
+                    cpN       o4
 
 
     """

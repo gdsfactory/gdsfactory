@@ -39,8 +39,6 @@ def coupler_bend(
         bend: for bend.
         bend_output: for bend.
 
-    .. code::
-
             r   4
             |   |
             |  / ___3

@@ -345,8 +345,6 @@ def add_ports_from_markers_center(
         debug: if True prints ports that are skipped.
 
     For inside=False the port location is at the middle of the PIN
-
-    .. code::
            _______________
           |               |
           |               |
@@ -359,8 +357,6 @@ def add_ports_from_markers_center(
                 |__|
 
     For inside=True all the pin is inside the port
-
-    .. code::
            _______________
           |               |
           |               |
@@ -536,8 +532,6 @@ def add_ports_from_boxes(
         debug: if True prints ports that are skipped.
 
     For inside=False the port location is at the middle of the PIN
-
-    .. code::
            _______________
           |               |
           |               |
@@ -550,8 +544,6 @@ def add_ports_from_boxes(
                 |__|
 
     For inside=True all the pin is inside the port
-
-    .. code::
            _______________
           |               |
           |               |

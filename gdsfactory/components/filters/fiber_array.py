@@ -28,8 +28,6 @@ def fiber_array(
         layer_core: layer spec for fiber core.
         layer_cladding: layer spec for fiber cladding.
 
-    .. code::
-
         pitch
          <->
         _________

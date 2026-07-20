@@ -57,8 +57,6 @@ def pin(
 
     https://doi.org/10.1364/OE.26.029983
 
-    .. code::
-
                                       layer
                                 |<----width--->|
                                  _______________ via_stack_gap           slab_gap
@@ -185,8 +183,6 @@ def pn(
                 polygon by more than the value listed here will be removed.
         slab_inset: slab inset in um.
         kwargs: cross_section settings.
-
-    .. code::
 
                               offset_low_doping
                                 <------>
@@ -377,8 +373,6 @@ def pn_with_trenches(
         wg_marking_layer: layer to draw over the actual waveguide.
         sections: optional list of sections.
         kwargs: cross_section settings.
-
-    .. code::
 
                                    offset_low_doping
                                      <------>
@@ -595,8 +589,6 @@ def pn_with_trenches_asymmetric(
         wg_marking_layer: layer to draw over the actual waveguide.
         sections: optional list of sections.
         kwargs: cross_section settings.
-
-    .. code::
 
                                    gap_low_doping[1]
                                      <------>
@@ -826,8 +818,6 @@ def l_wg_doped_with_trenches(
         sections: optional list of sections.
         kwargs: cross_section settings.
 
-    .. code::
-
                                           gap_low_doping
                                            <------>
                                                   |
@@ -1016,8 +1006,6 @@ def pn_ge_detector_si_contacts(
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
         kwargs: cross_section settings.
-
-    .. code::
 
                                    layer_si
                            |<------width_si---->|

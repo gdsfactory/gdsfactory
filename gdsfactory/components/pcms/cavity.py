@@ -29,8 +29,6 @@ def cavity(
         gap: coupler gap.
         kwargs: coupler_settings.
 
-    .. code::
-
       ml (mirror left)              mr (mirror right)
        |                               |
        |o1 - o2__             __o3 - o1|

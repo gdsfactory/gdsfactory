@@ -47,8 +47,6 @@ def ring_single_dut(
     Args:
         with_component: if False changes component for just a straight.
 
-    .. code::
-
           bl-wt-br
           |      | length_y
           wl     component

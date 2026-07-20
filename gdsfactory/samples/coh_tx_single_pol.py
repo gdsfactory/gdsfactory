@@ -44,8 +44,6 @@ def coh_tx_single_pol(
         pad_array: array of pads spec.
         cross_section: for routing (splitter to mzms and mzms to combiners).
 
-    .. code::
-
                                 ___ mzm_i __ ps_i__
                                 |                  |
                                 |                  |

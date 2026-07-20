@@ -160,8 +160,6 @@ def taper_strip_to_ridge(
         use_slab_port: if True adds a second port for the slab.
         slab_port_layer: if specified, overrides the layer for the slab port.
 
-    .. code::
-
                       __________________________
                      /           |
              _______/____________|______________

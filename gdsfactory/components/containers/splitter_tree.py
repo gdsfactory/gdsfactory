@@ -48,8 +48,6 @@ def splitter_tree(
         bend_s_xsize: xsize for the sbend.
         cross_section: cross_section.
 
-    .. code::
-
              __|
           __|  |__
         _|  |__

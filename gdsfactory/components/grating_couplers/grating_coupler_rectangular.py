@@ -52,8 +52,6 @@ def grating_coupler_rectangular(
         slab_offset: from edge of grating to edge of the slab.
         cross_section: for input waveguide port.
 
-    .. code::
-
         side view
                       fiber
 
