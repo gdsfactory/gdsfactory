@@ -34,8 +34,6 @@ def free_propagation_region(
         outputs: number of outputs.
         cross_section: cross_section function.
 
-    .. code::
-
                  length
                  <-->
                    /|

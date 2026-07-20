@@ -54,9 +54,6 @@ def ring_single(
     Raises:
         ValueError: If length_x or length_y is negative.
 
-
-    .. code::
-
                     xxxxxxxxxxxxx
                 xxxxx           xxxx
               xxx                   xxx

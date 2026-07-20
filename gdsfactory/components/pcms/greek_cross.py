@@ -29,8 +29,6 @@ def greek_cross(
         via_stack: via component to attach to the cross.
         layer_index: index of the layer to connect the via_stack to.
 
-    .. code::
-
             via_stack
             <------->
             _________       length          ________

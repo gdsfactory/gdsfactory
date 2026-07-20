@@ -47,8 +47,6 @@ def cutback_bend(
         cols: number of cols.
         kwargs: cross_section settings.
 
-    .. code::
-
         this is a column
             _
           _|
@@ -102,8 +100,6 @@ def cutback_bend90(
         cols: number of cols.
         spacing: in um.
         kwargs: cross_section settings.
-
-    .. code::
 
            _
         |_| |
@@ -205,8 +201,6 @@ def cutback_bend180(
         cols: number of cols.
         spacing: in um.
         kwargs: cross_section settings.
-
-    .. code::
 
           _
         _| |_  this is a row

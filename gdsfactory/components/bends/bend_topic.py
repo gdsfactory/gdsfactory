@@ -73,14 +73,14 @@ def _bend_topic(
         width: width to use. Defaults to cross_section.width.
         all_angle: if True, use all-angle extrusion/component handling for the TOPIC bend.
 
-    .. code::
-
+    ```text
                   o2
                   |
                  /
                 /
                /
        o1_____/
+    ```
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
@@ -246,9 +246,6 @@ def bend_topic_s(
         width: width to use. Defaults to cross_section.width.
         port1: input port name.
         port2: output port name.
-
-
-    .. code::
 
                         _____ o2
                        /

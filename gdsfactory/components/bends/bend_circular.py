@@ -67,8 +67,6 @@ def _bend_circular(
         all_angle: if True returns a ComponentAllAngle.
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
 
-    .. code::
-
                   o2
                   |
                  /

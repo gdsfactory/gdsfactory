@@ -38,8 +38,9 @@ def grating_coupler_dual_pol(
 
     Based on a photonic crystal with a unit cell that is usually an ellipse,
     a rectangle or a circle.
-    # The default values are loosely based on Taillaert et al,
-    # "A Compact Two-Dimensional Grating Coupler Used as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
+    The default values are loosely based on Taillaert et al,
+    "A Compact Two-Dimensional Grating Coupler Used as a Polarization Splitter",
+    IEEE Phot. Techn. Lett. 15(9), 2003.
 
     Args:
         unit_cell: component describing the unit cell of the photonic crystal.
@@ -52,11 +53,9 @@ def grating_coupler_dual_pol(
         polarization: polarization of the grating coupler.
         wavelength: operation wavelength [um]
         taper: function to generate the tapers.
-        base_layer: layer to draw over the whole photonic crystal \
-                (necessary if the unit cells are etched into a base layer).
+        base_layer: layer to draw over the whole photonic crystal
+            (necessary if the unit cells are etched into a base layer).
         cross_section: for the routing waveguides.
-
-    .. code::
 
         side view
                       fiber

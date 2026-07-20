@@ -34,8 +34,6 @@ def ring_crow(
         output_straight_cross_section: cross_section spec for input and output straight. Defaults to cross_section.
         cross_section: cross_section spec for input and output straight.
 
-    .. code::
-
          --==ct==-- gap[N-1]
           |      |
           sl     sr ring[N-1]
