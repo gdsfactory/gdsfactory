@@ -14,11 +14,11 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-
-import gdsfactory as gf
 from gdsfactory.config import PATH
 from gdsfactory.get_factories import get_cells
 from gdsfactory.serialization import clean_value_json
+
+import gdsfactory as gf
 
 components = PATH.module / "components"
 filepath = PATH.repo / "docs" / "components.md"
@@ -116,7 +116,7 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
             if name not in skip_plot:
                 img_path = img_dir / f"{name}.png"
                 try:
-                    c = gf.components.__getattr__(name)().copy()
+                    c = getattr(gf.components, name)().copy()
                     c.draw_ports()
                     fig = c.plot(return_fig=True)
                     fig.savefig(

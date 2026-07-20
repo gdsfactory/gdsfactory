@@ -19,6 +19,7 @@ if __name__ == "__main__":
 
     start_ports = [
         gf.Port(
+            name=f"start_{i}",
             center=(i * 300, -i * 150),
             orientation=90,
             layer=layer,
@@ -28,12 +29,13 @@ if __name__ == "__main__":
     ]
     end_ports = [
         gf.Port(
+            name=f"end_{i}",
             center=(x, 500),
             orientation=270,
             layer=layer,
             width=0.5,
         )
-        for x in [230, 700, 1000]
+        for i, x in enumerate([230, 700, 1000])
     ]
 
     c = gf.Component()
