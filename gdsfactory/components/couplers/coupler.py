@@ -28,8 +28,6 @@ def coupler_symmetric(
         cross_section: section.
         allow_min_radius_violation: if True does not check for min bend radius.
 
-    .. code::
-
                        dx
                     |-----|
                        ___ o3
@@ -90,8 +88,6 @@ def coupler_straight(
         gap: between straights.
         cross_section: specification (CrossSection, string or dict).
 
-    .. code::
-
         o2──────▲─────────o3
                 │gap
         o1──────▼─────────o4
@@ -137,8 +133,6 @@ def coupler(
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True does not check for min bend radius.
         bend: input and output sbend components.
-
-    .. code::
 
                dx                                 dx
             |------|                           |------|

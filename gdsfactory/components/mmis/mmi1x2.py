@@ -36,9 +36,6 @@ def mmi1x2(
         straight: straight function.
         cross_section: specification (CrossSection, string or dict).
 
-
-    .. code::
-
                length_mmi
                 <------>
                 ________

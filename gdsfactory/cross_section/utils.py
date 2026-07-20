@@ -40,8 +40,6 @@ def xsection[**P](
 
     Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
 
-    .. code-block:: python
-
         @xsection
         def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
             return gf.cross_section.cross_section(width=width, radius=radius)
@@ -110,8 +108,6 @@ def cross_section(
         p = gf.path.arc(radius=10, angle=45)
         c = p.extrude(xs)
         c.plot()
-
-    .. code::
 
 
            ┌────────────────────────────────────────────────────────────┐

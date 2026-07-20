@@ -28,8 +28,7 @@ def fiber_array(
         layer_core: layer spec for fiber core.
         layer_cladding: layer spec for fiber cladding.
 
-    .. code::
-
+    ```text
         pitch
          <->
         _________
@@ -38,6 +37,7 @@ def fiber_array(
        |         | base
        |_________|
           length
+    ```
     """
     c = Component()
     layer_core = gf.get_layer(layer_core)

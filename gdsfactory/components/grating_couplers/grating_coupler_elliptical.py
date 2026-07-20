@@ -61,8 +61,6 @@ def grating_coupler_elliptical(
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
 
-    .. code::
-
                       fiber
 
                    /  /  /  /

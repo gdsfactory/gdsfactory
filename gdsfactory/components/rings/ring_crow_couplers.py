@@ -28,8 +28,6 @@ def ring_crow_couplers(
         ring_cross_sections: cross_section for the ring.
         couplers: coupling component between rings and bus.
 
-    .. code::
-
          --==ct==-- gap[N-1]   <------- couplers[N-1]
           |      |
           sl     sr ring[N-1]

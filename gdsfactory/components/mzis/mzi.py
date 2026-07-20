@@ -82,8 +82,6 @@ def mzi(
         auto_rename_ports: if True, renames ports.
         auto_detect_port_names: whether to auto detect ports names. Ignores port_e* arguments if True.
 
-    .. code::
-
                        b2______b3
                       |  sxtop  |
               straight_y        |

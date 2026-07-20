@@ -42,9 +42,7 @@ def mmi_90degree_hybrid(
         with_bbox: box in bbox_layers and bbox_offsets avoid DRC sharp edges.
         cross_section: spec.
 
-
-    .. code::
-
+    ```text
                    length_mmi
                     <------>
                     ________
@@ -66,6 +64,7 @@ def mmi_90degree_hybrid(
                   |           __  I_out2
                   |          /
                   | ________|
+    ```
 
 
                  <->

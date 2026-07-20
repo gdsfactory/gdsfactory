@@ -40,8 +40,6 @@ def via_stack_with_offset(
             By default it only offsets by size[1] if there is a via.
         layer_to_port_orientations: Optional dictionary with layer to port orientations.
 
-    .. code::
-
         side view
 
          __________________________

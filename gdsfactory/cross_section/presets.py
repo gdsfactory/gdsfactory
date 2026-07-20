@@ -323,8 +323,6 @@ def rib_with_trenches(
         sections: list of Sections(width, offset, layer, ports).
         kwargs: cross_section settings.
 
-    .. code::
-
                         ┌─────────┐
                         │         │ wg_marking_layer
                         └─────────┘
@@ -417,9 +415,6 @@ def l_with_trenches(
         mirror: this cross section is not symmetric and you can switch orientation.
         sections: list of Sections(width, offset, layer, ports).
         kwargs: cross_section settings.
-
-
-    .. code::
                           x = 0
                            |
                            |
@@ -427,6 +422,7 @@ def l_with_trenches(
              |        |         |
              |________|         |
 
+    ```text
        _________________________
              <------->          |
             width_trench
@@ -435,6 +431,7 @@ def l_with_trenches(
                                 |
        <------------------------>
             width_slab
+    ```
 
 
 

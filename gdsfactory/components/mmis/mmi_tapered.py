@@ -60,8 +60,6 @@ def mmi_tapered(
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
 
-    .. code::
-
                                        ┌───────────┐
                                        │           ├───────────────┐
                                        │           │               ├────────────┐
