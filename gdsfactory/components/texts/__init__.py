@@ -4,6 +4,7 @@ from .text_rectangular import *
 from .text_rectangular_font import *
 
 __all__ = [
+    "TextFont",
     "character_a",
     "pixel_array",
     "rectangular_font",
