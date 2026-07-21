@@ -512,3 +512,42 @@ def test_route_bundle_width() -> None:
     )
     expected_length = 53274.356
     assert route[0].length == expected_length, route[0].length
+
+
+def test_route_bundle_separation_is_center_pitch() -> None:
+    component = gf.Component()
+    layer = component.kcl.layer(1, 0)
+    ports1 = [
+        Port(
+            name=f"start_{i}",
+            center=(0, i * 10),
+            width=0.5,
+            orientation=0,
+            layer=layer,
+        )
+        for i in range(2)
+    ]
+    ports2 = [
+        Port(
+            name=f"end_{i}",
+            center=(100, 30 + i * 10),
+            width=0.5,
+            orientation=180,
+            layer=layer,
+        )
+        for i in range(2)
+    ]
+
+    routes = route_bundle(
+        component,
+        ports1,
+        ports2,
+        cross_section="strip",
+        separation=4,
+        sort_ports=True,
+        raise_on_error=True,
+        on_collision=None,
+    )
+
+    vertical_x = sorted(route.backbone[1].x for route in routes)
+    assert vertical_x[1] - vertical_x[0] == 4_000
