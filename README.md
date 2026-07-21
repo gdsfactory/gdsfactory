@@ -72,6 +72,19 @@ GDSFactory integrates with Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, SAX, MEOW, SP
 
 ![tool interfaces](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/tool_interfaces.png)
 
+## GDSFactory or KFactory?
+
+GDSFactory uses [KFactory](https://github.com/gdsfactory/kfactory) as its layout
+backend. Choose GDSFactory when you want a batteries-included design framework:
+micron-based geometry, built-in photonic and electronic components, routing,
+PDKs, netlists, simulation integrations, and tutorials.
+
+Use KFactory directly when you need lower-level control close to the KLayout API,
+such as explicit database-unit geometry, multiple independent `KCLayout` objects,
+strict cell-library separation, or functionality that GDSFactory does not expose.
+The projects are complementary, and GDSFactory users can still access KLayout and
+KFactory objects when a workflow needs lower-level operations.
+
 
 ## Open-Source PDKs (No NDA Required)
 
