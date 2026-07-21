@@ -1,3 +1,5 @@
+from functools import partial as _partial
+
 from . import (
     bends,
     containers,
@@ -423,3 +425,18 @@ __all__ = [
     "wire_straight",
     "ytron_round",
 ]
+
+
+def _copy_partial_docstrings() -> None:
+    for name in __all__:
+        component = globals().get(name)
+        if not isinstance(component, _partial):
+            continue
+        wrapped = component.func
+        while isinstance(wrapped, _partial):
+            wrapped = wrapped.func
+        component.__doc__ = wrapped.__doc__
+
+
+_copy_partial_docstrings()
+del _copy_partial_docstrings
