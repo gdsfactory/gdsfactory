@@ -60,9 +60,8 @@ def route_ports_to_side(
         List of routes: with routing elements.
         List of ports: of the new ports.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.Component()
@@ -72,17 +71,17 @@ def route_ports_to_side(
         positions = [(0, 0), (d, 0), (d, d), (0, d)]
 
         for pos, side in zip(positions, sides):
-            dummy_ref = c << dummy
-            dummy_ref.move(pos)
-            routes, ports = gf.routing.route_ports_to_side(
-                component=c, side=side, ports=dummy_ref.ports, cross_section="strip"
-            )
+        dummy_ref = c << dummy
+        dummy_ref.move(pos)
+        routes, ports = gf.routing.route_ports_to_side(
+        component=c, side=side, ports=dummy_ref.ports, cross_section="strip"
+        )
 
-            for i, p in enumerate(ports):
-                c.add_port(name=f"{side[0]}{i}", port=p)
+        for i, p in enumerate(ports):
+        c.add_port(name=f"{side[0]}{i}", port=p)
 
         c.plot()
-
+        ```
     """
     if not ports:
         return [], []

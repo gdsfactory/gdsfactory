@@ -47,13 +47,13 @@ def get_script(gdspath: PathType, module: str | None = None) -> str:
 def {cell}()->gf.Component:
     '''Returns {cell} fixed cell.
 
-    .. plot::
-      :include-source:
+    Example:
+        ```python
+        import {package}
 
-      import {package}
-
-      c = {module}.{cell}()
-      c.plot()
+        c = {module}.{cell}()
+        c.plot()
+        ```
     '''
     return import_gds(gdsdir/{str(gdspath)!r})
 

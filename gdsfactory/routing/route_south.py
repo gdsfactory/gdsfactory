@@ -69,16 +69,15 @@ def route_south(
         east ports on the east of the box.
         west ports on the west of the box.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.Component()
         ref = c << gf.components.ring_double()
         r = gf.routing.route_south(c, ref)
         c.plot()
-
+        ```
     """
     xs = gf.get_cross_section(cross_section)
     excluded_ports = excluded_ports or ()

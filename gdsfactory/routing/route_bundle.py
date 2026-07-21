@@ -254,9 +254,8 @@ def route_bundle(
         name: Name for the route. This is not important yet, but once constraints are implemented, the constraint, depending
             on the constraint class, might check against names to make enforcement or checking decisions.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         dy = 200.0
@@ -276,6 +275,7 @@ def route_bundle(
         c = gf.Component()
         gf.routing.route_bundle(component=c, ports1=ports1, ports2=ports2, cross_section='strip', separation=5)
         c.plot()
+        ```
     """
     name = name or "unnamed_route_bundle"
     on_collision = on_collision or CONF.on_collision

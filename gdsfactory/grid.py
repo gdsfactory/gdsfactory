@@ -44,21 +44,20 @@ def grid(
     Returns:
         Component containing components grid.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         components = [gf.components.triangle(x=i) for i in range(1, 10)]
         c = gf.grid(
-            components,
-            shape=(1, len(components)),
-            rotation=0,
-            mirror=False,
-            spacing=(100, 100),
+        components,
+        shape=(1, len(components)),
+        rotation=0,
+        mirror=False,
+        spacing=(100, 100),
         )
         c.plot()
-
+        ```
     """
     c = gf.Component()
     grid_func = kf.flexgrid if flex else kf.grid
@@ -119,23 +118,22 @@ def grid_with_text(
         flex: use minimal row height and column width where possible.
 
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         components = [gf.components.triangle(x=i) for i in range(1, 10)]
         c = gf.grid_with_text(
-            components,
-            shape=(1, len(components)),
-            rotation=0,
-            mirror=False,
-            spacing=(100, 100),
-            text_offsets=((0, 100), (0, -100)),
-            text_anchors=("nc", "sc"),
+        components,
+        shape=(1, len(components)),
+        rotation=0,
+        mirror=False,
+        spacing=(100, 100),
+        text_offsets=((0, 100), (0, -100)),
+        text_anchors=("nc", "sc"),
         )
         c.plot()
-
+        ```
     """
     component_list = [gf.get_component(component) for component in components]
     text_offsets = text_offsets or ((0, 0),)

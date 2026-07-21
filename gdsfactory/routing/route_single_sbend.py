@@ -25,9 +25,8 @@ def route_bundle_sbend(
         allow_layer_mismatch: allow layer mismatch.
         allow_width_mismatch: allow width mismatch.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.Component()
@@ -37,6 +36,7 @@ def route_bundle_sbend(
         mmi2.movey(5)
         route = gf.routing.route_bundle_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
         c.plot()
+        ```
     """
     ysize = port2.center[1] - port1.center[1]
     xsize = port2.center[0] - port1.center[0]

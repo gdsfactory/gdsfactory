@@ -141,26 +141,25 @@ def pack(
         add_ports_suffix: adds port names with suffix.
         csvpath: optional path to save the packed component list as a CSV file.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
         from functools import partial
 
         components = [gf.components.triangle(x=i) for i in range(1, 10)]
         c = gf.pack(
-            components,
-            spacing=20.0,
-            max_size=(100, 100),
-            text=partial(gf.components.text, justify="center"),
-            text_prefix="R",
-            name_prefix="demo",
-            text_anchors=["nc"],
-            text_offsets=[(-10, 0)],
-            v_mirror=True,
+        components,
+        spacing=20.0,
+        max_size=(100, 100),
+        text=partial(gf.components.text, justify="center"),
+        text_prefix="R",
+        name_prefix="demo",
+        text_anchors=["nc"],
+        text_offsets=[(-10, 0)],
+        v_mirror=True,
         )
         c[0].plot()
-
+        ```
     """
     import pandas as pd
 

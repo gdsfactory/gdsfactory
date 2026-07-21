@@ -37,14 +37,13 @@ def add_electrical_pads_top_dc(
         cross_section: cross_section for the route.
         kwargs: route settings.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
         c = gf.components.wire_straight(length=200.)
         c = gf.routing.add_electrical_pads_top_dc(c, width=10)
         c.plot()
-
+        ```
     """
     c = Component()
     component = gf.get_component(component)

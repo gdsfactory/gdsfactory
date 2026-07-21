@@ -501,13 +501,13 @@ class Path(UMGeometricObject):
     def plot(self) -> None:
         """Plot path in matplotlib.
 
-        .. plot::
-            :include-source:
-
+        Example:
+            ```python
             import gdsfactory as gf
 
             p = gf.path.euler(radius=10)
             p.plot()
+            ```
         """
         import matplotlib.pyplot as plt
 
@@ -574,14 +574,14 @@ class Path(UMGeometricObject):
             all_angle: if True, the bend is drawn with a single euler curve.
             register_cross_section: if True, the cross_section factory is registered in the active PDK.
 
-        .. plot::
-            :include-source:
-
+        Example:
+            ```python
             import gdsfactory as gf
 
             p = gf.path.euler(radius=10)
             c = p.extrude(layer=(1, 0), width=0.5)
             c.plot()
+            ```
         """
         return extrude(
             p=self,
@@ -1774,14 +1774,13 @@ def arc(
         angular_step: If provided, determines the angular step (in degrees) between points. \
                 This overrides npoints calculation.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         p = gf.path.arc(radius=10, angle=45)
         p.plot()
-
+        ```
     """
     from gdsfactory.pdk import get_active_pdk
 
@@ -1890,14 +1889,13 @@ def euler(
         angular_step: If provided, determines the angular step (in degrees) between points. \
                 This overrides npoints calculation.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         p = gf.path.euler(radius=10, angle=45, p=1, use_eff=True, npoints=720)
         p.plot()
-
+        ```
     """
     from gdsfactory.pdk import get_active_pdk
 
@@ -2169,13 +2167,13 @@ def topic(
         p: used to calculate the angle of the bend at the end of TOP / start of circular arc, as p*angle. It should be within [0, 0.5).
         npoints: Number of points used per 360 degrees.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         p = gf.path.topic(radius=10, angle=110, p=0.1, npoints=720)
         p.plot()
+        ```
     """
     if p < 0.0 or p >= 0.5:
         raise ValueError(
@@ -2286,14 +2284,13 @@ def spiral_archimedean(
         number_of_loops: number of loops.
         npoints: number of Points.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         p = gf.path.spiral_archimedean(min_bend_radius=5, separation=2, number_of_loops=3, npoints=200)
         p.plot()
-
+        ```
     """
     theta = np.linspace(0, number_of_loops * 2 * np.pi, int(npoints))
     points = (separation / np.pi * theta + min_bend_radius)[:, None] * np.column_stack(
@@ -2346,14 +2343,13 @@ def smooth(
         bend: bend function that returns a path that round corners.
         kwargs: Extra keyword arguments that will be passed to `bend`.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         p = gf.path.smooth(([0, 0], [0, 10], [10, 10]))
         p.plot()
-
+        ```
     """
     if isinstance(points, Path):
         points = points.points

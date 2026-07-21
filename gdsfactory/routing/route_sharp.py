@@ -326,9 +326,8 @@ def route_sharp(
      - straight: straight path for ports that face each other.
      - manual: use an explicit waypoint path provided in manual_path.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.Component()
@@ -340,7 +339,7 @@ def route_sharp(
 
         gf.routing.route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L")
         c.plot()
-
+        ```
     """
     if path_type == "C":
         p = path_C(port1, port2, **kwargs)

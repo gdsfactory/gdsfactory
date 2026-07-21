@@ -173,14 +173,14 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
 
         plot_docstring = (
             f"""
-    .. plot::
-      :include-source:
+    Example:
+        ```python
+        from {pdk_name} import cells
 
-      from {pdk_name} import cells
-
-      c = cells.{block_name}()
-      c.draw_ports()
-      c.plot()
+        c = cells.{block_name}()
+        c.draw_ports()
+        c.plot()
+        ```
     """
             if add_plot_to_docstring
             else ""

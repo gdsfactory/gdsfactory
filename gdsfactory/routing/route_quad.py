@@ -41,9 +41,8 @@ def route_quad(
         layer: Layer to put the route on.
         manhattan_target_step: if not none, min step to manhattanize the polygon
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.Component()
@@ -52,14 +51,14 @@ def route_quad(
         pad2.movex(100)
         pad2.movey(50)
         gf.routing.route_quad(
-            c,
-            pad1.ports["e2"],
-            pad2.ports["e4"],
-            width1=None,
-            width2=None,
+        c,
+        pad1.ports["e2"],
+        pad2.ports["e4"],
+        width1=None,
+        width2=None,
         )
         c.plot()
-
+        ```
     """
 
     def get_port_edges(
