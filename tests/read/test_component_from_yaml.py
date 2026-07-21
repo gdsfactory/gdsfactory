@@ -7,6 +7,39 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from gdsfactory.difftest import difftest
 from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
+
+def test_kfactory_anchor_references() -> None:
+    component = from_yaml(
+        """
+instances:
+  struct2:
+    component: rectangle
+    settings:
+      size: [10, 4]
+  lbl2:
+    component: rectangle
+    settings:
+      size: [2, 2]
+placements:
+  struct2:
+    x: 100
+    y: 20
+  lbl2:
+    x:
+      instance: struct2
+      x: center
+    y:
+      instance: struct2
+      y: top
+"""
+    )
+
+    struct2 = component.insts["struct2"]
+    lbl2 = component.insts["lbl2"]
+    assert lbl2.xmin == struct2.x
+    assert lbl2.ymin == struct2.ymax
+
+
 sample_connections = """
 name: sample_connections
 
