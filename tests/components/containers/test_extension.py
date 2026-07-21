@@ -64,6 +64,23 @@ def test_extend_ports_with_custom_cross_section() -> None:
     assert len(extended_c.ports) > 0
 
 
+def test_extend_ports_preserves_unregistered_multisection_cross_section() -> None:
+    cross_section = gf.cross_section.cross_section(
+        width=1.2,
+        sections=(gf.Section(width=1.2, layer=(2, 0)),),
+    )
+    component = gf.c.straight(length=7, cross_section=cross_section)
+
+    extended = extend_ports(component=component, length=3)
+
+    for layer in ((1, 0), (2, 0)):
+        polygons = extended.get_polygons(by="tuple")[layer]
+        xmin = min(polygon.bbox().left for polygon in polygons) * extended.kcl.dbu
+        xmax = max(polygon.bbox().right for polygon in polygons) * extended.kcl.dbu
+        assert xmin == pytest.approx(-3)
+        assert xmax == pytest.approx(10)
+
+
 def test_line_function() -> None:
     p_start = gf.Port(name="o1", center=(0, 0), width=0.5, orientation=0, layer=1)
     p_end = gf.Port(name="o2", center=(10, 0), width=0.5, orientation=0, layer=1)

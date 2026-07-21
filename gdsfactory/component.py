@@ -316,6 +316,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if xs_name:
             _port.info["cross_section"] = xs_name
+            if len(getattr(xs, "sections", ())) > 1:
+                _port.info["cross_section_settings"] = clean_value_json(
+                    xs, serialization_max_digits=15
+                )
             if register_cross_section:
                 from gdsfactory.pdk import get_active_pdk
 
