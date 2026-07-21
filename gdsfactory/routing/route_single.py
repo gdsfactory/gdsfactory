@@ -28,17 +28,15 @@ To generate a route:
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Any, Literal, cast
+from typing import Literal
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import place_manhattan
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.typings import (
-    STEP_DIRECTIVES,
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
@@ -107,169 +105,26 @@ def route_single(
         c.plot()
         ```
     """
-    if cross_section is None and (layer is None or route_width is None):
-        raise ValueError(
-            f"Either {cross_section=} or {layer=} and route_width must be provided"
-        )
-
-    c = component
-    p1 = port1
-    p2 = port2
-    port_type = port_type or p1.port_type
-
-    if cross_section is None:
-        cross_section = gf.cross_section.cross_section(
-            layer=cast("LayerSpec", layer),
-            width=cast("float", route_width),
-            port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
-            port_types=(port_type, port_type),
-        )
-
-    if route_width:
-        xs = gf.get_cross_section(cross_section, width=route_width)
-    else:
-        xs = gf.get_cross_section(cross_section)
-    width = route_width or xs.width
-
-    radius = radius or xs.radius
-    bend90 = gf.get_component(bend, cross_section=xs, radius=radius, width=width)
-    if auto_taper:
-        p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
-        p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
-
-    def straight_(width: float, length: float, **kwargs: Any) -> gf.Component:
-        return gf.get_component(straight, length=length, **kwargs)
-
-    def straight_dbu(width: int, length: int, **kwargs: Any) -> gf.Component:
-        return straight_(c.kcl.to_um(width), c.kcl.to_um(length), **kwargs)
-
-    if steps and waypoints:
-        raise ValueError("Provide only one of steps or waypoints")
-
-    waypoints_list = [] if waypoints is None else list(waypoints)
-
-    if steps:
-        x, y = p1.center
-        for d in steps:
-            if isinstance(d, dict):
-                if not STEP_DIRECTIVES.issuperset(d):
-                    raise ValueError(
-                        f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
-                        f"Valid directives are {list(STEP_DIRECTIVES)}"
-                    )
-                x = d.get("x", x) + d.get("dx", 0)
-                y = d.get("y", y) + d.get("dy", 0)
-            else:
-                raise ValueError(
-                    f"Invalid step {d!r}. Each step must be a dict with keys (x, y, dx, dy)."
-                )
-            waypoints_list.append((x, y))
-
-    if waypoints_list and steps and len(waypoints_list) < 2:
-        p = waypoints_list[-1]
-        x, y = (p.x, p.y) if isinstance(p, kf.kdb.DPoint) else (p[0], p[1])
-        x1, y1 = p1.center
-        x2, y2 = p2.center
-        orientation = p2.orientation
-        if orientation is not None and int(orientation) in {0, 180}:
-            yt = y1 + (y2 - y1) / 3
-            ytt = y1 + 2 * (y2 - y1) / 3
-            waypoints_list = [(x, yt), (x, ytt)]
-        elif orientation is not None and int(orientation) in {90, 270}:
-            xt = x1 + (x2 - x1) / 3
-            xtt = x1 + 2 * (x2 - x1) / 3
-            waypoints_list = [(xt, y), (xtt, y)]
-
-    if waypoints_list:
-        w: list[kf.kdb.Point] = []
-        if not isinstance(waypoints_list[0], kf.kdb.DPoint):
-            w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p1.center)))
-            for p in waypoints_list:
-                if isinstance(p, tuple):
-                    w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
-                else:
-                    w.append(p.to_itype(c.kcl.dbu))
-            w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p2.center)))
-        else:
-            w = [
-                p.to_itype(c.kcl.dbu)
-                for p in cast("Sequence[gf.kdb.DPoint]", waypoints_list)
-            ]
-
-        try:
-            return place_manhattan(
-                component.to_itype(),
-                p1=p1.to_itype(),
-                p2=p2.to_itype(),
-                straight_factory=straight_dbu,
-                bend90_cell=bend90.to_itype(),
-                pts=w,
-                port_type=port_type,
-                allow_width_mismatch=allow_width_mismatch,
-                route_width=c.kcl.to_dbu(width),
-            )
-        except Exception as e:
-            # error_route((ps, pe, router.start.pts, router.width))
-            ps = p1
-            pe = p2
-            c = component
-            pts = w
-            db = kf.rdb.ReportDatabase("Route Placing Errors")
-            cell = db.create_cell(
-                (
-                    c.kcl._future_cell_name or c.name
-                    if c.name is not None and c.name.startswith("Unnamed_")
-                    else c.name
-                )
-                or ""
-            )
-            cat = db.create_category(f"{ps.name} - {pe.name}")
-            it = db.create_item(cell=cell, category=cat)
-            it.add_value(
-                f"Error while trying to place route from {ps.name} to {pe.name} at"
-                f" points (dbu): {pts}"
-            )
-            it.add_value(f"Exception: {e}")
-            if route_width is not None:
-                path = kf.kdb.Path(pts, c.kcl.to_dbu(route_width))
-            else:
-                path = kf.kdb.Path(pts, c.kcl.to_dbu(ps.width))
-
-            it.add_value(c.kcl.to_um(path.polygon()))
-            if on_error == "error":
-                c.name = (
-                    c.kcl._future_cell_name or c.name
-                    if c.name is not None and c.name.startswith("Unnamed_")
-                    else c.name
-                ) or ""
-                c.show(lyrdb=db)
-                raise kf.routing.generic.PlacerError(
-                    f"Error while trying to place route from {ps.name} to {pe.name} at"
-                    f" points (dbu): {pts}"
-                ) from e
-            layer_error = gf.CONF.layer_error_path
-            layer_index = c.kcl.layer(*layer_error)
-            c.shapes(layer_index).insert(path)
-            return ManhattanRoute(
-                backbone=pts,
-                start_port=p1.to_itype(),
-                end_port=p2.to_itype(),
-            )
-
-    else:
-        return kf.routing.optical.route_bundle(
-            c=component,
-            start_ports=[p1],
-            end_ports=[p2],
-            straight_factory=straight_,
-            bend90_cell=bend90,
-            starts=start_straight_length,
-            ends=end_straight_length,
-            separation=0,
-            place_port_type=port_type,
-            allow_width_mismatch=allow_width_mismatch,
-            route_width=route_width,
-        )[0]
+    return route_bundle(
+        component=component,
+        ports1=[port1],
+        ports2=[port2],
+        cross_section=cross_section,
+        layer=layer,
+        bend=bend,
+        straight=straight,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        waypoints=waypoints,
+        steps=steps,
+        port_type=port_type,
+        allow_width_mismatch=allow_width_mismatch,
+        radius=radius,
+        route_width=route_width,
+        auto_taper=auto_taper,
+        raise_on_error=on_error == "error",
+        layer_transitions=layer_transitions,
+    )[0]
 
 
 def route_single_electrical(
