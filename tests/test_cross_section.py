@@ -231,6 +231,24 @@ def test_cross_section_callable_width_offset(
     )
 
 
+def test_section_serialization_does_not_evaluate_functions() -> None:
+    calls = 0
+
+    def width_function(
+        t: npt.NDArray[np.floating[Any]],
+    ) -> npt.NDArray[np.floating[Any]]:
+        nonlocal calls
+        calls += 1
+        return 0.5 + t
+
+    section = gf.Section(width=0, layer=(1, 0), width_function=width_function)
+
+    dumped = section.model_dump()
+
+    assert dumped["width_function"] is width_function
+    assert calls == 0
+
+
 def test_is_cross_section_private() -> None:
     def _private_xs() -> gf.CrossSection:
         return gf.cross_section.cross_section(width=1.0, layer=(1, 0))
