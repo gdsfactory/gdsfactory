@@ -27,6 +27,19 @@ def test_from_np_returns_component_with_polygons() -> None:
     assert sum(len(v) for v in polys.values()) >= 1
 
 
+def test_from_np_preserves_island_inside_hole() -> None:
+    array = np.zeros((15, 15))
+    array[1:14, 1:14] = 1
+    array[4:11, 4:11] = 0
+    array[6:9, 6:9] = 1
+
+    component = from_np(array, nm_per_pixel=1_000, threshold=0.5)
+
+    # Marching squares places the contours halfway between pixels: the expected
+    # area is outer contour - hole + the nested island.
+    assert component.area((1, 0)) == pytest.approx(168.5 - 48.5 + 8.5)
+
+
 def test_from_np_no_contours_raises() -> None:
     # all zeros below threshold -> no contours found
     arr = np.zeros((10, 10))
