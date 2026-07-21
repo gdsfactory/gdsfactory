@@ -159,7 +159,7 @@ def route_bundle(
     ports2: Port | Ports | list[Pin] | None = None,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
-    separation: float = 3.0,
+    separation: float | None = None,
     bend: ComponentSpec = "bend_euler",
     sort_ports: bool = False,
     start_straight_length: float = 0,
@@ -209,7 +209,7 @@ def route_bundle(
         ports2: end port or list of end ports.
         cross_section: CrossSection or function that returns a cross_section.
         layer: layer to use for the route.
-        separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
+        separation: bundle separation (center to center). Defaults to route width + 3 µm.
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
@@ -369,6 +369,13 @@ def route_bundle(
     else:
         xs = gf.get_cross_section(cross_section)
     width = route_width or xs.width
+    separation = separation if separation is not None else width + 3.0
+    router_separation = separation - width
+    if router_separation < 0:
+        raise ValueError(
+            f"Route center-to-center separation {separation} must be at least "
+            f"the route width {width}."
+        )
 
     radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
@@ -568,7 +575,7 @@ def route_bundle(
             component,
             ports1_,
             ports2_,
-            separation=separation,
+            separation=router_separation,
             straight_factory=straight_um,
             bend90_cell=bend90,
             taper_cell=taper_cell,
@@ -616,7 +623,7 @@ def route_bundle(
             component,
             ports1_,
             ports2_,
-            separation=separation,
+            separation=router_separation,
             starts=start_straight_length,
             ends=end_straight_length,
             on_collision=None,
