@@ -5,9 +5,8 @@ from __future__ import annotations
 import pathlib
 from pathlib import Path
 
-import kfactory as kf
-
 from gdsfactory import logger
+from gdsfactory._kcl import temporary_kcl
 from gdsfactory.name import clean_name
 from gdsfactory.typings import PathType
 
@@ -110,24 +109,19 @@ def write_cells_recursively(
     Returns:
         gdspaths: dict of cell name to gdspath.
     """
-    temp_kcl = kf.KCLayout(name=str(gdspath))
-    temp_kcl.read(gdspath)
-    dirpath = dirpath or pathlib.Path.cwd()
-    dirpath = pathlib.Path(dirpath).absolute()
-    dirpath.mkdir(exist_ok=True, parents=True)
+    with temporary_kcl(str(gdspath)) as temp_kcl:
+        temp_kcl.read(gdspath)
+        dirpath = dirpath or pathlib.Path.cwd()
+        dirpath = pathlib.Path(dirpath).absolute()
+        dirpath.mkdir(exist_ok=True, parents=True)
 
-    gdspaths: dict[str, Path] = {}
-
-    try:
+        gdspaths: dict[str, Path] = {}
         for cell_index in temp_kcl.each_cell_bottom_up():
             component = temp_kcl[cell_index]
             gdspath = dirpath / f"{component.name}.gds"
             component.write(gdspath, deduplicate_cell_names=True)
             gdspaths[component.name] = gdspath
         return gdspaths
-    finally:
-        temp_kcl.library.delete()
-        del kf.layout.kcls[temp_kcl.name]
 
 
 def write_cells(
@@ -144,22 +138,19 @@ def write_cells(
     Returns:
         gdspaths: dict of cell name to gdspath.
     """
-    temp_kcl = kf.KCLayout(name=str(gdspath))
-    temp_kcl.read(gdspath)
-    components = [temp_kcl[top_cell.cell_index()] for top_cell in temp_kcl.top_cells()]
+    with temporary_kcl(str(gdspath)) as temp_kcl:
+        temp_kcl.read(gdspath)
+        components = [
+            temp_kcl[top_cell.cell_index()] for top_cell in temp_kcl.top_cells()
+        ]
 
-    dirpath = dirpath or pathlib.Path.cwd()
-    dirpath = pathlib.Path(dirpath).absolute()
-    dirpath.mkdir(exist_ok=True, parents=True)
+        dirpath = dirpath or pathlib.Path.cwd()
+        dirpath = pathlib.Path(dirpath).absolute()
+        dirpath.mkdir(exist_ok=True, parents=True)
 
-    gdspaths: dict[str, Path] = {}
-
-    try:
+        gdspaths: dict[str, Path] = {}
         for component in components:
             gdspath = dirpath / f"{component.name}.gds"
             component.write(gdspath, deduplicate_cell_names=True)
             gdspaths[component.name] = gdspath
         return gdspaths
-    finally:
-        temp_kcl.library.delete()
-        del kf.layout.kcls[temp_kcl.name]

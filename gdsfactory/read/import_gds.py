@@ -5,9 +5,10 @@ from typing import Any
 from warnings import warn
 
 import kfactory as kf
-from kfactory import KCLayout, utilities
+from kfactory import utilities
 from kfactory.exceptions import CrossSectionNamingConflictError
 
+from gdsfactory._kcl import temporary_kcl
 from gdsfactory.component import Component, _fix_pin_metadata
 from gdsfactory.typings import PostProcesses
 
@@ -29,7 +30,6 @@ def import_gds(
         skip_new_cells: if True, skip new cells that conflict with existing ones.
 
     """
-    temp_kcl = KCLayout(name=str(gdspath))
     options = utilities.load_layout_options()
     options.warn_level = 0
 
@@ -42,61 +42,52 @@ def import_gds(
             kf.kdb.LoadLayoutOptions.CellConflictResolution.RenameCell
         )
 
-    temp_kcl.read(gdspath, options=options)
+    with temporary_kcl(str(gdspath)) as temp_kcl:
+        temp_kcl.read(gdspath, options=options)
 
-    if cellname is None:
-        if len(temp_kcl.layout.top_cells()) > 1:
-            raise ValueError(
-                "GDS file has multiple top cells. Use cellname to select a specific one, or use gf.read.import_gds_multiple_top_cells instead.\n"
-                + f"Top cells: {[c.name for c in temp_kcl.layout.top_cells()]}"
-            )
-        cellname = temp_kcl.layout.top_cell().name
-
-    kcell = temp_kcl[cellname]
-
-    if hasattr(temp_kcl, "cross_sections"):
-        for cross_section in temp_kcl.cross_sections.cross_sections.values():
-            try:
-                kf.kcl.get_symmetrical_cross_section(cross_section)
-            except CrossSectionNamingConflictError:
-                # The same structure is already registered in the global kcl
-                # under a different name (e.g. an older GDS stored it under a
-                # legacy name). Alias the file's name to the canonical
-                # cross-section so imported ports resolve to the existing one
-                # instead of failing (ports are serialized by cross-section name,
-                # so an unregistered name would raise KeyError in get_meta_data).
-                canonical = kf.kcl.cross_sections.cross_sections.get(
-                    cross_section.auto_name()
+        if cellname is None:
+            if len(temp_kcl.layout.top_cells()) > 1:
+                raise ValueError(
+                    "GDS file has multiple top cells. Use cellname to select a specific one, or use gf.read.import_gds_multiple_top_cells instead.\n"
+                    + f"Top cells: {[c.name for c in temp_kcl.layout.top_cells()]}"
                 )
-                radius_conflict = canonical is not None and (
-                    (
-                        cross_section.radius is not None
-                        and cross_section.radius != canonical.radius
+            cellname = temp_kcl.layout.top_cell().name
+
+        kcell = temp_kcl[cellname]
+
+        if hasattr(temp_kcl, "cross_sections"):
+            for cross_section in temp_kcl.cross_sections.cross_sections.values():
+                try:
+                    kf.kcl.get_symmetrical_cross_section(cross_section)
+                except CrossSectionNamingConflictError:
+                    canonical = kf.kcl.cross_sections.cross_sections.get(
+                        cross_section.auto_name()
                     )
-                    or (
-                        cross_section.radius_min is not None
-                        and cross_section.radius_min != canonical.radius_min
+                    radius_conflict = canonical is not None and (
+                        (
+                            cross_section.radius is not None
+                            and cross_section.radius != canonical.radius
+                        )
+                        or (
+                            cross_section.radius_min is not None
+                            and cross_section.radius_min != canonical.radius_min
+                        )
                     )
-                )
-                if canonical is None or radius_conflict:
-                    # Genuine conflict: same name for a different structure, or
-                    # same structure with an incompatible radius. Let it surface.
-                    raise
-                warn(
-                    f"Cross section {cross_section.name!r} in {gdspath} matches "
-                    f"already-registered {canonical.name!r}; imported ports will "
-                    f"use {canonical.name!r}.",
-                    stacklevel=2,
-                )
-                kf.kcl.cross_sections.cross_sections[cross_section.name] = canonical
+                    if canonical is None or radius_conflict:
+                        raise
+                    warn(
+                        f"Cross section {cross_section.name!r} in {gdspath} matches "
+                        f"already-registered {canonical.name!r}; imported ports will "
+                        f"use {canonical.name!r}.",
+                        stacklevel=2,
+                    )
+                    kf.kcl.cross_sections.cross_sections[cross_section.name] = canonical
 
-    c = kcell_to_component(kcell)
-    for pp in post_process or []:
-        pp(c)
+        c = kcell_to_component(kcell)
+        for pp in post_process or []:
+            pp(c)
 
-    temp_kcl.library.delete()
-    del kf.layout.kcls[temp_kcl.name]
-    return c
+        return c
 
 
 def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
@@ -161,7 +152,6 @@ def import_gds_multiple_top_cells(
         ValueError: if any of the provided cellnames are not found among the top cells.
 
     """
-    temp_kcl = KCLayout(name=str(gdspath))
     options = utilities.load_layout_options()
     options.warn_level = 0
 
@@ -174,35 +164,34 @@ def import_gds_multiple_top_cells(
             kf.kdb.LoadLayoutOptions.CellConflictResolution.RenameCell
         )
 
-    temp_kcl.read(gdspath, options=options)
+    with temporary_kcl(str(gdspath)) as temp_kcl:
+        temp_kcl.read(gdspath, options=options)
 
-    components = {}
+        components = {}
 
-    kcells = temp_kcl.layout.top_cells()
+        kcells = temp_kcl.layout.top_cells()
 
-    if cellnames is not None:
-        # Validate provided cellnames and surface all invalid names at once
-        available_cellnames = {kcell.name for kcell in kcells}
-        missing = set(cellnames) - available_cellnames
-        if missing:
-            raise ValueError(
-                "Unknown cellnames requested. These names are not present in the GDS top cells: "
-                + ", ".join(sorted(missing))
-                + ".\n"
-                + f"Available top cells: {sorted(available_cellnames)}"
-            )
-        # Filter kcells to include only those specified in cellnames
-        kcells = [kcell for kcell in kcells if kcell.name in cellnames]
+        if cellnames is not None:
+            # Validate provided cellnames and surface all invalid names at once
+            available_cellnames = {kcell.name for kcell in kcells}
+            missing = set(cellnames) - available_cellnames
+            if missing:
+                raise ValueError(
+                    "Unknown cellnames requested. These names are not present in the GDS top cells: "
+                    + ", ".join(sorted(missing))
+                    + ".\n"
+                    + f"Available top cells: {sorted(available_cellnames)}"
+                )
+            # Filter kcells to include only those specified in cellnames
+            kcells = [kcell for kcell in kcells if kcell.name in cellnames]
 
-    for kcell in kcells:
-        components[kcell.name] = kcell_to_component(
-            temp_kcl[kcell.name]
-        )  # Convert each kcell to Component class and store in dictionary using its name as the key
+        for kcell in kcells:
+            components[kcell.name] = kcell_to_component(
+                temp_kcl[kcell.name]
+            )  # Convert each kcell to Component class and store in dictionary using its name as the key
 
-    for pp in post_process or []:
-        for c in components.values():
-            pp(c)
+        for pp in post_process or []:
+            for c in components.values():
+                pp(c)
 
-    temp_kcl.library.delete()
-    del kf.layout.kcls[temp_kcl.name]
-    return components
+        return components

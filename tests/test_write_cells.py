@@ -1,3 +1,7 @@
+from collections.abc import Callable
+from pathlib import Path
+
+import kfactory as kf
 import pytest
 
 import gdsfactory as gf
@@ -22,6 +26,32 @@ def test_write_cells() -> None:
     gf.clear_cache()
     gdspaths = write_cells(gdspath=gdspath, dirpath=GDSDIR_TEMP)
     assert len(gdspaths) == 3, len(gdspaths)
+
+
+@pytest.mark.parametrize("writer", [write_cells, write_cells_recursively])
+def test_write_cells_cleans_up_temp_kcl_on_read_error(
+    tmp_path: Path, writer: Callable[..., dict[str, Path]]
+) -> None:
+    gdspath = tmp_path / "missing.gds"
+
+    with pytest.raises(RuntimeError):
+        writer(gdspath=gdspath, dirpath=tmp_path / "out")
+
+    assert str(gdspath) not in kf.layout.kcls
+
+
+@pytest.mark.parametrize("writer", [write_cells, write_cells_recursively])
+def test_write_cells_cleans_up_temp_kcl_on_output_dir_error(
+    tmp_path: Path, writer: Callable[..., dict[str, Path]]
+) -> None:
+    gdspath = gf.components.straight().write_gds(tmp_path / "straight.gds")
+    dirpath = tmp_path / "not_a_directory"
+    dirpath.write_text("file blocks directory creation")
+
+    with pytest.raises(FileExistsError):
+        writer(gdspath=gdspath, dirpath=dirpath)
+
+    assert str(gdspath) not in kf.layout.kcls
 
 
 def test_write_cells_route_collision_preserves_cached_ports() -> None:

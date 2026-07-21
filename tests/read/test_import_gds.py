@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import warnings
+from collections.abc import Callable
 from pathlib import Path
 
 import jsondiff
@@ -12,7 +13,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.gpdk.layer_map import LAYER
-from gdsfactory.read.import_gds import import_gds
+from gdsfactory.read.import_gds import import_gds, import_gds_multiple_top_cells
 from gdsfactory.serialization import clean_value_json
 
 
@@ -35,6 +36,44 @@ def test_import_gds_hierarchy() -> None:
 
     c = import_gds(gdspath)
     assert c.name == c0.name, c.name
+
+
+@pytest.mark.parametrize("reader", [import_gds, import_gds_multiple_top_cells])
+def test_import_gds_cleans_up_temp_kcl_on_read_error(
+    tmp_path: Path, reader: Callable[..., object]
+) -> None:
+    gdspath = tmp_path / "missing.gds"
+
+    with pytest.raises(RuntimeError):
+        reader(gdspath)
+
+    assert str(gdspath) not in kf.layout.kcls
+
+
+@pytest.mark.parametrize("reader", [import_gds, import_gds_multiple_top_cells])
+def test_import_gds_cleans_up_temp_kcl_on_post_process_error(
+    tmp_path: Path, reader: Callable[..., object]
+) -> None:
+    gdspath = gf.components.straight().write_gds(tmp_path / "straight.gds")
+
+    def fail_post_process(component: gf.Component) -> None:
+        raise RuntimeError("post process failed")
+
+    with pytest.raises(RuntimeError, match="post process failed"):
+        reader(gdspath, post_process=(fail_post_process,))
+
+    assert str(gdspath) not in kf.layout.kcls
+
+
+def test_import_gds_multiple_top_cells_cleans_up_temp_kcl_on_cellname_error(
+    tmp_path: Path,
+) -> None:
+    gdspath = gf.components.straight().write_gds(tmp_path / "straight.gds")
+
+    with pytest.raises(ValueError, match="Unknown cellnames requested"):
+        import_gds_multiple_top_cells(gdspath, cellnames=["missing"])
+
+    assert str(gdspath) not in kf.layout.kcls
 
 
 def test_import_json_label(data_regression: DataRegressionFixture) -> None:
