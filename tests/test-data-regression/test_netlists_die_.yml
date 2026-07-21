@@ -1,11 +1,12 @@
 instances:
-  text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_4965e284_m4880000_m4850000:
+  text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_b2b715c8_m4880000_m4850000:
     component: text
     info: {}
     settings:
       font: null
       justify: left
       layer: WG
+      monospace: true
       position:
       - 0
       - 0
@@ -13,7 +14,7 @@ instances:
       text: chip99
 nets: []
 placements:
-  text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_4965e284_m4880000_m4850000:
+  text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_b2b715c8_m4880000_m4850000:
     mirror: false
     rotation: 0
     x: -4880

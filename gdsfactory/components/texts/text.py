@@ -46,6 +46,7 @@ def text(
     justify: str = "left",
     layer: LayerSpec = "WG",
     font: TextFont | None = None,
+    monospace: bool = True,
 ) -> Component:
     """Text shapes.
 
@@ -56,6 +57,7 @@ def text(
         justify: left, right, center.
         layer: for the text.
         font: optional named polygon font. Uses the built-in DEPLOF font by default.
+        monospace: use a fixed advance for built-in ASCII letters and digits.
     """
     scaling = size / 1000
     xoffset = position[0]
@@ -94,7 +96,12 @@ def text(
                         list(zip(xpts + xoffset, ypts + yoffset, strict=False)),
                         layer=layer,
                     )
-                xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
+                advance = (
+                    1100
+                    if monospace and c.isascii() and c.isalnum()
+                    else _width[ascii_val] + _indent[ascii_val]
+                )
+                xoffset += advance * scaling
             else:
                 raise ValueError(f"No character with ascii value {ascii_val!r}")
         t.add_ref(label)
