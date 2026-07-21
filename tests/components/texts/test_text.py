@@ -24,9 +24,7 @@ def test_text_custom_font() -> None:
         indents=font.indents,
         space_width=font.space_width,
     )
-    renamed_component = gf.c.text(
-        text="A B", size=10, font=renamed_font, layer=(1, 0)
-    )
+    renamed_component = gf.c.text(text="A B", size=10, font=renamed_font, layer=(1, 0))
 
     assert component.name.startswith("text_gdsfactorypcomponentsptextsptext_")
     assert component.name != renamed_component.name
