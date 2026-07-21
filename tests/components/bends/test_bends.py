@@ -224,6 +224,21 @@ def test_bend_s() -> None:
     assert len(c3.ports) == 2
 
 
+def test_bend_s_width_overrides_cross_section_width() -> None:
+    cross_section = gf.cross_section.cross_section(width=0.5, layer="M2")
+
+    component = bend_s(
+        size=(50, 10),
+        npoints=120,
+        cross_section=cross_section,
+        allow_min_radius_violation=True,
+        width=0.8,
+    )
+
+    assert component.layers == [(45, 0)]
+    assert all(port.dwidth == 0.8 for port in component.ports)
+
+
 def test_get_min_sbend_size() -> None:
     size_x = get_min_sbend_size(size=(None, 10.0))
     assert isinstance(size_x, float)
