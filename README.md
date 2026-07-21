@@ -33,6 +33,9 @@ gfi install
 ```python
 import gdsfactory as gf
 
+# Activate the built-in generic process design kit
+gf.gpdk.PDK.activate()
+
 # Create a new component
 c = gf.Component()
 
