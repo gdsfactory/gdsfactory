@@ -5,7 +5,7 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
-from gdsfactory.read.from_yaml import from_yaml, sample_mmis
+from gdsfactory.read.from_yaml import from_yaml, sample_all_angle, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -73,6 +73,21 @@ def test_connections() -> None:
     assert len(c.insts) == 2
     assert len(c.ports) == 0
     c.delete()
+
+
+def test_all_angle_instance_is_virtual_and_connected() -> None:
+    c = from_yaml(sample_all_angle)
+
+    assert len(c.insts) == 2
+    assert len(c.vinsts) == 1
+    assert c.vinsts[0].name == "b1"
+
+    netlist = c.get_netlist()
+    assert netlist["instances"]["b1"]["virtual"] is True
+    assert netlist["nets"] == (
+        {"p1": "b1,o1", "p2": "s0,o2"},
+        {"p1": "b1,o2", "p2": "s1,o1"},
+    )
 
 
 sample_2x2_connections = """
