@@ -56,24 +56,19 @@ text2.rotate(30)
 c.show()
 ```
 
-Highlights:
-
-- 4M+ downloads
-- 116+ Contributors
-- 42+ PDKs available
+**4M+ downloads** · **116+ contributors** · **42+ PDKs**
 
 ![workflow](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/workflow.png)
 
-We provide a comprehensive end-to-end design flow that enables you to:
+GDSFactory provides a comprehensive end-to-end design flow:
 
-- **Design (Layout, Simulation, Optimization)**: Define parametric cell functions in Python to generate components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
-- **Verify (DRC, DFM, LVS)**: Run simulations directly from the layout using our simulation interfaces, removing the need to redraw your components in simulation tools. Conduct component and circuit simulations, study design for manufacturing. Ensure complex layouts match their design intent through Layout Versus Schematic verification (LVS) and are DRC clean.
-- **Validate**: Define layout and test protocols simultaneously for automated chip analysis post-fabrication. This allows you to extract essential component parameters, and build data pipelines from raw data to structured data to monitor chip performance.
+- **Design (Layout, Simulation, Optimization)** — Define parametric cell functions in Python to generate components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
+- **Verify (DRC, DFM, LVS)** — Run simulations directly from the layout using our simulation interfaces, removing the need to redraw your components in simulation tools. Conduct component and circuit simulations, study design for manufacturing. Ensure complex layouts match their design intent through Layout Versus Schematic verification (LVS) and are DRC clean.
+- **Validate** — Define layout and test protocols simultaneously for automated chip analysis post-fabrication. Extract essential component parameters and build data pipelines from raw data to structured data to monitor chip performance.
 
-Your input: Python or YAML text.
-Your output: A GDSII or OASIS file for fabrication, alongside component settings (for measurement and data analysis) and netlists (for circuit simulations) in YAML.
+**Input:** Python or YAML. **Output:** GDSII, OASIS, STL, or GERBER files for fabrication, plus component settings and netlists in YAML.
 
-We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, SAX, MEOW, Xyce ...), verification, and validation.
+GDSFactory integrates with Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, SAX, MEOW, SPICE, and more.
 
 ![tool interfaces](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/tool_interfaces.png)
 
@@ -82,38 +77,34 @@ We provide a common syntax for design (Ansys, Lumerical, Tidy3d, MEEP, DEVSIM, S
 
 These PDKs are publicly available and do not require an NDA:
 
-- Photonics:
-    - [Cornerstone PDK](https://github.com/gdsfactory/cspdk)
-    - [SiEPIC Ebeam UBC PDK](https://github.com/gdsfactory/ubc)
-    - [VTT PDK](https://github.com/gdsfactory/vtt)
-    - [Luxtelligence GF PDK](https://github.com/Luxtelligence/lxt_pdk_gf)
-- Quantum:
-    - [Quantum RF PDK](https://github.com/gdsfactory/quantum-rf-pdk)
-- RF/AMS/Digital/Analog:
-    - [IHP](https://gdsfactory.github.io/IHP)
-    - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180mcu/)
-    - [SkyWater 130nm CMOS PDK](https://gdsfactory.github.io/skywater130/)
+### Photonics
+
+| PDK | Code | Docs |
+| :-- | :--: | :--: |
+| Cornerstone PDK | [GitHub](https://github.com/gdsfactory/cspdk) | [Docs](https://gdsfactory.github.io/cspdk/) |
+| SiEPIC Ebeam UBC PDK | [GitHub](https://github.com/gdsfactory/ubc) | [Docs](https://gdsfactory.github.io/ubc) |
+| VTT PDK | [GitHub](https://github.com/gdsfactory/vtt) | [Docs](https://gdsfactory.github.io/vtt) |
+| Luxtelligence GF PDK | [GitHub](https://github.com/Luxtelligence/lxt_pdk_gf) | [Docs](https://gdsfactory.github.io/lxt_pdk_gf) |
+
+### Quantum
+
+| PDK | Code | Docs |
+| :-- | :--: | :--: |
+| Quantum RF PDK | [GitHub](https://github.com/gdsfactory/quantum-rf-pdk) | [Docs](https://gdsfactory.github.io/quantum-rf-pdk/) |
+
+### RF / AMS / Digital / Analog
+
+| PDK | Code | Docs |
+| :-- | :--: | :--: |
+| IHP | [GitHub](https://github.com/gdsfactory/IHP) | [Docs](https://gdsfactory.github.io/IHP) |
+| GlobalFoundries 180nm MCU CMOS | [GitHub](https://github.com/gdsfactory/gf180mcu) | [Docs](https://gdsfactory.github.io/gf180mcu/) |
+| SkyWater 130nm CMOS | [GitHub](https://github.com/gdsfactory/skywater130) | [Docs](https://gdsfactory.github.io/skywater130/) |
 
 ## Foundry PDKs (NDA Required)
 
-Access to the following PDKs requires a **GDSFactory+** subscription.
+Access PDKs under NDA require a **GDSFactory+** subscription.
 To sign up, visit [GDSFactory.com](https://gdsfactory.com/).
-
-Available PDKs under NDA:
-
-- AIM Photonics
-- AMF Photonics
-- CompoundTek Photonics
-- Fraunhofer HHI Photonics
-- Smart Photonics
-- Tower Semiconductor PH18
-- Tower PH18DA by OpenLight
-- III-V Labs
-- LioniX
-- Ligentec
-- Lightium
-- Quantum Computing Inc. (QCI)
-
+See list of available PDKs under NDA [here](https://gdsfactory.com/pdks/).
 
 ## GDSFactory+
 
@@ -167,7 +158,7 @@ Hundreds of organisations are using GDSFactory. Some companies and organizations
 
 ---
 
-"I use GDSFactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
+"I use GDSFactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial."
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
 
@@ -197,19 +188,6 @@ We welcome all contributions—whether you're adding new features, improving doc
 Join us and be part of the community. 🚀
 
 ![contributors](https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/docs/images/contributors.png)
-
-## Stargazers
-
-[![Stargazers over time](https://starchart.cc/gdsfactory/gdsfactory.svg)](https://starchart.cc/gdsfactory/gdsfactory)
-
-## Key Features
-
-- **Design**: Create parametric components with Python
-- **Simulation**: Direct integration with major simulation tools
-- **Verification**: Built-in DRC, DFM, and LVS capabilities
-- **Validation**: Automated chip analysis and data pipelines
-- **Multi-format Output**: Generate GDSII, OASIS, STL, and GERBER files
-- **Extensible**: Easy to add new components and functionality
 
 ## LLM-Friendly Documentation
 

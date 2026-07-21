@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import warnings
 from collections.abc import Callable
 from pathlib import Path
 
@@ -130,6 +131,134 @@ def test_import_gds_subcell(data_regression: DataRegressionFixture) -> None:
 
     assert len(l1.ports) == 2
     assert l1.settings == c1.settings
+
+
+def test_import_gds_cross_section_naming_conflict(tmp_path: Path) -> None:
+    """Import a GDS whose port cross-section matches an existing one under a different name.
+
+    Ports are serialized by cross-section name, so an older GDS may reference a
+    structurally-identical cross-section under a legacy name. On import that name
+    must resolve to the already-registered (canonical) cross-section instead of
+    raising ``CrossSectionNamingConflictError``/``KeyError``.
+    """
+    gf.gpdk.PDK.activate()
+
+    width_dbu = 602  # even (dbu symmetry) and unlikely to collide with defaults
+    layer_info = kf.kdb.LayerInfo(2, 0)
+    legacy_name = "strip_legacy_conflict"
+    canonical_name = "strip_canonical_conflict"
+
+    # Build an isolated layout whose top cell has a port using ``legacy_name``,
+    # then write it to a GDS. Using a separate KCLayout keeps the file's name out
+    # of the global registry so the conflict only arises at import time.
+    file_kcl = kf.KCLayout("legacy_file_layout_conflict")
+    enclosure = file_kcl.get_enclosure(
+        kf.LayerEnclosure(sections=[], main_layer=layer_info)
+    )
+    xs_legacy = file_kcl.get_symmetrical_cross_section(
+        kf.SymmetricalCrossSection(
+            width=width_dbu, enclosure=enclosure, name=legacy_name
+        )
+    )
+    cell = file_kcl.kcell("TOP_LEGACY_CONFLICT")
+    cell.shapes(file_kcl.layout.layer(layer_info)).insert(
+        kf.kdb.Box(0, -width_dbu // 2, 10000, width_dbu // 2)
+    )
+    cell.create_port(
+        name="o1",
+        trans=kf.kdb.Trans(0, False, 0, 0),
+        cross_section=xs_legacy,
+        port_type="optical",
+    )
+    cell.set_meta_data()
+    gdspath = tmp_path / "legacy.gds"
+    file_kcl.write(str(gdspath))
+
+    registry = kf.kcl.cross_sections.cross_sections
+    keys_before = set(registry)
+    try:
+        # Register the same structure globally under a different (canonical) name.
+        kf.kcl.get_symmetrical_cross_section(
+            kf.SymmetricalCrossSection(
+                width=width_dbu,
+                enclosure=kf.kcl.get_enclosure(
+                    kf.LayerEnclosure(sections=[], main_layer=layer_info)
+                ),
+                name=canonical_name,
+            )
+        )
+
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            c = import_gds(gdspath)
+            messages = [str(w.message) for w in caught]
+
+        assert len(c.ports) == 1
+        # The imported port resolves to the canonical cross-section, not the
+        # legacy name it was written with.
+        assert c.ports[0].info["cross_section"] == canonical_name
+        assert any(legacy_name in m and canonical_name in m for m in messages), messages
+    finally:
+        for key in set(registry) - keys_before:
+            del registry[key]
+        file_kcl.library.delete()
+        kf.layout.kcls.pop(file_kcl.name, None)
+
+
+def test_import_gds_cross_section_radius_conflict(tmp_path: Path) -> None:
+    """A genuine radius conflict must still surface instead of being silently aliased."""
+    gf.gpdk.PDK.activate()
+
+    width_dbu = 604
+    layer_info = kf.kdb.LayerInfo(3, 0)
+
+    file_kcl = kf.KCLayout("legacy_file_layout_radius")
+    enclosure = file_kcl.get_enclosure(
+        kf.LayerEnclosure(sections=[], main_layer=layer_info)
+    )
+    xs_legacy = file_kcl.get_symmetrical_cross_section(
+        kf.SymmetricalCrossSection(
+            width=width_dbu,
+            enclosure=enclosure,
+            name="strip_radius_legacy",
+            radius=5000,
+        )
+    )
+    cell = file_kcl.kcell("TOP_RADIUS")
+    cell.shapes(file_kcl.layout.layer(layer_info)).insert(
+        kf.kdb.Box(0, -width_dbu // 2, 10000, width_dbu // 2)
+    )
+    cell.create_port(
+        name="o1",
+        trans=kf.kdb.Trans(0, False, 0, 0),
+        cross_section=xs_legacy,
+        port_type="optical",
+    )
+    cell.set_meta_data()
+    gdspath = tmp_path / "legacy_radius.gds"
+    file_kcl.write(str(gdspath))
+
+    registry = kf.kcl.cross_sections.cross_sections
+    keys_before = set(registry)
+    try:
+        # Same structure, but a different (incompatible) radius: must not be aliased.
+        kf.kcl.get_symmetrical_cross_section(
+            kf.SymmetricalCrossSection(
+                width=width_dbu,
+                enclosure=kf.kcl.get_enclosure(
+                    kf.LayerEnclosure(sections=[], main_layer=layer_info)
+                ),
+                name="strip_radius_canonical",
+                radius=10000,
+            )
+        )
+        with pytest.raises(kf.exceptions.CrossSectionNamingConflictError):
+            import_gds(gdspath)
+    finally:
+        for key in set(registry) - keys_before:
+            del registry[key]
+        file_kcl.library.delete()
+        kf.layout.kcls.pop(file_kcl.name, None)
 
 
 def import_same_file_twice() -> None:

@@ -34,8 +34,6 @@ def coupler_ring(
         cross_section_bend: optional bend cross_section spec.
         length_extension: straight length extension at the end of the coupler bottom ports.
 
-    .. code::
-
           o2                              o3
           xx                              xx
           xx                             xx

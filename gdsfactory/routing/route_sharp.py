@@ -29,7 +29,7 @@ def path_straight(port1: typings.Port, port2: typings.Port) -> Path:
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
     )
     e1, e2 = _get_rotated_basis(port1.orientation)
-    displacement = np.array(port2.center) - np.array(port1.center)
+    displacement = np.asarray(port2.center) - np.asarray(port1.center)
     xrel = np.round(
         np.dot(displacement, e1), 3
     )  # relative position of port 2, forward/backward
@@ -59,7 +59,7 @@ def path_L(port1: typings.Port, port2: typings.Port) -> Path:
     e1, _e2 = _get_rotated_basis(port1.orientation)
 
     # assemble waypoints
-    pt1 = np.array(port1.center)
+    pt1 = np.asarray(port1.center)
     pt3 = port2.center
     delta_vec = pt3 - pt1
     pt2 = pt1 + np.dot(delta_vec, e1) * e1
@@ -172,7 +172,7 @@ def path_manhattan(port1: typings.Port, port2: typings.Port, radius: float) -> P
     """
     radius += 0.1
     e1, e2 = _get_rotated_basis(port1.orientation)
-    displacement = np.array(port2.center) - np.array(port1.center)
+    displacement = np.asarray(port2.center) - np.asarray(port1.center)
     xrel = np.round(
         np.dot(displacement, e1), 3
     )  # port2 position, forward(+)/backward(-) from port 1
@@ -278,7 +278,8 @@ def path_V(port1: typings.Port, port2: typings.Port) -> Path:
 
     # Solve for intersection
     e = np.column_stack((e1, -1 * e2))
-    pt2 = np.matmul(np.linalg.inv(e), np.array(pt3) - np.array(pt1))[0] * e1 + pt1
+    distance = np.linalg.solve(e, np.asarray(pt3) - pt1)[0]
+    pt2 = distance * e1 + pt1
     return Path(np.array([pt1, pt2, pt3]))
 
 

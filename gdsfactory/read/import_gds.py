@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
+from warnings import warn
 
 import kfactory as kf
 from kfactory import utilities
+from kfactory.exceptions import CrossSectionNamingConflictError
 
 from gdsfactory._kcl import temporary_kcl
 from gdsfactory.component import Component, _fix_pin_metadata
@@ -55,7 +57,31 @@ def import_gds(
 
         if hasattr(temp_kcl, "cross_sections"):
             for cross_section in temp_kcl.cross_sections.cross_sections.values():
-                kf.kcl.get_symmetrical_cross_section(cross_section)
+                try:
+                    kf.kcl.get_symmetrical_cross_section(cross_section)
+                except CrossSectionNamingConflictError:
+                    canonical = kf.kcl.cross_sections.cross_sections.get(
+                        cross_section.auto_name()
+                    )
+                    radius_conflict = canonical is not None and (
+                        (
+                            cross_section.radius is not None
+                            and cross_section.radius != canonical.radius
+                        )
+                        or (
+                            cross_section.radius_min is not None
+                            and cross_section.radius_min != canonical.radius_min
+                        )
+                    )
+                    if canonical is None or radius_conflict:
+                        raise
+                    warn(
+                        f"Cross section {cross_section.name!r} in {gdspath} matches "
+                        f"already-registered {canonical.name!r}; imported ports will "
+                        f"use {canonical.name!r}.",
+                        stacklevel=2,
+                    )
+                    kf.kcl.cross_sections.cross_sections[cross_section.name] = canonical
 
         c = kcell_to_component(kcell)
         for pp in post_process or []:

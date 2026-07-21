@@ -17,7 +17,6 @@ import threading
 import time
 import traceback
 from types import SimpleNamespace
-from typing import TypeAlias
 
 import kfactory as kf
 from IPython.terminal.embed import embed
@@ -40,10 +39,10 @@ from gdsfactory.pdk import Pdk, get_active_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.typings import ComponentFactory, ComponentSpec, PathType
 
-_MovedEvent: TypeAlias = DirMovedEvent | FileMovedEvent
-_CreatedEvent: TypeAlias = DirCreatedEvent | FileCreatedEvent
-_DeletedEvent: TypeAlias = DirDeletedEvent | FileDeletedEvent
-_ModifiedEvent: TypeAlias = DirModifiedEvent | FileModifiedEvent
+type _MovedEvent = DirMovedEvent | FileMovedEvent
+type _CreatedEvent = DirCreatedEvent | FileCreatedEvent
+type _DeletedEvent = DirDeletedEvent | FileDeletedEvent
+type _ModifiedEvent = DirModifiedEvent | FileModifiedEvent
 
 
 class FileWatcher(FileSystemEventHandler):

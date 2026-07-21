@@ -49,10 +49,9 @@ def delay_snake(
         cross_section: cross_section spec.
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
-    .. code::
-
                  | length0   |
 
+    ```text
                  >---------\
                             \bend180.info['length']
                             /
@@ -61,6 +60,7 @@ def delay_snake(
        |------------------->------->|
                             length2
        |   delta_length    |        |
+    ```
 
 
     """

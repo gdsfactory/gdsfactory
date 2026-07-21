@@ -239,8 +239,6 @@ class Pdk(BaseModel):
         Reuses the core xsection decorator from cross_section.py while maintaining
         PDK-specific storage of cross sections.
 
-        .. code-block:: python
-
             @pdk.xsection
             def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
                 return gf.cross_section.cross_section(width=width, radius=radius)

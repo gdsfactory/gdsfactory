@@ -38,13 +38,13 @@ def coh_rx_single_pol(
         cross_section_metal: cross_section for the metal layer.
         cross_section: cross_section for the waveguides.
 
-    .. code::
-
+    ```text
                                _________
            (lo_in_coupler)---|          |--- detI1 \\ __ i signal
                              |  90 deg  |--- detI2 //
        (signal_in_coupler)---|  hybrid  |--- detQ1 \\ __ q signal
                              |__________|--- detQ2 //
+    ```
     """
     # ----- Draw 90 deg hybrid -----
 

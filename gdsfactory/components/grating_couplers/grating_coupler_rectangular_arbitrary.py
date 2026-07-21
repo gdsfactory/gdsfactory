@@ -53,8 +53,6 @@ def grating_coupler_rectangular_arbitrary(
         fiber_angle: in degrees.
         cross_section: for input waveguide port.
 
-    .. code::
-
                       fiber
 
                    /  /  /  /

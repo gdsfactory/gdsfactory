@@ -468,8 +468,6 @@ class Path(UMGeometricObject):
         Returns:
             str Hash result in the form of an SHA1 hex digest string.
 
-        .. code::
-
             hash(
                 hash(First layer information: [layer1, datatype1]),
                 hash(Polygon 1 on layer 1 points: [(x1,y1),(x2,y2),(x3,y3)] ),
@@ -2282,7 +2280,9 @@ def spiral_archimedean(
 
     Args:
         min_bend_radius: Inner radius of the spiral.
-        separation: Separation between the loops in um.
+        separation: Half the radial separation between loops in um. The
+            current formula is retained for compatibility with existing
+            layouts, so adjacent turns are separated by ``2 * separation``.
         number_of_loops: number of loops.
         npoints: number of Points.
 
@@ -2295,15 +2295,11 @@ def spiral_archimedean(
         p.plot()
 
     """
-    return Path(
-        np.array(
-            [
-                (separation / np.pi * theta + min_bend_radius)
-                * np.array((np.sin(theta), np.cos(theta)))
-                for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
-            ]
-        )
+    theta = np.linspace(0, number_of_loops * 2 * np.pi, int(npoints))
+    points = (separation / np.pi * theta + min_bend_radius)[:, None] * np.column_stack(
+        (np.sin(theta), np.cos(theta))
     )
+    return Path(points)
 
 
 def _compute_segments(

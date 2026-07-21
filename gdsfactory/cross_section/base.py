@@ -9,7 +9,7 @@ from __future__ import annotations
 import hashlib
 import warnings
 from collections.abc import Callable
-from typing import Any, Self, TypeAlias
+from typing import Any, Self
 
 import numpy as np
 from kfactory import DCrossSection, SymmetricalCrossSection
@@ -89,8 +89,6 @@ class Section(BaseModel):
                 transitions (will not be tapered between two CrossSections).
         width_function: parameterized function from 0 to 1.
         offset_function: parameterized function from 0 to 1.
-
-    .. code::
 
          0
 
@@ -189,8 +187,6 @@ class CrossSection(BaseModel):
         radius_min: minimum acceptable bend radius.
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
-
-    .. code::
 
 
            ┌────────────────────────────────────────────────────────────┐
@@ -501,8 +497,8 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
         )
 
 
-CrossSectionFactory: TypeAlias = Callable[..., "CrossSection"]
-CrossSectionSpec: TypeAlias = (
+type CrossSectionFactory = Callable[..., "CrossSection"]
+type CrossSectionSpec = (
     CrossSection
     | str
     | dict[str, Any]
