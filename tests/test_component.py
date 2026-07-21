@@ -106,6 +106,18 @@ def test_remove_layers() -> None:
     assert c.area((2, 0)) == 0, f"{c.area((2, 0))}"
 
 
+def test_remove_port() -> None:
+    component = gf.components.straight().copy()
+
+    assert "o1" in component.ports
+    assert component.remove_port("o1") is component
+    assert "o1" not in component.ports
+    assert "o2" in component.ports
+
+    with pytest.raises(KeyError):
+        component.remove_port("missing")
+
+
 def test_remove_layers_recursive_multiple_layers() -> None:
     child = gf.Component()
     child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))

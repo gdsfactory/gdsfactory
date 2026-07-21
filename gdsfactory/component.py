@@ -332,6 +332,18 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         return _port
 
+    def remove_port(self, name: str) -> Self:
+        """Removes one named port from the Component.
+
+        Args:
+            name: name of the port to remove.
+        """
+        if self.locked:
+            raise LockedError(self)
+        port = self.ports[name]
+        self.ports.bases.remove(port.base)
+        return self
+
     def copy(self) -> Component:
         """Copy the full cell."""
         return self.dup()  # type: ignore[return-value]
