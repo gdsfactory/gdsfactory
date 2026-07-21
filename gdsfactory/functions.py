@@ -440,13 +440,13 @@ def trim(
 
     Returns: New component with layers (and possibly ports) of the component restricted to the domain.
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-      c = gf.components.straight_pin(length=10)
-      trimmed_c = gf.functions.trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
-      trimmed_c.plot()
+    Example:
+        ```python
+        import gdsfactory as gf
+        c = gf.components.straight_pin(length=10)
+        trimmed_c = gf.functions.trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
+        trimmed_c.plot()
+        ```
     """
     dummy = gf.Component()
     dummy.add_polygon(domain, layer=(1, 0))

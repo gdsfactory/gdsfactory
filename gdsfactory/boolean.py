@@ -39,19 +39,18 @@ def boolean(
     Returns: Component with polygon(s) of the boolean operations between
       the 2 input Components performed.
 
-    .. plot::
-      :include-source:
+    Example:
+        ```python
+        import gdsfactory as gf
 
-      import gdsfactory as gf
+        c = gf.Component()
+        c1 = c << gf.components.circle(radius=10)
+        c2 = c << gf.components.circle(radius=9)
+        c2.movex(5)
 
-      c = gf.Component()
-      c1 = c << gf.components.circle(radius=10)
-      c2 = c << gf.components.circle(radius=9)
-      c2.movex(5)
-
-      c = gf.boolean(c1, c2, operation="xor")
-      c.plot()
-
+        c = gf.boolean(c1, c2, operation="xor")
+        c.plot()
+        ```
     """
     from gdsfactory import get_layer
 

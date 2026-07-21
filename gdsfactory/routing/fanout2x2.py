@@ -36,15 +36,14 @@ def fanout2x2(
         port4: bottom east port.
         kwargs: cross_section settings.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
         c = gf.components.nxn(west=2, east=2)
 
         cc = gf.routing.fanout2x2(component=c, port_spacing=20)
         cc.plot()
-
+        ```
     """
     c = gf.Component()
 

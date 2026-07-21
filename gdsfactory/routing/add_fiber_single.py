@@ -67,19 +67,18 @@ def add_fiber_single(
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.components.crossing()
         cc = gf.routing.add_fiber_array(
-            component=c,
-            grating_coupler=gf.components.grating_coupler_elliptical_te,
-            with_loopback=False
+        component=c,
+        grating_coupler=gf.components.grating_coupler_elliptical_te,
+        with_loopback=False
         )
         cc.plot()
-
+        ```
     """
     component = gf.get_component(component)
     optical_ports = select_ports(component.ports)

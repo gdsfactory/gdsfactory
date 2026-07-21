@@ -78,22 +78,21 @@ def add_pads_bot(
         input_port_indexes: to connect.
         allow_width_mismatch: True
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
         c = gf.c.nxn(
-            xsize=600,
-            ysize=200,
-            north=2,
-            south=3,
-            wg_width=10,
-            layer="M3",
-            port_type="electrical",
+        xsize=600,
+        ysize=200,
+        north=2,
+        south=3,
+        wg_width=10,
+        layer="M3",
+        port_type="electrical",
         )
         cc = gf.routing.add_pads_bot(component=c, port_names=("e1", "e4"), fanout_length=50)
         cc.plot()
-
+        ```
     """
     component_new = Component()
     component = gf.get_component(component)
@@ -216,22 +215,21 @@ def add_pads_top(
         input_port_indexes: to connect.
         allow_width_mismatch: True
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
         c = gf.c.nxn(
-            xsize=600,
-            ysize=200,
-            north=2,
-            south=3,
-            wg_width=10,
-            layer="M3",
-            port_type="electrical",
+        xsize=600,
+        ysize=200,
+        north=2,
+        south=3,
+        wg_width=10,
+        layer="M3",
+        port_type="electrical",
         )
         cc = gf.routing.add_pads_top(component=c, port_names=("e1", "e4"), fanout_length=50)
         cc.plot()
-
+        ```
     """
     c = Component()
     _c = add_pads_bot(

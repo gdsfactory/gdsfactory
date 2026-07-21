@@ -43,15 +43,14 @@ def add_electrical_pads_top(
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.components.wire_straight(length=200.)
         cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
         cc.plot()
-
+        ```
     """
     c = Component()
     component = gf.get_component(component)

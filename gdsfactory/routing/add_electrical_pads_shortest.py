@@ -36,14 +36,13 @@ def add_electrical_pads_shortest(
         port_orientation: in degrees.
         layer: for the routing.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
         c = gf.components.cross(length=100, layer=(49, 0), port_type="electrical")
         c = gf.routing.add_electrical_pads_shortest(c, pad_port_spacing=200)
         c.plot()
-
+        ```
     """
     c = Component()
     component = gf.get_component(component)

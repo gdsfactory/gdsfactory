@@ -95,9 +95,8 @@ def route_single(
         on_error: what to do on error. If error, raises an error. If None ignores the error.
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
 
-    .. plot::
-        :include-source:
-
+    Example:
+        ```python
         import gdsfactory as gf
 
         c = gf.Component()
@@ -106,7 +105,7 @@ def route_single(
         mmi2.move((40, 20))
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5, cross_section="strip")
         c.plot()
-
+        ```
     """
     if cross_section is None and (layer is None or route_width is None):
         raise ValueError(
