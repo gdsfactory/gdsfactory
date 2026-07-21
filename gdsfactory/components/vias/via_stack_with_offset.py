@@ -103,8 +103,8 @@ def via_stack_with_offset(
 
     multiple_port_layers = len(resolved_port_orientations) > 1
 
-    for layer, via, layer_size, size_offset, offset in zip(
-        layers, vias, sizes_list, layer_offsets, offsets, strict=False
+    for layer, resolved_layer, via, layer_size, size_offset, offset in zip(
+        layers, resolved_layers, vias, sizes_list, layer_offsets, offsets, strict=False
     ):
         assert layer_size is not None
         width, height = layer_size
@@ -114,7 +114,6 @@ def via_stack_with_offset(
         ref_layer = c << gf.c.compass(size=(width, height), layer=layer, port_type=None)
         ref_layer.ymin = y0
 
-        resolved_layer = gf.get_layer(layer)
         if resolved_layer in resolved_port_orientations:
             ref_layer = c << gf.c.compass(
                 size=(width, height),
