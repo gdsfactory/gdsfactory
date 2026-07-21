@@ -1,3 +1,4 @@
+import pathlib
 from typing import Any
 
 import kfactory as kf
@@ -501,6 +502,23 @@ def test_component_write_gds() -> None:
     path = c.write_gds(gdspath=GDSDIR_TEMP / "custom_name.gds")
     assert path.exists()
     assert path.name == "custom_name.gds"
+
+
+def test_component_write_gds_without_metadata_skips_metadata_generation(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path
+) -> None:
+    def fail_on_metadata_generation(component: gf.Component) -> None:
+        raise AssertionError(f"metadata generated for {component.name}")
+
+    monkeypatch.setattr(
+        "gdsfactory.component._fix_pin_metadata", fail_on_metadata_generation
+    )
+
+    path = gf.components.straight().write_gds(
+        tmp_path / "without_metadata.gds", with_metadata=False
+    )
+
+    assert path.exists()
 
 
 def test_component_copy_child_info() -> None:

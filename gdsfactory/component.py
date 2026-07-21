@@ -498,6 +498,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         self.write(
             filename=gdspath,
             save_options=save_options,
+            set_meta_data=with_metadata,
             deduplicate_cell_names=deduplicate_cell_names,
         )
         return pathlib.Path(gdspath)
