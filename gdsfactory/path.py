@@ -1238,6 +1238,31 @@ def extrude(
             start_angle=start_angle,
             end_angle=end_angle,
         )
+        if section.shear_angle_start or section.shear_angle_end:
+            face_angle_start = (
+                start_angle + section.shear_angle_start - 90
+                if section.shear_angle_start
+                else None
+            )
+            face_angle_end = (
+                end_angle + section.shear_angle_end + 90
+                if section.shear_angle_end
+                else None
+            )
+            points1 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=face_angle_start,
+                end_point=points[-1],
+                end_angle=face_angle_end,
+                path=points1,
+            )
+            points2 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=face_angle_start,
+                end_point=points[-1],
+                end_angle=face_angle_end,
+                path=points2,
+            )
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
 

@@ -87,6 +87,8 @@ class Section(BaseModel):
                 polygon by more than the value listed here will be removed.
         skip_transition: if True, this section is excluded from cross-section \
                 transitions (will not be tapered between two CrossSections).
+        shear_angle_start: angle in degrees to shear this section's starting face.
+        shear_angle_end: angle in degrees to shear this section's ending face.
         width_function: parameterized function from 0 to 1.
         offset_function: parameterized function from 0 to 1.
 
@@ -116,6 +118,8 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
     skip_transition: bool = False
+    shear_angle_start: float | None = None
+    shear_angle_end: float | None = None
 
     width_function: typings.WidthFunction | None = None
     offset_function: typings.OffsetFunction | None = None
