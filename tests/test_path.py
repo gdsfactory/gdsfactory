@@ -24,6 +24,35 @@ def test_path_zero_length() -> None:
     assert c.area((1, 0)) == 0
 
 
+@pytest.mark.parametrize("insets", [(2, 0), (0, 1)])
+def test_curved_path_insets_preserve_endpoint_tangents(
+    insets: tuple[float, float],
+) -> None:
+    path = gf.path.straight(length=10) + gf.path.euler(
+        radius=100, angle=15, p=0.5, use_eff=False
+    )
+    section = gf.Section(
+        width=6,
+        insets=insets,
+        layer=(2, 0),
+        port_names=("o1", "o2"),
+    )
+
+    component = gf.path.extrude(path, gf.CrossSection(sections=[section]))
+
+    if insets[1] == 0:
+        expected_end_angle = path.end_angle
+    else:
+        segments = np.diff(path.points, axis=0)
+        reverse_lengths = np.cumsum(np.linalg.norm(segments, axis=1)[::-1])
+        reverse_index = np.flatnonzero(reverse_lengths >= insets[1])[0]
+        segment = segments[len(segments) - 1 - reverse_index]
+        expected_end_angle = np.degrees(np.arctan2(segment[1], segment[0]))
+
+    assert component.ports["o1"].orientation == pytest.approx(180)
+    assert component.ports["o2"].orientation == pytest.approx(expected_end_angle)
+
+
 @pytest.mark.parametrize("npoints", [17, 100])
 def test_spiral_archimedean_matches_reference(npoints: int) -> None:
     min_bend_radius = 5.0
