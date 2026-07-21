@@ -125,7 +125,11 @@ def via_stack_with_offset(
             )
             ref_layer.ymin = int(y0)
             if multiple_port_layers:
-                layer_name = resolved_layer.name if hasattr(resolved_layer, "name") else str(resolved_layer)
+                layer_name = (
+                    resolved_layer.name
+                    if hasattr(resolved_layer, "name")
+                    else str(resolved_layer)
+                )
                 for port in ref_layer.ports:
                     c.add_port(name=f"{port.name}_{layer_name}", port=port)
             else:
