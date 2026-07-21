@@ -1,8 +1,9 @@
 info: {}
-name: text_gdsfactorypcomponentsptextsptext_Tabcd_S10_P0_0_Jl_c890baee
+name: text_gdsfactorypcomponentsptextsptext_Tabcd_S10_P0_0_Jl_17905dd9
 settings:
   justify: left
   layer: WG
+  monospace: true
   position:
   - 0
   - 0
