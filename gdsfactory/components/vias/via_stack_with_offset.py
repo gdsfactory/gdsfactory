@@ -88,16 +88,23 @@ def via_stack_with_offset(
         layers[-1]: list(port_orientations)
     }
 
+    resolved_layers = [gf.get_layer(la) for la in layers]
+    resolved_port_orientations = {
+        gf.get_layer(k): v for k, v in layer_to_port_orientations_dict.items()
+    }
+
     previous_layer = layers[0]
 
-    for layer in layer_to_port_orientations_dict:
-        if layer not in layers:
+    for layer in resolved_port_orientations:
+        if layer not in resolved_layers:
             raise ValueError(
                 f"layer {layer} in layer_to_port_orientations not in layers {layers}"
             )
 
-    for layer, via, layer_size, size_offset, offset in zip(
-        layers, vias, sizes_list, layer_offsets, offsets, strict=False
+    multiple_port_layers = len(resolved_port_orientations) > 1
+
+    for layer, resolved_layer, via, layer_size, size_offset, offset in zip(
+        layers, resolved_layers, vias, sizes_list, layer_offsets, offsets, strict=False
     ):
         assert layer_size is not None
         width, height = layer_size
@@ -107,16 +114,25 @@ def via_stack_with_offset(
         ref_layer = c << gf.c.compass(size=(width, height), layer=layer, port_type=None)
         ref_layer.ymin = y0
 
-        if layer in layer_to_port_orientations_dict:
+        if resolved_layer in resolved_port_orientations:
             ref_layer = c << gf.c.compass(
                 size=(width, height),
                 layer=layer,
                 port_type="electrical",
-                port_orientations=layer_to_port_orientations_dict[layer],
+                port_orientations=resolved_port_orientations[resolved_layer],
                 auto_rename_ports=False,
             )
             ref_layer.ymin = int(y0)
-            c.add_ports(ref_layer.ports)
+            if multiple_port_layers:
+                layer_name = (
+                    resolved_layer.name
+                    if hasattr(resolved_layer, "name")
+                    else f"{resolved_layer[0]}_{resolved_layer[1]}"
+                )
+                for port in ref_layer.ports:
+                    c.add_port(name=f"{port.name}_{layer_name}", port=port)
+            else:
+                c.add_ports(ref_layer.ports)
         else:
             ref_layer = c << gf.c.compass(
                 size=(width, height),
