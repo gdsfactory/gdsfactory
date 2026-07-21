@@ -135,6 +135,7 @@ class Section(BaseModel):
             raise ValueError("Section requires `width > 0` or a `width_function`.")
         return self
 
+
 class ComponentAlongPath(BaseModel):
     """A ComponentAlongPath object to place along an extruded path.
 
