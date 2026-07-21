@@ -831,3 +831,58 @@ def test_fill() -> None:
     assert np.isclose(fill_area, expected_fill_area), (
         f"{fill_area} != {expected_fill_area}"
     )
+
+
+def test_replace_instances_preserves_placements_and_arrays() -> None:
+    real = gf.c.mmi1x2()
+    black_box = gf.Component("test_mmi_black_box")
+    bbox = real.dbbox()
+    black_box.add_polygon(
+        [
+            (bbox.left, bbox.bottom),
+            (bbox.right, bbox.bottom),
+            (bbox.right, bbox.top),
+            (bbox.left, bbox.top),
+        ],
+        layer=(11, 0),
+    )
+    black_box.add_ports(real.ports)
+
+    circuit = gf.Component()
+    first = circuit.add_ref(black_box)
+    second = circuit.add_ref(black_box)
+    second.connect("o1", first.ports["o2"])
+    array = circuit.add_ref(black_box, columns=2, rows=3, column_pitch=20, row_pitch=30)
+    array.rotate(30)
+    placements = [instance.instance.cell_inst.dup() for instance in circuit.insts]
+
+    returned = circuit.replace_instances({black_box.name: real})
+
+    assert returned is circuit
+    assert all(instance.cell.name == real.name for instance in circuit.insts)
+    for instance, placement in zip(circuit.insts, placements, strict=True):
+        replacement = instance.instance.cell_inst
+        assert replacement.cplx_trans == placement.cplx_trans
+        assert replacement.a == placement.a
+        assert replacement.b == placement.b
+        assert replacement.na == placement.na
+        assert replacement.nb == placement.nb
+
+
+def test_replace_instances_ignores_unmatched_instances() -> None:
+    child = gf.Component("test_replace_instances_unmatched_child")
+    circuit = gf.Component()
+    instance = circuit.add_ref(child)
+    placement = instance.instance.cell_inst.dup()
+
+    circuit.replace_instances({"another_cell": gf.c.straight})
+
+    assert instance.cell.name == child.name
+    assert instance.instance.cell_inst == placement
+
+
+def test_replace_instances_rejects_locked_component() -> None:
+    circuit = gf.c.mzi()
+
+    with pytest.raises(LockedError):
+        circuit.replace_instances({})

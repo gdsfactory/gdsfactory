@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -662,6 +662,33 @@ class Component(ComponentBase, kf.DKCell):
     """
 
     routes: dict[str, Route] = Field(default_factory=dict)
+
+    def replace_instances(self, replacements: Mapping[str, AnyComponent]) -> Self:
+        """Replace directly referenced cells while preserving instance transforms.
+
+        Args:
+            replacements: mapping from referenced cell names to replacement
+                component specifications.
+
+        Returns:
+            This component.
+        """
+        if self.locked:
+            raise LockedError(self)
+
+        from gdsfactory.pdk import get_component
+
+        resolved = {
+            name: get_component(component) for name, component in replacements.items()
+        }
+        for instance in self.insts:
+            replacement = resolved.get(instance.cell.name)
+            if replacement is None:
+                continue
+            cell_inst = instance.instance.cell_inst.dup()
+            cell_inst.cell_index = replacement.cell_index()
+            instance.instance.cell_inst = cell_inst
+        return self
 
     def dup(self, new_name: str | None = None) -> Self:
         """Copy the full cell.
