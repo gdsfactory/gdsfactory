@@ -237,16 +237,27 @@ def get_polygons_points(
 def get_point_inside(
     component_or_instance: Component | ComponentReference, layer: LayerSpec
 ) -> npt.NDArray[np.floating[Any]]:
-    """Returns a point inside the component or instance.
+    """Returns a representative point strictly inside the requested layer.
 
     Args:
         component_or_instance: to find a point inside.
         layer: to find a point inside.
     """
-    layer = gf.get_layer(layer)
-    return np.array(
-        get_polygons_points(component_or_instance, layers=[layer])[layer][0][0]
-    )
+    from gdsfactory.boolean import get_ref_shapes
+
+    layer_index = gf.get_layer(layer)
+    if isinstance(component_or_instance, kf.DKCell):
+        region = kdb.Region(component_or_instance.begin_shapes_rec(layer_index))
+    else:
+        region = get_ref_shapes(component_or_instance, layer_index)
+
+    trapezoids = list(region.decompose_trapezoids_to_region())
+    if not trapezoids:
+        raise ValueError(f"No geometry found on layer {layer!r}")
+
+    trapezoid = max(trapezoids, key=lambda polygon: polygon.area())
+    points = np.array([(point.x, point.y) for point in trapezoid.each_point_hull()])
+    return points.mean(axis=0) * component_or_instance.kcl.dbu
 
 
 def sign_shape(pts: npt.NDArray[np.floating[Any]]) -> float:

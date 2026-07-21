@@ -1,3 +1,6 @@
+import numpy as np
+import pytest
+
 import gdsfactory as gf
 from gdsfactory.gpdk import LAYER
 
@@ -17,6 +20,25 @@ def test_get_polygons() -> None:
     p = c.get_polygons(layers=("WG",), by="name")
     key = next(iter(p.keys()))
     assert key == "WG"
+
+
+def test_get_point_inside_returns_interior_point() -> None:
+    rectangle = gf.c.rectangle(size=(10, 4), layer=(1, 0))
+    np.testing.assert_allclose(
+        gf.functions.get_point_inside(rectangle, (1, 0)), (5, 2)
+    )
+
+    parent = gf.Component()
+    reference = parent.add_ref(rectangle)
+    reference.movex(10)
+    np.testing.assert_allclose(
+        gf.functions.get_point_inside(reference, (1, 0)), (15, 2)
+    )
+
+
+def test_get_point_inside_rejects_empty_layer() -> None:
+    with pytest.raises(ValueError, match="No geometry found"):
+        gf.functions.get_point_inside(gf.Component(), (1, 0))
 
 
 def test_trim() -> None:
