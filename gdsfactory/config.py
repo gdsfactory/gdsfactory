@@ -84,6 +84,12 @@ def print_version_plugins(packages: list[str] | None = None) -> None:
                 table.add_row(plugin, "", "")
         except ImportError:
             table.add_row(plugin, "not installed", "")
+        except Exception as error:
+            table.add_row(
+                plugin,
+                f"failed to import ({type(error).__name__})",
+                str(error),
+            )
 
     console = Console()
     console.print(table)
