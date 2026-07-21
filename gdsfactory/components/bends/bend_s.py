@@ -166,7 +166,7 @@ def find_min_curv_bezier_control_points(
 @gf.cell_with_module_name(schematic_function=sbend_schematic, tags=["bends"])
 def bend_s(
     size: Size = (11.0, 1.8),
-    npoints: int = 99,
+    npoints: int | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     width: float | None = None,
@@ -178,13 +178,14 @@ def bend_s(
 
     Args:
         size: in x and y direction.
-        npoints: number of points.
+        npoints: number of points. Defaults to 99.
         cross_section: spec.
         allow_min_radius_violation: bool.
         width: width to use. Defaults to cross_section.width.
 
     """
     dx, dy = size
+    npoints = npoints or 99
 
     if dy == 0:
         return gf.components.straight(
