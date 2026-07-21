@@ -118,13 +118,25 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
     skip_transition: bool = False
-    shear_angle_start: float | None = None
-    shear_angle_end: float | None = None
+    shear_angle_start: float | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    shear_angle_end: float | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
 
     width_function: typings.WidthFunction | None = None
     offset_function: typings.OffsetFunction | None = None
 
     model_config = ConfigDict(extra="forbid", frozen=True)
+
+    def __repr_args__(self) -> Any:
+        """Omit unset shear fields to preserve existing cross-section hashes."""
+        return [
+            (name, value)
+            for name, value in super().__repr_args__()
+            if not (name.startswith("shear_angle_") and value is None)
+        ]
 
     @model_validator(mode="before")
     @classmethod
