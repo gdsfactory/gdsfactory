@@ -555,6 +555,15 @@ class Pdk(BaseModel):
                 radius_min=kf.kcl.to_um(cross_section_.radius_min),
             )
             xs_._name = cross_section_.name
+            for name, factory in self.cross_sections.items():
+                registered = factory()
+                if (
+                    registered.sections == xs_.sections
+                    and registered.bbox_layers == xs_.bbox_layers
+                    and registered.bbox_offsets == xs_.bbox_offsets
+                ):
+                    xs_._name = name
+                    break
             return xs_
         raise ValueError(
             "get_cross_section expects a CrossSectionSpec (CrossSection, "
