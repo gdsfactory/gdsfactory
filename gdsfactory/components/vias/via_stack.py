@@ -69,8 +69,11 @@ def via_stack(
     layers = layers or []
     layer_indices = [gf.get_layer(layer) for layer in layers]
     layer_offsets = layer_offsets or [0] * len(layers)
-    layer_to_port_orientations_list = layer_to_port_orientations or {
-        gf.get_layer(layers[-1]): list(port_orientations or [])
+    layer_to_port_orientations_dict = layer_to_port_orientations or {
+        layers[-1]: list(port_orientations or [])
+    }
+    resolved_port_orientations = {
+        gf.get_layer(k): v for k, v in layer_to_port_orientations_dict.items()
     }
 
     elements = {len(layers), len(layer_offsets), len(vias)}
@@ -138,6 +141,8 @@ def via_stack(
     c = Component()
     c.info["xsize"], c.info["ysize"] = (width_m, height_m)
 
+    multiple_port_layers = len(resolved_port_orientations) > 1
+
     # Draw metal layers with corrected size
     for layer_index, offset in zip(layer_indices, layer_offsets, strict=False):
         if isinstance(offset, Iterable):
@@ -148,15 +153,24 @@ def via_stack(
 
         size_m = (width_m + 2 * offset_x, height_m + 2 * offset_y)
 
-        if layer_index in layer_to_port_orientations_list:
+        if layer_index in resolved_port_orientations:
             ref = c << gf.c.compass(
                 size=size_m,
                 layer=layer_index,
                 port_type="electrical",
-                port_orientations=layer_to_port_orientations_list[layer_index],
+                port_orientations=resolved_port_orientations[layer_index],
                 auto_rename_ports=False,
             )
-            c.add_ports(ref.ports)
+            if multiple_port_layers:
+                layer_name = (
+                    layer_index.name
+                    if hasattr(layer_index, "name")
+                    else f"{layer_index[0]}_{layer_index[1]}"
+                )
+                for port in ref.ports:
+                    c.add_port(name=f"{port.name}_{layer_name}", port=port)
+            else:
+                c.add_ports(ref.ports)
         else:
             ref = c << gf.c.compass(
                 size=size_m,
