@@ -867,3 +867,22 @@ def test_replace_instances_preserves_placements_and_arrays() -> None:
         assert replacement.b == placement.b
         assert replacement.na == placement.na
         assert replacement.nb == placement.nb
+
+
+def test_replace_instances_ignores_unmatched_instances() -> None:
+    child = gf.Component("test_replace_instances_unmatched_child")
+    circuit = gf.Component()
+    instance = circuit.add_ref(child)
+    placement = instance.instance.cell_inst.dup()
+
+    circuit.replace_instances({"another_cell": gf.c.straight})
+
+    assert instance.cell.name == child.name
+    assert instance.instance.cell_inst == placement
+
+
+def test_replace_instances_rejects_locked_component() -> None:
+    circuit = gf.c.mzi()
+
+    with pytest.raises(LockedError):
+        circuit.replace_instances({})
