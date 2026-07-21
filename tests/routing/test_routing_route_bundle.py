@@ -59,6 +59,46 @@ def test_route_bundle(
             difftest(c)
 
 
+@pytest.mark.parametrize(
+    ("port_kwargs", "allow_kwarg", "message"),
+    [
+        ({"width": 1.0}, "allow_width_mismatch", "route width"),
+        ({"layer": "M3"}, "allow_layer_mismatch", "route is on layer"),
+        ({"port_type": "electrical"}, "allow_type_mismatch", "route port type"),
+    ],
+)
+def test_route_bundle_rejects_port_mismatch(
+    port_kwargs: dict[str, float | str], allow_kwarg: str, message: str
+) -> None:
+    layer = gf.get_layer(port_kwargs.get("layer", "WG"))
+    port1 = Port(
+        name="port1",
+        center=(0, 0),
+        width=0.5,
+        orientation=0,
+        layer=gf.get_layer("WG"),
+    )
+    port2 = Port(
+        name="port2",
+        center=(50, 0),
+        width=float(port_kwargs.get("width", 0.5)),
+        orientation=180,
+        layer=layer,
+        port_type=str(port_kwargs.get("port_type", "optical")),
+    )
+
+    with pytest.raises(ValueError, match=message):
+        route_bundle(
+            Component(),
+            [port1],
+            [port2],
+            cross_section="strip",
+            auto_taper=False,
+            raise_on_error=True,
+            **{allow_kwarg: False},
+        )
+
+
 @pytest.mark.parametrize("config", ["A", "C"])
 def test_connect_corner(
     config: str, data_regression: DataRegressionFixture, check: bool = True, n: int = 6
