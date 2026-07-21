@@ -318,7 +318,7 @@ class HatchPattern(BaseModel):
             for line in lines:
                 ET.SubElement(subel, "line").text = line
 
-        ET.SubElement(el, "order").text = str(self.order)
+        ET.SubElement(el, "order").text = str(self.order or 0)
         ET.SubElement(el, "name").text = self.name
         return el
 
@@ -363,10 +363,10 @@ class LineStyle(BaseModel):
                 f"Cannot write custom line style {self.name} to KLayout xml format because no pattern is present."
             )
 
-        el = ET.Element("custom-line-pattern")
+        el = ET.Element("custom-line-style")
 
         ET.SubElement(el, "pattern").text = str(self.custom_style)
-        ET.SubElement(el, "order").text = str(self.order)
+        ET.SubElement(el, "order").text = str(self.order or 0)
         ET.SubElement(el, "name").text = self.name
         return el
 
@@ -742,13 +742,10 @@ class LayerView(BaseModel):
             ]
 
         # Translate KLayout index to line style name
-        line_style = element.find("line-style")
-        if (
-            line_style is not None
-            and line_style.text is not None
-            and re.match(r"I\d+", line_style.text)
-        ):
-            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]  # type: ignore[assignment]
+        line_style_element = element.find("line-style")
+        line_style = line_style_element.text if line_style_element is not None else None
+        if line_style and re.match(r"I\d+", line_style):
+            line_style = list(_klayout_line_styles.keys())[int(line_style[1:])]
 
         lv = LayerView(
             name=name,
@@ -758,9 +755,7 @@ class LayerView(BaseModel):
             fill_brightness=element.find("fill-brightness").text or 0,  # type: ignore[union-attr]
             frame_brightness=element.find("frame-brightness").text or 0,  # type: ignore[union-attr]
             hatch_pattern=hatch_pattern or None,
-            line_style=line_style
-            if line_style is not None and len(line_style) > 0
-            else None,
+            line_style=line_style or None,
             valid=getattr(element.find("valid"), "text", True),
             visible=getattr(element.find("visible"), "text", True),
             transparent=getattr(element.find("transparent"), "text", False),
@@ -1134,8 +1129,14 @@ class LayerViews(BaseModel):
                 pattern_counter += 1
 
             assert name is not None  # Type assertion for mypy
-            pattern = "\n".join(
-                [line.text for line in dither_block.find("pattern").iter()]  # type: ignore[misc,union-attr]
+            pattern_element = dither_block.find("pattern")
+            if pattern_element is None:
+                continue
+            pattern_lines = pattern_element.findall("line")
+            pattern = (
+                "\n".join(line.text or "" for line in pattern_lines)
+                if pattern_lines
+                else pattern_element.text or ""
             )
 
             if name in dither_patterns:
@@ -1148,7 +1149,7 @@ class LayerViews(BaseModel):
             dither_patterns[name] = HatchPattern(
                 name=name,
                 order=int(order),
-                custom_pattern=pattern.lstrip(),
+                custom_pattern=pattern.strip(),
             )
         line_styles: dict[str, LineStyle] = {}
         style_counter = 0
@@ -1192,6 +1193,9 @@ class LayerViews(BaseModel):
                 hp = lv.hatch_pattern
                 if isinstance(hp, str) and re.match(r"C\d+", hp):
                     lv.hatch_pattern = list(dither_patterns.keys())[int(hp[1:])]
+                ls = lv.line_style
+                if isinstance(ls, str) and re.match(r"C\d+", ls):
+                    lv.line_style = list(line_styles.keys())[int(ls[1:])]
                 layer_views[lv.name] = lv
 
         return LayerViews.model_construct(
