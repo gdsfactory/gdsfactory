@@ -4,7 +4,6 @@ import pytest
 
 import gdsfactory as gf
 
-
 YAML_STEPS = """
 instances:
   cp1:
