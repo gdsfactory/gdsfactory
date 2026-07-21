@@ -624,6 +624,7 @@ def route_bundle(
             bboxes=bboxes,
             route_width=width,
             sort_ports=sort_ports,
+            waypoints=waypoints_,
             end_angles=end_angles,
             start_angles=start_angles,
             place_layer=layer_error_path,
