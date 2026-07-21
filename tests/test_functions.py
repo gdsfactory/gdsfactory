@@ -24,9 +24,7 @@ def test_get_polygons() -> None:
 
 def test_get_point_inside_returns_interior_point() -> None:
     rectangle = gf.c.rectangle(size=(10, 4), layer=(1, 0))
-    np.testing.assert_allclose(
-        gf.functions.get_point_inside(rectangle, (1, 0)), (5, 2)
-    )
+    np.testing.assert_allclose(gf.functions.get_point_inside(rectangle, (1, 0)), (5, 2))
 
     parent = gf.Component()
     reference = parent.add_ref(rectangle)
