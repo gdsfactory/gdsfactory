@@ -407,6 +407,16 @@ def test_path_extrude_transition() -> None:
     assert c.bbox() == kdb.DBox(0, -0.25, 1.25, 1)
 
 
+def test_path_extrude_transition_matches_generated_names_by_layer() -> None:
+    cross_section1 = gf.cross_section.cross_section(width=1, layer=(1, 0))
+    cross_section2 = gf.CrossSection(sections=(gf.Section(width=2, layer=(1, 0)),))
+    transition = gf.path.transition(cross_section1, cross_section2)
+
+    component = gf.path.extrude_transition(gf.path.straight(length=10), transition)
+
+    assert component.area((1, 0)) == pytest.approx(15)
+
+
 def test_path_copy() -> None:
     path = gf.path.euler()
     path_copy = path.copy()

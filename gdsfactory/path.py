@@ -968,6 +968,15 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     return named_sections
 
 
+def _is_implicit_section_name(name: str) -> bool:
+    """Return whether a section name was assigned by gdsfactory."""
+    return name == "_default" or (
+        len(name) == 10
+        and name.startswith("s_")
+        and all(character in "0123456789abcdef" for character in name[2:])
+    )
+
+
 @overload
 def extrude(
     p: Path,
@@ -1387,6 +1396,17 @@ def extrude_transition(
     names2 = list(named_sections2.keys())
 
     common_sections = set(names1).intersection(names2)
+    if not common_sections and len(names1) == len(names2) == 1:
+        name1, name2 = names1[0], names2[0]
+        section1 = named_sections1[name1]
+        section2 = named_sections2[name2]
+        if (
+            _is_implicit_section_name(name1)
+            and _is_implicit_section_name(name2)
+            and get_layer(section1.layer) == get_layer(section2.layer)
+        ):
+            named_sections2[name1] = named_sections2.pop(name2)
+            common_sections = {name1}
     if not common_sections:
         raise ValueError(
             f"transition() found no common section names X1 {names1} and X2 {names2}"
