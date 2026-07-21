@@ -2,6 +2,7 @@ from __future__ import annotations
 
 __all__ = ["bend_s", "bend_s_offset", "bezier"]
 
+import math
 import warnings
 from typing import Any
 
@@ -292,8 +293,9 @@ def bend_s_offset(
 
     xs.validate_radius(radius)
     angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
-        jog=offset / 2, radius=radius, p=p, use_eff=with_arc_floorplan
+        jog=abs(offset) / 2, radius=radius, p=p, use_eff=with_arc_floorplan
     )
+    angle = math.copysign(angle, offset)
     path = gf.path.euler(
         radius=radius,
         angle=+angle,
