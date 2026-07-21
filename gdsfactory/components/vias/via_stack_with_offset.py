@@ -128,7 +128,7 @@ def via_stack_with_offset(
                 layer_name = (
                     resolved_layer.name
                     if hasattr(resolved_layer, "name")
-                    else str(resolved_layer)
+                    else f"{resolved_layer[0]}_{resolved_layer[1]}"
                 )
                 for port in ref_layer.ports:
                     c.add_port(name=f"{port.name}_{layer_name}", port=port)
