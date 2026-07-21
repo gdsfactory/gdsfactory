@@ -37,6 +37,7 @@ from kfactory.routing.optical import place_manhattan
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.route_bundle import route_bundle_electrical
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -281,7 +282,10 @@ def route_single_electrical(
     layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
-) -> None:
+    auto_taper: bool = False,
+    on_error: Literal["error"] | None = None,
+    layer_transitions: LayerTransitions | None = None,
+) -> ManhattanRoute:
     """Places a route between two electrical ports.
 
     Args:
@@ -293,21 +297,38 @@ def route_single_electrical(
         layer: The layer of the route.
         width: The width of the route.
         cross_section: The cross section of the route.
+        auto_taper: add auto tapers.
+        on_error: if ``"error"``, raise routing errors instead of drawing an error path.
+        layer_transitions: layer transitions used when auto-tapering.
 
     """
     xs = gf.get_cross_section(cross_section)
-    layer = layer or xs.layer
-    width = width or xs.width
-    layer = gf.get_layer(layer)
-    kf.routing.electrical.route_bundle(
+    route_width = width if width is not None else xs.width
+    if auto_taper:
+        return route_bundle_electrical(
+            component=component,
+            ports1=[port1],
+            ports2=[port2],
+            cross_section=None if layer is not None else cross_section,
+            layer=layer,
+            route_width=route_width,
+            start_straight_length=start_straight_length or 0,
+            end_straight_length=end_straight_length or 0,
+            auto_taper=True,
+            raise_on_error=on_error == "error",
+            layer_transitions=layer_transitions,
+        )[0]
+
+    route_layer = gf.get_layer(layer or xs.layer)
+    return kf.routing.electrical.route_bundle(
         c=component,
         start_ports=[port1],
         end_ports=[port2],
         separation=0,
-        route_width=width,
-        place_layer=kf.kdb.LayerInfo(layer[0], layer[1])
-        if isinstance(layer, tuple)
+        route_width=route_width,
+        place_layer=kf.kdb.LayerInfo(route_layer[0], route_layer[1])
+        if isinstance(route_layer, tuple)
         else None,
-        starts=start_straight_length,
-        ends=end_straight_length,
-    )
+        starts=start_straight_length or 0,
+        ends=end_straight_length or 0,
+    )[0]
