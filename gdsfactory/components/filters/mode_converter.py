@@ -65,7 +65,7 @@ def mode_converter(
         cross_section=cross_section,
     )
 
-    bend = gf.get_component(bend, cross_section=cross_section)
+    bend = gf.get_component(bend, cross_section=cross_section, width=sm_width)
 
     bot_taper = gf.get_component(
         taper,
