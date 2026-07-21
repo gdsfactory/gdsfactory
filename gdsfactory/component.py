@@ -1371,11 +1371,29 @@ class Component(ComponentBase, kf.DKCell):
         import matplotlib.pyplot as plt
 
         from gdsfactory.pdk import get_layer_views
+        from gdsfactory.technology.layer_views import LayerView, LayerViews
 
         self.insert_vinsts()
 
         lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
-        layer_views = get_layer_views()
+        pdk_layer_views = get_layer_views()
+        layer_views = LayerViews(
+            layer_views=dict(pdk_layer_views.layer_views),
+            custom_dither_patterns=dict(pdk_layer_views.custom_dither_patterns),
+            custom_line_styles=dict(pdk_layer_views.custom_line_styles),
+            layers=pdk_layer_views.layers,
+        )
+        configured_layers = {
+            layer_view.layer
+            for layer_view in layer_views.get_layer_views().values()
+            if layer_view.layer is not None
+        }
+        for layer in self.layers:
+            if layer not in configured_layers:
+                layer_views.add_layer_view(
+                    name=f"UNNAMED_{layer[0]}_{layer[1]}",
+                    layer_view=LayerView(layer=layer),
+                )
         layer_views.to_lyp(filepath=lyp_path)
 
         layout_view = lay.LayoutView()

@@ -4,6 +4,8 @@ import pytest
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.technology.layer_views import LayerViews
 from gdsfactory.typings import PixelBufferOptions
 
 
@@ -89,3 +91,15 @@ class TestComponentPlot:
         assert tuple(default_size) != tuple(high_size)
         assert tuple(default_size) != tuple(low_size)
         assert tuple(high_size) != tuple(low_size)
+
+
+def test_plot_adds_deterministic_views_for_unconfigured_layers() -> None:
+    component = Component()
+    component.add_polygon([(0, 0), (1, 0), (1, 1)], layer=(101, 10))
+    component.add_polygon([(2, 0), (3, 0), (3, 1)], layer=(101, 11))
+
+    component.plot()
+
+    layer_views = LayerViews(filepath=GDSDIR_TEMP / "layer_properties.lyp")
+    views = {view.layer: view for view in layer_views.get_layer_views().values()}
+    assert views[(101, 10)].get_color_dict() == views[(101, 11)].get_color_dict()
