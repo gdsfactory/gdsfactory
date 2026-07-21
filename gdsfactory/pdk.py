@@ -25,9 +25,11 @@ from gdsfactory.serialization import clean_value_json
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
+    AnyComponent,
     CellAllAngleSpec,
     CellSpec,
     ComponentAllAngleFactory,
+    ComponentAllAngleSpec,
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
@@ -385,11 +387,11 @@ class Pdk(BaseModel):
 
     def get_component(
         self,
-        component: ComponentSpec,
+        component: ComponentSpec | ComponentAllAngleSpec,
         settings: Mapping[str, Any] | None = None,
         include_containers: bool = True,
         **kwargs: Any,
-    ) -> Component:
+    ) -> AnyComponent:
         """Returns component from a component spec."""
         if include_containers:
             if isinstance(component, str):
@@ -434,11 +436,11 @@ class Pdk(BaseModel):
 
     def _get_component(
         self,
-        component: ComponentSpec,
+        component: ComponentSpec | ComponentAllAngleSpec,
         cells: dict[str, ComponentFactory],
         settings: Mapping[str, Any] | None = None,
         **kwargs: Any,
-    ) -> Component:
+    ) -> AnyComponent:
         """Returns component from a component spec.
 
         Args:
@@ -762,8 +764,10 @@ def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Com
 
 
 def get_component(
-    component: ComponentSpec, settings: Mapping[str, Any] | None = None, **kwargs: Any
-) -> Component:
+    component: ComponentSpec | ComponentAllAngleSpec,
+    settings: Mapping[str, Any] | None = None,
+    **kwargs: Any,
+) -> AnyComponent:
     return get_active_pdk().get_component(component, settings=settings, **kwargs)
 
 
