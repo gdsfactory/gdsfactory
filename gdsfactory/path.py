@@ -959,7 +959,17 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     for section in sections:
         if section.skip_transition:
             continue
-        name = section.name or get_layer_name(section.layer)
+        name = section.name
+        is_generated_name = bool(
+            name
+            and len(name) == 10
+            and name.startswith("s_")
+            and all(character in "0123456789abcdef" for character in name[2:])
+        )
+        if name == "_default" or is_generated_name:
+            name = get_layer_name(section.layer)
+        else:
+            name = name or get_layer_name(section.layer)
         if name in named_sections:
             raise ValueError(
                 f"Duplicate name or layer '{name}' of section used for cross-section in transition. Cross-sections with multiple Sections for a single layer must have unique names for each section"
