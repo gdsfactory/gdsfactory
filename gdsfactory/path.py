@@ -1578,7 +1578,7 @@ def _compute_offset_directions(
     """
     dx = np.diff(points[:, 0])
     dy = np.diff(points[:, 1])
-    theta = np.arctan2(dy, dx)
+    theta = np.unwrap(np.arctan2(dy, dx))
     theta = np.concatenate([theta[:1], theta, theta[-1:]])
     theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2
     dtheta_int = np.pi + theta[:-1] - theta[1:]
