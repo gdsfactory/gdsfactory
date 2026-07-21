@@ -56,3 +56,24 @@ def test_route_bundle_auto_taper_layer_transitions() -> None:
     )
     # lengths = {i: route.length for i, route in enumerate(routes)}
     difftest(c)
+
+
+def test_route_bundle_length_includes_auto_tapers() -> None:
+    transition = partial(taper, length=10)
+    layer_index = gf.get_layer(LAYER.WG)
+    port1 = Port(name="o1", center=(0, 0), width=1, orientation=0, layer=layer_index)
+    port2 = Port(
+        name="o2", center=(100, 0), width=1, orientation=180, layer=layer_index
+    )
+    component = gf.Component()
+
+    route = route_bundle(
+        component,
+        [port1],
+        [port2],
+        cross_section="strip",
+        auto_taper=True,
+        layer_transitions={LAYER.WG: transition},
+    )[0]
+
+    assert route.length == 100_000
