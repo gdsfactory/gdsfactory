@@ -199,6 +199,21 @@ def test_nested_layerview_subclass_to_lyp(tmp_path: pathlib.Path) -> None:
     assert "<name>LAYER_B</name>" in content
 
 
+def test_to_lyp_keeps_layer_source_out_of_name(tmp_path: pathlib.Path) -> None:
+    layer_views = LayerViews(
+        layer_views={
+            "WG": LayerView(name="WG", layer=(1, 0), layer_in_name=True),
+        }
+    )
+
+    path = layer_views.to_lyp(tmp_path / "layers.lyp")
+    content = path.read_text()
+
+    assert "<name>WG</name>" in content
+    assert "<name>WG 1/0</name>" not in content
+    assert "<source>1/0@1</source>" in content
+
+
 def test_nested_layerview_explicit_group_members_preserved() -> None:
     """Explicit group_members are not overwritten by auto-population."""
 

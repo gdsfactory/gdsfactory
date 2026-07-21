@@ -617,11 +617,10 @@ class LayerView(BaseModel):
             "marked": str(self.marked).lower(),
             "xfill": str(self.xfill).lower(),
             "animation": self.animation,
-            "name": (
-                f"{name} {self.layer[0]}/{self.layer[1]}"
-                if self.layer_in_name and self.layer is not None
-                else name
-            ),
+            # KLayout can display ``source`` beside the logical name itself.
+            # Repeating layer/datatype here makes the UI show it twice when
+            # "Always show layer source in layer list" is enabled.
+            "name": name,
             "source": (
                 f"{self.layer[0]}/{self.layer[1]}@1"
                 if self.layer is not None
