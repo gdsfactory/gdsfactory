@@ -117,6 +117,9 @@ def test_remove_port() -> None:
     with pytest.raises(KeyError):
         component.remove_port("missing")
 
+    with pytest.raises(LockedError):
+        gf.components.straight().remove_port("o1")
+
 
 def test_remove_layers_recursive_multiple_layers() -> None:
     child = gf.Component()
