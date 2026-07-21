@@ -475,6 +475,18 @@ def test_path_smooth() -> None:
     assert np.isclose(c.area((1, 0)), 3404.6317885)
 
 
+def test_path_extrude_insets_preserve_internal_corner() -> None:
+    cross_section = gf.CrossSection(
+        sections=(gf.Section(width=6, layer=(2, 0), insets=(-2, -2)),)
+    )
+    path = Path([(0, 0), (40, 0), (40, 40)])
+
+    component = path.extrude(cross_section=cross_section)
+
+    assert component.dbbox() == kdb.DBox(-2, -3, 43, 42)
+    assert component.area((2, 0)) == 504
+
+
 def test_path_angle() -> None:
     p = gf.path.euler(
         radius=5,
