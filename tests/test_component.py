@@ -123,6 +123,8 @@ def test_remove_layers_recursive_multiple_layers() -> None:
     assert c.area((1, 0)) == 200, f"{c.area((1, 0))}"
     assert c.area((2, 0)) == 0, f"{c.area((2, 0))}"
     assert c.area((3, 0)) == 0, f"{c.area((3, 0))}"
+    assert child.area((2, 0)) == 100, "recursive removal mutated a shared child"
+    assert child.area((3, 0)) == 100, "recursive removal mutated a shared child"
     c.delete()
     child.delete()
 
