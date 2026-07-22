@@ -663,6 +663,27 @@ class Component(ComponentBase, kf.DKCell):
 
     routes: dict[str, Route] = Field(default_factory=dict)
 
+    @override
+    def flatten(self, merge: bool = True) -> None:
+        """Flatten the component, including nested virtual instances.
+
+        Args:
+            merge: Merge the shapes on all layers.
+        """
+        called_cell_indexes = set(self.kdb_cell.called_cells())
+        for called_cell in sorted(
+            (
+                self.kcl[cell_index]
+                for cell_index in called_cell_indexes & self.kcl.tkcells.keys()
+                if not self.kcl[cell_index].kdb_cell._destroyed()
+            ),
+            key=lambda called_cell: called_cell.hierarchy_levels(),
+        ):
+            for virtual_instance in called_cell.vinsts:
+                virtual_instance.insert_into_flat(called_cell)
+            called_cell.vinsts.clear()
+        super().flatten(merge=merge)
+
     def dup(self, new_name: str | None = None) -> Self:
         """Copy the full cell.
 
