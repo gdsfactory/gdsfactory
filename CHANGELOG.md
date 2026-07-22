@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.46.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.46.0) - 2026-07-21
+
+No significant changes.
+
+
 ## [9.45.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.45.0) - 2026-07-03
 
 - perf: speed up component lookup and path extrusion [#4632](https://github.com/gdsfactory/gdsfactory/pull/4632)
