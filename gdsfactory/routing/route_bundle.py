@@ -12,6 +12,7 @@ route_bundle calls different function depending on the port orientation.
 
 from __future__ import annotations
 
+import math
 import warnings
 from collections.abc import Sequence
 from functools import partial
@@ -45,6 +46,42 @@ from gdsfactory.typings import (
 OpticalManhattanRoute = ManhattanRoute
 
 TOLERANCE = 1
+
+
+def _cell_route_length(
+    cell: kf.KCell,
+    layer_info: kf.kdb.LayerInfo,
+    fallback_width: int,
+) -> float:
+    """Return a routing cell's effective length in database units."""
+    if "length" in cell.info:
+        return cell.kcl.to_dbu(float(cell.info["length"]))
+
+    if len(cell.insts):
+        child_length = sum(
+            _cell_route_length(instance.cell, layer_info, fallback_width)
+            for instance in cell.insts
+        )
+        if child_length:
+            return child_length
+
+    layer_index = cell.kcl.layout.layer(layer_info)
+    area = kf.kdb.Region(cell.kdb_cell.begin_shapes_rec(layer_index)).area()
+    port_widths = [port.iwidth for port in cell.ports if port.layer_info == layer_info]
+    width = (port_widths[0] + port_widths[-1]) / 2 if port_widths else fallback_width
+    if not width:
+        raise ValueError(f"Cannot calculate route length for cell {cell.name!r}")
+    return area / width
+
+
+def _route_length(route: ManhattanRoute, taper_length: float = 0) -> float:
+    """Return metadata-aware route length in database units."""
+    return taper_length + sum(
+        _cell_route_length(
+            instance.cell, route.start_port.layer_info, route.start_port.width
+        )
+        for instance in route.instances
+    )
 
 
 def get_min_spacing(
@@ -349,6 +386,8 @@ def route_bundle(
     c = component
     ports1_ = ports1_resolved
     ports2_ = ports2_resolved
+    ports1_original = list(ports1_)
+    ports2_original = list(ports2_)
     port_type = port_type or ports1_[0].port_type
 
     if cross_section is None:
@@ -382,6 +421,7 @@ def route_bundle(
 
     bboxes = list(bboxes or [])
 
+    taper_instance_start = len(c.insts)
     if auto_taper and auto_taper_taper:
         warn(
             "Use of `auto_taper_taper` is deprecated. Please use `layer_transitions` instead.",
@@ -443,6 +483,8 @@ def route_bundle(
         bboxes.append(bbox1)
         bboxes.append(bbox2)
         # component.shapes(component.kcl.layer(1,0)).insert(bbox)
+
+    taper_instances = list(c.insts)[taper_instance_start:]
 
     if steps and waypoints:
         raise ValueError("Provide only one of steps or waypoints")
@@ -636,6 +678,30 @@ def route_bundle(
                     size=(10, 10), layer=layer_marker, centered=True
                 )
                 marker.center = (p.x, p.y)
+
+    taper_lengths = {
+        tuple(port.dcenter): c.kcl.to_dbu(math.dist(original.dcenter, port.dcenter))
+        for originals, ports in (
+            (ports1_original, ports1_),
+            (ports2_original, ports2_),
+        )
+        for original, port in zip(originals, ports, strict=True)
+    }
+    for port in (*ports1_, *ports2_):
+        for taper_instance in taper_instances:
+            if any(
+                taper_port.dcenter == port.dcenter
+                for taper_port in taper_instance.ports
+            ):
+                taper_lengths[tuple(port.dcenter)] = _cell_route_length(
+                    taper_instance.cell, port.layer_info, port.iwidth
+                )
+                break
+
+    for route_i in route:
+        taper_length = taper_lengths.get(tuple(route_i.start_port.dcenter), 0)
+        taper_length += taper_lengths.get(tuple(route_i.end_port.dcenter), 0)
+        route_i.length_function = partial(_route_length, taper_length=taper_length)
 
     if layer_label:
         for route_i in route:
