@@ -285,3 +285,14 @@ def test_taper_cross_section_instance_matches_name() -> None:
             pdk.cross_sections.pop("_xs_4588", None)
         else:
             pdk.cross_sections["_xs_4588"] = previous
+
+
+def test_section_shear_serialization() -> None:
+    default_section = gf.Section(width=1, layer=(1, 0))
+    sheared_section = gf.Section(width=1, layer=(1, 0), shear_angle_start=15)
+
+    assert "shear_angle_start" not in default_section.model_dump()
+    assert "shear_angle_end" not in default_section.model_dump()
+    assert sheared_section.model_dump()["shear_angle_start"] == 15
+    assert "shear_angle" not in repr(default_section)
+    assert "shear_angle_start=15" in repr(sheared_section)

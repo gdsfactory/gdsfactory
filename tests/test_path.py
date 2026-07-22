@@ -407,6 +407,34 @@ def test_path_extrude_transition() -> None:
     assert c.bbox() == kdb.DBox(0, -0.25, 1.25, 1)
 
 
+@pytest.mark.parametrize(
+    ("shear_angle_start", "shear_angle_end", "expected_bbox"),
+    [
+        (45, None, kdb.DBox(-1, -1, 10, 1)),
+        (None, 45, kdb.DBox(0, -1, 11, 1)),
+        (45, 45, kdb.DBox(-1, -1, 11, 1)),
+    ],
+)
+def test_extrude_section_shear_angles(
+    shear_angle_start: float | None,
+    shear_angle_end: float | None,
+    expected_bbox: kdb.DBox,
+) -> None:
+    core = gf.Section(
+        width=2,
+        layer=(1, 0),
+        shear_angle_start=shear_angle_start,
+        shear_angle_end=shear_angle_end,
+    )
+    cladding = gf.Section(width=4, layer=(2, 0))
+    cross_section = gf.CrossSection(sections=(core, cladding))
+
+    component = gf.path.extrude(gf.path.straight(length=10), cross_section)
+
+    assert component.bbox(gf.get_layer((1, 0))) == expected_bbox
+    assert component.bbox(gf.get_layer((2, 0))) == kdb.DBox(0, -2, 10, 2)
+
+
 def test_path_copy() -> None:
     path = gf.path.euler()
     path_copy = path.copy()

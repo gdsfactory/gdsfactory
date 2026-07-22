@@ -87,6 +87,8 @@ class Section(BaseModel):
                 polygon by more than the value listed here will be removed.
         skip_transition: if True, this section is excluded from cross-section \
                 transitions (will not be tapered between two CrossSections).
+        shear_angle_start: angle in degrees to shear this section's starting face.
+        shear_angle_end: angle in degrees to shear this section's ending face.
         width_function: parameterized function from 0 to 1.
         offset_function: parameterized function from 0 to 1.
 
@@ -116,11 +118,25 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
     skip_transition: bool = False
+    shear_angle_start: float | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
+    shear_angle_end: float | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
 
     width_function: typings.WidthFunction | None = None
     offset_function: typings.OffsetFunction | None = None
 
     model_config = ConfigDict(extra="forbid", frozen=True)
+
+    def __repr_args__(self) -> Any:
+        """Omit unset shear fields to preserve existing cross-section hashes."""
+        return [
+            (name, value)
+            for name, value in super().__repr_args__()
+            if not (name.startswith("shear_angle_") and value is None)
+        ]
 
     @model_validator(mode="before")
     @classmethod
