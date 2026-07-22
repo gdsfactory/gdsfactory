@@ -93,3 +93,33 @@ def test_taper_cross_section_round_tripped_layer_spec() -> None:
 
     t2 = gf.components.taper_cross_section(xs1_rt, xs2, length=10, linear=True)
     assert any(t2.get_polygons(merge=False).values())
+
+
+def test_taper_cross_section_round_tripped_with_cladding() -> None:
+    xs1 = gf.cross_section.cross_section(
+        width=0.5,
+        layer="WG",
+        cladding_layers=("WGCLAD",),
+        cladding_offsets=(2.0,),
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=1.0,
+        layer="WG",
+        cladding_layers=("WGCLAD",),
+        cladding_offsets=(2.0,),
+    )
+
+    taper = gf.components.taper_cross_section(xs1, xs2, length=10, linear=True)
+    round_tripped = gf.get_cross_section(taper.ports["o1"].cross_section)
+
+    assert len(round_tripped.sections) == 2
+    assert round_tripped.sections[0].layer == xs1.sections[0].layer
+    assert round_tripped.sections[0].width == xs1.sections[0].width
+    assert round_tripped.sections[1].layer == xs1.sections[1].layer
+    assert round_tripped.sections[1].width == xs1.sections[1].width
+    assert round_tripped.sections[1].offset == 0
+
+    second_taper = gf.components.taper_cross_section(
+        round_tripped, xs2, length=10, linear=True
+    )
+    assert any(second_taper.get_polygons(merge=False).values())

@@ -255,6 +255,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         # Apply CrossSection overrides
         xs_name = None
+        port_cross_section: kf.DCrossSection | None = None
         if cross_section:
             xs = get_cross_section(cross_section)
             xs_name = xs.name
@@ -262,6 +263,28 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 layer = xs.layer
             if width is None:
                 width = xs.width
+            enclosure_sections = [
+                (
+                    self.kcl.layout.get_info(get_layer(section.layer)),
+                    (section.width - xs.width) / 2,
+                )
+                for section in xs.sections[1:]
+                if section.offset == 0 and section.width >= xs.width
+            ]
+            if (
+                enclosure_sections
+                and width == xs.width
+                and get_layer(layer) == get_layer(xs.layer)
+            ):
+                port_cross_section = kf.DCrossSection(
+                    kcl=self.kcl,
+                    width=xs.width,
+                    layer=self.kcl.layout.get_info(get_layer(xs.layer)),
+                    sections=enclosure_sections,
+                    radius=None,
+                    radius_min=None,
+                    name=None,
+                )
 
         # Apply defaults if None
         if port_type is None:
@@ -311,6 +334,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             layer=layer,
             port_type=port_type,
             dcplx_trans=trans,
+            cross_section=port_cross_section,
             info=info,
         )
 
