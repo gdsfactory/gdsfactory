@@ -1,7 +1,8 @@
 info:
   length: 35637.695
-name: spiral_inductor_gdsfactorypcomponentspspiralspspiral_in_6605842d
+name: spiral_inductor_gdsfactorypcomponentspspiralspspiral_in_2442ed4f
 settings:
+  layer: M1
   outer_diameter: 800
   pitch: 3
   tail: 50

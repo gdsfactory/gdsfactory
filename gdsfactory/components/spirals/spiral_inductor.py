@@ -4,6 +4,7 @@ __all__ = ["spiral_inductor"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.typings import LayerSpec
 
 from .._schematic import spiral_schematic
 
@@ -15,6 +16,7 @@ def spiral_inductor(
     turns: int = 16,
     outer_diameter: float = 800,
     tail: float = 50.0,
+    layer: LayerSpec = "M1",
 ) -> Component:
     """Generates a spiral inductor for superconducting resonator applications, particularly in qubit readout circuits.
 
@@ -30,6 +32,7 @@ def spiral_inductor(
         turns: Number of complete spiral turns. Higher values increase inductance but require more space.
         outer_diameter: Overall size of the inductor in microns. Defines the maximum extent of the spiral.
         tail: Length of the inner and outer connection tails in microns. Used for connecting to other circuit elements.
+        layer: Metal layer for the inductor geometry and ports.
 
     Returns:
         Component: A GDSFactory component containing the spiral inductor pattern.
@@ -45,7 +48,13 @@ def spiral_inductor(
     P += gf.path.straight(length=tail)
 
     # Store the path length in component info
-    c = gf.path.extrude(P, layer=(1, 0), width=width)
+    cross_section = gf.cross_section.cross_section(
+        width=width,
+        layer=layer,
+        port_names=("e1", "e2"),
+        port_types=("electrical", "electrical"),
+    )
+    c = gf.path.extrude(P, cross_section=cross_section)
     c.info["length"] = P.length()
     return c
 
