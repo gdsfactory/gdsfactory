@@ -108,6 +108,7 @@ nbdocs: ## Convert notebooks to markdown
 docs: nbdocs ## Build documentation
 	uv run python docs/write_cells.py
 	uv run --extra docs zensical build --strict -f docs/zensical.yml
+	uv run python docs/write_legacy_redirects.py docs/_build/html
 
 docs-serve: nbdocs ## Serve documentation locally
 	uv run python docs/write_cells.py
