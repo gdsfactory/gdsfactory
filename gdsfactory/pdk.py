@@ -284,6 +284,51 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting cross_section {name!r}", stacklevel=3)
             self.cross_sections[name] = cross_section
 
+    def register_layers(self, **kwargs: tuple[int, int]) -> None:
+        """Register new layers into the PDK dynamically.
+
+        If the PDK has no layer map yet, one is created automatically.
+        When the PDK is currently active, kfactory's layer bookkeeping
+        is refreshed so the new layers are immediately usable.
+
+        Args:
+            kwargs: ``layer_name=(layer_number, datatype)`` pairs.
+
+        Example::
+
+            pdk.register_layers(WG=(1, 0), SLAB=(2, 0))
+
+        """
+        import aenum as _aenum
+
+        if self.layers is None:
+            self.layers = type(
+                "LAYER", (LayerEnum,), {"layout": _aenum.constant(kf.kcl.layout)}
+            )
+
+        for name, layer_tuple in kwargs.items():
+            if (
+                not isinstance(layer_tuple, tuple | list)
+                or len(layer_tuple) != 2
+                or not all(isinstance(v, int) for v in layer_tuple)
+            ):
+                raise ValueError(
+                    f"Layer {name!r} must be a (layer, datatype) tuple of ints, "
+                    f"got {layer_tuple!r}"
+                )
+            if hasattr(self.layers, name):
+                warnings.warn(f"Overwriting layer {name!r}", stacklevel=2)
+                old_member = getattr(self.layers, name)
+                old_val = int(old_member)
+                del self.layers._member_map_[name]  # type: ignore[union-attr]
+                self.layers._member_names_.remove(name)  # type: ignore[union-attr]
+                self.layers._value2member_map_.pop(old_val, None)  # type: ignore[union-attr]
+                type.__delattr__(self.layers, name)
+            _aenum.extend_enum(self.layers, name, *layer_tuple)
+
+        if _ACTIVE_PDK is not None and _ACTIVE_PDK.name == self.name:
+            _set_active_pdk(self)
+
     def register_cells_yaml(
         self,
         dirpath: PathType | None = None,

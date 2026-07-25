@@ -327,6 +327,74 @@ def test_get_cross_section_instance_applies_kwargs() -> None:
     assert gf.get_cross_section(xs) is xs
 
 
+def test_register_layers_from_scratch() -> None:
+    """register_layers creates a LayerEnum when pdk.layers is None."""
+    pdk = gf.Pdk(name="register_test")
+    assert pdk.layers is None
+
+    pdk.register_layers(WG=(1, 0), SLAB=(2, 0))
+
+    assert pdk.layers is not None
+    assert hasattr(pdk.layers, "WG")
+    assert hasattr(pdk.layers, "SLAB")
+    assert pdk.layers.WG.layer == 1
+    assert pdk.layers.WG.datatype == 0
+    assert pdk.layers.SLAB.layer == 2
+    assert pdk.layers.SLAB.datatype == 0
+
+
+def test_register_layers_adds_to_existing() -> None:
+    """register_layers extends an existing LayerEnum."""
+    pdk = gf.Pdk(name="register_test", layers=LAYER)
+    original_count = len(list(pdk.layers.__members__))
+
+    pdk.register_layers(CUSTOM_LAYER=(200, 0))
+
+    assert hasattr(pdk.layers, "CUSTOM_LAYER")
+    assert pdk.layers.CUSTOM_LAYER.layer == 200
+    assert pdk.layers.CUSTOM_LAYER.datatype == 0
+    assert len(list(pdk.layers.__members__)) == original_count + 1
+
+
+def test_register_layers_overwrite_warns() -> None:
+    """Overwriting an existing layer emits a warning."""
+    pdk = gf.Pdk(name="register_test")
+    pdk.register_layers(WG=(1, 0))
+
+    with pytest.warns(UserWarning, match="Overwriting layer 'WG'"):
+        pdk.register_layers(WG=(13, 14))
+
+    assert pdk.layers.WG.layer == 13
+    assert pdk.layers.WG.datatype == 14
+
+
+def test_register_layers_invalid_input() -> None:
+    """register_layers rejects non-tuple and wrong-length inputs."""
+    pdk = gf.Pdk(name="register_test")
+
+    with pytest.raises(ValueError, match="tuple of ints"):
+        pdk.register_layers(BAD="not a tuple")
+
+    with pytest.raises(ValueError, match="tuple of ints"):
+        pdk.register_layers(BAD=(1, 2, 3))
+
+    with pytest.raises(ValueError, match="tuple of ints"):
+        pdk.register_layers(BAD=(1.5, 0))
+
+
+def test_register_layers_get_layer(restore_kcl_state: None) -> None:
+    """Dynamically registered layers are accessible via get_layer."""
+    pdk = gf.Pdk(
+        name="register_get_test",
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    pdk.register_layers(WG=(1, 0), METAL1=(10, 0))
+    pdk.activate(force=True)
+
+    assert pdk.get_layer("WG") == pdk.layers.WG
+    assert pdk.get_layer("METAL1") == pdk.layers.METAL1
+
+
 def test_taper_cross_section_instance_matches_str_spec() -> None:
     """Taper with a resolved CrossSection tapers like the string spec (#4588).
 
