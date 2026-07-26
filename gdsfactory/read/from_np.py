@@ -48,7 +48,6 @@ def from_np(
     """
     from skimage import measure
 
-    c = Component()
     d = Component()
     ndarray = np.pad(ndarray, 2)
     contours = measure.find_contours(ndarray, threshold)
@@ -57,15 +56,31 @@ def from_np(
         " threshold"
     )
 
+    polygons: list[tuple[float, Component]] = []
     for contour in contours:
         area = compute_area_signed(contour)
         points = contour * 1e-3 * nm_per_pixel
-        if area < 0:
-            c.add_polygon(points, layer=layer)
-        else:
-            d.add_polygon(points, layer=layer)
+        polygon = Component()
+        polygon.add_polygon(points, layer=layer)
+        polygons.append((area, polygon))
+        if area >= 0:
+            d.add_ref(polygon)
 
-    return boolean(c, d, operation="not", layer=layer) if invert else d
+    if not invert:
+        return d
+
+    # Apply contours from the outside in so that islands nested inside holes are
+    # restored after their enclosing hole is subtracted. Combining all positive
+    # and negative contours separately loses this even-odd nesting information.
+    result = Component()
+    for area, polygon in sorted(polygons, key=lambda item: abs(item[0]), reverse=True):
+        result = boolean(
+            result,
+            polygon,
+            operation="or" if area < 0 else "not",
+            layer=layer,
+        )
+    return result
 
 
 @gf.cell
