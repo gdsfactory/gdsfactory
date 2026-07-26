@@ -138,7 +138,13 @@ def route_single(
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
 
     def straight_(width: float, length: float, **kwargs: Any) -> gf.Component:
-        return gf.get_component(straight, length=length, **kwargs)
+        return gf.get_component(
+            straight,
+            length=length,
+            cross_section=xs,
+            width=width,
+            **kwargs,
+        )
 
     def straight_dbu(width: int, length: int, **kwargs: Any) -> gf.Component:
         return straight_(c.kcl.to_um(width), c.kcl.to_um(length), **kwargs)

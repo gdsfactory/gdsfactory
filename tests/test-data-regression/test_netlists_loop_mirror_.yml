@@ -112,7 +112,7 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-  straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_b215014a_45500_m10625_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_1ce9e327_45500_m10625_A90:
     component: straight
     info:
       length: 1.25
@@ -125,8 +125,8 @@ instances:
       cross_section: strip
       length: 1.25
       npoints: 2
-      width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_35500_625_A180:
+      width: 0.5
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__1d537c51_35500_625_A180:
     component: straight
     info:
       length: 20
@@ -139,22 +139,22 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
-      width: null
+      width: 0.5
 nets:
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_25500_m10625_A90,o1
   p2: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_35500_m20625_A180_M,o2
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_25500_m10625_A90,o2
   p2: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0,o3
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_35500_625_M,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_35500_625_A180,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L20__1d537c51_35500_625_A180,o1
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_35500_625_M,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_b215014a_45500_m10625_A90,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_1ce9e327_45500_m10625_A90,o2
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_35500_m20625_A180_M,o1
   p2: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_45500_m10625_A270_M,o2
 - p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_45500_m10625_A270_M,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_b215014a_45500_m10625_A90,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_1ce9e327_45500_m10625_A90,o1
 - p1: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_35500_625_A180,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L20__1d537c51_35500_625_A180,o2
 placements:
   bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2_25500_m10625_A90:
     mirror: false
@@ -181,12 +181,12 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_b215014a_45500_m10625_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_1ce9e327_45500_m10625_A90:
     mirror: false
     rotation: 90
     x: 45.5
     y: -10.625
-  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_35500_625_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__1d537c51_35500_625_A180:
     mirror: false
     rotation: 180
     x: 35.5
