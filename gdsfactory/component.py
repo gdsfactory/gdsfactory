@@ -809,6 +809,10 @@ class Component(ComponentBase, kf.DKCell):
         rows: int = 1,
         column_pitch: float = 0.0,
         row_pitch: float = 0.0,
+        x: float = 0.0,
+        y: float = 0.0,
+        rotation: float = 0.0,
+        mirror: bool = False,
     ) -> ComponentReference:
         """Adds a component instance reference to a Component.
 
@@ -819,6 +823,10 @@ class Component(ComponentBase, kf.DKCell):
             rows: Number of rows in the array.
             column_pitch: column pitch.
             row_pitch: row pitch.
+            x: x displacement in um.
+            y: y displacement in um.
+            rotation: rotation in degrees, applied before mirroring and translation.
+            mirror: mirror across the x axis before translation.
         """
         if isinstance(component, ComponentAllAngle):
             raise ValueError(
@@ -830,6 +838,7 @@ class Component(ComponentBase, kf.DKCell):
         if self.locked:
             raise LockedError(self)
 
+        transform = kf.kdb.DCplxTrans(1, rotation, mirror, x, y)
         if rows > 1 or columns > 1:
             if rows > 1 and row_pitch == 0:
                 raise ValueError(f"rows = {rows} > 1 require {row_pitch=} > 0")
@@ -840,9 +849,11 @@ class Component(ComponentBase, kf.DKCell):
             a = kf.kdb.DVector(column_pitch, 0)
             b = kf.kdb.DVector(0, row_pitch)
 
-            inst = self.create_inst(component, na=columns, nb=rows, a=a, b=b)
+            inst = self.create_inst(
+                component, trans=transform, na=columns, nb=rows, a=a, b=b
+            )
         else:
-            inst = self.create_inst(component)
+            inst = self.create_inst(component, trans=transform)
         if name is not None:
             inst.name = name
         return ComponentReference(kcl=self.kcl, instance=inst.instance)

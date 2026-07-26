@@ -106,6 +106,17 @@ def test_remove_layers() -> None:
     assert c.area((2, 0)) == 0, f"{c.area((2, 0))}"
 
 
+def test_add_ref_placement() -> None:
+    component = gf.Component()
+    reference = component.add_ref(
+        gf.components.straight(), x=20, y=30, rotation=90, mirror=True
+    )
+
+    assert reference.dcplx_trans.disp == gf.kdb.DVector(20, 30)
+    assert reference.dcplx_trans.angle == 90
+    assert reference.dcplx_trans.is_mirror()
+
+
 def test_remove_layers_recursive_multiple_layers() -> None:
     child = gf.Component()
     child.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
