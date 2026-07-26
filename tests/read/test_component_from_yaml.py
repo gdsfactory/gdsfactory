@@ -7,6 +7,27 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from gdsfactory.difftest import difftest
 from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
+
+def test_mirror_y_placement() -> None:
+    component = from_yaml(
+        """
+instances:
+  rectangle:
+    component: rectangle
+    settings:
+      size: [2, 4]
+placements:
+  rectangle:
+    y: 10
+    mirror_y: true
+"""
+    )
+
+    rectangle = component.insts["rectangle"]
+    assert rectangle.ymin == 6
+    assert rectangle.ymax == 10
+
+
 sample_connections = """
 name: sample_connections
 
