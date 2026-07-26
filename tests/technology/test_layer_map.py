@@ -42,3 +42,20 @@ def test_lyp_to_dataclass(tmp_path: pathlib.Path) -> None:
 
     with pytest.raises(FileNotFoundError):
         lyp_to_dataclass("nonexistent.lyp")
+
+
+def test_lyp_to_dataclass_without_brightness(tmp_path: pathlib.Path) -> None:
+    lyp_content = """<?xml version="1.0" encoding="utf-8"?>
+<layer-properties>
+ <properties>
+  <dither-pattern>1</dither-pattern>
+  <name>M1</name>
+  <source>1/0@1</source>
+ </properties>
+</layer-properties>"""
+    lyp_file = tmp_path / "without_brightness.lyp"
+    lyp_file.write_text(lyp_content)
+
+    script = lyp_to_dataclass(lyp_file)
+
+    assert "M1: Layer = (1, 0)" in script
