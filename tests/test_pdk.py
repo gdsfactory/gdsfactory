@@ -19,6 +19,12 @@ def test_get_cross_section() -> None:
     assert xs.sections[0].width == 1
 
 
+def test_get_component_all_angle() -> None:
+    component = gf.get_component(gf.components.bend_euler_all_angle, angle=45)
+
+    assert isinstance(component, gf.ComponentAllAngle)
+
+
 def test_get_layer() -> None:
     assert gf.get_layer(1) == LAYER.WG
     assert gf.get_layer((1, 0)) == LAYER.WG
