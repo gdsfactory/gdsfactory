@@ -1193,7 +1193,7 @@ def extrude(
             new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
 
             _path_points = [new_start_point]
-            _path_points.extend(p_pts[start_diff_idx + 1 : stop_diff_idx])
+            _path_points.extend(p_pts[start_diff_idx + 1 : stop_diff_idx + 1])
             _path_points.append(new_stop_point)
 
             p_sec = Path(np.array(_path_points, dtype=np.float64))
