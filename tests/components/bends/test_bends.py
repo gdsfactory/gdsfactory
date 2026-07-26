@@ -208,6 +208,7 @@ def test_bend_s() -> None:
     assert len(c.ports) == 2
     assert "length" in c.info
     assert "min_bend_radius" in c.info
+    assert c.settings["npoints"] is None
 
     c2 = bend_s(size=(10, 0))
     assert isinstance(c2, gf.Component)
@@ -222,6 +223,7 @@ def test_bend_s() -> None:
     )
     assert isinstance(c3, gf.Component)
     assert len(c3.ports) == 2
+    assert c3.settings["npoints"] == 150
 
 
 def test_get_min_sbend_size() -> None:
