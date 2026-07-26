@@ -15,6 +15,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Sequence
 from functools import partial
+from math import isclose
 from typing import Any, Literal, cast
 from warnings import warn
 
@@ -444,6 +445,27 @@ def route_bundle(
         bboxes.append(bbox2)
         # component.shapes(component.kcl.layer(1,0)).insert(bbox)
 
+    route_layer = gf.get_layer(xs.layer)
+
+    def validate_ports() -> None:
+        for port in [*ports1_, *ports2_]:
+            if allow_width_mismatch is False and not isclose(port.width, width):
+                raise ValueError(
+                    f"Port {port.name!r} has width {port.width}, but the route width is "
+                    f"{width}. Set allow_width_mismatch=True to route anyway."
+                )
+            if allow_layer_mismatch is False and port.layer != route_layer:
+                raise ValueError(
+                    f"Port {port.name!r} is on layer {port.layer}, but the route is on "
+                    f"layer {route_layer}. Set allow_layer_mismatch=True to route anyway."
+                )
+            if allow_type_mismatch is False and port.port_type != port_type:
+                raise ValueError(
+                    f"Port {port.name!r} has type {port.port_type!r}, but the route "
+                    f"port type is {port_type!r}. Set allow_type_mismatch=True to "
+                    "route anyway."
+                )
+
     if steps and waypoints:
         raise ValueError("Provide only one of steps or waypoints")
 
@@ -559,6 +581,7 @@ def route_bundle(
         route_constraints = list(constraints or [])
 
     try:
+        validate_ports()
         kf_on_collision = "error" if on_collision == "warning" else on_collision
         kf_on_placer_error = (
             "error" if on_placer_error == "warning" else on_placer_error
