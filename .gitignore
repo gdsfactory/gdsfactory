@@ -66,6 +66,7 @@ sample_reticle.csv
 
 
 # Packages
+uv.lock
 *.egg
 *.oas
 *.egg-info
