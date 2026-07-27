@@ -1,7 +1,126 @@
 from __future__ import annotations
 
+import pytest
+
 import gdsfactory as gf
 from gdsfactory.gpdk import LAYER
+
+
+@pytest.fixture(autouse=True)
+def activate_generic_pdk() -> None:
+    gf.gpdk.PDK.activate()
+
+
+def test_add_electric_pins_without_layer_map() -> None:
+    """Pin rectangles are drawn on the port's own layer when no layer_map is given."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=LAYER.M1)
+    component.add_port(
+        name="A",
+        center=(0, 2.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    component.add_port(
+        name="B",
+        center=(10, 2.5),
+        width=5,
+        orientation=0,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(component)
+    polygons = component.get_polygons()
+    assert len(polygons[LAYER.M1]) == 3  # original polygon + 2 pin rectangles
+    assert len(component.pins) == 2
+
+
+def test_add_electric_pins_with_layer_map() -> None:
+    """Pin rectangles are drawn on the mapped pin layer, not the port layer."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=LAYER.M1)
+    component.add_port(
+        name="A",
+        center=(0, 2.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    component.add_port(
+        name="B",
+        center=(10, 2.5),
+        width=5,
+        orientation=0,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(component, pin_layer_map={LAYER.M1: LAYER.PORTE})
+    polygons = component.get_polygons()
+    assert len(polygons[LAYER.PORTE]) == 2
+    assert len(polygons[LAYER.M1]) == 1  # only the original polygon
+    assert len(component.pins) == 2
+
+
+def test_add_electric_pins_groups_ports_by_name() -> None:
+    """Ports with the same name are grouped into a single logical pin."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 10), (0, 10)], layer=LAYER.M1)
+    component.add_port(
+        name="D",
+        center=(0, 2.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    component.add_port(
+        name="D",
+        center=(0, 7.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    component.add_port(
+        name="S",
+        center=(10, 5),
+        width=10,
+        orientation=0,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(component)
+    pin_names = {pin.name for pin in component.pins}
+    assert pin_names == {"D", "S"}
+    assert len(component.pins) == 2
+
+
+def test_add_electric_pins_skips_non_electrical_ports() -> None:
+    """Only electrical ports get pins; optical ports are ignored."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 0.5), (0, 0.5)], layer=LAYER.WG)
+    component.add_port(
+        name="o1",
+        center=(0, 0.25),
+        width=0.5,
+        orientation=180,
+        layer=LAYER.WG,
+        port_type="optical",
+    )
+    component.add_port(
+        name="e1",
+        center=(10, 0.25),
+        width=0.5,
+        orientation=0,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(component)
+    assert len(component.pins) == 1
+    assert component.pins[0].name == "e1"
 
 
 def test_add_pins() -> None:
