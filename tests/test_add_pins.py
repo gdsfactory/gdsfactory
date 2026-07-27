@@ -7,7 +7,7 @@ from gdsfactory.gpdk import LAYER
 
 
 @pytest.fixture(autouse=True)
-def activate_generic_pdk():
+def activate_generic_pdk() -> None:
     gf.gpdk.PDK.activate()
 
 
@@ -57,9 +57,7 @@ def test_add_electric_pins_with_layer_map() -> None:
         layer=LAYER.M1,
         port_type="electrical",
     )
-    gf.add_pins.add_electric_pins(
-        component, layer_map={LAYER.M1: LAYER.PORTE}
-    )
+    gf.add_pins.add_electric_pins(component, pin_layer_map={LAYER.M1: LAYER.PORTE})
     polygons = component.get_polygons()
     assert len(polygons[LAYER.PORTE]) == 2
     assert len(polygons[LAYER.M1]) == 1  # only the original polygon
