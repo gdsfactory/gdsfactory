@@ -448,7 +448,7 @@ add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 def add_electric_pins(
     component: Component,
-    layer_map: dict[tuple[int, int], tuple[int, int]] | None = None,
+    pin_layer_map: dict[tuple[int, int], tuple[int, int]] | None = None,
     pin_function: AddPinFunction = add_pin_rectangle_inside,  # type: ignore[assignment]
     pin_type: str = "DC",
 ) -> None:
@@ -460,7 +460,7 @@ def add_electric_pins(
 
     Args:
         component: Component to add pins to.
-        layer_map: Optional mapping from port layer to pin layer. When None,
+        pin_layer_map: Mapping from port layer to pin layer for PDK specific layer. When None,
             each port's own layer is used (for PDKs where ports are already
             on pin layers).
         pin_function: Function to draw each pin marker.
@@ -472,7 +472,7 @@ def add_electric_pins(
             by_name.setdefault(port.name, []).append(port)
     for name, ports in by_name.items():
         for port in ports:
-            pin_layer = layer_map.get(port.layer) if layer_map else port.layer
+            pin_layer = pin_layer_map.get(port.layer) if pin_layer_map else port.layer
             if pin_layer:
                 pin_function(component, port, layer=pin_layer, layer_label=None)
         component.create_pin(ports=ports, name=name, pin_type=pin_type)
