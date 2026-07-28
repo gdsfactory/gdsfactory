@@ -1199,6 +1199,7 @@ class Component(ComponentBase, kf.DKCell):
         layer: LayerSpec,
         min_space: float = 0.2,
         size_bias: float = 0.0,
+        smooth_factor: float = 0.05,
     ) -> None:
         """Fixes layer spacing in the Component.
 
@@ -1206,6 +1207,9 @@ class Component(ComponentBase, kf.DKCell):
             layer: layer to fix spacing on.
             min_space: minimum space in um.
             size_bias: optional geometry bias applied after spacing fix (um).
+            smooth_factor: smoothing factor applied to the fixed edges. Set to
+                0 to disable smoothing, which otherwise can distort curved
+                geometry such as S-bends.
         """
         import gdsfactory as gf
         from gdsfactory.pdk import get_layer
@@ -1213,7 +1217,10 @@ class Component(ComponentBase, kf.DKCell):
         layer = get_layer(layer)
         layer_info = gf.kcl.get_info(layer)
         fix = fix_spacing_tiled(
-            self.to_itype(), min_space=self.kcl.to_dbu(min_space), layer=layer_info
+            self.to_itype(),
+            min_space=self.kcl.to_dbu(min_space),
+            layer=layer_info,
+            smooth_factor=smooth_factor,
         )
         if size_bias:
             size_offset_dbu = self.kcl.to_dbu(size_bias)
