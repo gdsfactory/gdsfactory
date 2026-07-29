@@ -11,13 +11,15 @@ import gdsfactory as gf
 def _make_failing_route_args() -> tuple[gf.Component, gf.Port, gf.Port]:
     """Return (component, port1, port2) that will fail to route.
 
-    Both ports face the same direction with a tiny offset, making it
-    impossible to fit the default bend radius.
+    Two straights placed with the same orientation but only 2um apart
+    vertically. Both o2 ports face right so the router needs U-turns
+    that require far more space than 2um (default radius ~10um).
     """
     c = gf.Component()
-    p1 = gf.Port(name="o1", center=(0, 0), width=0.5, orientation=0, layer=(1, 0))
-    p2 = gf.Port(name="o2", center=(3, 3), width=0.5, orientation=0, layer=(1, 0))
-    return c, p1, p2
+    s1 = c << gf.components.straight(length=5, cross_section="strip")
+    s2 = c << gf.components.straight(length=5, cross_section="strip")
+    s2.dmove((0, 2))
+    return c, s1.ports["o2"], s2.ports["o2"]
 
 
 def test_route_single_on_placer_error_none() -> None:
