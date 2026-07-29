@@ -1068,12 +1068,14 @@ class Component(ComponentBase, kf.DKCell):
 
         Args:
             layers: list of layers to remove.
-            recursive: if True, removes layers recursively and temporarily unlocks components.
+            recursive: if True, flattens this component before removing layers so
+                referenced cells shared with other components remain unchanged.
         """
         from gdsfactory import get_layer
 
         if recursive:
             self.locked = False
+            self.flatten()
 
         if self.locked:
             raise LockedError(self)
@@ -1090,18 +1092,6 @@ class Component(ComponentBase, kf.DKCell):
         for layer_index in layer_indices:
             kdb_cell.shapes(layer_index).clear()
 
-        if recursive:
-            for ci in kdb_cell.called_cells():
-                child = self.kcl[ci]
-                child_cell = child.kdb_cell
-                was_locked = child.locked
-                child.locked = False
-                try:
-                    for layer_idx in layer_indices:
-                        child_cell.shapes(layer_idx).clear()
-                finally:
-                    if was_locked:
-                        child.locked = True
         return self
 
     def remap_layers(
