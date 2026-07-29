@@ -981,6 +981,11 @@ class Component(ComponentBase, kf.DKCell):
             r.merge()
         return r
 
+    def insert_region(self, region: kdb.Region, layer: LayerSpec) -> None:
+        if self.locked:
+            raise LockedError(self)
+        self.shapes(layer).insert(region)
+
     def get_polygons_points(
         self,
         merge: bool = False,

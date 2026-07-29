@@ -831,3 +831,16 @@ def test_fill() -> None:
     assert np.isclose(fill_area, expected_fill_area), (
         f"{fill_area} != {expected_fill_area}"
     )
+
+
+def test_insert_region() -> None:
+    """Verify that Component.insert_region correctly inserts a kdb.Region."""
+    c = gf.Component()
+
+    _ = c << gf.c.circle(layer=(1, 0), radius=10)
+    region = c.get_region(layer=(1, 0))
+
+    c.insert_region(region, layer=(2, 0))
+    polys1 = c.get_polygons(layers=[(1, 0)]).values()
+    polys2 = c.get_polygons(layers=[(2, 0)]).values()
+    assert list(polys1) == list(polys2)
