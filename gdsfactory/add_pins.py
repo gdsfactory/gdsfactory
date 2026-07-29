@@ -446,6 +446,50 @@ add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
 add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 
+def add_electric_pins(
+    component: Component,
+    port_pin_mapping: dict[str, list[str]] | None = None,
+    pin_layer_map: dict[tuple[int, int], tuple[int, int]] | None = None,
+    pin_function: AddPinFunction = add_pin_rectangle_inside,  # type: ignore[assignment]
+    pin_type: str = "DC",
+) -> None:
+    """Draw pin markers and register logical pins for all electrical ports.
+
+    Groups ports by name, draws a pin rectangle for each port on the
+    corresponding pin layer, and calls ``component.create_pin()`` to register
+    a logical pin for each group.
+
+    Args:
+        component: Component to add pins to.
+        port_pin_mapping: Explicit mapping from pin name to port names.
+            When provided, each key becomes a logical pin whose ports are
+            looked up by name from the component. When None, electrical
+            ports are auto-grouped by their own name.
+        pin_layer_map: Mapping from port layer to pin layer for PDK specific layer. When None,
+            each port's own layer is used (for PDKs where ports are already
+            on pin layers).
+        pin_function: Function to draw each pin marker.
+        pin_type: Pin type string passed to create_pin().
+    """
+    if port_pin_mapping is not None:
+        by_name: dict[str, list] = {
+            pin_name: [component.ports[pn] for pn in port_names]
+            for pin_name, port_names in port_pin_mapping.items()
+        }
+    else:
+        by_name = {}
+        for port in component.ports:
+            if port.port_type == "electrical":
+                by_name.setdefault(port.name, []).append(port)
+
+    for name, ports in by_name.items():
+        for port in ports:
+            pin_layer = pin_layer_map.get(port.layer) if pin_layer_map else port.layer
+            if pin_layer:
+                pin_function(component, port, layer=pin_layer, layer_label=None)
+        component.create_pin(ports=ports, name=name, pin_type=pin_type)
+
+
 def add_settings_label(
     component: Component,
     reference: ComponentReference | None = None,
