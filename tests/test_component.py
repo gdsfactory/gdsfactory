@@ -844,3 +844,12 @@ def test_insert_region() -> None:
     polys1 = c.get_polygons(layers=[(1, 0)]).values()
     polys2 = c.get_polygons(layers=[(2, 0)]).values()
     assert list(polys1) == list(polys2)
+
+
+def test_insert_region_locked() -> None:
+    """Verify that Component.insert_region fails for a locked Component."""
+    c = gf.c.circle(layer=(1, 0), radius=10)
+    region = c.get_region(layer=(1, 0))
+
+    with pytest.raises(LockedError):
+        c.insert_region(region, layer=(2, 0))
