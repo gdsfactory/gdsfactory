@@ -66,7 +66,7 @@ def route_single(
     radius: float | None = None,
     route_width: float | None = None,
     auto_taper: bool = True,
-    on_error: Literal["error"] | None = None,
+    on_error: Literal["error"] | None = "error",
     layer_transitions: LayerTransitions | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
@@ -138,10 +138,17 @@ def route_single(
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
 
     def straight_(width: float, length: float, **kwargs: Any) -> gf.Component:
-        return gf.get_component(straight, length=length, **kwargs)
+        xs = kwargs.pop("cross_section", cross_section)
+        return gf.get_component(straight, length=length, cross_section=xs, **kwargs)
 
     def straight_dbu(width: int, length: int, **kwargs: Any) -> gf.Component:
-        return straight_(c.kcl.to_um(width), c.kcl.to_um(length), **kwargs)
+        xs = kwargs.pop("cross_section", cross_section)
+        return straight_(
+            c.kcl.to_um(width),
+            c.kcl.to_um(length),
+            cross_section=xs,
+            **kwargs,
+        )
 
     if steps and waypoints:
         raise ValueError("Provide only one of steps or waypoints")
