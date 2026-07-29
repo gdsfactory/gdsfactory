@@ -98,6 +98,44 @@ def test_add_electric_pins_groups_ports_by_name() -> None:
     assert len(component.pins) == 2
 
 
+def test_add_electric_pins_with_port_pin_mapping() -> None:
+    """Explicit port_pin_mapping groups ports under custom pin names."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 10), (0, 10)], layer=LAYER.M1)
+    component.add_port(
+        name="A",
+        center=(0, 2.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    component.add_port(
+        name="B",
+        center=(0, 7.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    component.add_port(
+        name="C",
+        center=(10, 5),
+        width=10,
+        orientation=0,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(
+        component, port_pin_mapping={"VDD": ["A", "B"], "GND": ["C"]}
+    )
+    pin_names = {pin.name for pin in component.pins}
+    assert pin_names == {"VDD", "GND"}
+    assert len(component.pins) == 2
+    polygons = component.get_polygons()
+    assert len(polygons[LAYER.M1]) == 4  # original polygon + 3 pin rectangles
+
+
 def test_add_electric_pins_skips_non_electrical_ports() -> None:
     """Only electrical ports get pins; optical ports are ignored."""
     component = gf.Component()
