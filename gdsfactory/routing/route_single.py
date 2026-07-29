@@ -68,7 +68,9 @@ def route_single(
     radius: float | None = None,
     route_width: float | None = None,
     auto_taper: bool = True,
+    on_collision: Literal["error", "show_error", "warning"] | None = None,
     on_placer_error: Literal["error", "show_error", "warning"] | None = None,
+    on_error: Literal["error"] | None = None,
     layer_transitions: LayerTransitions | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
@@ -94,10 +96,13 @@ def route_single(
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route in um. If None, defaults to cross_section.width.
         auto_taper: add auto tapers.
-        on_placer_error: action to take on placer error. "error" raises an exception.
+        on_collision: action to take on route collision. "error" raises an exception.
             "show_error" shows the error in klayout's marker database.
             "warning" emits a warning and falls back to error markers.
-            None silently falls back to error markers. Defaults to CONF.on_placer_error.
+            None silently falls back to error markers. Defaults to CONF.on_collision.
+        on_placer_error: action to take on placer error. Same options as on_collision.
+            Defaults to CONF.on_placer_error.
+        on_error: deprecated, use on_placer_error instead. Maps to on_placer_error.
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
 
     Example:
@@ -112,6 +117,15 @@ def route_single(
         c.plot()
         ```
     """
+    if on_error is not None:
+        warnings.warn(
+            "on_error is deprecated, use on_placer_error instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        on_placer_error = on_placer_error or (on_error if on_error == "error" else None)
+
+    on_collision = on_collision or CONF.on_collision
     on_placer_error = on_placer_error or CONF.on_placer_error
 
     if cross_section is None and (layer is None or route_width is None):
@@ -287,6 +301,7 @@ def route_single(
             )
 
     else:
+        kf_on_collision = "error" if on_collision == "warning" else on_collision
         kf_on_placer_error = (
             "error" if on_placer_error == "warning" else on_placer_error
         )
@@ -303,16 +318,17 @@ def route_single(
                 place_port_type=port_type,
                 allow_width_mismatch=allow_width_mismatch,
                 route_width=route_width,
+                on_collision=kf_on_collision,
                 on_placer_error=kf_on_placer_error,
             )[0]
         except Exception as e:
-            if on_placer_error == "error":
+            if on_placer_error == "error" or on_collision == "error":
                 raise
 
-            if on_placer_error == "show_error":
+            if on_placer_error == "show_error" or on_collision == "show_error":
                 raise
 
-            if on_placer_error == "warning":
+            if on_placer_error == "warning" or on_collision == "warning":
                 gf.logger.error(f"Error in route_single: {e}")
                 warnings.warn(f"Routing failed: {e}", stacklevel=2)
 
