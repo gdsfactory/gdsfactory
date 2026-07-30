@@ -12,7 +12,7 @@ def activate_generic_pdk() -> None:
 
 
 def test_add_electric_pins_without_layer_map() -> None:
-    """Pin rectangles are drawn on the port's own layer when no layer_map is given."""
+    """Pin rectangles are drawn via default_pin_layer when no layer_map is given."""
     component = gf.Component()
     component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=LAYER.M1)
     component.add_port(
@@ -31,7 +31,7 @@ def test_add_electric_pins_without_layer_map() -> None:
         layer=LAYER.M1,
         port_type="electrical",
     )
-    gf.add_pins.add_electric_pins(component)
+    gf.add_pins.add_electric_pins(component, default_pin_layer=LAYER.M1)
     polygons = component.get_polygons()
     assert len(polygons[LAYER.M1]) == 3  # original polygon + 2 pin rectangles
     assert len(component.pins) == 2
@@ -127,7 +127,9 @@ def test_add_electric_pins_with_port_pin_mapping() -> None:
         port_type="electrical",
     )
     gf.add_pins.add_electric_pins(
-        component, port_pin_mapping={"VDD": ["A", "B"], "GND": ["C"]}
+        component,
+        port_pin_mapping={"VDD": ["A", "B"], "GND": ["C"]},
+        default_pin_layer=LAYER.M1,
     )
     pin_names = {pin.name for pin in component.pins}
     assert pin_names == {"VDD", "GND"}
@@ -159,6 +161,60 @@ def test_add_electric_pins_skips_non_electrical_ports() -> None:
     gf.add_pins.add_electric_pins(component)
     assert len(component.pins) == 1
     assert component.pins[0].name == "e1"
+
+
+def test_add_electric_pins_with_pin_label_layer_map() -> None:
+    """Labels are routed to the mapped layer via pin_label_layer_map."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=LAYER.M1)
+    component.add_port(
+        name="A",
+        center=(0, 2.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(component, pin_label_layer_map={LAYER.M1: LAYER.TEXT})
+    labels = component.get_labels(LAYER.TEXT)
+    assert len(labels) == 1
+    assert len(component.pins) == 1
+
+
+def test_add_electric_pins_with_default_label_layer() -> None:
+    """Labels use default_label_layer as fallback when no label map is given."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=LAYER.M1)
+    component.add_port(
+        name="A",
+        center=(0, 2.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(component, default_label_layer=LAYER.TEXT)
+    labels = component.get_labels(LAYER.TEXT)
+    assert len(labels) == 1
+    assert len(component.pins) == 1
+
+
+def test_add_electric_pins_no_drawing_without_layers() -> None:
+    """No pin markers are drawn when no layer info is given, but pins are still registered."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=LAYER.M1)
+    component.add_port(
+        name="A",
+        center=(0, 2.5),
+        width=5,
+        orientation=180,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+    gf.add_pins.add_electric_pins(component)
+    polygons = component.get_polygons()
+    assert len(polygons[LAYER.M1]) == 1  # only the original polygon, no pin rectangles
+    assert len(component.pins) == 1
 
 
 def test_add_pins() -> None:
