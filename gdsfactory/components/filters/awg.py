@@ -156,16 +156,16 @@ def awg(
             cross_section=cross_section,
         )
     else:
-        # Nested fan: arm i rises earlier and higher than arm i-1 so the bumps nest
-        # without crossing, while the net x-span stays equal to the gap -> each arm is
-        # exactly i*length_increment longer than arm 0.
         fpr_out_ref.mirror_x()
         e0 = fpr_in_ref.ports["E0"]
         fpr_out_ref.movex(e0.x + fpr_spacing - fpr_out_ref.ports["E0"].x)
         fpr_out_ref.movey(e0.y - fpr_out_ref.ports["E0"].y)
         gap = fpr_out_ref.ports["E0"].x - e0.x
-        margin = 4.0
-        stagger = min(4.0, (0.4 * gap - margin) / max(arms - 1, 1))
+        xs = gf.get_cross_section(cross_section)
+        bend_radius = xs.radius or 10.0
+        margin = max(4.0, bend_radius)
+        max_rise = (gap - 2 * bend_radius) / 2
+        stagger = max(0.0, min(4.0, (max_rise - margin) / max(arms - 2, 1)))
         lengths: list[float] = []
         for i in range(arms):
             p_in = fpr_in_ref.ports[f"E{i}"]
@@ -178,13 +178,14 @@ def awg(
                     {"dy": h},
                     {"dx": gap - 2 * rise_x},
                     {"dy": -h},
-                    {"dx": rise_x},
                 ]
+                route = gf.routing.route_single(
+                    c, p_in, p_out, cross_section=cross_section, steps=steps
+                )
             else:
-                steps = [{"dx": gap}]
-            route = gf.routing.route_single(
-                c, p_in, p_out, cross_section=cross_section, steps=steps
-            )
+                route = gf.routing.route_single(
+                    c, p_in, p_out, cross_section=cross_section
+                )
             lengths.append(route.length_backbone / 1000.0)
         c.info["arm_lengths"] = [round(x, 4) for x in lengths]
 
@@ -193,3 +194,9 @@ def awg(
         c.add_port(f"E{i}", port=port)
 
     return c
+
+
+if __name__ == "__main__":
+    gf.gpdk.PDK.activate()
+    c = awg()
+    c.show()

@@ -1,4 +1,4 @@
-# GDSFactory 9.46.0
+# GDSFactory 9.47.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -32,6 +32,9 @@ gfi install
 
 ```python
 import gdsfactory as gf
+
+# Activate the built-in generic process design kit
+gf.gpdk.PDK.activate()
 
 # Create a new component
 c = gf.Component()
