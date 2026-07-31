@@ -125,10 +125,10 @@ class Section(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def generate_default_name(cls, data: Any) -> Any:
-        if not data.get("name"):
-            h = hashlib.md5(str(data).encode()).hexdigest()[:8]
-            data["name"] = f"s_{h}"
-        return data
+        if data.get("name"):
+            return data
+        h = hashlib.md5(str(data).encode()).hexdigest()[:8]
+        return {**data, "name": f"s_{h}"}
 
     @model_validator(mode="after")
     def _require_width_value_or_function(self) -> Self:

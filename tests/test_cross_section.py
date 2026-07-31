@@ -238,6 +238,41 @@ def test_is_cross_section_private() -> None:
     assert not gf.cross_section.is_cross_section("_private_xs", _private_xs)
 
 
+def test_section_default_name_does_not_mutate_input() -> None:
+    from gdsfactory.cross_section import CrossSection, Section
+
+    section = {"width": 2.0, "layer": "SLAB90"}
+    expected = dict(section)
+
+    assert Section.model_validate(section).name
+    assert section == expected
+
+    assert CrossSection(sections=[section]).sections[0].name
+    assert section == expected
+
+    # the derived name is unchanged by the copy: keywords and spec agree
+    assert Section(**expected).name == Section.model_validate(expected).name
+
+
+def test_section_default_name_tracks_edits() -> None:
+    from gdsfactory.cross_section import CrossSection
+
+    section = {"width": 2.0, "layer": "SLAB90"}
+    narrow = CrossSection(sections=[section]).sections[0]
+
+    section["width"] = 5.0
+    wide = CrossSection(sections=[section]).sections[0]
+
+    assert wide.width == 5.0
+    assert wide.name != narrow.name
+
+    # two different sections must not collide on an inherited name,
+    # which extrude_transition rejects
+    xs = gf.CrossSection(sections=(narrow, wide), radius=10)
+    assert len({s.name for s in xs.sections}) == 2
+    gf.path.extrude_transition(gf.path.straight(10), gf.path.transition(xs, xs))
+
+
 def test_taper_cross_section_instance_matches_name() -> None:
     """Taper must honor width overrides when cross_section is a CrossSection.
 
