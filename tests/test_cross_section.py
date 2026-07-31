@@ -90,6 +90,31 @@ def test_copy() -> None:
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
 
 
+def test_copy_keeps_falsy_overrides() -> None:
+    """A nominal width of 0 and the layer with index 0 are overrides, not omissions."""
+
+    def width_function(
+        t: npt.NDArray[np.floating[Any]],
+    ) -> npt.NDArray[np.floating[Any]]:
+        return 0.5 + 2 * t
+
+    xs = gf.get_cross_section("strip")
+
+    # width_function drives the extrusion, so width is only a nominal value
+    taper = xs.copy(width=0.0, width_function=width_function)
+    assert taper.width == 0.0
+    assert taper.sections[0].width_function is width_function
+    c = gf.path.extrude(gf.path.straight(length=10), cross_section=taper)
+    assert np.isclose(c.ysize, width_function(1.0))
+
+    # first entry of a layer enum has index 0, which is falsy
+    assert xs.copy(layer=LAYER.WAFER).layer == LAYER.WAFER
+
+    # None still means "keep the current value"
+    assert xs.copy(width=None).width == xs.width
+    assert xs.copy(layer=None).layer == xs.layer
+
+
 def test_name() -> None:
     s = gf.cross_section.strip()
     assert s.name == "strip"
