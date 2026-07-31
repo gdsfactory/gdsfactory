@@ -327,6 +327,16 @@ def test_get_cross_section_instance_applies_kwargs() -> None:
     assert gf.get_cross_section(xs) is xs
 
 
+def test_get_cross_section_dict_applies_kwargs() -> None:
+    """Overrides win over the dict spec's own settings."""
+    spec = {"cross_section": "strip", "settings": {"width": 1}}
+    assert gf.get_cross_section(spec).width == 1
+    assert gf.get_cross_section(spec, width=3.0).width == 3.0
+    assert gf.get_cross_section(spec, radius=20).radius == 20
+    # the override does not write back into spec["settings"]
+    assert spec == {"cross_section": "strip", "settings": {"width": 1}}
+
+
 def test_taper_cross_section_instance_matches_str_spec() -> None:
     """Taper with a resolved CrossSection tapers like the string spec (#4588).
 
