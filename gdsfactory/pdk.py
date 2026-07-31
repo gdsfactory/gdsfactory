@@ -503,7 +503,7 @@ class Pdk(BaseModel):
         """Returns cross_section from a cross_section spec.
 
         Args:
-            cross_section: CrossSection, CrossSectionFactory, Transition, string or dict.
+            cross_section: CrossSection, CrossSectionFactory, string or dict.
             kwargs: settings to override.
         """
         if callable(cross_section):
@@ -559,7 +559,7 @@ class Pdk(BaseModel):
             return xs_
         raise ValueError(
             "get_cross_section expects a CrossSectionSpec (CrossSection, "
-            f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
+            f"CrossSectionFactory, string or dict), got {type(cross_section)}"
         )
 
     def get_layer(self, layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
