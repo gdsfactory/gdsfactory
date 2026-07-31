@@ -337,6 +337,19 @@ def test_get_cross_section_dict_applies_kwargs() -> None:
     assert spec == {"cross_section": "strip", "settings": {"width": 1}}
 
 
+def test_get_cross_section_kfactory_applies_kwargs() -> None:
+    """A kfactory cross_section takes overrides like every other spec does."""
+    kf_xs = gf.components.straight().ports[0].cross_section
+    registered = gf.get_cross_section(kf_xs)
+
+    # the kfactory name describes the original, so an override cannot keep it
+    assert gf.get_cross_section(kf_xs, width=2.0).width == 2.0
+    assert gf.get_cross_section(kf_xs, width=2.0).name != registered.name
+
+    # an override that changes nothing leaves the name alone
+    assert gf.get_cross_section(kf_xs, radius=registered.radius).name == registered.name
+
+
 def test_taper_cross_section_instance_matches_str_spec() -> None:
     """Taper with a resolved CrossSection tapers like the string spec (#4588).
 
