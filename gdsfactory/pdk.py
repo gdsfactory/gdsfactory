@@ -556,7 +556,7 @@ class Pdk(BaseModel):
                 radius_min=kf.kcl.to_um(cross_section_.radius_min),
             )
             xs_._name = cross_section_.name
-            return xs_
+            return xs_.copy(**kwargs) if kwargs else xs_
         raise ValueError(
             "get_cross_section expects a CrossSectionSpec (CrossSection, "
             f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
