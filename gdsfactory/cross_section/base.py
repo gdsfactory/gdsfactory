@@ -263,7 +263,18 @@ class CrossSection(BaseModel):
     def append_sections(self, sections: Sections) -> Self:
         """Append sections to the cross_section."""
         new_sections = list(self.sections) + list(sections)
-        return self.model_copy(update={"sections": tuple(new_sections)})
+        return self._copy({"sections": tuple(new_sections)})
+
+    def _copy(self, update: dict[str, Any]) -> Self:
+        """Copy that does not carry a name if the content has changed.
+
+        Rebuilt rather than using `model_copy` so the update gets validated.
+        """
+        xs = type(self).model_validate(dict(self) | update)
+        xs._name = self._name  # Restoring for the comparison
+        if xs != self:
+            xs._name = ""  # Deriving name from the new content
+        return xs
 
     def __getitem__(self, key: str) -> Section:
         """Returns the section with the given name."""
@@ -342,15 +353,12 @@ class CrossSection(BaseModel):
                 section_list[0] = first.model_validate(dict(first) | section_overrides)
             update["sections"] = tuple(section_list)
 
-        xs = self.model_copy(update=update)
-        if xs != self:
-            xs._name = f"xs_{xs.hash}"
-        return xs
+        return self._copy(update)
 
     def mirror(self) -> CrossSection:
         """Returns a mirrored copy of the cross_section."""
         sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
-        return self.model_copy(update={"sections": tuple(sections)})
+        return self._copy({"sections": tuple(sections)})
 
     def add_bbox(
         self,
