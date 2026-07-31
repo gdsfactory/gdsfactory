@@ -522,7 +522,8 @@ class Pdk(BaseModel):
             xs_name = xs_dict.get("cross_section", None)
             if xs_name is None:
                 raise ValueError("cross_section name is required")
-            settings = xs_dict.get("settings", {})
+            settings = dict(xs_dict.get("settings", {}))
+            settings.update(**kwargs)
             return self.get_cross_section(xs_name, **settings)
         if isinstance(cross_section, CrossSection):
             if kwargs:
