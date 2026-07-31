@@ -90,22 +90,34 @@ def test_copy() -> None:
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
 
 
+def _width_function(t: float) -> float:
+    return 0.5 + 2 * t
+
+
+def _offset_function(t: float) -> float:
+    return 0.0
+
+
+def _other_offset_function(t: float) -> float:
+    return 2.0 * t
+
+
+def _profile_cross_section() -> gf.CrossSection:
+    return gf.cross_section.cross_section(
+        width=_width_function, offset=_offset_function
+    )
+
+
 def test_copy_keeps_falsy_overrides() -> None:
     """A nominal width of 0 and the layer with index 0 are overrides, not omissions."""
-
-    def width_function(
-        t: npt.NDArray[np.floating[Any]],
-    ) -> npt.NDArray[np.floating[Any]]:
-        return 0.5 + 2 * t
-
     xs = gf.get_cross_section("strip")
 
     # width_function drives the extrusion, so width is only a nominal value
-    taper = xs.copy(width=0.0, width_function=width_function)
+    taper = xs.copy(width=0.0, width_function=_width_function)
     assert taper.width == 0.0
-    assert taper.sections[0].width_function is width_function
+    assert taper.sections[0].width_function is _width_function
     c = gf.path.extrude(gf.path.straight(length=10), cross_section=taper)
-    assert np.isclose(c.ysize, width_function(1.0))
+    assert np.isclose(c.ysize, _width_function(1.0))
 
     # first entry of a layer enum has index 0, which is falsy
     assert xs.copy(layer=LAYER.WAFER).layer == LAYER.WAFER
@@ -113,6 +125,63 @@ def test_copy_keeps_falsy_overrides() -> None:
     # None still means "keep the current value"
     assert xs.copy(width=None).width == xs.width
     assert xs.copy(layer=None).layer == xs.layer
+
+
+def test_copy_keeps_profile_functions() -> None:
+    """A copy that does not pass the profile functions has to keep them."""
+    xs = _profile_cross_section()
+
+    nominal_wider = xs.copy(width=3.0)
+    assert nominal_wider.sections[0].width_function is _width_function
+    assert nominal_wider.sections[0].offset_function is _offset_function
+    assert nominal_wider.width == 3.0
+
+    # width_function survived, so it still drives the extrusion over the new width
+    c = gf.path.extrude(gf.path.straight(length=10), cross_section=nominal_wider)
+    assert np.isclose(c.ysize, _width_function(1.0))
+
+
+def test_copy_replaces_only_the_profile_function_it_is_given() -> None:
+    """Passing one profile function must not clear the other one."""
+    xs = _profile_cross_section()
+
+    other_width_function = gf.path.transition_exponential(1.0, 5.0)
+    new_width = xs.copy(width_function=other_width_function).sections[0]
+    assert new_width.width_function is other_width_function
+    assert new_width.offset_function is _offset_function
+
+    new_offset = xs.copy(offset_function=_other_offset_function).sections[0]
+    assert new_offset.width_function is _width_function
+    assert new_offset.offset_function is _other_offset_function
+
+
+def test_copy_keeps_replacement_sections_verbatim() -> None:
+    """Replacement sections used to get the original width and layer written over them."""
+    xs = _profile_cross_section()
+    other = gf.Section(width=4.0, layer="SLAB90", name="other")
+
+    assert xs.copy(sections=(other,)).sections == (other,)
+
+    # an explicit empty tuple is an override, not an omission
+    assert xs.copy(sections=()).sections == ()
+
+
+def test_copy_validates_overrides() -> None:
+    """Overrides go through Section validation instead of around it."""
+    xs = gf.get_cross_section("strip")
+
+    # width of 0 needs a width_function to give the section a width
+    with pytest.raises(ValidationError):
+        xs.copy(width=0.0)
+
+    with pytest.raises(ValidationError):
+        xs.copy(width=-1.0)
+
+
+def test_copy_without_sections_rejects_overrides() -> None:
+    """There is no first section to apply the overrides to."""
+    with pytest.raises(ValueError, match="without sections"):
+        gf.CrossSection().copy(width=1.0)
 
 
 def test_name() -> None:

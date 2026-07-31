@@ -288,16 +288,22 @@ class CrossSection(BaseModel):
     ) -> CrossSection:
         """Returns copy of the cross_section with new parameters.
 
+        The overrides below apply to the first section, and only when they are not
+        None. There is no way to remove a `width_function` or an `offset_function`
+        with this method: pass `sections` with an explicitly built Section instead.
+
         Args:
             width: of the section (um). Defaults to current width.
             layer: layer spec. Defaults to current layer.
-            width_function: parameterized function from 0 to 1.
-            offset_function: parameterized function from 0 to 1.
-            sections: a tuple of Sections, to replace the original sections
+            width_function: parameterized function from 0 to 1. Defaults to the \
+                    current width_function.
+            offset_function: parameterized function from 0 to 1. Defaults to the \
+                    current offset_function.
+            sections: a tuple of Sections, to replace the original sections. Used as \
+                    given, except for the overrides above applied to the first one.
             kwargs: additional parameters to update.
 
         Keyword Args:
-            sections: tuple of Sections(width, offset, layer, ports).
             components_along_path: tuple of ComponentAlongPaths.
             radius: route bend radius (um).
             bbox_layers: layer to add as bounding box.
@@ -309,36 +315,35 @@ class CrossSection(BaseModel):
             if kwarg not in dict(self):
                 raise ValueError(f"{kwarg!r} not in CrossSection")
 
-        xs_original = self
-
-        if (
-            width_function
-            or offset_function
-            or width is not None
-            or layer is not None
-            or sections
-        ):
-            if sections is None:
-                section_list = list(self.sections)
-            else:
-                section_list = list(sections)
-
-            section_list = [s.model_copy() for s in section_list]
-            section_list[0] = section_list[0].model_copy(
-                update={
-                    "width_function": width_function,
-                    "offset_function": offset_function,
-                    "width": width if width is not None else self.width,
-                    "layer": layer if layer is not None else self.layer,
-                }
+        section_overrides: dict[str, Any] = {
+            key: value
+            for key, value in (
+                ("width", width),
+                ("layer", layer),
+                ("width_function", width_function),
+                ("offset_function", offset_function),
             )
-            xs = self.model_copy(update={"sections": tuple(section_list), **kwargs})
-            if xs != xs_original:
-                xs._name = f"xs_{xs.hash}"
-            return xs
+            if value is not None
+        }
 
-        xs = self.model_copy(update=kwargs)
-        if xs != xs_original:
+        update: dict[str, Any] = dict(kwargs)
+
+        if section_overrides or sections is not None:
+            # Sections are frozen, so they can be shared with the copy
+            section_list = list(self.sections if sections is None else sections)
+            if section_overrides:
+                if not section_list:
+                    raise ValueError(
+                        "cannot override width, layer or the profile functions of a "
+                        "cross_section without sections"
+                    )
+                first = section_list[0]
+                # Rebuilt instead of copied so the overrides get validated
+                section_list[0] = first.model_validate(dict(first) | section_overrides)
+            update["sections"] = tuple(section_list)
+
+        xs = self.model_copy(update=update)
+        if xs != self:
             xs._name = f"xs_{xs.hash}"
         return xs
 
