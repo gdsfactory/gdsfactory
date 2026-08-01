@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7.0.0
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
     - uses: pre-commit/action@v3.0.1
 
   test_code:
@@ -48,7 +48,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Install uv
@@ -78,7 +78,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Install uv
