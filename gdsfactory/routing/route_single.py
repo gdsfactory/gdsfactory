@@ -27,6 +27,7 @@ To generate a route:
 
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from typing import Any, Literal, cast
 
@@ -36,6 +37,7 @@ from kfactory.routing.optical import place_manhattan
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -66,7 +68,9 @@ def route_single(
     radius: float | None = None,
     route_width: float | None = None,
     auto_taper: bool = True,
-    on_error: Literal["error"] | None = "error",
+    on_collision: Literal["error", "show_error", "warning"] | None = None,
+    on_placer_error: Literal["error", "show_error", "warning"] | None = None,
+    on_error: Literal["error"] | None = None,
     layer_transitions: LayerTransitions | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
@@ -92,7 +96,13 @@ def route_single(
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route in um. If None, defaults to cross_section.width.
         auto_taper: add auto tapers.
-        on_error: what to do on error. If error, raises an error. If None ignores the error.
+        on_collision: action to take on route collision. "error" raises an exception.
+            "show_error" shows the error in klayout's marker database.
+            "warning" emits a warning and falls back to error markers.
+            None silently falls back to error markers. Defaults to CONF.on_collision.
+        on_placer_error: action to take on placer error. Same options as on_collision.
+            Defaults to CONF.on_placer_error.
+        on_error: deprecated, use on_placer_error instead. Maps to on_placer_error.
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
 
     Example:
@@ -107,6 +117,17 @@ def route_single(
         c.plot()
         ```
     """
+    if on_error is not None:
+        warnings.warn(
+            "on_error is deprecated, use on_placer_error instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        on_placer_error = on_placer_error or (on_error if on_error == "error" else None)
+
+    on_collision = on_collision or CONF.on_collision
+    on_placer_error = on_placer_error or CONF.on_placer_error
+
     if cross_section is None and (layer is None or route_width is None):
         raise ValueError(
             f"Either {cross_section=} or {layer=} and route_width must be provided"
@@ -203,6 +224,9 @@ def route_single(
                 for p in cast("Sequence[gf.kdb.DPoint]", waypoints_list)
             ]
 
+        kf_on_placer_error = (
+            "error" if on_placer_error == "warning" else on_placer_error
+        )
         try:
             return place_manhattan(
                 component.to_itype(),
@@ -216,34 +240,38 @@ def route_single(
                 route_width=c.kcl.to_dbu(width),
             )
         except Exception as e:
-            # error_route((ps, pe, router.start.pts, router.width))
-            ps = p1
-            pe = p2
-            c = component
-            pts = w
-            db = kf.rdb.ReportDatabase("Route Placing Errors")
-            cell = db.create_cell(
-                (
-                    c.kcl._future_cell_name or c.name
-                    if c.name is not None and c.name.startswith("Unnamed_")
-                    else c.name
-                )
-                or ""
-            )
-            cat = db.create_category(f"{ps.name} - {pe.name}")
-            it = db.create_item(cell=cell, category=cat)
-            it.add_value(
-                f"Error while trying to place route from {ps.name} to {pe.name} at"
-                f" points (dbu): {pts}"
-            )
-            it.add_value(f"Exception: {e}")
-            if route_width is not None:
-                path = kf.kdb.Path(pts, c.kcl.to_dbu(route_width))
-            else:
-                path = kf.kdb.Path(pts, c.kcl.to_dbu(ps.width))
+            if on_placer_error == "error":
+                raise kf.routing.generic.PlacerError(
+                    f"Error while trying to place route from {p1.name} to {p2.name} at"
+                    f" points (dbu): {w}"
+                ) from e
 
-            it.add_value(c.kcl.to_um(path.polygon()))
-            if on_error == "error":
+            if on_placer_error == "show_error":
+                ps = p1
+                pe = p2
+                c = component
+                pts = w
+                db = kf.rdb.ReportDatabase("Route Placing Errors")
+                cell = db.create_cell(
+                    (
+                        c.kcl._future_cell_name or c.name
+                        if c.name is not None and c.name.startswith("Unnamed_")
+                        else c.name
+                    )
+                    or ""
+                )
+                cat = db.create_category(f"{ps.name} - {pe.name}")
+                it = db.create_item(cell=cell, category=cat)
+                it.add_value(
+                    f"Error while trying to place route from {ps.name} to {pe.name} at"
+                    f" points (dbu): {pts}"
+                )
+                it.add_value(f"Exception: {e}")
+                if route_width is not None:
+                    path = kf.kdb.Path(pts, c.kcl.to_dbu(route_width))
+                else:
+                    path = kf.kdb.Path(pts, c.kcl.to_dbu(ps.width))
+                it.add_value(c.kcl.to_um(path.polygon()))
                 c.name = (
                     c.kcl._future_cell_name or c.name
                     if c.name is not None and c.name.startswith("Unnamed_")
@@ -254,29 +282,70 @@ def route_single(
                     f"Error while trying to place route from {ps.name} to {pe.name} at"
                     f" points (dbu): {pts}"
                 ) from e
+
+            if on_placer_error == "warning":
+                gf.logger.error(f"Error in route_single: {e}")
+                warnings.warn(f"Routing failed: {e}", stacklevel=2)
+
             layer_error = gf.CONF.layer_error_path
             layer_index = c.kcl.layer(*layer_error)
+            if route_width is not None:
+                path = kf.kdb.Path(w, c.kcl.to_dbu(route_width))
+            else:
+                path = kf.kdb.Path(w, c.kcl.to_dbu(p1.width))
             c.shapes(layer_index).insert(path)
             return ManhattanRoute(
-                backbone=pts,
+                backbone=w,
                 start_port=p1.to_itype(),
                 end_port=p2.to_itype(),
             )
 
     else:
-        return kf.routing.optical.route_bundle(
-            c=component,
-            start_ports=[p1],
-            end_ports=[p2],
-            straight_factory=straight_,
-            bend90_cell=bend90,
-            starts=start_straight_length,
-            ends=end_straight_length,
-            separation=0,
-            place_port_type=port_type,
-            allow_width_mismatch=allow_width_mismatch,
-            route_width=route_width,
-        )[0]
+        kf_on_collision = "error" if on_collision == "warning" else on_collision
+        kf_on_placer_error = (
+            "error" if on_placer_error == "warning" else on_placer_error
+        )
+        try:
+            return kf.routing.optical.route_bundle(
+                c=component,
+                start_ports=[p1],
+                end_ports=[p2],
+                straight_factory=straight_,
+                bend90_cell=bend90,
+                starts=start_straight_length,
+                ends=end_straight_length,
+                separation=0,
+                place_port_type=port_type,
+                allow_width_mismatch=allow_width_mismatch,
+                route_width=route_width,
+                on_collision=kf_on_collision,
+                on_placer_error=kf_on_placer_error,
+            )[0]
+        except Exception as e:
+            if on_placer_error == "error" or on_collision == "error":
+                raise
+
+            if on_placer_error == "show_error" or on_collision == "show_error":
+                raise
+
+            if on_placer_error == "warning" or on_collision == "warning":
+                gf.logger.error(f"Error in route_single: {e}")
+                warnings.warn(f"Routing failed: {e}", stacklevel=2)
+
+            layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
+            route = kf.routing.electrical.route_bundle(
+                component,
+                [p1],
+                [p2],
+                separation=0,
+                starts=start_straight_length,
+                ends=end_straight_length,
+                on_collision=None,
+                on_placer_error=None,
+                route_width=width,
+                place_layer=layer_error_path,
+            )
+            return route[0]
 
 
 def route_single_electrical(
