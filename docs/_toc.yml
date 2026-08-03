@@ -25,6 +25,7 @@ parts:
           - file: notebooks/04_components_pack
           - file: notebooks/04_routing
           - file: notebooks/04_routing_electrical
+          - file: notebooks/04_via_array_region_raster
           - file: notebooks/07_mask
           - file: notebooks/11_best_practices
           - file: notebooks/12_grid_snapping
