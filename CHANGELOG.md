@@ -1,11 +1,44 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.45.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.47.0...main)
 
 <!-- towncrier release notes start -->
 
+## [9.47.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.47.0) - 2026-07-29
+
+- refactor(spice): allow for port to pin mapping in add_electric_pins [#4742](https://github.com/gdsfactory/gdsfactory/pull/4742)
+- fix route_single not using cross section everywhere [#4736](https://github.com/gdsfactory/gdsfactory/pull/4736)
+- refactor(spice): allow for port to pin mapping in add_electric_pins [#4742](https://github.com/gdsfactory/gdsfactory/pull/4742)
+- docs: add section on adding new layers to PDK tutorial [#4741](https://github.com/gdsfactory/gdsfactory/pull/4741)
+- Test headless layout diff output [#4728](https://github.com/gdsfactory/gdsfactory/pull/4728)
+- feat(electrical): add electric pins to start fixing SPICE export issues - ports logically connected by name are not being recognized as logically connected [#4737](https://github.com/gdsfactory/gdsfactory/pull/4737)
+- fix: generate redirects for legacy documentation URLs [#4692](https://github.com/gdsfactory/gdsfactory/pull/4692)
+
+
 ## [9.46.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.46.0) - 2026-07-21
 
-No significant changes.
+- replace old kfactory routing strategies with route_bundle only - update to kf3 [#4515](https://github.com/gdsfactory/gdsfactory/pull/4515)
+- Fix incorrect route_bundle separation docstring [#4637](https://github.com/gdsfactory/gdsfactory/pull/4637)
+- fix: support negative bend_s_offset values [#4678](https://github.com/gdsfactory/gdsfactory/pull/4678)
+- ci: test only Python 3.12 and 3.14 (min and max) [#4676](https://github.com/gdsfactory/gdsfactory/pull/4676)
+- Fix via_stack_with_offset [#4669](https://github.com/gdsfactory/gdsfactory/pull/4669)
+- Replace .. plot:: RST directives with markdown Example sections [#4668](https://github.com/gdsfactory/gdsfactory/pull/4668)
+- Fix exception-safe cleanup for temporary KCLayout helpers [#4666](https://github.com/gdsfactory/gdsfactory/pull/4666)
+- Add representative ASV layout benchmarks [#4650](https://github.com/gdsfactory/gdsfactory/pull/4650)
+- fix pre-commit: TypeAlias for ComponentReference + import ordering [#4662](https://github.com/gdsfactory/gdsfactory/pull/4662)
+- Resolve merge conflicts with main on #4515 [#4660](https://github.com/gdsfactory/gdsfactory/pull/4660)
+- Fix CI failures on #4515: port names, write_cells, ComponentReference [#4659](https://github.com/gdsfactory/gdsfactory/pull/4659)
+- Remove RST directives from docstrings for mkdocstrings compatibility [#4658](https://github.com/gdsfactory/gdsfactory/pull/4658)
+- Fix component plot generation in write_cells.py [#4656](https://github.com/gdsfactory/gdsfactory/pull/4656)
+- Render component plots as images in docs [#4655](https://github.com/gdsfactory/gdsfactory/pull/4655)
+- Migrate docs from Jupyter Book to zensical [#4653](https://github.com/gdsfactory/gdsfactory/pull/4653)
+- Vectorize Archimedean spiral path generation [#4651](https://github.com/gdsfactory/gdsfactory/pull/4651)
+- Add docs links for Cornerstone, Luxtelligence, and Quantum RF PDKs [#4644](https://github.com/gdsfactory/gdsfactory/pull/4644)
+- update readme [#4643](https://github.com/gdsfactory/gdsfactory/pull/4643)
+- fix: eliminate cell name conflicts in spiral_racetrack_fixed_length [#4614](https://github.com/gdsfactory/gdsfactory/pull/4614)
+- ci(pages): bump docs artifact retention to 7 days [#4636](https://github.com/gdsfactory/gdsfactory/pull/4636)
+- perf: precompute layer filters in select_ports [#4618](https://github.com/gdsfactory/gdsfactory/pull/4618)
+- Fix grid_factor being ignored in snap_to_grid when nm is set [#4638](https://github.com/gdsfactory/gdsfactory/pull/4638)
+- update kfactory to 3.0.2 [#4670](https://github.com/gdsfactory/gdsfactory/pull/4670)
 
 
 ## [9.45.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.45.0) - 2026-07-03
