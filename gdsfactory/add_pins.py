@@ -447,7 +447,7 @@ add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
 add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 
-def add_electric_pins(
+def add_electrical_pins(
     component: Component,
     port_pin_mapping: dict[str, list[str]] | None = None,
     pin_layer_map: dict[typings.LayerSpec, typings.LayerSpec] | None = None,
