@@ -175,7 +175,9 @@ def test_add_electrical_pins_with_pin_label_layer_map() -> None:
         layer=LAYER.M1,
         port_type="electrical",
     )
-    gf.add_pins.add_electrical_pins(component, pin_label_layer_map={LAYER.M1: LAYER.TEXT})
+    gf.add_pins.add_electrical_pins(
+        component, pin_label_layer_map={LAYER.M1: LAYER.TEXT}
+    )
     labels = component.get_labels(LAYER.TEXT)
     assert len(labels) == 1
     assert len(component.pins) == 1
