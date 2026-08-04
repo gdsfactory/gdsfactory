@@ -1379,7 +1379,7 @@ requires-dist = [
     { name = "jupyter", marker = "extra == 'docs'" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = "~=3.0.0" },
+    { name = "kfactory", extras = ["ipy"], specifier = "~=3.0.2" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -2386,7 +2386,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "3.0.1"
+version = "3.0.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2408,9 +2408,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/38/51/db86a5d8acbea261ab8f7a1a3dc23d132989d0523e758b9a32ab3e8ca0a2/kfactory-3.0.1.tar.gz", hash = "sha256:176f74a2942864d8acb33bacec622c78a7a98ef2e98174dcbd79786c70200ce9", size = 1675671, upload-time = "2026-07-20T03:43:56.815Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/eb/d1407de9be7152e16d604ee98d468f08612374bd35ea524064f2caeb051c/kfactory-3.0.4.tar.gz", hash = "sha256:40aab620d93cd389c74e76a96980aa4914249422ad1817b20b747abed65f566b", size = 1677726, upload-time = "2026-07-27T22:51:01.353Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0b/9a/e76c513b2ccc823617a9c4707ffd3af91219ecbdb40159a8e6a45408d214/kfactory-3.0.1-py3-none-any.whl", hash = "sha256:fe4bd28fcb0ce49aff9d14f6dc7a4cdd61a04de7985fe7964413583dbdd40e0a", size = 288463, upload-time = "2026-07-20T03:43:54.991Z" },
+    { url = "https://files.pythonhosted.org/packages/52/ba/74c8e5250dca1489890118c68f9ce02b9a177a18cbaf07d9e6451e5c7cff/kfactory-3.0.4-py3-none-any.whl", hash = "sha256:590ff7abad4a56bbf0cef6b005e41dd1b0682ccd56eb8f529d73f439cce8fd1b", size = 289149, upload-time = "2026-07-27T22:50:59.584Z" },
 ]
 
 [package.optional-dependencies]
@@ -2891,7 +2891,7 @@ name = "manifold3d"
 version = "3.5.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", marker = "python_full_version < '3.14'" },
+    { name = "numpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/66/36/5b11c97e56d2101b1c6e311580f2546dd0d1cf0fbb167ec59e122e195ced/manifold3d-3.5.2.tar.gz", hash = "sha256:8d445798ba5f86efae18e0dca6cb71823165f0887767a274d7c14ed63ab64648", size = 305761, upload-time = "2026-06-27T05:26:54.353Z" }
 wheels = [
@@ -3790,7 +3790,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "sys_platform != 'emscripten' and sys_platform != 'win32'" },
+    { name = "ptyprocess" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450, upload-time = "2023-11-25T09:07:26.339Z" }
 wheels = [

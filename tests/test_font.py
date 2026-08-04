@@ -19,11 +19,11 @@ def test_text_freetype_justification(justify: str) -> None:
     component = gf.components.text_freetype("qwerty", justify=justify)
 
     if justify == "left":
-        assert component.dxmin == pytest.approx(0)
+        assert component.dxmax == pytest.approx(0)
     elif justify == "center":
         assert component.dx == pytest.approx(0)
     else:
-        assert component.dxmax == pytest.approx(0)
+        assert component.dxmin == pytest.approx(0)
 
 
 def test_text_freetype_rejects_invalid_justification() -> None:
