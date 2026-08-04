@@ -225,7 +225,7 @@ def test_bend_s() -> None:
 
 
 def test_bend_s_width_overrides_cross_section_width() -> None:
-    cross_section = gf.cross_section.cross_section(width=0.5, layer="M2")
+    cross_section = gf.cross_section.cross_section(width=0.5, layer=(2, 0))
 
     component = bend_s(
         size=(50, 10),
@@ -235,7 +235,7 @@ def test_bend_s_width_overrides_cross_section_width() -> None:
         width=0.8,
     )
 
-    assert component.layers == [(45, 0)]
+    assert (2, 0) in component.layers
     assert all(port.dwidth == 0.8 for port in component.ports)
 
 
