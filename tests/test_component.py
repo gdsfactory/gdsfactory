@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Any
 
 import kfactory as kf
@@ -501,6 +502,22 @@ def test_component_write_gds() -> None:
     path = c.write_gds(gdspath=GDSDIR_TEMP / "custom_name.gds")
     assert path.exists()
     assert path.name == "custom_name.gds"
+
+
+def test_component_write_gds_without_metadata_skips_metadata_generation(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    c = gf.Component()
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=(1, 0))
+
+    def fail_fix_pin_metadata(cell: Any) -> None:
+        raise AssertionError("pin metadata should not be fixed when metadata is off")
+
+    monkeypatch.setattr("gdsfactory.component._fix_pin_metadata", fail_fix_pin_metadata)
+
+    path = c.write_gds(gdspath=tmp_path / "no_metadata.gds", with_metadata=False)
+
+    assert path.exists()
 
 
 def test_component_copy_child_info() -> None:
