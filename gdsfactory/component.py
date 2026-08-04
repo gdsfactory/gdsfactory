@@ -101,7 +101,13 @@ if TYPE_CHECKING:
 
 cell_without_validator = cell
 
-type _PolygonPoints = "npt.NDArray[np.floating[Any]] | kdb.DPolygon | kdb.Polygon | kdb.DSimplePolygon | kdb.Region | Coordinates"
+type _PolygonPoints = (
+    npt.NDArray[np.floating[Any]]
+    | kdb.DPolygon
+    | kdb.Polygon
+    | kdb.DSimplePolygon
+    | Coordinates
+)
 
 
 def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
@@ -116,7 +122,7 @@ def ensure_tuple_of_tuples(points: Any) -> tuple[tuple[float, float], ...]:
 
 
 def points_to_polygon(
-    points: _PolygonPoints,
+    points: _PolygonPoints | kdb.Region,
 ) -> kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region:
     if isinstance(points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region):
         return points
@@ -186,9 +192,13 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             if not self.bbox(self.kcl.layout.layer(info)).empty()
         ]
 
+    @overload
+    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape: ...
+    @overload
+    def add_polygon(self, points: kdb.Region, layer: LayerSpec) -> None: ...
     @abstractmethod
     def add_polygon(
-        self, points: _PolygonPoints, layer: LayerSpec
+        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec
     ) -> kdb.Shape | None: ...
 
     def bbox_np(self) -> npt.NDArray[np.float64]:
@@ -1303,7 +1313,13 @@ class Component(ComponentBase, kf.DKCell):
 
         self.kcl.layout.end_changes()
 
-    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape | None:
+    @overload
+    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape: ...
+    @overload
+    def add_polygon(self, points: kdb.Region, layer: LayerSpec) -> None: ...
+    def add_polygon(
+        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec
+    ) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
@@ -1636,7 +1652,13 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         return c
 
-    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape | None:
+    @overload
+    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape: ...
+    @overload
+    def add_polygon(self, points: kdb.Region, layer: LayerSpec) -> None: ...
+    def add_polygon(
+        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec
+    ) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
