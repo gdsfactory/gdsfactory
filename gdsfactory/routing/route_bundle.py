@@ -120,8 +120,12 @@ def _ensure_manhattan_waypoints(
         return list(waypoints)
 
     tol = 1e-3
+    go_horizontal_first = (
+        int(start_port.orientation) % 360 in {0, 180}
+        if start_port is not None and start_port.orientation is not None
+        else True
+    )
     result = [waypoints[0]]
-
     for i in range(1, len(waypoints)):
         prev = result[-1]
         curr = waypoints[i]
@@ -130,26 +134,33 @@ def _ensure_manhattan_waypoints(
         dy = abs(curr.y - prev.y)
 
         if dx < tol or dy < tol:
+            # Manhattan segment — update direction from actual geometry
+            go_horizontal_first = dx >= dy
             result.append(curr)
             continue
 
-        # Non-Manhattan segment - insert a corner point
-        if len(result) >= 2:
-            prev_prev = result[-2]
-            last_horizontal = abs(prev.x - prev_prev.x) > abs(prev.y - prev_prev.y)
-            go_horizontal_first = not last_horizontal
-        elif start_port is not None and start_port.orientation is not None:
-            go_horizontal_first = int(start_port.orientation) % 360 in {0, 180}
-        else:
-            go_horizontal_first = True
-
-        if go_horizontal_first:
-            result.append(kf.kdb.DPoint(curr.x, prev.y))
-        else:
-            result.append(kf.kdb.DPoint(prev.x, curr.y))
-
+        # Non-Manhattan segment: insert corner, then alternate for next
+        corner = (
+            kf.kdb.DPoint(curr.x, prev.y)
+            if go_horizontal_first
+            else kf.kdb.DPoint(prev.x, curr.y)
+        )
+        go_horizontal_first = not go_horizontal_first
+        result.append(corner)
         result.append(curr)
 
+    # Collapse collinear runs: kfactory treats every waypoint as a bundle front,
+    # so redundant intermediate points on the same axis produce degenerate routing.
+    if len(result) >= 3:
+        collapsed = [result[0]]
+        for i in range(1, len(result) - 1):
+            prev, curr, nxt = result[i - 1], result[i], result[i + 1]
+            same_x = abs(prev.x - curr.x) < tol and abs(curr.x - nxt.x) < tol
+            same_y = abs(prev.y - curr.y) < tol and abs(curr.y - nxt.y) < tol
+            if not same_x and not same_y:
+                collapsed.append(curr)
+        collapsed.append(result[-1])
+        return collapsed
     return result
 
 
