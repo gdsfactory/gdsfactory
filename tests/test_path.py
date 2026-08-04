@@ -386,6 +386,17 @@ def test_centerpoint_offset_curve() -> None:
     np.testing.assert_array_almost_equal(new_points, expected_points)
 
 
+def test_centerpoint_offset_curve_across_angle_branch_cut() -> None:
+    """Nearly collinear segments stay stable when their angles cross +/- pi."""
+    points = np.array([(1, 0), (0, 1e-6), (-1, 0)], dtype=np.float64)
+    path = Path(points)
+
+    new_points = path.centerpoint_offset_curve(points, offset_distance=0.5)
+
+    assert np.all(np.isfinite(new_points))
+    assert np.max(np.linalg.norm(new_points - points, axis=1)) < 0.501
+
+
 def test_path_hash() -> None:
     assert hash(Path([(0, 0), (1, 1), (2, 0)])) == hash(Path([(0, 0), (1, 1), (2, 0)]))
 
