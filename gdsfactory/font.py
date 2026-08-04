@@ -160,7 +160,6 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
     # Construct the component
     component = Component()
 
-    orientation = freetype.FT_Outline_Get_Orientation(outline._FT_Outline)
     polygons_cw = [p for p in polygons if _polygon_orientation(np.array(p)) == 0]
     polygons_ccw = [p for p in polygons if _polygon_orientation(np.array(p)) == 1]
     c1 = Component()
@@ -169,6 +168,11 @@ def _get_glyph(font: freetype.Face, letter: str) -> tuple[Component, float, floa
         c1.add_polygon(np.array(p), layer=(1, 0))
     for p in polygons_ccw:
         c2.add_polygon(np.array(p), layer=(1, 0))
+    # The largest contour is the outer (filled) outline. Inferring its winding from
+    # the polygon coordinates avoids passing FreeType's private ``_FT_Outline``
+    # pointer back into the C API, which can segfault with some FreeType builds.
+    outer_polygon = max(polygons, key=_polygon_area)
+    orientation = _polygon_orientation(np.asarray(outer_polygon))
     if orientation == 0:
         # TrueType specification, fill the clockwise contour
         component = boolean(c1, c2, operation="not", layer=(1, 0))
@@ -195,3 +199,15 @@ def _polygon_orientation(vertices: npt.NDArray[np.float64]) -> int:
         s += (x2 - x1) * (y2 + y1)
 
     return 0 if s > 0 else 1
+
+
+def _polygon_area(vertices: npt.ArrayLike) -> float:
+    """Return the absolute area of a polygon."""
+    points = np.asarray(vertices)
+    return float(
+        abs(
+            np.dot(points[:, 0], np.roll(points[:, 1], 1))
+            - np.dot(points[:, 1], np.roll(points[:, 0], 1))
+        )
+        / 2
+    )
