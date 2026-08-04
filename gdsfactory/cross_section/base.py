@@ -11,7 +11,6 @@ import warnings
 from collections.abc import Callable
 from typing import Any, Self
 
-import numpy as np
 from kfactory import DCrossSection, SymmetricalCrossSection
 from pydantic import (
     BaseModel,
@@ -135,24 +134,6 @@ class Section(BaseModel):
         if self.width == 0 and self.width_function is None:
             raise ValueError("Section requires `width > 0` or a `width_function`.")
         return self
-
-    @field_serializer("width_function")
-    def serialize_width_function(
-        self, func: typings.WidthFunction | None
-    ) -> str | None:
-        if func is None:
-            return None
-        t_values = np.linspace(0, 1, 11)
-        return ",".join([str(round(width, 3)) for width in func(t_values)])
-
-    @field_serializer("offset_function")
-    def serialize_offset_function(
-        self, func: typings.OffsetFunction | None
-    ) -> str | None:
-        if func is None:
-            return None
-        t_values = np.linspace(0, 1, 11)
-        return ",".join([str(round(func(offset), 3)) for offset in t_values])
 
 
 class ComponentAlongPath(BaseModel):
