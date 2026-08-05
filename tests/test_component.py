@@ -737,6 +737,26 @@ def test_component_all_angle_flatten() -> None:
     assert poly2.bbox().right == 5
 
 
+def test_component_flatten_nested_virtual_instances() -> None:
+    c1 = gf.Component()
+    c1.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=(1, 0))
+
+    c2 = gf.Component()
+    c2.add_ref(c1).dmovex(-10)
+    c2.create_vinst(c1).dmovex(10)
+
+    c3 = gf.Component()
+    c3.add_ref(c2).dmovey(10)
+    c3.create_vinst(c2).dmovey(-10)
+
+    c3.flatten()
+
+    assert len(c3.insts) == 0
+    assert len(c3.vinsts) == 0
+    assert len(c3.get_polygons(by="tuple", layers=[(1, 0)])[(1, 0)]) == 4
+    assert c3.bbox_np().tolist() == [[-10.0, -10.0], [11.0, 11.0]]
+
+
 def test_component_all_angle_add_polygon_get_polygon() -> None:
     c = gf.ComponentAllAngle()
     c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
