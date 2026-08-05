@@ -1,5 +1,3 @@
-import pytest
-
 import gdsfactory as gf
 from gdsfactory.gpdk import LAYER, LAYER_STACK
 from gdsfactory.technology import LayerLevel, LayerStack
@@ -8,12 +6,31 @@ from gdsfactory.technology.layer_stack import LogicalLayer
 nm = 1e-3
 
 
-# TODO: fix this test
-@pytest.mark.skip(
-    reason="Skipping as it is not implemented yet for the new LayerStack."
-)
 def test_layerstack_to_klayout_3d_script() -> None:
-    assert LAYER_STACK.get_klayout_3d_script()
+    script = LAYER_STACK.get_klayout_3d_script()
+
+    assert "WG = input(1, 0)" in script
+    assert "core = ((WG - DEEP_ETCH) - SHALLOW_ETCH)" in script
+    assert "z(core, zstart: 0.0, zstop: 0.22" in script
+
+
+def test_logical_and_derived_layer_sizing() -> None:
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 10), (0, 10)], layer=(1, 0))
+    component.add_polygon([(5, 0), (15, 0), (15, 10), (5, 10)], layer=(2, 0))
+    layer1 = LogicalLayer(layer=(1, 0))
+    layer2 = LogicalLayer(layer=(2, 0))
+
+    sized_logical = layer1.sized(1000)
+    sized_derived = (layer1 | layer2).sized(1000)
+
+    assert layer1.get_shapes(component).bbox() == gf.kdb.Box(0, 0, 10_000, 10_000)
+    assert sized_logical.get_shapes(component).bbox() == gf.kdb.Box(
+        -1000, -1000, 11_000, 11_000
+    )
+    assert sized_derived.get_shapes(component).bbox() == gf.kdb.Box(
+        -1000, -1000, 16_000, 11_000
+    )
 
 
 def test_layerstack_filtered() -> None:
