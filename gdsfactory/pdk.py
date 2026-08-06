@@ -534,10 +534,12 @@ class Pdk(BaseModel):
         if isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
             if isinstance(cross_section, kf.DCrossSection):
                 cross_section_ = cross_section.base
+                kcl = cross_section.kcl
             else:
                 cross_section_ = cross_section
+                kcl = kf.kcl
 
-            layer: LayerSpec = kf.kcl.layout.layer(cross_section_.main_layer)
+            layer: LayerSpec = kcl.layout.layer(cross_section_.main_layer)
             try:
                 layer = self.get_layer_name(layer)
             except ValueError:
@@ -545,14 +547,38 @@ class Pdk(BaseModel):
 
             section_ = Section(
                 name="_default",
-                width=kf.kcl.to_um(cross_section_.width),
+                width=kcl.to_um(cross_section_.width),
                 layer=layer,
                 port_names=("o1", "o2"),
             )
+            sections = [section_]
+            for (
+                layer_info,
+                layer_section,
+            ) in cross_section_.enclosure.layer_sections.items():
+                section_layer: LayerSpec = kcl.layout.layer(layer_info)
+                try:
+                    section_layer = self.get_layer_name(section_layer)
+                except ValueError:
+                    logger.debug(
+                        "Could not resolve layer name for %r, using as-is",
+                        section_layer,
+                    )
+                sections.extend(
+                    Section(
+                        width=kcl.to_um(
+                            cross_section_.width + 2 * enclosure_section.d_max
+                        ),
+                        offset=0,
+                        layer=section_layer,
+                    )
+                    for enclosure_section in layer_section.sections
+                    if enclosure_section.d_min is None
+                )
             xs_ = CrossSection(
-                sections=(section_,),
-                radius=kf.kcl.to_um(cross_section_.radius),
-                radius_min=kf.kcl.to_um(cross_section_.radius_min),
+                sections=tuple(sections),
+                radius=kcl.to_um(cross_section_.radius),
+                radius_min=kcl.to_um(cross_section_.radius_min),
             )
             xs_._name = cross_section_.name
             return xs_
