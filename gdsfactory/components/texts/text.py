@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-__all__ = ["text", "text_klayout", "text_lines"]
+__all__ = ["TextFont", "text", "text_klayout", "text_lines"]
+
+from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
 
 import kfactory as kf
 import numpy as np
@@ -11,6 +14,30 @@ from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
 
 
+@dataclass(frozen=True, eq=False)
+class TextFont:
+    """Polygon font data for :func:`text`.
+
+    Coordinates, widths, indents, and ``space_width`` use the same 1000-unit
+    em square as the built-in DEPLOF font. ``name`` identifies the font in
+    cell names and must uniquely identify its contents.
+    """
+
+    name: str
+    glyphs: Mapping[str, Sequence[Sequence[Coordinate]]]
+    widths: Mapping[str, float]
+    indents: Mapping[str, float]
+    space_width: float = 500
+
+    def __hash__(self) -> int:
+        """Hash fonts by their stable name."""
+        return hash(self.name)
+
+    def __eq__(self, other: object) -> bool:
+        """Compare fonts by their stable name."""
+        return isinstance(other, TextFont) and self.name == other.name
+
+
 @gf.cell_with_module_name(tags=["texts"])
 def text(
     text: str = "abcd",
@@ -18,6 +45,7 @@ def text(
     position: Coordinate = (0, 0),
     justify: str = "left",
     layer: LayerSpec = "WG",
+    font: TextFont | None = None,
 ) -> Component:
     """Text shapes.
 
@@ -27,6 +55,7 @@ def text(
         position: x, y position.
         justify: left, right, center.
         layer: for the text.
+        font: optional named polygon font. Uses the built-in DEPLOF font by default.
     """
     scaling = size / 1000
     xoffset = position[0]
@@ -38,7 +67,25 @@ def text(
         for c in line:
             ascii_val = ord(c)
             if c == " ":
-                xoffset += 500 * scaling
+                xoffset += (font.space_width if font else 500) * scaling
+            elif font is not None:
+                if c not in font.glyphs:
+                    raise ValueError(
+                        f"No glyph for character {c!r} in font {font.name!r}"
+                    )
+                if c not in font.widths or c not in font.indents:
+                    raise ValueError(
+                        f"Missing width or indent for character {c!r} "
+                        f"in font {font.name!r}"
+                    )
+                for poly in font.glyphs[c]:
+                    xpts = np.array(poly)[:, 0] * scaling
+                    ypts = np.array(poly)[:, 1] * scaling
+                    label.add_polygon(
+                        list(zip(xpts + xoffset, ypts + yoffset, strict=False)),
+                        layer=layer,
+                    )
+                xoffset += (font.widths[c] + font.indents[c]) * scaling
             elif 33 <= ascii_val <= 126:
                 for poly in _glyph[ascii_val]:
                     xpts = np.array(poly)[:, 0] * scaling
