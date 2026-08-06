@@ -30,6 +30,9 @@ from gdsfactory.config import CONF, ErrorType
 nm = 1e-3
 
 
+_UNSET = object()
+
+
 port_names_electrical: typings.IOPorts = ("e1", "e2")
 port_types_electrical: typings.IOPorts = ("electrical", "electrical")
 cladding_layers_optical: typings.Layers | None = None
@@ -290,26 +293,31 @@ class CrossSection(BaseModel):
 
     def copy(
         self,
-        width: float | None = None,
-        layer: typings.LayerSpec | None = None,
-        width_function: typings.WidthFunction | None = None,
-        offset_function: typings.OffsetFunction | None = None,
-        sections: Sections | None = None,
+        width: float = _UNSET,
+        offset: float = _UNSET,
+        layer: typings.LayerSpec = _UNSET,
+        width_function: typings.WidthFunction | None = _UNSET,
+        offset_function: typings.OffsetFunction | None = _UNSET,
+        sections: Sections = _UNSET,
         **kwargs: Any,
     ) -> CrossSection:
         """Returns copy of the cross_section with new parameters.
 
-        The overrides below apply to the first section, and only when they are not
-        None. There is no way to remove a `width_function` or an `offset_function`
-        with this method: pass `sections` with an explicitly built Section instead.
+        The overrides below apply to the first section, and an omitted one keeps the
+        current value. None is only accepted where the Section field accepts it, so it
+        removes a profile function instead of standing for an omission.
+
+        A profile function takes precedence during extrusion, so overriding `width` or
+        `offset` while one remains only sets a nominal value, and warns.
 
         Args:
             width: of the section (um). Defaults to current width.
+            offset: center offset of the section (um). Defaults to current offset.
             layer: layer spec. Defaults to current layer.
             width_function: parameterized function from 0 to 1. Defaults to the \
-                    current width_function.
+                    current width_function. None removes it.
             offset_function: parameterized function from 0 to 1. Defaults to the \
-                    current offset_function.
+                    current offset_function. None removes it.
             sections: a tuple of Sections, to replace the original sections. Used as \
                     given, except for the overrides above applied to the first one.
             kwargs: additional parameters to update.
@@ -319,7 +327,6 @@ class CrossSection(BaseModel):
             radius: route bend radius (um).
             bbox_layers: layer to add as bounding box.
             bbox_offsets: offset to add to the bounding box.
-            _name: name of the cross_section.
 
         """
         for kwarg in kwargs:
@@ -330,27 +337,44 @@ class CrossSection(BaseModel):
             key: value
             for key, value in (
                 ("width", width),
+                ("offset", offset),
                 ("layer", layer),
                 ("width_function", width_function),
                 ("offset_function", offset_function),
             )
-            if value is not None
+            if value is not _UNSET
         }
 
         update: dict[str, Any] = dict(kwargs)
 
-        if section_overrides or sections is not None:
+        if section_overrides or sections is not _UNSET:
             # Sections are frozen, so they can be shared with the copy
-            section_list = list(self.sections if sections is None else sections)
+            section_list = list(self.sections if sections is _UNSET else sections)
             if section_overrides:
                 if not section_list:
                     raise ValueError(
-                        "cannot override width, layer or the profile functions of a "
-                        "cross_section without sections"
+                        "no section to apply the width, offset or layer overrides to"
                     )
                 first = section_list[0]
                 # Rebuilt instead of copied so the overrides get validated
-                section_list[0] = first.model_validate(dict(first) | section_overrides)
+                new_first = first.model_validate(dict(first) | section_overrides)
+                for name, passed, function in (
+                    ("width", width_function, new_first.width_function),
+                    ("offset", offset_function, new_first.offset_function),
+                ):
+                    # an explicitly passed function may be deliberate
+                    if (
+                        name in section_overrides
+                        and passed is _UNSET
+                        and function is not None
+                    ):
+                        warnings.warn(
+                            f"{name}={section_overrides[name]} is only nominal for "
+                            f"section {new_first.name!r}: its {name}_function drives "
+                            f"the extrusion. Pass {name}_function=None to remove it.",
+                            stacklevel=2,
+                        )
+                section_list[0] = new_first
             update["sections"] = tuple(section_list)
 
         return self._copy(update)

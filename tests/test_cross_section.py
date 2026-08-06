@@ -122,16 +122,39 @@ def test_copy_keeps_falsy_overrides() -> None:
     # first entry of a layer enum has index 0, which is falsy
     assert xs.copy(layer=LAYER.WAFER).layer == LAYER.WAFER
 
-    # None still means "keep the current value"
-    assert xs.copy(width=None).width == xs.width
-    assert xs.copy(layer=None).layer == xs.layer
+    # an offset back to the center is an override, not an omission
+    assert (
+        gf.cross_section.cross_section(offset=1.0).copy(offset=0.0).sections[0].offset
+        == 0.0
+    )
+
+
+def test_copy_rejects_none_for_fields_that_take_no_none() -> None:
+    """Omitting an override is the default, so None is left to mean what the field says."""
+    xs = gf.get_cross_section("strip")
+
+    overrides: list[dict[str, Any]] = [
+        {"width": None},
+        {"offset": None},
+        {"layer": None},
+    ]
+    for override in overrides:
+        with pytest.raises(ValidationError):
+            xs.copy(**override)
 
 
 def test_copy_keeps_profile_functions() -> None:
     """A copy that does not pass the profile functions has to keep them."""
     xs = _profile_cross_section()
 
-    nominal_wider = xs.copy(width=3.0)
+    # an override that leaves the profile alone keeps it silently
+    unrelated = xs.copy(radius=20)
+    assert unrelated.sections[0].width_function is _width_function
+    assert unrelated.sections[0].offset_function is _offset_function
+
+    # a width override cannot win against the width_function it inherits, so it warns
+    with pytest.warns(UserWarning, match="only nominal"):
+        nominal_wider = xs.copy(width=3.0)
     assert nominal_wider.sections[0].width_function is _width_function
     assert nominal_wider.sections[0].offset_function is _offset_function
     assert nominal_wider.width == 3.0
@@ -139,6 +162,44 @@ def test_copy_keeps_profile_functions() -> None:
     # width_function survived, so it still drives the extrusion over the new width
     c = gf.path.extrude(gf.path.straight(length=10), cross_section=nominal_wider)
     assert np.isclose(c.ysize, _width_function(1.0))
+
+
+def test_copy_removes_profile_function_given_none() -> None:
+    """None is an override that removes the function, unlike omitting it."""
+    xs = _profile_cross_section()
+
+    # the width now has nothing competing with it, so no warning and no taper
+    literal = xs.copy(width=1.0, width_function=None)
+    assert literal.sections[0].width_function is None
+    assert literal.sections[0].offset_function is _offset_function
+    c = gf.path.extrude(gf.path.straight(length=10), cross_section=literal)
+    assert np.isclose(c.ysize, 1.0)
+
+    # removing one profile function leaves the other one alone
+    assert xs.copy(offset_function=None).sections[0].width_function is _width_function
+    assert xs.copy(offset_function=None).sections[0].offset_function is None
+
+    # a callable width leaves a nominal width of 0 behind, so the section needs one
+    with pytest.raises(ValidationError):
+        xs.copy(width_function=None)
+
+
+def test_copy_overrides_offset() -> None:
+    """`offset` is an override of its own, next to the function that can outrank it."""
+    assert gf.get_cross_section("strip").copy(offset=1.0).sections[0].offset == 1.0
+
+    xs = _profile_cross_section()
+
+    # the offset_function drives the extrusion, so the offset is only nominal, and warns
+    with pytest.warns(UserWarning, match="only nominal"):
+        nominal = xs.copy(offset=1.0)
+    assert nominal.sections[0].offset == 1.0
+    assert nominal.sections[0].offset_function is _offset_function
+
+    # removing the function leaves the offset alone to drive it, so nothing warns
+    literal = xs.copy(offset=1.0, offset_function=None)
+    assert literal.sections[0].offset == 1.0
+    assert literal.sections[0].offset_function is None
 
 
 def test_copy_replaces_only_the_profile_function_it_is_given() -> None:
@@ -178,9 +239,25 @@ def test_copy_validates_overrides() -> None:
         xs.copy(width=-1.0)
 
 
+def test_copy_validates_replacement_sections() -> None:
+    """The whole update is validated, not just the overrides applied to it."""
+    xs = gf.get_cross_section("strip")
+
+    built = xs.copy(sections=({"width": 4.0, "layer": "SLAB90"},)).sections[0]
+    assert isinstance(built, gf.Section)
+    assert built.width == 4.0
+
+    with pytest.raises(ValidationError):
+        xs.copy(sections=({"width": -1.0, "layer": "SLAB90"},))
+
+    # kwargs are validated too, instead of being written in as given
+    with pytest.raises(ValidationError):
+        xs.copy(radius="wide")
+
+
 def test_copy_without_sections_rejects_overrides() -> None:
     """There is no first section to apply the overrides to."""
-    with pytest.raises(ValueError, match="without sections"):
+    with pytest.raises(ValueError, match="no section to apply"):
         gf.CrossSection().copy(width=1.0)
 
 
