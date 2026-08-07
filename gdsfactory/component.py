@@ -1683,6 +1683,28 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
 
         return [x for x in self.shapes(get_layer(layer)) if isinstance(x, kdb.DPolygon)]
 
+    def get_polygons_points(
+        self, layer: LayerSpec, scale: float | None = None
+    ) -> list[npt.NDArray[np.floating[Any]]]:
+        """Returns a list of points per polygon in um.
+
+        Only the hull points are returned, holes are ignored.
+
+        Args:
+            layer: layer to get the polygons from.
+            scale: if not None, scales the points.
+        """
+        scale = scale or 1
+        return [
+            np.array(
+                [
+                    (point.x * scale, point.y * scale)
+                    for point in polygon.each_point_hull()
+                ]
+            )
+            for polygon in self.get_polygons(layer)
+        ]
+
 
 def container(
     component: ComponentSpec,
