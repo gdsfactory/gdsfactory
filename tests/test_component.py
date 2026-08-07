@@ -751,6 +751,20 @@ def test_component_all_angle_add_polygon_get_polygon() -> None:
     assert polygons[0].bbox() == kdb.DBox(5, 5, 15, 15)
 
 
+def test_component_all_angle_get_polygons_points() -> None:
+    c = gf.ComponentAllAngle()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+
+    points = c.get_polygons_points(layer=(1, 0))
+    assert len(points) == 1
+    np.testing.assert_allclose(points[0], [(0, 0), (0, 10), (10, 10), (10, 0)])
+
+    points = c.get_polygons_points(layer=(1, 0), scale=2)
+    np.testing.assert_allclose(points[0], [(0, 0), (0, 20), (20, 20), (20, 0)])
+
+    assert c.get_polygons_points(layer=(2, 0)) == []
+
+
 def test_component_add_ref_raises() -> None:
     c = gf.Component()
     c2 = gf.Component()
