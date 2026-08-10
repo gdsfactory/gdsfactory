@@ -1,4 +1,5 @@
 import pytest
+from pydantic import ValidationError
 
 import gdsfactory as gf
 from gdsfactory.gpdk import LAYER, LAYER_STACK
@@ -104,6 +105,11 @@ def test_layer_level_deprecated_tolerances() -> None:
     assert properties["width_tolerance"]["deprecated"] is True
     assert properties["zmin_tolerance"]["deprecated"] is True
     assert properties["sidewall_angle_tolerance"]["deprecated"] is True
+
+
+def test_layer_level_rejects_non_mapping_input() -> None:
+    with pytest.raises(ValidationError):
+        LayerLevel.model_validate(None)
 
 
 def test_get_layer_to_mesh_order() -> None:
