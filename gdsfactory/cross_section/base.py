@@ -13,6 +13,7 @@ from typing import Any, Self
 
 import numpy as np
 from kfactory import DCrossSection, SymmetricalCrossSection
+from kfactory.layer import LayerEnum
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -30,7 +31,7 @@ from gdsfactory.config import CONF, ErrorType
 nm = 1e-3
 
 
-_UNSET = object()
+_UNSET: Any = object()
 
 
 port_names_electrical: typings.IOPorts = ("e1", "e2")
@@ -125,19 +126,44 @@ class Section(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    @model_validator(mode="before")
-    @classmethod
-    def generate_default_name(cls, data: Any) -> Any:
-        if data.get("name"):
-            return data
-        h = hashlib.md5(str(data).encode()).hexdigest()[:8]
-        return {**data, "name": f"s_{h}"}
+    @model_validator(mode="after")
+    def generate_default_name(self) -> Self:
+        """Fill an omitted name with one derived from the validated content."""
+        if not self.name:
+            object.__setattr__(self, "name", self._derived_name)
+            self.__pydantic_fields_set__.add("name")
+        return self
+
+    @property
+    def _derived_name(self) -> str:
+        """The name a section with this content gets when it is given none.
+
+        Two profile functions sampling the same profile give the same name, since
+        the hash covers the sampled values rather than the function object.
+        """
+        h = hashlib.md5(self.model_dump_json(exclude={"name"}).encode())
+        return f"s_{h.hexdigest()[:8]}"
+
+    def _replace(self, **overrides: Any) -> Self:
+        """Copy with validated overrides, keeping only a name that was given.
+
+        A derived name describes the content it was derived from, so it has to
+        be derived again rather than follow the overrides.
+        """
+        data = dict(self) | overrides
+        if "name" not in overrides and self.name == self._derived_name:
+            del data["name"]
+        return self.model_validate(data)
 
     @model_validator(mode="after")
     def _require_width_value_or_function(self) -> Self:
         if self.width == 0 and self.width_function is None:
             raise ValueError("Section requires `width > 0` or a `width_function`.")
         return self
+
+    @field_serializer("layer", when_used="json")
+    def serialize_layer(self, layer: typings.LayerSpec) -> Any:
+        return layer.name if isinstance(layer, LayerEnum) else layer
 
     @field_serializer("width_function")
     def serialize_width_function(
@@ -175,6 +201,11 @@ class ComponentAlongPath(BaseModel):
     offset: float = 0.0
 
     model_config = ConfigDict(extra="forbid", frozen=True, arbitrary_types_allowed=True)
+
+    @field_serializer("component")
+    def serialize_component(self, component: Component) -> str:
+        # pydantic serializes an arbitrary type as {}
+        return component.name
 
 
 Sections = tuple[Section, ...]
@@ -228,7 +259,6 @@ class CrossSection(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
     _name: str = PrivateAttr("")
-    _dcross_section: DCrossSection | None = PrivateAttr()
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
@@ -250,10 +280,8 @@ class CrossSection(BaseModel):
 
     @property
     def name(self) -> str:
-        if self._name:
-            return self._name
-        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
-        return f"xs_{h}"
+        """Explicit name, or one derived from the content."""
+        return self._name or f"xs_{self.hash[:8]}"
 
     @property
     def width(self) -> float:
@@ -274,9 +302,8 @@ class CrossSection(BaseModel):
         Rebuilt rather than using `model_copy` so the update gets validated.
         """
         xs = type(self).model_validate(dict(self) | update)
-        xs._name = self._name  # Restoring for the comparison
-        if xs != self:
-            xs._name = ""  # Deriving name from the new content
+        if dict(xs) == dict(self):
+            xs._name = self._name  # the content still is what the name describes
         return xs
 
     def __getitem__(self, key: str) -> Section:
@@ -289,7 +316,7 @@ class CrossSection(BaseModel):
     @property
     def hash(self) -> str:
         """Returns a hash of the cross_section."""
-        return hashlib.md5(str(self).encode()).hexdigest()
+        return hashlib.md5(self.model_dump_json().encode()).hexdigest()
 
     def copy(
         self,
@@ -300,7 +327,7 @@ class CrossSection(BaseModel):
         offset_function: typings.OffsetFunction | None = _UNSET,
         sections: Sections = _UNSET,
         **kwargs: Any,
-    ) -> CrossSection:
+    ) -> Self:
         """Returns copy of the cross_section with new parameters.
 
         The overrides below apply to the first section, and an omitted one keeps the
@@ -325,12 +352,13 @@ class CrossSection(BaseModel):
         Keyword Args:
             components_along_path: tuple of ComponentAlongPaths.
             radius: route bend radius (um).
+            radius_min: minimum acceptable bend radius (um).
             bbox_layers: layer to add as bounding box.
             bbox_offsets: offset to add to the bounding box.
 
         """
         for kwarg in kwargs:
-            if kwarg not in dict(self):
+            if kwarg not in type(self).model_fields:
                 raise ValueError(f"{kwarg!r} not in CrossSection")
 
         section_overrides: dict[str, Any] = {
@@ -356,22 +384,24 @@ class CrossSection(BaseModel):
                         "no section to apply the width, offset or layer overrides to"
                     )
                 first = section_list[0]
+                if not isinstance(first, Section):  # sections may be given as mappings
+                    first = Section.model_validate(first)
                 # Rebuilt instead of copied so the overrides get validated
-                new_first = first.model_validate(dict(first) | section_overrides)
-                for name, passed, function in (
+                new_first = first._replace(**section_overrides)
+                for field, passed, function in (
                     ("width", width_function, new_first.width_function),
                     ("offset", offset_function, new_first.offset_function),
                 ):
                     # an explicitly passed function may be deliberate
                     if (
-                        name in section_overrides
+                        field in section_overrides
                         and passed is _UNSET
                         and function is not None
                     ):
                         warnings.warn(
-                            f"{name}={section_overrides[name]} is only nominal for "
-                            f"section {new_first.name!r}: its {name}_function drives "
-                            f"the extrusion. Pass {name}_function=None to remove it.",
+                            f"{field}={section_overrides[field]} is only nominal for "
+                            f"section {new_first.name!r}: its {field}_function drives "
+                            f"the extrusion. Pass {field}_function=None to remove it.",
                             stacklevel=2,
                         )
                 section_list[0] = new_first
@@ -379,9 +409,9 @@ class CrossSection(BaseModel):
 
         return self._copy(update)
 
-    def mirror(self) -> CrossSection:
+    def mirror(self) -> Self:
         """Returns a mirrored copy of the cross_section."""
-        sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
+        sections = [s._replace(offset=-s.offset) for s in self.sections]
         return self._copy({"sections": tuple(sections)})
 
     def add_bbox(

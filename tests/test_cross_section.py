@@ -247,6 +247,13 @@ def test_copy_validates_replacement_sections() -> None:
     assert isinstance(built, gf.Section)
     assert built.width == 4.0
 
+    # a mapping has to take the overrides meant for the first section too
+    overridden = xs.copy(
+        width=2.0, sections=({"width": 4.0, "layer": "SLAB90"},)
+    ).sections[0]
+    assert overridden.width == 2.0
+    assert overridden.layer == "SLAB90"
+
     with pytest.raises(ValidationError):
         xs.copy(sections=({"width": -1.0, "layer": "SLAB90"},))
 
@@ -264,6 +271,183 @@ def test_copy_without_sections_rejects_overrides() -> None:
 def test_name() -> None:
     s = gf.cross_section.strip()
     assert s.name == "strip"
+
+
+def _unnamed(width: float, **kwargs: Any) -> gf.CrossSection:
+    """A cross_section whose section name is derived rather than given."""
+    return gf.CrossSection(
+        sections=(gf.Section(width=width, layer="WG", **kwargs),), radius=10
+    )
+
+
+def test_derived_name_does_not_depend_on_provenance() -> None:
+    """The same cross_section has the same name however it was built.
+
+    Cross_section names reach cell names, Component.info and netlists, so a name
+    that depends on the code path churns golden data.
+    """
+    fresh = _unnamed(2.0)
+    copied = _unnamed(1.0).copy(width=2.0)
+
+    assert copied.name == fresh.name, f"{copied.name} != {fresh.name}"
+    assert copied.sections[0].name == fresh.sections[0].name
+
+    # the name is a private attribute, which pydantic compares, so a name that
+    # depends on the code path makes equal cross_sections compare unequal too
+    assert copied == fresh
+
+
+def test_derived_name_is_a_prefix_of_the_hash() -> None:
+    """One derivation, so the short name cannot drift from the full digest."""
+    xs = _unnamed(2.0)
+
+    assert len(xs.hash) == 32
+    assert xs.name == f"xs_{xs.hash[:8]}"
+
+
+def test_derived_name_tracks_content_through_mirror_and_append() -> None:
+    """A transformed cross_section must not keep the name of the old content."""
+    asymmetric = gf.CrossSection(
+        sections=(
+            gf.Section(width=0.5, layer="WG", name="core"),
+            gf.Section(width=0.2, layer="SLAB90", offset=1.0, name="rib"),
+        ),
+        radius=10,
+    )
+    derived = asymmetric.copy(width=1.0)
+
+    def rebuild(xs: gf.CrossSection) -> gf.CrossSection:
+        return gf.CrossSection(
+            sections=xs.sections, radius=xs.radius, radius_min=xs.radius_min
+        )
+
+    mirrored = derived.mirror()
+    assert mirrored.name == rebuild(mirrored).name, f"{mirrored.name} is stale"
+    assert mirrored.name != derived.name
+
+    appended = derived.append_sections(
+        (gf.Section(width=0.3, layer="M1", name="metal"),)
+    )
+    assert appended.name == rebuild(appended).name, f"{appended.name} is stale"
+    assert appended.name != derived.name
+
+    # a transformation that leaves the content alone keeps the given name
+    assert gf.get_cross_section("strip").mirror().name == "strip"
+
+
+def test_copy_re_derives_a_derived_section_name() -> None:
+    """A derived section name describes content, so an edit has to derive it again."""
+    xs = _unnamed(0.5)
+    wide = xs.copy(width=3.0).sections[0]
+
+    assert wide.name != xs.sections[0].name
+    # the name a section built with the new content from the start would get
+    assert wide.name == _unnamed(3.0).sections[0].name
+
+    # a given name belongs to the caller, so the copy keeps it
+    named = gf.CrossSection(sections=(gf.Section(width=0.5, layer="WG", name="core"),))
+    assert named.copy(width=3.0).sections[0].name == "core"
+
+
+def test_mirror_re_derives_section_names() -> None:
+    """A mirrored section holds new content, so it gets the name that content gets."""
+    off_center = _unnamed(0.5, offset=1.0)
+    assert (
+        off_center.mirror().sections[0].name
+        == _unnamed(0.5, offset=-1.0).sections[0].name
+    )
+    assert off_center.mirror().mirror() == off_center
+
+
+def test_derived_names_do_not_depend_on_the_function_object() -> None:
+    """Two profile functions that do the same thing have to give the same name.
+
+    A name taken from a function's repr holds its id(), so it moves between
+    processes, and cell names, Component.info and netlists move with it.
+    """
+
+    def equivalent_width_function(t: float) -> float:
+        return 0.5 + 2 * t
+
+    one = gf.Section(width=1.0, layer="WG", width_function=_width_function)
+    two = gf.Section(width=1.0, layer="WG", width_function=equivalent_width_function)
+
+    assert one.width_function is not two.width_function
+    assert one.name == two.name, f"{one.name} != {two.name}"
+    assert (
+        gf.CrossSection(sections=(one,)).name == gf.CrossSection(sections=(two,)).name
+    )
+
+
+def test_derived_name_covers_components_along_path() -> None:
+    """Pydantic serializes an arbitrary type as {}, which would hide the component."""
+    sections = (gf.Section(width=1.0, layer="WG"),)
+
+    def along(component: gf.Component) -> gf.CrossSection:
+        return gf.CrossSection(
+            sections=sections,
+            components_along_path=(
+                gf.cross_section.ComponentAlongPath(component=component, spacing=5),
+            ),
+        )
+
+    rectangle = along(gf.components.rectangle(size=(1, 1)))
+    circle = along(gf.components.circle(radius=3))
+
+    assert rectangle != circle
+    assert rectangle.name != circle.name, f"{rectangle.name} collides"
+
+
+def test_hash_stays_out_of_the_fields() -> None:
+    """`hash` is derived from the fields, so it must not become one of them.
+
+    A cache in __dict__ would: pydantic iterates __dict__, so the hash would reach
+    dict(), the round-trip through it, and every model_copy.
+    """
+    xs = _unnamed(0.5)
+    assert xs.hash == xs.hash
+
+    read = _unnamed(0.5)
+    assert read.name  # anything that reads the name would have filled a cache
+
+    assert set(dict(read)) == set(type(read).model_fields)
+    assert gf.CrossSection(**dict(read)) == read
+    assert read.model_dump() == _unnamed(0.5).model_dump()
+    assert read.copy(width=4.0) == _unnamed(4.0)
+
+
+def test_name_tracks_content_through_model_copy() -> None:
+    """A name read before the copy must not follow the old content into it."""
+    xs = _unnamed(0.5)
+    assert xs.name  # a cached hash would be filled here and copied below
+
+    wider = xs.model_copy(update={"sections": _unnamed(3.0).sections})
+
+    assert wider.name == _unnamed(3.0).name, f"{wider.name} is stale"
+
+
+def test_derived_name_does_not_depend_on_the_layer_spelling() -> None:
+    """A layer named twice over is one layer, so it gives one name."""
+    by_name = gf.Section(width=1.0, layer="WG")
+    by_enum = gf.Section(width=1.0, layer=LAYER.WG)
+
+    assert by_name.layer != by_enum.layer  # the spelling is kept as given
+    assert by_name.name == by_enum.name, f"{by_name.name} != {by_enum.name}"
+
+
+def test_transition_pairs_derived_sections_with_their_copy() -> None:
+    """A derived name moves with every edit, so it cannot be the pairing key.
+
+    Pairing on it left a cross_section with nothing in common with its own copy.
+    """
+    xs = _unnamed(0.5)
+
+    gf.path.extrude_transition(
+        gf.path.straight(10), gf.path.transition(xs, xs.copy(width=2.0))
+    )
+    gf.components.taper_cross_section(
+        cross_section1=xs, cross_section2=xs.copy(width=2.0)
+    )
 
 
 xc_sin = partial(
