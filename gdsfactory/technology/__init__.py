@@ -7,9 +7,16 @@ from gdsfactory.technology.layer_stack import (
     LogicalLayer,
 )
 from gdsfactory.technology.layer_views import LayerView, LayerViews
+from gdsfactory.technology.variation import (
+    AsymmetricVariation,
+    NormalVariation,
+    UniformVariation,
+    Variation,
+)
 
 __all__ = [
     "AbstractLayer",
+    "AsymmetricVariation",
     "DerivedLayer",
     "LayerLevel",
     "LayerMap",
@@ -17,5 +24,8 @@ __all__ = [
     "LayerView",
     "LayerViews",
     "LogicalLayer",
+    "NormalVariation",
+    "UniformVariation",
+    "Variation",
     "lyp_to_dataclass",
 ]
