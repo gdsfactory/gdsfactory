@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
@@ -10,7 +11,9 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from rich.console import Console
 from rich.table import Table
 
+from gdsfactory.config import __next_major_version__
 from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.technology.variation import Variation
 from gdsfactory.typings import LayerSpec
 
 if TYPE_CHECKING:
@@ -327,12 +330,14 @@ class LayerLevel(BaseModel):
         layer: LogicalLayer or DerivedLayer. DerivedLayers can be composed of operations consisting of multiple other GDSLayers or other DerivedLayers.
         derived_layer: if the layer is derived, LogicalLayer to assign to the derived layer.
         thickness: layer thickness in um.
-        thickness_tolerance: layer thickness tolerance in um.
-        width_tolerance: layer width tolerance in um.
+        thickness_variation: statistical variation of layer thickness.
+        thickness_tolerance: deprecated layer thickness tolerance in um.
+        width_tolerance: deprecated layer width tolerance in um.
         zmin: height position where material starts in um.
-        zmin_tolerance: layer height tolerance in um.
+        zmin_tolerance: deprecated layer height tolerance in um.
         sidewall_angle: in degrees with respect to normal.
-        sidewall_angle_tolerance: in degrees.
+        sidewall_angle_variation: statistical variation of sidewall angle.
+        sidewall_angle_tolerance: deprecated sidewall-angle tolerance in degrees.
         width_to_z: if sidewall_angle, reference z-position (0 --> zmin, 1 --> zmin + thickness, 0.5 in the middle).
         bias: shrink/grow of the level compared to the mask
         z_to_bias: most generic way to specify an extrusion.\
@@ -352,12 +357,26 @@ class LayerLevel(BaseModel):
 
     # Extrusion rules
     thickness: float
-    thickness_tolerance: float | None = None
-    width_tolerance: float | None = None
+    thickness_variation: Variation | None = None
+    thickness_tolerance: float | None = Field(
+        default=None,
+        deprecated=f"Use thickness_variation instead. This field will be removed in {__next_major_version__}.",
+    )
+    width_tolerance: float | None = Field(
+        default=None,
+        deprecated=f"Width belongs to cross-sections; model width variation there. This field will be removed in {__next_major_version__}.",
+    )
     zmin: float
-    zmin_tolerance: float | None = None
+    zmin_tolerance: float | None = Field(
+        default=None,
+        deprecated=f"Derive zmin variation from thickness variations. This field will be removed in {__next_major_version__}.",
+    )
     sidewall_angle: float = 0.0
-    sidewall_angle_tolerance: float | None = None
+    sidewall_angle_variation: Variation | None = None
+    sidewall_angle_tolerance: float | None = Field(
+        default=None,
+        deprecated=f"Use sidewall_angle_variation instead. This field will be removed in {__next_major_version__}.",
+    )
     width_to_z: float = 0.0
     z_to_bias: tuple[list[float], list[float]] | None = None
     bias: tuple[float, float] | float | None = None
@@ -375,6 +394,29 @@ class LayerLevel(BaseModel):
         if isinstance(layer, LogicalLayer | DerivedLayer):
             return layer
         return LogicalLayer(layer=layer)
+
+    @model_validator(mode="before")
+    @classmethod
+    def warn_deprecated_tolerances(cls, data: Any) -> Any:
+        """Warn when deprecated tolerance fields receive values."""
+        if not isinstance(data, Mapping):
+            return data
+
+        guidance = {
+            "thickness_tolerance": "Use thickness_variation instead.",
+            "width_tolerance": "Width belongs to cross-sections; model width variation there.",
+            "zmin_tolerance": "Derive zmin variation from thickness variations.",
+            "sidewall_angle_tolerance": "Use sidewall_angle_variation instead.",
+        }
+        for field_name, replacement in guidance.items():
+            if data.get(field_name) is not None:
+                warnings.warn(
+                    f"LayerLevel.{field_name} is deprecated. {replacement} "
+                    f"It will be removed in {__next_major_version__}.",
+                    DeprecationWarning,
+                    stacklevel=3,
+                )
+        return data
 
     @model_validator(mode="after")
     def check_derived_layer(self) -> LayerLevel:
