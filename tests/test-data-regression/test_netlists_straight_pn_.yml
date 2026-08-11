@@ -43,12 +43,14 @@ instances:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_6000:
     component: via_stack
     info:
       xsize: 1980
       ysize: 10
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -62,22 +64,27 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 1980
       - 10
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - viac
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_m6000:
     component: via_stack
     info:
       xsize: 1980
       ysize: 10
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -91,11 +98,14 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 1980
       - 10
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - viac
       - via1
@@ -122,24 +132,24 @@ placements:
     rotation: 0
     x: -10
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_6000:
     mirror: false
     rotation: 0
     x: 990
     y: 6
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_m6000:
     mirror: false
     rotation: 0
     x: 990
     y: -6
 ports:
-  bot_e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000,e1
-  bot_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000,e2
-  bot_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000,e3
-  bot_e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000,e4
+  bot_e1: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_m6000,e1
+  bot_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_m6000,e2
+  bot_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_m6000,e3
+  bot_e4: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_m6000,e4
   o1: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0,o1
   o2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_1990000_0_A180,o1
-  top_e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000,e1
-  top_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000,e2
-  top_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000,e3
-  top_e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000,e4
+  top_e1: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_6000,e1
+  top_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_6000,e2
+  top_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_6000,e3
+  top_e4: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_17480d33_990000_6000,e4

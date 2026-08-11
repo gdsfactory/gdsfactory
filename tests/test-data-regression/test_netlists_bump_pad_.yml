@@ -8,12 +8,14 @@ instances:
       port_width: 10
       side_length: 36.244
       sides: 8
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_0_38250:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -26,21 +28,26 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 11
       - 11
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_0_m38250:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -53,21 +60,26 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 11
       - 11
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_38250_0:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -80,21 +92,26 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 11
       - 11
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_m38250_0:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -107,11 +124,14 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 11
       - 11
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
@@ -123,28 +143,28 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_0_38250:
     mirror: false
     rotation: 0
     x: 0
     y: 38.25
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_0_m38250:
     mirror: false
     rotation: 0
     x: 0
     y: -38.25
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_38250_0:
     mirror: false
     rotation: 0
     x: 38.25
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_m38250_0:
     mirror: false
     rotation: 0
     x: -38.25
     y: 0
 ports:
-  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_m38250_0,e1
-  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_38250,e2
-  e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_38250_0,e3
-  e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_0_m38250,e4
+  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_m38250_0,e1
+  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_0_38250,e2
+  e3: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_38250_0,e3
+  e4: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23_0_m38250,e4

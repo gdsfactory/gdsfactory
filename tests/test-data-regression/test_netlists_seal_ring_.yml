@@ -1,10 +1,12 @@
 instances:
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_515000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_515000_250000:
     component: via_stack
     info:
       xsize: 10
       ysize: 520
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -13,21 +15,26 @@ instances:
       - M2
       - MTOP
       port_orientations: null
+      rows: null
       size:
       - 10
       - 520
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_m15000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_m15000_250000:
     component: via_stack
     info:
       xsize: 10
       ysize: 520
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -36,21 +43,26 @@ instances:
       - M2
       - MTOP
       port_orientations: null
+      rows: null
       size:
       - 10
       - 520
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_515000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_515000:
     component: via_stack
     info:
       xsize: 540
       ysize: 10
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -59,21 +71,26 @@ instances:
       - M2
       - MTOP
       port_orientations: null
+      rows: null
       size:
       - 540
       - 10
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_m15000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_m15000:
     component: via_stack
     info:
       xsize: 540
       ysize: 10
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -82,33 +99,36 @@ instances:
       - M2
       - MTOP
       port_orientations: null
+      rows: null
       size:
       - 540
       - 10
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via1
       - via2
       - null
 nets: []
 placements:
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_515000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_515000_250000:
     mirror: false
     rotation: 0
     x: 515
     y: 250
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb_m15000_250000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_m15000_250000:
     mirror: false
     rotation: 0
     x: -15
     y: 250
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_515000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_515000:
     mirror: false
     rotation: 0
     x: 250
     y: 515
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b_250000_m15000:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_m15000:
     mirror: false
     rotation: 0
     x: 250

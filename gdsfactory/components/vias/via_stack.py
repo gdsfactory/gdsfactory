@@ -555,7 +555,7 @@ def _region_to_shapely(region: _PolygonPoints) -> ShapelyPolygon:
 
 @gf.cell_with_module_name(tags=["vias"])
 def via_array_region_raster(
-    region: _PolygonPoints,
+    region: _PolygonPoints = ((-5, -5), (5, -5), (5, 5), (-5, 5)),
     bottom_layer: LayerSpec = "M1",
     via_layer: LayerSpec = "VIA1",
     top_layer: LayerSpec = "M2",
@@ -681,9 +681,9 @@ def via_array_region_raster(
 @gf.cell_with_module_name(tags=["vias"])
 def via_array_stack_oa_compliant(
     bottom_layer: LayerSpec = "M1",
-    top_layer: LayerSpec = "M5",
+    top_layer: LayerSpec = "M3",
     region: _PolygonPoints | None = None,
-    size: tuple[float, float] | None = None,
+    size: tuple[float, float] | None = (10, 10),
     grid_size: tuple[int, int] | None = None,
     via_type: Literal["square", "rectangle"] = "square",
     via_x_minimum_cut_size_rules: dict[LayerSpec, float] | None = None,
@@ -698,10 +698,6 @@ def via_array_stack_oa_compliant(
         "M2",
         "VIA2",
         "M3",
-        "VIA3",
-        "M4",
-        "VIA4",
-        "M5",
     ),
 ) -> Component:
     """OpenAccess-compliant via stack between bottom_layer and top_layer.
