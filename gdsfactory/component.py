@@ -1002,7 +1002,7 @@ class Component(ComponentBase, kf.DKCell):
 
         Args:
             merge: if True, merges the polygons.
-            scale: if True, scales the points.
+            scale: if not None, scales the points.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
@@ -1696,12 +1696,8 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         """
         scale = scale or 1
         return [
-            np.array(
-                [
-                    (point.x * scale, point.y * scale)
-                    for point in polygon.each_point_hull()
-                ]
-            )
+            scale
+            * np.array([(point.x, point.y) for point in polygon.each_point_hull()])
             for polygon in self.get_polygons(layer)
         ]
 
