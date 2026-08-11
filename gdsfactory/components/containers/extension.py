@@ -176,10 +176,16 @@ def extend_ports(
                     pdk = gf.get_active_pdk()
                     cross_section_names = list(pdk.cross_sections)
                     port_xs_name = port.info.get("cross_section", None)
+                    port_xs_settings = port.info.get("cross_section_settings", None)
 
                     if port_xs_name and port_xs_name in cross_section_names:
                         cross_section_extension = gf.get_cross_section(
                             port.info["cross_section"]
+                        )
+
+                    elif isinstance(port_xs_settings, dict):
+                        cross_section_extension = gf.CrossSection.model_validate(
+                            port_xs_settings
                         )
 
                     else:
