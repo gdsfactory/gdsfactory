@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.48.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.48.0) - 2026-08-12
+
+No significant changes.
+
+
 ## [9.47.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.47.0) - 2026-07-29
 
 - refactor(spice): allow for port to pin mapping in add_electric_pins [#4742](https://github.com/gdsfactory/gdsfactory/pull/4742)
