@@ -14,7 +14,7 @@ from rich.table import Table
 from gdsfactory.config import __next_major_version__
 from gdsfactory.technology.layer_views import LayerViews
 from gdsfactory.technology.variation import Variation
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, LayerSpecs
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
@@ -347,6 +347,9 @@ class LayerLevel(BaseModel):
                     NOTE: A dict might be more expressive.
         mesh_order: lower mesh order (e.g. 1) will have priority over higher mesh order (e.g. 2) in the regions where materials overlap.
         material: used in the klayout script
+        background: extrude this material across the component bounding box,
+            including regions with no polygons on ``layer``.
+        background_exclude_layers: layers to remove from a background material.
         info: all other rendering and simulation metadata should go here.
     """
 
@@ -384,6 +387,8 @@ class LayerLevel(BaseModel):
     # Rendering
     mesh_order: int = 3
     material: str | None = None
+    background: bool = False
+    background_exclude_layers: LayerSpecs = ()
 
     # Other
     info: dict[str, Any] = Field(default_factory=dict)

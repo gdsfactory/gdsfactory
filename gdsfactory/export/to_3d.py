@@ -54,6 +54,7 @@ def to_3d(
     polygons_per_layer = component_with_booleans.get_polygons_points(
         merge=True,
     )
+    polygons_per_source_layer = component.get_polygons_points(merge=False)
     has_polygons = False
 
     for level_name, level in layer_stack.layers.items():
@@ -75,7 +76,7 @@ def to_3d(
         if layer_index in exclude_layers:
             continue
 
-        if layer_index not in polygons_per_layer:
+        if not level.background and layer_index not in polygons_per_layer:
             continue
 
         zmin = level.zmin
@@ -86,10 +87,34 @@ def to_3d(
         color_rgb = [c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)]
         if zmin is not None and layer_view.visible:
             has_polygons = True
-            polygons = polygons_per_layer[layer_index]
+            if level.background:
+                bbox = component.dbbox()
+                background = shapely.geometry.box(
+                    bbox.left, bbox.bottom, bbox.right, bbox.top
+                )
+                exclusions = [
+                    shapely.geometry.Polygon(polygon)
+                    for excluded_layer in level.background_exclude_layers
+                    for polygon in polygons_per_source_layer.get(
+                        int(get_layer(excluded_layer)), ()
+                    )
+                ]
+                if exclusions:
+                    background = background.difference(
+                        shapely.ops.unary_union(exclusions)
+                    )
+                polygons = list(shapely.get_parts(background))
+            else:
+                polygons = polygons_per_layer[layer_index]
             height = level.thickness
             for i, polygon in enumerate(polygons):
-                p = shapely.geometry.Polygon(polygon)
+                p = (
+                    polygon
+                    if isinstance(polygon, shapely.geometry.Polygon)
+                    else shapely.geometry.Polygon(polygon)
+                )
+                if p.is_empty:
+                    continue
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
                 if isinstance(mesh.visual, ColorVisuals):
