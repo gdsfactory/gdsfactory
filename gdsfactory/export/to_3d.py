@@ -54,7 +54,12 @@ def to_3d(
     polygons_per_layer = component_with_booleans.get_polygons_points(
         merge=True,
     )
-    polygons_per_source_layer = component.get_polygons_points(merge=False)
+    # Source-layer polygons are only needed for background exclusions, which are
+    # rare, so skip the extra extraction unless a background level uses them.
+    has_background = any(level.background for level in layer_stack.layers.values())
+    polygons_per_source_layer = (
+        component.get_polygons_points(merge=False) if has_background else {}
+    )
     has_polygons = False
 
     for level_name, level in layer_stack.layers.items():

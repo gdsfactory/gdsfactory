@@ -349,7 +349,8 @@ class LayerLevel(BaseModel):
         material: used in the klayout script
         background: extrude this material across the component bounding box,
             including regions with no polygons on ``layer``.
-        background_exclude_layers: layers to remove from a background material.
+        background_exclude_layers: source (logical) layers to subtract from a
+            background material. Derived/boolean layers are not supported here.
         info: all other rendering and simulation metadata should go here.
     """
 
