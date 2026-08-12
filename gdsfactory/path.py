@@ -954,11 +954,20 @@ def along_path(
     return c
 
 
-def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
-    named_sections: dict[str, Section] = {}
-    for section in sections:
-        if section.skip_transition:
-            continue
+def _get_named_sections(sections: tuple[Section, ...]) -> dict[str | int, Section]:
+    """Keys to pair the sections of two cross_sections by, in transition order.
+
+    A name a caller gave says which section on the other side to pair with. A name
+    derived from the content says nothing: it moves with every edit, so a
+    cross_section and its own `copy` would have nothing in common. Those pair by
+    position instead.
+    """
+    kept = [section for section in sections if not section.skip_transition]
+    if kept and all(section.name == section._derived_name for section in kept):
+        return dict(enumerate(kept))
+
+    named_sections: dict[str | int, Section] = {}
+    for section in kept:
         name = section.name or get_layer_name(section.layer)
         if name in named_sections:
             raise ValueError(
@@ -1386,7 +1395,7 @@ def extrude_transition(
     names1 = list(named_sections1.keys())
     names2 = list(named_sections2.keys())
 
-    common_sections = set(names1).intersection(names2)
+    common_sections = sorted(set(names1).intersection(names2), key=str)
     if not common_sections:
         raise ValueError(
             f"transition() found no common section names X1 {names1} and X2 {names2}"
