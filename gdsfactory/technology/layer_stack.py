@@ -348,7 +348,8 @@ class LayerLevel(BaseModel):
         mesh_order: lower mesh order (e.g. 1) will have priority over higher mesh order (e.g. 2) in the regions where materials overlap.
         material: used in the klayout script
         background: extrude this material across the component bounding box,
-            including regions with no polygons on ``layer``.
+            including regions with no polygons on ``layer``. Background levels
+            are rendered in 3D even if their layer view is not visible.
         background_exclude_layers: source (logical) layers to subtract from a
             background material. Derived/boolean layers are not supported here.
         info: all other rendering and simulation metadata should go here.

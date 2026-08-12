@@ -90,7 +90,7 @@ def to_3d(
         layer_view = layer_views.get_from_tuple(layer_tuple)
         assert layer_view.fill_color is not None
         color_rgb = [c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)]
-        if zmin is not None and layer_view.visible:
+        if zmin is not None and (level.background or layer_view.visible):
             has_polygons = True
             if level.background:
                 bbox = component.dbbox()

@@ -80,6 +80,29 @@ def test_background_layer() -> None:
     assert scene.bounds.tolist() == [[0.0, 0.0, 0.0], [2.0, 3.0, 1.0]]
 
 
+def test_background_layer_invisible_view() -> None:
+    """A background level renders even if its layer view is not visible."""
+    layer_views = gf.get_active_pdk().get_layer_views()
+    assert not layer_views.get_from_tuple(tuple(LAYER.WAFER)).visible
+
+    c = gf.components.rectangle(size=(2, 3), layer=LAYER.SLAB90)
+    layer_stack = LayerStack(
+        layers={
+            "substrate": LayerLevel(
+                layer=LogicalLayer(layer=LAYER.WAFER),
+                thickness=1,
+                zmin=0,
+                material="si",
+                background=True,
+            )
+        }
+    )
+
+    scene = to_3d(c, layer_stack=layer_stack)
+
+    assert scene.bounds.tolist() == [[0.0, 0.0, 0.0], [2.0, 3.0, 1.0]]
+
+
 def test_background_layer_exclusions() -> None:
     """Background exclusions form full-depth etches."""
     c = gf.Component()
