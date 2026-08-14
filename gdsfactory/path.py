@@ -672,6 +672,15 @@ class Path(UMGeometricObject):
             self.end_angle = mod(2 * angle - self.end_angle, 360)
         return self
 
+    def invert(self) -> Path:
+        """Inverts the Path by reversing the order of its points.
+
+        The shape of the path is unchanged, but its start becomes its end and vice versa.
+        """
+        self.points = self.points[::-1]
+        self.start_angle, self.end_angle = self.end_angle + 180, self.start_angle + 180
+        return self
+
 
 PathFactory = Callable[..., Path]
 T = TypeVar("T", float, npt.NDArray[np.floating[Any]])
