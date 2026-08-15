@@ -1028,6 +1028,23 @@ class Component(ComponentBase, kf.DKCell):
 
         return extract(self, layers=layers, recursive=recursive)
 
+    def to_blackbox(
+        self,
+        layer: LayerSpec = "FLOORPLAN",
+    ) -> Component:
+        """Returns a black box version of the Component.
+
+        The result contains only a bounding box rectangle on the given layer
+        and the original ports. No geometry, hierarchy or settings are copied,
+        so proprietary layouts stay hidden when sharing a GDS file.
+
+        Args:
+            layer: layer to draw the bounding box rectangle on.
+        """
+        from gdsfactory.components.containers.blackbox import blackbox
+
+        return blackbox(component=self, layer=layer)
+
     def copy_layers(
         self,
         layer_map: dict[LayerSpec, LayerSpec],
