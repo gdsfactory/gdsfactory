@@ -1038,6 +1038,9 @@ class Component(ComponentBase, kf.DKCell):
         and the original ports. No geometry, hierarchy or settings are copied,
         so proprietary layouts stay hidden when sharing a GDS file.
 
+        Note: port info dictionaries are copied to the result. If your ports
+        carry sensitive metadata, strip it before calling blackbox.
+
         Args:
             layer: layer to draw the bounding box rectangle on.
         """

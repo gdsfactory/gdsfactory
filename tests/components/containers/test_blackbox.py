@@ -30,6 +30,13 @@ def test_blackbox_settings_not_copied() -> None:
     """Settings of the original component must not leak into the blackbox."""
     c = gf.components.blackbox(component="mmi1x2")
     assert "length_mmi" not in c.settings
+    assert set(dict(c.settings)) <= {"component", "layer"}
+
+
+def test_blackbox_component_without_ports() -> None:
+    c = gf.components.blackbox(component="text", layer=(2, 0))
+    assert c.layers == [(2, 0)]
+    assert len(c.ports) == 0
 
 
 def test_to_blackbox_method() -> None:
