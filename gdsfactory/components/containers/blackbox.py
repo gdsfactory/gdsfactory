@@ -25,9 +25,14 @@ def blackbox(
         layer: layer to draw the bounding box rectangle on.
     """
     original = gf.get_component(component)
+    bbox = original.dbbox()
+    if bbox.empty():
+        raise ValueError(
+            f"Cannot create a blackbox from {original.name!r}: it has no geometry."
+        )
 
     c = Component()
-    c.add_polygon(bbox_to_points(original.dbbox()), layer=layer)
+    c.add_polygon(bbox_to_points(bbox), layer=layer)
 
     # Only ports are copied. The original component is never instantiated and
     # its settings/info are not copied, so no geometry, hierarchy or

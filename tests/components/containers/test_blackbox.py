@@ -1,3 +1,5 @@
+import pytest
+
 import gdsfactory as gf
 
 
@@ -10,9 +12,10 @@ def test_blackbox() -> None:
     assert c.dbbox() == original.dbbox()
     assert len(c.insts) == 0
 
-    assert len(c.ports) == len(original.ports)
-    for port, port_original in zip(c.ports, original.ports, strict=True):
-        assert port.name == port_original.name
+    ports_original = {p.name: p for p in original.ports}
+    assert {p.name for p in c.ports} == set(ports_original)
+    for port in c.ports:
+        port_original = ports_original[port.name]
         assert port.center == port_original.center
         assert port.width == port_original.width
         assert port.orientation == port_original.orientation
@@ -37,6 +40,11 @@ def test_blackbox_component_without_ports() -> None:
     c = gf.components.blackbox(component="text", layer=(2, 0))
     assert c.layers == [(2, 0)]
     assert len(c.ports) == 0
+
+
+def test_blackbox_empty_component_raises() -> None:
+    with pytest.raises(ValueError, match="no geometry"):
+        gf.components.blackbox(component=gf.Component(), layer=(2, 0))
 
 
 def test_to_blackbox_method() -> None:
