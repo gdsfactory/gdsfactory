@@ -119,7 +119,7 @@ def _ensure_manhattan_waypoints(
     if len(waypoints) < 2:
         return list(waypoints)
 
-    tol = 1e-3
+    tol = 1.5 * gf.kcl.dbu
     go_horizontal_first = (
         int(start_port.orientation) % 360 in {0, 180}
         if start_port is not None and start_port.orientation is not None
