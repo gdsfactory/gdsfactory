@@ -31,11 +31,11 @@ def to_np(
 
     dbbox = component.kdb_cell.dbbox()
 
-    xmin, ymin, xmax, ymax = dbbox.bottom, dbbox.left, dbbox.top, dbbox.right
+    xmin, ymin, xmax, ymax = dbbox.left, dbbox.bottom, dbbox.right, dbbox.top
 
     shape = (
-        int(np.ceil(xmax - xmin) * pixels_per_um),
-        int(np.ceil(ymax - ymin) * pixels_per_um),
+        int(np.ceil((xmax - xmin) * pixels_per_um)),
+        int(np.ceil((ymax - ymin) * pixels_per_um)),
     )
     img = np.zeros(shape, dtype=float)
     if layers is None:

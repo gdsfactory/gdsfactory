@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
+
 from numpy import floor
-from typing import Callable
-from gdsfactory import Component
+
+from gdsfactory import Component, ComponentReference
 
 Poly = list[tuple[float, float]]
 
 
 def _zip(xs: list[float], ys: list[float]) -> Poly:
-    return list(zip(xs, ys))
+    return list(zip(xs, ys, strict=True))
 
 
 def _map_y(p: Poly, f: Callable[[float], float]) -> Poly:
@@ -27,12 +29,12 @@ def _sign(x: float) -> int:
 
 
 def _make_aspect_shift_y(
-    Dout: float, aspect_ratio: float = 1.0
+    d_out: float, aspect_ratio: float = 1.0
 ) -> Callable[[float], float]:
     """Stretch straight sides only (y=0 fixed). Identity when aspect_ratio == 1."""
     if aspect_ratio == 1:
         return lambda y: y
-    ext = Dout * (aspect_ratio - 1)
+    ext = d_out * (aspect_ratio - 1)
     return lambda y: y + ext / 2 if y > 0 else (y - ext / 2 if y < 0 else y)
 
 
@@ -55,10 +57,12 @@ def _routing_geometric_45(
         y_lower = [-s / 2 - w] + y_lower + [s / 2]
     xs = [v + x0 for v in x_upper] + [v + x0 for v in reversed(x_lower)]
     ys = [v + y0 for v in y_upper] + [v + y0 for v in reversed(y_lower)]
-    return list(zip(xs, ys))
+    return list(zip(xs, ys, strict=True))
 
 
-def _via_component_info(via_component: Component) -> tuple[float, float, float, float, float]:
+def _via_component_info(
+    via_component: Component,
+) -> tuple[float, float, float, float, float]:
     """Validate and unpack the via geometry info gdsfactory via() cells carry.
 
     Returns (xsize, ysize, enclosure, column_pitch, row_pitch).
@@ -82,9 +86,10 @@ def _add_via_array(
     cy: float,
     avail_x: float,
     avail_y: float,
-):
-    """Place a via component array filling an avail_x x avail_y box centered
-    at (cx, cy). avail_x/avail_y are the enclosure-netted region —
+) -> ComponentReference:
+    """Place a via component array filling an avail_x x avail_y box centered at (cx, cy).
+
+    avail_x/avail_y are the enclosure-netted region —
     same fill convention used across all four analog cells.
     """
     w, h, _enclosure, pitch_x, pitch_y = _via_component_info(via_component)
@@ -119,8 +124,8 @@ def _via_array_at(
     width: float,
     enclosure: float,
 ) -> None:
-    """Place a via array near (cx, cy), choosing the long axis (extend) to
-    align with whichever of x/y is farther from the origin. 
+    """Place a via array near (cx, cy), choosing the long axis (extend) to align with whichever of x/y is farther from the origin.
+
     Used for the top/bottom/left-right crossing vias, which need to sit under crossings routed in
     either the x or y direction depending on which quadrant they're in.
     """
@@ -128,12 +133,11 @@ def _via_array_at(
     dy = _sign(cy) * (extend - width) / 2
     avail_extend = extend - 2 * enclosure
     avail_width = width - 2 * enclosure
- 
+
     if abs(cy) > abs(cx):
         _add_via_array(c, via_component, cx + dx, cy, avail_extend, avail_width)
     else:
         _add_via_array(c, via_component, cx, cy + dy, avail_width, avail_extend)
- 
 
 
 def _pgs(D: float, w: float, s: float) -> list[Poly]:

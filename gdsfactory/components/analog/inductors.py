@@ -1,27 +1,25 @@
 """Inductor components PDK."""
- 
+
 import math
- 
+
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
- 
-from .._schematic import inductor_schematic
 
+from .._schematic import inductor_schematic
 from ._geometry import (
     Poly,
-    _zip,
+    _add_via_array,
+    _make_aspect_shift_y,
     _map_y,
     _mirror_x,
-    _make_aspect_shift_y,
+    _pgs,
     _routing_geometric_45,
     _via_component_info,
-    _add_via_array,
-    _pgs,
+    _zip,
 )
- 
+
 __all__ = ["inductor", "spiral_inductor", "symmetric_inductor"]
- 
 
 
 def inductor_min_diameter(width: float, space: float, turns: int, grid: float) -> float:
@@ -149,7 +147,7 @@ def inductor(
 
 @gf.cell_with_module_name(tags=["analog"])
 def spiral_inductor(
-    Dout: float = 130.0,
+    d_out: float = 130.0,
     N: int = 3,
     sides: int = 8,
     width: float = 10.0,
@@ -170,7 +168,7 @@ def spiral_inductor(
     """Polygonal spiral inductor.
 
     Args:
-        Dout: Outer diameter of the spiral in micrometers.
+        d_out: Outer diameter of the spiral in micrometers.
         N: Number of complete turns.
         sides: Number of polygon sides per full turn (8 = octagonal).
         width: Metal trace width in micrometers.
@@ -182,13 +180,13 @@ def spiral_inductor(
         pgs_diameter: Bounding size D of the ground shield square, in micrometers.
         pgs_width: Strip width w of each ground shield finger, in micrometers.
         pgs_spacing: Gap s between adjacent ground shield fingers, in micrometers.
-        via: via ComponentSpec connecting winding <-> underpass. 
+        via: via ComponentSpec connecting winding <-> underpass.
         resistance: Series resistance in ohms, stored as metadata only.
         inductance: Inductance in henries, stored as metadata only.
         layer_winding: Metal layer for the main spiral winding.
         layer_underpass: Metal layer for the inner-terminal underpass bridge (one layer below layer_winding).
-        layers_pgs: Layers on which the patterned ground shield is drawn, 
-            kept separate from both layer_winding and layer_underpass 
+        layers_pgs: Layers on which the patterned ground shield is drawn,
+            kept separate from both layer_winding and layer_underpass
             since the underpass carries a live signal and shouldn't s
             hare a layer with a grounded shield.
 
@@ -204,7 +202,7 @@ def spiral_inductor(
     # Derived parameters (identical to build_spiral_inductor)
     s = (spacing + width) / math.cos(PI / sides)
     v = width / math.cos(PI / sides)
-    R1 = Dout / 2 / math.cos(PI / sides)
+    R1 = d_out / 2 / math.cos(PI / sides)
     R2 = R1 - v
 
     n_pts = sides // 2
@@ -242,8 +240,8 @@ def spiral_inductor(
     entry_yc = 0.0 if opposite else (width + spacing) / 2
     exit_yc = 0.0 if opposite else -(width + spacing) / 2
 
-    x_out_start = [Dout / 2 + width, x_out[0]]
-    x_in_start = [Dout / 2 + width, x_in[0]]
+    x_out_start = [d_out / 2 + width, x_out[0]]
+    x_in_start = [d_out / 2 + width, x_in[0]]
     y_out_start = [entry_yc + width / 2, entry_yc + width / 2]
     y_in_start = [entry_yc - width / 2, entry_yc - width / 2]
 
@@ -267,11 +265,11 @@ def spiral_inductor(
         + list(reversed(y_in))
         + list(reversed(y_in_start))
     )
-    winding_polygon: Poly = list(zip(x_poly, y_poly))
+    winding_polygon: Poly = list(zip(x_poly, y_poly, strict=True))
 
     last_x_in = x_in[-1]
     last_x_out = x_out[-1]
-    underpass_end_x = -(Dout / 2 + width) if opposite else Dout / 2 + width
+    underpass_end_x = -(d_out / 2 + width) if opposite else d_out / 2 + width
 
     underpass_polygon: Poly = [
         (last_x_in, exit_yc - width / 2),
@@ -280,7 +278,7 @@ def spiral_inductor(
         (last_x_in, exit_yc + width / 2),
     ]
 
-    shift_y = _make_aspect_shift_y(Dout, aspect_ratio)
+    shift_y = _make_aspect_shift_y(d_out, aspect_ratio)
 
     # Winding + underpass polygons
     c.add_polygon(_map_y(winding_polygon, shift_y), layer=layer_winding)
@@ -291,7 +289,7 @@ def spiral_inductor(
     via_cy = exit_yc
 
     via_component = gf.get_component(via)
-    w, h, enclosure, pitch_x, pitch_y = _via_component_info(via_component)
+    _w, h, enclosure, _pitch_x, pitch_y = _via_component_info(via_component)
 
     via_spacing_y = pitch_y - h
     extend = 2 * (h + enclosure) + via_spacing_y
@@ -304,9 +302,7 @@ def spiral_inductor(
         avail_y = width - 2 * enclosure
         via_center_y = via_cy
 
-    _add_via_array(
-        c, via_component, via_cx, shift_y(via_center_y), avail_x, avail_y
-    )
+    _add_via_array(c, via_component, via_cx, shift_y(via_center_y), avail_x, avail_y)
 
     if add_pgs:
         for layer in layers_pgs:
@@ -316,7 +312,7 @@ def spiral_inductor(
     # Ports
     c.add_port(
         "P1",
-        center=(Dout / 2 + width, shift_y(entry_yc)),
+        center=(d_out / 2 + width, shift_y(entry_yc)),
         width=width,
         orientation=0.0,
         layer=layer_winding,
@@ -336,16 +332,17 @@ def spiral_inductor(
     c.info["turns"] = N
     c.info["width"] = width
     c.info["spacing"] = spacing
-    c.info["diameter"] = Dout
+    c.info["diameter"] = d_out
 
     return c
 
 
 # Symmetric (differential) inductor
 
+
 @gf.cell_with_module_name(tags=["analog"])
 def symmetric_inductor(
-    Dout: float = 150.0,
+    d_out: float = 150.0,
     N: int = 3,
     sides: int = 8,
     width: float = 10.0,
@@ -366,9 +363,9 @@ def symmetric_inductor(
     layers_pgs: LayerSpecs = ("M1",),
 ) -> Component:
     """Symmetric (differential) spiral inductor.
- 
+
     Args:
-        Dout: Outer diameter of the two-lobe structure, in micrometers.
+        d_out: Outer diameter of the two-lobe structure, in micrometers.
         N: Number of complete windings per side.
         sides: Number of polygon sides per full turn (8 = octagonal).
         width: Metal trace width in micrometers.
@@ -392,7 +389,7 @@ def symmetric_inductor(
         layer_winding: Metal layer for the main winding (top metal).
         layer_underpass: Metal layer for crossings and the center-tap bridge (one layer below layer_winding).
         layers_pgs: Layers on which the patterned ground shield is drawn.
- 
+
     Returns:
         Component with 2 or 3 ports:
           P1  ->  left differential terminal   (layer_winding)
@@ -403,38 +400,38 @@ def symmetric_inductor(
     c = Component()
     PI = math.pi
     SQRT2 = math.sqrt(2)
- 
+
     via_component = gf.get_component(via)
-    via_w, via_h, via_enclosure, via_pitch_x, via_pitch_y = _via_component_info(
+    _via_w, via_h, via_enclosure, _via_pitch_x, via_pitch_y = _via_component_info(
         via_component
     )
- 
+
     if via_extent is None:
         via_spacing_y = via_pitch_y - via_h
         extend = 2 * (via_h + via_enclosure) + via_spacing_y
     else:
         extend = via_extent
- 
+
     ps = spacing if port_spacing is None else port_spacing
- 
+
     v = width / math.cos(PI / sides)
     s = (spacing + width) / math.cos(PI / sides)
-    R1 = Dout / 2 / math.cos(PI / sides)
+    R1 = d_out / 2 / math.cos(PI / sides)
     R2 = R1 - v
- 
+
     n_half = sides // 2
     left_angles = [PI * (0.5 + (i + 0.5) * 2 / sides) for i in range(n_half)]
     right_angles = [PI * (-0.5 + (i + 0.5) * 2 / sides) for i in range(n_half)]
     sep_total = width + spacing + (SQRT2 - 1) * (2 * spacing + width)
- 
-    shift_y = _make_aspect_shift_y(Dout, aspect_ratio)
- 
+
+    shift_y = _make_aspect_shift_y(d_out, aspect_ratio)
+
     def add_winding(poly: Poly) -> None:
         c.add_polygon(_map_y(poly, shift_y), layer=layer_winding)
- 
+
     def add_crossing(poly: Poly) -> None:
         c.add_polygon(_map_y(poly, shift_y), layer=layer_underpass)
- 
+
     for winding in range(N):
         # Left section
         x_out = [R1 * math.cos(p) for p in left_angles]
@@ -454,7 +451,7 @@ def symmetric_inductor(
         y_out = [y_out[0], *y_out, y_out[-1]]
         y_in = [y_in[0], *y_in, y_in[-1]]
         add_winding(_zip([*x_out, *reversed(x_in)], [*y_out, *reversed(y_in)]))
- 
+
         # Right section
         x_out = [R1 * math.cos(p) for p in right_angles]
         y_out = [R1 * math.sin(p) for p in right_angles]
@@ -473,22 +470,24 @@ def symmetric_inductor(
         y_out = [y_out[0], *y_out, y_out[-1]]
         y_in = [y_in[0], *y_in, y_in[-1]]
         add_winding(_zip([*x_out, *reversed(x_in)], [*y_out, *reversed(y_in)]))
- 
+
         # Crossings (skip on the innermost winding — nothing left to cross)
         if winding != N - 1:
             if winding % 2 == 0:
                 h = R1 * math.sin(PI * (0.5 - 1 / sides))
             else:
                 h = (-R2 + s) * math.sin(PI * (0.5 - 1 / sides))
- 
+
             add_crossing(
-                _routing_geometric_45(width, spacing, 0, h - width - spacing / 2, extend)
+                _routing_geometric_45(
+                    width, spacing, 0, h - width - spacing / 2, extend
+                )
             )
             cross_top = _routing_geometric_45(
                 width, spacing, 0, h - width - spacing / 2, 0
             )
             add_winding(_mirror_x(cross_top))
- 
+
             for cx, cy in [
                 (-sep_total / 2 - width / 2, h - 3 * width / 2 - spacing),
                 (sep_total / 2 + width / 2, h - width / 2),
@@ -502,10 +501,10 @@ def symmetric_inductor(
                     extend - 2 * via_enclosure,
                     width - 2 * via_enclosure,
                 )
- 
+
         R1 -= s
         R2 -= s
- 
+
     # Center tap
     ct_port_layer = layer_winding
     if center_tap:
@@ -513,56 +512,82 @@ def symmetric_inductor(
         if N % 2 != 0:
             if N <= 2:
                 y_ct = [
-                    -Dout / 2,
-                    Dout / 2 - spacing * (N - 1) - width * (N - 1),
-                    Dout / 2 - spacing * (N - 1) - width * (N - 1),
-                    -Dout / 2,
+                    -d_out / 2,
+                    d_out / 2 - spacing * (N - 1) - width * (N - 1),
+                    d_out / 2 - spacing * (N - 1) - width * (N - 1),
+                    -d_out / 2,
                 ]
             else:
                 y_ct = [
-                    -Dout / 2 + width - extend,
-                    Dout / 2 - spacing * (N - 1) - width * (N - 1) - extend,
-                    Dout / 2 - spacing * (N - 1) - width * (N - 1) - extend,
-                    -Dout / 2 + width - extend,
+                    -d_out / 2 + width - extend,
+                    d_out / 2 - spacing * (N - 1) - width * (N - 1) - extend,
+                    d_out / 2 - spacing * (N - 1) - width * (N - 1) - extend,
+                    -d_out / 2 + width - extend,
                 ]
         else:
             if N <= 2:
                 y_ct = [
-                    -Dout / 2,
-                    -Dout / 2 + spacing * (N - 1) + width * (N - 1),
-                    -Dout / 2 + spacing * (N - 1) + width * (N - 1),
-                    -Dout / 2,
+                    -d_out / 2,
+                    -d_out / 2 + spacing * (N - 1) + width * (N - 1),
+                    -d_out / 2 + spacing * (N - 1) + width * (N - 1),
+                    -d_out / 2,
                 ]
             else:
                 y_ct = [
-                    -Dout / 2 + width - extend,
-                    -Dout / 2 + spacing * (N - 1) + width * (N - 1),
-                    -Dout / 2 + spacing * (N - 1) + width * (N - 1),
-                    -Dout / 2 + width - extend,
+                    -d_out / 2 + width - extend,
+                    -d_out / 2 + spacing * (N - 1) + width * (N - 1),
+                    -d_out / 2 + spacing * (N - 1) + width * (N - 1),
+                    -d_out / 2 + width - extend,
                 ]
- 
+
         if N <= 2:
             add_winding(_zip(x_ct, y_ct))
         else:
             ct_port_layer = layer_underpass
             add_crossing(_zip(x_ct, y_ct))
- 
+
             if N % 2 != 0:
-                x_ct1, y_ct1 = 0, Dout / 2 - spacing * (N - 1) - width * (N - 1) - extend / 2
-                x_ct2, y_ct2 = 0, -Dout / 2 + width / 2 + (width - extend) / 2
+                x_ct1, y_ct1 = (
+                    0,
+                    d_out / 2 - spacing * (N - 1) - width * (N - 1) - extend / 2,
+                )
+                x_ct2, y_ct2 = 0, -d_out / 2 + width / 2 + (width - extend) / 2
             else:
-                x_ct1, y_ct1 = 0, -Dout / 2 + spacing * (N - 1) + width * N - width + extend / 2
-                x_ct2, y_ct2 = 0, -Dout / 2 + width - extend / 2
- 
-            xvp1 = [x_ct1 - width / 2, x_ct1 - width / 2, x_ct1 + width / 2, x_ct1 + width / 2]
-            yvp1 = [y_ct1 - extend / 2, y_ct1 + extend / 2, y_ct1 + extend / 2, y_ct1 - extend / 2]
-            xvp2 = [x_ct2 - width / 2, x_ct2 - width / 2, x_ct2 + width / 2, x_ct2 + width / 2]
-            yvp2 = [y_ct2 - extend / 2, y_ct2 + extend / 2, y_ct2 + extend / 2, y_ct2 - extend / 2]
- 
+                x_ct1, y_ct1 = (
+                    0,
+                    -d_out / 2 + spacing * (N - 1) + width * N - width + extend / 2,
+                )
+                x_ct2, y_ct2 = 0, -d_out / 2 + width - extend / 2
+
+            xvp1 = [
+                x_ct1 - width / 2,
+                x_ct1 - width / 2,
+                x_ct1 + width / 2,
+                x_ct1 + width / 2,
+            ]
+            yvp1 = [
+                y_ct1 - extend / 2,
+                y_ct1 + extend / 2,
+                y_ct1 + extend / 2,
+                y_ct1 - extend / 2,
+            ]
+            xvp2 = [
+                x_ct2 - width / 2,
+                x_ct2 - width / 2,
+                x_ct2 + width / 2,
+                x_ct2 + width / 2,
+            ]
+            yvp2 = [
+                y_ct2 - extend / 2,
+                y_ct2 + extend / 2,
+                y_ct2 + extend / 2,
+                y_ct2 - extend / 2,
+            ]
+
             add_winding(_zip(xvp1, yvp1))
             add_crossing(_zip(xvp1, yvp1))
             add_crossing(_zip(xvp2, yvp2))
- 
+
             for cx, cy in [(x_ct1, y_ct1), (x_ct2, y_ct2)]:
                 _add_via_array(
                     c,
@@ -572,7 +597,7 @@ def symmetric_inductor(
                     width - 2 * via_enclosure,
                     extend - 2 * via_enclosure,
                 )
- 
+
     # Ports
     pxo = ps + width if center_tap else (ps + width) / 2
     x_port = [
@@ -584,26 +609,31 @@ def symmetric_inductor(
         -sep_total / 2,
     ]
     y_port = [
-        -Dout / 2 + width,
-        -Dout / 2 + width,
-        -Dout / 2 - width,
-        -Dout / 2 - width,
-        -Dout / 2,
-        -Dout / 2,
+        -d_out / 2 + width,
+        -d_out / 2 + width,
+        -d_out / 2 - width,
+        -d_out / 2 - width,
+        -d_out / 2,
+        -d_out / 2,
     ]
     if center_tap:
         add_winding(
             _zip(
                 [-width / 2, -width / 2, width / 2, width / 2],
-                [-Dout / 2 - width, -Dout / 2 + width, -Dout / 2 + width, -Dout / 2 - width],
+                [
+                    -d_out / 2 - width,
+                    -d_out / 2 + width,
+                    -d_out / 2 + width,
+                    -d_out / 2 - width,
+                ],
             )
         )
     add_winding(_zip(x_port, y_port))
     add_winding(_zip([-x for x in x_port], y_port))
- 
-    port_y = -Dout / 2 - width
+
+    port_y = -d_out / 2 - width
     port_x = ps + width if center_tap else (ps + width) / 2
- 
+
     c.add_port(
         "P1",
         center=(-port_x, shift_y(port_y)),
@@ -626,12 +656,12 @@ def symmetric_inductor(
             orientation=270.0,
             layer=ct_port_layer,
         )
- 
+
     if add_pgs:
         for layer in layers_pgs:
             for strip in _pgs(pgs_diameter, pgs_width, pgs_spacing):
                 c.add_polygon(_map_y(strip, shift_y), layer=layer)
- 
+
     # Metadata
     c.info["resistance"] = resistance
     c.info["inductance"] = inductance
@@ -639,9 +669,9 @@ def symmetric_inductor(
     c.info["turns"] = N
     c.info["width"] = width
     c.info["spacing"] = spacing
-    c.info["diameter"] = Dout
+    c.info["diameter"] = d_out
     c.info["center_tap"] = center_tap
- 
+
     return c
 
 

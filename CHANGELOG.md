@@ -1,7 +1,22 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.47.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.48.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.48.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.48.0) - 2026-08-12
+
+- feat(component): expose smooth_factor parameter in fix_spacing() [#4739](https://github.com/gdsfactory/gdsfactory/pull/4739)
+- feat: add layer stack background materials [#4780](https://github.com/gdsfactory/gdsfactory/pull/4780)
+- Add get_polygons_points to ComponentAllAngle [#4767](https://github.com/gdsfactory/gdsfactory/pull/4767)
+- Fix to_np [#4776](https://github.com/gdsfactory/gdsfactory/pull/4776)
+- feat: add layer stack variation fields [#4768](https://github.com/gdsfactory/gdsfactory/pull/4768)
+- docs: add electrical pins tutorial section and rename add_electric_pins -> add_electrical_pins [#4762](https://github.com/gdsfactory/gdsfactory/pull/4762)
+- test: cover bend_s width override [#4681](https://github.com/gdsfactory/gdsfactory/pull/4681)
+- Fix routing through waypoints in route_bundle [#4750](https://github.com/gdsfactory/gdsfactory/pull/4750)
+- fix type annotation of add_polygon with overloads [#4763](https://github.com/gdsfactory/gdsfactory/pull/4763)
+- refactor(add_electric_pins): Refactor to the add_electric_pins function to include fall back default layers [#4749](https://github.com/gdsfactory/gdsfactory/pull/4749)
+- Add on_placer_error to route_single matching route_bundle [#4746](https://github.com/gdsfactory/gdsfactory/pull/4746)
+- docs: activate generic PDK in quick start [#4684](https://github.com/gdsfactory/gdsfactory/pull/4684)
 
 ## [9.47.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.47.0) - 2026-07-29
 

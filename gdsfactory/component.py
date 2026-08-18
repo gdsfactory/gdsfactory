@@ -1002,7 +1002,7 @@ class Component(ComponentBase, kf.DKCell):
 
         Args:
             merge: if True, merges the polygons.
-            scale: if True, scales the points.
+            scale: if not None, scales the points.
             by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple')
             layers: list of layers to get polygons from. Defaults to all layers.
         """
@@ -1682,6 +1682,24 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         from gdsfactory import get_layer
 
         return [x for x in self.shapes(get_layer(layer)) if isinstance(x, kdb.DPolygon)]
+
+    def get_polygons_points(
+        self, layer: LayerSpec, scale: float | None = None
+    ) -> list[npt.NDArray[np.floating[Any]]]:
+        """Returns a list of points per polygon in um.
+
+        Only the hull points are returned, holes are ignored.
+
+        Args:
+            layer: layer to get the polygons from.
+            scale: if not None, scales the points.
+        """
+        scale = scale or 1
+        return [
+            scale
+            * np.array([(point.x, point.y) for point in polygon.each_point_hull()])
+            for polygon in self.get_polygons(layer)
+        ]
 
 
 def container(
