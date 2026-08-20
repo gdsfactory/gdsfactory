@@ -1,6 +1,7 @@
 from collections.abc import Iterator
 from pathlib import Path
 
+import kfactory as kf
 import pytest
 
 import gdsfactory as gf
@@ -350,6 +351,27 @@ def test_get_cross_section_kfactory_applies_kwargs() -> None:
     assert gf.get_cross_section(kf_xs, radius=registered.radius).name == registered.name
 
 
+def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
+    """A SymmetricalCrossSection on an unnameable layer keeps the raw layer index."""
+    enclosure = kf.LayerEnclosure(main_layer=kf.kdb.LayerInfo(999, 999), kcl=gf.kcl)
+    sxs = kf.SymmetricalCrossSection(
+        width=1000, enclosure=enclosure, name="unnamed_layer_xs"
+    )
+
+    xs = gf.get_cross_section(sxs)
+    assert xs.name == "unnamed_layer_xs"
+    assert xs.width == 1.0
+    assert xs.layer == gf.get_layer((999, 999))
+
+
+def test_get_cross_section_invalid_spec_raises() -> None:
+    with pytest.raises(ValueError, match="cross_section name is required"):
+        gf.get_cross_section({"settings": {"width": 1}})
+
+    with pytest.raises(ValueError, match="expects a CrossSectionSpec"):
+        gf.get_cross_section(42)  # type: ignore[arg-type]
+
+
 def test_taper_cross_section_instance_matches_str_spec() -> None:
     """Taper with a resolved CrossSection tapers like the string spec (#4588).
 
@@ -360,3 +382,42 @@ def test_taper_cross_section_instance_matches_str_spec() -> None:
     t_str = gf.components.taper(width2=10, cross_section="strip")
     assert [p.width for p in t_obj.ports] == [0.5, 10.0]
     assert [p.width for p in t_str.ports] == [0.5, 10.0]
+
+
+def test_get_cell_dict_applies_kwargs() -> None:
+    """Overrides win over the dict spec's own settings."""
+    spec = {"function": "straight", "settings": {"length": 5}}
+    assert gf.get_cell(spec)().settings.length == 5
+    assert gf.get_cell(spec, length=20)().settings.length == 20
+    # the override does not write back into spec["settings"]
+    assert spec == {"function": "straight", "settings": {"length": 5}}
+
+    with pytest.raises(ValueError, match="Invalid setting 'bogus'"):
+        gf.get_cell({"function": "straight", "bogus": 1})
+
+    # get_cell only reads "function", so a "component" key resolves to nothing
+    with pytest.raises(ValueError, match="not in cells"):
+        gf.get_cell({"component": "straight"})
+
+
+def test_get_component_dict_applies_kwargs() -> None:
+    """Kwargs beat the dict spec's settings, and the settings argument beats kwargs."""
+    spec = {"component": "straight", "settings": {"length": 5}}
+    assert gf.get_component(spec).settings.length == 5
+    assert gf.get_component(spec, length=20).settings.length == 20
+    assert (
+        gf.get_component(spec, settings={"length": 7}, length=20).settings.length == 7
+    )
+    # the override does not write back into spec["settings"]
+    assert spec == {"component": "straight", "settings": {"length": 5}}
+
+    # a serialized "function" keeps only the last part of the dotted path
+    dotted = {"function": "gdsfactory.components.straight", "settings": {"length": 3}}
+    assert gf.get_component(dotted, length=9).settings.length == 9
+
+    with pytest.raises(ValueError, match="Invalid setting 'bogus'"):
+        gf.get_component({"component": "straight", "bogus": 1})
+
+    # neither "component" nor "function" is given
+    with pytest.raises(ValueError, match=r"'None'.*not in cells"):
+        gf.get_component({"settings": {"length": 1}})
