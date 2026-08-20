@@ -1,0 +1,33 @@
+info:
+  center_tap_primary: false
+  center_tap_secondary: false
+  diameter: 150
+  inductance: 0
+  model: stacked_transformer
+  resistance: 0.578
+  spacing: 2
+  turns_primary: 3
+  turns_secondary: 3
+  width: 10
+name: stacked_transformer_gdsfactorypcomponentspanalogptransf_5c77bf46
+settings:
+  N1: 3
+  N2: 3
+  add_pgs: false
+  center_tap_primary: false
+  center_tap_secondary: false
+  d_out: 150
+  inductance: 0
+  layer_crossing_primary: M3
+  layer_crossing_secondary: M1
+  layer_winding_secondary: M2
+  layers_pgs: []
+  pgs_diameter: 180
+  pgs_spacing: 2
+  pgs_width: 4
+  resistance: 0.578
+  sides: 8
+  spacing: 2
+  via_primary: via3
+  via_secondary: via1
+  width: 10
