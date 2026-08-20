@@ -119,7 +119,7 @@ def _ensure_manhattan_waypoints(
     if len(waypoints) < 2:
         return list(waypoints)
 
-    tol = 1e-3
+    tol = 1.5 * gf.kcl.dbu
     go_horizontal_first = (
         int(start_port.orientation) % 360 in {0, 180}
         if start_port is not None and start_port.orientation is not None
@@ -179,8 +179,8 @@ def route_bundle(
     taper: ComponentSpec | None = None,
     port_type: str | None = None,
     collision_check_layers: LayerSpecs | None = None,
-    on_collision: Literal["error", "show_error", "warning"] | None = None,
-    on_placer_error: Literal["error", "show_error", "warning"] | None = None,
+    on_collision: Literal["error", "show_error", "warning", "ignore"] | None = None,
+    on_placer_error: Literal["error", "show_error", "warning", "ignore"] | None = None,
     bboxes: Sequence[kf.kdb.DBox] | None = None,
     allow_width_mismatch: bool | None = None,
     allow_layer_mismatch: bool | None = None,
@@ -212,25 +212,31 @@ def route_bundle(
     Routes connect a bundle of ports with a river router.
     Chooses the correct routing function depending on port angles.
 
-    Can also be used with single ports instead of lists, replacing route_bundle.
+    Can also be used with single ports instead of lists, replacing route_single.
 
     Args:
         component: component to add the routes to.
         ports1: starting port or list of starting ports.
         ports2: end port or list of end ports.
         cross_section: CrossSection or function that returns a cross_section.
-        layer: layer to use for the route.
-        separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
+            Required unless both layer and route_width are given. Mutually exclusive with layer.
+        layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
+        separation: bundle separation (center to center) in um.
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
-        start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
-        end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
-        min_straight_taper: minimum length for tapering the straight sections.
+        start_straight_length: minimum straight length in um after the start ports.
+        end_straight_length: minimum straight length in um before the end ports.
+        min_straight_taper: minimum straight length in um before attempting to place tapers.
         taper: function for tapering long straight waveguides beyond min_straight_taper. Defaults to None.
-        port_type: type of port to place. Defaults to optical.
+        port_type: port type to route. If None, uses the port_type of the first port in ports1.
         collision_check_layers: list of layers to check for collisions.
-        on_collision: action to take on collision. Defaults to None (ignore).
-        on_placer_error: action to take on placer error. Defaults to None (ignore).
+        on_collision: action to take on route collision. "error" raises an exception.
+            "show_error" records the error in klayout's marker database.
+            "warning" emits a warning and falls back to error markers.
+            "ignore" places the route without checking for collisions.
+            If None, uses CONF.on_collision ("warning" by default). See also raise_on_error.
+        on_placer_error: action to take on placer error. Same options as on_collision.
+            If None, uses CONF.on_placer_error ("warning" by default).
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
         allow_layer_mismatch: allow different port layers to connect.
@@ -238,21 +244,26 @@ def route_bundle(
         radius: bend radius. If None, defaults to cross_section.radius.
         route_width: width of the route. If None, defaults to cross_section.width.
         straight: function for the straight. Defaults to straight.
-        sbend: function for the s-bend. If None, uses the same function as bend.
+        sbend: function for the s-bend. If None, s-bends are not used in the routing.
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
-        auto_taper_taper: taper to use for auto-tapering. If None, uses the default taper for the cross-section.
+        auto_taper_taper: deprecated, use layer_transitions instead. When set together with
+            auto_taper=True this taper is used and layer_transitions is ignored.
         waypoints: list of waypoints to add to the route.
         steps: list of steps to add to the route.
             Each step is a dict with keys: x (absolute), y (absolute), dx (relative), dy (relative).
             Use x/y to set an absolute coordinate and dx/dy to shift relative to the current position.
-        start_angles: list of start angles for the routes. Only used for electrical ports.
-        end_angles: list of end angles for the routes. Only used for electrical ports.
-        router: Set the type of router to use, either the optical one or the electrical one.
-            If None, the router is optical unless the port_type is "electrical".
+        start_angles: overrides the orientation of the start ports. Pass a single value to apply
+            it to every port, or one value per port.
+        end_angles: overrides the orientation of the end ports. Pass a single value to apply it
+            to every port, or one value per port. Without waypoints all end angles must match.
+        router: deprecated and ignored. Passing any value emits a warning.
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
-        show_waypoints: if True, places markers at each waypoint using CONF.layer_marker.
-        layer_marker: layer to place markers on the route. Overrides CONF.layer_marker when show_waypoints=True.
+        show_waypoints: if True, places markers at each waypoint or step. No effect when neither
+            waypoints nor steps are given.
+        layer_marker: layer for the waypoint and step markers. Setting it places markers even when
+            show_waypoints=False. If None and show_waypoints=True, uses CONF.layer_marker.
         raise_on_error: if True, raises an exception on routing error instead of adding error markers.
+            If None, uses CONF.raise_on_error (False by default).
         path_length_matching_config: path length matching configuration. Convenience \
             shortcut that is converted into a single ``kf.schematic.PathLengthMatch`` \
             constraint. Mutually exclusive with ``constraints``.
@@ -260,8 +271,8 @@ def route_bundle(
             instances, e.g. ``kf.schematic.PathLengthMatch``) passed through to \
             kfactory. Mutually exclusive with ``path_length_matching_config``.
         layer_label: layer to place length labels on the route.
-        port1: single start port (alternative to ports1 for single-port routing).
-        port2: single end port (alternative to ports2 for single-port routing).
+        port1: deprecated, use ports1. Single start port for single-port routing.
+        port2: deprecated, use ports2. Single end port for single-port routing.
         name: Name for the route. This is not important yet, but once constraints are implemented, the constraint, depending
             on the constraint class, might check against names to make enforcement or checking decisions.
 
@@ -289,8 +300,10 @@ def route_bundle(
         ```
     """
     name = name or "unnamed_route_bundle"
-    on_collision = on_collision or CONF.on_collision
-    on_placer_error = on_placer_error or CONF.on_placer_error
+    if on_collision is None:
+        on_collision = CONF.on_collision
+    if on_placer_error is None:
+        on_placer_error = CONF.on_placer_error
 
     if raise_on_error is None:
         raise_on_error = CONF.raise_on_error
@@ -570,10 +583,17 @@ def route_bundle(
         route_constraints = list(constraints or [])
 
     try:
-        kf_on_collision = "error" if on_collision == "warning" else on_collision
-        kf_on_placer_error = (
-            "error" if on_placer_error == "warning" else on_placer_error
-        )
+        kf_on_collision = on_collision
+        if kf_on_collision == "warning":
+            kf_on_collision = "error"
+        elif kf_on_collision == "ignore":
+            kf_on_collision = None
+
+        kf_on_placer_error = on_placer_error
+        if kf_on_placer_error == "warning":
+            kf_on_placer_error = "error"
+        elif kf_on_placer_error == "ignore":
+            kf_on_placer_error = None
 
         route = kf.routing.optical.route_bundle(
             component,

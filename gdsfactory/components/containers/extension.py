@@ -108,7 +108,8 @@ def extend_ports(
     Args:
         component: component to extend ports.
         port_names: list of ports names to extend, if None it extends all ports.
-        length: extension length.
+        length: extension length, added after any automatic taper, so the total
+            extension is taper_length + length when a taper is inserted.
         extension: function to extend ports (defaults to a straight).
         port1: extension input port name.
         port2: extension output port name.
@@ -139,34 +140,37 @@ def extend_ports(
         cref.y = 0
 
     ports_all = cref.ports
-    port_names_all = [p.name for p in ports_all if p.name is not None]
+    ports_all_names = [p.name for p in ports_all if p.name is not None]
 
-    ports_to_extend = list(
-        gf.port.get_ports_list(cref.ports, port_type=port_type, **kwargs)
-    )
+    ports_to_extend = gf.port.get_ports_list(ports_all, port_type=port_type, **kwargs)
     ports_to_extend_names = [p.name for p in ports_to_extend if p.name is not None]
     ports_to_extend_names = cast("list[str]", port_names or ports_to_extend_names)
 
-    if auto_taper and cross_section:
-        from gdsfactory.routing.auto_taper import add_auto_tapers
-
-        _ = add_auto_tapers(
-            component=c, ports=ports_to_extend, cross_section=cross_section
-        )
-
+    ports_to_connect: dict[str, Port] = {}
     for port_name_to_extend in ports_to_extend_names:
-        if port_name_to_extend not in port_names_all:
+        if port_name_to_extend in ports_all_names:
+            ports_to_connect[port_name_to_extend] = ports_all[port_name_to_extend]
+        else:
             warnings.warn(
-                f"Port Name {port_name_to_extend!r} not in {port_names_all}",
+                f"Port Name {port_name_to_extend!r} not in {ports_all_names}",
                 stacklevel=3,
                 category=UserWarning,
             )
 
+    if auto_taper and cross_section:
+        from gdsfactory.routing.auto_taper import add_auto_tapers
+
+        tapered = add_auto_tapers(
+            component=c,
+            ports=list(ports_to_connect.values()),
+            cross_section=cross_section,
+        )
+        ports_to_connect = dict(zip(ports_to_connect, tapered, strict=True))
+
     for port in ports_all:
         port_name = port.name
-        port = cref.ports[port_name]
 
-        if port_name in ports_to_extend_names:
+        if port_name in ports_to_connect:
             if extension:
                 extension_component = gf.get_component(extension)
             else:
@@ -181,7 +185,6 @@ def extend_ports(
                         cross_section_extension = gf.get_cross_section(
                             port.info["cross_section"]
                         )
-
                     else:
                         cross_section_extension = cross_section_function(
                             layer=gf.get_layer_tuple(port.layer),
@@ -201,7 +204,9 @@ def extend_ports(
 
             extension_ref = c << extension_component
             extension_ref.connect(
-                port1, port, allow_width_mismatch=allow_width_mismatch
+                port1,
+                ports_to_connect[port_name],
+                allow_width_mismatch=allow_width_mismatch,
             )
             c.add_port(port_name, port=extension_ref.ports[port2])
             extension_port_names = extension_port_names or []
@@ -210,7 +215,7 @@ def extend_ports(
                 for name in extension_port_names
             ]
         else:
-            c.add_port(port_name, port=component.ports[port_name])
+            c.add_port(port_name, port=port)
 
     c.copy_child_info(component)
     return c
