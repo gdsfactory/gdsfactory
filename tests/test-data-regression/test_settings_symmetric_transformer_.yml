@@ -1,0 +1,32 @@
+info:
+  center_tap_primary: false
+  center_tap_secondary: false
+  diameter: 150
+  inductance: 0
+  model: symmetric_transformer
+  resistance: 0.578
+  spacing: 2
+  turns_primary: 2
+  turns_secondary: 3
+  width: 7
+name: symmetric_transformer_gdsfactorypcomponentspanalogptran_55361279
+settings:
+  N1: 2
+  N2: 3
+  add_pgs: false
+  center_tap_primary: false
+  center_tap_secondary: false
+  d_out: 150
+  inductance: 0
+  layer_underpass: M2
+  layer_winding: M3
+  layers_pgs:
+  - M1
+  pgs_diameter: 180
+  pgs_spacing: 2
+  pgs_width: 4
+  resistance: 0.578
+  sides: 8
+  spacing: 2
+  via: via2
+  width: 7

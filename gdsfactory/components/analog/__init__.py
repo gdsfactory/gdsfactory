@@ -10,4 +10,5 @@ __all__ = [
     "interdigitated_electrodes",
     "stacked_transformer",
     "symmetric_transformer",
+    "via3",
 ]

@@ -24,6 +24,7 @@ __all__ = [
     "get_extended_layer_stack",
     "stacked_transformer",
     "symmetric_transformer",
+    "via3",
 ]
 
 
@@ -613,8 +614,12 @@ _nm = 1e-3
 
 # Raw GDS layer registration. Picked layer/datatype numbers (53,0) and (48,0) as unused slots in this PDK's map;
 # change these if they collide with something in the layer map.
-M4_LAYER = gf.kcl.layer(53, 0)
-VIA3_LAYER = gf.kcl.layer(48, 0)
+def _m4_layer() -> int:
+    return gf.kcl.layer(53, 0)
+
+
+def _via3_layer() -> int:
+    return gf.kcl.layer(48, 0)
 
 
 @gf.cell
@@ -632,7 +637,7 @@ def via3(
     w, h = size
     c.add_polygon(
         [(-w / 2, -h / 2), (w / 2, -h / 2), (w / 2, h / 2), (-w / 2, h / 2)],
-        layer=VIA3_LAYER,
+        layer=_via3_layer(),
     )
     c.info["xsize"] = w
     c.info["ysize"] = h
@@ -685,14 +690,14 @@ def get_extended_layer_stack(
     zmin_metal4 = metal3_top + thickness_via3
 
     base.layers["via3"] = LayerLevel(
-        layer=LogicalLayer(layer=VIA3_LAYER),
+        layer=LogicalLayer(layer=_via3_layer()),
         thickness=thickness_via3,
         zmin=metal3_top,
         material="Aluminum",
         mesh_order=1,
     )
     base.layers["metal4"] = LayerLevel(
-        layer=LogicalLayer(layer=M4_LAYER),
+        layer=LogicalLayer(layer=_m4_layer()),
         thickness=thickness_metal4,
         zmin=zmin_metal4,
         material="Aluminum",
@@ -981,7 +986,7 @@ def stacked_transformer(
     # see the module-level comment above M4_LAYER for the SIMULATION
     # PIPELINE WARNING: use get_extended_layer_stack() with sim.set_stack(),
     # not the PDK default, when meshing a component built with these.
-    layer_winding_primary: LayerSpec = M4_LAYER,
+    layer_winding_primary: LayerSpec | None = None,
     layer_crossing_primary: LayerSpec = "M3",
     layer_winding_secondary: LayerSpec = "M2",
     layer_crossing_secondary: LayerSpec = "M1",
@@ -1062,6 +1067,9 @@ def stacked_transformer(
           CT_P       ->  present if center_tap_primary=True
           CT_S       ->  present if center_tap_secondary=True
     """
+    if layer_winding_primary is None:
+        layer_winding_primary = _m4_layer()
+
     c = Component()
     PI = math.pi
     R1_init = d_out / 2 / math.cos(PI / sides)
