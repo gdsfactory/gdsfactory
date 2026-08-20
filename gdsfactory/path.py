@@ -184,6 +184,14 @@ class Path(UMGeometricObject):
         trans: kdb.Trans | kdb.DTrans | kdb.ICplxTrans | kdb.DCplxTrans,
         /,
     ) -> Any:
+        """Transforms the Path in place.
+
+        Applies a transformation as a magnification, then a mirroring at
+        the x-axis, then a rotation, then a displacement, following KLayout.
+
+        Args:
+            trans: the transformation to apply.
+        """
         if isinstance(trans, kdb.DCplxTrans):
             trans_ = trans
         elif isinstance(trans, kdb.DTrans):
@@ -193,7 +201,13 @@ class Path(UMGeometricObject):
         else:
             trans_ = trans.to_itrans(gf.kcl.dbu)
 
-        new_points = self.points
+        new_points = np.asarray(self.points, dtype=np.float64)
+
+        if trans_.mag != 1:
+            new_points = new_points * trans_.mag
+
+        if trans_.mirror:
+            new_points = new_points * np.array([1.0, -1.0])
 
         if trans_.angle != 0:
             angle_rad = np.radians(trans_.angle)
@@ -206,19 +220,14 @@ class Path(UMGeometricObject):
                     [-sin_angle, cos_angle],
                 ]
             )
-            new_points = np.dot(self.points, rotation_matrix)
+            new_points = np.dot(new_points, rotation_matrix)
 
         new_points = new_points + np.array([trans_.disp.x, trans_.disp.y])
 
-        if trans_.mirror:
-            new_points[:, 1] = -new_points[:, 1]
-
         self.points = new_points
-        if len(self.points) > 1:
-            nx1, ny1 = self.points[1] - self.points[0]
-            self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-            nx2, ny2 = self.points[-1] - self.points[-2]
-            self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+        sign = -1 if trans_.mirror else 1
+        self.start_angle = mod(sign * self.start_angle + trans_.angle, 360)
+        self.end_angle = mod(sign * self.end_angle + trans_.angle, 360)
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
         return kdb.DBox(*self.bbox_np().flatten())
