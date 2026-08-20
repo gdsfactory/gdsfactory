@@ -24,7 +24,7 @@ __all__ = [
 import warnings
 from collections.abc import Iterable, Sequence
 from functools import partial
-from typing import Literal
+from typing import Any, Literal
 
 import numpy as np
 from shapely.geometry import MultiPoint, Point
@@ -541,13 +541,13 @@ def _region_to_shapely(region: _PolygonPoints) -> ShapelyPolygon:
     if isinstance(region, np.ndarray):
         coords = region.tolist()
     elif isinstance(region, (kdb.DPolygon, kdb.DSimplePolygon)):
-        coords = [(p.x, p.y) for p in region.each_point()]
+        coords = [(p.x, p.y) for p in region.each_point()]  # type: ignore[union-attr]
     elif isinstance(region, kdb.Polygon):
-        coords = [(p.x * 1e-3, p.y * 1e-3) for p in region.each_point()]
+        coords = [(p.x * 1e-3, p.y * 1e-3) for p in region.each_point()]  # type: ignore[attr-defined]
     elif isinstance(region, kdb.Region):
         merged = region.merged()
         poly = next(merged.each())
-        coords = [(p.x * 1e-3, p.y * 1e-3) for p in poly.each_point()]
+        coords = [(p.x * 1e-3, p.y * 1e-3) for p in poly.each_point()]  # type: ignore[attr-defined]
     else:
         coords = [(float(x), float(y)) for x, y in region]
     return ShapelyPolygon(coords)
@@ -732,16 +732,31 @@ def via_array_stack_oa_compliant(
         layer_connectivity_sequence: ordered tuple of alternating
             drawing and via layers (e.g. M1, VIA, M2, VIA1, M3, ...).
     """
-    _default_cut = {"VIA": 0.3, "VIA1": 0.3, "VIA2": 0.4, "VIA3": 0.5}
-    _default_enc = {"VIA": 0.06, "VIA1": 0.06, "VIA2": 0.06, "VIA3": 0.06}
-    _default_spc = {"VIA": 0.3, "VIA1": 0.3, "VIA2": 0.4, "VIA3": 0.5}
+    _default_cut: dict[LayerSpec, float] = {
+        "VIA": 0.3,
+        "VIA1": 0.3,
+        "VIA2": 0.4,
+        "VIA3": 0.5,
+    }
+    _default_enc: dict[LayerSpec, float] = {
+        "VIA": 0.06,
+        "VIA1": 0.06,
+        "VIA2": 0.06,
+        "VIA3": 0.06,
+    }
+    _default_spc: dict[LayerSpec, float] = {
+        "VIA": 0.3,
+        "VIA1": 0.3,
+        "VIA2": 0.4,
+        "VIA3": 0.5,
+    }
 
-    cut_x_rules = via_x_minimum_cut_size_rules or _default_cut
-    cut_y_rules = via_y_minimum_cut_size_rules or _default_cut
-    enc_x_rules = via_x_minimum_enclosure_rules or _default_enc
-    enc_y_rules = via_y_minimum_enclosure_rules or _default_enc
-    spc_x_rules = via_x_minimum_spacing_rules or _default_spc
-    spc_y_rules = via_y_minimum_spacing_rules or _default_spc
+    cut_x_rules: dict[LayerSpec, float] = via_x_minimum_cut_size_rules or _default_cut
+    cut_y_rules: dict[LayerSpec, float] = via_y_minimum_cut_size_rules or _default_cut
+    enc_x_rules: dict[LayerSpec, float] = via_x_minimum_enclosure_rules or _default_enc
+    enc_y_rules: dict[LayerSpec, float] = via_y_minimum_enclosure_rules or _default_enc
+    spc_x_rules: dict[LayerSpec, float] = via_x_minimum_spacing_rules or _default_spc
+    spc_y_rules: dict[LayerSpec, float] = via_y_minimum_spacing_rules or _default_spc
 
     seq = list(layer_connectivity_sequence)
     drawing_layers: list[LayerSpec] = seq[0::2]
@@ -795,7 +810,7 @@ def via_array_stack_oa_compliant(
 
     c = Component()
     total_vias = 0
-    layer_info: list[dict] = []
+    layer_info: list[dict[str, Any]] = []
 
     for i in range(bot_idx, top_idx):
         metal_below = drawing_layers[i]
@@ -843,7 +858,7 @@ def via_array_stack_oa_compliant(
     c.info["num_via_layers"] = top_idx - bot_idx
     c.info["via_type"] = via_type
     c.info["layer_connectivity_sequence"] = list(layer_connectivity_sequence)
-    c.info["per_layer_info"] = layer_info
+    c.info["per_layer_info"] = layer_info  # type: ignore[assignment]
     resolved_shapely = _region_to_shapely(resolved_region)
     c.info["enclosing_region"] = list(resolved_shapely.exterior.coords)
 
