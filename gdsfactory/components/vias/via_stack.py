@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 __all__ = [
+    "via_array_region_raster",
+    "via_array_stack_oa_compliant",
     "via_stack",
     "via_stack_corner45",
     "via_stack_corner45_extended",
@@ -22,12 +24,15 @@ __all__ = [
 import warnings
 from collections.abc import Iterable, Sequence
 from functools import partial
+from typing import Any, Literal
 
 import numpy as np
+from shapely.geometry import MultiPoint, Point
+from shapely.geometry import Polygon as ShapelyPolygon
 
 import gdsfactory as gf
 from gdsfactory._deprecation import deprecate
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, _PolygonPoints
 from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
 
 
@@ -527,6 +532,337 @@ via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, "via1"))
 
 via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
+
+
+def _region_to_shapely(region: _PolygonPoints) -> ShapelyPolygon:
+    """Convert a _PolygonPoints region to a Shapely Polygon."""
+    from kfactory import kdb
+
+    if isinstance(region, np.ndarray):
+        coords = region.tolist()
+    elif isinstance(region, (kdb.DPolygon, kdb.DSimplePolygon)):
+        coords = [(p.x, p.y) for p in region.each_point()]  # type: ignore[union-attr]
+    elif isinstance(region, kdb.Polygon):
+        coords = [(p.x * 1e-3, p.y * 1e-3) for p in region.each_point()]  # type: ignore[attr-defined]
+    elif isinstance(region, kdb.Region):
+        merged = region.merged()
+        poly = next(merged.each())
+        coords = [(p.x * 1e-3, p.y * 1e-3) for p in poly.each_point()]  # type: ignore[attr-defined]
+    else:
+        coords = [(float(x), float(y)) for x, y in region]
+    return ShapelyPolygon(coords)
+
+
+@gf.cell_with_module_name(tags=["vias"])
+def via_array_region_raster(
+    region: _PolygonPoints = ((-5, -5), (5, -5), (5, 5), (-5, 5)),
+    bottom_layer: LayerSpec = "M1",
+    via_layer: LayerSpec = "VIA1",
+    top_layer: LayerSpec = "M2",
+    via_type: Literal["square", "rectangle"] = "square",
+    via_x_spacing: float = 0.3,
+    via_y_spacing: float = 0.3,
+    via_x_minimum_cut_size: float = 0.3,
+    via_y_minimum_cut_size: float = 0.3,
+    via_x_minimum_enclosure: float = 0.06,
+    via_y_minimum_enclosure: float = 0.06,
+    via_x_minimum_spacing: float = 0.3,
+    via_y_minimum_spacing: float = 0.3,
+) -> Component:
+    """Via array that fills an arbitrary polygon region with vias on a regular grid.
+
+    Builds a meshgrid of via center positions, filters to those inside the
+    region (eroded by enclosure), and places via cuts plus top/bottom metal.
+
+    Args:
+        region: polygon defining the area to fill with vias.
+        bottom_layer: metal layer below the vias.
+        via_layer: via cut layer.
+        top_layer: metal layer above the vias.
+        via_type: "square" uses via_x_minimum_cut_size for both axes.
+        via_x_spacing: via spacing in x (um), must be >= via_x_minimum_spacing.
+        via_y_spacing: via spacing in y (um), must be >= via_y_minimum_spacing.
+        via_x_minimum_cut_size: via cut width in x (um).
+        via_y_minimum_cut_size: via cut height in y (um).
+        via_x_minimum_enclosure: min enclosure of via by metal in x (um).
+        via_y_minimum_enclosure: min enclosure of via by metal in y (um).
+        via_x_minimum_spacing: min spacing between via cuts in x (um).
+        via_y_minimum_spacing: min spacing between via cuts in y (um).
+    """
+    assert via_x_spacing >= via_x_minimum_spacing, (
+        "Bound to fail spacing DRC on x direction"
+    )
+    assert via_y_spacing >= via_y_minimum_spacing, (
+        "Bound to fail spacing DRC on y direction"
+    )
+    c = Component()
+
+    cut_w = via_x_minimum_cut_size
+    cut_h = via_y_minimum_cut_size
+    if via_type == "rectangle":
+        minx, miny, maxx, maxy = _region_to_shapely(region).bounds
+        dx = maxx - minx
+        dy = maxy - miny
+        if dy >= dx:
+            cut_h = 2 * via_y_minimum_cut_size
+        else:
+            cut_w = 2 * via_x_minimum_cut_size
+
+    enc_x = via_x_minimum_enclosure
+    enc_y = via_y_minimum_enclosure
+
+    pitch_x = cut_w + via_x_spacing
+    pitch_y = cut_h + via_y_spacing
+
+    poly = _region_to_shapely(region)
+
+    erosion = max(enc_x + pitch_x / 2, enc_y + pitch_y / 2)
+    via_region = poly.buffer(-erosion, join_style="mitre")
+
+    if via_region.is_empty:
+        c.add_polygon(list(poly.exterior.coords), layer=bottom_layer)
+        c.add_polygon(list(poly.exterior.coords), layer=top_layer)
+        return c
+
+    minx, miny, maxx, maxy = via_region.bounds
+
+    xs = np.arange(minx, maxx + pitch_x, pitch_x)
+    ys = np.arange(miny, maxy + pitch_y, pitch_y)
+    # xs = np.arange(minx, maxx, pitch_x)
+    # ys = np.arange(miny, maxy, pitch_y)
+    gx, gy = np.meshgrid(xs, ys)
+    centers = np.column_stack([gx.ravel(), gy.ravel()])
+
+    points = MultiPoint([Point(x, y) for x, y in centers])
+    valid_points = points.intersection(via_region)
+
+    if valid_points.is_empty:
+        c.add_polygon(list(poly.exterior.coords), layer=bottom_layer)
+        c.add_polygon(list(poly.exterior.coords), layer=top_layer)
+        return c
+
+    valid_centers = (
+        np.array([[p.x, p.y] for p in valid_points.geoms])
+        if hasattr(valid_points, "geoms")
+        else np.array([[valid_points.x, valid_points.y]])
+    )
+
+    hw = cut_w / 2
+    hh = cut_h / 2
+    for cx, cy in valid_centers:
+        c.add_polygon(
+            [
+                (cx - hw, cy - hh),
+                (cx + hw, cy - hh),
+                (cx + hw, cy + hh),
+                (cx - hw, cy + hh),
+            ],
+            layer=via_layer,
+        )
+
+    c.add_polygon(list(poly.exterior.coords), layer=bottom_layer)
+    c.add_polygon(list(poly.exterior.coords), layer=top_layer)
+
+    # Open Access metadata
+    c.info["num_vias"] = len(valid_centers)
+    c.info["via_x_spacing"] = via_x_spacing
+    c.info["via_y_spacing"] = via_y_spacing
+    c.info["via_x_cut_size"] = cut_w
+    c.info["via_y_cut_size"] = cut_h
+    c.info["via_x_enclosure"] = via_x_minimum_enclosure
+    c.info["via_y_enclosure"] = via_y_minimum_enclosure
+    c.info["enclosing_region"] = list(poly.exterior.coords)
+    c.info["top_layer"] = top_layer
+    c.info["bottom_layer"] = bottom_layer
+
+    return c
+
+
+@gf.cell_with_module_name(tags=["vias"])
+def via_array_stack_oa_compliant(
+    bottom_layer: LayerSpec = "M1",
+    top_layer: LayerSpec = "M3",
+    region: _PolygonPoints | None = None,
+    size: tuple[float, float] | None = (10, 10),
+    grid_size: tuple[int, int] | None = None,
+    via_type: Literal["square", "rectangle"] = "square",
+    via_x_minimum_cut_size_rules: dict[LayerSpec, float] | None = None,
+    via_y_minimum_cut_size_rules: dict[LayerSpec, float] | None = None,
+    via_x_minimum_enclosure_rules: dict[LayerSpec, float] | None = None,
+    via_y_minimum_enclosure_rules: dict[LayerSpec, float] | None = None,
+    via_x_minimum_spacing_rules: dict[LayerSpec, float] | None = None,
+    via_y_minimum_spacing_rules: dict[LayerSpec, float] | None = None,
+    layer_connectivity_sequence: LayerSpecs = (
+        "M1",
+        "VIA1",
+        "M2",
+        "VIA2",
+        "M3",
+    ),
+) -> Component:
+    """OpenAccess-compliant via stack between bottom_layer and top_layer.
+
+    Iterates through the layer_connectivity_sequence, placing a
+    via_array_region_raster for each via layer between bottom_layer and
+    top_layer. Each via layer uses its own DRC rules from the per-layer
+    rule dictionaries.
+
+    The region, size, and grid_size parameters are mutually exclusive.
+    Priority order: region > size > grid_size. If multiple are provided,
+    only the highest-priority one is used.
+
+    - region: arbitrary polygon coordinates defining the via area.
+    - size: (width, height) in um, centered at origin.
+    - grid_size: (columns, rows) of vias. The region is computed from
+      the grid dimensions using the DRC rules of the first via layer.
+
+    Args:
+        bottom_layer: lowest metal layer in the stack.
+        top_layer: highest metal layer in the stack.
+        region: arbitrary polygon region for via placement.
+        size: (width, height) rectangle centered at origin (um).
+        grid_size: (columns, rows) number of vias per axis.
+        via_type: "square" or "rectangle" via cuts.
+        via_x_minimum_cut_size_rules: per-via-layer minimum cut width in x.
+        via_y_minimum_cut_size_rules: per-via-layer minimum cut height in y.
+        via_x_minimum_enclosure_rules: per-via-layer minimum metal enclosure in x.
+        via_y_minimum_enclosure_rules: per-via-layer minimum metal enclosure in y.
+        via_x_minimum_spacing_rules: per-via-layer minimum spacing in x.
+        via_y_minimum_spacing_rules: per-via-layer minimum spacing in y.
+        layer_connectivity_sequence: ordered tuple of alternating
+            drawing and via layers (e.g. M1, VIA, M2, VIA1, M3, ...).
+    """
+    _default_cut: dict[LayerSpec, float] = {
+        "VIA": 0.3,
+        "VIA1": 0.3,
+        "VIA2": 0.4,
+        "VIA3": 0.5,
+    }
+    _default_enc: dict[LayerSpec, float] = {
+        "VIA": 0.06,
+        "VIA1": 0.06,
+        "VIA2": 0.06,
+        "VIA3": 0.06,
+    }
+    _default_spc: dict[LayerSpec, float] = {
+        "VIA": 0.3,
+        "VIA1": 0.3,
+        "VIA2": 0.4,
+        "VIA3": 0.5,
+    }
+
+    cut_x_rules: dict[LayerSpec, float] = via_x_minimum_cut_size_rules or _default_cut
+    cut_y_rules: dict[LayerSpec, float] = via_y_minimum_cut_size_rules or _default_cut
+    enc_x_rules: dict[LayerSpec, float] = via_x_minimum_enclosure_rules or _default_enc
+    enc_y_rules: dict[LayerSpec, float] = via_y_minimum_enclosure_rules or _default_enc
+    spc_x_rules: dict[LayerSpec, float] = via_x_minimum_spacing_rules or _default_spc
+    spc_y_rules: dict[LayerSpec, float] = via_y_minimum_spacing_rules or _default_spc
+
+    seq = list(layer_connectivity_sequence)
+    drawing_layers: list[LayerSpec] = seq[0::2]
+    via_layers: list[LayerSpec] = seq[1::2]
+
+    if bottom_layer not in drawing_layers:
+        raise ValueError(
+            f"{bottom_layer=} not found in drawing layers {drawing_layers}"
+        )
+    if top_layer not in drawing_layers:
+        raise ValueError(f"{top_layer=} not found in drawing layers {drawing_layers}")
+
+    bot_idx = drawing_layers.index(bottom_layer)
+    top_idx = drawing_layers.index(top_layer)
+    if top_idx <= bot_idx:
+        raise ValueError(
+            f"top_layer {top_layer} must be above bottom_layer {bottom_layer} "
+            f"in the connectivity sequence."
+        )
+
+    # Resolve mutually exclusive inputs: region > size > grid_size
+    if region is not None:
+        resolved_region = region
+    elif size is not None:
+        w, h = size
+        resolved_region = [
+            (-w / 2, -h / 2),
+            (w / 2, -h / 2),
+            (w / 2, h / 2),
+            (-w / 2, h / 2),
+        ]
+    elif grid_size is not None:
+        cols, rows = grid_size
+        first_via = via_layers[bot_idx]
+        cut_x = cut_x_rules.get(first_via, 0.3)
+        cut_y = cut_y_rules.get(first_via, 0.3)
+        enc_x = enc_x_rules.get(first_via, 0.06)
+        enc_y = enc_y_rules.get(first_via, 0.06)
+        spc_x = spc_x_rules.get(first_via, 0.3)
+        spc_y = spc_y_rules.get(first_via, 0.3)
+        w = cols * cut_x + (cols - 1) * spc_x + 2 * enc_x
+        h = rows * cut_y + (rows - 1) * spc_y + 2 * enc_y
+        resolved_region = [
+            (-w / 2, -h / 2),
+            (w / 2, -h / 2),
+            (w / 2, h / 2),
+            (-w / 2, h / 2),
+        ]
+    else:
+        raise ValueError("One of region, size, or grid_size must be provided.")
+
+    c = Component()
+    total_vias = 0
+    layer_info: list[dict[str, Any]] = []
+
+    for i in range(bot_idx, top_idx):
+        metal_below = drawing_layers[i]
+        via_lyr = via_layers[i]
+        metal_above = drawing_layers[i + 1]
+
+        via_comp = via_array_region_raster(
+            region=resolved_region,
+            bottom_layer=metal_below,
+            via_layer=via_lyr,
+            top_layer=metal_above,
+            via_type=via_type,
+            via_x_spacing=spc_x_rules.get(via_lyr, 0.3),
+            via_y_spacing=spc_y_rules.get(via_lyr, 0.3),
+            via_x_minimum_cut_size=cut_x_rules.get(via_lyr, 0.3),
+            via_y_minimum_cut_size=cut_y_rules.get(via_lyr, 0.3),
+            via_x_minimum_enclosure=enc_x_rules.get(via_lyr, 0.06),
+            via_y_minimum_enclosure=enc_y_rules.get(via_lyr, 0.06),
+            via_x_minimum_spacing=spc_x_rules.get(via_lyr, 0.3),
+            via_y_minimum_spacing=spc_y_rules.get(via_lyr, 0.3),
+        )
+        c.add_ref(via_comp)
+
+        num = via_comp.info.get("num_vias", 0)
+        total_vias += num
+        layer_info.append(
+            {
+                "via_layer": via_lyr,
+                "bottom_layer": metal_below,
+                "top_layer": metal_above,
+                "num_vias": num,
+                "via_x_cut_size": via_comp.info.get("via_x_cut_size", 0),
+                "via_y_cut_size": via_comp.info.get("via_y_cut_size", 0),
+                "via_x_spacing": via_comp.info.get("via_x_spacing", 0),
+                "via_y_spacing": via_comp.info.get("via_y_spacing", 0),
+                "via_x_enclosure": via_comp.info.get("via_x_enclosure", 0),
+                "via_y_enclosure": via_comp.info.get("via_y_enclosure", 0),
+            }
+        )
+
+    # OpenAccess-compliant metadata
+    c.info["bottom_layer"] = bottom_layer
+    c.info["top_layer"] = top_layer
+    c.info["total_num_vias"] = total_vias
+    c.info["num_via_layers"] = top_idx - bot_idx
+    c.info["via_type"] = via_type
+    c.info["layer_connectivity_sequence"] = list(layer_connectivity_sequence)
+    c.info["per_layer_info"] = layer_info  # type: ignore[assignment]
+    resolved_shapely = _region_to_shapely(resolved_region)
+    c.info["enclosing_region"] = list(resolved_shapely.exterior.coords)
+
+    return c
 
 
 if __name__ == "__main__":

@@ -23,12 +23,14 @@ instances:
       size:
       - 45.8
       - 5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436_17450_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_576f944f_17450_351:
     component: via_stack
     info:
       xsize: 10
       ysize: 10
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -41,21 +43,26 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 10
       - 10
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - null
       - via1
       - via2
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436_m38350_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_576f944f_m38350_351:
     component: via_stack
     info:
       xsize: 10
       ysize: 10
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -68,11 +75,14 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 10
       - 10
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - null
       - via1
@@ -89,18 +99,18 @@ placements:
     rotation: 0
     x: -33.35
     y: -2.149
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436_17450_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_576f944f_17450_351:
     mirror: false
     rotation: 0
     x: 17.45
     y: 0.351
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436_m38350_351:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_576f944f_m38350_351:
     mirror: false
     rotation: 0
     x: -38.35
     y: 0.351
 ports:
-  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436_m38350_351,e2
-  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436_17450_351,e2
+  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_576f944f_m38350_351,e2
+  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_576f944f_17450_351,e2
   o1: disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip_0_0,o1
   o2: disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip_0_0,o2

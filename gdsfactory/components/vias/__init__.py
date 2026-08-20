@@ -8,6 +8,8 @@ __all__ = [
     "via",
     "via1",
     "via2",
+    "via_array_region_raster",
+    "via_array_stack_oa_compliant",
     "via_chain",
     "via_circular",
     "via_corner",

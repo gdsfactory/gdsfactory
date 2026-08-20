@@ -98,12 +98,14 @@ instances:
       size:
       - 0.7
       - 0.7
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_a34caca7_m6500_37800:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -115,20 +117,25 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 11
       - 11
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_a34caca7_m6500_m3800:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -140,11 +147,14 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 11
       - 11
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - via2
       - null
@@ -175,16 +185,16 @@ placements:
     rotation: 0
     x: 4.05
     y: 0.35
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_a34caca7_m6500_37800:
     mirror: false
     rotation: 0
     x: -6.5
     y: 37.8
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_a34caca7_m6500_m3800:
     mirror: false
     rotation: 0
     x: -6.5
     y: -3.8
 ports:
-  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_m3800,e1
-  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd_m6500_37800,e1
+  e1: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_a34caca7_m6500_m3800,e1
+  e2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_a34caca7_m6500_37800,e1

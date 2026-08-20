@@ -15,12 +15,14 @@ instances:
       size:
       - 50
       - 10
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_50000_0:
     component: via_stack
     info:
       xsize: 50
       ysize: 50
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -33,21 +35,26 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 50
       - 50
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - null
       - via1
       - via2
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_m50000_0:
     component: via_stack
     info:
       xsize: 50
       ysize: 50
     settings:
+      bottom_layer: null
+      columns: null
       correct_size: false
       layer_offsets: null
       layer_to_port_orientations: null
@@ -60,11 +67,14 @@ instances:
       - 90
       - 0
       - -90
+      rows: null
       size:
       - 50
       - 50
       slot_horizontal: false
       slot_vertical: false
+      top_layer: null
+      via_between: null
       vias:
       - null
       - via1
@@ -76,16 +86,16 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_m50000_0:
     mirror: false
     rotation: 0
     x: -50
     y: 0
 ports:
-  pad1: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0,e4
-  pad2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0,e4
+  pad1: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_m50000_0,e4
+  pad2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_50000_0,e4

@@ -1,0 +1,104 @@
+instances:
+  via_array_region_raster_gdsfactorypcomponentspviaspvia__74893484_0_0:
+    component: via_array_region_raster
+    info:
+      bottom_layer: M2
+      enclosing_region:
+      - - -5
+        - -5
+      - - 5
+        - -5
+      - - 5
+        - 5
+      - - -5
+        - 5
+      - - -5
+        - -5
+      num_vias: 144
+      top_layer: M3
+      via_x_cut_size: 0.4
+      via_x_enclosure: 0.06
+      via_x_spacing: 0.4
+      via_y_cut_size: 0.4
+      via_y_enclosure: 0.06
+      via_y_spacing: 0.4
+    settings:
+      bottom_layer: M2
+      region:
+      - - -5
+        - -5
+      - - 5
+        - -5
+      - - 5
+        - 5
+      - - -5
+        - 5
+      top_layer: M3
+      via_layer: VIA2
+      via_type: square
+      via_x_minimum_cut_size: 0.4
+      via_x_minimum_enclosure: 0.06
+      via_x_minimum_spacing: 0.4
+      via_x_spacing: 0.4
+      via_y_minimum_cut_size: 0.4
+      via_y_minimum_enclosure: 0.06
+      via_y_minimum_spacing: 0.4
+      via_y_spacing: 0.4
+  via_array_region_raster_gdsfactorypcomponentspviaspvia__a28ba3db_0_0:
+    component: via_array_region_raster
+    info:
+      bottom_layer: M1
+      enclosing_region:
+      - - -5
+        - -5
+      - - 5
+        - -5
+      - - 5
+        - 5
+      - - -5
+        - 5
+      - - -5
+        - -5
+      num_vias: 256
+      top_layer: M2
+      via_x_cut_size: 0.3
+      via_x_enclosure: 0.06
+      via_x_spacing: 0.3
+      via_y_cut_size: 0.3
+      via_y_enclosure: 0.06
+      via_y_spacing: 0.3
+    settings:
+      bottom_layer: M1
+      region:
+      - - -5
+        - -5
+      - - 5
+        - -5
+      - - 5
+        - 5
+      - - -5
+        - 5
+      top_layer: M2
+      via_layer: VIA1
+      via_type: square
+      via_x_minimum_cut_size: 0.3
+      via_x_minimum_enclosure: 0.06
+      via_x_minimum_spacing: 0.3
+      via_x_spacing: 0.3
+      via_y_minimum_cut_size: 0.3
+      via_y_minimum_enclosure: 0.06
+      via_y_minimum_spacing: 0.3
+      via_y_spacing: 0.3
+nets: []
+placements:
+  via_array_region_raster_gdsfactorypcomponentspviaspvia__74893484_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_array_region_raster_gdsfactorypcomponentspviaspvia__a28ba3db_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}
