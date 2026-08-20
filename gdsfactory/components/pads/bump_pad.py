@@ -9,7 +9,7 @@ from gdsfactory.typings import (
 )
 
 from ..shapes import octagon
-from ..vias import via_stack
+from ..vias import via_stack_deprecated
 
 __all__ = ["bump_pad", "bump_pad_grid"]
 
@@ -41,7 +41,7 @@ def bump_pad(
     )
     c_ref = c.add_ref(rect)
     if add_via:
-        via_n = c << via_stack()
+        via_n = c << via_stack_deprecated()
         via_n.y = c_ref.ports["o5"].y - via_n.ports["e1"].width / 2
         p = via_n.ports["e2"]
         c.add_port(
@@ -53,7 +53,7 @@ def bump_pad(
             layer=port_layer,
         )
 
-        via_e = c << via_stack()
+        via_e = c << via_stack_deprecated()
         via_e.x = c_ref.ports["o3"].x - via_e.ports["e1"].width / 2
         p = via_e.ports["e3"]
         c.add_port(
@@ -65,7 +65,7 @@ def bump_pad(
             layer=port_layer,
         )
 
-        via_s = c << via_stack()
+        via_s = c << via_stack_deprecated()
         via_s.y = c_ref.ports["o1"].y + via_s.ports["e1"].width / 2
         p = via_s.ports["e4"]
         c.add_port(
@@ -77,7 +77,7 @@ def bump_pad(
             layer=port_layer,
         )
 
-        via_w = c << via_stack()
+        via_w = c << via_stack_deprecated()
         via_w.x = c_ref.ports["o7"].x + via_w.ports["e1"].width / 2
         p = via_w.ports["e1"]
         c.add_port(

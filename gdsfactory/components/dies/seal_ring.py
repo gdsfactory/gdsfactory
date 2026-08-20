@@ -10,7 +10,7 @@ from gdsfactory.typings import ComponentSpec, Float2
 @gf.cell_with_module_name(tags=["dies"])
 def seal_ring(
     size: Float2 = (500, 500),
-    seal: ComponentSpec = "via_stack",
+    seal: ComponentSpec = "via_stack_deprecated",
     width: float = 10,
     padding: float = 10.0,
     with_north: bool = True,

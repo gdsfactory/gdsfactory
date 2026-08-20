@@ -16,6 +16,7 @@ __all__ = [
     "via_stack",
     "via_stack_corner45",
     "via_stack_corner45_extended",
+    "via_stack_deprecated",
     "via_stack_heater_m2",
     "via_stack_heater_m3",
     "via_stack_heater_mtop",

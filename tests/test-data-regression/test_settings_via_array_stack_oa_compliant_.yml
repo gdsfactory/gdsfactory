@@ -42,7 +42,7 @@ info:
   top_layer: M3
   total_num_vias: 400
   via_type: square
-name: via_array_stack_oa_compliant_gdsfactorypcomponentspvias_fa833f2b
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_BLM1_TLM_5eb21a8e
 settings:
   bottom_layer: M1
   layer_connectivity_sequence:

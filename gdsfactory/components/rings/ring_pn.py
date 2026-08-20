@@ -18,7 +18,7 @@ from gdsfactory.typings import (
 
 from .._schematic import ring_double_schematic, ring_single_schematic
 from ..vias.via import via
-from ..vias.via_stack import via_stack
+from ..vias.via_stack import via_stack_deprecated
 
 cross_section_rib = partial(
     gf.cross_section.strip,
@@ -34,7 +34,7 @@ cross_section_pn = partial(
     width_metal=0.5,
 )
 _heater_vias = partial(
-    via_stack,
+    via_stack_deprecated,
     size=(0.5, 0.5),
     layers=("M1", "M2", "M3"),
     vias=(

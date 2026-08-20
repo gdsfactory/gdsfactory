@@ -15,8 +15,8 @@ instances:
       size:
       - 50
       - 10
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_50000_0:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_ccd66d15_50000_0:
+    component: via_stack_deprecated
     info:
       xsize: 50
       ysize: 50
@@ -47,8 +47,8 @@ instances:
       - null
       - via1
       - via2
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_m50000_0:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_ccd66d15_m50000_0:
+    component: via_stack_deprecated
     info:
       xsize: 50
       ysize: 50
@@ -86,16 +86,16 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_50000_0:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_ccd66d15_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_m50000_0:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_ccd66d15_m50000_0:
     mirror: false
     rotation: 0
     x: -50
     y: 0
 ports:
-  pad1: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_m50000_0,e4
-  pad2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_918e5e5b_50000_0,e4
+  pad1: via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_ccd66d15_m50000_0,e4
+  pad2: via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_ccd66d15_50000_0,e4

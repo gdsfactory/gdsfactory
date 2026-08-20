@@ -1,7 +1,7 @@
 info: {}
-name: via_stack_corner45_extended_gdsfactorypcomponentspviasp_a2f90c7d
+name: via_stack_corner45_extended_gdsfactorypcomponentspviasp_5428dd34
 settings:
   corner: via_stack_corner45
   length: 10
-  via_stack: via_stack
+  via_stack: via_stack_deprecated
   width: 3

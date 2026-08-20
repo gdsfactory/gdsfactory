@@ -1,6 +1,6 @@
 instances:
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_515000_250000:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_039feb28_515000_250000:
+    component: via_stack_deprecated
     info:
       xsize: 10
       ysize: 520
@@ -27,8 +27,8 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_m15000_250000:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_039feb28_m15000_250000:
+    component: via_stack_deprecated
     info:
       xsize: 10
       ysize: 520
@@ -55,8 +55,8 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_515000:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_116a3376_250000_515000:
+    component: via_stack_deprecated
     info:
       xsize: 540
       ysize: 10
@@ -83,8 +83,8 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_m15000:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_116a3376_250000_m15000:
+    component: via_stack_deprecated
     info:
       xsize: 540
       ysize: 10
@@ -113,22 +113,22 @@ instances:
       - null
 nets: []
 placements:
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_515000_250000:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_039feb28_515000_250000:
     mirror: false
     rotation: 0
     x: 515
     y: 250
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_12a53bfd_m15000_250000:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_039feb28_m15000_250000:
     mirror: false
     rotation: 0
     x: -15
     y: 250
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_515000:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_116a3376_250000_515000:
     mirror: false
     rotation: 0
     x: 250
     y: 515
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_260cc835_250000_m15000:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_116a3376_250000_m15000:
     mirror: false
     rotation: 0
     x: 250

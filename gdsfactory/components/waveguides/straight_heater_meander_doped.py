@@ -14,10 +14,10 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpe
 
 from .._schematic import straight_schematic
 from ..vias.via import via
-from ..vias.via_stack import via_stack
+from ..vias.via_stack import via_stack_deprecated
 
 _via_stack = partial(
-    via_stack,
+    via_stack_deprecated,
     size=(1.5, 1.5),
     layers=("M1", "M2"),
     vias=(

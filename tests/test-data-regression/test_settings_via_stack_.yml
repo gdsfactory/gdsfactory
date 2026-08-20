@@ -1,24 +1,58 @@
 info:
-  xsize: 11
-  ysize: 11
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_90dd2b23
-settings:
-  correct_size: false
-  layers:
+  bottom_layer: M1
+  enclosing_region:
+  - - -5
+    - -5
+  - - 5
+    - -5
+  - - 5
+    - 5
+  - - -5
+    - 5
+  - - -5
+    - -5
+  layer_connectivity_sequence:
   - M1
+  - VIA1
   - M2
-  - MTOP
-  port_orientations:
-  - 180
-  - 90
-  - 0
-  - -90
+  - VIA2
+  - M3
+  num_via_layers: 2
+  per_layer_info:
+  - bottom_layer: M1
+    num_vias: 256
+    top_layer: M2
+    via_layer: VIA1
+    via_x_cut_size: 0.3
+    via_x_enclosure: 0.06
+    via_x_spacing: 0.3
+    via_y_cut_size: 0.3
+    via_y_enclosure: 0.06
+    via_y_spacing: 0.3
+  - bottom_layer: M2
+    num_vias: 144
+    top_layer: M3
+    via_layer: VIA2
+    via_x_cut_size: 0.4
+    via_x_enclosure: 0.06
+    via_x_spacing: 0.4
+    via_y_cut_size: 0.4
+    via_y_enclosure: 0.06
+    via_y_spacing: 0.4
+  top_layer: M3
+  total_num_vias: 400
+  via_type: square
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_BLM1_TLM_5eb21a8e
+settings:
+  bottom_layer: M1
+  layer_connectivity_sequence:
+  - M1
+  - VIA1
+  - M2
+  - VIA2
+  - M3
   size:
-  - 11
-  - 11
-  slot_horizontal: false
-  slot_vertical: false
-  vias:
-  - via1
-  - via2
-  - null
+  - 10
+  - 10
+  top_layer: M3
+  via_type: square

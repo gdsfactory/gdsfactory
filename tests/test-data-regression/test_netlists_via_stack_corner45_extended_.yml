@@ -16,8 +16,8 @@ instances:
       - via2
       - null
       width: 2.121
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_18b27194_16061_11500:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_f5b14655_16061_11500:
+    component: via_stack_deprecated
     info:
       xsize: 10
       ysize: 3
@@ -48,8 +48,8 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_18b27194_m1500_m6061_A270:
-    component: via_stack
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_f5b14655_m1500_m6061_A270:
+    component: via_stack_deprecated
     info:
       xsize: 10
       ysize: 3
@@ -82,21 +82,21 @@ instances:
       - null
 nets:
 - p1: via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643_0_0,e1
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_18b27194_m1500_m6061_A270,e1
+  p2: via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_f5b14655_m1500_m6061_A270,e1
 - p1: via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643_0_0,e2
-  p2: via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_18b27194_16061_11500,e1
+  p2: via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_f5b14655_16061_11500,e1
 placements:
   via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_18b27194_16061_11500:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_f5b14655_16061_11500:
     mirror: false
     rotation: 0
     x: 16.061
     y: 11.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_BLNone_T_18b27194_m1500_m6061_A270:
+  via_stack_deprecated_gdsfactorypcomponentspviaspvia_sta_f5b14655_m1500_m6061_A270:
     mirror: false
     rotation: 270
     x: -1.5

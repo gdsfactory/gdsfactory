@@ -6,6 +6,7 @@ __all__ = [
     "via_stack",
     "via_stack_corner45",
     "via_stack_corner45_extended",
+    "via_stack_deprecated",
     "via_stack_heater_m2",
     "via_stack_heater_m3",
     "via_stack_heater_mtop",
@@ -37,7 +38,7 @@ from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpec
 
 
 @gf.cell_with_module_name(tags=["vias"])
-def via_stack(
+def via_stack_deprecated(
     bottom_layer: LayerSpec | None = None,
     top_layer: LayerSpec | None = None,
     size: Size = (11.0, 11.0),
@@ -90,7 +91,11 @@ def via_stack(
         slot_horizontal: if True, then vias are horizontal.
         slot_vertical: if True, then vias are vertical.
         port_orientations: list of port_orientations to add. None does not add ports.
+
+    .. deprecated::
+        Use :func:`via_stack` (the OA-compliant version) instead.
     """
+    deprecate("via_stack_deprecated", "via_stack (OA-compliant)")
     if (
         isinstance(bottom_layer, tuple)
         and len(bottom_layer) == 2
@@ -466,7 +471,7 @@ def via_stack_corner45(
 @gf.cell_with_module_name(tags=["vias"])
 def via_stack_corner45_extended(
     corner: ComponentSpec = "via_stack_corner45",
-    via_stack: ComponentSpec = "via_stack",
+    via_stack: ComponentSpec = "via_stack_deprecated",
     width: float = 3,
     length: float = 10,
 ) -> Component:
@@ -489,47 +494,51 @@ def via_stack_corner45_extended(
 
 
 via_stack_m1_mtop = via_stack_m1_m3 = partial(
-    via_stack,
+    via_stack_deprecated,
     layers=("M1", "M2", "MTOP"),
     vias=("via1", "via2", None),
 )
 via_stack_m2_m3 = partial(
-    via_stack,
+    via_stack_deprecated,
     layers=("M2", "MTOP"),
     vias=("via2", None),
 )
 via_stack_slab_m1 = partial(
-    via_stack,
+    via_stack_deprecated,
     layers=("SLAB90", "M1"),
     vias=("viac", "via1"),
 )
 via_stack_slab_m2 = partial(
-    via_stack,
+    via_stack_deprecated,
     layers=("SLAB90", "M1", "M2"),
     vias=("viac", "via1", None),
 )
 
 via_stack_slab_m3 = partial(
-    via_stack,
+    via_stack_deprecated,
     layers=("SLAB90", "M1", "M2", "MTOP"),
     vias=("viac", "via1", "via2", None),
 )
 via_stack_npp_m1 = partial(
-    via_stack,
+    via_stack_deprecated,
     layers=("WG", "NPP", "M1"),
     vias=(None, None, "viac"),
 )
 via_stack_slab_npp_m3 = partial(
-    via_stack,
+    via_stack_deprecated,
     layers=("SLAB90", "NPP", "M1"),
     vias=(None, None, "viac"),
 )
 via_stack_heater_mtop = via_stack_heater_m3 = partial(
-    via_stack, layers=("HEATER", "M2", "MTOP"), vias=(None, "via1", "via2")
+    via_stack_deprecated,
+    layers=("HEATER", "M2", "MTOP"),
+    vias=(None, "via1", "via2"),
 )
 via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 
-via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, "via1"))
+via_stack_heater_m2 = partial(
+    via_stack_deprecated, layers=("HEATER", "M2"), vias=(None, "via1")
+)
 
 via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
@@ -679,7 +688,7 @@ def via_array_region_raster(
 
 
 @gf.cell_with_module_name(tags=["vias"])
-def via_array_stack_oa_compliant(
+def via_stack(
     bottom_layer: LayerSpec = "M1",
     top_layer: LayerSpec = "M3",
     region: _PolygonPoints | None = None,
@@ -699,6 +708,7 @@ def via_array_stack_oa_compliant(
         "VIA2",
         "M3",
     ),
+    port_directions: dict[str, str] | None = None,
 ) -> Component:
     """OpenAccess-compliant via stack between bottom_layer and top_layer.
 
@@ -731,6 +741,12 @@ def via_array_stack_oa_compliant(
         via_y_minimum_spacing_rules: per-via-layer minimum spacing in y.
         layer_connectivity_sequence: ordered tuple of alternating
             drawing and via layers (e.g. M1, VIA, M2, VIA1, M3, ...).
+        port_directions: controls port placement on bottom/top metal
+            layers. Keys are ``"top"`` and/or ``"bot"``; values are
+            ``"input"`` (port normal points inward) or ``"output"``
+            (port normal points outward). One port per polygon edge.
+            ``None`` adds no ports. Example:
+            ``{"top": "input", "bot": "output"}``.
     """
     _default_cut: dict[LayerSpec, float] = {
         "VIA": 0.3,
@@ -851,6 +867,66 @@ def via_array_stack_oa_compliant(
             }
         )
 
+    # Electrical ports on the bottom and/or top drawing layers
+    if port_directions:
+        poly = _region_to_shapely(resolved_region)
+        coords = list(poly.exterior.coords)
+        centroid = poly.centroid
+
+        layer_map = {
+            "bot": drawing_layers[bot_idx],
+            "top": drawing_layers[top_idx],
+        }
+
+        for key, direction in port_directions.items():
+            if key not in layer_map:
+                raise ValueError(f"port_directions key {key!r} must be 'top' or 'bot'")
+            if direction not in ("input", "output"):
+                raise ValueError(
+                    f"port_directions value {direction!r} must be 'input' or 'output'"
+                )
+            port_layer = layer_map[key]
+            inward = direction == "input"
+
+            for i in range(len(coords) - 1):
+                x0, y0 = coords[i]
+                x1, y1 = coords[i + 1]
+                edge_cx = (x0 + x1) / 2
+                edge_cy = (y0 + y1) / 2
+                edge_dx = x1 - x0
+                edge_dy = y1 - y0
+                edge_len = (edge_dx**2 + edge_dy**2) ** 0.5
+                if edge_len == 0:
+                    continue
+
+                # Outward normal (90-degree clockwise rotation of the edge
+                # vector for a CCW-wound polygon points outward)
+                nx, ny = edge_dy, -edge_dx
+                # Check if normal points away from centroid
+                to_centroid_x = centroid.x - edge_cx
+                to_centroid_y = centroid.y - edge_cy
+                dot = nx * to_centroid_x + ny * to_centroid_y
+                if dot > 0:
+                    nx, ny = -nx, -ny
+                # Now (nx, ny) points outward; flip for "input"
+                if inward:
+                    nx, ny = -nx, -ny
+
+                orientation = float(np.degrees(np.arctan2(ny, nx)))
+                c.add_port(
+                    name=f"e{i + 1}_{key}",
+                    center=(edge_cx, edge_cy),
+                    width=edge_len,
+                    orientation=orientation,
+                    layer=port_layer,
+                    port_type="electrical",
+                )
+
+        c.auto_rename_ports()
+        elec = [p for p in c.ports if p.port_type == "electrical"]
+        if elec:
+            c.create_pin(ports=elec, name="pad")
+
     # OpenAccess-compliant metadata
     c.info["bottom_layer"] = bottom_layer
     c.info["top_layer"] = top_layer
@@ -863,6 +939,9 @@ def via_array_stack_oa_compliant(
     c.info["enclosing_region"] = list(resolved_shapely.exterior.coords)
 
     return c
+
+
+via_array_stack_oa_compliant = via_stack
 
 
 if __name__ == "__main__":
