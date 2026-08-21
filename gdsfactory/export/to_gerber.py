@@ -7,13 +7,20 @@ See Also:
 - https://github.com/jamesbowman/cuflow/blob/master/gerber.py
 """
 
+from __future__ import annotations
+
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field
+import numpy as np
+import numpy.typing as npt
+from pydantic import BaseModel
 
 from gdsfactory import Component
 from gdsfactory.typings import Size
+
+PolygonPoints = Sequence[Sequence[float]] | npt.NDArray[np.floating]
 
 
 class GerberLayer(BaseModel):
@@ -38,53 +45,105 @@ class BoardOptions(BaseModel):
 resolutions = {1e-3: 3, 1e-4: 4, 1e-5: 5, 1e-6: 6}
 
 
-def number(n: float) -> str:
-    """Formats a floating-point number by scaling it to an integer (multiplied by 10,000).
-
-    Rounding to the nearest integer, and zero-padding it to 7 characters.
+def decimal_digits(resolution: float) -> int:
+    """Return Gerber decimal digits for a linear resolution.
 
     Args:
-        n (float): The input floating-point number.
+        resolution: smallest distance represented in the file, in file units.
 
     Returns:
-        str: The formatted string.
+        Number of decimal digits in the `%FS` command.
+
+    Raises:
+        ValueError: If `resolution` is not one of the supported values.
     """
-    scaled_value = round(n * 10000)
-    return f"{scaled_value:07d}"
+    if resolution not in resolutions:
+        supported = ", ".join(str(value) for value in sorted(resolutions, reverse=True))
+        raise ValueError(
+            f"Unsupported Gerber resolution {resolution}. Supported values: {supported}."
+        )
+    return resolutions[resolution]
 
 
-def points(pp: list[tuple[float, float]]) -> str:
-    if not pp:
+def format_specification(int_size: int, digits: int) -> str:
+    """Return a spec-compliant Gerber `%FS` command.
+
+    Ucamco FS is `%FSLAX<int><dec>Y<int><dec>*%` (leading zeros omitted, absolute).
+    """
+    return f"%FSLAX{int_size}{digits}Y{int_size}{digits}*%\n"
+
+
+def number(n: float, decimal_digits: int = 4) -> str:
+    """Format a coordinate for Gerber using the `%FS` decimal count.
+
+    Leading zeros are omitted (`L` in `%FSLA`). The scale is `10 ** decimal_digits`
+    so coordinates match the format specifier instead of a hardcoded 10_000.
+
+    Args:
+        n: Coordinate in the same unit as `%MO` (typically Component user units).
+        decimal_digits: Decimal digits from the `%FS` command.
+
+    Returns:
+        Digit string without a unit prefix, including a leading `-` when negative.
+    """
+    scaled_value = round(n * 10**decimal_digits)
+    sign = "-" if scaled_value < 0 else ""
+    return f"{sign}{abs(scaled_value)}"
+
+
+def _as_xy(pp: PolygonPoints) -> list[tuple[float, float]]:
+    """Normalize polygon vertices to a list of float pairs.
+
+    `Component.get_polygons_points()` returns numpy arrays. Gerber helpers used
+    to iterate them as if they were Python lists of tuples, which raises.
+    """
+    arr = np.asarray(pp, dtype=float)
+    if arr.ndim != 2 or arr.shape[-1] != 2:
+        raise ValueError(f"Expected Nx2 point array, got shape {arr.shape}")
+    return [(float(x), float(y)) for x, y in arr]
+
+
+def points(pp: PolygonPoints, decimal_digits: int = 4) -> str:
+    xy = _as_xy(pp)
+    if not xy:
         return ""
-    # Use a list to collect the formatted strings for better performance
-    parts = []
-    # First point uses D02
-    x0, y0 = pp[0]
-    parts.append(f"X{number(x0)}Y{number(y0)}D02*\n")
-    # Rest use D01 (if any)
-    if len(pp) > 1:
-        for x, y in pp[1:]:
-            parts.append(f"X{number(x)}Y{number(y)}D01*\n")
+    first_x, first_y = xy[0]
+    parts = [
+        f"X{number(first_x, decimal_digits)}Y{number(first_y, decimal_digits)}D02*\n"
+    ]
+    parts.extend(
+        f"X{number(x, decimal_digits)}Y{number(y, decimal_digits)}D01*\n"
+        for x, y in xy[1:]
+    )
     return "".join(parts)
 
 
-def rect(x0: float, y0: float, x1: float, y1: float) -> str:
-    return "D10*\n" + points([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)])
+def rect(
+    x0: float,
+    y0: float,
+    x1: float,
+    y1: float,
+    decimal_digits: int = 4,
+) -> str:
+    return "D10*\n" + points(
+        [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)],
+        decimal_digits=decimal_digits,
+    )
 
 
-def linestring(pp: list[tuple[float, float]]) -> str:
-    return "D10*\n" + points(pp)
+def linestring(pp: PolygonPoints, decimal_digits: int = 4) -> str:
+    return "D10*\n" + points(pp, decimal_digits=decimal_digits)
 
 
-def polygon(pp: list[tuple[float, float]]) -> str:
-    return "G36*\n" + points(pp) + "G37*\n\n"  # fixed to have only one newline at end
+def polygon(pp: PolygonPoints, decimal_digits: int = 4) -> str:
+    return "G36*\n" + points(pp, decimal_digits=decimal_digits) + "G37*\n\n"
 
 
 def to_gerber(
     component: Component,
     dirpath: Path,
     layermap_to_gerber_layer: dict[tuple[int, int], GerberLayer],
-    options: GerberOptions = Field(default_factory=GerberOptions),
+    options: GerberOptions | None = None,
 ) -> None:
     """Writes each layer to a different Gerber file.
 
@@ -98,41 +157,39 @@ def to_gerber(
             resolution: float = 1e-6
             int_size: int = 4
     """
-    # Each layer and a list of the polygons (as lists of points) on that layer
-    layer_to_polygons = component.get_polygons_points()
+    options = options or GerberOptions()
+    dirpath = Path(dirpath)
+    dirpath.mkdir(parents=True, exist_ok=True)
+    digits = decimal_digits(options.resolution)
+
+    # Keys must match layermap tuples. Default `by="index"` uses klayout layer
+    # indexes, so exported layers silently wrote empty files (#4748).
+    layer_to_polygons = component.get_polygons_points(by="tuple")
 
     for layer_tup, layer in layermap_to_gerber_layer.items():
         filename = (dirpath / layer.name.replace(" ", "_")).with_suffix(".gbr")
 
-        with open(filename, "w+") as f:
+        with open(filename, "w") as f:
             header = options.header or [
                 "Gerber file generated by gdsfactory",
                 f"Component: {component.name}",
             ]
 
-            # Write file spec info
             f.write("%TF.FileFunction," + ",".join(layer.function) + "*%\n")
             f.write(f"%TF.FilePolarity,{layer.polarity}*%\n")
-
-            digits = resolutions[options.resolution]
-            f.write(f"%FSLA{options.int_size}{digits}Y{options.int_size}{digits}X*%\n")
-
-            # Write header comments
+            f.write(format_specification(options.int_size, digits))
             f.writelines([f"G04 {line}*\n" for line in header])
 
-            # Setup units/mode
             units = options.mode.upper()
             f.write(f"%MO{units}*%\n")
-            f.write("%LPD*%")
-
+            f.write("%LPD*%\n")
             f.write("G01*\n")
-
-            # Aperture definition
             f.write("%ADD10C,0.050000*%\n")
 
-            # Only supports polygons for now
             if layer_tup in layer_to_polygons:
-                f.writelines(polygon(poly) for poly in layer_to_polygons[layer_tup])  # type: ignore[arg-type]
+                f.writelines(
+                    polygon(poly, decimal_digits=digits)
+                    for poly in layer_to_polygons[layer_tup]
+                )
 
-            # File end
             f.write("M02*\n")
