@@ -199,8 +199,9 @@ def cross_section(
         def _cladding_width_kwargs(offset: float) -> dict[str, Any]:
             if callable(width):
                 return {
-                    "width_function": lambda t: cast(Callable[..., Any], width)(t)
-                    + 2 * offset
+                    "width_function": lambda t: (
+                        cast(Callable[..., Any], width)(t) + 2 * offset
+                    )
                 }
             return {"width": cast(Any, width) + 2 * offset}
 

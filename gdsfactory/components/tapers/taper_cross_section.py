@@ -65,14 +65,14 @@ def taper_cross_section(
 
         def _mark_skip(sections: tuple[gf.Section, ...]) -> tuple[gf.Section, ...]:
             return tuple(
-                s.model_copy(update={"skip_transition": True})
+                s._replace(skip_transition=True)
                 if gf.get_layer(s.layer) in excluded
                 else s
                 for s in sections
             )
 
-        x1 = x1.model_copy(update={"sections": _mark_skip(x1.sections)})
-        x2 = x2.model_copy(update={"sections": _mark_skip(x2.sections)})
+        x1 = x1.copy(sections=_mark_skip(x1.sections))
+        x2 = x2.copy(sections=_mark_skip(x2.sections))
 
     if x1 == x2 and not exclude_layers:
         return gf.components.straight(length=length, cross_section=x1)
