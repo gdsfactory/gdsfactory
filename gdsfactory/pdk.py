@@ -362,7 +362,7 @@ class Pdk(BaseModel):
                     )
             cell_dict = cast("dict[str, Any]", cell)  # type: ignore[redundant-cast]
             settings = dict(cell_dict.get("settings", {}))
-            settings.update(**kwargs)
+            settings.update(kwargs)
 
             cell_name = cell_dict.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
@@ -480,7 +480,7 @@ class Pdk(BaseModel):
                     )
             component_dict = cast("dict[str, Any]", component)  # type: ignore[redundant-cast]
             settings = dict(component_dict.get("settings", {}))
-            settings.update(**kwargs)
+            settings.update(kwargs)
 
             cell_name = component_dict.get("component", None)
             cell_name = cell_name or component_dict.get("function")
@@ -522,7 +522,8 @@ class Pdk(BaseModel):
             xs_name = xs_dict.get("cross_section", None)
             if xs_name is None:
                 raise ValueError("cross_section name is required")
-            settings = xs_dict.get("settings", {})
+            settings = dict(xs_dict.get("settings", {}))
+            settings.update(kwargs)
             return self.get_cross_section(xs_name, **settings)
         if isinstance(cross_section, CrossSection):
             if kwargs:
@@ -555,7 +556,7 @@ class Pdk(BaseModel):
                 radius_min=kf.kcl.to_um(cross_section_.radius_min),
             )
             xs_._name = cross_section_.name
-            return xs_
+            return xs_.copy(**kwargs) if kwargs else xs_
         raise ValueError(
             "get_cross_section expects a CrossSectionSpec (CrossSection, "
             f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
