@@ -126,6 +126,8 @@ def points_to_polygon(
 ) -> kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region:
     if isinstance(points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region):
         return points
+    if isinstance(points, np.ndarray):
+        return kdb.DPolygon(points.tolist())
     points = ensure_tuple_of_tuples(points)
     return kdb.DPolygon(to_kdb_dpoints(points))
 
