@@ -311,19 +311,26 @@ class CrossSection(BaseModel):
 
         xs_original = self
 
-        if width_function or offset_function or width or layer or sections:
+        if (
+            width_function
+            or offset_function
+            or width is not None
+            or layer is not None
+            or sections is not None
+        ):
             if sections is None:
                 section_list = list(self.sections)
             else:
                 section_list = list(sections)
 
             section_list = [s.model_copy() for s in section_list]
-            section_list[0] = section_list[0].model_copy(
-                update={
+            section_list[0] = Section.model_validate(
+                {
+                    **section_list[0].model_dump(),
                     "width_function": width_function,
                     "offset_function": offset_function,
-                    "width": width or self.width,
-                    "layer": layer or self.layer,
+                    "width": width if width is not None else self.width,
+                    "layer": layer if layer is not None else self.layer,
                 }
             )
             xs = self.model_copy(update={"sections": tuple(section_list), **kwargs})
