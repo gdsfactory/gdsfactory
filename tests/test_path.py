@@ -464,6 +464,61 @@ def test_path_transform_icplx() -> None:
     assert gf.path.Path().kcl is gf.kcl
 
 
+@pytest.mark.parametrize(
+    "trans",
+    [
+        kdb.DCplxTrans(3, 4),
+        kdb.DCplxTrans(1, 45, False, 0, 0),
+        kdb.DCplxTrans(1, 0, True, 0, 10),  # what mirror_y(5) builds
+        kdb.DCplxTrans(1, 180, True, 8, 0),  # what mirror_x(4) builds
+        kdb.DCplxTrans(1, 90, True, 5, 7),
+        kdb.DCplxTrans(1, 30, True, -2, 3),
+        kdb.DCplxTrans(2.0, 0, False, 0, 0),
+        kdb.DCplxTrans(1.5, 45, True, 1, -1),
+    ],
+)
+def test_path_transform_matches_klayout(trans: kdb.DCplxTrans) -> None:
+    """Path.transform must compose the transformation the way KLayout does.
+
+    KLayout applies magnification, then mirroring at the x-axis, then rotation,
+    then displacement. Applying the mirror last instead negates the displacement,
+    which makes mirror_y(y) reflect about y = -y.
+    """
+    points = [(0.0, 0.0), (3.0, 0.0), (3.0, 1.0)]
+    path = Path(points)
+    path.transform(trans)
+    expected = np.array(
+        [(p.x, p.y) for p in (trans.trans(kdb.DPoint(*xy)) for xy in points)]
+    )
+    np.testing.assert_allclose(path.points, expected, atol=1e-12)
+
+
+def test_path_transform_keeps_analytic_angles() -> None:
+    """Transform must carry the analytic tangents, not re-derive chord angles."""
+    path = gf.path.euler(radius=10, angle=90)
+    assert (path.start_angle, path.end_angle) == (0, 90)
+
+    # the endpoint chord of the discretized curve is not the tangent, so a chord
+    # based angle would drift away from the exact values below
+    chord = np.degrees(np.arctan2(*(path.points[1] - path.points[0])[::-1]))
+    assert abs(chord) > 1e-6
+
+    moved = path.copy()
+    moved.move((5, 5))
+    assert moved.start_angle == pytest.approx(0, abs=1e-9)
+    assert moved.end_angle == pytest.approx(90, abs=1e-9)
+
+    rotated = path.copy()
+    rotated.rotate(30)
+    assert rotated.start_angle == pytest.approx(30, abs=1e-9)
+    assert rotated.end_angle == pytest.approx(120, abs=1e-9)
+
+    mirrored = path.copy()
+    mirrored.mirror_y(3)
+    assert mirrored.start_angle == pytest.approx(0, abs=1e-9)
+    assert mirrored.end_angle == pytest.approx(270, abs=1e-9)
+
+
 def test_path_smooth() -> None:
     points = np.array([(-50, 50), (-100, 100), (-100, 200)])
 
