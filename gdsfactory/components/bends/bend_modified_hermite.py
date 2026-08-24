@@ -7,9 +7,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
 
-__all__ = ["bend_modified_hermite", "bend_modified_hermite_all_angle", "bend_modified_hermite180"]
+__all__ = ["bend_modified_hermite", "bend_modified_hermite_all_angle", "bend_modified_hermite180", "bend_modified_hermite_s"]
 
-from .._schematic import bend_schematic
+from .._schematic import bend_schematic, sbend_schematic
 
 # Hermite curve coefficients from https://www.mdpi.com/2304-6732/13/2/175 Eq. (1)
 def _hermite_c1(t: float) -> float:
@@ -134,18 +134,24 @@ def _bend_modified_hermite(
 
     # Calculate center of curve as average of inner and outer bend points
     interior_points = (inner_bend_points + outer_bend_points) / 2
-    _, curvature = gf.Path(interior_points).curvature()
-    min_radius_of_curvature = np.min(1 / curvature)
+    interior_path = gf.Path(interior_points)
+    _, curvature = interior_path.curvature()
+    min_bend_radius = np.min(1 / curvature)
 
     if xsec.radius_min is not None and not allow_min_radius_violation:
-        xsec.validate_radius(radius=min_radius_of_curvature)
+        xsec.validate_radius(radius=min_bend_radius)
 
     polygon_points = np.concat((inner_bend_points, np.flip(outer_bend_points, axis=0)), axis=0)
 
     result = gf.ComponentAllAngle() if all_angle else gf.Component()
     result.add_polygon(points=polygon_points, layer=layer)
-    result.add_port(name=port1, center=interior_points[0], width=width1, orientation=90, layer=layer)
-    result.add_port(name=port2, center=interior_points[-1], width=width2, orientation=90 + angle, layer=layer)
+    start_orientation = 90 if angle > 0 else -90
+    result.add_port(name=port1, center=interior_points[0], width=width1, orientation=start_orientation, layer=layer)
+    result.add_port(name=port2, center=interior_points[-1], width=width2, orientation=start_orientation + angle + 180, layer=layer)
+
+    result.info['min_bend_radius'] = min_bend_radius
+    result.info['length'] = interior_path.length()
+
     return result
 
 @gf.cell_with_module_name(schematic_function=bend_schematic, tags=["bends"])
@@ -249,5 +255,55 @@ def bend_modified_hermite_all_angle(
         port2=port2,
         all_angle=True,
     )
+
+@gf.cell_with_module_name(schematic_function=sbend_schematic, tags=["bends"])
+def bend_modified_hermite_s(
+    radius: float = 15,
+    inner_tangent_magnitude: float = 26.5,
+    outer_tangent_magnitude: float = 30,
+    npoints: int = 100,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    port1: str = "o1",
+    port2: str = "o2",
+) -> Component:
+    """Sbend made of 2 modified Hermite bends.
+
+    Args:
+        radius: effective bend radius
+        angle: angle, in degrees.
+        inner_tangent_magnitude: a1 parameter from Li et al.
+        outer_tangent_magnitude: a2 parameter from Li et al.
+        npoints: number of points to use for the inner wall of the curve, and the outer wall.
+        cross_section: spec (CrossSection, string or dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width  at input and output (the width generally varies in the interior of the bend). Defaults to cross_section.width.
+    """
+
+    result = Component()
+    bend = bend_modified_hermite(
+        radius=radius,
+        angle=90,
+        inner_tangent_magnitude=inner_tangent_magnitude,
+        outer_tangent_magnitude=outer_tangent_magnitude,
+        npoints=npoints,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+        layer=layer,
+        width1=width,
+        width2=width,
+        port1=port1,
+        port2=port2,
+    )
+    bend1 = result << bend
+    bend2 = result << bend
+    bend2.connect(port1, bend1[port2], mirror=True)
+    result.add_port(port1, port=bend1[port1])
+    result.add_port(port2, port=bend2[port2])
+    result.info['length'] = 2 * bend.info['length']
+    return result
 
 bend_modified_hermite180 = partial(bend_modified_hermite, angle=180)

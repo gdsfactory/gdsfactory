@@ -17,6 +17,7 @@ __all__ = [
     "bend_modified_hermite",
     "bend_modified_hermite_all_angle",
     "bend_modified_hermite180",
+    "bend_modified_hermite_s",
     "bend_s",
     "bend_s_offset",
     "bend_topic",
