@@ -16,6 +16,7 @@ from typing import (
     overload,
     override,
 )
+from uuid import uuid4
 
 import kfactory as kf
 import klayout.lay as lay
@@ -1399,23 +1400,28 @@ class Component(ComponentBase, kf.DKCell):
 
         self.insert_vinsts()
 
-        lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
+        # Each plot can run in a separate pytest-xdist worker. A shared layer
+        # properties file can be read while another worker is rewriting it.
+        lyp_path = GDSDIR_TEMP / f"layer_properties-{uuid4().hex}.lyp"
         layer_views = get_layer_views()
-        layer_views.to_lyp(filepath=lyp_path)
+        try:
+            layer_views.to_lyp(filepath=lyp_path)
 
-        layout_view = lay.LayoutView()
-        cell_view_index = layout_view.create_layout(True)
-        layout_view.active_cellview_index = cell_view_index
-        cell_view = layout_view.cellview(cell_view_index)
-        layout = cell_view.layout()
-        layout.assign(kf.kcl.layout)
+            layout_view = lay.LayoutView()
+            cell_view_index = layout_view.create_layout(True)
+            layout_view.active_cellview_index = cell_view_index
+            cell_view = layout_view.cellview(cell_view_index)
+            layout = cell_view.layout()
+            layout.assign(kf.kcl.layout)
 
-        assert self.name is not None, "Component name is None"
+            assert self.name is not None, "Component name is None"
 
-        cell_view.cell = layout.cell(self.name)
+            cell_view.cell = layout.cell(self.name)
 
-        layout_view.max_hier()
-        layout_view.load_layer_props(str(lyp_path))
+            layout_view.max_hier()
+            layout_view.load_layer_props(str(lyp_path))
+        finally:
+            lyp_path.unlink(missing_ok=True)
 
         layout_view.add_missing_layers()
         layout_view.zoom_fit()
