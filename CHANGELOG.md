@@ -1,11 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.48.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.49.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.49.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.49.0) - 2026-08-25
 
-No significant changes.
+- Fast path for ndarray in points_to_polygon [#4786](https://github.com/gdsfactory/gdsfactory/pull/4786)
+- feat: add RF inductors, transformers, and geometry helpers [#4789](https://github.com/gdsfactory/gdsfactory/pull/4789)
+- Applying get_cross_section kwarg overrides for dict spec and kf xs [#4794](https://github.com/gdsfactory/gdsfactory/pull/4794)
+- Follow KLayout's order for Path transformations [#4795](https://github.com/gdsfactory/gdsfactory/pull/4795)
+- Fix issues with `extend_ports` [#4788](https://github.com/gdsfactory/gdsfactory/pull/4788)
+- Avoid hardcoded tolerance in _ensure_manhattan_waypoints [#4787](https://github.com/gdsfactory/gdsfactory/pull/4787)
+- Fix use of on_collision/on_placer_error in route_bundle [#4791](https://github.com/gdsfactory/gdsfactory/pull/4791)
+- docs: restore round corners notebook plots [#4797](https://github.com/gdsfactory/gdsfactory/pull/4797)
+- docs: add inspect.software health badge [#4792](https://github.com/gdsfactory/gdsfactory/pull/4792)
 
 
 ## [9.48.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.48.0) - 2026-08-12
