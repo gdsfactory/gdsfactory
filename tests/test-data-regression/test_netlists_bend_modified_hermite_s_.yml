@@ -1,0 +1,54 @@
+instances:
+  bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_0:
+    component: bend_modified_hermite
+    info:
+      length: 24.073
+      min_bend_radius: 11.932
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      inner_tangent_magnitude: 26.5
+      layer: null
+      npoints: 100
+      outer_tangent_magnitude: 30
+      port1: o1
+      port2: o2
+      radius: 15
+      width1: null
+      width2: null
+  bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_30000_A270_M:
+    component: bend_modified_hermite
+    info:
+      length: 24.073
+      min_bend_radius: 11.932
+    settings:
+      allow_min_radius_violation: false
+      angle: 90
+      cross_section: strip
+      inner_tangent_magnitude: 26.5
+      layer: null
+      npoints: 100
+      outer_tangent_magnitude: 30
+      port1: o1
+      port2: o2
+      radius: 15
+      width1: null
+      width2: null
+nets:
+- p1: bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_0,o2
+  p2: bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_30000_A270_M,o1
+placements:
+  bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_30000_A270_M:
+    mirror: true
+    rotation: 270
+    x: 0
+    y: 30
+ports:
+  o1: bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_0,o1
+  o2: bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc_0_30000_A270_M,o2
