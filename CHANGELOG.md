@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.49.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.49.0) - 2026-08-25
+
+No significant changes.
+
+
 ## [9.48.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.48.0) - 2026-08-12
 
 - feat(component): expose smooth_factor parameter in fix_spacing() [#4739](https://github.com/gdsfactory/gdsfactory/pull/4739)
