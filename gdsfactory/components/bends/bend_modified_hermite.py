@@ -136,7 +136,7 @@ def _bend_modified_hermite(
     interior_points = (inner_bend_points + outer_bend_points) / 2
     interior_path = gf.Path(interior_points)
     _, curvature = interior_path.curvature()
-    min_bend_radius = np.min(1 / curvature)
+    min_bend_radius = np.min(1 / np.abs(curvature))
 
     if xsec.radius_min is not None and not allow_min_radius_violation:
         xsec.validate_radius(radius=min_bend_radius)
@@ -304,6 +304,7 @@ def bend_modified_hermite_s(
     result.add_port(port1, port=bend1[port1])
     result.add_port(port2, port=bend2[port2])
     result.info['length'] = 2 * bend.info['length']
+    result.info['min_bend_radius'] = bend.info['min_bend_radius']
     return result
 
 bend_modified_hermite180 = partial(bend_modified_hermite, angle=180)
