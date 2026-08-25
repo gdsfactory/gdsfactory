@@ -8,9 +8,14 @@ from gdsfactory.components.bends.bend_circular import (
 )
 from gdsfactory.components.bends.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bends.bend_euler import bend_euler, bend_euler_all_angle
+from gdsfactory.components.bends.bend_modified_hermite import (
+    bend_modified_hermite,
+    bend_modified_hermite180,
+    bend_modified_hermite_all_angle,
+    bend_modified_hermite_s,
+)
 from gdsfactory.components.bends.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.bends.bend_topic import bend_topic, bend_topic_all_angle
-from gdsfactory.components.bends.bend_modified_hermite import bend_modified_hermite, bend_modified_hermite_all_angle, bend_modified_hermite_s, bend_modified_hermite180
 
 
 def test_bend_circular_heater_min_radius() -> None:
@@ -315,41 +320,54 @@ def test_bend_modified_hermite() -> None:
     assert (2, 0) in c3.layers
 
     c4 = bend_modified_hermite(width1=0.5, width2=0.7)
-    assert np.isclose(c4['o1'].width, 0.5)
-    assert np.isclose(c4['o2'].width, 0.7)
+    assert np.isclose(c4["o1"].width, 0.5)
+    assert np.isclose(c4["o2"].width, 0.7)
 
-    c5 = bend_modified_hermite(radius=15,
-                               inner_tangent_magnitude=20,
-                               outer_tangent_magnitude=25,
-                               allow_min_radius_violation=True)
-    c6 = bend_modified_hermite(radius=15,
-                               inner_tangent_magnitude=3,
-                               outer_tangent_magnitude=4,
-                               allow_min_radius_violation=True)
-    assert 0 < c6.info['min_bend_radius'] < c5.info['min_bend_radius']
+    c5 = bend_modified_hermite(
+        radius=15,
+        inner_tangent_magnitude=20,
+        outer_tangent_magnitude=25,
+        allow_min_radius_violation=True,
+    )
+    c6 = bend_modified_hermite(
+        radius=15,
+        inner_tangent_magnitude=3,
+        outer_tangent_magnitude=4,
+        allow_min_radius_violation=True,
+    )
+    assert 0 < c6.info["min_bend_radius"] < c5.info["min_bend_radius"]
+
 
 def test_bend_modified_hermite_allow_min_radius_violation() -> None:
     with pytest.raises(ValueError):
         bend_modified_hermite(radius=1)
 
     effective_bend_radius = 3.5
-    effective_bend_radius = 3.5
-    c = bend_modified_hermite(radius=effective_bend_radius,
-                              inner_tangent_magnitude=4.5,
-                              outer_tangent_magnitude=5,
-                              width1=0.3, width2=0.2,
-                              allow_min_radius_violation=True)
-    assert 0 < c.info['min_bend_radius'] < effective_bend_radius
+    c = bend_modified_hermite(
+        radius=effective_bend_radius,
+        inner_tangent_magnitude=4.5,
+        outer_tangent_magnitude=5,
+        width1=0.3,
+        width2=0.2,
+        allow_min_radius_violation=True,
+    )
+    assert 0 < c.info["min_bend_radius"] < effective_bend_radius
+
 
 def test_bend_modified_hermite180() -> None:
     c = bend_modified_hermite180(radius=15, width1=0.6, width2=0.4)
-    assert np.isclose(c['o1'].width, 0.6)
-    assert np.isclose(c['o2'].width, 0.4)
-    assert c['o1'].angle == c['o2'].angle
+    assert np.isclose(c["o1"].width, 0.6)
+    assert np.isclose(c["o2"].width, 0.4)
+    assert c["o1"].angle == c["o2"].angle
+
 
 def test_bend_modified_hermite_s() -> None:
     effective_radius = 20
     c = bend_modified_hermite_s(radius=effective_radius)
-    assert 0 < c.info['min_bend_radius'] < effective_radius
-    assert np.isclose(np.abs(c['o2'].center[0] - c['o1'].center[0]), 2 * effective_radius)
-    assert np.isclose(np.abs(c['o2'].center[1] - c['o1'].center[1]), 2 * effective_radius)
+    assert 0 < c.info["min_bend_radius"] < effective_radius
+    assert np.isclose(
+        np.abs(c["o2"].center[0] - c["o1"].center[0]), 2 * effective_radius
+    )
+    assert np.isclose(
+        np.abs(c["o2"].center[1] - c["o1"].center[1]), 2 * effective_radius
+    )
