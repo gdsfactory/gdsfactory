@@ -112,6 +112,45 @@ def test_to_gerber_uses_tuple_layer_keys(tmp_path: Path) -> None:
     )
 
 
+def test_dotted_layer_name_keeps_full_stackup_name(tmp_path: Path) -> None:
+    """`Path.with_suffix` would read `.2 signal` as a suffix and write `L1.gbr`."""
+    written = to_gerber(
+        _rectangle(),
+        tmp_path,
+        {
+            WG: GerberLayer(
+                name="L1.2 signal",
+                function=["Copper", "L2", "Inner"],
+                polarity="Positive",
+            )
+        },
+        write_job=False,
+    )
+    assert (tmp_path / "L1.2_signal.gbr") in written
+    assert not (tmp_path / "L1.gbr").exists()
+
+
+def test_colliding_layer_filenames_raise(tmp_path: Path) -> None:
+    """Two layers sharing a filename would silently overwrite one another."""
+    component = gf.Component()
+    component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=WG)
+    component.add_polygon([(0, 0), (10, 0), (10, 5), (0, 5)], layer=(2, 0))
+    with pytest.raises(ValueError, match="distinct filenames"):
+        to_gerber(
+            component,
+            tmp_path,
+            {
+                WG: GerberLayer(
+                    name="F Cu", function=["Copper", "L1", "Top"], polarity="Positive"
+                ),
+                (2, 0): GerberLayer(
+                    name="F_Cu", function=["Copper", "L1", "Top"], polarity="Positive"
+                ),
+            },
+            write_job=False,
+        )
+
+
 def test_to_gerber_writes_ucamco_job_file(tmp_path: Path) -> None:
     """BoardOptions is no longer a stub: CAD must ship size + layer count."""
     written = to_gerber(

@@ -162,6 +162,16 @@ def polygon(pp: PolygonPoints, decimal_digits: int = 4) -> str:
     return "G36*\n" + points(xy, decimal_digits=decimal_digits) + "G37*\n\n"
 
 
+def _gerber_filename(name: str) -> str:
+    """Return the `.gbr` filename for a Gerber layer name.
+
+    `Path.with_suffix` reads a dotted stackup name like `L1.2 signal` as having
+    suffix `.2 signal` and rewrites it to `L1.gbr`, so `L1.2` and `L1.3` would
+    both land on `L1.gbr` and one layer would overwrite the other.
+    """
+    return f"{name.replace(' ', '_')}.gbr"
+
+
 def _job_file(
     component: Component,
     gerber_files: list[tuple[str, GerberLayer]],
@@ -262,9 +272,18 @@ def to_gerber(
     written: list[Path] = []
     job_files: list[tuple[str, GerberLayer]] = []
 
+    names_seen: dict[str, str] = {}
+
     for layer_spec, layer in layermap_to_gerber_layer.items():
         layer_tup = get_layer_tuple(layer_spec)
-        filename = (dirpath / layer.name.replace(" ", "_")).with_suffix(".gbr")
+        name = _gerber_filename(layer.name)
+        if name in names_seen:
+            raise ValueError(
+                f"Gerber layers {names_seen[name]!r} and {layer.name!r} both map to "
+                f"{name!r}. Layer names must produce distinct filenames."
+            )
+        names_seen[name] = layer.name
+        filename = dirpath / name
         job_files.append((filename.name, layer))
 
         with open(filename, "w") as f:
