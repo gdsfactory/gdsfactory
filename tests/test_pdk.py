@@ -125,11 +125,11 @@ def restore_kcl_state() -> Iterator[None]:
     from gdsfactory.gpdk import PDK
 
     original_dbu = gf.kcl.dbu
-    gf.kcl.clear_kcells()
+    gf.clear_cache()
     try:
         yield
     finally:
-        gf.kcl.clear_kcells()
+        gf.clear_cache()
         gf.kcl.dbu = original_dbu
         PDK.activate(force=True)
 
