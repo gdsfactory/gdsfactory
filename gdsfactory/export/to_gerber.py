@@ -226,8 +226,8 @@ def to_gerber(
     """Write each layer to a Gerber file and an optional Ucamco `.gbrjob`.
 
     Layout units default to um. File units default to mm, so a 100 um pad is
-    0.1 mm on the board rather than 100 mm. Pass `layout_unit="mm"` if the
-    Component is already in millimetres.
+    0.1 mm on the board. Pass `layout_unit="mm"` if the Component is already
+    in millimetres.
 
     Args:
         component: to export.
