@@ -5,6 +5,7 @@ import kfactory as kf
 import pytest
 
 import gdsfactory as gf
+from gdsfactory import partial
 from gdsfactory.config import CONF
 from gdsfactory.gpdk import LAYER
 from gdsfactory.technology import LayerMap
@@ -145,33 +146,128 @@ def test_pdk_sets_dbu(restore_kcl_state: None) -> None:
     assert gf.kcl.dbu == 0.0005
 
 
-def test_pdk_dbu_change_after_cells_raises(restore_kcl_state: None) -> None:
+def test_pdk_dbu_change_on_reactivation_after_cells_raises(
+    restore_kcl_state: None,
+) -> None:
+    pdk = gf.Pdk(
+        name="dbu_blocked",
+        layers=LAYER,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    pdk.activate(force=True)
     gf.components.straight()
     assert len(gf.kcl.kcells) > 0
 
-    pdk = gf.Pdk(
+    rescaled = gf.Pdk(
         name="dbu_blocked",
         layers=LAYER,
         cross_sections={"strip": gf.cross_section.strip},
         dbu=0.0005,
     )
     with pytest.raises(ValueError, match=r"cell\(s\) already exist"):
-        pdk.activate(force=True)
+        rescaled.activate(force=True)
 
 
-def test_pdk_same_dbu_with_existing_cells_allowed(restore_kcl_state: None) -> None:
+def test_pdk_switch_clears_cells(restore_kcl_state: None) -> None:
     gf.components.straight()
     assert len(gf.kcl.kcells) > 0
 
-    existing_dbu = gf.kcl.dbu
+    pdk = gf.Pdk(
+        name="dbu_switch",
+        layers=LAYER,
+        cross_sections={"strip": gf.cross_section.strip},
+        dbu=0.0005,
+    )
+    with pytest.warns(UserWarning, match="discards"):
+        pdk.activate(force=True)
 
+    assert gf.kcl.dbu == 0.0005
+    assert len(gf.kcl.kcells) == 0
+
+
+def test_pdk_switch_does_not_reserve_cells_by_name(restore_kcl_state: None) -> None:
+    """Two PDKs can generate the same cell name for different geometry.
+
+    Cell names serialize cross-sections and layers to their name, and with
+    ``CONF.cell_layout_cache`` on, the decorator re-serves any existing cell with
+    the computed name. Activating a PDK must therefore drop the previous PDK's
+    cells, or the second factory silently returns the first one's geometry.
+    """
+    from gdsfactory.gpdk import PDK
+
+    @gf.cell(basename="pdk_scoped_cell", register_factory=False)
+    def narrow() -> gf.Component:
+        c = gf.Component()
+        c.add_polygon([(0, 0), (10, 0), (10, 1), (0, 1)], layer="WG")
+        return c
+
+    @gf.cell(basename="pdk_scoped_cell", register_factory=False)
+    def wide() -> gf.Component:
+        c = gf.Component()
+        c.add_polygon([(0, 0), (20, 0), (20, 2), (0, 2)], layer="WG")
+        return c
+
+    PDK.activate(force=True)
+    assert narrow().dbbox().height() == 1.0
+
+    other = gf.Pdk(
+        name="pdk_scoped_other",
+        layers=LAYER,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    with pytest.warns(UserWarning, match="discards"):
+        other.activate()
+
+    assert wide().dbbox().height() == 2.0
+
+
+def test_clear_cache_rebuilds_vcell_after_pdk_switch(restore_kcl_state: None) -> None:
+    """A @vcell must not be re-served from the previous PDK after clear_cache.
+
+    Virtual cells live outside the layout, so clear_kcells() cannot reach them and
+    the decorator has no destroyed()-based self-healing. Since a cross_section
+    serializes to its name, both PDKs below share a single cache key. They also
+    share a name, so activating the second one does not clear anything by itself
+    and clear_cache() is the only thing that can force the rebuild.
+    """
+    narrow = gf.Pdk(
+        name="vcell_cache",
+        layers=LAYER,
+        cross_sections={"strip": partial(gf.cross_section.strip, width=0.5)},
+    )
+    narrow.activate(force=True)
+    assert gf.components.straight_all_angle(length=10).dbbox().height() == 0.5
+
+    wide = gf.Pdk(
+        name="vcell_cache",
+        layers=LAYER,
+        cross_sections={"strip": partial(gf.cross_section.strip, width=2.0)},
+    )
+    gf.clear_cache()
+    wide.activate(force=True)
+
+    assert gf.components.straight_all_angle(length=10).dbbox().height() == 2.0
+
+
+def test_pdk_same_dbu_with_existing_cells_allowed(restore_kcl_state: None) -> None:
+    """Re-activating the active PDK with an unchanged DBU keeps the cells.
+
+    Switching to a *different* PDK clears the caches first, so only a same-name
+    re-activation can reach the guard with cells present.
+    """
     pdk = gf.Pdk(
         name="dbu_same",
         layers=LAYER,
         cross_sections={"strip": gf.cross_section.strip},
-        dbu=existing_dbu,
+        dbu=gf.kcl.dbu,
     )
     pdk.activate(force=True)
+    gf.components.straight()
+    assert len(gf.kcl.kcells) > 0
+
+    pdk.activate(force=True)  # same PDK and DBU, so the cells are kept
+
+    assert len(gf.kcl.kcells) > 0
 
 
 def _registered_layers() -> set[tuple[int, int]]:
@@ -225,13 +321,11 @@ def test_activate_custom_pdk_prunes_generic_layers(
 def test_activate_custom_pdk_keeps_layers_with_geometry(
     restore_kcl_state: None,
 ) -> None:
-    """A layer outside the new PDK that holds shapes is kept, not pruned (#4595).
+    """A layer outside the PDK that holds shapes is kept, not pruned (#4595).
 
-    Switching PDKs must never silently discard geometry.
+    Pruning must never orphan geometry. Switching to a *different* PDK empties
+    the layout first, so the case only arises on a same-name re-activation.
     """
-    gf.gpdk.PDK.activate(force=True)
-    c = gf.Component()
-    c.add_polygon([(0, 0), (5, 0), (5, 5), (0, 5)], layer=(1, 0))  # WG holds geometry
 
     class MyFabLayers(LayerMap):
         MY_WG = (10, 0)
@@ -243,7 +337,14 @@ def test_activate_custom_pdk_keeps_layers_with_geometry(
     )
     pdk.activate(force=True)
 
+    c = gf.Component()
+    c.add_polygon([(0, 0), (5, 0), (5, 5), (0, 5)], layer=(1, 0))  # foreign layer
+    assert (1, 0) in _registered_layers()
+
+    pdk.activate(force=True)  # same PDK, so the layout is not cleared
+
     assert (1, 0) in _registered_layers()  # kept because it still holds shapes
+    assert not c.shapes(gf.kcl.layout.find_layer(1, 0)).is_empty()
 
 
 def test_activate_custom_pdk_preserves_error_layer(
@@ -280,29 +381,29 @@ def test_activate_custom_pdk_preserves_error_layer(
 def test_reactivate_pdk_moves_wrong_index_layer_with_geometry(
     restore_kcl_state: None,
 ) -> None:
-    """Restoring a PDK moves wrongly registered geometry back to enum indexes."""
+    """Re-activating a PDK moves wrongly registered geometry back to enum indexes.
 
-    class MyFabLayers(LayerMap):
-        MY_WG = (10, 0)
+    Registering WG away from its LayerEnum index is what happens after building
+    under a PDK that does not declare it; here it is set up directly, because
+    switching PDK now empties the layout before the layers are restored.
+    """
+    gf.gpdk.PDK.activate(force=True)
 
-    custom_pdk = gf.Pdk(
-        name="wrong_index_fab",
-        layers=MyFabLayers,
-        cross_sections={"strip": gf.cross_section.strip},
-    )
-    custom_pdk.activate(force=True)
-
-    no_layers_pdk = gf.Pdk(name="no_layers")
-    no_layers_pdk.activate(force=True)
+    layout = gf.kcl.layout
+    info = kf.kdb.LayerInfo(1, 0)
+    layout.delete_layer(layout.find_layer(info))
+    wrong_index = max(layout.layer_indexes()) + 1  # free, and not WG's index
+    assert not layout.is_valid_layer(wrong_index)
+    layout.insert_layer_at(wrong_index, info)
+    assert layout.find_layer(info) == wrong_index != int(LAYER.WG)
 
     c = gf.Component()
     c.add_polygon([(0, 0), (5, 0), (5, 5), (0, 5)], layer=(1, 0))
-    wrong_index = gf.kcl.layout.find_layer(1, 0)
-    assert wrong_index != int(LAYER.WG)
+    assert not c.shapes(wrong_index).is_empty()
 
-    gf.gpdk.PDK.activate(force=True)
+    gf.gpdk.PDK.activate(force=True)  # same PDK, so the layout is not cleared
 
-    assert gf.kcl.layout.find_layer(1, 0) == int(LAYER.WG)
+    assert layout.find_layer(info) == int(LAYER.WG)
     assert not c.shapes(int(LAYER.WG)).is_empty()
 
 
