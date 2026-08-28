@@ -369,6 +369,11 @@ def test_invert() -> None:
     assert path.start_angle == 270
     assert path.end_angle == 180
 
+    path = Path([(0, 0), (1, 0)], start_angle=200, end_angle=270)
+    path.invert()
+    assert path.start_angle == 90
+    assert path.end_angle == 20
+
 
 def test_centerpoint_offset_curve() -> None:
     path = Path([(0, 0), (1, 0), (2, 0)])

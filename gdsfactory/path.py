@@ -678,7 +678,10 @@ class Path(UMGeometricObject):
         The shape of the path is unchanged, but its start becomes its end and vice versa.
         """
         self.points = self.points[::-1]
-        self.start_angle, self.end_angle = self.end_angle + 180, self.start_angle + 180
+        self.start_angle, self.end_angle = (
+            mod(self.end_angle + 180, 360),
+            mod(self.start_angle + 180, 360),
+        )
         return self
 
 
