@@ -1,8 +1,8 @@
 info: {}
-name: interdigital_capacitor_gdsfactorypcomponentspanalogpint_2ca89435
+name: interdigital_capacitor_gdsfactorypcomponentspanalogpint_db9e85de
 settings:
   finger_gap: 2
   finger_length: 20
   fingers: 4
-  layer: WG
+  layer: M1
   thickness: 5
