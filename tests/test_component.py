@@ -1,3 +1,4 @@
+import pathlib
 from typing import Any
 
 import kfactory as kf
@@ -501,6 +502,35 @@ def test_component_write_gds() -> None:
     path = c.write_gds(gdspath=GDSDIR_TEMP / "custom_name.gds")
     assert path.exists()
     assert path.name == "custom_name.gds"
+
+
+def test_component_write_gds_deduplicates_cell_names(tmp_path: pathlib.Path) -> None:
+    source_paths = [tmp_path / "source1.gds", tmp_path / "source2.gds"]
+    for source_path, box_size in zip(source_paths, (10, 20), strict=True):
+        layout = kdb.Layout()
+        cell = layout.create_cell("duplicate")
+        cell.shapes(layout.layer(1, 0)).insert(kdb.Box(0, 0, box_size, box_size))
+        layout.write(source_path)
+
+    imported = [gf.import_gds(source_path) for source_path in source_paths]
+    component = gf.Component()
+    for child in imported:
+        component.add_ref(child)
+
+    with pytest.raises(RuntimeError, match="Duplicate cell names"):
+        component.write_gds(tmp_path / "duplicates.gds", deduplicate_cell_names=False)
+
+    output_path = component.write_gds(tmp_path / "deduplicated.gds")
+    output_layout = kdb.Layout()
+    output_layout.read(output_path)
+    duplicate_names = [
+        cell.name
+        for cell in output_layout.each_cell()
+        if cell.name.startswith("duplicate")
+    ]
+
+    assert len(duplicate_names) == 2
+    assert len(set(duplicate_names)) == 2
 
 
 def test_component_copy_child_info() -> None:
