@@ -28,7 +28,7 @@ from gdsfactory.component import (
     ComponentReference,
     container,
 )
-from gdsfactory.config import CONF, PATH, __version__
+from gdsfactory.config import CONF, PATH, __version__, rich_output
 from gdsfactory.port import Port
 from gdsfactory.typings import Pin
 from gdsfactory.read.import_gds import import_gds
@@ -171,6 +171,7 @@ __all__ = (
     "path",
     "port",
     "read",
+    "rich_output",
     "routing",
     "schematic_cell",
     "show",
