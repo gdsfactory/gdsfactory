@@ -164,10 +164,11 @@ instances:
       size:
       - 8
       - 50
-  text_gdsfactorypcomponentsptextsptext_T16p0_S50_P0_0_Jcenter_LWG_m5000_0_A90:
+  text_gdsfactorypcomponentsptextsptext_T16p0_S50_P0_0_Jc_daf81cfb_m5000_0_A90:
     component: text
     info: {}
     settings:
+      font: null
       justify: center
       layer: WG
       position:
@@ -232,7 +233,7 @@ placements:
     rotation: 0
     x: 36
     y: 0
-  text_gdsfactorypcomponentsptextsptext_T16p0_S50_P0_0_Jcenter_LWG_m5000_0_A90:
+  text_gdsfactorypcomponentsptextsptext_T16p0_S50_P0_0_Jc_daf81cfb_m5000_0_A90:
     mirror: false
     rotation: 90
     x: -5
