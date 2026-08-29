@@ -6,6 +6,7 @@ from typing import Any, Self
 import networkx as nx
 import yaml
 from graphviz import Digraph
+from kfactory.schematic import AnchorRefX, AnchorRefY
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 import gdsfactory as gf
@@ -119,8 +120,8 @@ class Instance(BaseModel):
 
 
 class Placement(BaseModel):
-    x: str | float | None = None
-    y: str | float | None = None
+    x: str | float | AnchorRefX | None = None
+    y: str | float | AnchorRefY | None = None
     xmin: str | float | None = None
     ymin: str | float | None = None
     xmax: str | float | None = None
