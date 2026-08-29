@@ -102,6 +102,7 @@ valid_placement_keys = [
     "dy",
     "rotation",
     "mirror",
+    "mirror_y",
     "port",
 ]
 
@@ -1091,6 +1092,7 @@ def _update_reference_by_placement(
     port = p.port
     rotation = p.rotation
     mirror = p.mirror
+    mirror_y = p.mirror_y
     port_names = [port.name for port in ref.ports]
 
     if rotation:
@@ -1118,6 +1120,9 @@ def _update_reference_by_placement(
                 raise ValueError(
                     f"{mirror!r} should be bool | float | str in {port_names}. Got: {mirror}."
                 ) from e
+
+    if mirror_y:
+        ref.dmirror_y(y=0 if mirror_y is True else float(mirror_y))
 
     if isinstance(port, str):
         if xmin is not None or xmax is not None or ymin is not None or ymax is not None:
