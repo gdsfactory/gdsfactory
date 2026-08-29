@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from gdsfactory.routing.route_bundle import route_bundle
+from gdsfactory.routing.route_bundle import _cell_route_length, route_bundle
 from gdsfactory.typings import AngleInDegrees, Delta
 
 
@@ -510,5 +510,56 @@ def test_route_bundle_width() -> None:
         layer=(1, 0),
         route_width=0.5,
     )
-    expected_length = 53274.356
+    expected_length = 53274
     assert route[0].length == expected_length, route[0].length
+
+
+def test_route_bundle_length_uses_hierarchical_component_metadata() -> None:
+    def hierarchical_straight(
+        length: float,
+        cross_section: gf.typings.CrossSectionSpec,
+        width: float,
+    ) -> Component:
+        half = gf.components.straight(
+            length=length / 2, cross_section=cross_section, width=width
+        ).dup()
+        half.info["length"] = length / 2 + 1
+
+        component = Component()
+        first = component << half
+        second = component << half
+        second.connect("o1", first.ports["o2"])
+        component.add_port("o1", port=first.ports["o1"])
+        component.add_port("o2", port=second.ports["o2"])
+        return component
+
+    component = Component()
+    layer_index = component.kcl.layer(1, 0)
+    port1 = Port(name="o1", center=(10, 0), width=0.5, orientation=0, layer=layer_index)
+    port2 = Port(
+        name="o2", center=(90, 0), width=0.5, orientation=180, layer=layer_index
+    )
+
+    route = route_bundle(
+        component,
+        [port1],
+        [port2],
+        cross_section="strip",
+        straight=hierarchical_straight,
+    )[0]
+
+    assert route.length == 82_000
+
+
+def test_route_bundle_length_uses_average_port_width_fallback() -> None:
+    taper = gf.components.taper(length=10, width1=0.5, width2=1).dup()
+    taper.info = type(taper.info)()
+    parent = Component()
+    taper_instance = parent << taper
+    layer_info = taper.kcl.layout.get_info(gf.get_layer("WG"))
+
+    length = _cell_route_length(
+        taper_instance.cell, layer_info, taper.ports["o1"].iwidth
+    )
+
+    assert length == 10_000
