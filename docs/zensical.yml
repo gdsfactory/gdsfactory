@@ -14,6 +14,7 @@ nav:
       - workflow.md
       - notebooks/12_config.md
   - Layout:
+      - PCB Gerber layouts: notebooks/13_pcb_gerber.md
       - notebooks/00_geometry.md
       - notebooks/01_references.md
       - notebooks/03_cells_autoname_and_cache.md
