@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 import pytest
 
@@ -53,6 +55,13 @@ def test_bend_circular() -> None:
 
     ca = bend_circular_all_angle(radius=10, angle=45)
     assert isinstance(ca, gf.ComponentAllAngle)
+
+
+@pytest.mark.parametrize("angle", [-90, -180])
+def test_bend_circular_negative_standard_angle_does_not_warn(angle: float) -> None:
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        bend_circular(radius=10, angle=angle)
 
 
 def test_bend_circular_layer_width() -> None:
