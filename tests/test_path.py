@@ -358,6 +358,23 @@ def test_mirror() -> None:
     )
 
 
+def test_invert() -> None:
+    path = Path([(0, 0), (1, 0), (1, 1)])
+    assert path.start_angle == 0
+    assert path.end_angle == 90
+    path.invert()
+    np.testing.assert_array_equal(
+        path.points, np.array([(1, 1), (1, 0), (0, 0)], dtype=np.float64)
+    )
+    assert path.start_angle == 270
+    assert path.end_angle == 180
+
+    path = Path([(0, 0), (1, 0)], start_angle=200, end_angle=270)
+    path.invert()
+    assert path.start_angle == 90
+    assert path.end_angle == 20
+
+
 def test_centerpoint_offset_curve() -> None:
     path = Path([(0, 0), (1, 0), (2, 0)])
     offset_distance = [0.5]
