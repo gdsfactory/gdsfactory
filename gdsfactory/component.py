@@ -1044,10 +1044,7 @@ class Component(ComponentBase, kf.DKCell):
         """
         from gdsfactory import get_layer
 
-        if recursive:
-            self.locked = False
-
-        if self.locked:
+        if not recursive and self.locked:
             raise LockedError(self)
 
         layer_index_pairs = [
@@ -1085,10 +1082,7 @@ class Component(ComponentBase, kf.DKCell):
         """
         from gdsfactory import get_layer
 
-        if recursive:
-            self.locked = False
-
-        if self.locked:
+        if not recursive and self.locked:
             raise LockedError(self)
 
         layer_indexes = self.kcl.layer_indexes()
@@ -1128,7 +1122,7 @@ class Component(ComponentBase, kf.DKCell):
         """
         from gdsfactory import get_layer
 
-        if self.locked:
+        if not recursive and self.locked:
             raise LockedError(self)
 
         layer_index_pairs = [
