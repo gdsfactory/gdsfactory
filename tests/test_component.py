@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from typing import Any
 
 import kfactory as kf
@@ -629,6 +630,48 @@ def test_copy_layers_recursive_multiple_layers_restores_lock() -> None:
     child.locked = False
     c.delete()
     child.delete()
+
+
+def test_remap_layers_recursive_locked_child() -> None:
+    """Recursive remap must work through a locked (cached) child cell.
+
+    Component.locked is backed by KLayout's own cell lock, so remapping a locked
+    child used to raise `RuntimeError: ... cannot be modified as it is locked`.
+    """
+    child = gf.components.straight(length=10, width=1)
+    assert child.locked, "expected a cached component to be locked"
+
+    c = gf.Component()
+    c << child
+    c.remap_layers({(1, 0): (2, 0)}, recursive=True)
+
+    assert child.area((1, 0)) == 0, f"{child.area((1, 0))}"
+    assert child.area((2, 0)) == 10, f"{child.area((2, 0))}"
+    assert child.locked, "child lock should be restored"
+
+
+@pytest.mark.parametrize(
+    "operation",
+    [
+        lambda c: c.remap_layers({(1, 0): (2, 0)}, recursive=True),
+        lambda c: c.copy_layers({(1, 0): (2, 0)}, recursive=True),
+        lambda c: c.remove_layers([(1, 0)], recursive=True),
+    ],
+    ids=["remap_layers", "copy_layers", "remove_layers"],
+)
+def test_layer_ops_recursive_restore_parent_lock(
+    operation: Callable[[gf.Component], gf.Component],
+) -> None:
+    """A recursive layer op must not leave a locked parent permanently unlocked."""
+    c = gf.Component()
+    c.add_polygon([(0, 0), (0, 10), (10, 10), (10, 0)], layer=(1, 0))
+    c.locked = True
+
+    operation(c)
+
+    assert c.locked, "parent lock should be restored"
+    c.locked = False
+    c.delete()
 
 
 def test_get_labels() -> None:
