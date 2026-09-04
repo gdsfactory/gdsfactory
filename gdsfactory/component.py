@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import contextlib
 import pathlib
 import warnings
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable, Iterator, Sequence
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -68,6 +69,17 @@ def _fix_pin_metadata(cell: kf.kcell.ProtoTKCell[Any]) -> None:
         cell.remove_meta_info(name)
         value["ports"] = [str(p) for p in value["ports"]]
         cell.add_meta_info(kdb.LayoutMetaInfo(name, value, None, True))
+
+
+@contextlib.contextmanager
+def _unlocked(cell: kf.kcell.ProtoTKCell[Any]) -> Iterator[None]:
+    """Temporarily unlocks a cell, restoring its previous lock state on exit."""
+    was_locked = cell.locked
+    cell.locked = False
+    try:
+        yield
+    finally:
+        cell.locked = was_locked
 
 
 class AddPortError(ValueError):
@@ -1036,18 +1048,19 @@ class Component(ComponentBase, kf.DKCell):
         layer_map: dict[LayerSpec, LayerSpec],
         recursive: bool = False,
     ) -> Self:
-        """Remaps a list of layers and returns the same Component.
+        """Copies shapes from one layer onto another and returns the same Component.
 
         Args:
-            layer_map: dictionary of layers to copy.
-            recursive: if True, remaps layers recursively.
+            layer_map: dictionary mapping source layers to destination layers.
+            recursive: if True, also applies to every cell called by this one,
+                temporarily unlocking each cell and restoring its lock state
+                afterwards. Child cells are shared, so any other Component
+                referencing them also sees the change. Call `.dup()` on a cell
+                beforehand to leave the cached version untouched.
         """
         from gdsfactory import get_layer
 
-        if recursive:
-            self.locked = False
-
-        if self.locked:
+        if not recursive and self.locked:
             raise LockedError(self)
 
         layer_index_pairs = [
@@ -1055,21 +1068,16 @@ class Component(ComponentBase, kf.DKCell):
             for layer, new_layer in layer_map.items()
         ]
         kdb_cell = self.kdb_cell
-        for src_layer_index, dst_layer_index in layer_index_pairs:
-            kdb_cell.copy(src_layer_index, dst_layer_index)
+        with _unlocked(self):
+            for src_layer_index, dst_layer_index in layer_index_pairs:
+                kdb_cell.copy(src_layer_index, dst_layer_index)
 
         if recursive:
             for ci in kdb_cell.called_cells():
                 child = self.kcl[ci]
-                child_cell = child.kdb_cell
-                was_locked = child.locked
-                child.locked = False
-                try:
+                with _unlocked(child):
                     for src_layer_index, dst_layer_index in layer_index_pairs:
-                        child_cell.copy(src_layer_index, dst_layer_index)
-                finally:
-                    if was_locked:
-                        child.locked = True
+                        child.kdb_cell.copy(src_layer_index, dst_layer_index)
         return self
 
     def remove_layers(
@@ -1081,54 +1089,55 @@ class Component(ComponentBase, kf.DKCell):
 
         Args:
             layers: list of layers to remove.
-            recursive: if True, removes layers recursively and temporarily unlocks components.
+            recursive: if True, also applies to every cell called by this one,
+                temporarily unlocking each cell and restoring its lock state
+                afterwards. Child cells are shared, so any other Component
+                referencing them also sees the change. Call `.dup()` on a cell
+                beforehand to leave the cached version untouched.
         """
         from gdsfactory import get_layer
 
-        if recursive:
-            self.locked = False
-
-        if self.locked:
+        if not recursive and self.locked:
             raise LockedError(self)
 
         layer_indexes = self.kcl.layer_indexes()
-        layer_indexes_to_remove = [get_layer(layer) for layer in layers]
         layer_indices = [
-            layer for layer in layer_indexes_to_remove if layer in layer_indexes
+            layer_index
+            for layer_index in (get_layer(layer) for layer in layers)
+            if layer_index in layer_indexes
         ]
         if not layer_indices:
             return self
 
         kdb_cell = self.kdb_cell
-        for layer_index in layer_indices:
-            kdb_cell.shapes(layer_index).clear()
+        with _unlocked(self):
+            for layer_index in layer_indices:
+                kdb_cell.shapes(layer_index).clear()
 
         if recursive:
             for ci in kdb_cell.called_cells():
                 child = self.kcl[ci]
-                child_cell = child.kdb_cell
-                was_locked = child.locked
-                child.locked = False
-                try:
-                    for layer_idx in layer_indices:
-                        child_cell.shapes(layer_idx).clear()
-                finally:
-                    if was_locked:
-                        child.locked = True
+                with _unlocked(child):
+                    for layer_index in layer_indices:
+                        child.kdb_cell.shapes(layer_index).clear()
         return self
 
     def remap_layers(
         self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
     ) -> Self:
-        """Remaps a list of layers and returns the same Component.
+        """Moves shapes from one layer onto another and returns the same Component.
 
         Args:
-            layer_map: dictionary of layers to remap.
-            recursive: if True, remaps layers recursively.
+            layer_map: dictionary mapping source layers to destination layers.
+            recursive: if True, also applies to every cell called by this one,
+                temporarily unlocking each cell and restoring its lock state
+                afterwards. Child cells are shared, so any other Component
+                referencing them also sees the change. Call `.dup()` on a cell
+                beforehand to leave the cached version untouched.
         """
         from gdsfactory import get_layer
 
-        if self.locked:
+        if not recursive and self.locked:
             raise LockedError(self)
 
         layer_index_pairs = [
@@ -1136,14 +1145,16 @@ class Component(ComponentBase, kf.DKCell):
             for layer, new_layer in layer_map.items()
         ]
         kdb_cell = self.kdb_cell
-        for src_layer_index, dst_layer_index in layer_index_pairs:
-            kdb_cell.move(src_layer_index, dst_layer_index)
+        with _unlocked(self):
+            for src_layer_index, dst_layer_index in layer_index_pairs:
+                kdb_cell.move(src_layer_index, dst_layer_index)
 
         if recursive:
             for ci in kdb_cell.called_cells():
-                child_cell = self.kcl[ci].kdb_cell
-                for src_layer_index, dst_layer_index in layer_index_pairs:
-                    child_cell.move(src_layer_index, dst_layer_index)
+                child = self.kcl[ci]
+                with _unlocked(child):
+                    for src_layer_index, dst_layer_index in layer_index_pairs:
+                        child.kdb_cell.move(src_layer_index, dst_layer_index)
         return self
 
     def to_3d(
