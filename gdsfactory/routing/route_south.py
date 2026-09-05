@@ -9,7 +9,7 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import LegacyCrossSection
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.route_bundle import route_bundle
@@ -149,7 +149,7 @@ def route_south(
         ).argmin()
 
     def gen_port_from_port(
-        x: float, y: float, p: typings.Port, cross_section: CrossSection
+        x: float, y: float, p: typings.Port, cross_section: LegacyCrossSection
     ) -> Port:
         return Port(
             name=p.name,

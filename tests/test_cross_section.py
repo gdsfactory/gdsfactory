@@ -37,8 +37,8 @@ def test_transition_names() -> None:
     s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
     s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
 
-    xs1 = gf.CrossSection(sections=(s1,))
-    xs2 = gf.CrossSection(sections=(s2,))
+    xs1 = gf.LegacyCrossSection(sections=(s1,))
+    xs2 = gf.LegacyCrossSection(sections=(s2,))
     trans12 = gf.path.transition(
         cross_section1=xs1, cross_section2=xs2, width_type="linear"
     )
@@ -58,8 +58,8 @@ def test_transition_asymmetric_names() -> None:
     s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
     s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
 
-    xs1 = gf.CrossSection(sections=(s1,))
-    xs2 = gf.CrossSection(sections=(s2,))
+    xs1 = gf.LegacyCrossSection(sections=(s1,))
+    xs2 = gf.LegacyCrossSection(sections=(s2,))
     trans12 = gf.path.transition_asymmetric(
         cross_section1=xs1, cross_section2=xs2, width_type1="linear", width_type2="sine"
     )
@@ -76,7 +76,7 @@ def test_transition_asymmetric_names() -> None:
 
 def test_copy() -> None:
     s = gf.Section(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
-    x1 = gf.CrossSection(sections=(s,))
+    x1 = gf.LegacyCrossSection(sections=(s,))
     x2 = x1.copy()
     d = jsondiff.diff(x1.model_dump(), x2.model_dump())
     assert len(d) == 0, d
@@ -137,14 +137,14 @@ def test_taper_cladding_offets() -> None:
 
 
 def test_is_cross_section_basic() -> None:
-    def basic_xs(width: float = 1.0) -> gf.CrossSection:
+    def basic_xs(width: float = 1.0) -> gf.LegacyCrossSection:
         return gf.cross_section.cross_section(width=width, layer=(1, 0))
 
     assert gf.cross_section.is_cross_section("basic_xs", basic_xs)
 
 
 def test_is_cross_section_subclass() -> None:
-    class OtherCrossSection(gf.CrossSection):
+    class OtherCrossSection(gf.LegacyCrossSection):
         pass
 
     def cross_section(**kwargs: Any) -> OtherCrossSection:
@@ -154,7 +154,7 @@ def test_is_cross_section_subclass() -> None:
 
 
 def test_is_cross_section_subclass_name_not_including_cross_section() -> None:
-    class SubclassCrossSection(gf.CrossSection):
+    class SubclassCrossSection(gf.LegacyCrossSection):
         pass
 
     def cross_section(**kwargs: Any) -> SubclassCrossSection:
@@ -232,24 +232,24 @@ def test_cross_section_callable_width_offset(
 
 
 def test_is_cross_section_private() -> None:
-    def _private_xs() -> gf.CrossSection:
+    def _private_xs() -> gf.LegacyCrossSection:
         return gf.cross_section.cross_section(width=1.0, layer=(1, 0))
 
     assert not gf.cross_section.is_cross_section("_private_xs", _private_xs)
 
 
 def test_taper_cross_section_instance_matches_name() -> None:
-    """Taper must honor width overrides when cross_section is a CrossSection.
+    """Taper must honor width overrides when cross_section is a LegacyCrossSection.
 
-    Passing a CrossSection instance used to drop the taper's width overrides
+    Passing a LegacyCrossSection instance used to drop the taper's width overrides
     (and reuse one geometry for both ports), giving a different result than the
     equivalent string spec and poisoning the cell cache (#4588).
     """
-    from gdsfactory.cross_section import CrossSection, Section, xsection
+    from gdsfactory.cross_section import LegacyCrossSection, Section, xsection
 
     @xsection
-    def _xs_4588(width: float = 0.5) -> CrossSection:
-        return CrossSection(
+    def _xs_4588(width: float = 0.5) -> LegacyCrossSection:
+        return LegacyCrossSection(
             sections=(
                 Section(
                     width=width,

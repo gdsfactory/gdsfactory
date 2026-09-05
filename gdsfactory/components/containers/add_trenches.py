@@ -27,7 +27,7 @@ def add_trenches(
         layer_component: layer of the component to invert.
         layer_trench: layer of the trenches.
         width_trench: width of the trenches.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         top: width of the trench on the top. If None uses width_trench.
         bot: width of the trench on the bottom. If None uses width_trench.
         right: width of the trench on the right. If None uses width_trench.

@@ -6,7 +6,7 @@ from typing import Any
 
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
-    CrossSection,
+    LegacyCrossSection,
     Section,
     Sections,
     cladding_layers_optical,
@@ -34,7 +34,7 @@ def pin(
     via_offsets: tuple[float, ...] | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Rib PIN doped cross_section.
 
     Args:
@@ -153,7 +153,7 @@ def pn(
     cladding_simplify: typings.Floats | None = None,
     slab_inset: float | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Rib PN doped cross_section.
 
     Args:
@@ -341,7 +341,7 @@ def pn_with_trenches(
     wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Rib PN doped cross_section.
 
     Args:
@@ -557,7 +557,7 @@ def pn_with_trenches_asymmetric(
     wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Rib PN doped cross_section with asymmetric dimensions left and right.
 
     Args:
@@ -796,7 +796,7 @@ def l_wg_doped_with_trenches(
     wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """L waveguide PN doped cross_section.
 
     Args:
@@ -976,7 +976,7 @@ def pn_ge_detector_si_contacts(
     cladding_offsets: typings.Floats | None = cladding_offsets_optical,
     cladding_simplify: typings.Floats | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 
     It has silicon contacts (no contact on the Ge). The contacts need to be
@@ -1115,7 +1115,7 @@ def pn_ge_detector_si_contacts(
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     section_list.append(s)
 
-    return CrossSection(
+    return LegacyCrossSection(
         sections=tuple(section_list),
         **kwargs,
     )

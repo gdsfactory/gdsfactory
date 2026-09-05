@@ -318,7 +318,7 @@ def test_get_layer_name_exception_chaining() -> None:
 
 
 def test_get_cross_section_instance_applies_kwargs() -> None:
-    """Overrides apply to CrossSection instances like they do for string specs (#4588)."""
+    """Overrides apply to LegacyCrossSection instances like they do for string specs (#4588)."""
     xs = gf.get_cross_section("strip")
     xs_wide = gf.get_cross_section(xs, width=2)
     assert xs_wide.width == 2
@@ -373,7 +373,7 @@ def test_get_cross_section_invalid_spec_raises() -> None:
 
 
 def test_taper_cross_section_instance_matches_str_spec() -> None:
-    """Taper with a resolved CrossSection tapers like the string spec (#4588).
+    """Taper with a resolved LegacyCrossSection tapers like the string spec (#4588).
 
     The instance form is built first: it must not depend on a previously
     cached string-spec cell.

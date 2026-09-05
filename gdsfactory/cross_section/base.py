@@ -12,7 +12,15 @@ from collections.abc import Callable
 from typing import Any, Self
 
 import numpy as np
-from kfactory import DCrossSection, SymmetricalCrossSection
+from kfactory import (
+    AsymmetricalCrossSection,
+    AsymmetricCrossSection,
+    CrossSection,
+    DAsymmetricalCrossSection,
+    DAsymmetricCrossSection,
+    DCrossSection,
+    SymmetricalCrossSection,
+)
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -68,7 +76,7 @@ deprecated_routing = {
 
 
 class Section(BaseModel):
-    """CrossSection to extrude a path with a waveguide.
+    """LegacyCrossSection to extrude a path with a waveguide.
 
     Parameters:
         width: of the section (um). When `width_function` is set it takes \
@@ -177,7 +185,7 @@ class ComponentAlongPath(BaseModel):
 Sections = tuple[Section, ...]
 
 
-class CrossSection(BaseModel):
+class LegacyCrossSection(BaseModel):
     """Waveguide information to extrude a path.
 
     Parameters:
@@ -233,9 +241,7 @@ class CrossSection(BaseModel):
         radius_min = self.radius_min or self.radius
 
         if radius_min and radius < radius_min:
-            message = (
-                f"min_bend_radius {radius} < CrossSection.radius_min {radius_min}. "
-            )
+            message = f"min_bend_radius {radius} < LegacyCrossSection.radius_min {radius_min}. "
 
             error_type = error_type or CONF.bend_radius_error_type
 
@@ -285,7 +291,7 @@ class CrossSection(BaseModel):
         offset_function: typings.OffsetFunction | None = None,
         sections: Sections | None = None,
         **kwargs: Any,
-    ) -> CrossSection:
+    ) -> LegacyCrossSection:
         """Returns copy of the cross_section with new parameters.
 
         Args:
@@ -307,7 +313,7 @@ class CrossSection(BaseModel):
         """
         for kwarg in kwargs:
             if kwarg not in dict(self):
-                raise ValueError(f"{kwarg!r} not in CrossSection")
+                raise ValueError(f"{kwarg!r} not in LegacyCrossSection")
 
         xs_original = self
 
@@ -336,7 +342,7 @@ class CrossSection(BaseModel):
             xs._name = f"xs_{xs.hash}"
         return xs
 
-    def mirror(self) -> CrossSection:
+    def mirror(self) -> LegacyCrossSection:
         """Returns a mirrored copy of the cross_section."""
         sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
         return self.model_copy(update={"sections": tuple(sections)})
@@ -393,11 +399,11 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSection.model_rebuild()
+LegacyCrossSection.model_rebuild()
 
 
 class Transition(BaseModel, arbitrary_types_allowed=True):
-    """Waveguide information to extrude a path between two CrossSection.
+    """Waveguide information to extrude a path between two LegacyCrossSection.
 
     cladding_layers follow path shape
 
@@ -430,7 +436,7 @@ class Transition(BaseModel, arbitrary_types_allowed=True):
 
 
 class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
-    """Waveguide information to extrude a path between two CrossSection with asymmetric transitions.
+    """Waveguide information to extrude a path between two LegacyCrossSection with asymmetric transitions.
 
     Parameters:
         cross_section1: input cross_section.
@@ -497,12 +503,17 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
         )
 
 
-type CrossSectionFactory = Callable[..., "CrossSection"]
+type LegacyCrossSectionFactory = Callable[..., "LegacyCrossSection"]
 type CrossSectionSpec = (
-    CrossSection
+    LegacyCrossSection
     | str
     | dict[str, Any]
-    | CrossSectionFactory
+    | LegacyCrossSectionFactory
+    | CrossSection
     | SymmetricalCrossSection
     | DCrossSection
+    | AsymmetricalCrossSection
+    | DAsymmetricalCrossSection
+    | AsymmetricCrossSection
+    | DAsymmetricCrossSection
 )

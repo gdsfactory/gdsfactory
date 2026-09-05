@@ -13,29 +13,29 @@ from kfactory import logger
 
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
-    CrossSection,
-    CrossSectionFactory,
+    LegacyCrossSection,
+    LegacyCrossSectionFactory,
     Section,
     Sections,
 )
 
-cross_sections: dict[str, CrossSectionFactory] = {}
+cross_sections: dict[str, LegacyCrossSectionFactory] = {}
 _cross_section_default_names: dict[str, str] = {}
 
 P = ParamSpec("P")
 
 
-class CrossSectionCallable(Protocol[P]):
+class LegacyCrossSectionCallable(Protocol[P]):
     __name__: str
 
-    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> CrossSection: ...
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> LegacyCrossSection: ...
 
 
 def xsection[**P](
-    func: CrossSectionCallable[P],
-    xs_container: dict[str, CrossSectionFactory] = cross_sections,
+    func: LegacyCrossSectionCallable[P],
+    xs_container: dict[str, LegacyCrossSectionFactory] = cross_sections,
     xs_default_mapping: dict[str, str] = _cross_section_default_names,
-) -> CrossSectionCallable[P]:
+) -> LegacyCrossSectionCallable[P]:
     """Decorator to register a cross-section function.
 
     Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
@@ -48,7 +48,7 @@ def xsection[**P](
     xs_default_mapping[default_xs.name] = func.__name__
 
     @wraps(func)
-    def newfunc(*args: P.args, **kwargs: P.kwargs) -> CrossSection:
+    def newfunc(*args: P.args, **kwargs: P.kwargs) -> LegacyCrossSection:
         xs = func(*args, **kwargs)
         if xs.name in xs_default_mapping:
             xs._name = xs_default_mapping[xs.name]
@@ -74,8 +74,8 @@ def cross_section(
     radius: float | None = 10.0,
     radius_min: float | None = 7.0,
     main_section_name: str = "_default",
-) -> CrossSection:
-    """Return CrossSection.
+) -> LegacyCrossSection:
+    """Return LegacyCrossSection.
 
     Args:
         width: main Section width (um) or parameterized function from 0 to 1.
@@ -199,8 +199,9 @@ def cross_section(
         def _cladding_width_kwargs(offset: float) -> dict[str, Any]:
             if callable(width):
                 return {
-                    "width_function": lambda t: cast(Callable[..., Any], width)(t)
-                    + 2 * offset
+                    "width_function": lambda t: (
+                        cast(Callable[..., Any], width)(t) + 2 * offset
+                    )
                 }
             return {"width": cast(Any, width) + 2 * offset}
 
@@ -227,7 +228,7 @@ def cross_section(
                 )
             )
         ]
-    return CrossSection(
+    return LegacyCrossSection(
         sections=tuple(s),
         radius=radius,
         radius_min=radius_min,
@@ -284,9 +285,9 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
         if isinstance(return_type, str):
             # Handle simple string matches
             if return_type in (
-                "CrossSection",
-                "gf.CrossSection",
-                "gdsfactory.CrossSection",
+                "LegacyCrossSection",
+                "gf.LegacyCrossSection",
+                "gdsfactory.LegacyCrossSection",
             ):
                 return True
 
@@ -319,7 +320,7 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
                             resolved_type = closure_dict.get(return_type)
 
                 if resolved_type and isinstance(resolved_type, type):
-                    return issubclass(resolved_type, CrossSection)
+                    return issubclass(resolved_type, LegacyCrossSection)
 
             except (TypeError, AttributeError, ValueError):
                 pass  # Ignore type resolution errors
@@ -327,13 +328,13 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
             return False
 
         # Direct type comparison
-        if return_type is CrossSection:
+        if return_type is LegacyCrossSection:
             return True
 
-        # Check if it's a subclass of CrossSection
+        # Check if it's a subclass of LegacyCrossSection
         if isinstance(return_type, type):
             try:
-                return issubclass(return_type, CrossSection)
+                return issubclass(return_type, LegacyCrossSection)
             except TypeError:
                 # Handle cases where return_type is not a class
                 return False
@@ -347,7 +348,7 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
 
 def get_cross_sections(
     modules: Sequence[ModuleType] | ModuleType, verbose: bool = False
-) -> dict[str, CrossSectionFactory]:
+) -> dict[str, LegacyCrossSectionFactory]:
     """Returns cross_sections from a module or list of modules.
 
     Args:
@@ -360,7 +361,7 @@ def get_cross_sections(
     else:
         modules_ = [modules]
 
-    xs: dict[str, CrossSectionFactory] = {
+    xs: dict[str, LegacyCrossSectionFactory] = {
         name: obj
         for module in modules_
         for name, obj in getmembers(module)

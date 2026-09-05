@@ -33,9 +33,9 @@ def _assert_section_values(
         assert isclose(actual_section[3], expected_section[3])
 
 
-def test_native_cross_section_is_symmetric() -> None:
+def test_kfactory_cross_section_is_symmetric() -> None:
     gf.gpdk.PDK.activate()
-    xs = gf.cross_section.native_cross_section(
+    xs = gf.cross_section.kfactory_cross_section(
         width=0.5,
         layer="WG",
         cladding_layers=("SLAB90",),
@@ -44,11 +44,11 @@ def test_native_cross_section_is_symmetric() -> None:
         bbox_offsets=(1.0,),
         radius=10.0,
         radius_min=7.0,
-        name="native_symmetric",
+        name="kfactory_symmetric",
     )
 
     assert isinstance(xs, kf.DCrossSection)
-    assert xs.name == "native_symmetric"
+    assert xs.name == "kfactory_symmetric"
     assert xs.width == 0.5
     assert xs.radius == 10.0
     assert xs.radius_min == 7.0
@@ -65,20 +65,20 @@ def test_native_cross_section_is_symmetric() -> None:
     } == {(68, 0): 1.0}
 
 
-def test_native_cross_section_is_asymmetric() -> None:
+def test_kfactory_cross_section_is_asymmetric() -> None:
     gf.gpdk.PDK.activate()
-    xs = gf.cross_section.native_cross_section(
+    xs = gf.cross_section.kfactory_cross_section(
         width=0.5,
         offset=0.1,
         layer="WG",
         sections=(("M1", 0.3, 0.5),),
         radius=None,
         radius_min=None,
-        name="native_asymmetric",
+        name="kfactory_asymmetric",
     )
 
     assert isinstance(xs, kf.DAsymmetricCrossSection)
-    assert xs.name == "native_asymmetric"
+    assert xs.name == "kfactory_asymmetric"
     _assert_section_values(
         xs,
         [
@@ -88,13 +88,13 @@ def test_native_cross_section_is_asymmetric() -> None:
     )
 
 
-def test_native_cross_section_preserves_nested_same_layer_sections() -> None:
+def test_kfactory_cross_section_preserves_nested_same_layer_sections() -> None:
     gf.gpdk.PDK.activate()
-    xs = gf.cross_section.native_cross_section(
+    xs = gf.cross_section.kfactory_cross_section(
         width=0.5,
         layer="WG",
         sections=(("WG", -0.75, 0.75),),
-        name="native_nested",
+        name="kfactory_nested",
     )
 
     assert isinstance(xs, kf.DCrossSection)
@@ -107,13 +107,13 @@ def test_native_cross_section_preserves_nested_same_layer_sections() -> None:
     )
 
 
-def test_native_cross_section_snaps_edges_before_classifying_symmetry() -> None:
+def test_kfactory_cross_section_snaps_edges_before_classifying_symmetry() -> None:
     gf.gpdk.PDK.activate()
-    xs = gf.cross_section.native_cross_section(
+    xs = gf.cross_section.kfactory_cross_section(
         width=0.5,
         offset=0.0005,
         layer="WG",
-        name="native_grid_asymmetric",
+        name="kfactory_grid_asymmetric",
     )
 
     assert isinstance(xs, kf.DAsymmetricCrossSection)

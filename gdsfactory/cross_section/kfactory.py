@@ -1,7 +1,7 @@
-"""Native kfactory cross-section construction helpers.
+"""Kfactory cross-section construction helpers.
 
 The helpers in this module describe only the geometric profile.  Port metadata
-and other extrusion options deliberately remain outside the native kfactory
+and other extrusion options deliberately remain outside the kfactory
 cross-section until the extrusion migration is complete.
 """
 
@@ -16,8 +16,9 @@ import kfactory as kf
 
 from gdsfactory import typings
 
-type NativeSection = tuple[typings.LayerSpec, float, float] | kf.DCrossSectionLayer
-type NativeCrossSection = kf.DCrossSection | kf.DAsymmetricCrossSection
+type KFactorySectionSpec = (
+    tuple[typings.LayerSpec, float, float] | kf.DCrossSectionLayer
+)
 type _DbuSection = tuple[kf.kdb.LayerInfo, int, int]
 
 
@@ -114,8 +115,8 @@ def _to_enclosure_sections(
     return enclosure_sections
 
 
-def _normalize_native_sections(
-    sections: Sequence[NativeSection], kcl: kf.KCLayout
+def _normalize_kfactory_sections(
+    sections: Sequence[KFactorySectionSpec], kcl: kf.KCLayout
 ) -> tuple[_DbuSection, ...]:
     normalized: list[_DbuSection] = []
     for section in sections:
@@ -131,7 +132,7 @@ def _normalize_native_sections(
 
         if section_min >= section_max:
             raise ValueError(
-                "Native cross-section sections require section_min < section_max "
+                "Kfactory cross-section sections require section_min < section_max "
                 f"after grid snapping, got {section_min=} and {section_max=} for "
                 f"layer {layer}."
             )
@@ -140,11 +141,11 @@ def _normalize_native_sections(
     return tuple(normalized)
 
 
-def native_cross_section(
+def kfactory_cross_section(
     width: float,
     offset: float = 0,
     layer: typings.LayerSpec = "WG",
-    sections: Sequence[NativeSection] | None = None,
+    sections: Sequence[KFactorySectionSpec] | None = None,
     bbox_layers: typings.LayerSpecs | None = None,
     bbox_offsets: typings.Floats | None = None,
     cladding_layers: typings.LayerSpecs | None = None,
@@ -154,8 +155,8 @@ def native_cross_section(
     radius_min: float | None = 7.0,
     name: str | None = None,
     kcl: kf.KCLayout | None = None,
-) -> NativeCrossSection:
-    """Construct a native kfactory cross-section from µm geometry.
+) -> kf.DCrossSection | kf.DAsymmetricCrossSection:
+    """Construct a kfactory cross-section from µm geometry.
 
     ``sections`` contains auxiliary absolute strips as
     ``(layer, section_min, section_max)`` tuples, measured from the path
@@ -172,11 +173,11 @@ def native_cross_section(
     main_max = target_kcl.to_dbu(offset + width / 2)
     if main_min >= main_max:
         raise ValueError(
-            "Native cross-section requires a positive main width after grid "
+            "Kfactory cross-section requires a positive main width after grid "
             f"snapping, got {main_min=} and {main_max=} for {width=} and {offset=}."
         )
 
-    auxiliary_sections: list[NativeSection] = list(sections or ())
+    auxiliary_sections: list[KFactorySectionSpec] = list(sections or ())
     if cladding_layers:
         if isinstance(cladding_layers, (str, bytes)):
             raise TypeError("cladding_layers must be a sequence of layer specs.")
@@ -219,7 +220,7 @@ def native_cross_section(
         )
 
     main_section = (main_layer, main_min, main_max)
-    auxiliary_dbu = _normalize_native_sections(auxiliary_sections, target_kcl)
+    auxiliary_dbu = _normalize_kfactory_sections(auxiliary_sections, target_kcl)
     all_sections = (main_section, *auxiliary_dbu)
 
     if bbox_layers is None:
@@ -239,7 +240,7 @@ def native_cross_section(
     if _is_symmetric(all_sections):
         if main_min != -main_max:
             raise ValueError(
-                "The main section is not centered, so the native profile must be "
+                "The main section is not centered, so the kfactory profile must be "
                 "asymmetric."
             )
         enclosure_sections = _to_enclosure_sections(auxiliary_dbu, main_max, target_kcl)
@@ -280,4 +281,4 @@ def native_cross_section(
     )
 
 
-__all__ = ["NativeCrossSection", "NativeSection", "native_cross_section"]
+__all__ = ["KFactorySectionSpec", "kfactory_cross_section"]

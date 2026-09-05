@@ -62,7 +62,7 @@ def _bend_circular(
         npoints: number of points.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         all_angle: if True returns a ComponentAllAngle.
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
@@ -131,7 +131,7 @@ def bend_circular(
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
     if abs(angle) not in {90, 180}:
@@ -173,7 +173,7 @@ def bend_circular_all_angle(
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
     return _bend_circular(

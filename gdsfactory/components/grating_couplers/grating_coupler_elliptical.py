@@ -59,7 +59,7 @@ def grating_coupler_elliptical(
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: in um.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
 
                       fiber
 

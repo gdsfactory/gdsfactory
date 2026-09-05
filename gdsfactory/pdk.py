@@ -18,7 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import LegacyCrossSection, Section
 from gdsfactory.cross_section import xsection as cross_section_xsection
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json
@@ -31,10 +31,10 @@ from gdsfactory.typings import (
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
-    CrossSectionFactory,
     CrossSectionSpec,
     LayerSpec,
     LayerTransitions,
+    LegacyCrossSectionFactory,
     MaterialSpec,
     PathType,
     RoutingStrategies,
@@ -150,7 +150,7 @@ class Pdk(BaseModel):
 
     name: str
     version: str = ""
-    cross_sections: dict[str, CrossSectionFactory] = Field(
+    cross_sections: dict[str, LegacyCrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
     cross_section_default_names: dict[str, str] = Field(
@@ -229,8 +229,8 @@ class Pdk(BaseModel):
         self.containers = containers
 
     def xsection(
-        self, func: Callable[..., CrossSection]
-    ) -> Callable[..., CrossSection]:
+        self, func: Callable[..., LegacyCrossSection]
+    ) -> Callable[..., LegacyCrossSection]:
         """Decorator to register a cross section function.
 
         Ensures that the cross-section name matches the name of the function
@@ -244,7 +244,7 @@ class Pdk(BaseModel):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
         return cross_section_xsection(
-            cast("CrossSectionFactory", func),  # type: ignore[redundant-cast]
+            cast("LegacyCrossSectionFactory", func),  # type: ignore[redundant-cast]
             self.cross_sections,
             self.cross_section_default_names,
         )
@@ -278,7 +278,7 @@ class Pdk(BaseModel):
             if not callable(cross_section):
                 raise ValueError(
                     f"{cross_section} is not callable, make sure you register "
-                    "cross_section functions that return a CrossSection"
+                    "cross_section functions that return a LegacyCrossSection"
                 )
             if name in self.cross_sections:
                 warnings.warn(f"Overwriting cross_section {name!r}", stacklevel=3)
@@ -499,11 +499,11 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs: Any
-    ) -> CrossSection:
+    ) -> LegacyCrossSection:
         """Returns cross_section from a cross_section spec.
 
         Args:
-            cross_section: CrossSection, CrossSectionFactory, Transition, string or dict.
+            cross_section: LegacyCrossSection, LegacyCrossSectionFactory, Transition, string or dict.
             kwargs: settings to override.
         """
         if callable(cross_section):
@@ -525,7 +525,7 @@ class Pdk(BaseModel):
             settings = dict(xs_dict.get("settings", {}))
             settings.update(kwargs)
             return self.get_cross_section(xs_name, **settings)
-        if isinstance(cross_section, CrossSection):
+        if isinstance(cross_section, LegacyCrossSection):
             if kwargs:
                 # apply overrides like the str/factory branches do; the copy
                 # gets a derived name, so it caches separately from the
@@ -550,7 +550,7 @@ class Pdk(BaseModel):
                 layer=layer,
                 port_names=("o1", "o2"),
             )
-            xs_ = CrossSection(
+            xs_ = LegacyCrossSection(
                 sections=(section_,),
                 radius=kf.kcl.to_um(cross_section_.radius),
                 radius_min=kf.kcl.to_um(cross_section_.radius_min),
@@ -558,8 +558,8 @@ class Pdk(BaseModel):
             xs_._name = cross_section_.name
             return xs_.copy(**kwargs) if kwargs else xs_
         raise ValueError(
-            "get_cross_section expects a CrossSectionSpec (CrossSection, "
-            f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
+            "get_cross_section expects a CrossSectionSpec (LegacyCrossSection, "
+            f"LegacyCrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
         )
 
     def get_layer(self, layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
@@ -675,7 +675,7 @@ class Pdk(BaseModel):
         d = {"blocks": blocks, "xsections": xsections_widths, "header": header}
         return yaml.safe_dump(d)
 
-    def get_cross_section_name(self, cross_section: CrossSection) -> str:
+    def get_cross_section_name(self, cross_section: LegacyCrossSection) -> str:
         xs_name = next(
             (
                 key
@@ -780,7 +780,9 @@ def get_cell(
     return get_active_pdk().get_cell(cell, **kwargs)
 
 
-def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
+def get_cross_section(
+    cross_section: CrossSectionSpec, **kwargs: Any
+) -> LegacyCrossSection:
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 

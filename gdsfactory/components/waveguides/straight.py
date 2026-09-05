@@ -23,7 +23,7 @@ def straight(
     Args:
         length: straight length (um).
         npoints: number of points.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
         o1  ──────────────── o2
@@ -55,7 +55,7 @@ def straight_all_angle(
     Args:
         length: straight length (um).
         npoints: number of points.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
         o1  ──────────────── o2
@@ -90,7 +90,7 @@ def straight_array(
         n: number of straights.
         spacing: edge to edge straight spacing.
         length: straight length (um).
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
     """
     c = Component()
     wg = straight(cross_section=cross_section, length=length)
@@ -116,7 +116,7 @@ def wire_straight(
     Args:
         length: straight length (um).
         npoints: number of points.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
         o1  ──────────────── o2

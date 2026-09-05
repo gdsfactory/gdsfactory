@@ -21,7 +21,7 @@ def _bendu_double(
 
     Args:
         component: for cutback.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         bend180: ubend.
         port1: name of first optical port.
         port2: name of second optical port.
@@ -64,7 +64,7 @@ def _straight_double(
 
     Args:
         component: for cutback.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         port1: name of first optical port.
         port2: name of second optical port.
         straight_length: length of straight.
@@ -125,7 +125,7 @@ def cutback_2x2(
         bend180: ubend.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         straight: straight spec.
     """
     component = gf.get_component(component)

@@ -267,9 +267,9 @@ def test_get_min_sbend_size() -> None:
     assert isinstance(size, float)
     assert size > 0
 
-    from gdsfactory.cross_section import CrossSection
+    from gdsfactory.cross_section import LegacyCrossSection
 
-    custom_cross_section = CrossSection(radius=None)
+    custom_cross_section = LegacyCrossSection(radius=None)
 
     with pytest.raises(ValueError):
         get_min_sbend_size(size=(10.0, None), cross_section=custom_cross_section)

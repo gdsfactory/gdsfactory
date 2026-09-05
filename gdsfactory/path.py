@@ -1,7 +1,7 @@
 """You can define a path with a list of points combined with a cross-section.
 
-A path can be extruded using any CrossSection returning a Component
-The CrossSection defines the layer numbers, widths and offsets
+A path can be extruded using any LegacyCrossSection returning a Component
+The LegacyCrossSection defines the layer numbers, widths and offsets
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
@@ -30,7 +30,7 @@ from gdsfactory.component_layout import (
     rotate_points,
 )
 from gdsfactory.cross_section import (
-    CrossSection,
+    LegacyCrossSection,
     Section,
     Transition,
     TransitionAsymmetric,
@@ -94,7 +94,7 @@ def reflect_points(
 
 
 class Path(UMGeometricObject):
-    """You can extrude a Path with a CrossSection to create a Component.
+    """You can extrude a Path with a LegacyCrossSection to create a Component.
 
     Parameters:
         path: array-like[N][2], Path, or list of Paths.
@@ -567,10 +567,10 @@ class Path(UMGeometricObject):
         all_angle: bool = False,
         register_cross_section: bool = False,
     ) -> AnyComponent:
-        """Returns Component by extruding a Path with a CrossSection.
+        """Returns Component by extruding a Path with a LegacyCrossSection.
 
-        A path can be extruded using any CrossSection returning a Component
-        The CrossSection defines the layer numbers, widths and offsets.
+        A path can be extruded using any LegacyCrossSection returning a Component
+        The LegacyCrossSection defines the layer numbers, widths and offsets.
 
         Args:
             cross_section: to extrude.
@@ -836,8 +836,8 @@ def transition(
     Port names will be cloned from the input CrossSections in reverse.
 
     Args:
-        cross_section1: First CrossSection.
-        cross_section2: Second CrossSection.
+        cross_section1: First LegacyCrossSection.
+        cross_section2: Second LegacyCrossSection.
         width_type: 'sine', 'parabolic', 'linear' or Callable. type of width transition used \
                 if any widths are different between the two input CrossSections.
         offset_type: 'sine', 'parabolic', 'linear' or Callable. type of width transition used \
@@ -879,8 +879,8 @@ def transition_asymmetric(
     """Returns a smoothly-transitioning object between two CrossSections with asymmetric transitions.
 
     Args:
-        cross_section1: First CrossSection.
-        cross_section2: Second CrossSection.
+        cross_section1: First LegacyCrossSection.
+        cross_section2: Second LegacyCrossSection.
         width_type1: transition type for lower edge width.
         width_type2: transition type for upper edge width.
         offset_type1: transition type for lower edge offset.
@@ -1036,8 +1036,8 @@ def extrude(
 ) -> AnyComponent:
     """Returns Component extruding a Path with a cross_section.
 
-    A path can be extruded using any CrossSection returning a Component
-    The CrossSection defines the layer numbers, widths and offsets
+    A path can be extruded using any LegacyCrossSection returning a Component
+    The LegacyCrossSection defines the layer numbers, widths and offsets
 
     Args:
         p: a path is a list of points (arc, straight, euler).
@@ -1071,7 +1071,7 @@ def extrude(
             port_names=("o1", "o2"),
             port_types=("optical", "optical"),
         )
-        x = get_cross_section(CrossSection(sections=(s,)))
+        x = get_cross_section(LegacyCrossSection(sections=(s,)))
 
     xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()

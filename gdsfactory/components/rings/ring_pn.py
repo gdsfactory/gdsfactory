@@ -11,9 +11,9 @@ import gdsfactory as gf
 from gdsfactory.cross_section import Section, rib
 from gdsfactory.typings import (
     ComponentSpec,
-    CrossSectionFactory,
     CrossSectionSpec,
     LayerSpec,
+    LegacyCrossSectionFactory,
 )
 
 from .._schematic import ring_double_schematic, ring_single_schematic
@@ -58,8 +58,8 @@ def ring_double_pn(
     drop_gap: float = 0.3,
     radius: float = 5.0,
     doping_angle: float = 85,
-    cross_section: CrossSectionFactory = rib,
-    pn_cross_section: CrossSectionFactory = cross_section_pn,
+    cross_section: LegacyCrossSectionFactory = rib,
+    pn_cross_section: LegacyCrossSectionFactory = cross_section_pn,
     doped_heater: bool = True,
     doped_heater_angle_buffer: float = 10,
     doped_heater_layer: LayerSpec = "NPP",
