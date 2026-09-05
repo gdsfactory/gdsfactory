@@ -18,12 +18,20 @@ repos:
         exclude: "tests/.*/data/.*\\.py$|tests/models/base\\.py$|tests/gds/.*\\.py$|tests/labels/.*\\.py$"
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        # Jupytext preserves whitespace in paired Markdown notebooks.
+        exclude: ^docs/notebooks/.*\.md$
       - id: detect-private-key
   - repo: https://github.com/kynan/nbstripout
     rev: 0.8.1
     hooks:
       - id: nbstripout
         files: ".ipynb"
+  - repo: https://github.com/mwouts/jupytext
+    rev: v1.19.5
+    hooks:
+      - id: jupytext
+        args: [--sync]
+        files: ^docs/notebooks/.*\.ipynb$
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
