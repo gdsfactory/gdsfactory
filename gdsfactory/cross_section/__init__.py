@@ -44,6 +44,13 @@ from gdsfactory.cross_section.heater import (
     strip_heater_metal_undercut,
 )
 
+# --- native kfactory profile construction ---
+from gdsfactory.cross_section.native import (
+    NativeCrossSection,
+    NativeSection,
+    native_cross_section,
+)
+
 # --- P-N junction cross-section factories ---
 from gdsfactory.cross_section.pn_junction import (
     l_wg_doped_with_trenches,
@@ -101,6 +108,8 @@ __all__ = [
     "CrossSectionCallable",
     "CrossSectionFactory",
     "CrossSectionSpec",
+    "NativeCrossSection",
+    "NativeSection",
     "P",
     "Section",
     "Sections",
@@ -128,6 +137,7 @@ __all__ = [
     "metal2",
     "metal3",
     "metal_routing",
+    "native_cross_section",
     "nitride",
     "nm",
     "npp",
