@@ -86,7 +86,7 @@ def double_loop() -> Component:
     s1 = gf.Section(width=0.5, offset=2, layer=(0, 0))
     s2 = gf.Section(width=0.5, offset=4, layer=(1, 0))
     s3 = gf.Section(width=1, offset=0, layer=(3, 0))
-    X = gf.CrossSection(sections=(s0, s1, s2, s3))
+    X = gf.LegacyCrossSection(sections=(s0, s1, s2, s3))
     return gf.path.extrude(P, X, simplify=0.3)
 
 
@@ -98,15 +98,15 @@ def transition() -> Component:
     )
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(sections=(s0, s1, s2))
+    X1 = gf.LegacyCrossSection(sections=(s0, s1, s2))
 
-    # Create the second CrossSection that we want to transition to
+    # Create the second LegacyCrossSection that we want to transition to
     s0 = gf.Section(
         width=1, offset=0, layer=(2, 0), name="core", port_names=("in1", "out1")
     )
     s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(sections=(s0, s1, s2))
+    X2 = gf.LegacyCrossSection(sections=(s0, s1, s2))
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
     # Xtrans = gf.cross_section.strip(port_names=('in1', 'out1'))
@@ -155,7 +155,7 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 def test_layers1() -> None:
     P = gf.path.straight(length=10.001)
     s = gf.Section(width=0.5, offset=0, layer=LAYER.WG, port_names=("in", "out"))
-    X = gf.CrossSection(sections=(s,))
+    X = gf.LegacyCrossSection(sections=(s,))
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["in"].layer == LAYER.WG
     assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
@@ -541,7 +541,7 @@ def test_path_smooth() -> None:
 
     P = gf.path.smooth(points=points, radius=10, bend=gf.path.euler)
     section = gf.Section(width=20.0, layer=(1, 0))
-    X = gf.CrossSection(sections=(section,))
+    X = gf.LegacyCrossSection(sections=(section,))
 
     c = P.extrude(cross_section=X)
     assert np.isclose(c.area((1, 0)), 3404.6317885)

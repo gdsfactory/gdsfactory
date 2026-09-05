@@ -3,8 +3,9 @@
 You can define a path as list of points.
 To create a component you need to extrude the path with a cross-section.
 
-This package provides the core CrossSection class, preset cross-section
-factories, P-N junction definitions, heater variants, and utility functions.
+This package provides the legacy gdsfactory cross-section model, kfactory
+cross-section types, preset factories, P-N junction definitions, heater
+variants, and utility functions.
 
 All public names are re-exported here for full backward compatibility with
 ``from gdsfactory.cross_section import ...`` and
@@ -15,11 +16,21 @@ All public names are re-exported here for full backward compatibility with
 # fmt: off
 
 # --- base classes, type aliases, and constants ---
+from kfactory import (
+    AsymmetricalCrossSection,
+    AsymmetricCrossSection,
+    CrossSection,
+    DAsymmetricalCrossSection,
+    DAsymmetricCrossSection,
+    DCrossSection,
+    SymmetricalCrossSection,
+)
+
 from gdsfactory.cross_section.base import (
     ComponentAlongPath,
-    CrossSection,
-    CrossSectionFactory,
     CrossSectionSpec,
+    LegacyCrossSection,
+    LegacyCrossSectionFactory,
     Section,
     Sections,
     Transition,
@@ -42,6 +53,12 @@ from gdsfactory.cross_section.heater import (
     strip_heater_doped,
     strip_heater_metal,
     strip_heater_metal_undercut,
+)
+
+# --- kfactory profile construction ---
+from gdsfactory.cross_section.kfactory import (
+    KFactorySectionSpec,
+    kfactory_cross_section,
 )
 
 # --- P-N junction cross-section factories ---
@@ -81,7 +98,7 @@ from gdsfactory.cross_section.presets import (
 
 # --- utilities: factory function, decorator, registry, introspection ---
 from gdsfactory.cross_section.utils import (
-    CrossSectionCallable,
+    LegacyCrossSectionCallable,
     P,
     _cross_section_default_names,
     cross_section,
@@ -95,15 +112,22 @@ from gdsfactory.cross_section.utils import (
 
 __all__ = [
     # base
+    "AsymmetricCrossSection",
+    "AsymmetricalCrossSection",
     "ComponentAlongPath",
     "CrossSection",
-    # utils
-    "CrossSectionCallable",
-    "CrossSectionFactory",
     "CrossSectionSpec",
+    "DAsymmetricCrossSection",
+    "DAsymmetricalCrossSection",
+    "DCrossSection",
+    "KFactorySectionSpec",
+    "LegacyCrossSection",
+    "LegacyCrossSectionCallable",
+    "LegacyCrossSectionFactory",
     "P",
     "Section",
     "Sections",
+    "SymmetricalCrossSection",
     "Transition",
     "TransitionAsymmetric",
     "_cross_section_default_names",
@@ -116,12 +140,11 @@ __all__ = [
     "deprecated_pins",
     "deprecated_routing",
     "get_cross_sections",
-    # presets
     "gs",
     "gsg",
     "heater_metal",
     "is_cross_section",
-    # pn_junction
+    "kfactory_cross_section",
     "l_wg_doped_with_trenches",
     "l_with_trenches",
     "metal1",
@@ -143,7 +166,6 @@ __all__ = [
     "rib",
     "rib2",
     "rib_bbox",
-    # heater
     "rib_heater_doped",
     "rib_heater_doped_via_stack",
     "rib_with_trenches",

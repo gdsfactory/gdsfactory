@@ -30,7 +30,7 @@ def bend_circular_heater(
         heater_to_wg_distance: in um.
         heater_width: in um.
         layer_heater: for heater.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
     x = gf.get_cross_section(cross_section)

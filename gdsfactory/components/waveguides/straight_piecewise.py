@@ -58,6 +58,6 @@ def straight_piecewise(
             **kwargs,
         )
     )
-    cross_section = gf.CrossSection(sections=tuple(section_list))
+    cross_section = gf.LegacyCrossSection(sections=tuple(section_list))
 
     return gf.path.extrude(p, cross_section=cross_section)

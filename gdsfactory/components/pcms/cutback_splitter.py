@@ -39,7 +39,7 @@ def cutback_splitter(
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight: waveguide spec to connect both sides.
         straight_length: length of the straight section between cutbacks.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         kwargs: cross_section settings.
     """
     xs = gf.get_cross_section(cross_section, **kwargs)

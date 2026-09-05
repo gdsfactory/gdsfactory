@@ -218,7 +218,7 @@ def route_bundle(
         component: component to add the routes to.
         ports1: starting port or list of starting ports.
         ports2: end port or list of end ports.
-        cross_section: CrossSection or function that returns a cross_section.
+        cross_section: LegacyCrossSection or function that returns a cross_section.
             Required unless both layer and route_width are given. Mutually exclusive with layer.
         layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
         separation: bundle separation (center to center) in um.

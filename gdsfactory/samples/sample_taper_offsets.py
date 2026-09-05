@@ -1,7 +1,7 @@
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.cross_section import CrossSection, cross_section, xsection
+from gdsfactory.cross_section import LegacyCrossSection, cross_section, xsection
 from gdsfactory.typings import LayerSpec
 
 gf.gpdk.PDK.activate()
@@ -19,7 +19,7 @@ def strip3(
     width_cover: float = 40,
     offset_sides: float = 65,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     sections = (
         gf.Section(layer=layer_sides, width=width_sides, offset=offset_sides),
         gf.Section(layer=layer_sides, width=width_sides, offset=-offset_sides),

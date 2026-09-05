@@ -101,7 +101,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         xsections = conf["xsections"]
         for xsection_name, xsection in xsections.items():
             width = xsection["width"]
-            script += f"{xsection_name} = gf.CrossSection(width={width})\n"
+            script += f"{xsection_name} = gf.LegacyCrossSection(width={width})\n"
 
         xs = ",".join([f"{name}={name}" for name in xsections])
         script += "\n"

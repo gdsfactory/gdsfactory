@@ -1,7 +1,7 @@
-"""Register a CrossSection factory when adding a port.
+"""Register a LegacyCrossSection factory when adding a port.
 
 When adding a port with a cross_section, you can set
-``register_cross_section=True`` so the CrossSection is registered
+``register_cross_section=True`` so the LegacyCrossSection is registered
 in the active PDK.  This lets you later retrieve it by name with
 ``gf.get_cross_section``.
 """

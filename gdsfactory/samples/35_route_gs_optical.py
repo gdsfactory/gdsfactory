@@ -19,7 +19,7 @@ if __name__ == "__main__":
         port_types=(port_type, port_type),
     )
     s1 = gf.Section(width=2, offset=4, layer=(2, 0))
-    x = gf.CrossSection(sections=(s0, s1), radius=8)
+    x = gf.LegacyCrossSection(sections=(s0, s1), radius=8)
     c = gf.path.extrude(p, cross_section=x)
     pad = c
 

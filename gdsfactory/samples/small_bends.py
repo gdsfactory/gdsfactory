@@ -45,7 +45,7 @@ def _smooth_path(
 ) -> gf.Component:
     path = gf.path.smooth(points=np.array(points), radius=radius, bend=gf.path.euler)
     section = gf.Section(width=width, offset=0.0, layer=_LAYER, port_names=(None, None))
-    return gf.path.extrude(path, gf.CrossSection(sections=(section,)))
+    return gf.path.extrude(path, gf.LegacyCrossSection(sections=(section,)))
 
 
 def _main() -> None:
