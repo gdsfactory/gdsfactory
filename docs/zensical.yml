@@ -27,6 +27,7 @@ nav:
       - notebooks/07_mask.md
       - notebooks/11_best_practices.md
       - notebooks/12_grid_snapping.md
+      - PCB Gerber layouts: notebooks/13_pcb_gerber.md
   - Schematic:
       - notebooks/10_schematic.md
       - notebooks/10_yaml_component.md
