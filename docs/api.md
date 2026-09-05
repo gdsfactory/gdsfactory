@@ -42,6 +42,8 @@ Classes and functions for construction and manipulation of geometric objects.
 
 ::: gdsfactory.cross_section.CrossSection
 
+::: gdsfactory.cross_section.LegacyCrossSection
+
 ::: gdsfactory.cross_section.Transition
 
 ::: gdsfactory.cross_section.Section
@@ -108,7 +110,7 @@ Classes and functions for construction and manipulation of geometric objects.
 
 ::: gdsfactory.cross_section.pn_ge_detector_si_contacts
 
-::: gdsfactory.cross_section.CrossSectionFactory
+::: gdsfactory.cross_section.LegacyCrossSectionFactory
 
 ::: gdsfactory.cross_section.CrossSectionSpec
 

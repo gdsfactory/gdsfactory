@@ -114,7 +114,7 @@ def _bend_modified_hermite(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width1: width to use at input. Defaults to cross_section.width.
@@ -250,7 +250,7 @@ def bend_modified_hermite(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width1: width to use at input. Defaults to cross_section.width.
@@ -311,7 +311,7 @@ def bend_modified_hermite_all_angle(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width1: width to use at input. Defaults to cross_section.width.
@@ -357,7 +357,7 @@ def bend_modified_hermite_s(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (CrossSection, string or dict).
+        cross_section: spec (LegacyCrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width: width  at input and output (the width generally varies in the interior of the bend). Defaults to cross_section.width.

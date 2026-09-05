@@ -6,7 +6,7 @@ from typing import Any
 
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
-    CrossSection,
+    LegacyCrossSection,
     Section,
     Sections,
     port_names_electrical,
@@ -27,7 +27,7 @@ def strip_heater_metal_undercut(
     layer_trench: typings.LayerSpec = "DEEPTRENCH",
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both.
 
     sides.
@@ -101,7 +101,7 @@ def strip_heater_metal(
     sections: Sections | None = None,
     insets: tuple[float, float] | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Returns strip cross_section with top heater metal.
 
     dimensions from https://doi.org/10.1364/OE.18.020298
@@ -154,7 +154,7 @@ def strip_heater_doped(
     bbox_offsets_heater: tuple[float, ...] = (0, 0.1),
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
 
     Args:
@@ -233,7 +233,7 @@ def rib_heater_doped(
     with_bot_heater: bool = True,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
     dimensions from https://doi.org/10.1364/OE.27.010456
@@ -323,7 +323,7 @@ def rib_heater_doped_via_stack(
     with_bot_heater: bool = True,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> CrossSection:
+) -> LegacyCrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
     dimensions from https://doi.org/10.1364/OE.27.010456

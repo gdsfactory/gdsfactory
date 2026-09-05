@@ -6,7 +6,7 @@ from scipy.integrate import quad
 
 import gdsfactory as gf
 from gdsfactory import Section
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import LegacyCrossSection
 from gdsfactory.gpdk import LAYER
 from gdsfactory.typings import LayerSpec
 
@@ -27,7 +27,7 @@ def test_path_port_types() -> None:
         port_names=("e1", "e2"),
         port_types=("electrical", "electrical"),
     )
-    X = gf.CrossSection(sections=(s0, s1))
+    X = gf.LegacyCrossSection(sections=(s0, s1))
     P = gf.path.straight(npoints=100, length=10)
     c = gf.path.extrude(P, X)
     assert c.ports["e1"].port_type == "electrical"
@@ -128,7 +128,7 @@ def dummy_cladded_wg_cs(
     core_width: float,
     clad_layer: LayerSpec,
     clad_width: float,
-) -> CrossSection:
+) -> LegacyCrossSection:
     sections = (
         Section(width=core_width, offset=0, layer=core_layer, name="core"),
         Section(width=clad_width, offset=0, layer=clad_layer, name="clad"),
@@ -249,7 +249,7 @@ def test_extrude_port_centers() -> None:
     s1_offset = 1
     s0 = gf.Section(layer="WG", width=0.5, offset=0, port_names=("o1", "o2"))
     s1 = gf.Section(layer="M1", width=0.5, offset=s1_offset, port_names=("e1", "e2"))
-    xs = gf.CrossSection(sections=(s0, s1))
+    xs = gf.LegacyCrossSection(sections=(s0, s1))
     s = gf.components.straight(cross_section=xs)
 
     assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
@@ -271,7 +271,7 @@ def test_extrude_component_along_path() -> None:
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
+    x = gf.LegacyCrossSection(sections=(s,), components_along_path=(via,))
 
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
@@ -288,7 +288,7 @@ def test_extrude_component_along_path_deterministic_name() -> None:
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
+    x = gf.LegacyCrossSection(sections=(s,), components_along_path=(via,))
 
     # build some unrelated cells first so the global "Unnamed" counter advances
     for length in (1.0, 2.0, 3.0):
@@ -305,7 +305,7 @@ def test_extrude_component_along_path_deterministic_name() -> None:
 
 def test_extrude_cross_section_list_of_sections() -> None:
     s = gf.Section(width=0.5, offset=0.5, layer="WG")
-    xs = gf.CrossSection(sections=(s,))
+    xs = gf.LegacyCrossSection(sections=(s,))
     c = gf.c.straight(cross_section=xs)
     assert c
 

@@ -56,7 +56,7 @@ def mmi_tapered(
         gap_input_tapers: gap between input tapers from edge to edge.
         gap_output_tapers: gap between output tapers from edge to edge.
         taper: taper function.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
 

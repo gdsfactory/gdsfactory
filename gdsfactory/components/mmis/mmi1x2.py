@@ -34,7 +34,7 @@ def mmi1x2(
         gap_mmi:  gap between tapered wg.
         taper: taper function.
         straight: straight function.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
 
                length_mmi
                 <------>

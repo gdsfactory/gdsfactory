@@ -43,7 +43,7 @@ def taper(
         port: can taper from a port instead of defining width1.
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
         port_names: input and output port names. Second name only used if with_two_ports.
         port_types: input and output port types. Second type only used if with_two_ports.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.

@@ -8,8 +8,8 @@ def test_path_transition_class() -> None:
 
     s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
     s1 = gf.Section(width=3, offset=0, layer=(3, 0))
-    X1 = gf.CrossSection(sections=(s0, s1))
-    X2 = gf.CrossSection(sections=(s0,))
+    X1 = gf.LegacyCrossSection(sections=(s0, s1))
+    X2 = gf.LegacyCrossSection(sections=(s0,))
 
     T = gf.path.transition(X1, X2)
     c = gf.path.extrude_transition(P, T)
@@ -21,8 +21,8 @@ def test_path_transition_asymmetric_class() -> None:
 
     s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
     s1 = gf.Section(width=3, offset=0, layer=(3, 0))
-    X1 = gf.CrossSection(sections=(s0, s1))
-    X2 = gf.CrossSection(sections=(s0,))
+    X1 = gf.LegacyCrossSection(sections=(s0, s1))
+    X2 = gf.LegacyCrossSection(sections=(s0,))
 
     T = gf.path.transition_asymmetric(X1, X2)
     c = gf.path.extrude_transition(P, T)

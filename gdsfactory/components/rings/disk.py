@@ -7,7 +7,7 @@ import math
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.component import ComponentReference
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import LegacyCrossSection
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
@@ -19,7 +19,7 @@ from .._schematic import ring_single_schematic
 
 
 def _compute_parameters(
-    xs_bend: CrossSection, wrap_angle_deg: float, radius: float
+    xs_bend: LegacyCrossSection, wrap_angle_deg: float, radius: float
 ) -> tuple[float, float, float, float]:
     r_bend = xs_bend.radius
     assert r_bend is not None  # Retain original safety check

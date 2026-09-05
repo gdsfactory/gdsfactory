@@ -44,7 +44,7 @@ def cutback_loss(
         mirror2: mirrors second component.
         straight_length: length of the straight section between cutbacks.
         straight_length_pair: length of the straight section between each component pair.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (LegacyCrossSection, string or dict).
         kwargs: component settings.
 
     """
