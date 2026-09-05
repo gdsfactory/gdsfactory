@@ -24,6 +24,12 @@ repos:
     hooks:
       - id: nbstripout
         files: ".ipynb"
+  - repo: https://github.com/mwouts/jupytext
+    rev: v1.19.5
+    hooks:
+      - id: jupytext
+        args: [--sync]
+        files: ^docs/notebooks/.*\.ipynb$
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
