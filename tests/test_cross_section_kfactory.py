@@ -3,6 +3,7 @@ from __future__ import annotations
 from math import isclose
 
 import kfactory as kf
+import pytest
 
 import gdsfactory as gf
 
@@ -118,3 +119,38 @@ def test_kfactory_cross_section_snaps_edges_before_classifying_symmetry() -> Non
 
     assert isinstance(xs, kf.DAsymmetricCrossSection)
     _assert_section_values(xs, [(1, 0, -0.25, 0.251)])
+
+
+def test_kfactory_cross_section_resolves_name_collisions() -> None:
+    layer = kf.kdb.LayerInfo(250, 0)
+    canonical = gf.cross_section.kfactory_cross_section(
+        width=0.5,
+        layer=layer,
+        radius=None,
+        radius_min=None,
+        name="collision_canonical_profile",
+    )
+
+    # Kfactory has one canonical name for one structural profile. A duplicate
+    # explicit name is disabled and resolves to the already-registered profile.
+    with pytest.warns(UserWarning, match="collides"):
+        duplicate = gf.cross_section.kfactory_cross_section(
+            width=0.5,
+            layer=layer,
+            radius=None,
+            radius_min=None,
+            name="collision_duplicate_profile",
+        )
+    assert duplicate.name == canonical.name
+
+    # Reusing a name for different geometry is disabled; kfactory assigns its
+    # structural canonical name instead.
+    with pytest.warns(UserWarning, match="collides"):
+        renamed = gf.cross_section.kfactory_cross_section(
+            width=0.6,
+            layer=layer,
+            radius=None,
+            radius_min=None,
+            name="collision_canonical_profile",
+        )
+    assert renamed.name != canonical.name

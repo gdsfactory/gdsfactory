@@ -7,10 +7,11 @@ cross-section until the extrusion migration is complete.
 
 from __future__ import annotations
 
+import warnings
 from collections import defaultdict
 from collections.abc import Sequence
 from numbers import Real
-from typing import cast
+from typing import Any, cast
 
 import kfactory as kf
 
@@ -141,6 +142,61 @@ def _normalize_kfactory_sections(
     return tuple(normalized)
 
 
+def _canonical_name(cross_section: Any) -> str:
+    """Return kfactory's structural name across supported kfactory versions."""
+    candidates = (cross_section, getattr(cross_section, "base", None))
+    for candidate in candidates:
+        if candidate is None:
+            continue
+        canonical_name = getattr(candidate, "canonical_name", None)
+        if callable(canonical_name):
+            return str(canonical_name())
+        auto_name = getattr(candidate, "auto_name", None)
+        if callable(auto_name):
+            return str(auto_name())
+    return str(cross_section.name)
+
+
+def _get_registered_native_cross_section(
+    kcl: kf.KCLayout,
+    cross_section: kf.SymmetricalCrossSection | kf.AsymmetricalCrossSection,
+) -> kf.DCrossSection | kf.DAsymmetricCrossSection | None:
+    """Return an existing native profile with the same structural signature."""
+    names: list[str] = []
+    for candidate in (cross_section, getattr(cross_section, "base", None)):
+        if candidate is None:
+            continue
+        for method_name in ("canonical_name", "auto_name"):
+            method = getattr(candidate, method_name, None)
+            if callable(method):
+                names.append(str(method()))
+
+    registered = next(
+        (
+            kcl.cross_sections.cross_sections[name]
+            for name in names
+            if name in kcl.cross_sections.cross_sections
+        ),
+        None,
+    )
+    if registered is None:
+        return None
+
+    if isinstance(registered, kf.SymmetricalCrossSection):
+        return kf.DCrossSection(kcl=kcl, base=registered)
+    if isinstance(registered, kf.AsymmetricalCrossSection):
+        return kf.DAsymmetricCrossSection(kcl=kcl, base=registered)
+    return None
+
+
+def _warn_name_collision(requested: str, canonical: str) -> None:
+    warnings.warn(
+        f"Cross-section name {requested!r} collides with an existing native "
+        f"profile; using canonical name {canonical!r} instead.",
+        stacklevel=3,
+    )
+
+
 def kfactory_cross_section(
     width: float,
     offset: float = 0,
@@ -244,41 +300,128 @@ def kfactory_cross_section(
                 "asymmetric."
             )
         enclosure_sections = _to_enclosure_sections(auxiliary_dbu, main_max, target_kcl)
-        return kf.DCrossSection(
-            kcl=target_kcl,
-            width=target_kcl.to_um(main_max - main_min),
-            layer=main_layer,
-            sections=enclosure_sections,
-            bbox_layers=resolved_bbox_layers,
-            bbox_offsets=resolved_bbox_offsets,
-            radius=radius,
-            radius_min=radius_min,
-            name=name,
+        candidate = kf.SymmetricalCrossSection(
+            width=main_max - main_min,
+            enclosure=kf.LayerEnclosure(
+                dsections=enclosure_sections,
+                dbbox_sections=list(
+                    zip(
+                        resolved_bbox_layers,
+                        resolved_bbox_offsets,
+                        strict=True,
+                    )
+                ),
+                main_layer=main_layer,
+                kcl=target_kcl,
+            ),
+            radius=target_kcl.to_dbu(radius),
+            radius_min=target_kcl.to_dbu(radius_min),
         )
+        registered = _get_registered_native_cross_section(target_kcl, candidate)
+        if registered is not None:
+            if name is not None and registered.name != name:
+                _warn_name_collision(name, registered.name)
+            return registered
+        try:
+            return kf.DCrossSection(
+                kcl=target_kcl,
+                width=target_kcl.to_um(main_max - main_min),
+                layer=main_layer,
+                sections=enclosure_sections,
+                bbox_layers=resolved_bbox_layers,
+                bbox_offsets=resolved_bbox_offsets,
+                radius=radius,
+                radius_min=radius_min,
+                name=name,
+            )
+        except kf.exceptions.CrossSectionNamingConflictError:
+            if name is None:
+                raise
+            _warn_name_collision(name, _canonical_name(candidate))
+            # A conflicting explicit name is disabled; kfactory assigns the
+            # structural canonical name and keeps the geometry usable.
+            return kf.DCrossSection(
+                kcl=target_kcl,
+                width=target_kcl.to_um(main_max - main_min),
+                layer=main_layer,
+                sections=enclosure_sections,
+                bbox_layers=resolved_bbox_layers,
+                bbox_offsets=resolved_bbox_offsets,
+                radius=radius,
+                radius_min=radius_min,
+                name=None,
+            )
 
-    return kf.DAsymmetricCrossSection(
-        kcl=target_kcl,
+    candidate_asymmetric = kf.AsymmetricalCrossSection(
         layer=main_layer,
-        section_min=target_kcl.to_um(main_min),
-        section_max=target_kcl.to_um(main_max),
+        section_min=main_min,
+        section_max=main_max,
         sections=tuple(
-            kf.DCrossSectionLayer(
+            kf.CrossSectionLayer(
                 layer=section_layer,
-                section_min=target_kcl.to_um(section_min),
-                section_max=target_kcl.to_um(section_max),
+                section_min=section_min,
+                section_max=section_max,
             )
             for section_layer, section_min, section_max in auxiliary_dbu
         ),
         bbox_sections={
-            _layer_info(bbox_layer): float(bbox_offset)
+            bbox_layer: target_kcl.to_dbu(bbox_offset)
             for bbox_layer, bbox_offset in zip(
                 resolved_bbox_layers, resolved_bbox_offsets, strict=True
             )
         },
-        radius=radius,
-        radius_min=radius_min,
-        name=name,
+        radius=target_kcl.to_dbu(radius),
+        radius_min=target_kcl.to_dbu(radius_min),
     )
+    registered = _get_registered_native_cross_section(target_kcl, candidate_asymmetric)
+    if registered is not None:
+        if name is not None and registered.name != name:
+            _warn_name_collision(name, registered.name)
+        return registered
+
+    native_sections = tuple(
+        kf.DCrossSectionLayer(
+            layer=section_layer,
+            section_min=target_kcl.to_um(section_min),
+            section_max=target_kcl.to_um(section_max),
+        )
+        for section_layer, section_min, section_max in auxiliary_dbu
+    )
+    bbox_sections = {
+        _layer_info(bbox_layer): float(bbox_offset)
+        for bbox_layer, bbox_offset in zip(
+            resolved_bbox_layers, resolved_bbox_offsets, strict=True
+        )
+    }
+    try:
+        return kf.DAsymmetricCrossSection(
+            kcl=target_kcl,
+            layer=main_layer,
+            section_min=target_kcl.to_um(main_min),
+            section_max=target_kcl.to_um(main_max),
+            sections=native_sections,
+            bbox_sections=bbox_sections,
+            radius=radius,
+            radius_min=radius_min,
+            name=name,
+        )
+    except kf.exceptions.CrossSectionNamingConflictError:
+        if name is None:
+            raise
+        _warn_name_collision(name, _canonical_name(candidate_asymmetric))
+        # A conflicting explicit name is disabled; kfactory assigns the
+        # structural canonical name and keeps the geometry usable.
+        return kf.DAsymmetricCrossSection(
+            kcl=target_kcl,
+            layer=main_layer,
+            section_min=target_kcl.to_um(main_min),
+            section_max=target_kcl.to_um(main_max),
+            sections=native_sections,
+            bbox_sections=bbox_sections,
+            radius=radius,
+            radius_min=radius_min,
+            name=None,
+        )
 
 
 __all__ = ["KFactorySectionSpec", "kfactory_cross_section"]

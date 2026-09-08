@@ -10,6 +10,7 @@ from typing import Any
 
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
+    CrossSection,
     LegacyCrossSection,
     Section,
     Sections,
@@ -17,7 +18,11 @@ from gdsfactory.cross_section.base import (
     port_names_electrical,
     port_types_electrical,
 )
-from gdsfactory.cross_section.utils import cross_section, xsection
+from gdsfactory.cross_section.utils import (
+    _to_native_cross_section,
+    cross_section,
+    xsection,
+)
 
 radius_nitride = 20
 radius_rib = 20
@@ -30,7 +35,7 @@ def strip(
     radius: float = 10.0,
     radius_min: float = 3.5,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Strip cross_section.
 
     Args:
@@ -57,7 +62,7 @@ def strip_no_ports(
     radius_min: float = 5,
     port_names: typings.IOPorts = ("", ""),
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Strip cross_section without ports.
 
     Args:
@@ -68,11 +73,12 @@ def strip_no_ports(
         port_names: for input and output ('o1', 'o2').
         kwargs: cross_section settings.
     """
-    return cross_section(
+    # Port metadata and radius overrides are temporarily outside the native
+    # profile. This is therefore the same canonical geometry as ``strip``.
+    return strip(
         width=width,
         layer=layer,
         radius=radius,
-        radius_min=radius_min,
         port_names=port_names,
         **kwargs,
     )
@@ -88,7 +94,7 @@ def rib(
     cladding_offsets: typings.Floats = (3,),
     cladding_simplify: typings.Floats = (50 * nm,),
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Rib cross_section."""
     return cross_section(
         width=width,
@@ -111,7 +117,7 @@ def rib_bbox(
     bbox_layers: typings.LayerSpecs = ("SLAB90",),
     bbox_offsets: typings.Floats = (3,),
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Rib cross_section."""
     return cross_section(
         width=width,
@@ -133,7 +139,7 @@ def rib2(
     radius_min: float | None = None,
     width_slab: float = 6,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Rib cross_section."""
     sections = (
         Section(width=width_slab, layer=layer_slab, name="slab", simplify=50 * nm),
@@ -155,7 +161,7 @@ def nitride(
     radius: float = radius_nitride,
     radius_min: float | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Strip cross_section."""
     return cross_section(
         width=width,
@@ -175,7 +181,7 @@ def strip_rib_tip(
     radius: float = 10.0,
     radius_min: float | None = 5,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Rib tip cross_section."""
     sections = (Section(width=width_tip, layer=layer_slab, name="slab"),)
     return cross_section(
@@ -198,7 +204,7 @@ def strip_nitride_tip(
     radius: float = radius_nitride,
     radius_min: float | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return the end of the nitride tip.
 
     Args:
@@ -234,7 +240,7 @@ def slot(
     rail_layer: typings.LayerSpec = "WG",
     sections: Sections | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return LegacyCrossSection Slot (with an etched region in the center).
 
     Args:
@@ -303,7 +309,7 @@ def rib_with_trenches(
     wg_marking_layer: typings.LayerSpec = "WG_ABSTRACT",
     sections: Sections | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return LegacyCrossSection of rib waveguide defined by trenches.
 
     Args:
@@ -400,7 +406,7 @@ def l_with_trenches(
     mirror: bool = False,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return LegacyCrossSection of l waveguide defined by trenches.
 
     Args:
@@ -475,7 +481,7 @@ def metal1(
     port_names: typings.IOPorts = port_names_electrical,
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Metal Strip cross_section."""
     radius = radius or width
     return cross_section(
@@ -496,7 +502,7 @@ def metal2(
     port_names: typings.IOPorts = port_names_electrical,
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Metal Strip cross_section."""
     radius = radius or width
     return cross_section(
@@ -517,7 +523,7 @@ def metal3(
     port_names: typings.IOPorts = port_names_electrical,
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Metal Strip cross_section."""
     radius = radius or width
     return cross_section(
@@ -538,7 +544,7 @@ def gs(
     layer_port: typings.LayerSpec = "M3_ABSTRACT",
     radius: float | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Ground-Signal-Ground cross_section.
 
     Args:
@@ -561,8 +567,8 @@ def gs(
         Section(width=width, layer=layer, offset=+gap / 2 + width / 2),
         Section(width=width, layer=layer, offset=-gap / 2 - width / 2),
     ]
-    return LegacyCrossSection(
-        sections=tuple(sections), radius=radius or 2 * width + gap
+    return _to_native_cross_section(
+        LegacyCrossSection(sections=tuple(sections), radius=radius or 2 * width + gap)
     )
 
 
@@ -572,7 +578,7 @@ def gsg(
     layer: typings.LayerSpec = "M3",
     gap: float = 100,
     radius: float | None = None,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Ground-Signal-Ground cross_section.
 
     Args:
@@ -594,8 +600,10 @@ def gsg(
         Section(width=width, layer=layer, offset=-gap - width),
         Section(width=width, layer=layer, offset=+gap + width),
     ]
-    return LegacyCrossSection(
-        sections=tuple(sections), radius=radius or 3 * width + 2 * gap
+    return _to_native_cross_section(
+        LegacyCrossSection(
+            sections=tuple(sections), radius=radius or 3 * width + 2 * gap
+        )
     )
 
 
@@ -607,11 +615,11 @@ def metal_routing(
     port_names: typings.IOPorts = port_names_electrical,
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Metal Strip cross_section."""
     radius = radius or width
 
-    return cross_section(
+    return metal3(
         width=width,
         layer=layer,
         radius=radius,
@@ -629,7 +637,7 @@ def heater_metal(
     port_names: typings.IOPorts = port_names_electrical,
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Metal Strip cross_section."""
     radius = radius or width
     return cross_section(
@@ -650,7 +658,7 @@ def npp(
     port_names: typings.IOPorts = port_names_electrical,
     port_types: typings.IOPorts = port_types_electrical,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Return Doped NPP cross_section."""
     return cross_section(
         width=width,
