@@ -5,6 +5,7 @@ from __future__ import annotations
 __all__ = ["straight_pin", "straight_pn"]
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -22,6 +23,7 @@ def straight_pin(
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 2,
     taper: ComponentSpec | None = "taper_strip_to_ridge",
+    **kwargs: Any,
 ) -> Component:
     """Returns rib waveguide with doping and via_stacks used for PN and PIN modulators.
 
@@ -46,16 +48,25 @@ def straight_pin(
         via_stack_width: width of the via_stack.
         via_stack_spacing: spacing between via_stacks.
         taper: optional taper.
+        kwargs: keyword-only options, including ``port_cross_section``; if False,
+            omit native cross-section metadata from ports.
     """
+    port_cross_section = kwargs.pop("port_cross_section", True)
+    if kwargs:
+        raise TypeError(f"Unexpected keyword arguments: {tuple(kwargs)}")
+
     c = Component()
     if taper:
         _taper = gf.get_component(taper, cross_section=cross_section)
         length -= 2 * _taper.xsize
 
-    wg = c << gf.components.straight(
-        cross_section=cross_section,
-        length=length,
-    )
+    straight_kwargs: dict[str, Any] = {
+        "cross_section": cross_section,
+        "length": length,
+    }
+    if not port_cross_section:
+        straight_kwargs["port_cross_section"] = False
+    wg = c << gf.components.straight(**straight_kwargs)
 
     if taper:
         t1 = c << _taper

@@ -87,7 +87,7 @@ class AddPortError(ValueError):
 
 
 if TYPE_CHECKING:
-    from gdsfactory.cross_section import CrossSectionSpec, LegacyCrossSection
+    from gdsfactory.cross_section import CrossSectionSpec
     from gdsfactory.get_netlist import (
         ComponentNamer,
         ErrorBehavior,
@@ -249,7 +249,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
-            register_cross_section: registers the LegacyCrossSection factory
+            register_cross_section: registers the cross-section factory
         """
         if self.locked:
             raise LockedError(self)
@@ -278,9 +278,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 else getattr(port, "cross_section", _xs)
             )
 
-        # Apply LegacyCrossSection overrides
+        # Apply cross-section overrides
         xs_name = None
         kfactory_cross_section = None
+        resolved_cross_section = None
         if cross_section:
             if isinstance(
                 cross_section,
@@ -293,9 +294,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             ):
                 kfactory_cross_section = cross_section
                 xs_name = cross_section.name
+                resolved_cross_section = cross_section
             else:
                 xs = get_cross_section(cross_section)
                 xs_name = xs.name
+                resolved_cross_section = xs
                 if layer is None:
                     layer = xs.layer
                 if width is None:
@@ -361,19 +364,23 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if xs_name:
             _port.info["cross_section"] = xs_name
-            if register_cross_section and kfactory_cross_section is None:
+            if register_cross_section:
                 from gdsfactory.pdk import get_active_pdk
 
                 pdk = get_active_pdk()
                 if xs_name in pdk.cross_sections:
                     xs_registered = get_cross_section(xs_name)
-                    xs_new = xs
+                    xs_new = resolved_cross_section
+                    assert xs_new is not None
                     if xs_registered != xs_new:
                         raise KeyError(
-                            f"Found a different LegacyCrossSection named {xs_name} in pdk.cross_sections, cannot register {xs_new}"
+                            f"Found a different cross-section named {xs_name} in pdk.cross_sections, cannot register {xs_new}"
                         )
                 else:
-                    pdk.register_cross_sections(**{xs_name: lambda: xs})
+                    assert resolved_cross_section is not None
+                    pdk.register_cross_sections(
+                        **{xs_name: lambda xs=resolved_cross_section: xs}
+                    )
 
         return _port
 
@@ -431,7 +438,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
     def add_route_info(
         self,
-        cross_section: LegacyCrossSection | str,
+        cross_section: CrossSectionSpec,
         length: float,
         length_eff: float | None = None,
         taper: bool = False,
@@ -440,7 +447,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         """Adds route information to a component.
 
         Args:
-            cross_section: LegacyCrossSection or name of the cross_section.
+            cross_section: cross-section specification or name of the cross-section.
             length: length of the route.
             length_eff: effective length of the route.
             taper: if True adds taper information.

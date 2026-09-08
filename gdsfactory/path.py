@@ -1,7 +1,7 @@
 """You can define a path with a list of points combined with a cross-section.
 
-A path can be extruded using any LegacyCrossSection returning a Component
-The LegacyCrossSection defines the layer numbers, widths and offsets
+A path can be extruded using a native cross-section returning a Component.
+The cross-section defines the layer numbers, widths and offsets.
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
@@ -34,15 +34,12 @@ from gdsfactory.cross_section import (
     CrossSection,
     ExtrusionSection,
     ExtrusionSpec,
-    LegacyCrossSection,
-    Section,
     SectionReference,
     SymmetricExtrusionSpec,
     Transition,
     TransitionAsymmetric,
     TransitionSection,
 )
-from gdsfactory.cross_section.utils import _to_native_cross_section
 from gdsfactory.pdk import get_layer_tuple
 from gdsfactory.typings import (
     AngleInDegrees,
@@ -102,7 +99,7 @@ def reflect_points(
 
 
 class Path(UMGeometricObject):
-    """You can extrude a Path with a LegacyCrossSection to create a Component.
+    """You can extrude a Path with a native cross-section to create a Component.
 
     Parameters:
         path: array-like[N][2], Path, or list of Paths.
@@ -582,8 +579,8 @@ class Path(UMGeometricObject):
     ) -> AnyComponent:
         """Returns a component by extruding a path with a native cross-section.
 
-        A path can be extruded using any LegacyCrossSection returning a Component
-        The LegacyCrossSection defines the layer numbers, widths and offsets.
+        A path can be extruded using any native cross-section returning a Component.
+        The cross-section defines the layer numbers, widths and offsets.
 
         Args:
             cross_section: to extrude.
@@ -785,99 +782,10 @@ def transition_exponential(
 
 
 def _resolve_transition_cross_section(cross_section: CrossSectionSpec) -> CrossSection:
-    """Resolve a transition profile, adapting legacy geometry at this boundary."""
+    """Resolve a transition profile to a native cross-section."""
     from gdsfactory.pdk import get_cross_section
 
-    if isinstance(cross_section, LegacyCrossSection):
-        warnings.warn(
-            "LegacyCrossSection is adapted to native geometry for transition; "
-            "extrusion metadata is dropped.",
-            DeprecationWarning,
-            stacklevel=3,
-        )
-        return _to_native_cross_section(cross_section, warn=False)
     return get_cross_section(cross_section)
-
-
-def _legacy_transition_spec(
-    x1: CrossSection,
-    x2: CrossSection,
-    legacy_x1: LegacyCrossSection | None = None,
-    legacy_x2: LegacyCrossSection | None = None,
-    asymmetric: bool = False,
-) -> SymmetricExtrusionSpec | AsymmetricExtrusionSpec:
-    """Build a positional legacy-only transition spec for compatibility."""
-
-    def references(
-        xs: CrossSection,
-    ) -> dict[tuple[tuple[int, int], int], SectionReference]:
-        counts: dict[tuple[int, int], int] = {}
-        result: dict[tuple[tuple[int, int], int], SectionReference] = {}
-        for section in xs.get_sections():
-            layer = get_layer_tuple(section.layer)
-            index = counts.get(layer, 0)
-            counts[layer] = index + 1
-            result[(layer, index)] = SectionReference(layer=layer, index=index)
-        return result
-
-    def legacy_sections(
-        xs: LegacyCrossSection | None,
-    ) -> dict[tuple[tuple[int, int], int], Section]:
-        counts: dict[tuple[int, int], int] = {}
-        result: dict[tuple[tuple[int, int], int], Section] = {}
-        for section in xs.sections if xs is not None else ():
-            layer = get_layer_tuple(section.layer)
-            index = counts.get(layer, 0)
-            counts[layer] = index + 1
-            result[(layer, index)] = section
-        return result
-
-    refs1 = references(x1)
-    refs2 = references(x2)
-    legacy_sections1 = legacy_sections(legacy_x1)
-    legacy_sections2 = legacy_sections(legacy_x2)
-    mappings = []
-    for key in dict.fromkeys((*refs1, *refs2)):
-        legacy_section = legacy_sections1.get(key) or legacy_sections2.get(key)
-        mappings.append(
-            TransitionSection(
-                start=refs1.get(key),
-                end=refs2.get(key),
-                extrusion=ExtrusionSection(
-                    port_names=(
-                        legacy_section.port_names
-                        if legacy_section is not None
-                        else ("o1", "o2")
-                        if key[1] == 0
-                        else (None, None)
-                    ),
-                    port_types=(
-                        legacy_section.port_types
-                        if legacy_section is not None
-                        else ("optical", "optical")
-                    ),
-                    hidden=legacy_section.hidden
-                    if legacy_section is not None
-                    else False,
-                    simplify=legacy_section.simplify
-                    if legacy_section is not None
-                    else None,
-                    insets=legacy_section.insets
-                    if legacy_section is not None
-                    else None,
-                ),
-            )
-        )
-    spec_type = (
-        AsymmetricExtrusionSpec
-        if asymmetric
-        else (
-            AsymmetricExtrusionSpec
-            if not x1.is_symmetric() or not x2.is_symmetric()
-            else SymmetricExtrusionSpec
-        )
-    )
-    return spec_type(sections=tuple(mappings))
 
 
 adiabatic_polyfit_TE1550SOI_220nm = np.array(
@@ -990,31 +898,13 @@ def transition(
         not the native cross-section.
 
     """
-    legacy_input = isinstance(cross_section1, LegacyCrossSection) or isinstance(
-        cross_section2, LegacyCrossSection
-    )
     X1 = _resolve_transition_cross_section(cross_section1)
     X2 = _resolve_transition_cross_section(cross_section2)
     if not X1.is_symmetric() or not X2.is_symmetric():
-        if not legacy_input:
-            raise ValueError(
-                "transition() only accepts symmetric native cross-sections. "
-                "Use transition_asymmetric(..., extrusion_spec=...) for an "
-                "asymmetric profile."
-            )
-        extrusion_spec = _legacy_transition_spec(
-            X1,
-            X2,
-            cross_section1 if isinstance(cross_section1, LegacyCrossSection) else None,
-            cross_section2 if isinstance(cross_section2, LegacyCrossSection) else None,
-            asymmetric=True,
-        )
-    elif legacy_input and X1.sections != X2.sections and extrusion_spec is None:
-        extrusion_spec = _legacy_transition_spec(
-            X1,
-            X2,
-            cross_section1 if isinstance(cross_section1, LegacyCrossSection) else None,
-            cross_section2 if isinstance(cross_section2, LegacyCrossSection) else None,
+        raise ValueError(
+            "transition() only accepts symmetric native cross-sections. "
+            "Use transition_asymmetric(..., extrusion_spec=...) for an "
+            "asymmetric profile."
         )
     if X1.sections != X2.sections and extrusion_spec is None:
         raise ValueError(
@@ -1056,31 +946,12 @@ def transition_asymmetric(
         core_width_profile: optional actual core-width profile evaluated on
             normalized path positions.
     """
-    legacy_input = isinstance(cross_section1, LegacyCrossSection) or isinstance(
-        cross_section2, LegacyCrossSection
-    )
     X1 = _resolve_transition_cross_section(cross_section1)
     X2 = _resolve_transition_cross_section(cross_section2)
     if (not X1.is_symmetric() or not X2.is_symmetric()) and extrusion_spec is None:
-        if not legacy_input:
-            raise ValueError(
-                "Asymmetric native cross-sections require an explicit "
-                "AsymmetricExtrusionSpec."
-            )
-        extrusion_spec = _legacy_transition_spec(
-            X1,
-            X2,
-            cross_section1 if isinstance(cross_section1, LegacyCrossSection) else None,
-            cross_section2 if isinstance(cross_section2, LegacyCrossSection) else None,
-            asymmetric=True,
-        )
-    elif legacy_input and X1.sections != X2.sections and extrusion_spec is None:
-        extrusion_spec = _legacy_transition_spec(
-            X1,
-            X2,
-            cross_section1 if isinstance(cross_section1, LegacyCrossSection) else None,
-            cross_section2 if isinstance(cross_section2, LegacyCrossSection) else None,
-            asymmetric=True,
+        raise ValueError(
+            "Asymmetric native cross-sections require an explicit "
+            "AsymmetricExtrusionSpec."
         )
 
     return TransitionAsymmetric(
@@ -1172,36 +1043,8 @@ def _get_extrusion_section(
     return ExtrusionSection()
 
 
-def _adapt_legacy_extrusion(
-    cross_section: LegacyCrossSection,
-) -> tuple[CrossSection, ExtrusionSpec]:
-    """Adapt legacy geometry/metadata at the path boundary with a warning."""
-    warnings.warn(
-        "LegacyCrossSection is adapted to native path extrusion; dynamic width "
-        "and offset functions are evaluated nominally and legacy metadata is "
-        "temporary. Pass ExtrusionSpec explicitly for native profiles.",
-        DeprecationWarning,
-        stacklevel=3,
-    )
-    native = _to_native_cross_section(cross_section, warn=False)
-    spec = ExtrusionSpec(
-        sections=tuple(
-            ExtrusionSection(
-                port_names=section.port_names,
-                port_types=section.port_types,
-                hidden=section.hidden,
-                simplify=section.simplify,
-                insets=section.insets,
-            )
-            for section in cross_section.sections
-        ),
-        components_along_path=cross_section.components_along_path,
-    )
-    return native, spec
-
-
 def _path_with_insets(p: Path, insets: tuple[float, float] | None) -> Path | None:
-    """Return a path shortened by ``insets`` without legacy Section objects."""
+    """Return a path shortened by ``insets``."""
     if not insets or insets == (0, 0):
         return p
 
@@ -1345,13 +1188,8 @@ def extrude(
     if layer is not None and width is None:
         raise ValueError("When providing 'layer', 'width' must also be provided")
 
-    legacy_adapted = isinstance(cross_section, LegacyCrossSection)
     if cross_section is not None:
-        if isinstance(cross_section, LegacyCrossSection):
-            x, legacy_spec = _adapt_legacy_extrusion(cross_section)
-            extrusion_spec = extrusion_spec or legacy_spec
-        else:
-            x = get_cross_section(cross_section)
+        x = get_cross_section(cross_section)
         if width is not None and width != x.width:
             x = gf.cross_section.copy_cross_section(x, width=width)
     else:
@@ -1362,7 +1200,7 @@ def extrude(
 
     c = ComponentAllAngle() if all_angle else Component()
     path_length = p.length()
-    port_cross_section_value = None if legacy_adapted or not port_cross_section else x
+    port_cross_section_value = x if port_cross_section else None
 
     sections = x.get_sections()
 
@@ -1504,6 +1342,7 @@ def extrude_transition(
     add_bbox: bool = False,
     port_names: tuple[str | None, str | None] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> Component: ...
 
 
@@ -1515,6 +1354,7 @@ def extrude_transition(
     add_bbox: bool = False,
     port_names: tuple[str | None, str | None] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> ComponentAllAngle: ...
 
 
@@ -1526,6 +1366,7 @@ def extrude_transition(
     add_bbox: bool = False,
     port_names: tuple[str | None, str | None] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> AnyComponent: ...
 
 
@@ -1536,6 +1377,7 @@ def extrude_transition(
     add_bbox: bool = False,
     port_names: tuple[str | None, str | None] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> AnyComponent:
     """Extrude a path between native cross-sections.
 
@@ -1551,9 +1393,6 @@ def extrude_transition(
             f"Expected Transition or TransitionAsymmetric, got {type(transition).__name__}"
         )
 
-    legacy_transition = isinstance(
-        transition.cross_section1, LegacyCrossSection
-    ) or isinstance(transition.cross_section2, LegacyCrossSection)
     x1 = _resolve_transition_cross_section(transition.cross_section1)
     x2 = _resolve_transition_cross_section(transition.cross_section2)
     is_symmetric = x1.is_symmetric() and x2.is_symmetric()
@@ -1572,9 +1411,6 @@ def extrude_transition(
         offset_type2 = transition.offset_type
         extrusion_spec = transition.extrusion_spec
         core_width_profile = transition.core_width_profile
-        legacy_transition = legacy_transition or isinstance(
-            extrusion_spec, AsymmetricExtrusionSpec
-        )
 
     if not is_symmetric and not isinstance(extrusion_spec, AsymmetricExtrusionSpec):
         raise ValueError(
@@ -1829,7 +1665,7 @@ def extrude_transition(
                 width=width1,
                 orientation=(p.start_angle + 180) % 360,
                 center=np.average([points1[0], points2[0]], axis=0),
-                cross_section=None if legacy_transition else x1,
+                cross_section=x1 if port_cross_section else None,
             )
         if mapping.extrusion.port_names[1] and index2 == 0:
             c.add_port(
@@ -1839,7 +1675,7 @@ def extrude_transition(
                 width=width2,
                 orientation=p.end_angle % 360,
                 center=np.average([points1[-1], points2[-1]], axis=0),
-                cross_section=None if legacy_transition else x2,
+                cross_section=x2 if port_cross_section else None,
             )
 
     c.info["length"] = float(np.round(p.length(), 3))

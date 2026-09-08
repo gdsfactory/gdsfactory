@@ -3,7 +3,6 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-import jsondiff
 import numpy as np
 import numpy.typing as npt
 import pytest
@@ -34,11 +33,12 @@ def test_settings_different() -> None:
 
 def test_transition_names() -> None:
     layer = (1, 0)
-    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
-    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
-
-    xs1 = gf.LegacyCrossSection(sections=(s1,))
-    xs2 = gf.LegacyCrossSection(sections=(s2,))
+    xs1 = gf.cross_section.cross_section(
+        width=5, layer=layer, name="transition_names_xs1"
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=50, layer=layer, name="transition_names_xs2"
+    )
     trans12 = gf.path.transition(
         cross_section1=xs1, cross_section2=xs2, width_type="linear"
     )
@@ -55,11 +55,12 @@ def test_transition_names() -> None:
 
 def test_transition_asymmetric_names() -> None:
     layer = (1, 0)
-    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
-    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
-
-    xs1 = gf.LegacyCrossSection(sections=(s1,))
-    xs2 = gf.LegacyCrossSection(sections=(s2,))
+    xs1 = gf.cross_section.cross_section(
+        width=5, layer=layer, name="transition_asymmetric_names_xs1"
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=50, layer=layer, name="transition_asymmetric_names_xs2"
+    )
     trans12 = gf.path.transition_asymmetric(
         cross_section1=xs1, cross_section2=xs2, width_type1="linear", width_type2="sine"
     )
@@ -75,17 +76,12 @@ def test_transition_asymmetric_names() -> None:
 
 
 def test_copy() -> None:
-    s = gf.Section(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
-    x1 = gf.LegacyCrossSection(sections=(s,))
-    x2 = x1.copy()
-    d = jsondiff.diff(x1.model_dump(), x2.model_dump())
-    assert len(d) == 0, d
+    x1 = gf.cross_section.cross_section(width=0.5, layer=(3, 0))
+    x2 = gf.cross_section.copy_cross_section(x1)
+    assert x1 is x2
 
-    legacy = gf.LegacyCrossSection(
-        sections=(gf.Section(width=10, layer=(3, 0)),),
-    )
-    legacy_wide = legacy.copy(width=2)
-    assert legacy_wide.name != legacy.name
+    native_wide = gf.cross_section.copy_cross_section(x1, width=2)
+    assert native_wide.width == pytest.approx(2, abs=2 * gf.kcl.dbu)
 
     native = gf.get_cross_section("metal_routing")
     assert isinstance(native, gf.DCrossSection)
@@ -126,20 +122,16 @@ def test_cross_section_returns_native_asymmetric_profile() -> None:
     assert xs.get_sections()[0].section_min == pytest.approx(-0.205, abs=gf.kcl.dbu)
 
 
-def test_xsection_adapts_legacy_factory_to_native_profile() -> None:
+def test_xsection_requires_native_factory() -> None:
     @gf.cross_section.xsection
-    def legacy_profile_for_native_adapter() -> gf.LegacyCrossSection:
-        return gf.LegacyCrossSection(
-            sections=(gf.Section(width=0.7, layer=(104, 0)),),
-            radius=None,
-            radius_min=None,
+    def native_profile() -> gf.DCrossSection:
+        return gf.cross_section.cross_section(
+            width=0.7, layer=(104, 0), radius=None, radius_min=None
         )
 
-    with pytest.warns(gf.cross_section.CrossSectionWarning):
-        xs = legacy_profile_for_native_adapter()
-
+    xs = native_profile()
     assert isinstance(xs, gf.DCrossSection)
-    assert xs.name == "legacy_profile_for_native_adapter"
+    assert xs.name == "native_profile"
 
 
 def test_cross_section_warns_when_dropping_legacy_metadata() -> None:
@@ -198,14 +190,14 @@ def test_taper_cladding_offets() -> None:
 
 
 def test_is_cross_section_basic() -> None:
-    def basic_xs(width: float = 1.0) -> gf.LegacyCrossSection:
+    def basic_xs(width: float = 1.0) -> gf.DCrossSection:
         return gf.cross_section.cross_section(width=width, layer=(1, 0))
 
     assert gf.cross_section.is_cross_section("basic_xs", basic_xs)
 
 
 def test_is_cross_section_subclass() -> None:
-    class OtherCrossSection(gf.LegacyCrossSection):
+    class OtherCrossSection(gf.DCrossSection):
         pass
 
     def cross_section(**kwargs: Any) -> OtherCrossSection:
@@ -215,7 +207,7 @@ def test_is_cross_section_subclass() -> None:
 
 
 def test_is_cross_section_subclass_name_not_including_cross_section() -> None:
-    class SubclassCrossSection(gf.LegacyCrossSection):
+    class SubclassCrossSection(gf.DCrossSection):
         pass
 
     def cross_section(**kwargs: Any) -> SubclassCrossSection:
@@ -296,32 +288,28 @@ def test_cross_section_callable_width_offset(
 
 
 def test_is_cross_section_private() -> None:
-    def _private_xs() -> gf.LegacyCrossSection:
+    def _private_xs() -> gf.DCrossSection:
         return gf.cross_section.cross_section(width=1.0, layer=(1, 0))
 
     assert not gf.cross_section.is_cross_section("_private_xs", _private_xs)
 
 
 def test_taper_cross_section_instance_matches_name() -> None:
-    """Taper must honor width overrides when cross_section is a LegacyCrossSection.
+    """Taper must honor width overrides for a native cross-section.
 
-    Passing a LegacyCrossSection instance used to drop the taper's width overrides
-    (and reuse one geometry for both ports), giving a different result than the
-    equivalent string spec and poisoning the cell cache (#4588).
+    Passing a native cross-section instance must preserve the taper's width
+    overrides (and not reuse one geometry for both ports), matching the
+    equivalent string spec and avoiding cell-cache poisoning (#4588).
     """
-    from gdsfactory.cross_section import LegacyCrossSection, Section, xsection
+    from gdsfactory.cross_section import xsection
 
     @xsection
-    def _xs_4588(width: float = 0.5) -> LegacyCrossSection:
-        return LegacyCrossSection(
-            sections=(
-                Section(
-                    width=width,
-                    layer=(1, 0),
-                    port_names=("o1", "o2"),
-                    port_types=("optical", "optical"),
-                ),
-            ),
+    def _xs_4588(width: float = 0.5) -> gf.DCrossSection:
+        return gf.cross_section.cross_section(
+            width=width,
+            layer=(1, 0),
+            port_names=("o1", "o2"),
+            port_types=("optical", "optical"),
         )
 
     def _from_spec() -> gf.Component:

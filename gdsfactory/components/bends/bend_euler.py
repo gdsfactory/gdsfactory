@@ -86,7 +86,7 @@ def _bend_euler(
         npoints: Number of points used per 360 degrees.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         all_angle: if True, the bend is drawn with a single euler curve.
         angular_step: if not None, the angle step in degrees for the all_angle bend.
@@ -167,7 +167,7 @@ def bend_euler_s(
         angular_step: if not None, the angle step in degrees for the all_angle bend.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         port1: input port name.
         port2: output port name.
@@ -230,7 +230,7 @@ def bend_euler(
         angular_step: if not None, the angle step in degrees for the all_angle bend.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         extrusion_spec: optional extrusion metadata for the path sections.
     """
@@ -281,7 +281,7 @@ def bend_euler_all_angle(
         angular_step: if not None, the angle step in degrees for the all_angle bend.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
 
     """

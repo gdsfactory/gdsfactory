@@ -9,7 +9,14 @@ if __name__ == "__main__":
     )
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.LegacyCrossSection(sections=(s0, s1, s2))
+    X1 = gf.cross_section.cross_section(
+        width=s0.width,
+        offset=s0.offset,
+        layer=s0.layer,
+        sections=(s1, s2),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
 
     # Create the second Cross-section that we want to transition to.
     s0 = gf.Section(
@@ -17,7 +24,14 @@ if __name__ == "__main__":
     )
     s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.LegacyCrossSection(sections=(s0, s1, s2))
+    X2 = gf.cross_section.cross_section(
+        width=s0.width,
+        offset=s0.offset,
+        layer=s0.layer,
+        sections=(s1, s2),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
 
     # To show the cross-sections, let us now create two paths and create components by extruding them.
     P1 = gf.path.straight(length=5)

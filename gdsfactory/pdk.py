@@ -22,7 +22,6 @@ from gdsfactory.config import CONF
 from gdsfactory.cross_section import (
     CrossSection,
     CrossSectionFactory,
-    LegacyCrossSection,
 )
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json
@@ -296,10 +295,6 @@ class Pdk(BaseModel):
                     f"Cross-section factory {name!r} must be callable without "
                     "arguments and return a native CrossSection."
                 ) from error
-            if isinstance(result, LegacyCrossSection):
-                raise ValueError(
-                    f"Cross-section factory {name!r} must return a native CrossSection."
-                )
             try:
                 default_xs = self._normalize_cross_section(result)
             except (TypeError, ValueError) as error:
@@ -572,11 +567,6 @@ class Pdk(BaseModel):
     @staticmethod
     def _normalize_cross_section(cross_section: Any) -> CrossSection:
         """Return any accepted kfactory profile as a µm CrossSection."""
-        if isinstance(cross_section, LegacyCrossSection):
-            from gdsfactory.cross_section.utils import _to_native_cross_section
-
-            return _to_native_cross_section(cross_section)
-
         if isinstance(cross_section, kf.DCrossSection | kf.DAsymmetricCrossSection):
             return cross_section
 
@@ -860,12 +850,6 @@ def get_cross_section_port_metadata(
     preserves the port defaults declared by named factories for components that
     expose ports, while explicit component arguments remain authoritative.
     """
-    if isinstance(cross_section, LegacyCrossSection):
-        if not cross_section.sections:
-            return None
-        section = cross_section.sections[0]
-        return section.port_names, section.port_types
-
     factory: Any = None
     settings: dict[str, Any] = {}
     if isinstance(cross_section, str):

@@ -11,7 +11,6 @@ from typing import Any
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
     CrossSection,
-    LegacyCrossSection,
     Section,
     Sections,
     nm,
@@ -19,7 +18,6 @@ from gdsfactory.cross_section.base import (
     port_types_electrical,
 )
 from gdsfactory.cross_section.utils import (
-    _to_native_cross_section,
     cross_section,
     xsection,
 )
@@ -241,7 +239,7 @@ def slot(
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return LegacyCrossSection Slot (with an etched region in the center).
+    """Return native Slot cross-section (with an etched region in the center).
 
     Args:
         width: main Section width (um) or function parameterized from 0 to 1. \
@@ -310,7 +308,7 @@ def rib_with_trenches(
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return LegacyCrossSection of rib waveguide defined by trenches.
+    """Return native cross-section of rib waveguide defined by trenches.
 
     Args:
         width: main Section width (um) or function parameterized from 0 to 1. \
@@ -407,7 +405,7 @@ def l_with_trenches(
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return LegacyCrossSection of l waveguide defined by trenches.
+    """Return native cross-section of l waveguide defined by trenches.
 
     Args:
         width: main Section width (um) or function parameterized from 0 to 1. \
@@ -567,8 +565,13 @@ def gs(
         Section(width=width, layer=layer, offset=+gap / 2 + width / 2),
         Section(width=width, layer=layer, offset=-gap / 2 - width / 2),
     ]
-    return _to_native_cross_section(
-        LegacyCrossSection(sections=tuple(sections), radius=radius or 2 * width + gap)
+    return cross_section(
+        width=gap,
+        layer=layer_port,
+        sections=tuple(sections[1:]),
+        radius=radius or 2 * width + gap,
+        port_names=port_names_electrical,
+        port_types=port_types_electrical,
     )
 
 
@@ -600,10 +603,13 @@ def gsg(
         Section(width=width, layer=layer, offset=-gap - width),
         Section(width=width, layer=layer, offset=+gap + width),
     ]
-    return _to_native_cross_section(
-        LegacyCrossSection(
-            sections=tuple(sections), radius=radius or 3 * width + 2 * gap
-        )
+    return cross_section(
+        width=width,
+        layer=layer,
+        sections=tuple(sections[1:]),
+        radius=radius or 3 * width + 2 * gap,
+        port_names=port_names_electrical,
+        port_types=port_types_electrical,
     )
 
 

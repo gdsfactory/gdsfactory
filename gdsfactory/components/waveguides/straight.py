@@ -4,10 +4,10 @@ from __future__ import annotations
 
 __all__ = ["straight", "straight_all_angle", "straight_array", "wire_straight"]
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.cross_section import LegacyCrossSection
-from gdsfactory.cross_section.utils import _to_native_cross_section
 from gdsfactory.typings import CrossSectionSpec
 
 from .._schematic import straight_schematic, wire_schematic
@@ -21,48 +21,41 @@ def straight(
     width: float | None = None,
     port_names: tuple[str | None, str | None] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
+    **kwargs: Any,
 ) -> Component:
     """Returns a Straight waveguide.
 
     Args:
         length: straight length (um).
         npoints: number of points.
-        cross_section: specification (LegacyCrossSection, string or dict).
+        cross_section: native cross-section specification, string or dict.
         width: width of the waveguide. If None, it will use the width of the cross_section.
         port_names: names for the two ports.
         port_types: types for the two ports.
+        kwargs: keyword-only options, including ``port_cross_section``; if False,
+            omit native cross-section metadata from ports.
 
         o1  ──────────────── o2
                 length
     """
-    legacy = isinstance(cross_section, LegacyCrossSection)
+    port_cross_section = kwargs.pop("port_cross_section", True)
+    if kwargs:
+        raise TypeError(f"Unexpected keyword arguments: {tuple(kwargs)}")
+
     if port_names == ("o1", "o2") and port_types == ("optical", "optical"):
         metadata = gf.get_cross_section_port_metadata(cross_section)
         if metadata is not None:
             port_names, port_types = metadata
-    x = (
-        _to_native_cross_section(cross_section)
-        if legacy
-        else gf.get_cross_section(cross_section)
-    )
+    x = gf.get_cross_section(cross_section)
     if width is not None and width != x.width:
         x = gf.cross_section.copy_cross_section(x, width=width)
     p = gf.path.straight(length=length, npoints=npoints)
-    c = (
-        p.extrude(
-            cross_section=cross_section,
-            width=width,
-            port_names=port_names,
-            port_types=port_types,
-            add_bbox=True,
-        )
-        if legacy
-        else p.extrude(
-            x,
-            port_names=port_names,
-            port_types=port_types,
-            add_bbox=True,
-        )
+    c = p.extrude(
+        x,
+        port_names=port_names,
+        port_types=port_types,
+        port_cross_section=port_cross_section,
+        add_bbox=True,
     )
 
     c.info["length"] = length
@@ -85,7 +78,7 @@ def straight_all_angle(
     Args:
         length: straight length (um).
         npoints: number of points.
-        cross_section: specification (LegacyCrossSection, string or dict).
+        cross_section: native cross-section specification, string or dict.
         width: width of the waveguide. If None, it will use the width of the cross_section.
         port_names: names for the two ports.
         port_types: types for the two ports.
@@ -93,36 +86,20 @@ def straight_all_angle(
         o1  ──────────────── o2
                 length
     """
-    legacy = isinstance(cross_section, LegacyCrossSection)
     if port_names == ("o1", "o2") and port_types == ("optical", "optical"):
         metadata = gf.get_cross_section_port_metadata(cross_section)
         if metadata is not None:
             port_names, port_types = metadata
-    x = (
-        _to_native_cross_section(cross_section)
-        if legacy
-        else gf.get_cross_section(cross_section)
-    )
+    x = gf.get_cross_section(cross_section)
     if width is not None and width != x.width:
         x = gf.cross_section.copy_cross_section(x, width=width)
     p = gf.path.straight(length=length, npoints=npoints)
-    c = (
-        p.extrude(
-            cross_section=cross_section,
-            width=width,
-            port_names=port_names,
-            port_types=port_types,
-            all_angle=True,
-            add_bbox=True,
-        )
-        if legacy
-        else p.extrude(
-            x,
-            port_names=port_names,
-            port_types=port_types,
-            all_angle=True,
-            add_bbox=True,
-        )
+    c = p.extrude(
+        x,
+        port_names=port_names,
+        port_types=port_types,
+        all_angle=True,
+        add_bbox=True,
     )
 
     c.info["length"] = length
@@ -146,7 +123,7 @@ def straight_array(
         n: number of straights.
         spacing: edge to edge straight spacing.
         length: straight length (um).
-        cross_section: specification (LegacyCrossSection, string or dict).
+        cross_section: native cross-section specification, string or dict.
     """
     c = Component()
     wg = straight(cross_section=cross_section, length=length)
@@ -172,36 +149,21 @@ def wire_straight(
     Args:
         length: straight length (um).
         npoints: number of points.
-        cross_section: specification (LegacyCrossSection, string or dict).
+        cross_section: native cross-section specification, string or dict.
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
         o1  ──────────────── o2
                 length
     """
-    legacy = isinstance(cross_section, LegacyCrossSection)
-    x = (
-        _to_native_cross_section(cross_section)
-        if legacy
-        else gf.get_cross_section(cross_section)
-    )
+    x = gf.get_cross_section(cross_section)
     if width is not None and width != x.width:
         x = gf.cross_section.copy_cross_section(x, width=width)
     p = gf.path.straight(length=length, npoints=npoints)
-    c = (
-        p.extrude(
-            cross_section=cross_section,
-            width=width,
-            port_names=("e1", "e2"),
-            port_types=("electrical", "electrical"),
-            add_bbox=True,
-        )
-        if legacy
-        else p.extrude(
-            x,
-            port_names=("e1", "e2"),
-            port_types=("electrical", "electrical"),
-            add_bbox=True,
-        )
+    c = p.extrude(
+        x,
+        port_names=("e1", "e2"),
+        port_types=("electrical", "electrical"),
+        add_bbox=True,
     )
 
     c.info["length"] = length

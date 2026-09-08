@@ -372,7 +372,7 @@ def test_get_cross_section_invalid_spec_raises() -> None:
 
 
 def test_taper_cross_section_instance_matches_str_spec() -> None:
-    """Taper with a resolved LegacyCrossSection tapers like the string spec (#4588).
+    """Taper with a resolved native cross-section matches the string spec (#4588).
 
     The instance form is built first: it must not depend on a previously
     cached string-spec cell.

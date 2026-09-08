@@ -5,6 +5,7 @@ from __future__ import annotations
 __all__ = ["straight_pin_slot", "straight_pn_slot"]
 
 from functools import partial
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -27,6 +28,7 @@ def straight_pin_slot(
     via_stack_slab_spacing: float = 2.0,
     taper: ComponentSpec | None = "taper_strip_to_ridge",
     width: float | None = None,
+    **kwargs: Any,
 ) -> Component:
     """Returns a PIN straight waveguide with slotted via.
 
@@ -51,16 +53,27 @@ def straight_pin_slot(
         via_stack_slab_spacing: spacing between via_stacks slabs.
         taper: optional taper.
         width: width of the waveguide. If None, it will use the width of the cross_section.
+        kwargs: keyword-only options, including ``port_cross_section``; if False,
+            omit native cross-section metadata from ports.
     """
+    port_cross_section = kwargs.pop("port_cross_section", True)
+    if kwargs:
+        raise TypeError(f"Unexpected keyword arguments: {tuple(kwargs)}")
+
     c = Component()
     taper_component: Component | None = None
     if taper:
         taper_component = gf.get_component(taper, cross_section=cross_section)
         length -= 2 * taper_component.xsize
 
-    wg = c << gf.components.straight(
-        cross_section=cross_section, length=length, width=width
-    )
+    straight_kwargs: dict[str, Any] = {
+        "cross_section": cross_section,
+        "length": length,
+        "width": width,
+    }
+    if not port_cross_section:
+        straight_kwargs["port_cross_section"] = False
+    wg = c << gf.components.straight(**straight_kwargs)
 
     via_stack_slab_width = via_stack_slab_width or via_stack_width
 

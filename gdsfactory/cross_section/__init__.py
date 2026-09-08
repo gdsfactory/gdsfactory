@@ -3,9 +3,8 @@
 You can define a path as list of points.
 To create a component you need to extrude the path with a cross-section.
 
-This package provides the legacy gdsfactory cross-section model, kfactory
-cross-section types, preset factories, P-N junction definitions, heater
-variants, and utility functions.
+This package provides kfactory cross-section types, preset factories, P-N
+junction definitions, heater variants, and utility functions.
 
 All public names are re-exported here for full backward compatibility with
 ``from gdsfactory.cross_section import ...`` and
@@ -33,8 +32,6 @@ from gdsfactory.cross_section.base import (
     CrossSectionSpec,
     ExtrusionSection,
     ExtrusionSpec,
-    LegacyCrossSection,
-    LegacyCrossSectionFactory,
     Section,
     SectionReference,
     Sections,
@@ -110,7 +107,6 @@ from gdsfactory.cross_section.presets import (
 from gdsfactory.cross_section.utils import (
     CrossSectionCallable,
     CrossSectionWarning,
-    LegacyCrossSectionCallable,
     P,
     _cross_section_default_names,
     cross_section,
@@ -138,9 +134,6 @@ __all__ = [
     "ExtrusionSection",
     "ExtrusionSpec",
     "KFactorySectionSpec",
-    "LegacyCrossSection",
-    "LegacyCrossSectionCallable",
-    "LegacyCrossSectionFactory",
     "P",
     "Section",
     "SectionReference",

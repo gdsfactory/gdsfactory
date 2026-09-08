@@ -9,7 +9,7 @@ from gdsfactory import Section
 from gdsfactory.cross_section import (
     AsymmetricExtrusionSpec,
     ExtrusionSection,
-    LegacyCrossSection,
+    ExtrusionSpec,
     SectionReference,
     SymmetricExtrusionSpec,
     TransitionSection,
@@ -34,9 +34,22 @@ def test_path_port_types() -> None:
         port_names=("e1", "e2"),
         port_types=("electrical", "electrical"),
     )
-    X = gf.LegacyCrossSection(sections=(s0, s1))
+    X = gf.cross_section.cross_section(
+        width=s0.width,
+        offset=s0.offset,
+        layer=s0.layer,
+        sections=(s1,),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
     P = gf.path.straight(npoints=100, length=10)
-    c = gf.path.extrude(P, X)
+    spec = ExtrusionSpec(
+        sections=(
+            ExtrusionSection(port_names=s0.port_names, port_types=s0.port_types),
+            ExtrusionSection(port_names=s1.port_names, port_types=s1.port_types),
+        )
+    )
+    c = gf.path.extrude(P, X, extrusion_spec=spec)
     assert c.ports["e1"].port_type == "electrical"
     assert c.ports["e2"].port_type == "electrical"
     assert c.ports["o1"].port_type == "optical"
@@ -185,7 +198,7 @@ def dummy_cladded_wg_cs(
     core_width: float,
     clad_layer: LayerSpec,
     clad_width: float,
-) -> LegacyCrossSection:
+) -> gf.CrossSection:
     sections = (
         Section(width=core_width, offset=0, layer=core_layer, name="core"),
         Section(width=clad_width, offset=0, layer=clad_layer, name="clad"),
@@ -350,8 +363,20 @@ def test_extrude_port_centers() -> None:
     s1_offset = 1
     s0 = gf.Section(layer="WG", width=0.5, offset=0, port_names=("o1", "o2"))
     s1 = gf.Section(layer="M1", width=0.5, offset=s1_offset, port_names=("e1", "e2"))
-    xs = gf.LegacyCrossSection(sections=(s0, s1))
-    s = gf.components.straight(cross_section=xs)
+    xs = gf.cross_section.cross_section(
+        width=s0.width,
+        layer=s0.layer,
+        sections=(s1,),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
+    spec = ExtrusionSpec(
+        sections=(
+            ExtrusionSection(port_names=s0.port_names, port_types=s0.port_types),
+            ExtrusionSection(port_names=s1.port_names, port_types=s1.port_types),
+        )
+    )
+    s = gf.path.extrude(gf.path.straight(), cross_section=xs, extrusion_spec=spec)
 
     assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
     assert s.ports["e1"].center[1] == s.ports["o1"].center[1] - s1_offset, s.ports[
@@ -372,10 +397,13 @@ def test_extrude_component_along_path() -> None:
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.LegacyCrossSection(sections=(s,), components_along_path=(via,))
+    x = gf.cross_section.cross_section(
+        width=s.width, layer=s.layer, port_names=s.port_names, port_types=s.port_types
+    )
+    spec = ExtrusionSpec(components_along_path=(via,))
 
     # Combine the path with the cross-section
-    c = gf.path.extrude(p, cross_section=x)
+    c = gf.path.extrude(p, cross_section=x, extrusion_spec=spec)
     assert c
 
 
@@ -389,13 +417,18 @@ def test_extrude_component_along_path_deterministic_name() -> None:
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.LegacyCrossSection(sections=(s,), components_along_path=(via,))
+    x = gf.cross_section.cross_section(
+        width=s.width, layer=s.layer, port_names=s.port_names, port_types=s.port_types
+    )
+    spec = ExtrusionSpec(components_along_path=(via,))
 
     # build some unrelated cells first so the global "Unnamed" counter advances
     for length in (1.0, 2.0, 3.0):
         gf.components.straight(length=length)
 
-    c = gf.path.extrude(gf.path.straight(length=20), cross_section=x)
+    c = gf.path.extrude(
+        gf.path.straight(length=20), cross_section=x, extrusion_spec=spec
+    )
     instance_cell_names = [inst.cell.name for inst in c.insts]
 
     assert instance_cell_names, "expected a components-along-path container instance"
@@ -406,7 +439,7 @@ def test_extrude_component_along_path_deterministic_name() -> None:
 
 def test_extrude_cross_section_list_of_sections() -> None:
     s = gf.Section(width=0.5, offset=0.5, layer="WG")
-    xs = gf.LegacyCrossSection(sections=(s,))
+    xs = gf.cross_section.cross_section(width=s.width, offset=s.offset, layer=s.layer)
     c = gf.c.straight(cross_section=xs)
     assert c
 

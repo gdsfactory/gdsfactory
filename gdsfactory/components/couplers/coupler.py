@@ -91,7 +91,7 @@ def coupler_straight(
     Args:
         length: of straight.
         gap: between straights.
-        cross_section: specification (LegacyCrossSection, string or dict).
+        cross_section: specification (native cross-section, string or dict).
 
         o2──────▲─────────o3
                 │gap
@@ -136,7 +136,7 @@ def coupler(
         length: of coupling region in um.
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
-        cross_section: spec (LegacyCrossSection, string or dict).
+        cross_section: spec (native cross-section, string or dict).
         radius: optional bend radius.
         allow_min_radius_violation: if True does not check for min bend radius.
         bend: input and output sbend components.

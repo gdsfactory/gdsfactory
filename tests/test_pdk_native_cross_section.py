@@ -66,14 +66,14 @@ def test_get_cross_section_native_instance_does_not_accept_overrides() -> None:
         pdk.get_cross_section(symmetric, width=2)
 
 
-def test_register_cross_section_rejects_legacy_factory() -> None:
+def test_register_cross_section_rejects_non_native_factory() -> None:
     pdk = gf.Pdk(name="native-cross-sections")
 
-    def legacy() -> gf.LegacyCrossSection:
-        return gf.LegacyCrossSection(sections=(gf.Section(width=0.5, layer=(1, 0)),))
+    def invalid() -> object:
+        return object()
 
     with pytest.raises(ValueError, match="native CrossSection"):
-        pdk.register_cross_sections(legacy=legacy)
+        pdk.register_cross_sections(invalid=invalid)
 
 
 def test_pdk_xsection_requires_canonical_default_factory_name() -> None:

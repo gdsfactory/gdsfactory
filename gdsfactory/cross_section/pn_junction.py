@@ -7,7 +7,6 @@ from typing import Any
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
     CrossSection,
-    LegacyCrossSection,
     Section,
     Sections,
     cladding_layers_optical,
@@ -16,7 +15,6 @@ from gdsfactory.cross_section.base import (
 )
 from gdsfactory.cross_section.presets import strip
 from gdsfactory.cross_section.utils import (
-    _to_native_cross_section,
     cross_section,
     xsection,
 )
@@ -1120,9 +1118,10 @@ def pn_ge_detector_si_contacts(
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     section_list.append(s)
 
-    return _to_native_cross_section(
-        LegacyCrossSection(
-            sections=tuple(section_list),
-            **kwargs,
-        )
+    return cross_section(
+        width=width_si,
+        layer=layer_si,
+        sections=tuple(section_list[1:]),
+        port_names=port_names,
+        **kwargs,
     )

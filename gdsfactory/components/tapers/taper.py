@@ -43,7 +43,7 @@ def taper(
         port: can taper from a port instead of defining width1.
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
-        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
         port_names: input and output port names. Second name only used if with_two_ports.
         port_types: input and output port types. Second type only used if with_two_ports.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
@@ -95,21 +95,6 @@ def taper(
             ]
         )
         c.add_polygon(p1, layer=layer)
-
-        for s1, s2 in zip(x1.get_sections()[1:], x2.get_sections()[1:], strict=False):
-            y1 = s1.width / 2
-            y2 = s2.width / 2
-            offset1 = (s1.section_min + s1.section_max) / 2
-            offset2 = (s2.section_min + s2.section_max) / 2
-            p1 = gf.kdb.DPolygon(
-                [
-                    gf.kdb.DPoint(0, offset1 + y1),
-                    gf.kdb.DPoint(length, offset2 + y2),
-                    gf.kdb.DPoint(length, offset2 - y2),
-                    gf.kdb.DPoint(0, offset1 - y1),
-                ]
-            )
-            c.add_polygon(p1, layer=s1.layer)
 
     if with_bbox:
         gf.path.add_bbox(c, x)
