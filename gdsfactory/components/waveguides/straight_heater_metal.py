@@ -194,7 +194,6 @@ def straight_heater_metal_simple(
 
     Args:
         length: of the waveguide.
-        length_undercut: length of each undercut section.
         cross_section_heater: for heated sections. heater metal only.
         cross_section_waveguide_heater: for heated sections.
         via_stack: via stack.

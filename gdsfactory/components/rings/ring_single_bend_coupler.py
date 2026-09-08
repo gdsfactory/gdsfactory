@@ -110,8 +110,6 @@ def coupler_ring_bend(
     Args:
         radius: um. Default is None, which uses the default radius of the cross_section.
         coupler_gap: um.
-        angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
-        angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         coupling_angle_coverage: degrees.
         length_x: horizontal straight length.
         cross_section_inner: spec inner bend.
@@ -177,8 +175,6 @@ def ring_single_bend_coupler(
         radius: um.
         gap: um.
         coupling_angle_coverage: degrees.
-        angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
-        angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         bend_all_angle: for bend.
         bend: for bend.
         bend_output: for bend.

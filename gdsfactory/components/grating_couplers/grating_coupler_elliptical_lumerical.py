@@ -106,7 +106,6 @@ def grating_coupler_elliptical_lumerical(
 
     Args:
         parameters: xinput, gap1, width1, gap2, width2 ...
-        layer: for waveguide.
         layer_slab: for slab.
         taper_angle: in deg.
         taper_length: in um.

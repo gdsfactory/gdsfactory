@@ -215,6 +215,13 @@ def mzit_lattice(
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 
+    Args:
+        coupler_lengths: list of coupler lengths, in um. One per coupler.
+        coupler_gaps: list of coupler gaps, in um. One per coupler.
+        delta_lengths: list of length differences between the MZI arms, in um.
+            One per MZI, so one less than the number of couplers.
+        mzi: MZI component spec.
+
     ```text
                     cp1
     o4  o2 __                  __ o3___w0_t2   _w2___

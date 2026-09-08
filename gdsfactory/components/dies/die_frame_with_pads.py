@@ -17,6 +17,12 @@ def die_frame(
     size: Size = (11200.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
 ) -> gf.Component:
+    """Returns a rectangular die floorplan.
+
+    Args:
+        size: die frame size (width, height), in um.
+        layer_floorplan: layer for the floorplan rectangle.
+    """
     return gf.c.rectangle(
         size=size, layer=layer_floorplan, centered=True, port_type=None
     )
@@ -27,6 +33,12 @@ def die_frame_rf(
     size: Size = (10400.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
 ) -> gf.Component:
+    """Returns a rectangular die floorplan sized for RF dies.
+
+    Args:
+        size: die frame size (width, height), in um.
+        layer_floorplan: layer for the floorplan rectangle.
+    """
     return gf.c.rectangle(
         size=size, layer=layer_floorplan, centered=True, port_type=None
     )
@@ -426,6 +438,39 @@ def die_frame_phix_dc(
     pad_rotation_dc_south: float = 0,
     pad_side_distance: float = 1160.0,
 ) -> Component:
+    """A PHIX die frame with DC pads only.
+
+    Args:
+        die_frame: die_frame spec.
+        nfibers: the number of grating couplers.
+        npads: the number of pads.
+        npads_rf: the number of RF pads on the left side.
+        fiber_pitch: the pitch of the grating couplers, in um.
+        pad_pitch: the pitch of the pads, in um.
+        pad_pitch_gsg: the pitch of the GSG pads, in um.
+        edge_coupler: the edge coupler component.
+        grating_coupler: Optional grating coupler.
+        cross_section: the cross section.
+        pad: the pad component.
+        pad_gsg: the GSG pad component.
+        edge_to_pad_distance: the distance from the edge to the pads, in um.
+        pad_port_name_top: name of the pad port name at the top facing south.
+        pad_port_name_bot: name of the pad port name at the bottom facing north.
+        layer_fiducial: layer for fiducials.
+        layer_ruler: layer for ruler.
+        ruler_bbox_layers: layers for bbox.
+        ruler_bbox_offset: offset for bbox.
+        ruler_yoffset: y-offset for ruler.
+        ruler_xoffset: x-offset for ruler.
+        with_right_fiber_coupler: if True, adds edge couplers on the right side.
+        with_left_fiber_coupler: if True, adds edge couplers on the left side.
+        fiber_coupler_xoffset: x-offset for fiber couplers.
+        text_offset: offset for text.
+        text: text component spec.
+        pad_rotation_dc_north: rotation for DC pads.
+        pad_rotation_dc_south: rotation for DC pads.
+        pad_side_distance: distance from the die frame side to the first pad, in um.
+    """
     return die_frame_phix(
         die_frame=die_frame,
         nfibers=nfibers,
@@ -494,6 +539,42 @@ def die_frame_phix_rf(
     pad_rotation_dc_north: float = 0,
     pad_rotation_dc_south: float = 0,
 ) -> Component:
+    """A PHIX die frame with DC and RF pads.
+
+    Args:
+        die_frame: die_frame spec.
+        nfibers: the number of grating couplers.
+        npads: the number of pads.
+        npads_rf: the number of RF pads on the left side.
+        fiber_pitch: the pitch of the grating couplers, in um.
+        pad_pitch: the pitch of the pads, in um.
+        pad_pitch_gsg: the pitch of the GSG pads, in um.
+        edge_coupler: the edge coupler component.
+        grating_coupler: Optional grating coupler.
+        cross_section: the cross section.
+        pad: the pad component.
+        pad_gsg: the GSG pad component.
+        edge_to_pad_distance: the distance from the edge to the pads, in um.
+        pad_port_name_top: name of the pad port name at the top facing south.
+        pad_port_name_bot: name of the pad port name at the bottom facing north.
+        pad_port_name_rf: name of the RF pad port name.
+        layer_fiducial: layer for fiducials.
+        layer_ruler: layer for ruler.
+        ruler_bbox_layers: layers for bbox.
+        ruler_bbox_offset: offset for bbox.
+        ruler_yoffset: y-offset for ruler.
+        ruler_xoffset: x-offset for ruler.
+        with_right_fiber_coupler: if True, adds edge couplers on the right side.
+        with_left_fiber_coupler: if True, adds edge couplers on the left side.
+        fiber_coupler_xoffset: x-offset for fiber couplers.
+        text_offset: offset for text.
+        text: text component spec.
+        pad_side_distance: distance from the die frame side to the first pad, in um.
+        xoffset_rf_pads: RF pads x-offset.
+        pad_rotation_rf: rotation for RF pads.
+        pad_rotation_dc_north: rotation for DC pads.
+        pad_rotation_dc_south: rotation for DC pads.
+    """
     return die_frame_phix(
         die_frame=die_frame,
         nfibers=nfibers,

@@ -633,6 +633,11 @@ def via3(
 
     Only meaningful once M4 also has real z-geometry — see
     get_extended_layer_stack() for the matching LayerStack entry.
+
+    Args:
+        size: (width, height) of the via square, in um.
+        enclosure: metal enclosure around the via, in um.
+        pitch: via array pitch, in um.
     """
     c = Component()
     w, h = size
