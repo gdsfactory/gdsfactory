@@ -100,6 +100,8 @@ from gdsfactory.cross_section.presets import (
 
 # --- utilities: factory function, decorator, registry, introspection ---
 from gdsfactory.cross_section.utils import (
+    CrossSectionCallable,
+    CrossSectionWarning,
     LegacyCrossSectionCallable,
     P,
     _cross_section_default_names,
@@ -118,8 +120,10 @@ __all__ = [
     "AsymmetricalCrossSection",
     "ComponentAlongPath",
     "CrossSection",
+    "CrossSectionCallable",
     "CrossSectionFactory",
     "CrossSectionSpec",
+    "CrossSectionWarning",
     "DAsymmetricCrossSection",
     "DAsymmetricalCrossSection",
     "DCrossSection",

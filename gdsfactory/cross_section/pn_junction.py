@@ -6,6 +6,7 @@ from typing import Any
 
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
+    CrossSection,
     LegacyCrossSection,
     Section,
     Sections,
@@ -14,7 +15,11 @@ from gdsfactory.cross_section.base import (
     cladding_simplify_optical,
 )
 from gdsfactory.cross_section.presets import strip
-from gdsfactory.cross_section.utils import cross_section, xsection
+from gdsfactory.cross_section.utils import (
+    _to_native_cross_section,
+    cross_section,
+    xsection,
+)
 
 
 @xsection
@@ -34,7 +39,7 @@ def pin(
     via_offsets: tuple[float, ...] | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Rib PIN doped cross_section.
 
     Args:
@@ -153,7 +158,7 @@ def pn(
     cladding_simplify: typings.Floats | None = None,
     slab_inset: float | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Rib PN doped cross_section.
 
     Args:
@@ -341,7 +346,7 @@ def pn_with_trenches(
     wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Rib PN doped cross_section.
 
     Args:
@@ -557,7 +562,7 @@ def pn_with_trenches_asymmetric(
     wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Rib PN doped cross_section with asymmetric dimensions left and right.
 
     Args:
@@ -796,7 +801,7 @@ def l_wg_doped_with_trenches(
     wg_marking_layer: typings.LayerSpec | None = None,
     sections: Sections | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """L waveguide PN doped cross_section.
 
     Args:
@@ -976,7 +981,7 @@ def pn_ge_detector_si_contacts(
     cladding_offsets: typings.Floats | None = cladding_offsets_optical,
     cladding_simplify: typings.Floats | None = None,
     **kwargs: Any,
-) -> LegacyCrossSection:
+) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 
     It has silicon contacts (no contact on the Ge). The contacts need to be
@@ -1115,7 +1120,9 @@ def pn_ge_detector_si_contacts(
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     section_list.append(s)
 
-    return LegacyCrossSection(
-        sections=tuple(section_list),
-        **kwargs,
+    return _to_native_cross_section(
+        LegacyCrossSection(
+            sections=tuple(section_list),
+            **kwargs,
+        )
     )

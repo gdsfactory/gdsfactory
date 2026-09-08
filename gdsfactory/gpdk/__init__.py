@@ -55,6 +55,13 @@ def get_generic_pdk() -> Pdk:
     from gdsfactory.pdk import GenericConstants, Pdk
     from gdsfactory.routing.factories import support_nets
 
+    cross_sections = dict(cross_sections)
+    # Native kfactory profiles have one canonical name per structural
+    # signature. These legacy names are metadata-only aliases or exact
+    # duplicates, so keep them as PDK aliases during the migration.
+    cross_sections["strip_no_ports"] = cross_sections["strip"]
+    cross_sections["metal_routing"] = cross_sections["metal3"]
+
     cells = get_cells([gf.components])
     containers_dict = get_cells([gf.containers])
 
