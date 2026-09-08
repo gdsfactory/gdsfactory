@@ -40,7 +40,6 @@ def dbr_cell(
         l1: thin length in um.
         w2: thick width in um.
         l2: thick length in um.
-        n: number of periods.
         cross_section: cross_section spec.
 
            l1      l2

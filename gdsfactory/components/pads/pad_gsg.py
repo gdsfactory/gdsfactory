@@ -79,6 +79,12 @@ pad_gsg_open = partial(pad_gsg_short, short=False)
 
 @gf.cell_with_module_name(schematic_function=pad_schematic, tags=["pads"])
 def pad_gsg(length: float = 100, cross_section: str = "gsg") -> gf.Component:
+    """Returns a ground-signal-ground pad with electrical pins.
+
+    Args:
+        length: length of the GSG transmission line, in um.
+        cross_section: GSG cross_section spec.
+    """
     c = gf.c.straight(cross_section=cross_section, length=length)
     for port in c.ports:
         if port.port_type == "electrical":
@@ -88,6 +94,12 @@ def pad_gsg(length: float = 100, cross_section: str = "gsg") -> gf.Component:
 
 @gf.cell_with_module_name(tags=["pads"])
 def pad_gs(length: float = 100, cross_section: str = "gs") -> gf.Component:
+    """Returns a ground-signal pad.
+
+    Args:
+        length: length of the GS transmission line, in um.
+        cross_section: GS cross_section spec.
+    """
     return gf.c.straight(cross_section=cross_section, length=length)
 
 

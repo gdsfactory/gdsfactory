@@ -104,15 +104,15 @@ def disk(
     """Disk Resonator.
 
     Args:
-       radius: disk resonator radius.
-       gap: Distance between the bus straight and resonator.
-       wrap_angle_deg: Angle in degrees between 0 and 180.
-        determines how much the bus straight wraps along the resonator.
-        0 corresponds to a straight bus straight.
-        180 corresponds to a bus straight wrapped around half of the resonator.
-       parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
-       cross_section: cross_section spec.
-
+        radius: disk resonator radius.
+        gap: Distance between the bus straight and resonator.
+        wrap_angle_deg: Angle in degrees between 0 and 180.
+            determines how much the bus straight wraps along the resonator.
+            0 corresponds to a straight bus straight.
+            180 corresponds to a bus straight wrapped around half of the resonator.
+        parity: 1 or -1. 1 places the resonator left from the bus straight,
+            -1 places it to the right.
+        cross_section: cross_section spec.
     """
     if parity not in (1, -1):
         raise ValueError("parity must be 1 or -1")
@@ -180,20 +180,21 @@ def disk_heater(
     """Disk Resonator with top metal heater.
 
     Args:
-       radius: disk resonator radius.
-       gap: Distance between the bus straight and resonator.
-       wrap_angle_deg: Angle in degrees between 0 and 180.
-        determines how much the bus straight wraps along the resonator.
-        0 corresponds to a straight bus straight.
-        180 corresponds to a bus straight wrapped around half of the resonator.
-       parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
-       cross_section: cross_section spec.
-       heater_layer: layer of the heater.
-       via_stack: via stack component.
-       heater_width: width of the heater.
-       heater_extent: length of heater beyond disk.
-       via_width: size of the square via at the end of the heater.
-       port_orientation: in degrees.
+        radius: disk resonator radius.
+        gap: Distance between the bus straight and resonator.
+        wrap_angle_deg: Angle in degrees between 0 and 180.
+            determines how much the bus straight wraps along the resonator.
+            0 corresponds to a straight bus straight.
+            180 corresponds to a bus straight wrapped around half of the resonator.
+        parity: 1 or -1. 1 places the resonator left from the bus straight,
+            -1 places it to the right.
+        cross_section: cross_section spec.
+        heater_layer: layer of the heater.
+        via_stack: via stack component.
+        heater_width: width of the heater.
+        heater_extent: length of heater beyond disk.
+        via_width: size of the square via at the end of the heater.
+        port_orientation: in degrees.
     """
     c = gf.Component()
     xs = gf.get_cross_section(cross_section=cross_section)

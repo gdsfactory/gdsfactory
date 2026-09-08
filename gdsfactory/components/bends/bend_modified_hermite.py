@@ -353,7 +353,6 @@ def bend_modified_hermite_s(
 
     Args:
         radius: effective bend radius
-        angle: angle, in degrees.
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
