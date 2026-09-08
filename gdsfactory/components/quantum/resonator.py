@@ -2,6 +2,8 @@ from __future__ import annotations
 
 __all__ = ["resonator_cpw", "resonator_lumped", "resonator_quarter_wave"]
 
+from functools import partial
+
 import numpy as np
 
 import gdsfactory as gf
@@ -217,6 +219,7 @@ def resonator_lumped(
     inductor = gf.components.spiral(
         n_loops=inductor_turns,
         cross_section=inductor_cross_section,
+        bend=partial(gf.components.bend_euler, radius=inductor_radius),
     )
     ind_ref = c.add_ref(inductor)
 

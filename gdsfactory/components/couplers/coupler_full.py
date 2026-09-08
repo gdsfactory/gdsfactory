@@ -48,12 +48,11 @@ def coupler_full(
     """
     c = gf.Component()
 
+    x = gf.get_cross_section(cross_section=cross_section)
     if width:
-        x = gf.get_cross_section(cross_section=cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section=cross_section)
-    x_top = x.copy(width=x.width + dw)
-    x_bottom = x.copy(width=x.width - dw)
+        x = gf.cross_section.copy_cross_section(x, width=width)
+    x_top = gf.cross_section.copy_cross_section(x, width=x.width + dw)
+    x_bottom = gf.cross_section.copy_cross_section(x, width=x.width - dw)
 
     taper_top = c << gf.components.taper(
         length=coupling_length,
@@ -93,7 +92,7 @@ def coupler_full(
     bend_output_top.connect("o2", taper_top.ports["o2"], mirror=True)
     bend_output_bottom.connect("o2", taper_bottom.ports["o2"], mirror=True)
 
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
 
     c.add_port("o1", port=bend_input_bottom.ports["o2"])
     c.add_port("o2", port=bend_input_top.ports["o2"])

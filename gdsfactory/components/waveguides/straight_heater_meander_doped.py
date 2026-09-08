@@ -116,7 +116,7 @@ def straight_heater_meander_doped(
 
     # Straights
     for row, straight_width in enumerate(straight_widths):
-        cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
+        cross_section1 = gf.cross_section.copy_cross_section(x, width=straight_width)
         straight = gf.c.straight(
             length=straight_length - 2 * taper_length, cross_section=cross_section1
         )
@@ -198,7 +198,7 @@ def straight_heater_meander_doped(
             port_types=("electrical", "electrical"),
         )
 
-        heater = c << gf.c.straight(
+        heater = c << gf.c.wire_straight(
             length=straight_length,
             cross_section=heater_cross_section,
         )

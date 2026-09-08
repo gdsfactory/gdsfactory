@@ -1058,6 +1058,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1083,6 +1084,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1108,6 +1110,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1133,6 +1136,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1158,6 +1162,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1183,6 +1188,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1208,6 +1214,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1233,6 +1240,7 @@ instances:
       angle: 180
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -1252,6 +1260,12 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m1:
     component: straight
@@ -1266,6 +1280,12 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets:
 - p1: A1,o2

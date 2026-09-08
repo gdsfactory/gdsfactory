@@ -79,7 +79,12 @@ pad_gsg_open = partial(pad_gsg_short, short=False)
 
 @gf.cell_with_module_name(schematic_function=pad_schematic, tags=["pads"])
 def pad_gsg(length: float = 100, cross_section: str = "gsg") -> gf.Component:
-    c = gf.c.straight(cross_section=cross_section, length=length)
+    c = gf.c.straight(
+        cross_section=cross_section,
+        length=length,
+        port_names=("e1", "e2"),
+        port_types=("electrical", "electrical"),
+    )
     for port in c.ports:
         if port.port_type == "electrical":
             c.create_pin(ports=[port], name=port.name)
@@ -88,7 +93,12 @@ def pad_gsg(length: float = 100, cross_section: str = "gsg") -> gf.Component:
 
 @gf.cell_with_module_name(tags=["pads"])
 def pad_gs(length: float = 100, cross_section: str = "gs") -> gf.Component:
-    return gf.c.straight(cross_section=cross_section, length=length)
+    return gf.c.straight(
+        cross_section=cross_section,
+        length=length,
+        port_names=("e1", "e2"),
+        port_types=("electrical", "electrical"),
+    )
 
 
 if __name__ == "__main__":

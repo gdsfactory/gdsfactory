@@ -184,7 +184,6 @@ type RoutingStrategies = dict[str, RoutingStrategy]
 
 from gdsfactory.cross_section import (  # noqa: E402
     CrossSectionSpec,
-    LegacyCrossSectionFactory,
 )
 
 type MultiCrossSectionAngleSpec = Sequence[tuple[CrossSectionSpec, tuple[int, ...]]]
@@ -296,7 +295,6 @@ __all__ = (
     "LayerSpecs",
     "LayerTransitions",
     "Layers",
-    "LegacyCrossSectionFactory",
     "Number",
     "PathType",
     "PathTypes",

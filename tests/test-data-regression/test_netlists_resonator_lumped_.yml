@@ -78,13 +78,13 @@ instances:
       size:
       - 5
       - 5
-  spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__6ca19ef0_52000_0:
+  spiral_gdsfactorypcomponentspspiralspspiral_L100_BFbend_b20479e3_52000_0:
     component: spiral
     info:
-      length: 977.644
+      length: 1277.288
     settings:
-      bend: bend_euler
-      cross_section: xs_4a304818
+      bend: Fbend_euler_Mgdsfactorypcomponentspbendspbend_euler_SR20
+      cross_section: 028523d7_2000
       length: 100
       n_loops: 3
       spacing: 3
@@ -118,7 +118,7 @@ placements:
     rotation: 0
     x: -10
     y: 10
-  spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__6ca19ef0_52000_0:
+  spiral_gdsfactorypcomponentspspiralspspiral_L100_BFbend_b20479e3_52000_0:
     mirror: false
     rotation: 0
     x: 52

@@ -6,7 +6,14 @@ from scipy.integrate import quad
 
 import gdsfactory as gf
 from gdsfactory import Section
-from gdsfactory.cross_section import LegacyCrossSection
+from gdsfactory.cross_section import (
+    AsymmetricExtrusionSpec,
+    ExtrusionSection,
+    ExtrusionSpec,
+    SectionReference,
+    SymmetricExtrusionSpec,
+    TransitionSection,
+)
 from gdsfactory.gpdk import LAYER
 from gdsfactory.typings import LayerSpec
 
@@ -27,9 +34,22 @@ def test_path_port_types() -> None:
         port_names=("e1", "e2"),
         port_types=("electrical", "electrical"),
     )
-    X = gf.LegacyCrossSection(sections=(s0, s1))
+    X = gf.cross_section.cross_section(
+        width=s0.width,
+        offset=s0.offset,
+        layer=s0.layer,
+        sections=(s1,),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
     P = gf.path.straight(npoints=100, length=10)
-    c = gf.path.extrude(P, X)
+    spec = ExtrusionSpec(
+        sections=(
+            ExtrusionSection(port_names=s0.port_names, port_types=s0.port_types),
+            ExtrusionSection(port_names=s1.port_names, port_types=s1.port_types),
+        )
+    )
+    c = gf.path.extrude(P, X, extrusion_spec=spec)
     assert c.ports["e1"].port_type == "electrical"
     assert c.ports["e2"].port_type == "electrical"
     assert c.ports["o1"].port_type == "optical"
@@ -52,6 +72,56 @@ def test_extrude_transition() -> None:
     expected_area = (w1 + w2) / 2 * length
     actual_area = c.area((1, 0))
     assert actual_area == expected_area
+
+
+def test_native_transition_keeps_identical_enclosure() -> None:
+    xs1 = gf.cross_section.cross_section(
+        width=1.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(1.0,),
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=2.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(1.0,),
+    )
+
+    c = gf.path.extrude_transition(
+        gf.path.straight(length=10, npoints=11),
+        gf.path.transition(xs1, xs2, width_type="linear"),
+    )
+
+    assert c.ports["o1"].width == 1.0
+    assert c.ports["o2"].width == 2.0
+    assert c.area("SLAB90") == pytest.approx(35.0)
+
+
+def test_native_transition_requires_spec_for_changed_enclosure() -> None:
+    xs1 = gf.cross_section.cross_section(
+        width=1.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(1.0,),
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=2.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(2.0,),
+    )
+
+    with pytest.raises(ValueError, match="explicit SymmetricExtrusionSpec"):
+        gf.path.transition(xs1, xs2)
+
+
+def test_native_asymmetric_transition_requires_spec() -> None:
+    xs1 = gf.cross_section.cross_section(width=1.0, offset=0.1, layer="WG")
+    xs2 = gf.cross_section.cross_section(width=2.0, offset=0.2, layer="WG")
+
+    with pytest.raises(ValueError, match="AsymmetricExtrusionSpec"):
+        gf.path.transition_asymmetric(xs1, xs2)
 
 
 def test_extrude_transition_asymmetric() -> None:
@@ -128,7 +198,7 @@ def dummy_cladded_wg_cs(
     core_width: float,
     clad_layer: LayerSpec,
     clad_width: float,
-) -> LegacyCrossSection:
+) -> gf.CrossSection:
     sections = (
         Section(width=core_width, offset=0, layer=core_layer, name="core"),
         Section(width=clad_width, offset=0, layer=clad_layer, name="clad"),
@@ -136,6 +206,42 @@ def dummy_cladded_wg_cs(
     return gf.cross_section.cross_section(
         width=core_width, sections=sections, layer=intent_layer
     )
+
+
+def cladded_wg_transition_spec(
+    xs1: gf.CrossSection,
+    xs2: gf.CrossSection,
+    *,
+    asymmetric: bool = False,
+) -> SymmetricExtrusionSpec | AsymmetricExtrusionSpec:
+    """Map the intent/core/cladding strips explicitly for native transitions."""
+
+    def refs(xs: gf.CrossSection) -> tuple[SectionReference, ...]:
+        counts: dict[tuple[int, int], int] = {}
+        result = []
+        for section in xs.get_sections():
+            layer = gf.get_layer_tuple(section.layer)
+            index = counts.get(layer, 0)
+            counts[layer] = index + 1
+            result.append(SectionReference(layer=layer, index=index))
+        return tuple(result)
+
+    refs1 = refs(xs1)
+    refs2 = refs(xs2)
+    mappings = (
+        TransitionSection(
+            start=refs1[0],
+            extrusion=ExtrusionSection(port_names=("o1", None)),
+        ),
+        TransitionSection(start=refs1[1], end=refs2[1]),
+        TransitionSection(start=refs1[2], end=refs2[2]),
+        TransitionSection(
+            end=refs2[0],
+            extrusion=ExtrusionSection(port_names=(None, "o2")),
+        ),
+    )
+    spec_type = AsymmetricExtrusionSpec if asymmetric else SymmetricExtrusionSpec
+    return spec_type(sections=mappings)
 
 
 def test_transition_cross_section_different_layers() -> None:
@@ -164,7 +270,11 @@ def test_transition_cross_section_different_layers() -> None:
         clad_layer="WGCLAD",
         clad_width=w2,
     )
-    transition = gf.path.transition(cs1, cs2)
+    transition = gf.path.transition(
+        cs1,
+        cs2,
+        extrusion_spec=cladded_wg_transition_spec(cs1, cs2),
+    )
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
 
@@ -213,7 +323,11 @@ def test_transition_asymmetric_cross_section_different_layers() -> None:
         clad_width=w2,
     )
     transition = gf.path.transition_asymmetric(
-        cs1, cs2, width_type1=polynomial, width_type2="linear"
+        cs1,
+        cs2,
+        width_type1=polynomial,
+        width_type2="linear",
+        extrusion_spec=cladded_wg_transition_spec(cs1, cs2, asymmetric=True),
     )
     # In order to have a transition other than linear, we need to sample more points along the path
     p = gf.path.straight(length=length, npoints=100)
@@ -249,8 +363,20 @@ def test_extrude_port_centers() -> None:
     s1_offset = 1
     s0 = gf.Section(layer="WG", width=0.5, offset=0, port_names=("o1", "o2"))
     s1 = gf.Section(layer="M1", width=0.5, offset=s1_offset, port_names=("e1", "e2"))
-    xs = gf.LegacyCrossSection(sections=(s0, s1))
-    s = gf.components.straight(cross_section=xs)
+    xs = gf.cross_section.cross_section(
+        width=s0.width,
+        layer=s0.layer,
+        sections=(s1,),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
+    spec = ExtrusionSpec(
+        sections=(
+            ExtrusionSection(port_names=s0.port_names, port_types=s0.port_types),
+            ExtrusionSection(port_names=s1.port_names, port_types=s1.port_types),
+        )
+    )
+    s = gf.path.extrude(gf.path.straight(), cross_section=xs, extrusion_spec=spec)
 
     assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
     assert s.ports["e1"].center[1] == s.ports["o1"].center[1] - s1_offset, s.ports[
@@ -271,10 +397,13 @@ def test_extrude_component_along_path() -> None:
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.LegacyCrossSection(sections=(s,), components_along_path=(via,))
+    x = gf.cross_section.cross_section(
+        width=s.width, layer=s.layer, port_names=s.port_names, port_types=s.port_types
+    )
+    spec = ExtrusionSpec(components_along_path=(via,))
 
     # Combine the path with the cross-section
-    c = gf.path.extrude(p, cross_section=x)
+    c = gf.path.extrude(p, cross_section=x, extrusion_spec=spec)
     assert c
 
 
@@ -288,13 +417,18 @@ def test_extrude_component_along_path_deterministic_name() -> None:
         component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
     )
     s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.LegacyCrossSection(sections=(s,), components_along_path=(via,))
+    x = gf.cross_section.cross_section(
+        width=s.width, layer=s.layer, port_names=s.port_names, port_types=s.port_types
+    )
+    spec = ExtrusionSpec(components_along_path=(via,))
 
     # build some unrelated cells first so the global "Unnamed" counter advances
     for length in (1.0, 2.0, 3.0):
         gf.components.straight(length=length)
 
-    c = gf.path.extrude(gf.path.straight(length=20), cross_section=x)
+    c = gf.path.extrude(
+        gf.path.straight(length=20), cross_section=x, extrusion_spec=spec
+    )
     instance_cell_names = [inst.cell.name for inst in c.insts]
 
     assert instance_cell_names, "expected a components-along-path container instance"
@@ -305,7 +439,7 @@ def test_extrude_component_along_path_deterministic_name() -> None:
 
 def test_extrude_cross_section_list_of_sections() -> None:
     s = gf.Section(width=0.5, offset=0.5, layer="WG")
-    xs = gf.LegacyCrossSection(sections=(s,))
+    xs = gf.cross_section.cross_section(width=s.width, offset=s.offset, layer=s.layer)
     c = gf.c.straight(cross_section=xs)
     assert c
 

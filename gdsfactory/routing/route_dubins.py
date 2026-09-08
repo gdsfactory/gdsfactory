@@ -22,14 +22,16 @@ def route_dubins(
     port1: Port,
     port2: Port,
     cross_section: CrossSectionSpec,
+    radius: float | None = None,
 ) -> OpticalAllAngleRoute:
-    """Route between ports using Dubins paths with radius from cross-section.
+    """Route between ports using a Dubins path.
 
     Args:
         component: component to add the route to.
         port1: input port.
         port2: output port.
         cross_section: cross-section.
+        radius: bend radius in um. If None, uses the cross-section radius.
     """
     # Get start position and orientation
     x1, y1 = port1.center
@@ -43,8 +45,16 @@ def route_dubins(
     END = (x2, y2, angle2)  # Convert to um
 
     xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius or gf.get_cross_section_radius(cross_section)
+    if radius is None:
+        raise ValueError(
+            "route_dubins requires an explicit radius when the cross-section "
+            "does not define one."
+        )
     # Find the Dubins path between ports using radius from cross-section
-    path = dubins_path(start=START, end=END, cross_section=xs)  # Convert radius to um
+    path = dubins_path(
+        start=START, end=END, cross_section=xs, radius=radius
+    )  # Convert radius to um
     instances = place_dubins_path(component, xs, port1, solution=path)
     length = dubins_path_length(START, END, xs)
 
@@ -163,6 +173,7 @@ def dubins_path(
     start: tuple[float, float, float],
     end: tuple[float, float, float],
     cross_section: CrossSectionSpec,
+    radius: float | None = None,
 ) -> list[tuple[str, float, float]]:
     """Finds the Dubins path between two points."""
     xs = gf.get_cross_section(cross_section)
@@ -174,9 +185,15 @@ def dubins_path(
     eyaw = m.radians(eyaw)
 
     # Use radius in um
-    c = xs.radius  # Already converted to um
+    c = (
+        radius or xs.radius or gf.get_cross_section_radius(cross_section)
+    )  # Already converted to um
 
-    assert c is not None, "Cross-section radius is None"
+    if c is None:
+        raise ValueError(
+            "dubins_path requires an explicit radius when the cross-section "
+            "does not define one."
+        )
 
     # Calculate relative end position
     ex = ex - sx
@@ -280,7 +297,9 @@ def place_dubins_path(
             # Length and radius are in um, convert to nm for gdsfactory
             arc_angle = 180 * length / (m.pi * radius)
             bend = c.add_ref_off_grid(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+                bend_circular_all_angle(
+                    angle=arc_angle, radius=radius, cross_section=xs
+                )
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
@@ -289,7 +308,9 @@ def place_dubins_path(
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
             bend = c.add_ref_off_grid(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+                bend_circular_all_angle(
+                    angle=arc_angle, radius=radius, cross_section=xs
+                )
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]

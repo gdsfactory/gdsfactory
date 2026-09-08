@@ -17,7 +17,6 @@ from gdsfactory import typings
 from gdsfactory.cross_section.base import (
     CrossSection,
     CrossSectionFactory,
-    LegacyCrossSection,
     Section,
 )
 from gdsfactory.cross_section.kfactory import (
@@ -39,14 +38,7 @@ class CrossSectionWarning(DeprecationWarning):
 class CrossSectionCallable(Protocol[P]):
     __name__: str
 
-    def __call__(
-        self, *args: P.args, **kwargs: P.kwargs
-    ) -> CrossSection | LegacyCrossSection: ...
-
-
-# Keep the old protocol name available to downstream imports during the
-# migration.  Runtime factories now return native kfactory profiles.
-LegacyCrossSectionCallable = CrossSectionCallable
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> CrossSection: ...
 
 
 def _warn(message: str, *, stacklevel: int = 3) -> None:
@@ -149,79 +141,31 @@ def _rename_native_cross_section(
     raise TypeError(f"Unsupported native cross-section type: {type(cross_section)}")
 
 
-def _to_native_cross_section(
-    cross_section: CrossSection | LegacyCrossSection,
-    *,
-    name: str | None = None,
-    warn: bool = True,
-) -> CrossSection:
-    """Adapt a legacy profile to a native kfactory cross-section.
-
-    The adapter intentionally preserves only geometry, radius, and bounding
-    box information.  Port and extrusion metadata will move to the extrusion
-    APIs in a later migration step.
-    """
-    if isinstance(cross_section, kf.DCrossSection | kf.DAsymmetricCrossSection):
-        return _rename_native_cross_section(cross_section, name)
-
-    if not isinstance(cross_section, LegacyCrossSection):
-        raise TypeError(
-            "Cross-section factories must return a native CrossSection or "
-            f"LegacyCrossSection, got {type(cross_section)}."
-        )
-
-    if warn:
-        _warn(
-            "LegacyCrossSection is being adapted to a native kfactory "
-            "cross-section; extrusion metadata is dropped temporarily."
-        )
-
-    if not cross_section.sections:
-        raise ValueError("LegacyCrossSection must contain at least one section.")
-
-    main = cross_section.sections[0]
-    width = _nominal_value(
-        main.width_function or main.width, "section.width", warn=warn
-    )
-    offset = _nominal_value(
-        main.offset_function or main.offset, "section.offset", warn=warn
-    )
-    sections = tuple(
-        _section_to_kfactory_spec(section, warn=warn)
-        for section in cross_section.sections[1:]
-    )
-    return kfactory_cross_section(
-        width=width,
-        offset=offset,
-        layer=main.layer,
-        sections=sections,
-        bbox_layers=cross_section.bbox_layers,
-        bbox_offsets=cross_section.bbox_offsets,
-        radius=cross_section.radius,
-        radius_min=cross_section.radius_min,
-        name=name,
-    )
-
-
 def _call_cross_section_factory(
     func: Callable[..., Any],
     args: tuple[Any, ...],
     kwargs: dict[str, Any],
-    *,
-    warn: bool,
 ) -> CrossSection:
     result = func(*args, **kwargs)
-    return _to_native_cross_section(result, warn=warn)
+    if not isinstance(result, kf.DCrossSection | kf.DAsymmetricCrossSection):
+        raise TypeError(
+            "Cross-section factories must return a native CrossSection, "
+            f"got {type(result)}."
+        )
+    return result
 
 
 def _call_cross_section_factory_without_warnings(
     func: Callable[..., Any],
 ) -> CrossSection:
     """Resolve a factory default without warning during lazy registration."""
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", CrossSectionWarning)
-        result = func()
-    return _to_native_cross_section(result, warn=False)
+    result = func()
+    if not isinstance(result, kf.DCrossSection | kf.DAsymmetricCrossSection):
+        raise TypeError(
+            "Cross-section factories must return a native CrossSection, "
+            f"got {type(result)}."
+        )
+    return result
 
 
 def xsection[**P](
@@ -246,7 +190,7 @@ def xsection[**P](
             default_xs = _call_cross_section_factory_without_warnings(func)
             default_xs_name = default_xs.name
             xs_default_mapping[default_xs_name] = func.__name__
-        xs = _call_cross_section_factory(func, args, kwargs, warn=True)
+        xs = _call_cross_section_factory(func, args, kwargs)
         if xs.name == default_xs_name and not xs.base.is_named:
             xs = _rename_native_cross_section(xs, func.__name__)
         return xs
@@ -422,19 +366,16 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
                 "AsymmetricCrossSection",
                 "DCrossSection",
                 "DAsymmetricCrossSection",
-                "LegacyCrossSection",
                 "gf.CrossSection",
                 "gf.SymmetricCrossSection",
                 "gf.AsymmetricCrossSection",
                 "gf.DCrossSection",
                 "gf.DAsymmetricCrossSection",
-                "gf.LegacyCrossSection",
                 "gdsfactory.CrossSection",
                 "gdsfactory.SymmetricCrossSection",
                 "gdsfactory.AsymmetricCrossSection",
                 "gdsfactory.DCrossSection",
                 "gdsfactory.DAsymmetricCrossSection",
-                "gdsfactory.LegacyCrossSection",
             ):
                 return True
 
@@ -495,7 +436,6 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
 
 def _is_cross_section_type(value: Any) -> bool:
     if value in (
-        LegacyCrossSection,
         kf.DCrossSection,
         kf.DAsymmetricCrossSection,
         kf.SymmetricalCrossSection,
@@ -507,7 +447,6 @@ def _is_cross_section_type(value: Any) -> bool:
         return issubclass(
             value,
             (
-                LegacyCrossSection,
                 kf.DCrossSection,
                 kf.DAsymmetricCrossSection,
                 kf.SymmetricalCrossSection,

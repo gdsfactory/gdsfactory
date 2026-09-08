@@ -1,5 +1,5 @@
 instances:
-  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_15500_625:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_15500_625:
     component: bend_s
     info:
       end_angle: 0
@@ -16,11 +16,17 @@ instances:
       allow_min_radius_violation: false
       cross_section: strip
       npoints: 99
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       size:
       - 11
       - 1.8
       width: null
-  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_52000_3050:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_52000_3050:
     component: bend_s
     info:
       end_angle: 0
@@ -37,6 +43,12 @@ instances:
       allow_min_radius_violation: false
       cross_section: strip
       npoints: 99
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       size:
       - 11
       - 1.8
@@ -81,21 +93,21 @@ instances:
       width_mmi: 2.5
       width_taper: 1
 nets:
-- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_15500_625,o1
+- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_15500_625,o1
   p2: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0,o2
-- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_15500_625,o2
+- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_15500_625,o2
   p2: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_36500_2425,o1
-- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_52000_3050,o1
+- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_52000_3050,o1
   p2: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_36500_2425,o2
-- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_52000_3050,o2
+- p1: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_52000_3050,o2
   p2: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_73000_4850,o1
 placements:
-  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_15500_625:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_15500_625:
     mirror: false
     rotation: 0
     x: 15.5
     y: 0.625
-  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c_52000_3050:
+  bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0_52000_3050:
     mirror: false
     rotation: 0
     x: 52

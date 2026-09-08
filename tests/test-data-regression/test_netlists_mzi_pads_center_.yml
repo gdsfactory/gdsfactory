@@ -43,7 +43,7 @@ instances:
       straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
-  straight_gdsfactorypcomponentspwaveguidespstraight_L102_dfa17972_527900_m10000_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L102_e4dbc3bd_527900_m10000_A180:
     component: straight
     info:
       length: 102.4
@@ -56,8 +56,14 @@ instances:
       cross_section: metal_routing
       length: 102.4
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L115_34de836d_30100_m10000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L115_76d82c8a_30100_m10000:
     component: straight
     info:
       length: 115.4
@@ -70,8 +76,14 @@ instances:
       cross_section: metal_routing
       length: 115.4
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L12p_d78678dc_285500_m62125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L12p_20fe32cb_285500_m62125_A90:
     component: straight
     info:
       length: 12.125
@@ -84,8 +96,14 @@ instances:
       cross_section: metal_routing
       length: 12.125
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_30100_74125:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_30100_74125:
     component: straight
     info:
       length: 250.4
@@ -98,8 +116,14 @@ instances:
       cross_section: metal_routing
       length: 250.4
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_540900_m67125_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_540900_m67125_A180:
     component: straight
     info:
       length: 250.4
@@ -112,8 +136,14 @@ instances:
       cross_section: metal_routing
       length: 250.4
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L39p_60ed2fdd_285500_69125_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L39p_a50b6ec0_285500_69125_A270:
     component: straight
     info:
       length: 39.125
@@ -126,8 +156,14 @@ instances:
       cross_section: metal_routing
       length: 39.125
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_25100_66125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_25100_66125_A90:
     component: straight
     info:
       length: 3
@@ -140,8 +176,14 @@ instances:
       cross_section: metal_routing
       length: 3
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_540900_74125_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_540900_74125_A180:
     component: straight
     info:
       length: 3
@@ -154,8 +196,14 @@ instances:
       cross_section: metal_routing
       length: 3
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_545900_66125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_545900_66125_A90:
     component: straight
     info:
       length: 3
@@ -168,8 +216,14 @@ instances:
       cross_section: metal_routing
       length: 3
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_545900_m75125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_545900_m75125_A90:
     component: straight
     info:
       length: 3
@@ -182,8 +236,14 @@ instances:
       cross_section: metal_routing
       length: 3
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60p_beecede7_25100_m75125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60p_fb9a54bd_25100_m75125_A90:
     component: straight
     info:
       length: 60.125
@@ -196,8 +256,14 @@ instances:
       cross_section: metal_routing
       length: 60.125
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L74p_6e2e4462_532900_69125_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L74p_87259ba8_532900_69125_A270:
     component: straight
     info:
       length: 74.125
@@ -210,6 +276,12 @@ instances:
       cross_section: metal_routing
       length: 74.125
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 10
   wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_25100_74125_A180:
     component: wire_corner
@@ -332,37 +404,37 @@ instances:
       radius: 10
       width: 10
 nets:
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_25100_66125_A90,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_25100_66125_A90,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_25100_74125_A180,e2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_540900_74125_A180,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_540900_74125_A180,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_545900_74125_M,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_540900_74125_A180,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_540900_74125_A180,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_532900_74125_A90_M,e2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_545900_66125_A90,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_545900_66125_A90,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_545900_74125_M,e2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_545900_m75125_A90,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_545900_m75125_A90,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_545900_m67125_M,e2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L12p_d78678dc_285500_m62125_A90,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L12p_20fe32cb_285500_m62125_A90,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_285500_m67125_A270,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L39p_60ed2fdd_285500_69125_A270,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L39p_a50b6ec0_285500_69125_A270,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_285500_74125_A90,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L60p_beecede7_25100_m75125_A90,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L60p_fb9a54bd_25100_m75125_A90,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_25100_m10000_A180,e2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L74p_6e2e4462_532900_69125_A270,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L74p_87259ba8_532900_69125_A270,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_532900_74125_A90_M,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L74p_6e2e4462_532900_69125_A270,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L74p_87259ba8_532900_69125_A270,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_532900_m10000,e2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L102_dfa17972_527900_m10000_A180,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L102_e4dbc3bd_527900_m10000_A180,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_532900_m10000,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L115_34de836d_30100_m10000,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L115_76d82c8a_30100_m10000,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_25100_m10000_A180,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_30100_74125,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_30100_74125,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_25100_74125_A180,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_30100_74125,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_30100_74125,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_285500_74125_A90,e2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_540900_m67125_A180,e1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_540900_m67125_A180,e1
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_545900_m67125_M,e1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_540900_m67125_A180,e2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_540900_m67125_A180,e2
   p2: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f_285500_m67125_A270,e2
 placements:
   array_gdsfactorypcomponentspcontainersparray_component__8765215d_185500_m10000:
@@ -375,62 +447,62 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L102_dfa17972_527900_m10000_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L102_e4dbc3bd_527900_m10000_A180:
     mirror: false
     rotation: 180
     x: 527.9
     y: -10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L115_34de836d_30100_m10000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L115_76d82c8a_30100_m10000:
     mirror: false
     rotation: 0
     x: 30.1
     y: -10
-  straight_gdsfactorypcomponentspwaveguidespstraight_L12p_d78678dc_285500_m62125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L12p_20fe32cb_285500_m62125_A90:
     mirror: false
     rotation: 90
     x: 285.5
     y: -62.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_30100_74125:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_30100_74125:
     mirror: false
     rotation: 0
     x: 30.1
     y: 74.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871_540900_m67125_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L250_3e16e780_540900_m67125_A180:
     mirror: false
     rotation: 180
     x: 540.9
     y: -67.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L39p_60ed2fdd_285500_69125_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L39p_a50b6ec0_285500_69125_A270:
     mirror: false
     rotation: 270
     x: 285.5
     y: 69.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_25100_66125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_25100_66125_A90:
     mirror: false
     rotation: 90
     x: 25.1
     y: 66.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_540900_74125_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_540900_74125_A180:
     mirror: false
     rotation: 180
     x: 540.9
     y: 74.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_545900_66125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_545900_66125_A90:
     mirror: false
     rotation: 90
     x: 545.9
     y: 66.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b_545900_m75125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_bffd70a1_545900_m75125_A90:
     mirror: false
     rotation: 90
     x: 545.9
     y: -75.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60p_beecede7_25100_m75125_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60p_fb9a54bd_25100_m75125_A90:
     mirror: false
     rotation: 90
     x: 25.1
     y: -75.125
-  straight_gdsfactorypcomponentspwaveguidespstraight_L74p_6e2e4462_532900_69125_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L74p_87259ba8_532900_69125_A270:
     mirror: false
     rotation: 270
     x: 532.9

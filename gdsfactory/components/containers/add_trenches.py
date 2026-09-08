@@ -27,7 +27,7 @@ def add_trenches(
         layer_component: layer of the component to invert.
         layer_trench: layer of the trenches.
         width_trench: width of the trenches.
-        cross_section: spec (LegacyCrossSection, string or dict).
+        cross_section: spec (native cross-section, string or dict).
         top: width of the trench on the top. If None uses width_trench.
         bot: width of the trench on the bottom. If None uses width_trench.
         right: width of the trench on the right. If None uses width_trench.
@@ -56,7 +56,7 @@ def add_trenches(
     c.copy_child_info(component)
     if cross_section is not None:
         xs = gf.get_cross_section(cross_section)
-        xs.add_bbox(c)
+        gf.path.add_bbox(c, xs)
     return c
 
 

@@ -158,11 +158,10 @@ xs = rib()        # rib waveguide
 xs = metal1()     # metal routing layer
 
 # Custom cross section
-xs = gf.LegacyCrossSection(
-    sections=[
-        gf.Section(width=0.5, layer="WG", name="core"),
-        gf.Section(width=3.0, layer="SLAB90", name="slab"),
-    ]
+xs = gf.cross_section.cross_section(
+    width=0.5,
+    layer="WG",
+    sections=(("SLAB90", -1.5, 1.5),),
 )
 ```
 

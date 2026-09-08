@@ -120,7 +120,7 @@ def edge_coupler_array_with_loopback(
         text_rotation: text rotation in degrees.
     """
     xs = gf.get_cross_section(cross_section)
-    radius = radius or xs.radius
+    radius = radius or xs.radius or gf.get_cross_section_radius(cross_section)
 
     c = Component()
     ec = edge_coupler_array(

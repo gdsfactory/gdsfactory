@@ -294,7 +294,7 @@ def crossing45(
     c.add_port("o4", port=b_br.ports["o1"])
 
     xs = gf.get_cross_section(cross_section)
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     return c
 
 

@@ -86,7 +86,13 @@ def double_loop() -> Component:
     s1 = gf.Section(width=0.5, offset=2, layer=(0, 0))
     s2 = gf.Section(width=0.5, offset=4, layer=(1, 0))
     s3 = gf.Section(width=1, offset=0, layer=(3, 0))
-    X = gf.LegacyCrossSection(sections=(s0, s1, s2, s3))
+    X = gf.cross_section.cross_section(
+        width=s0.width,
+        layer=s0.layer,
+        sections=(s1, s2, s3),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
     return gf.path.extrude(P, X, simplify=0.3)
 
 
@@ -98,27 +104,56 @@ def transition() -> Component:
     )
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.LegacyCrossSection(sections=(s0, s1, s2))
+    X1 = gf.cross_section.cross_section(
+        width=s0.width,
+        layer=s0.layer,
+        sections=(s1, s2),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
 
-    # Create the second LegacyCrossSection that we want to transition to
+    # Create the second native cross-section that we want to transition to
     s0 = gf.Section(
         width=1, offset=0, layer=(2, 0), name="core", port_names=("in1", "out1")
     )
     s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.LegacyCrossSection(sections=(s0, s1, s2))
+    X2 = gf.cross_section.cross_section(
+        width=s0.width,
+        layer=s0.layer,
+        sections=(s1, s2),
+        port_names=s0.port_names,
+        port_types=s0.port_types,
+    )
 
-    Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+    transition_spec = gf.AsymmetricExtrusionSpec(
+        sections=tuple(
+            gf.TransitionSection(
+                start=gf.SectionReference(layer=layer),
+                end=gf.SectionReference(layer=layer),
+                extrusion=gf.ExtrusionSection(
+                    port_names=("in1", "out1") if index == 0 else (None, None)
+                ),
+            )
+            for index, layer in enumerate(((2, 0), (3, 0), (1, 0)))
+        )
+    )
+    Xtrans = gf.path.transition_asymmetric(
+        cross_section1=X1,
+        cross_section2=X2,
+        width_type1="sine",
+        extrusion_spec=transition_spec,
+    )
     # Xtrans = gf.cross_section.strip(port_names=('in1', 'out1'))
 
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
 
-    wg1 = gf.path.extrude(P1, X1)
-    wg2 = gf.path.extrude(P2, X2)
+    wg1 = gf.path.extrude(P1, X1, port_names=("in1", "out1"), port_cross_section=False)
+    wg2 = gf.path.extrude(P2, X2, port_names=("in1", "out1"), port_cross_section=False)
 
     P4 = gf.path.euler(radius=25, angle=90, p=0.5, use_eff=False)
-    wg_trans = gf.path.extrude_transition(P4, Xtrans)
+    wg_trans = gf.path.extrude_transition(P4, Xtrans, port_cross_section=False)
 
     wg1_ref = c << wg1
     wgt_ref = c << wg_trans
@@ -155,8 +190,10 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 def test_layers1() -> None:
     P = gf.path.straight(length=10.001)
     s = gf.Section(width=0.5, offset=0, layer=LAYER.WG, port_names=("in", "out"))
-    X = gf.LegacyCrossSection(sections=(s,))
-    c = gf.path.extrude(P, X, simplify=5e-3)
+    X = gf.cross_section.cross_section(
+        width=s.width, offset=s.offset, layer=s.layer, port_names=s.port_names
+    )
+    c = gf.path.extrude(P, X, simplify=5e-3, port_names=s.port_names)
     assert c.ports["in"].layer == LAYER.WG
     assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
 
@@ -540,8 +577,7 @@ def test_path_smooth() -> None:
     points = np.array([(-50, 50), (-100, 100), (-100, 200)])
 
     P = gf.path.smooth(points=points, radius=10, bend=gf.path.euler)
-    section = gf.Section(width=20.0, layer=(1, 0))
-    X = gf.LegacyCrossSection(sections=(section,))
+    X = gf.cross_section.cross_section(width=20.0, layer=(1, 0))
 
     c = P.extrude(cross_section=X)
     assert np.isclose(c.area((1, 0)), 3404.6317885)

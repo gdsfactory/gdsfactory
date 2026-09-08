@@ -139,5 +139,5 @@ def grating_coupler_dual_pol(
     taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     return c

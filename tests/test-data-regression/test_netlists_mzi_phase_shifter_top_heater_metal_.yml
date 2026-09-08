@@ -18,6 +18,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -43,6 +44,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -68,6 +70,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -93,6 +96,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -118,6 +122,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -143,6 +148,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -168,6 +174,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -193,6 +200,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -238,6 +246,12 @@ instances:
       cross_section: strip
       length: 200
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   sxt:
     component: straight_heater_metal_undercut
@@ -273,6 +287,12 @@ instances:
       cross_section: strip
       length: 7
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   syl:
     component: straight
@@ -287,6 +307,12 @@ instances:
       cross_section: strip
       length: 7
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   sytl:
     component: straight
@@ -301,6 +327,12 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   sytr:
     component: straight
@@ -315,6 +347,12 @@ instances:
       cross_section: strip
       length: 2
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets:
 - p1: b1,o1

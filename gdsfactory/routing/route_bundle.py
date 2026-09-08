@@ -218,7 +218,7 @@ def route_bundle(
         component: component to add the routes to.
         ports1: starting port or list of starting ports.
         ports2: end port or list of end ports.
-        cross_section: LegacyCrossSection or function that returns a cross_section.
+        cross_section: native cross-section or function that returns a cross-section.
             Required unless both layer and route_width are given. Mutually exclusive with layer.
         layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
         separation: bundle separation (center to center) in um.
@@ -388,13 +388,14 @@ def route_bundle(
         raise ValueError(
             f"ports1={len(ports1_)} and ports2={len(ports2_)} must be equal"
         )
-    if route_width:
-        xs = gf.get_cross_section(cross_section, width=route_width)
-    else:
-        xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section)
+    # Capture the routing radius before applying a width override. Native
+    # cross-section copies intentionally do not carry radius metadata: radius
+    # belongs to the bend/routing operation, not to the geometry profile.
+    radius = radius or xs.radius or gf.get_cross_section_radius(cross_section)
+    if route_width and route_width != xs.width:
+        xs = gf.cross_section.copy_cross_section(xs, width=route_width)
     width = route_width or xs.width
-
-    radius = radius or xs.radius
     taper_cell = gf.get_component(taper) if taper else None
 
     if collision_check_layers:

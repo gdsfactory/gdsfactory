@@ -150,5 +150,5 @@ def mmi_90degree_hybrid(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
 
     c.flatten()
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
     return c

@@ -23,6 +23,7 @@ def sample_route_dubins_basic() -> gf.Component:
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],
         cross_section=gf.cross_section.strip(width=3.2, radius=100),
+        radius=100,
     )
     return c
 
@@ -55,6 +56,7 @@ def sample_route_dubins_array() -> gf.Component:
             cross_section=gf.cross_section.strip(
                 width=3.2, layer=(30, 0), radius=100 + i * 10
             ),
+            radius=100 + i * 10,
         )
     return c
 

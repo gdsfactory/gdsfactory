@@ -62,7 +62,9 @@ def grating_coupler_array(
                 f"with_loopback works only with rotation = -90, got {rotation=}"
             )
         routing_xs = gf.get_cross_section(cross_section)
-        radius = radius or routing_xs.radius
+        radius = (
+            radius or routing_xs.radius or gf.get_cross_section_radius(cross_section)
+        )
         if radius is None:
             bend_component = gf.get_component(bend, cross_section=cross_section)
             try:

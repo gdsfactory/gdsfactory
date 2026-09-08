@@ -6,9 +6,22 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section import ExtrusionSection, ExtrusionSpec
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, Float2
 
 from .._schematic import ring_double_schematic
+
+
+def _heater_extrusion_spec(cross_section: gf.CrossSection) -> ExtrusionSpec:
+    """Expose the auxiliary heater strip as an electrical path section."""
+    sections = [ExtrusionSection() for _ in cross_section.get_sections()]
+    sections[0] = ExtrusionSection(port_names=("o1", "o2"))
+    if len(sections) > 1:
+        sections[1] = ExtrusionSection(
+            port_names=("e1", "e2"),
+            port_types=("electrical", "electrical"),
+        )
+    return ExtrusionSpec(sections=tuple(sections))
 
 
 @gf.cell_with_module_name(schematic_function=ring_double_schematic, tags=["rings"])
@@ -90,6 +103,9 @@ def ring_double_heater(
     gap_bot = gf.snap.snap_to_grid(gap_bot, grid_factor=2)
 
     coupler_ring_top = coupler_ring_top or coupler_ring
+    heater_extrusion_spec = _heater_extrusion_spec(
+        gf.get_cross_section(cross_section_waveguide_heater)
+    )
 
     if length_extension_bot is None:
         length_extension_bot = length_extension
@@ -106,6 +122,7 @@ def ring_double_heater(
         cross_section=cross_section,
         cross_section_bend=cross_section_waveguide_heater,
         length_extension=length_extension_bot,
+        extrusion_spec=heater_extrusion_spec,
     )
     coupler_component_top = gf.get_component(
         coupler_ring_top,
@@ -116,6 +133,7 @@ def ring_double_heater(
         cross_section=cross_section,
         cross_section_bend=cross_section_waveguide_heater,
         length_extension=length_extension_top,
+        extrusion_spec=heater_extrusion_spec,
     )
     straight_component = gf.get_component(
         straight,
@@ -142,6 +160,8 @@ def ring_double_heater(
             straight,
             length=length_x,
             cross_section=cross_section_heater,
+            port_names=("e1", "e2"),
+            port_types=("electrical", "electrical"),
         )
         heater_top.connect("e1", ct["e1"])
 

@@ -4,6 +4,7 @@ __all__ = ["bend_s", "bend_s_offset", "bezier"]
 
 import math
 import warnings
+from collections.abc import Callable
 from typing import Any
 
 import numpy as np
@@ -13,7 +14,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import ErrorType
 from gdsfactory.functions import angles_deg, curvature, snap_angle
-from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec, Size
+from gdsfactory.typings import (
+    Coordinate,
+    Coordinates,
+    CrossSectionSpec,
+    PortNames,
+    PortTypes,
+    Size,
+)
 
 from .._schematic import sbend_schematic
 
@@ -51,6 +59,9 @@ def bezier(
     bend_radius_error_type: ErrorType | None = None,
     allow_min_radius_violation: bool = False,
     width: float | None = None,
+    core_width_profile: Callable[[Any], Any] | None = None,
+    port_names: PortNames = ("o1", "o2"),
+    port_types: PortTypes = ("optical", "optical"),
 ) -> Component:
     """Returns Bezier bend.
 
@@ -64,11 +75,13 @@ def bezier(
         bend_radius_error_type: error type.
         allow_min_radius_violation: bool.
         width: width to use. Defaults to cross_section.width.
+        core_width_profile: optional core-width profile evaluated along the path.
+        port_names: names for the two ports.
+        port_types: types for the two ports.
     """
-    if width:
-        xs = gf.get_cross_section(cross_section, width=width)
-    else:
-        xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section)
+    if width and width != xs.width:
+        xs = gf.cross_section.copy_cross_section(xs, width=width)
 
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
@@ -78,7 +91,31 @@ def bezier(
         path.start_angle = start_angle or snap_angle(path.start_angle)
         path.end_angle = end_angle or snap_angle(path.end_angle)
 
-    c = path.extrude(xs)
+    if core_width_profile is None:
+        c = path.extrude(xs, port_names=port_names, port_types=port_types)
+    else:
+        endpoint_widths = np.asarray(core_width_profile(np.array([0.0, 1.0])))
+        if endpoint_widths.shape != (2,):
+            raise ValueError(
+                "core_width_profile must return two widths when evaluated at "
+                "the profile endpoints."
+            )
+        xs_start = gf.cross_section.copy_cross_section(
+            xs, width=float(endpoint_widths[0])
+        )
+        xs_end = gf.cross_section.copy_cross_section(
+            xs, width=float(endpoint_widths[1])
+        )
+        bend_transition = gf.path.transition(
+            xs_start,
+            xs_end,
+            core_width_profile=core_width_profile,
+        )
+        c = path.extrude_transition(
+            bend_transition,
+            port_names=port_names,
+            port_types=port_types,
+        )
     curv = curvature(path_points, t)
     length = path.length()
     if max(np.abs(curv)) == 0:
@@ -98,9 +135,9 @@ def bezier(
     )
 
     if not allow_min_radius_violation:
-        xs.validate_radius(min_bend_radius, bend_radius_error_type)
+        gf.cross_section.validate_radius(xs, min_bend_radius, bend_radius_error_type)
 
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     return c
 
 
@@ -170,6 +207,8 @@ def bend_s(
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
     width: float | None = None,
+    port_names: PortNames = ("o1", "o2"),
+    port_types: PortTypes = ("optical", "optical"),
 ) -> Component:
     """Return S bend with bezier curve.
 
@@ -182,13 +221,19 @@ def bend_s(
         cross_section: spec.
         allow_min_radius_violation: bool.
         width: width to use. Defaults to cross_section.width.
+        port_names: names for the two ports.
+        port_types: types for the two ports.
 
     """
     dx, dy = size
 
     if dy == 0:
         return gf.components.straight(
-            length=dx, cross_section=cross_section, width=width
+            length=dx,
+            cross_section=cross_section,
+            width=width,
+            port_names=port_names,
+            port_types=port_types,
         )
 
     return bezier(
@@ -197,6 +242,8 @@ def bend_s(
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
         width=width,
+        port_names=port_names,
+        port_types=port_types,
     )
 
 
@@ -283,15 +330,14 @@ def bend_s_offset(
         if not with_euler:
             p = 0
 
-    if width:
-        xs = gf.get_cross_section(cross_section, width=width)
-    else:
-        xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section)
+    if width and width != xs.width:
+        xs = gf.cross_section.copy_cross_section(xs, width=width)
 
-    radius = radius or xs.radius
+    radius = radius or xs.radius or gf.get_cross_section_radius(cross_section)
     assert radius is not None, "radius cannot be None"
 
-    xs.validate_radius(radius)
+    gf.cross_section.validate_radius(xs, radius)
     angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
         jog=abs(offset) / 2, radius=radius, p=p, use_eff=with_arc_floorplan
     )
@@ -342,7 +388,7 @@ def get_min_sbend_size(
     else:
         raise ValueError("One of the two elements in size has to be None")
 
-    min_radius = cross_section_f.radius
+    min_radius = cross_section_f.radius or gf.get_cross_section_radius(cross_section)
 
     if min_radius is None:
         raise ValueError("The min radius for the specified layer is not known!")

@@ -46,7 +46,7 @@ def cutback_component(
         mirror2: mirrors second component.
         straight_length: length of the straight section between cutbacks.
         straight_length_pair: length of the straight section between each component pair.
-        cross_section: specification (LegacyCrossSection, string or dict).
+        cross_section: specification (native cross-section, string or dict).
         straight: straight spec.
         radius: radius for the bends. Defaults to cross_section radius.
         kwargs: component settings.
@@ -56,8 +56,12 @@ def cutback_component(
     component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
 
-    radius = radius or xs.radius
-    assert radius is not None
+    radius = radius or gf.get_cross_section_radius(cross_section)
+    if radius is None:
+        raise ValueError(
+            "cutback_component requires an explicit radius when the cross-section "
+            "does not define one."
+        )
     straight_length = radius * 2 if straight_length is None else straight_length
     straight_component = gf.get_component(
         straight, length=straight_length, cross_section=xs

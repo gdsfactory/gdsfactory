@@ -1,7 +1,7 @@
 """You can define a path with a list of points combined with a cross-section.
 
-A path can be extruded using any LegacyCrossSection returning a Component
-The LegacyCrossSection defines the layer numbers, widths and offsets
+A path can be extruded using a native cross-section returning a Component.
+The cross-section defines the layer numbers, widths and offsets.
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
@@ -30,12 +30,17 @@ from gdsfactory.component_layout import (
     rotate_points,
 )
 from gdsfactory.cross_section import (
-    LegacyCrossSection,
-    Section,
+    AsymmetricExtrusionSpec,
+    CrossSection,
+    ExtrusionSection,
+    ExtrusionSpec,
+    SectionReference,
+    SymmetricExtrusionSpec,
     Transition,
     TransitionAsymmetric,
+    TransitionSection,
 )
-from gdsfactory.pdk import get_layer_name
+from gdsfactory.pdk import get_layer_tuple
 from gdsfactory.typings import (
     AngleInDegrees,
     AnyComponent,
@@ -94,7 +99,7 @@ def reflect_points(
 
 
 class Path(UMGeometricObject):
-    """You can extrude a Path with a LegacyCrossSection to create a Component.
+    """You can extrude a Path with a native cross-section to create a Component.
 
     Parameters:
         path: array-like[N][2], Path, or list of Paths.
@@ -566,11 +571,16 @@ class Path(UMGeometricObject):
         simplify: float | None = None,
         all_angle: bool = False,
         register_cross_section: bool = False,
+        extrusion_spec: ExtrusionSpec | None = None,
+        port_names: tuple[str | None, str | None] = ("o1", "o2"),
+        port_types: tuple[str, str] = ("optical", "optical"),
+        add_bbox: bool = False,
+        port_cross_section: bool = True,
     ) -> AnyComponent:
-        """Returns Component by extruding a Path with a LegacyCrossSection.
+        """Returns a component by extruding a path with a native cross-section.
 
-        A path can be extruded using any LegacyCrossSection returning a Component
-        The LegacyCrossSection defines the layer numbers, widths and offsets.
+        A path can be extruded using any native cross-section returning a Component.
+        The cross-section defines the layer numbers, widths and offsets.
 
         Args:
             cross_section: to extrude.
@@ -582,6 +592,15 @@ class Path(UMGeometricObject):
 
             all_angle: if True, the bend is drawn with a single euler curve.
             register_cross_section: if True, the cross_section factory is registered in the active PDK.
+            extrusion_spec: metadata for the positional strips returned by the
+                native cross-section.
+            port_names: names for the main strip ports when no extrusion spec
+                supplies them.
+            port_types: types for the main strip ports when no extrusion spec
+                supplies them.
+            add_bbox: if True, add the native cross-section bounding-box layers.
+            port_cross_section: if False, omit native cross-section metadata from
+                generated ports for temporary legacy-compatible composition.
 
         Example:
             ```python
@@ -600,6 +619,11 @@ class Path(UMGeometricObject):
             simplify=simplify,
             all_angle=all_angle,
             register_cross_section=register_cross_section,
+            extrusion_spec=extrusion_spec,
+            port_names=port_names,
+            port_types=port_types,
+            add_bbox=add_bbox,
+            port_cross_section=port_cross_section,
         )
 
     @overload
@@ -607,6 +631,9 @@ class Path(UMGeometricObject):
         self,
         transition: Transition | TransitionAsymmetric,
         all_angle: Literal[False] = False,
+        add_bbox: bool = False,
+        port_names: tuple[str | None, str | None] = ("o1", "o2"),
+        port_types: tuple[str, str] = ("optical", "optical"),
     ) -> Component: ...
 
     @overload
@@ -614,6 +641,9 @@ class Path(UMGeometricObject):
         self,
         transition: Transition | TransitionAsymmetric,
         all_angle: Literal[True] = True,
+        add_bbox: bool = False,
+        port_names: tuple[str | None, str | None] = ("o1", "o2"),
+        port_types: tuple[str, str] = ("optical", "optical"),
     ) -> ComponentAllAngle: ...
 
     @overload
@@ -621,12 +651,18 @@ class Path(UMGeometricObject):
         self,
         transition: Transition | TransitionAsymmetric,
         all_angle: bool = True,
+        add_bbox: bool = False,
+        port_names: tuple[str | None, str | None] = ("o1", "o2"),
+        port_types: tuple[str, str] = ("optical", "optical"),
     ) -> AnyComponent: ...
 
     def extrude_transition(
         self,
         transition: Transition | TransitionAsymmetric,
         all_angle: bool = False,
+        add_bbox: bool = False,
+        port_names: tuple[str | None, str | None] = ("o1", "o2"),
+        port_types: tuple[str, str] = ("optical", "optical"),
     ) -> AnyComponent:
         """Extrudes a path along a transition.
 
@@ -636,12 +672,22 @@ class Path(UMGeometricObject):
             transition: Transition or TransitionAsymmetric object describing the
                 cross-sections and default transition types.
             all_angle: if True, returns a ComponentAllAngle.
+            add_bbox: if True, add the first profile's native bounding-box layers.
+            port_names: names for the two main transition ports.
+            port_types: types for the two main transition ports.
 
         Returns:
             AnyComponent: The extruded component with the specified transition methods
                 for each edge.
         """
-        return extrude_transition(p=self, transition=transition, all_angle=all_angle)
+        return extrude_transition(
+            p=self,
+            transition=transition,
+            all_angle=all_angle,
+            add_bbox=add_bbox,
+            port_names=port_names,
+            port_types=port_types,
+        )
 
     def copy(self) -> Path:
         """Returns a copy of the Path."""
@@ -733,6 +779,13 @@ def transition_exponential(
 
     """
     return lambda t: y1 + (y2 - y1) * t**exp
+
+
+def _resolve_transition_cross_section(cross_section: CrossSectionSpec) -> CrossSection:
+    """Resolve a transition profile to a native cross-section."""
+    from gdsfactory.pdk import get_cross_section
+
+    return get_cross_section(cross_section)
 
 
 adiabatic_polyfit_TE1550SOI_220nm = np.array(
@@ -828,36 +881,35 @@ def transition(
     cross_section2: CrossSectionSpec,
     width_type: WidthTypes | Callable[[float, float, float], float] = "sine",
     offset_type: WidthTypes | Callable[[float, float, float], float] = "sine",
+    extrusion_spec: SymmetricExtrusionSpec | None = None,
+    core_width_profile: Callable[[Any], Any] | None = None,
 ) -> Transition:
-    """Returns a smoothly-transitioning between two CrossSections.
+    """Return a transition between two symmetric native cross-sections.
 
-    Only cross-sectional elements that have the `name` (as in X.add(..., name = 'wg') )
-    parameter specified in both input CrosSections will be created.
-    Port names will be cloned from the input CrossSections in reverse.
-
-    Args:
-        cross_section1: First LegacyCrossSection.
-        cross_section2: Second LegacyCrossSection.
-        width_type: 'sine', 'parabolic', 'linear' or Callable. type of width transition used \
+    cross_section1: First native cross-section.
+    cross_section2: Second native cross-section.
+    width_type: 'sine', 'parabolic', 'linear' or Callable. type of width transition used \
                 if any widths are different between the two input CrossSections.
-        offset_type: 'sine', 'parabolic', 'linear' or Callable. type of width transition used \
+    offset_type: 'sine', 'parabolic', 'linear' or Callable. Type of offset transition used \
                 if any widths are different between the two input CrossSections. \
+        extrusion_spec: explicit positional strip mapping when the enclosures differ.
+    core_width_profile: optional actual core-width profile evaluated on
+        normalized path positions. This belongs to the transition operation,
+        not the native cross-section.
 
     """
-    from gdsfactory.pdk import get_cross_section, get_layer
-
-    X1 = get_cross_section(cross_section1)
-    X2 = get_cross_section(cross_section2)
-
-    layers1 = {get_layer(section.layer) for section in X1.sections}
-    layers2 = {get_layer(section.layer) for section in X2.sections}
-    layers1.add(get_layer(X1.layer))
-    layers2.add(get_layer(X2.layer))
-
-    has_common_layers = bool(layers1.intersection(layers2))
-    if not has_common_layers:
+    X1 = _resolve_transition_cross_section(cross_section1)
+    X2 = _resolve_transition_cross_section(cross_section2)
+    if not X1.is_symmetric() or not X2.is_symmetric():
         raise ValueError(
-            f"transition() found no common layers X1 {layers1} and X2 {layers2}"
+            "transition() only accepts symmetric native cross-sections. "
+            "Use transition_asymmetric(..., extrusion_spec=...) for an "
+            "asymmetric profile."
+        )
+    if X1.sections != X2.sections and extrusion_spec is None:
+        raise ValueError(
+            "Symmetric cross-sections with different enclosures require an "
+            "explicit SymmetricExtrusionSpec."
         )
 
     return Transition(
@@ -865,6 +917,8 @@ def transition(
         cross_section2=X2,
         width_type=width_type,
         offset_type=offset_type,
+        extrusion_spec=extrusion_spec,
+        core_width_profile=core_width_profile,
     )
 
 
@@ -875,31 +929,29 @@ def transition_asymmetric(
     width_type2: WidthTypes | Callable[[float, float, float], float] = "sine",
     offset_type1: WidthTypes | Callable[[float, float, float], float] = "sine",
     offset_type2: WidthTypes | Callable[[float, float, float], float] = "sine",
+    extrusion_spec: AsymmetricExtrusionSpec | None = None,
+    core_width_profile: Callable[[Any], Any] | None = None,
 ) -> TransitionAsymmetric:
     """Returns a smoothly-transitioning object between two CrossSections with asymmetric transitions.
 
     Args:
-        cross_section1: First LegacyCrossSection.
-        cross_section2: Second LegacyCrossSection.
+        cross_section1: First native cross-section.
+        cross_section2: Second native cross-section.
         width_type1: transition type for lower edge width.
         width_type2: transition type for upper edge width.
         offset_type1: transition type for lower edge offset.
         offset_type2: transition type for upper edge offset.
+        extrusion_spec: explicit mapping. Required when either profile is
+            asymmetric.
+        core_width_profile: optional actual core-width profile evaluated on
+            normalized path positions.
     """
-    from gdsfactory.pdk import get_cross_section, get_layer
-
-    X1 = get_cross_section(cross_section1)
-    X2 = get_cross_section(cross_section2)
-
-    layers1 = {get_layer(section.layer) for section in X1.sections}
-    layers2 = {get_layer(section.layer) for section in X2.sections}
-    layers1.add(get_layer(X1.layer))
-    layers2.add(get_layer(X2.layer))
-
-    has_common_layers = bool(layers1.intersection(layers2))
-    if not has_common_layers:
+    X1 = _resolve_transition_cross_section(cross_section1)
+    X2 = _resolve_transition_cross_section(cross_section2)
+    if (not X1.is_symmetric() or not X2.is_symmetric()) and extrusion_spec is None:
         raise ValueError(
-            f"transition_asymmetric() found no common layers X1 {layers1} and X2 {layers2}"
+            "Asymmetric native cross-sections require an explicit "
+            "AsymmetricExtrusionSpec."
         )
 
     return TransitionAsymmetric(
@@ -909,6 +961,8 @@ def transition_asymmetric(
         width_type2=width_type2,
         offset_type1=offset_type1,
         offset_type2=offset_type2,
+        extrusion_spec=extrusion_spec,
+        core_width_profile=core_width_profile,
     )
 
 
@@ -975,18 +1029,82 @@ def along_path(
     return c
 
 
-def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
-    named_sections: dict[str, Section] = {}
-    for section in sections:
-        if section.skip_transition:
-            continue
-        name = section.name or get_layer_name(section.layer)
-        if name in named_sections:
-            raise ValueError(
-                f"Duplicate name or layer '{name}' of section used for cross-section in transition. Cross-sections with multiple Sections for a single layer must have unique names for each section"
-            )
-        named_sections[name] = section
-    return named_sections
+def _get_extrusion_section(
+    extrusion_spec: ExtrusionSpec | None,
+    index: int,
+    port_names: tuple[str | None, str | None],
+    port_types: tuple[str, str],
+) -> ExtrusionSection:
+    """Return metadata for one positional native cross-section strip."""
+    if extrusion_spec is not None and index < len(extrusion_spec.sections):
+        return extrusion_spec.sections[index]
+    if index == 0:
+        return ExtrusionSection(port_names=port_names, port_types=port_types)
+    return ExtrusionSection()
+
+
+def _path_with_insets(p: Path, insets: tuple[float, float] | None) -> Path | None:
+    """Return a path shortened by ``insets``."""
+    if not insets or insets == (0, 0):
+        return p
+
+    segment_vectors = np.diff(p.points, axis=0)
+    segment_lengths = np.linalg.norm(segment_vectors, axis=1)
+    total_length = float(np.sum(segment_lengths))
+    if not len(segment_lengths) or total_length <= 0:
+        return None
+    if any(inset > total_length for inset in insets):
+        warnings.warn(
+            "Cannot apply extrusion inset because it extends beyond the path.",
+            stacklevel=3,
+        )
+        return None
+
+    forward = np.cumsum(segment_lengths)
+    reverse = np.cumsum(segment_lengths[::-1])
+    start_index = int(np.argwhere(forward >= insets[0])[0, 0])
+    reverse_stop_index = int(np.argwhere(reverse >= insets[1])[0, 0])
+    stop_index = len(segment_lengths) - 1 - reverse_stop_index
+    start_vector = -segment_vectors[start_index]
+    stop_vector = segment_vectors[stop_index]
+    start_direction = start_vector / np.linalg.norm(start_vector)
+    stop_direction = stop_vector / np.linalg.norm(stop_vector)
+    start_remainder = forward[start_index] - insets[0]
+    stop_remainder = reverse[reverse_stop_index] - insets[1]
+    new_start = start_direction * start_remainder + p.points[start_index + 1]
+    new_stop = stop_direction * stop_remainder + p.points[stop_index]
+    points = [new_start]
+    points.extend(p.points[start_index + 1 : stop_index])
+    points.append(new_stop)
+    return Path(np.asarray(points, dtype=np.float64))
+
+
+def add_bbox_to_component(
+    component: AnyComponent,
+    cross_section: CrossSection,
+    top: float | None = None,
+    bottom: float | None = None,
+    right: float | None = None,
+    left: float | None = None,
+) -> AnyComponent:
+    """Add native cross-section bounding-box layers to ``component``."""
+    from gdsfactory.add_padding import get_padding_points
+
+    for layer, offset in cross_section.bbox_sections.items():
+        points = get_padding_points(
+            component=component,
+            default=0,
+            top=top if top is not None else offset,
+            bottom=bottom if bottom is not None else offset,
+            right=right if right is not None else offset,
+            left=left if left is not None else offset,
+        )
+        component.add_polygon(points, layer=layer)
+    return component
+
+
+# Public spelling used by component call sites during the migration.
+add_bbox = add_bbox_to_component
 
 
 @overload
@@ -1033,11 +1151,16 @@ def extrude(
     simplify: float | None = None,
     all_angle: bool = False,
     register_cross_section: bool = False,
+    extrusion_spec: ExtrusionSpec | None = None,
+    port_names: tuple[str | None, str | None] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
+    add_bbox: bool = False,
+    port_cross_section: bool = True,
 ) -> AnyComponent:
     """Returns Component extruding a Path with a cross_section.
 
-    A path can be extruded using any LegacyCrossSection returning a Component
-    The LegacyCrossSection defines the layer numbers, widths and offsets
+    A path can be extruded using a native kfactory cross-section. Geometry comes
+    from ``get_sections()`` and path-only metadata comes from ``extrusion_spec``.
 
     Args:
         p: a path is a list of points (arc, straight, euler).
@@ -1050,6 +1173,13 @@ def extrude(
         all_angle: if True, returns a ComponentAllAngle.
         register_cross_section: if True, registers the cross-section factory \
             used for extrusion in the global cross-section registry.
+        extrusion_spec: metadata for the positional strips returned by the
+            native cross-section.
+        port_names: names for the main strip ports when no spec is supplied.
+        port_types: types for the main strip ports when no spec is supplied.
+        add_bbox: if True, add native bounding-box layers.
+        port_cross_section: if False, omit native cross-section metadata from
+            generated ports for temporary compatibility with composite cells.
     """
     from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -1059,25 +1189,20 @@ def extrude(
         raise ValueError("When providing 'layer', 'width' must also be provided")
 
     if cross_section is not None:
-        x = (
-            get_cross_section(cross_section, width=width)
-            if width is not None
-            else get_cross_section(cross_section)
-        )
+        x = get_cross_section(cross_section)
+        if width is not None and width != x.width:
+            x = gf.cross_section.copy_cross_section(x, width=width)
     else:
-        s = Section(
+        x = gf.cross_section.cross_section(
             width=cast("float", width),
             layer=cast("LayerSpec", layer),
-            port_names=("o1", "o2"),
-            port_types=("optical", "optical"),
         )
-        x = get_cross_section(LegacyCrossSection(sections=(s,)))
 
-    xsection_points: list[list[float | npt.NDArray[np.floating[Any]]]] = []
     c = ComponentAllAngle() if all_angle else Component()
     path_length = p.length()
+    port_cross_section_value = x if port_cross_section else None
 
-    layer = get_layer(layer or x.layer)
+    sections = x.get_sections()
 
     _dir_cache: (
         tuple[
@@ -1088,153 +1213,27 @@ def extrude(
         | None
     ) = None
 
-    for section in x.sections:
-        p_sec = p.copy()
-        port_names = section.port_names
-        port_types = section.port_types
-        hidden = section.hidden
-
-        offset_value: float | npt.NDArray[np.floating[Any]] = section.offset
-        width_value: float | npt.NDArray[np.floating[Any]] = section.width
-        width_function = section.width_function
-        offset_function = section.offset_function
-        layer = get_layer(section.layer)
-
-        xsection_points.append([width_value, offset_value])
-
-        path_changed = bool(section.insets and section.insets != (0, 0))
-
-        if section.insets and section.insets != (0, 0):
-            p_pts = p_sec.points
-
-            # This excludes the first point, so length of output array is smaller by 1
-            p_xy_segment_lengths = np.array(
-                [
-                    np.diff(p_pts[:, 0]),
-                    np.diff(p_pts[:, 1]),
-                ]
-            ).T
-
-            # Using the axis=1 makes output equivalent to [np.linalg.norm(p_xy_segment_lengths[i, :])
-            #                                              for i
-            #                                              in range(len(p_pts[:, 0]))]
-            p_segment_lengths = np.linalg.norm(p_xy_segment_lengths, axis=1)
-
-            p_segment_lengths_forward_cumsum = np.cumsum(
-                p_segment_lengths
-            )  # To get start inset idx & path length
-            p_segment_lengths_reverse_cumsum = np.cumsum(
-                p_segment_lengths[::-1]
-            )  # To get stop inset idx & path length
-
-            if all(section.insets[:] > p_segment_lengths_forward_cumsum[-1]):
-                warnings.warn(
-                    f"Cannot apply delay to Section '{section.name}', delay results in points outside "
-                    f"of original path.",
-                    stacklevel=3,
-                )
+    for index, native_section in enumerate(sections):
+        extrusion_section = _get_extrusion_section(
+            extrusion_spec,
+            index,
+            port_names=port_names,
+            port_types=port_types,
+        )
+        p_sec = p
+        if extrusion_section.insets and extrusion_section.insets != (0, 0):
+            p_sec = _path_with_insets(p, extrusion_section.insets)
+            if p_sec is None:
                 continue
-
-            """
-            Find forward cumsum idx (start_diff_idx), reverse cumsum idx (reversed_stop_diff_idx), and the reverse
-            cumsum idx as indexed on the forward cumsum
-
-            For the forward cumsum, this is the same as the idx of the vector that describes the path segment the
-            start inset lies within or at the boundary of (due to the process of finding p_xy_segment_lengths, if
-            the forward cumsum idx is 0, this corresponds to p_pts[1, :])
-
-            The reverse cumsum idx, is the idx from the end of p_xy_segment_lengths (when the reverse
-            cumsum idx is 0, this corresponds to p_pts[-2, :])
-            """
-            start_diff_idx = np.argwhere(
-                p_segment_lengths_forward_cumsum >= section.insets[0]
-            )[0, 0]
-            reversed_stop_diff_idx = np.argwhere(
-                p_segment_lengths_reverse_cumsum >= section.insets[1]
-            )[0, 0]
-            stop_diff_idx = (len(p_xy_segment_lengths) - 1) - reversed_stop_diff_idx
-
-            """
-            Find vectors describing the segments the insets lie within or at the boundary of. Also reverse direction of
-            start vector to ensure vectors point from inside to out (this ensures that a positive/negative inset
-            shortens/lengthens the segment's path, respectively)
-
-            e.g.)   For a straight path (chosen because I don't know how to draw a representation of a curved path
-                    with ASCII characters) with len(p_pts) == 7,
-                    this implies len(p_xy_segment_lengths) == len(p_segment_lengths) == 6
-
-                    so if start_diff_idx == 1 and stop_diff_idx == 5, the start and stop vectors would be
-
-                    (0)  (1)  (2)  (3)  (4)  (5)
-                    ---  ---  ---  ---  ---  ---
-                         <--                 -->
-                          ^(v_start)  (v_stop)^
-            """
-            v_start = -p_xy_segment_lengths[
-                start_diff_idx, :
-            ]  # Reversing vector direction so points inside-out
-            v_stop = p_xy_segment_lengths[
-                stop_diff_idx, :
-            ]  # Vector already points inside-out
-
-            v_start_direction = v_start / np.linalg.norm(v_start)  # Unit vector
-            v_stop_direction = v_stop / np.linalg.norm(v_stop)  # Unit vector
-
-            """
-            The total path length up to the inside edge of v_start/v_stop (e.g. as shown above, the total path length
-            from the left-most edge of the path to the right edge of segment 1) either accounts for more than or all of
-            the total inset amount, depending on whether the inset location lies within the segment defined by
-            v_start/v_stop or on it's inside edge.
-
-            i.e.)   If the inset amount places the inset location *within* the segment defined by v_start/v_stop,
-                    the total path length up to the inside edge of v_start/v_stop the over-accounts for the
-                    total inset amount. The difference between this path length and the inset amount given by the user
-                    then gives the length of v_start/v_stop needed to correctly position the edge of the inset path.
-
-                    If the inset location lies on the inside edge of v_start/v_stop, the total path length up to the
-                    inside edge of v_start/v_stop is equal to the entire inset amount. This means the difference
-                    between the path length and the user provided inset amount will be 0 and v_start/v_stop needs to be
-                    set to the zero vector
-            """
-            start_inset_remainder = (
-                p_segment_lengths_forward_cumsum[start_diff_idx] - section.insets[0]
-            )
-            stop_inset_remainder = (
-                p_segment_lengths_reverse_cumsum[reversed_stop_diff_idx]
-                - section.insets[1]
-            )
-
-            # Correcting v_start/v_stops's length
-            v_start_inset = v_start_direction * start_inset_remainder
-            v_stop_inset = v_stop_direction * stop_inset_remainder
-
-            # Translate v_start_inset/v_stop_inset back to their correct positions in the path, since the
-            # process of finding the vectors that define each path segment translated them all to the origin
-            new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
-            new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
-
-            _path_points = [new_start_point]
-            _path_points.extend(p_pts[start_diff_idx + 1 : stop_diff_idx])
-            _path_points.append(new_stop_point)
-
-            p_sec = Path(np.array(_path_points, dtype=np.float64))
-
-        if callable(offset_function):
-            p_sec.offset(offset_function)
-            path_changed = True
-            offset_value = 0
-        end_angle = p_sec.end_angle
-        start_angle = p_sec.start_angle
+        path_changed = p_sec is not p
+        section_min = float(native_section.section_min)
+        section_max = float(native_section.section_max)
+        offset_value = (section_min + section_max) / 2
+        width_value = section_max - section_min
+        layer = get_layer(native_section.layer)
         points = p_sec.points
-        if callable(width_function):
-            # Compute lengths
-            dx: npt.NDArray[np.floating[Any]] | float = np.diff(p_sec.points[:, 0])
-            dy: npt.NDArray[np.floating[Any]] | float = np.diff(p_sec.points[:, 1])
-            lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
-            lengths = np.concatenate([[0], lengths])
-            width_value = width_function(lengths / lengths[-1])
-
-        assert width_value is not None
+        start_angle = p_sec.start_angle
+        end_angle = p_sec.end_angle
 
         dy1 = offset_value + width_value / 2
         dy2 = offset_value - width_value / 2
@@ -1262,7 +1261,7 @@ def extrude(
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
 
-        with_simplify = section.simplify or simplify
+        with_simplify = extrusion_section.simplify or simplify
 
         if with_simplify:
             points1 = _simplify(points1, tolerance=with_simplify)
@@ -1274,54 +1273,51 @@ def extrude(
         # per-section threshold without recomputing the same length each time.
         section_length = p_sec.length() if path_changed else path_length
 
-        if not hidden and section_length > 1e-3:
+        if not extrusion_section.hidden and section_length > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
-        if port_names[0]:
-            port_width = (
-                width_value if isinstance(width_value, (int, float)) else width_value[0]
-            )
+        if extrusion_section.port_names[0]:
+            port_width = width_value
             port_orientation = (p_sec.start_angle + 180) % 360
             center = np.average([points1[0], points2[0]], axis=0)
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             c.add_port(
-                name=port_names[0],
+                name=extrusion_section.port_names[0],
                 layer=layer,
-                port_type=port_types[0],
+                port_type=extrusion_section.port_types[0],
                 width=port_width,
                 orientation=port_orientation,
                 center=(float(center[0]), float(center[1])),
-                cross_section=x,
+                cross_section=port_cross_section_value,
                 register_cross_section=register_cross_section,
             )
-        if port_names[1]:
-            port_width = (
-                width_value
-                if isinstance(width_value, (int, float))
-                else width_value[-1]
-            )
+        if extrusion_section.port_names[1]:
+            port_width = width_value
             port_orientation = (p_sec.end_angle) % 360
             center = np.average([points1[-1], points2[-1]], axis=0)
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             c.add_port(
-                name=port_names[1],
+                name=extrusion_section.port_names[1],
                 layer=layer,
-                port_type=port_types[1],
+                port_type=extrusion_section.port_types[1],
                 width=port_width,
                 center=(float(center[0]), float(center[1])),
                 orientation=port_orientation,
-                cross_section=x,
+                cross_section=port_cross_section_value,
                 register_cross_section=register_cross_section,
             )
 
     c.info["length"] = path_length
 
-    for via in x.components_along_path:
+    if add_bbox:
+        add_bbox_to_component(c, x)
+
+    for via in extrusion_spec.components_along_path if extrusion_spec else ():
         if via.offset:
             points_offset = p.centerpoint_offset_curve(
                 points,
@@ -1343,6 +1339,10 @@ def extrude_transition(
     p: Path,
     transition: Transition | TransitionAsymmetric,
     all_angle: Literal[False] = False,
+    add_bbox: bool = False,
+    port_names: tuple[str | None, str | None] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> Component: ...
 
 
@@ -1351,6 +1351,10 @@ def extrude_transition(
     p: Path,
     transition: Transition | TransitionAsymmetric,
     all_angle: Literal[True] = True,
+    add_bbox: bool = False,
+    port_names: tuple[str | None, str | None] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> ComponentAllAngle: ...
 
 
@@ -1359,6 +1363,10 @@ def extrude_transition(
     p: Path,
     transition: Transition | TransitionAsymmetric,
     all_angle: bool = True,
+    add_bbox: bool = False,
+    port_names: tuple[str | None, str | None] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> AnyComponent: ...
 
 
@@ -1366,223 +1374,313 @@ def extrude_transition(
     p: Path,
     transition: Transition | TransitionAsymmetric,
     all_angle: bool = False,
+    add_bbox: bool = False,
+    port_names: tuple[str | None, str | None] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
+    port_cross_section: bool = True,
 ) -> AnyComponent:
-    """Extrudes a path along a transition, allowing different transition methods for the upper and lower edges.
+    """Extrude a path between native cross-sections.
 
-    Args:
-        p: Path to extrude.
-        transition: Transition or TransitionAsymmetric object describing the cross-sections and default transition types.
-        all_angle: if True, returns a ComponentAllAngle.
-
-    Returns:
-        Component: The extruded component with the specified transition methods for each edge.
+    Symmetric profiles with identical enclosures are inferred positionally. A
+    symmetric profile with a different enclosure must provide a
+    SymmetricExtrusionSpec; asymmetric profiles must provide an
+    AsymmetricExtrusionSpec. No named section matching is performed.
     """
-    from gdsfactory.pdk import get_cross_section, get_layer
-
-    c = ComponentAllAngle() if all_angle else Component()
+    from gdsfactory.pdk import get_layer
 
     if not isinstance(transition, Transition | TransitionAsymmetric):
         raise TypeError(
             f"Expected Transition or TransitionAsymmetric, got {type(transition).__name__}"
         )
 
-    x1 = get_cross_section(transition.cross_section1)
-    x2 = get_cross_section(transition.cross_section2)
-    # Support different transition methods for points1 and points2 in case of asymmetric transition
+    x1 = _resolve_transition_cross_section(transition.cross_section1)
+    x2 = _resolve_transition_cross_section(transition.cross_section2)
+    is_symmetric = x1.is_symmetric() and x2.is_symmetric()
+
     if isinstance(transition, TransitionAsymmetric):
         width_type1 = transition.width_type1
         width_type2 = transition.width_type2
         offset_type1 = transition.offset_type1
         offset_type2 = transition.offset_type2
-    elif isinstance(transition, Transition):
+        extrusion_spec = transition.extrusion_spec
+        core_width_profile = transition.core_width_profile
+    else:
         width_type1 = transition.width_type
         width_type2 = transition.width_type
         offset_type1 = transition.offset_type
         offset_type2 = transition.offset_type
+        extrusion_spec = transition.extrusion_spec
+        core_width_profile = transition.core_width_profile
 
-    # if named, prefer name over layer
-    named_sections1 = _get_named_sections(x1.sections)
-    named_sections2 = _get_named_sections(x2.sections)
-
-    names1 = list(named_sections1.keys())
-    names2 = list(named_sections2.keys())
-
-    common_sections = set(names1).intersection(names2)
-    if not common_sections:
+    if not is_symmetric and not isinstance(extrusion_spec, AsymmetricExtrusionSpec):
         raise ValueError(
-            f"transition() found no common section names X1 {names1} and X2 {names2}"
+            "Asymmetric native cross-sections require an explicit "
+            "AsymmetricExtrusionSpec."
+        )
+    symmetric_spec_allowed = isinstance(
+        extrusion_spec, (type(None), SymmetricExtrusionSpec)
+    )
+    asymmetric_spec_allowed = isinstance(
+        transition, TransitionAsymmetric
+    ) and isinstance(extrusion_spec, AsymmetricExtrusionSpec)
+    if is_symmetric and not (symmetric_spec_allowed or asymmetric_spec_allowed):
+        raise TypeError("Symmetric native profiles require SymmetricExtrusionSpec")
+
+    def layer_key(layer: Any) -> tuple[int, int]:
+        return get_layer_tuple(layer)
+
+    def _ref_key(ref: SectionReference) -> tuple[tuple[int, int], int]:
+        return layer_key(ref.layer), ref.index
+
+    def refs(xs: Any) -> tuple[SectionReference, ...]:
+        counts: dict[tuple[int, int], int] = {}
+        result: list[SectionReference] = []
+        for section in xs.get_sections():
+            key = layer_key(section.layer)
+            occurrence = counts.get(key, 0)
+            counts[key] = occurrence + 1
+            result.append(SectionReference(layer=key, index=occurrence))
+        return tuple(result)
+
+    refs1 = refs(x1)
+    refs2 = refs(x2)
+    indices1 = {_ref_key(ref): index for index, ref in enumerate(refs1)}
+    indices2 = {_ref_key(ref): index for index, ref in enumerate(refs2)}
+
+    mappings: tuple[TransitionSection, ...]
+    if extrusion_spec is not None and extrusion_spec.sections:
+        mappings = extrusion_spec.sections
+    else:
+        if not is_symmetric:
+            raise ValueError(
+                "Asymmetric native cross-sections require explicit strip mappings."
+            )
+        keys1 = list(indices1)
+        keys2 = set(indices2)
+        if set(keys1) != keys2:
+            raise ValueError(
+                "Symmetric native cross-sections have unmatched layer/section "
+                "occurrences; provide SymmetricExtrusionSpec."
+            )
+        mappings = tuple(
+            TransitionSection(
+                start=refs1[indices1[key]],
+                end=refs2[indices2[key]],
+                extrusion=(
+                    ExtrusionSection(port_names=port_names, port_types=port_types)
+                    if indices1[key] == 0
+                    else ExtrusionSection()
+                ),
+            )
+            for key in keys1
         )
 
-    # Compute relative distance of points along path p
+    def endpoint_index(
+        ref: SectionReference | None, indices: dict[Any, int]
+    ) -> int | None:
+        if ref is None:
+            return None
+        try:
+            return indices[_ref_key(ref)]
+        except KeyError as error:
+            raise ValueError(
+                f"Transition section reference {ref} is not present"
+            ) from error
+
+    def transition_function(
+        transition_type: WidthTypes | Callable[[float, float, float], float],
+        value1: float,
+        value2: float,
+    ) -> Callable[[npt.NDArray[np.float64]], Any]:
+        if transition_type == "linear":
+            return _linear_transition(value1, value2)
+        if transition_type == "sine":
+            return _sinusoidal_transition(value1, value2)
+        if transition_type == "parabolic":
+            return _parabolic_transition(value1, value2)
+        if callable(transition_type):
+            return lambda t: cast(Any, transition_type(t, value1, value2))
+        raise ValueError(f"Unsupported transition type {transition_type!r}")
+
     dx = np.diff(p.points[:, 0])
     dy = np.diff(p.points[:, 1])
-    lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
-    path_length = float(np.round(lengths[-1], 3))
-    lengths = np.concatenate([[0], lengths]) / lengths[-1]
+    segment_lengths = np.sqrt(dx**2 + dy**2)
+    total_length = float(np.sum(segment_lengths))
+    if total_length <= 0:
+        raise ValueError("Cannot extrude a transition along a zero-length path")
+    lengths = np.concatenate([[0.0], np.cumsum(segment_lengths)]) / total_length
+    points = p.points
+    c = ComponentAllAngle() if all_angle else Component()
+    same_enclosure = (
+        is_symmetric and x1.sections == x2.sections and extrusion_spec is None
+    )
 
-    for section_name in common_sections:
-        section1 = named_sections1[section_name]
-        section2 = named_sections2[section_name]
-        port_names = section1.port_names
-        port_types = section1.port_types
+    def fixed_symmetric_bounds(
+        section: Any,
+        core_width: npt.NDArray[np.float64] | float,
+        section_index: int,
+    ) -> tuple[Any, Any]:
+        """Keep an identical symmetric enclosure relative to the tapering core."""
+        if section_index == 0:
+            return 0.0, core_width
+        half = x1.width / 2
+        section_min = float(section.section_min)
+        section_max = float(section.section_max)
+        half_new = np.asarray(core_width) / 2
+        if abs(section_min + section_max) < 2 * x1.kcl.dbu:
+            d_max = max(abs(section_max) - half, 0.0)
+            outer = half_new + d_max
+            return -outer, outer
+        if section_max <= 0:
+            d_min = -section_max - half
+            d_max = -section_min - half
+            return -(half_new + d_max), -(half_new + d_min)
+        d_min = section_min - half
+        d_max = section_max - half
+        return half_new + d_min, half_new + d_max
 
-        offset1 = section1.offset
-        offset2 = section2.offset
-        width1 = section1.width
-        width2 = section2.width
+    for mapping in mappings:
+        index1 = endpoint_index(mapping.start, indices1)
+        index2 = endpoint_index(mapping.end, indices2)
+        if index1 is None and index2 is None:
+            raise ValueError("Transition mapping must contain a valid endpoint")
+        section1 = x1.get_sections()[index1] if index1 is not None else None
+        section2 = x2.get_sections()[index2] if index2 is not None else None
+        layer1 = get_layer(section1.layer) if section1 is not None else None
+        layer2 = get_layer(section2.layer) if section2 is not None else None
+        if layer1 is not None and layer2 is not None and layer1 != layer2:
+            raise ValueError(
+                "A transition mapping cannot change physical layers; use separate "
+                "start/end mappings for layers that appear or disappear."
+            )
+        layer = layer1 if layer1 is not None else layer2
+        assert layer is not None
 
-        # Transition for points1 (lower edge)
-        if offset_type1 == "linear":
-            offset_func1 = _linear_transition(offset1, offset2)
-        elif offset_type1 == "sine":
-            offset_func1 = _sinusoidal_transition(offset1, offset2)
-        elif offset_type1 == "parabolic":
-            offset_func1 = _parabolic_transition(offset1, offset2)
-        elif callable(offset_type1):
+        bounds1 = (
+            (float(section1.section_min), float(section1.section_max))
+            if section1 is not None
+            else None
+        )
+        bounds2 = (
+            (float(section2.section_min), float(section2.section_max))
+            if section2 is not None
+            else None
+        )
+        center1, width1 = (
+            (0.0, 0.0)
+            if bounds1 is None
+            else (
+                (bounds1[0] + bounds1[1]) / 2,
+                bounds1[1] - bounds1[0],
+            )
+        )
+        center2, width2 = (
+            (center1, 0.0)
+            if bounds2 is None
+            else (
+                (bounds2[0] + bounds2[1]) / 2,
+                bounds2[1] - bounds2[0],
+            )
+        )
+        if bounds1 is None:
+            center1 = center2
+        if bounds2 is None:
+            center2 = center1
 
-            def _offset_func1(
-                t: T, offset1: float = offset1, offset2: float = offset2
-            ) -> T:
-                return cast("T", offset_type1(t, offset1, offset2))  # type: ignore[misc,arg-type]
-
-            offset_func1 = _offset_func1
+        core_width_func = transition_function(width_type1, x1.width, x2.width)
+        if index1 == 0 and index2 == 0:
+            if core_width_profile is not None:
+                core_width_values = np.asarray(core_width_profile(lengths))
+                if core_width_values.ndim == 0:
+                    core_width_values = np.full_like(lengths, core_width_values)
+                if core_width_values.shape != lengths.shape:
+                    raise ValueError(
+                        "core_width_profile must return one width per normalized "
+                        f"path position, got shape {core_width_values.shape} for "
+                        f"{lengths.shape}."
+                    )
+                if not np.isclose(core_width_values[0], x1.width) or not np.isclose(
+                    core_width_values[-1], x2.width
+                ):
+                    raise ValueError(
+                        "core_width_profile endpoints must equal the start and end "
+                        f"core widths ({x1.width}, {x2.width})."
+                    )
+                left_values = -core_width_values / 2
+                right_values = core_width_values / 2
+            else:
+                left_func = transition_function(width_type1, width1, width2)
+                right_func = transition_function(width_type2, width1, width2)
+                offset_func1 = transition_function(offset_type1, center1, center2)
+                offset_func2 = transition_function(offset_type2, center1, center2)
+                left_values = (
+                    np.asarray(offset_func1(lengths))
+                    - np.asarray(left_func(lengths)) / 2
+                )
+                right_values = (
+                    np.asarray(offset_func2(lengths))
+                    + np.asarray(right_func(lengths)) / 2
+                )
+        elif same_enclosure and index1 is not None:
+            core_width_values = np.asarray(core_width_func(lengths))
+            left_values, right_values = fixed_symmetric_bounds(
+                section1, core_width_values, index1
+            )
         else:
-            raise NotImplementedError
-
-        if width_type1 == "linear":
-            width_func1 = _linear_transition(width1, width2)
-        elif width_type1 == "sine":
-            width_func1 = _sinusoidal_transition(width1, width2)
-        elif width_type1 == "parabolic":
-            width_func1 = _parabolic_transition(width1, width2)
-        elif callable(width_type1):
-
-            def _width_func1(t: T, width1: float = width1, width2: float = width2) -> T:
-                return cast("T", width_type1(t, width1, width2))  # type: ignore[misc,arg-type]
-
-            width_func1 = _width_func1
-        else:
-            raise NotImplementedError
-
-        # Transition for points2 (upper edge)
-        if offset_type2 == "linear":
-            offset_func2 = _linear_transition(offset1, offset2)
-        elif offset_type2 == "sine":
-            offset_func2 = _sinusoidal_transition(offset1, offset2)
-        elif offset_type2 == "parabolic":
-            offset_func2 = _parabolic_transition(offset1, offset2)
-        elif callable(offset_type2):
-
-            def _offset_func2(
-                t: T, offset1: float = offset1, offset2: float = offset2
-            ) -> T:
-                return cast("T", offset_type2(t, offset1, offset2))  # type: ignore[misc,arg-type]
-
-            offset_func2 = _offset_func2
-        else:
-            raise NotImplementedError
-
-        if width_type2 == "linear":
-            width_func2 = _linear_transition(width1, width2)
-        elif width_type2 == "sine":
-            width_func2 = _sinusoidal_transition(width1, width2)
-        elif width_type2 == "parabolic":
-            width_func2 = _parabolic_transition(width1, width2)
-        elif callable(width_type2):
-
-            def _width_func2(t: T, width1: float = width1, width2: float = width2) -> T:
-                return cast("T", width_type2(t, width1, width2))  # type: ignore[misc,arg-type]
-
-            width_func2 = _width_func2
-        else:
-            raise NotImplementedError
-
-        layer1 = get_layer(section1.layer)
-        layer2 = get_layer(section2.layer)
-        if layer1 != layer2:
-            hidden = True
-            layers = [layer1, layer2]
-        else:
-            hidden = section1.hidden
-            layer = layer1
-            layers = [layer, layer]
-
-        end_angle = p.end_angle
-        start_angle = p.start_angle
-        points = p.points
-        width_value1 = width_func1(lengths)
-        offset_value1 = offset_func1(lengths)
-        width_value2 = width_func2(lengths)
-        offset_value2 = offset_func2(lengths)
+            left_func = transition_function(width_type1, width1, width2)
+            right_func = transition_function(width_type2, width1, width2)
+            offset_func1 = transition_function(offset_type1, center1, center2)
+            offset_func2 = transition_function(offset_type2, center1, center2)
+            left_values = (
+                np.asarray(offset_func1(lengths)) - np.asarray(left_func(lengths)) / 2
+            )
+            right_values = (
+                np.asarray(offset_func2(lengths)) + np.asarray(right_func(lengths)) / 2
+            )
 
         points1 = p.centerpoint_offset_curve(
             points,
-            offset_distance=offset_value1 + width_value1 / 2,
-            start_angle=start_angle,
-            end_angle=end_angle,
+            offset_distance=right_values,
+            start_angle=p.start_angle,
+            end_angle=p.end_angle,
         )
-
         points2 = p.centerpoint_offset_curve(
             points,
-            offset_distance=offset_value2 - width_value2 / 2,
-            start_angle=start_angle,
-            end_angle=end_angle,
+            offset_distance=left_values,
+            start_angle=p.start_angle,
+            end_angle=p.end_angle,
         )
-
-        if section1.simplify is not None and section2.simplify is not None:
-            tolerance = min([section1.simplify, section2.simplify])
+        tolerance = mapping.extrusion.simplify
+        if tolerance is not None:
             points1 = _simplify(points1, tolerance=tolerance)
             points2 = _simplify(points2, tolerance=tolerance)
+        if not mapping.extrusion.hidden and width1 + width2 > 0:
+            c.add_polygon(np.concatenate([points1, points2[::-1, :]]), layer=layer)
 
-        # Join points together
-        points_poly = np.concatenate([points1, points2[::-1, :]])
-
-        if not hidden and path_length > 1e-3:
-            c.add_polygon(points_poly, layer=layer)
-
-        # Add port_names if they were specified
-        if port_names[0] is not None:
-            port_width = width1
-            port_orientation = (p.start_angle + 180) % 360
-            assert not isinstance(offset_value1, float)
-            center = p.centerpoint_offset_curve(
-                points[:2],
-                offset_distance=cast(Sequence[float], offset_value1)[:2],
-                start_angle=start_angle,
-                end_angle=None,
-            )[0]
-
+        if mapping.extrusion.port_names[0] and index1 == 0:
             c.add_port(
-                name=port_names[0],
-                layer=get_layer(layers[0]),
-                port_type=port_types[0],
-                width=port_width,
-                orientation=port_orientation,
-                center=center,
-                cross_section=x1,
+                name=mapping.extrusion.port_names[0],
+                layer=layer1 or layer,
+                port_type=mapping.extrusion.port_types[0],
+                width=width1,
+                orientation=(p.start_angle + 180) % 360,
+                center=np.average([points1[0], points2[0]], axis=0),
+                cross_section=x1 if port_cross_section else None,
             )
-        if port_names[1] is not None:
-            port_width = width2
-            port_orientation = (p.end_angle) % 360
-            assert not isinstance(offset_value1, float)
-            center = p.centerpoint_offset_curve(
-                points[-2:],
-                offset_distance=cast(Sequence[float], offset_value1)[-2:],
-                start_angle=None,
-                end_angle=end_angle,
-            )[-1]
-
+        if mapping.extrusion.port_names[1] and index2 == 0:
             c.add_port(
-                name=port_names[1],
-                layer=get_layer(layers[1]),
-                port_type=port_types[1],
-                width=port_width,
-                center=center,
-                orientation=port_orientation,
-                cross_section=x2,
+                name=mapping.extrusion.port_names[1],
+                layer=layer2 or layer,
+                port_type=mapping.extrusion.port_types[1],
+                width=width2,
+                orientation=p.end_angle % 360,
+                center=np.average([points1[-1], points2[-1]], axis=0),
+                cross_section=x2 if port_cross_section else None,
             )
 
     c.info["length"] = float(np.round(p.length(), 3))
+    if add_bbox:
+        add_bbox_to_component(c, x1)
     return c
 
 

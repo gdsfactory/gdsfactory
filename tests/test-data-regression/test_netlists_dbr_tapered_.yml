@@ -13,19 +13,25 @@ instances:
       row_pitch: 150
       rows: 1
       size: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L10__2c3216f5_m5000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__60e78698_m5000_0:
     component: straight
     info:
       length: 10
+      route_info_028523d7_400_length: 10
       route_info_length: 10
-      route_info_type: xs_ff979da3
+      route_info_type: 028523d7_400
       route_info_weight: 10
-      route_info_xs_ff979da3_length: 10
       width: 0.4
     settings:
       cross_section: strip
       length: 10
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 0.4
   taper_gdsfactorypcomponentsptapersptaper_L20_W0p4_W1_LN_66863c4a_5000_0:
     component: taper
@@ -70,9 +76,9 @@ instances:
       with_bbox: true
       with_two_ports: true
 nets:
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__2c3216f5_m5000_0,o1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__60e78698_m5000_0,o1
   p2: taper_gdsfactorypcomponentsptapersptaper_L20_W1_W0p4_LN_9fedc536_m25000_0,o2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__2c3216f5_m5000_0,o2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__60e78698_m5000_0,o2
   p2: taper_gdsfactorypcomponentsptapersptaper_L20_W0p4_W1_LN_66863c4a_5000_0,o1
 placements:
   array_gdsfactorypcomponentspcontainersparray_component__ef08f668_m24438_m500:
@@ -80,7 +86,7 @@ placements:
     rotation: 0
     x: -24.438
     y: -0.5
-  straight_gdsfactorypcomponentspwaveguidespstraight_L10__2c3216f5_m5000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__60e78698_m5000_0:
     mirror: false
     rotation: 0
     x: -5

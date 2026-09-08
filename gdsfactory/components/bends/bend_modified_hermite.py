@@ -114,7 +114,7 @@ def _bend_modified_hermite(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (LegacyCrossSection, string or dict).
+        cross_section: spec (native cross-section, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width1: width to use at input. Defaults to cross_section.width.
@@ -139,7 +139,7 @@ def _bend_modified_hermite(
         )
 
     xsec = gf.get_cross_section(cross_section)
-    if len(xsec.sections) > 1:
+    if len(xsec.get_sections()) > 1:
         warnings.warn(
             "bend_modified_hermite cross_section should have only one Section, as this bend varies the width of this one layer. Defaulting to using first Section.",
             UserWarning,
@@ -194,7 +194,7 @@ def _bend_modified_hermite(
     min_bend_radius = np.min(1 / np.abs(curvature))
 
     if not allow_min_radius_violation:
-        xsec.validate_radius(radius=min_bend_radius)
+        gf.cross_section.validate_radius(xsec, radius=min_bend_radius)
 
     polygon_points = np.concat(
         (inner_bend_points, np.flip(outer_bend_points, axis=0)), axis=0
@@ -250,7 +250,7 @@ def bend_modified_hermite(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (LegacyCrossSection, string or dict).
+        cross_section: spec (native cross-section, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width1: width to use at input. Defaults to cross_section.width.
@@ -311,7 +311,7 @@ def bend_modified_hermite_all_angle(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (LegacyCrossSection, string or dict).
+        cross_section: spec (native cross-section, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width1: width to use at input. Defaults to cross_section.width.
@@ -357,7 +357,7 @@ def bend_modified_hermite_s(
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.
-        cross_section: spec (LegacyCrossSection, string or dict).
+        cross_section: spec (native cross-section, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         layer: layer to use. Defaults to cross_section.layer.
         width: width  at input and output (the width generally varies in the interior of the bend). Defaults to cross_section.width.

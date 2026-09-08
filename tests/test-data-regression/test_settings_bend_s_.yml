@@ -9,11 +9,17 @@ info:
   route_info_type: strip
   route_info_weight: 11.206
   start_angle: 0
-name: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c
+name: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_386b7bc0
 settings:
   allow_min_radius_violation: false
   cross_section: strip
   npoints: 99
+  port_names:
+  - o1
+  - o2
+  port_types:
+  - optical
+  - optical
   size:
   - 11
   - 1.8

@@ -37,7 +37,7 @@ def taper_from_csv(
 
     Args:
         filepath: for CSV file.
-        cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
     """
     import pandas as pd
 
@@ -54,7 +54,7 @@ def taper_from_csv(
         layer=layer,
     )
 
-    for section in x.sections[1:]:
+    for section in x.get_sections()[1:]:
         ys_trench = ys + section.width
         c.add_polygon(
             [(float(x), float(y)) for x, y in zip(xs, ys_trench, strict=False)]
@@ -80,7 +80,7 @@ def taper_from_csv(
         layer=layer,
         cross_section=x,
     )
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
     return c
 
 

@@ -1,5 +1,5 @@
 instances:
-  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_0_0:
     component: coupler_ring
     info:
       radius: 10
@@ -7,12 +7,13 @@ instances:
       bend: bend_euler
       cross_section: strip
       cross_section_bend: null
+      extrusion_spec: null
       gap: 0.2
       length_extension: null
       length_x: 0.01
       radius: null
       straight: straight
-  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_m10_21410_A180:
     component: coupler_ring
     info:
       radius: 10
@@ -20,12 +21,13 @@ instances:
       bend: bend_euler
       cross_section: strip
       cross_section_bend: null
+      extrusion_spec: null
       gap: 0.2
       length_extension: null
       length_x: 0.01
       radius: null
       straight: straight
-  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_10000_10710_A270:
     component: straight
     info:
       length: 0.01
@@ -38,8 +40,14 @@ instances:
       cross_section: strip
       length: 0.01
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_m10010_10700_A90:
     component: straight
     info:
       length: 0.01
@@ -52,39 +60,45 @@ instances:
       cross_section: strip
       length: 0.01
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets:
-- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90,o1
-- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o3
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270,o2
-- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270,o1
-- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o3
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90,o2
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_0_0,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_m10010_10700_A90,o1
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_0_0,o3
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_10000_10710_A270,o2
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_m10_21410_A180,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_10000_10710_A270,o1
+- p1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_m10_21410_A180,o3
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_m10010_10700_A90,o2
 placements:
-  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180:
+  coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_m10_21410_A180:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_10000_10710_A270:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_10000_10710_A270:
     mirror: false
     rotation: 270
     x: 10
     y: 10.71
-  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40_m10010_10700_A90:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_b839a487_m10010_10700_A90:
     mirror: false
     rotation: 90
     x: -10.01
     y: 10.7
 ports:
-  o1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o1
-  o2: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_0_0,o4
-  o3: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o4
-  o4: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef_m10_21410_A180,o1
+  o1: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_0_0,o1
+  o2: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_0_0,o4
+  o3: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_m10_21410_A180,o4
+  o4: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_ac47f5d5_m10_21410_A180,o1
