@@ -30,28 +30,34 @@ def bend_circular_heater(
         heater_to_wg_distance: in um.
         heater_width: in um.
         layer_heater: for heater.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
     x = gf.get_cross_section(cross_section)
-    radius = radius or x.radius
+    radius = radius or x.radius or gf.get_cross_section_radius(cross_section)
     assert radius is not None
     width = x.width
 
     offset = heater_to_wg_distance + width / 2
-    s1 = gf.Section(
-        width=heater_width,
-        offset=+offset,
-        layer=layer_heater,
+    sections = [
+        (section.layer, section.section_min, section.section_max)
+        for section in x.get_sections()[1:]
+    ]
+    sections.extend(
+        [
+            (layer_heater, offset - heater_width / 2, offset + heater_width / 2),
+            (layer_heater, -offset - heater_width / 2, -offset + heater_width / 2),
+        ]
     )
-    s2 = gf.Section(
-        width=heater_width,
-        offset=-offset,
-        layer=layer_heater,
+    xs = gf.cross_section.kfactory_cross_section(
+        width=x.width,
+        layer=x.layer,
+        sections=sections,
+        bbox_layers=list(x.bbox_sections),
+        bbox_offsets=list(x.bbox_sections.values()),
+        radius=x.radius,
+        radius_min=x.radius_min,
     )
-    sections = list(x.sections) + [s1, s2]
-
-    xs = x.copy(sections=tuple(sections))
     p = arc(radius=radius, angle=angle, npoints=npoints)
 
     c = Component()
@@ -62,6 +68,6 @@ def bend_circular_heater(
     c.info["dx"] = float(abs(p.points[0][0] - p.points[-1][0]))
     c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     if not allow_min_radius_violation:
-        x.validate_radius(radius)
+        gf.cross_section.validate_radius(x, radius)
     c.flatten()
     return c

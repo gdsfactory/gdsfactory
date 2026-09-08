@@ -3,6 +3,12 @@ analysis_settings:
   cross_section: strip
   length: 10
   npoints: 2
+  port_names:
+  - o1
+  - o2
+  port_types:
+  - optical
+  - optical
   width: null
 doe: null
 measurement: null

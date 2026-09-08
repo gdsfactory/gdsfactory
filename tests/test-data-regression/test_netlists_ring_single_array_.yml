@@ -27,7 +27,7 @@ instances:
       length_y: 0.6
       radius: 10
       straight: straight
-  straight_gdsfactorypcomponentspwaveguidespstraight_L15__aa481ca5_8000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L15__b3bc4c83_8000_0:
     component: straight
     info:
       length: 15
@@ -40,12 +40,18 @@ instances:
       cross_section: strip
       length: 15
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets:
 - p1: ring_single_gdsfactorypcomponentspringspring_single_G0p_914c3c45_0_0,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L15__aa481ca5_8000_0,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L15__b3bc4c83_8000_0,o1
 - p1: ring_single_gdsfactorypcomponentspringspring_single_G0p_c8ab51a3_56000_0,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L15__aa481ca5_8000_0,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L15__b3bc4c83_8000_0,o2
 placements:
   ring_single_gdsfactorypcomponentspringspring_single_G0p_914c3c45_0_0:
     mirror: false
@@ -57,7 +63,7 @@ placements:
     rotation: 0
     x: 56
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L15__aa481ca5_8000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L15__b3bc4c83_8000_0:
     mirror: false
     rotation: 0
     x: 8

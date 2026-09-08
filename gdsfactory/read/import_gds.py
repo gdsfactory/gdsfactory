@@ -58,7 +58,7 @@ def import_gds(
         if hasattr(temp_kcl, "cross_sections"):
             for cross_section in temp_kcl.cross_sections.cross_sections.values():
                 try:
-                    kf.kcl.get_symmetrical_cross_section(cross_section)
+                    kf.kcl.get_base_cross_section(cross_section)
                 except CrossSectionNamingConflictError:
                     canonical = kf.kcl.cross_sections.cross_sections.get(
                         cross_section.auto_name()

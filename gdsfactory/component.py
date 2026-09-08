@@ -87,7 +87,7 @@ class AddPortError(ValueError):
 
 
 if TYPE_CHECKING:
-    from gdsfactory.cross_section import CrossSection, CrossSectionSpec
+    from gdsfactory.cross_section import CrossSectionSpec
     from gdsfactory.get_netlist import (
         ComponentNamer,
         ErrorBehavior,
@@ -249,7 +249,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
             keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
-            register_cross_section: registers the CrossSection factory
+            register_cross_section: registers the cross-section factory
         """
         if self.locked:
             raise LockedError(self)
@@ -278,15 +278,31 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 else getattr(port, "cross_section", _xs)
             )
 
-        # Apply CrossSection overrides
+        # Apply cross-section overrides
         xs_name = None
+        kfactory_cross_section = None
+        resolved_cross_section = None
         if cross_section:
-            xs = get_cross_section(cross_section)
-            xs_name = xs.name
-            if layer is None:
-                layer = xs.layer
-            if width is None:
-                width = xs.width
+            if isinstance(
+                cross_section,
+                (
+                    kf.AsymmetricalCrossSection,
+                    kf.DAsymmetricalCrossSection,
+                    kf.AsymmetricCrossSection,
+                    kf.DAsymmetricCrossSection,
+                ),
+            ):
+                kfactory_cross_section = cross_section
+                xs_name = cross_section.name
+                resolved_cross_section = cross_section
+            else:
+                xs = get_cross_section(cross_section)
+                xs_name = xs.name
+                resolved_cross_section = xs
+                if layer is None:
+                    layer = xs.layer
+                if width is None:
+                    width = xs.width
 
         # Apply defaults if None
         if port_type is None:
@@ -301,9 +317,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 stacklevel=3,
             )
 
-        if layer is None:
+        if kfactory_cross_section is None and layer is None:
             raise AddPortError("Must specify layer or cross_section")
-        if width is None:
+        if kfactory_cross_section is None and width is None:
             raise AddPortError("Must specify width or cross_section")
         if center is None:
             raise AddPortError("Must specify center or port")
@@ -321,7 +337,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             if not keep_mirror:
                 trans.mirror = False
 
-        layer = get_layer(layer)
+        if kfactory_cross_section is None:
+            assert layer is not None
+            layer = get_layer(layer)
 
         # preserve metadata from the source port (a resolved cross_section
         # below takes precedence over any inherited one); deep copy so list/
@@ -330,14 +348,19 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             port.info.model_copy(deep=True).model_dump() if port is not None else None
         )
 
-        _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
-            name=name,
-            width=width,
-            layer=layer,
-            port_type=port_type,
-            dcplx_trans=trans,
-            info=info,
-        )
+        port_kwargs: dict[str, Any] = {
+            "name": name,
+            "port_type": port_type,
+            "dcplx_trans": trans,
+            "info": info,
+        }
+        if kfactory_cross_section is not None:
+            port_kwargs["cross_section"] = kfactory_cross_section
+        else:
+            port_kwargs["width"] = width
+            port_kwargs["layer"] = layer
+
+        _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(**port_kwargs)
 
         if xs_name:
             _port.info["cross_section"] = xs_name
@@ -347,13 +370,17 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 pdk = get_active_pdk()
                 if xs_name in pdk.cross_sections:
                     xs_registered = get_cross_section(xs_name)
-                    xs_new = xs
+                    xs_new = resolved_cross_section
+                    assert xs_new is not None
                     if xs_registered != xs_new:
                         raise KeyError(
-                            f"Found a different CrossSection named {xs_name} in pdk.cross_sections, cannot register {xs_new}"
+                            f"Found a different cross-section named {xs_name} in pdk.cross_sections, cannot register {xs_new}"
                         )
                 else:
-                    pdk.register_cross_sections(**{xs_name: lambda: xs})
+                    assert resolved_cross_section is not None
+                    pdk.register_cross_sections(
+                        **{xs_name: lambda xs=resolved_cross_section: xs}
+                    )
 
         return _port
 
@@ -411,7 +438,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
     def add_route_info(
         self,
-        cross_section: CrossSection | str,
+        cross_section: CrossSectionSpec,
         length: float,
         length_eff: float | None = None,
         taper: bool = False,
@@ -420,7 +447,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         """Adds route information to a component.
 
         Args:
-            cross_section: CrossSection or name of the cross_section.
+            cross_section: cross-section specification or name of the cross-section.
             length: length of the route.
             length_eff: effective length of the route.
             taper: if True adds taper information.

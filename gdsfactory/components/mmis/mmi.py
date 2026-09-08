@@ -40,7 +40,7 @@ def mmi(
         gap_output_tapers: gap between output tapers from edge to edge.
         taper: taper function.
         straight: straight function.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (native cross-section, string or dict).
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
 
@@ -65,7 +65,7 @@ def mmi(
     gap_output_tapers = gf.snap.snap_to_grid(gap_output_tapers, grid_factor=2)
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)
-    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
+    xs_mmi = gf.cross_section.copy_cross_section(x, width=width_mmi)
     width = width or x.width
 
     _taper = gf.get_component(
@@ -121,7 +121,7 @@ def mmi(
         taper_ref.connect("o2", port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
 
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
     c.auto_rename_ports()
     c.flatten()
     return c

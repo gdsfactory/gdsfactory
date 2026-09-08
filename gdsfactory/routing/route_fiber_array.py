@@ -112,6 +112,7 @@ def route_fiber_array(
         kwargs: route_bundle settings.
     """
     x = gf.get_cross_section(cross_section)
+    radius = radius or x.radius or gf.get_cross_section_radius(cross_section)
 
     excluded_ports = excluded_ports or []
     if port_names is None:
@@ -153,10 +154,7 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    if radius:
-        bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
-    else:
-        bend90 = gf.get_component(bend, cross_section=cross_section)
+    bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
@@ -343,7 +341,9 @@ def route_fiber_array(
         auto_taper=auto_taper,
         waypoints=waypoints,
         steps=steps,
-        raise_on_error=True,
+        # Electrical routes intentionally use route_bundle's electrical
+        # fallback when the optical placer cannot handle a pad fanout.
+        raise_on_error=port_type != "electrical",
         **kwargs,
     )
     if gc_port_name_fiber not in grating_coupler_port_names:
@@ -379,8 +379,17 @@ def route_fiber_array(
 
         port0 = gca1[gc_port_name]
         port1 = gca2[gc_port_name]
-        radius = radius_loopback or radius or x.radius
-        assert radius is not None
+        radius = (
+            radius_loopback
+            or radius
+            or x.radius
+            or gf.get_cross_section_radius(cross_section)
+        )
+        if radius is None:
+            raise ValueError(
+                "route_fiber_array loopback requires an explicit radius when the "
+                "cross-section does not define one."
+            )
         radius_dbu = component.kcl.to_dbu(radius)
         d_loop = straight_to_grating_spacing + radius + gca1.ysize
         d_loop_dbu = component.kcl.to_dbu(d_loop)
@@ -395,9 +404,7 @@ def route_fiber_array(
         waypoints_loopback_ = [
             p.to_dtype(component.kcl.dbu) for p in waypoints_loopback
         ]
-        bend90 = gf.get_component(
-            bend, cross_section=cross_section, radius=radius_loopback
-        )
+        bend90 = gf.get_component(bend, cross_section=cross_section, radius=radius)
 
         sign = 1 if with_loopback_inside else -1
         wp_start = waypoints_loopback_[0]

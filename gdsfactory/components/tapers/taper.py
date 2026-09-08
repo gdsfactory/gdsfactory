@@ -43,7 +43,7 @@ def taper(
         port: can taper from a port instead of defining width1.
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        cross_section: specification (native cross-section, string, cross-section factory dict).
         port_names: input and output port names. Second name only used if with_two_ports.
         port_types: input and output port types. Second type only used if with_two_ports.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
@@ -51,10 +51,19 @@ def taper(
     if len(port_types) != 2:
         raise ValueError("port_types should have two elements")
 
-    x1 = gf.get_cross_section(cross_section, width=width1)
+    x_base = gf.get_cross_section(cross_section)
+    x1 = (
+        gf.cross_section.copy_cross_section(x_base, width=width1)
+        if width1 != x_base.width
+        else x_base
+    )
     if width2:
         width2 = gf.snap.snap_to_grid2x(width2)
-        x2 = gf.get_cross_section(cross_section, width=width2)
+        x2 = (
+            gf.cross_section.copy_cross_section(x_base, width=width2)
+            if width2 != x_base.width
+            else x_base
+        )
     else:
         x2 = x1
 
@@ -62,9 +71,9 @@ def taper(
     width2 = x2.width
     width_max = max([width1, width2])
     if layer:
-        x = gf.get_cross_section(cross_section, width=width_max, layer=layer)
+        x = gf.cross_section.copy_cross_section(x_base, width=width_max, layer=layer)
     else:
-        x = gf.get_cross_section(cross_section, width=width_max)
+        x = gf.cross_section.copy_cross_section(x_base, width=width_max)
     layer = layer or x.layer
     assert layer is not None
 
@@ -87,23 +96,8 @@ def taper(
         )
         c.add_polygon(p1, layer=layer)
 
-        for s1, s2 in zip(x1.sections[1:], x2.sections[1:], strict=False):
-            y1 = s1.width / 2
-            y2 = s2.width / 2
-            offset1 = s1.offset
-            offset2 = s2.offset
-            p1 = gf.kdb.DPolygon(
-                [
-                    gf.kdb.DPoint(0, offset1 + y1),
-                    gf.kdb.DPoint(length, offset2 + y2),
-                    gf.kdb.DPoint(length, offset2 - y2),
-                    gf.kdb.DPoint(0, offset1 - y1),
-                ]
-            )
-            c.add_polygon(p1, layer=s1.layer)
-
     if with_bbox:
-        x.add_bbox(c)
+        gf.path.add_bbox(c, x)
     c.add_port(
         name=port_names[0],
         center=(0, 0),
@@ -195,7 +189,7 @@ def taper_strip_to_ridge(
     taper_ref_slab = c << taper_slab
 
     c.info["length"] = length
-    c.add_port(name="o1", port=taper_ref_wg.ports["o1"])
+    c.add_port(name="o1", port=taper_ref_wg.ports["o1"], cross_section=xs)
 
     if slab_port_layer:
         port = taper_ref_wg.ports["o2"]
@@ -208,12 +202,12 @@ def taper_strip_to_ridge(
         )
 
     if use_slab_port:
-        c.add_port(name="o2", port=taper_ref_slab.ports["o2"])
+        c.add_port(name="o2", port=taper_ref_slab.ports["o2"], cross_section=xs)
     else:
-        c.add_port(name="o2", port=taper_ref_wg.ports["o2"])
+        c.add_port(name="o2", port=taper_ref_wg.ports["o2"], cross_section=xs)
 
     if length:
-        xs.add_bbox(c)
+        gf.path.add_bbox(c, xs)
     c.flatten()
     return c
 

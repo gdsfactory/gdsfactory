@@ -93,6 +93,8 @@ def clean_value_json(
         serialize_function_as_dict: serialize function as dict. False serializes as string.
         serialization_max_digits: maximum number of digits for float serialization.
     """
+    import kfactory as kf
+
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
@@ -106,6 +108,14 @@ def clean_value_json(
 
     if isinstance(value, bool):
         return value
+
+    if isinstance(value, kf.kdb.LayerInfo):
+        try:
+            from gdsfactory.pdk import get_layer_name
+
+            return get_layer_name((value.layer, value.datatype))
+        except ValueError:
+            return (value.layer, value.datatype)
 
     if isinstance(value, Enum):
         return str(value)

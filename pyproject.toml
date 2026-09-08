@@ -31,7 +31,9 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]~=3.0.4",
+  # TODO: Replace this temporary commit pin with kfactory[ipy]~=3.1.0 after
+  # kfactory 3.1 is released.
+  "kfactory[ipy] @ https://github.com/gdsfactory/kfactory/archive/1108b0cf.tar.gz",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",

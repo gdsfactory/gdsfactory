@@ -182,7 +182,9 @@ type RoutingStrategy = Callable[..., Sequence[Route]]
 type RoutingStrategies = dict[str, RoutingStrategy]
 
 
-from gdsfactory.cross_section import CrossSectionFactory, CrossSectionSpec  # noqa: E402
+from gdsfactory.cross_section import (  # noqa: E402
+    CrossSectionSpec,
+)
 
 type MultiCrossSectionAngleSpec = Sequence[tuple[CrossSectionSpec, tuple[int, ...]]]
 
@@ -279,7 +281,6 @@ __all__ = (
     "Coordinate",
     "Coordinates",
     "CornerMode",
-    "CrossSectionFactory",
     "CrossSectionSpec",
     "Delta",
     "Float2",

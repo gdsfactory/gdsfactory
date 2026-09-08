@@ -4,7 +4,6 @@ from collections.abc import Sequence
 from typing import Any
 
 import numpy as np
-import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -37,9 +36,6 @@ def straight_piecewise(
     if isinstance(x, Sequence) and len(x) != len(widths):
         raise ValueError("x and widths must have the same length.")
 
-    def width_function(_: float) -> npt.NDArray[np.float64]:
-        return np.array(widths)
-
     if isinstance(x, gf.Path):
         p = x
     else:
@@ -47,17 +43,31 @@ def straight_piecewise(
         p.points = np.array([(xi, 0.0) for xi in x])
 
     section_list = list(sections or [])
-    section_list.append(
-        Section(
-            name=name,
-            width=0,
-            width_function=width_function,
-            offset=0,
-            layer=layer,
-            port_names=port_names,
-            **kwargs,
-        )
-    )
-    cross_section = gf.CrossSection(sections=tuple(section_list))
+    if not widths:
+        raise ValueError("widths must contain at least one value")
 
-    return gf.path.extrude(p, cross_section=cross_section)
+    xs1 = gf.cross_section.cross_section(
+        width=float(widths[0]),
+        layer=layer,
+        sections=tuple(section_list),
+        **kwargs,
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=float(widths[-1]),
+        layer=layer,
+        sections=tuple(section_list),
+        **kwargs,
+    )
+    width_values = np.asarray(widths, dtype=float)
+    width_positions = np.linspace(0.0, 1.0, len(width_values))
+    transition = gf.path.transition(
+        xs1,
+        xs2,
+        width_type="linear",
+        core_width_profile=lambda t: np.interp(t, width_positions, width_values),
+    )
+    return gf.path.extrude_transition(
+        p,
+        transition=transition,
+        port_names=port_names,
+    )

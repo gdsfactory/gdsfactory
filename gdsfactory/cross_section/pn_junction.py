@@ -14,7 +14,10 @@ from gdsfactory.cross_section.base import (
     cladding_simplify_optical,
 )
 from gdsfactory.cross_section.presets import strip
-from gdsfactory.cross_section.utils import cross_section, xsection
+from gdsfactory.cross_section.utils import (
+    cross_section,
+    xsection,
+)
 
 
 @xsection
@@ -1115,7 +1118,10 @@ def pn_ge_detector_si_contacts(
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     section_list.append(s)
 
-    return CrossSection(
-        sections=tuple(section_list),
+    return cross_section(
+        width=width_si,
+        layer=layer_si,
+        sections=tuple(section_list[1:]),
+        port_names=port_names,
         **kwargs,
     )

@@ -4,6 +4,7 @@ __all__ = ["coupler_ring"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section import ExtrusionSpec
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import coupler_ring_schematic
@@ -21,6 +22,7 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float | None = None,
+    extrusion_spec: ExtrusionSpec | None = None,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -33,6 +35,7 @@ def coupler_ring(
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_extension: straight length extension at the end of the coupler bottom ports.
+        extrusion_spec: optional extrusion metadata for the bend cross-section.
 
           o2                              o3
           xx                              xx
@@ -47,8 +50,12 @@ def coupler_ring(
                                     length_extension
     """
     if radius is None:
-        radius = gf.get_cross_section(cross_section).radius
-        assert radius is not None, "cross_section must have a radius"
+        radius = gf.get_cross_section_radius(cross_section)
+        if radius is None:
+            raise ValueError(
+                "coupler_ring requires an explicit radius when the cross-section "
+                "does not define one."
+            )
 
     if length_extension is None:
         length_extension = 3.0 + radius
@@ -67,6 +74,7 @@ def coupler_ring(
         cross_section=cross_section,
         cross_section_bend=cross_section_bend,
         length_straight=length_extension,
+        extrusion_spec=extrusion_spec,
     )
     coupler_straight_component = gf.get_component(
         coupler_straight,

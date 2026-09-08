@@ -56,7 +56,7 @@ def mmi_tapered(
         gap_input_tapers: gap between input tapers from edge to edge.
         gap_output_tapers: gap between output tapers from edge to edge.
         taper: taper function.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (native cross-section, string or dict).
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
 
@@ -181,7 +181,7 @@ def mmi_tapered(
         taper_outer_ref.connect("o2", taper_ref["o1"], allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_outer_ref.ports["o1"])
 
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
     c.auto_rename_ports()
     c.flatten()
     return c

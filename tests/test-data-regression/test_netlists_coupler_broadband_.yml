@@ -1,5 +1,5 @@
 instances:
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_250:
     component: bend_euler
     info:
       dy: 10
@@ -18,13 +18,14 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_m450_M:
     component: bend_euler
     info:
       dy: 10
@@ -43,13 +44,14 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_250_A180_M:
     component: bend_euler
     info:
       dy: 10
@@ -68,13 +70,14 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
       radius: 10
       width: null
       with_arc_floorplan: true
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_m450_A180:
     component: bend_euler
     info:
       dy: 10
@@ -93,6 +96,7 @@ instances:
       angle: 90
       angular_step: null
       cross_section: strip
+      extrusion_spec: null
       layer: null
       npoints: null
       p: 0.5
@@ -114,31 +118,31 @@ instances:
       gap: 0.2
       length: 12.4
 nets:
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_250,o1
   p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o3
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_m450_M,o1
   p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_3350_m450,o4
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_250_A180_M,o1
   p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o2
-- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180,o1
+- p1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_m450_A180,o1
   p2: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8_m15750_m450,o1
 placements:
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_250:
     mirror: false
     rotation: 0
     x: 15.75
     y: 0.25
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_m450_M:
     mirror: true
     rotation: 0
     x: 15.75
     y: -0.45
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_250_A180_M:
     mirror: true
     rotation: 180
     x: -15.75
     y: 0.25
-  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180:
+  bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_m450_A180:
     mirror: false
     rotation: 180
     x: -15.75
@@ -154,7 +158,7 @@ placements:
     x: -15.75
     y: -0.45
 ports:
-  o1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_m450_A180,o2
-  o2: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_m15750_250_A180_M,o2
-  o3: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_m450_M,o2
-  o4: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407_15750_250,o2
+  o1: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_m450_A180,o2
+  o2: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_m15750_250_A180_M,o2
+  o3: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_m450_M,o2
+  o4: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_f5c016e2_15750_250,o2

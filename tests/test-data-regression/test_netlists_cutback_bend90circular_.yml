@@ -12,6 +12,12 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   '2':
     component: straight
@@ -26,6 +32,12 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   '3':
     component: straight
@@ -40,6 +52,12 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   '4':
     component: straight
@@ -54,6 +72,12 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   '5':
     component: straight
@@ -68,6 +92,12 @@ instances:
       cross_section: strip
       length: 30
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   A1:
     component: bend_circular
@@ -3250,6 +3280,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m10:
     component: straight
@@ -3264,6 +3300,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m100:
     component: straight
@@ -3278,6 +3320,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m101:
     component: straight
@@ -3292,6 +3340,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m102:
     component: straight
@@ -3306,6 +3360,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m103:
     component: straight
@@ -3320,6 +3380,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m104:
     component: straight
@@ -3334,6 +3400,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m105:
     component: straight
@@ -3348,6 +3420,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m106:
     component: straight
@@ -3362,6 +3440,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m107:
     component: straight
@@ -3376,6 +3460,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m108:
     component: straight
@@ -3390,6 +3480,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m109:
     component: straight
@@ -3404,6 +3500,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m11:
     component: straight
@@ -3418,6 +3520,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m110:
     component: straight
@@ -3432,6 +3540,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m111:
     component: straight
@@ -3446,6 +3560,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m112:
     component: straight
@@ -3460,6 +3580,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m113:
     component: straight
@@ -3474,6 +3600,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m114:
     component: straight
@@ -3488,6 +3620,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m115:
     component: straight
@@ -3502,6 +3640,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m116:
     component: straight
@@ -3516,6 +3660,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m117:
     component: straight
@@ -3530,6 +3680,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m118:
     component: straight
@@ -3544,6 +3700,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m119:
     component: straight
@@ -3558,6 +3720,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m12:
     component: straight
@@ -3572,6 +3740,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m120:
     component: straight
@@ -3586,6 +3760,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m121:
     component: straight
@@ -3600,6 +3780,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m122:
     component: straight
@@ -3614,6 +3800,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m123:
     component: straight
@@ -3628,6 +3820,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m124:
     component: straight
@@ -3642,6 +3840,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m125:
     component: straight
@@ -3656,6 +3860,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m126:
     component: straight
@@ -3670,6 +3880,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m127:
     component: straight
@@ -3684,6 +3900,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m128:
     component: straight
@@ -3698,6 +3920,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m129:
     component: straight
@@ -3712,6 +3940,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m13:
     component: straight
@@ -3726,6 +3960,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m130:
     component: straight
@@ -3740,6 +3980,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m131:
     component: straight
@@ -3754,6 +4000,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m132:
     component: straight
@@ -3768,6 +4020,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m133:
     component: straight
@@ -3782,6 +4040,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m134:
     component: straight
@@ -3796,6 +4060,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m135:
     component: straight
@@ -3810,6 +4080,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m136:
     component: straight
@@ -3824,6 +4100,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m137:
     component: straight
@@ -3838,6 +4120,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m138:
     component: straight
@@ -3852,6 +4140,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m139:
     component: straight
@@ -3866,6 +4160,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m14:
     component: straight
@@ -3880,6 +4180,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m140:
     component: straight
@@ -3894,6 +4200,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m141:
     component: straight
@@ -3908,6 +4220,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m142:
     component: straight
@@ -3922,6 +4240,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m143:
     component: straight
@@ -3936,6 +4260,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m144:
     component: straight
@@ -3950,6 +4280,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m15:
     component: straight
@@ -3964,6 +4300,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m16:
     component: straight
@@ -3978,6 +4320,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m17:
     component: straight
@@ -3992,6 +4340,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m18:
     component: straight
@@ -4006,6 +4360,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m19:
     component: straight
@@ -4020,6 +4380,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m2:
     component: straight
@@ -4034,6 +4400,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m20:
     component: straight
@@ -4048,6 +4420,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m21:
     component: straight
@@ -4062,6 +4440,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m22:
     component: straight
@@ -4076,6 +4460,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m23:
     component: straight
@@ -4090,6 +4480,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m24:
     component: straight
@@ -4104,6 +4500,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m25:
     component: straight
@@ -4118,6 +4520,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m26:
     component: straight
@@ -4132,6 +4540,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m27:
     component: straight
@@ -4146,6 +4560,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m28:
     component: straight
@@ -4160,6 +4580,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m29:
     component: straight
@@ -4174,6 +4600,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m3:
     component: straight
@@ -4188,6 +4620,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m30:
     component: straight
@@ -4202,6 +4640,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m31:
     component: straight
@@ -4216,6 +4660,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m32:
     component: straight
@@ -4230,6 +4680,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m33:
     component: straight
@@ -4244,6 +4700,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m34:
     component: straight
@@ -4258,6 +4720,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m35:
     component: straight
@@ -4272,6 +4740,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m36:
     component: straight
@@ -4286,6 +4760,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m37:
     component: straight
@@ -4300,6 +4780,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m38:
     component: straight
@@ -4314,6 +4800,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m39:
     component: straight
@@ -4328,6 +4820,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m4:
     component: straight
@@ -4342,6 +4840,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m40:
     component: straight
@@ -4356,6 +4860,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m41:
     component: straight
@@ -4370,6 +4880,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m42:
     component: straight
@@ -4384,6 +4900,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m43:
     component: straight
@@ -4398,6 +4920,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m44:
     component: straight
@@ -4412,6 +4940,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m45:
     component: straight
@@ -4426,6 +4960,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m46:
     component: straight
@@ -4440,6 +4980,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m47:
     component: straight
@@ -4454,6 +5000,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m48:
     component: straight
@@ -4468,6 +5020,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m49:
     component: straight
@@ -4482,6 +5040,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m5:
     component: straight
@@ -4496,6 +5060,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m50:
     component: straight
@@ -4510,6 +5080,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m51:
     component: straight
@@ -4524,6 +5100,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m52:
     component: straight
@@ -4538,6 +5120,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m53:
     component: straight
@@ -4552,6 +5140,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m54:
     component: straight
@@ -4566,6 +5160,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m55:
     component: straight
@@ -4580,6 +5180,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m56:
     component: straight
@@ -4594,6 +5200,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m57:
     component: straight
@@ -4608,6 +5220,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m58:
     component: straight
@@ -4622,6 +5240,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m59:
     component: straight
@@ -4636,6 +5260,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m6:
     component: straight
@@ -4650,6 +5280,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m60:
     component: straight
@@ -4664,6 +5300,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m61:
     component: straight
@@ -4678,6 +5320,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m62:
     component: straight
@@ -4692,6 +5340,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m63:
     component: straight
@@ -4706,6 +5360,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m64:
     component: straight
@@ -4720,6 +5380,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m65:
     component: straight
@@ -4734,6 +5400,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m66:
     component: straight
@@ -4748,6 +5420,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m67:
     component: straight
@@ -4762,6 +5440,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m68:
     component: straight
@@ -4776,6 +5460,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m69:
     component: straight
@@ -4790,6 +5480,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m7:
     component: straight
@@ -4804,6 +5500,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m70:
     component: straight
@@ -4818,6 +5520,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m71:
     component: straight
@@ -4832,6 +5540,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m72:
     component: straight
@@ -4846,6 +5560,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m73:
     component: straight
@@ -4860,6 +5580,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m74:
     component: straight
@@ -4874,6 +5600,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m75:
     component: straight
@@ -4888,6 +5620,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m76:
     component: straight
@@ -4902,6 +5640,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m77:
     component: straight
@@ -4916,6 +5660,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m78:
     component: straight
@@ -4930,6 +5680,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m79:
     component: straight
@@ -4944,6 +5700,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m8:
     component: straight
@@ -4958,6 +5720,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m80:
     component: straight
@@ -4972,6 +5740,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m81:
     component: straight
@@ -4986,6 +5760,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m82:
     component: straight
@@ -5000,6 +5780,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m83:
     component: straight
@@ -5014,6 +5800,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m84:
     component: straight
@@ -5028,6 +5820,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m85:
     component: straight
@@ -5042,6 +5840,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m86:
     component: straight
@@ -5056,6 +5860,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m87:
     component: straight
@@ -5070,6 +5880,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m88:
     component: straight
@@ -5084,6 +5900,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m89:
     component: straight
@@ -5098,6 +5920,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m9:
     component: straight
@@ -5112,6 +5940,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m90:
     component: straight
@@ -5126,6 +5960,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m91:
     component: straight
@@ -5140,6 +5980,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m92:
     component: straight
@@ -5154,6 +6000,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m93:
     component: straight
@@ -5168,6 +6020,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m94:
     component: straight
@@ -5182,6 +6040,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m95:
     component: straight
@@ -5196,6 +6060,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m96:
     component: straight
@@ -5210,6 +6080,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m97:
     component: straight
@@ -5224,6 +6100,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m98:
     component: straight
@@ -5238,6 +6120,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
   m99:
     component: straight
@@ -5252,6 +6140,12 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets:
 - p1: 1,o1

@@ -165,7 +165,7 @@ def grating_coupler_elliptical_arbitrary(
             layer_slab,
         )
 
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     x = (taper_length + xis[-1]) / 2
     c.add_port(
         name="o2",

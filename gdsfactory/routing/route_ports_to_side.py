@@ -35,8 +35,8 @@ def route_ports_to_side(
     cross_section: CrossSectionSpec,
     ports: Ports | None = None,
     side: Literal["north", "east", "south", "west"] = "north",
-    x: float | None | Literal["east", "west"] = None,
-    y: float | None | Literal["north", "south"] = None,
+    x: float | Literal["east", "west"] | None = None,
+    y: float | Literal["north", "south"] | None = None,
     **kwargs: Any,
 ) -> tuple[list[ManhattanRoute], list[kf.DPort]]:
     """Routes ports to a given side.

@@ -24,5 +24,6 @@ if __name__ == "__main__":
             port1=comp1.ports[port1_name],
             port2=comp2.ports[port2_name],
             cross_section=gf.cross_section.strip(width=3.2, radius=100 + i * 10),
+            radius=100 + i * 10,
         )
     c.show()

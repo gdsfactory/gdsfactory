@@ -17,7 +17,10 @@ from gdsfactory.cross_section.base import (
     port_names_electrical,
     port_types_electrical,
 )
-from gdsfactory.cross_section.utils import cross_section, xsection
+from gdsfactory.cross_section.utils import (
+    cross_section,
+    xsection,
+)
 
 radius_nitride = 20
 radius_rib = 20
@@ -68,11 +71,12 @@ def strip_no_ports(
         port_names: for input and output ('o1', 'o2').
         kwargs: cross_section settings.
     """
-    return cross_section(
+    # Port metadata and radius overrides are temporarily outside the native
+    # profile. This is therefore the same canonical geometry as ``strip``.
+    return strip(
         width=width,
         layer=layer,
         radius=radius,
-        radius_min=radius_min,
         port_names=port_names,
         **kwargs,
     )
@@ -235,7 +239,7 @@ def slot(
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return CrossSection Slot (with an etched region in the center).
+    """Return native Slot cross-section (with an etched region in the center).
 
     Args:
         width: main Section width (um) or function parameterized from 0 to 1. \
@@ -304,7 +308,7 @@ def rib_with_trenches(
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return CrossSection of rib waveguide defined by trenches.
+    """Return native cross-section of rib waveguide defined by trenches.
 
     Args:
         width: main Section width (um) or function parameterized from 0 to 1. \
@@ -401,7 +405,7 @@ def l_with_trenches(
     sections: Sections | None = None,
     **kwargs: Any,
 ) -> CrossSection:
-    """Return CrossSection of l waveguide defined by trenches.
+    """Return native cross-section of l waveguide defined by trenches.
 
     Args:
         width: main Section width (um) or function parameterized from 0 to 1. \
@@ -561,7 +565,14 @@ def gs(
         Section(width=width, layer=layer, offset=+gap / 2 + width / 2),
         Section(width=width, layer=layer, offset=-gap / 2 - width / 2),
     ]
-    return CrossSection(sections=tuple(sections), radius=radius or 2 * width + gap)
+    return cross_section(
+        width=gap,
+        layer=layer_port,
+        sections=tuple(sections[1:]),
+        radius=radius or 2 * width + gap,
+        port_names=port_names_electrical,
+        port_types=port_types_electrical,
+    )
 
 
 @xsection
@@ -592,7 +603,14 @@ def gsg(
         Section(width=width, layer=layer, offset=-gap - width),
         Section(width=width, layer=layer, offset=+gap + width),
     ]
-    return CrossSection(sections=tuple(sections), radius=radius or 3 * width + 2 * gap)
+    return cross_section(
+        width=width,
+        layer=layer,
+        sections=tuple(sections[1:]),
+        radius=radius or 3 * width + 2 * gap,
+        port_names=port_names_electrical,
+        port_types=port_types_electrical,
+    )
 
 
 @xsection
@@ -607,7 +625,7 @@ def metal_routing(
     """Return Metal Strip cross_section."""
     radius = radius or width
 
-    return cross_section(
+    return metal3(
         width=width,
         layer=layer,
         radius=radius,

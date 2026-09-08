@@ -39,15 +39,19 @@ def cutback_splitter(
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight: waveguide spec to connect both sides.
         straight_length: length of the straight section between cutbacks.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (native cross-section, string or dict).
         kwargs: cross_section settings.
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
 
     component = gf.get_component(component)
     bendu = gf.get_component(bend180, cross_section=xs)
-    radius = xs.radius
-    assert radius is not None
+    radius = gf.get_cross_section_radius(cross_section)
+    if radius is None:
+        raise ValueError(
+            "cutback_splitter requires an explicit radius when the cross-section "
+            "does not define one."
+        )
     straight_component = gf.get_component(
         straight,
         length=straight_length or radius * 2,

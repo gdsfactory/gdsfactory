@@ -9,7 +9,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import cross_section as make_cross_section
 from gdsfactory.path import Path, transition
 from gdsfactory.routing.route_quad import _get_rotated_basis
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
@@ -301,16 +301,16 @@ def route_sharp(
         component: Component to add the route to.
         port1: start port.
         port2: end port.
-        width: None, int, float, array-like[2], or CrossSection. \
+        width: None, int, float, array-like[2], or cross-section. \
                 If None, the route linearly tapers between the widths the ports \
                 If set to a single number (e.g. `width=1.7`): makes a fixed-width route \
                 If set to a 2-element array (e.g. `width=[1.8,2.5]`): makes a route \
                 whose width varies linearly from width[0] to width[1] \
-                If set to a CrossSection: uses the CrossSection parameters for the route.
+                If set to a cross-section: uses its parameters for the route.
         path_type : {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}.
         manual_path: array-like[N][2] or Path Waypoint for  manual route.
         layer: Layer to put route on.
-        cross_section: CrossSection to use for the route.
+        cross_section: cross-section specification to use for the route.
         port_names: Tuple of port names for the start and end of the route.
         kwargs: Keyword arguments passed to the waypoint path function.
 
@@ -371,18 +371,8 @@ def route_sharp(
         d = p.extrude(cross_section=cross_section)
     elif width is None:
         layer = layer or port1.layer
-        s1 = Section(
-            width=port1.width,
-            port_names=port_names,
-            layer=layer,
-        )
-        s2 = Section(
-            width=port2.width,
-            port_names=port_names,
-            layer=layer,
-        )
-        x1 = CrossSection(sections=(s1,))
-        x2 = CrossSection(sections=(s2,))
+        x1 = make_cross_section(width=port1.width, layer=layer)
+        x2 = make_cross_section(width=port2.width, layer=layer)
         trans = transition(cross_section1=x1, cross_section2=x2, width_type="linear")
         d = p.extrude_transition(transition=trans)
     else:

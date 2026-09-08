@@ -55,7 +55,7 @@ def spiral_racetrack(
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section)
-    min_radius = min_radius or xs.radius
+    min_radius = min_radius or xs.radius or gf.get_cross_section_radius(cross_section)
     assert min_radius
 
     _bend_s = gf.get_component(
@@ -141,7 +141,7 @@ def spiral_racetrack_fixed_length(
 
     xs_s_bend = cross_section_s or cross_section
     xs = gf.get_cross_section(xs_s_bend)
-    min_radius = min_radius or xs.radius
+    min_radius = min_radius or xs.radius or gf.get_cross_section_radius(xs_s_bend)
 
     if np.mod(n_straight_sections, 2) != 0:
         raise ValueError("The number of straight sections has to be even!")
@@ -246,7 +246,7 @@ def _req_straight_len(
     from scipy.interpolate import interp1d
 
     xs = gf.get_cross_section(cross_section)
-    min_radius = min_radius or xs.radius
+    min_radius = min_radius or xs.radius or gf.get_cross_section_radius(cross_section)
     assert min_radius
 
     # "Brute force" approach - sweep length and save total length
@@ -348,7 +348,12 @@ def spiral_racetrack_heater_metal(
     """
     c = gf.Component()
     xs = gf.get_cross_section(waveguide_cross_section)
-    min_radius = min_radius or xs.radius or 0
+    min_radius = (
+        min_radius
+        or xs.radius
+        or gf.get_cross_section_radius(waveguide_cross_section)
+        or 0
+    )
 
     spiral = c << spiral_racetrack(
         min_radius,
@@ -360,7 +365,7 @@ def spiral_racetrack_heater_metal(
         waveguide_cross_section,
     )
 
-    heater_top = c << gf.components.straight(
+    heater_top = c << gf.components.wire_straight(
         straight_length, cross_section=heater_cross_section
     )
     heater_top.connect(
@@ -371,7 +376,7 @@ def spiral_racetrack_heater_metal(
         allow_type_mismatch=True,
     )
     heater_top.movey(spacing * num // 2)
-    heater_bot = c << gf.components.straight(
+    heater_bot = c << gf.components.wire_straight(
         straight_length, cross_section=heater_cross_section
     )
     heater_bot.connect(
@@ -391,8 +396,8 @@ def spiral_racetrack_heater_metal(
     )
     heater_bend.y = spiral.y
     heater_bend.x = spiral.x + min_radius + spacing * (num // 2 + 1)
-    heater_top.connect("e1", heater_bend.ports["e1"])
-    heater_bot.connect("e1", heater_bend.ports["e2"])
+    heater_top.connect("e1", heater_bend.ports["o1"], allow_type_mismatch=True)
+    heater_bot.connect("e1", heater_bend.ports["o2"], allow_type_mismatch=True)
 
     c.add_ports(spiral.ports)
 
@@ -466,7 +471,12 @@ def spiral_racetrack_heater_doped(
         heater_cross_section: cross-section of the heater.
     """
     xs = gf.get_cross_section(waveguide_cross_section)
-    min_radius = min_radius or xs.radius or 0
+    min_radius = (
+        min_radius
+        or xs.radius
+        or gf.get_cross_section_radius(waveguide_cross_section)
+        or 0
+    )
 
     c = gf.Component()
 
@@ -482,7 +492,7 @@ def spiral_racetrack_heater_doped(
         cross_section=waveguide_cross_section,
     )
 
-    heater_straight = gf.components.straight(
+    heater_straight = gf.components.wire_straight(
         straight_length, cross_section=heater_cross_section
     )
 

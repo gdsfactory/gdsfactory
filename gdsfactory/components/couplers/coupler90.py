@@ -6,6 +6,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section import ExtrusionSpec
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import coupler_schematic
@@ -20,6 +21,7 @@ def coupler90(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_straight: float | None = None,
+    extrusion_spec: ExtrusionSpec | None = None,
 ) -> Component:
     r"""Straight coupled to a bend.
 
@@ -31,6 +33,7 @@ def coupler90(
         cross_section: cross_section spec.
         cross_section_bend: optional bend cross_section spec.
         length_straight: optional length of the straight waveguide.
+        extrusion_spec: optional extrusion metadata for the bend cross-section.
 
     ```text
             o3
@@ -43,14 +46,13 @@ def coupler90(
 
     """
     c = Component()
-    x = gf.get_cross_section(cross_section, radius=radius)
+    x = gf.get_cross_section(cross_section)
     xs_bend = cross_section_bend or cross_section
 
-    bend90 = gf.get_component(
-        bend,
-        radius=radius,
-        cross_section=xs_bend,
-    )
+    bend_kwargs = {"radius": radius, "cross_section": xs_bend}
+    if extrusion_spec is not None:
+        bend_kwargs["extrusion_spec"] = extrusion_spec
+    bend90 = gf.get_component(bend, **bend_kwargs)
     bend_ref = c << bend90
     bend90_ports = bend_ref.ports.filter(port_type="optical")
 

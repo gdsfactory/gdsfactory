@@ -261,6 +261,55 @@ def test_import_gds_cross_section_radius_conflict(tmp_path: Path) -> None:
         kf.layout.kcls.pop(file_kcl.name, None)
 
 
+def test_import_gds_asymmetrical_cross_section(tmp_path: Path) -> None:
+    """Import GDS metadata containing an asymmetric kfactory cross-section."""
+    gf.gpdk.PDK.activate()
+
+    layer_info = kf.kdb.LayerInfo(4, 0)
+    aux_layer = kf.kdb.LayerInfo(5, 0)
+    file_kcl = kf.KCLayout("asymmetrical_import_file")
+    xs = file_kcl.get_asymmetrical_cross_section(
+        kf.AsymmetricalCrossSection(
+            layer=layer_info,
+            section_min=-250,
+            section_max=250,
+            sections=(
+                kf.CrossSectionLayer(layer=aux_layer, section_min=300, section_max=500),
+            ),
+            name="asymmetrical_import",
+        )
+    )
+    cell = file_kcl.kcell("TOP_ASYMMETRICAL")
+    cell.shapes(file_kcl.layout.layer(layer_info)).insert(
+        kf.kdb.Box(0, -250, 10000, 250)
+    )
+    cell.create_port(
+        name="o1",
+        trans=kf.kdb.Trans(0, False, 0, 0),
+        cross_section=xs,
+        port_type="optical",
+    )
+    cell.set_meta_data()
+    gdspath = tmp_path / "asymmetrical.gds"
+    file_kcl.write(str(gdspath))
+
+    registry = kf.kcl.cross_sections.cross_sections
+    keys_before = set(registry)
+    try:
+        c = import_gds(gdspath)
+        cross_section = c.ports[0].cross_section
+        assert isinstance(cross_section, kf.DAsymmetricCrossSection)
+        assert [
+            (section.layer.layer, section.section_min, section.section_max)
+            for section in cross_section.get_sections()
+        ] == [(4, -0.25, 0.25), (5, 0.3, 0.5)]
+    finally:
+        for key in set(registry) - keys_before:
+            del registry[key]
+        file_kcl.library.delete()
+        kf.layout.kcls.pop(file_kcl.name, None)
+
+
 def import_same_file_twice() -> None:
     c1 = gf.c.straight()
     gdspath = c1.write_gds()

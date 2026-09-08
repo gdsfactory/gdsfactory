@@ -3,8 +3,8 @@
 You can define a path as list of points.
 To create a component you need to extrude the path with a cross-section.
 
-This package provides the core CrossSection class, preset cross-section
-factories, P-N junction definitions, heater variants, and utility functions.
+This package provides kfactory cross-section types, preset factories, P-N
+junction definitions, heater variants, and utility functions.
 
 All public names are re-exported here for full backward compatibility with
 ``from gdsfactory.cross_section import ...`` and
@@ -15,15 +15,31 @@ All public names are re-exported here for full backward compatibility with
 # fmt: off
 
 # --- base classes, type aliases, and constants ---
+from kfactory import (
+    AsymmetricalCrossSection,
+    DAsymmetricalCrossSection,
+    DAsymmetricCrossSection,
+    DCrossSection,
+    SymmetricalCrossSection,
+)
+
 from gdsfactory.cross_section.base import (
+    AsymmetricCrossSection,
+    AsymmetricExtrusionSpec,
     ComponentAlongPath,
     CrossSection,
     CrossSectionFactory,
     CrossSectionSpec,
+    ExtrusionSection,
+    ExtrusionSpec,
     Section,
+    SectionReference,
     Sections,
+    SymmetricCrossSection,
+    SymmetricExtrusionSpec,
     Transition,
     TransitionAsymmetric,
+    TransitionSection,
     cladding_layers_optical,
     cladding_offsets_optical,
     cladding_simplify_optical,
@@ -33,6 +49,7 @@ from gdsfactory.cross_section.base import (
     nm,
     port_names_electrical,
     port_types_electrical,
+    validate_radius,
 )
 
 # --- heater cross-section factories ---
@@ -42,6 +59,13 @@ from gdsfactory.cross_section.heater import (
     strip_heater_doped,
     strip_heater_metal,
     strip_heater_metal_undercut,
+)
+
+# --- kfactory profile construction ---
+from gdsfactory.cross_section.kfactory import (
+    KFactorySectionSpec,
+    copy_cross_section,
+    kfactory_cross_section,
 )
 
 # --- P-N junction cross-section factories ---
@@ -82,6 +106,7 @@ from gdsfactory.cross_section.presets import (
 # --- utilities: factory function, decorator, registry, introspection ---
 from gdsfactory.cross_section.utils import (
     CrossSectionCallable,
+    CrossSectionWarning,
     P,
     _cross_section_default_names,
     cross_section,
@@ -94,34 +119,48 @@ from gdsfactory.cross_section.utils import (
 # fmt: on
 
 __all__ = [
-    # base
+    "AsymmetricCrossSection",
+    "AsymmetricExtrusionSpec",
+    "AsymmetricalCrossSection",
     "ComponentAlongPath",
     "CrossSection",
-    # utils
     "CrossSectionCallable",
     "CrossSectionFactory",
     "CrossSectionSpec",
+    "CrossSectionWarning",
+    "DAsymmetricCrossSection",
+    "DAsymmetricalCrossSection",
+    "DCrossSection",
+    "ExtrusionSection",
+    "ExtrusionSpec",
+    "KFactorySectionSpec",
     "P",
     "Section",
+    "SectionReference",
     "Sections",
+    "SymmetricCrossSection",
+    "SymmetricExtrusionSpec",
+    "SymmetricalCrossSection",
     "Transition",
     "TransitionAsymmetric",
+    "TransitionSection",
+    # base
     "_cross_section_default_names",
     "cladding_layers_optical",
     "cladding_offsets_optical",
     "cladding_simplify_optical",
+    "copy_cross_section",
     "cross_section",
     "cross_sections",
     "deprecated",
     "deprecated_pins",
     "deprecated_routing",
     "get_cross_sections",
-    # presets
     "gs",
     "gsg",
     "heater_metal",
     "is_cross_section",
-    # pn_junction
+    "kfactory_cross_section",
     "l_wg_doped_with_trenches",
     "l_with_trenches",
     "metal1",
@@ -143,7 +182,6 @@ __all__ = [
     "rib",
     "rib2",
     "rib_bbox",
-    # heater
     "rib_heater_doped",
     "rib_heater_doped_via_stack",
     "rib_with_trenches",
@@ -155,5 +193,6 @@ __all__ = [
     "strip_nitride_tip",
     "strip_no_ports",
     "strip_rib_tip",
+    "validate_radius",
     "xsection",
 ]

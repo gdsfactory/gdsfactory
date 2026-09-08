@@ -108,6 +108,8 @@ def route_bundle_sbend(
         bend_kwargs = dict(**kwargs)
         if cross_section is not None:
             bend_kwargs["cross_section"] = cross_section
+        bend_kwargs.setdefault("port_names", (port_name, _other_port_name(port_name)))
+        bend_kwargs.setdefault("port_types", (p1.port_type, p1.port_type))
         if use_port_width:
             bend = gf.get_component(
                 bend_s, size=(xsize, ysize), width=p1.width, **bend_kwargs
@@ -132,3 +134,12 @@ def route_bundle_sbend(
         )
         routes.append(route)
     return routes
+
+
+def _other_port_name(port_name: str) -> str:
+    """Return the opposite conventional port name for an S-bend."""
+    if port_name.endswith("1"):
+        return f"{port_name[:-1]}2"
+    if port_name.endswith("2"):
+        return f"{port_name[:-1]}1"
+    return "o2"

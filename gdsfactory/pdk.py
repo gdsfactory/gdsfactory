@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import importlib
+import inspect
 import pathlib
 import warnings
 from collections.abc import Callable, Mapping, Sequence
-from functools import cached_property, partial
+from functools import cached_property, partial, wraps
 from typing import Any, cast, overload
 
 import kfactory as kf
@@ -18,8 +19,10 @@ from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import CrossSection, Section
-from gdsfactory.cross_section import xsection as cross_section_xsection
+from gdsfactory.cross_section import (
+    CrossSection,
+    CrossSectionFactory,
+)
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -31,7 +34,6 @@ from gdsfactory.typings import (
     ComponentFactory,
     ComponentSpec,
     ConnectivitySpec,
-    CrossSectionFactory,
     CrossSectionSpec,
     LayerSpec,
     LayerTransitions,
@@ -228,26 +230,31 @@ class Pdk(BaseModel):
         self.cells = cells
         self.containers = containers
 
-    def xsection(
-        self, func: Callable[..., CrossSection]
-    ) -> Callable[..., CrossSection]:
+    def xsection(self, func: CrossSectionFactory) -> CrossSectionFactory:
         """Decorator to register a cross section function.
 
         Ensures that the cross-section name matches the name of the function
         that generated it when created using default parameters.
 
-        Reuses the core xsection decorator from cross_section.py while maintaining
-        PDK-specific storage of cross sections.
-
-            @pdk.xsection
-            def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
-                return gf.cross_section.cross_section(width=width, radius=radius)
+        The factory must return a native ``CrossSection``.  Its default profile
+        name is also its registry name; aliases are not created.
         """
-        return cross_section_xsection(
-            cast("CrossSectionFactory", func),  # type: ignore[redundant-cast]
-            self.cross_sections,
-            self.cross_section_default_names,
-        )
+        func_name = getattr(func, "__name__", None)
+        if not isinstance(func_name, str):
+            raise TypeError("Cross-section factories must define __name__.")
+        default_xs = self._normalize_cross_section(func())
+        if default_xs.name != func_name:
+            raise ValueError(
+                f"Cross-section factory {func_name!r} must return a profile named "
+                f"{func_name!r} for its default parameters, got {default_xs.name!r}."
+            )
+
+        @wraps(func)
+        def newfunc(*args: Any, **kwargs: Any) -> CrossSection:
+            return self._normalize_cross_section(func(*args, **kwargs))
+
+        self.cross_sections[func_name] = newfunc
+        return newfunc
 
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active)."""
@@ -279,6 +286,27 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cross_section} is not callable, make sure you register "
                     "cross_section functions that return a CrossSection"
+                )
+
+            try:
+                result = cross_section()
+            except (TypeError, ValueError) as error:
+                raise ValueError(
+                    f"Cross-section factory {name!r} must be callable without "
+                    "arguments and return a native CrossSection."
+                ) from error
+            try:
+                default_xs = self._normalize_cross_section(result)
+            except (TypeError, ValueError) as error:
+                raise ValueError(
+                    f"Cross-section factory {name!r} must be callable without "
+                    "arguments and return a native CrossSection."
+                ) from error
+            if default_xs.name != name:
+                raise ValueError(
+                    f"Cross-section factory {name!r} must return a profile named "
+                    f"{name!r} for its default parameters, got "
+                    f"{default_xs.name!r}."
                 )
             if name in self.cross_sections:
                 warnings.warn(f"Overwriting cross_section {name!r}", stacklevel=3)
@@ -503,20 +531,24 @@ class Pdk(BaseModel):
         """Returns cross_section from a cross_section spec.
 
         Args:
-            cross_section: CrossSection, CrossSectionFactory, Transition, string or dict.
+            cross_section: CrossSection, CrossSectionFactory, string or dict.
             kwargs: settings to override.
         """
+        if "radius" in kwargs or "radius_min" in kwargs:
+            raise TypeError(
+                "Cross-section radius overrides are not supported. Pass the "
+                "radius explicitly to the bend or route that consumes the "
+                "cross-section."
+            )
         if callable(cross_section):
-            return cross_section(**kwargs)
+            factory = cast("Callable[..., Any]", cross_section)
+            return self._normalize_cross_section(factory(**kwargs))
         if isinstance(cross_section, str):
             if cross_section not in self.cross_sections:
                 cross_sections = list(self.cross_sections.keys())
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
             xs_func = self.cross_sections[cross_section]
-            xs = xs_func(**kwargs)
-            if xs.name in self.cross_section_default_names:
-                xs._name = self.cross_section_default_names[xs.name]
-            return xs
+            return self._normalize_cross_section(xs_func(**kwargs))
         if isinstance(cross_section, dict):
             xs_dict = cast("dict[str, Any]", cross_section)  # type: ignore[redundant-cast]
             xs_name = xs_dict.get("cross_section", None)
@@ -525,41 +557,33 @@ class Pdk(BaseModel):
             settings = dict(xs_dict.get("settings", {}))
             settings.update(kwargs)
             return self.get_cross_section(xs_name, **settings)
-        if isinstance(cross_section, CrossSection):
-            if kwargs:
-                # apply overrides like the str/factory branches do; the copy
-                # gets a derived name, so it caches separately from the
-                # registered cross_section
-                return cross_section.copy(**kwargs)
+        if kwargs:
+            raise TypeError(
+                "Keyword overrides are only supported when resolving a named "
+                "cross-section factory, not for a CrossSection instance."
+            )
+        return self._normalize_cross_section(cross_section)
+
+    @staticmethod
+    def _normalize_cross_section(cross_section: Any) -> CrossSection:
+        """Return any accepted kfactory profile as a µm CrossSection."""
+        if isinstance(cross_section, kf.DCrossSection | kf.DAsymmetricCrossSection):
             return cross_section
-        if isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
-            if isinstance(cross_section, kf.DCrossSection):
-                cross_section_ = cross_section.base
-            else:
-                cross_section_ = cross_section
 
-            layer: LayerSpec = kf.kcl.layout.layer(cross_section_.main_layer)
-            try:
-                layer = self.get_layer_name(layer)
-            except ValueError:
-                logger.debug("Could not resolve layer name for %r, using as-is", layer)
+        if isinstance(
+            cross_section,
+            kf.CrossSection
+            | kf.DAsymmetricalCrossSection
+            | kf.SymmetricalCrossSection
+            | kf.AsymmetricCrossSection
+            | kf.AsymmetricalCrossSection,
+        ):
+            kcl = getattr(cross_section, "kcl", kf.kcl)
+            return kcl.get_dcross_section(cross_section)
 
-            section_ = Section(
-                name="_default",
-                width=kf.kcl.to_um(cross_section_.width),
-                layer=layer,
-                port_names=("o1", "o2"),
-            )
-            xs_ = CrossSection(
-                sections=(section_,),
-                radius=kf.kcl.to_um(cross_section_.radius),
-                radius_min=kf.kcl.to_um(cross_section_.radius_min),
-            )
-            xs_._name = cross_section_.name
-            return xs_.copy(**kwargs) if kwargs else xs_
         raise ValueError(
             "get_cross_section expects a CrossSectionSpec (CrossSection, "
-            f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
+            f"CrossSectionFactory, string or dict), got {type(cross_section)}"
         )
 
     def get_layer(self, layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
@@ -571,7 +595,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return kf.kcl.layout.layer(*layer)
         if isinstance(layer, kf.kdb.LayerInfo):
-            return layer.layer
+            return kf.kcl.layout.layer(layer.layer, layer.datatype)
         if self.layers is None or not hasattr(self.layers, layer):
             layer_members = self.layers.__members__ if self.layers else {}
             raise ValueError(f"{layer!r} not in PDK {self.name!r} {layer_members}")
@@ -782,6 +806,84 @@ def get_cell(
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs: Any) -> CrossSection:
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
+
+
+def get_cross_section_radius(cross_section: CrossSectionSpec) -> float | None:
+    """Return a cross-section's radius or its factory-declared default.
+
+    Native geometry copies intentionally do not carry bend metadata. For a
+    named factory, however, the declared default remains a useful operation
+    default even when kfactory has already registered the same geometry with
+    different radius metadata.
+    """
+    xs = get_cross_section(cross_section)
+    if xs.radius is not None:
+        return xs.radius
+
+    factory: Any = None
+    if isinstance(cross_section, str):
+        factory = get_active_pdk().cross_sections.get(cross_section)
+    elif callable(cross_section):
+        factory = cross_section
+    elif isinstance(cross_section, dict):
+        name = cross_section.get("cross_section")
+        if isinstance(name, str):
+            factory = get_active_pdk().cross_sections.get(name)
+
+    if factory is None:
+        return None
+    try:
+        default = inspect.signature(factory).parameters.get("radius")
+    except (TypeError, ValueError):
+        return None
+    if default is None or default.default is inspect.Parameter.empty:
+        return None
+    return float(default.default) if default.default is not None else None
+
+
+def get_cross_section_port_metadata(
+    cross_section: CrossSectionSpec,
+) -> tuple[tuple[str | None, str | None], tuple[str, str]] | None:
+    """Return declared port names and types for a cross-section factory.
+
+    Native cross-sections intentionally contain geometry only.  This helper
+    preserves the port defaults declared by named factories for components that
+    expose ports, while explicit component arguments remain authoritative.
+    """
+    factory: Any = None
+    settings: dict[str, Any] = {}
+    if isinstance(cross_section, str):
+        factory = get_active_pdk().cross_sections.get(cross_section)
+    elif callable(cross_section):
+        factory = cross_section
+    elif isinstance(cross_section, dict):
+        name = cross_section.get("cross_section")
+        if isinstance(name, str):
+            factory = get_active_pdk().cross_sections.get(name)
+        settings = dict(cross_section.get("settings", {}))
+
+    if factory is None:
+        return None
+    try:
+        signature = inspect.signature(factory)
+    except (TypeError, ValueError):
+        return None
+
+    def parameter_value(name: str) -> Any:
+        if name in settings:
+            return settings[name]
+        parameter = signature.parameters.get(name)
+        if parameter is None or parameter.default is inspect.Parameter.empty:
+            return None
+        return parameter.default
+
+    port_names = parameter_value("port_names")
+    port_types = parameter_value("port_types")
+    if port_names is None or port_types is None:
+        return None
+    if len(port_names) != 2 or len(port_types) != 2:
+        return None
+    return tuple(port_names), tuple(port_types)
 
 
 def get_layer(layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:

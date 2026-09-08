@@ -1,5 +1,5 @@
 instances:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_0:
     component: straight
     info:
       length: 10
@@ -12,8 +12,14 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_770:
     component: straight
     info:
       length: 10
@@ -26,21 +32,27 @@ instances:
       cross_section: strip
       length: 10
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets: []
 placements:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_770:
     mirror: false
     rotation: 0
     x: 0
     y: 0.77
 ports:
-  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o1
-  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770,o1
-  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_770,o2
-  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423_0_0,o2
+  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_0,o1
+  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_770,o1
+  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_770,o2
+  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L10__bfd5688d_0_0,o2

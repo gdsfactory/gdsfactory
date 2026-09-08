@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import warnings
 from collections.abc import Callable, Sequence
 from functools import partial, wraps
 from inspect import getmembers, isbuiltin, isfunction
 from types import BuiltinFunctionType, FunctionType, ModuleType
-from typing import Any, ParamSpec, Protocol, cast
+from typing import Any, ParamSpec, Protocol
 
+import kfactory as kf
 import numpy as np
 from kfactory import logger
 
@@ -16,7 +18,11 @@ from gdsfactory.cross_section.base import (
     CrossSection,
     CrossSectionFactory,
     Section,
-    Sections,
+)
+from gdsfactory.cross_section.kfactory import (
+    KFactorySectionSpec,
+    _canonical_name,
+    kfactory_cross_section,
 )
 
 cross_sections: dict[str, CrossSectionFactory] = {}
@@ -25,17 +31,148 @@ _cross_section_default_names: dict[str, str] = {}
 P = ParamSpec("P")
 
 
+class CrossSectionWarning(DeprecationWarning):
+    """Warning emitted while adapting legacy cross-section metadata."""
+
+
 class CrossSectionCallable(Protocol[P]):
     __name__: str
 
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> CrossSection: ...
 
 
+def _warn(message: str, *, stacklevel: int = 3) -> None:
+    warnings.warn(message, CrossSectionWarning, stacklevel=stacklevel)
+
+
+def _nominal_value(
+    value: float | Callable[..., Any], parameter_name: str, *, warn: bool
+) -> float:
+    if not callable(value):
+        return float(value)
+
+    if warn:
+        _warn(
+            f"{parameter_name} callable is not supported by native kfactory "
+            "cross-sections; evaluating it at t=0.5 for the temporary adapter."
+        )
+    result = value(0.5)
+    result_array = np.asarray(result)
+    if result_array.size != 1:
+        raise ValueError(
+            f"{parameter_name} callable must return a scalar for the native "
+            f"cross-section adapter, got shape {result_array.shape}."
+        )
+    return float(result_array.reshape(-1)[0])
+
+
+def _section_to_kfactory_spec(section: Section, *, warn: bool) -> KFactorySectionSpec:
+    width = _nominal_value(
+        section.width_function or section.width, "section.width", warn=warn
+    )
+    offset = _nominal_value(
+        section.offset_function or section.offset, "section.offset", warn=warn
+    )
+    if warn:
+        _warn(
+            "Legacy Section metadata (port names/types, simplify, hidden, "
+            "insets, and transition flags) is dropped by the temporary native "
+            "cross-section adapter."
+        )
+    return section.layer, offset - width / 2, offset + width / 2
+
+
+def _rename_native_cross_section(
+    cross_section: CrossSection, name: str | None
+) -> CrossSection:
+    if name is None or cross_section.name == name:
+        return cross_section
+
+    if isinstance(cross_section, kf.DCrossSection):
+        sections: list[tuple[Any, float] | tuple[Any, float, float]] = []
+        for layer, layer_sections in cross_section.sections.items():
+            for section_min, section_max in layer_sections:
+                if section_min is None:
+                    sections.append((layer, section_max))
+                else:
+                    sections.append((layer, section_min, section_max))
+        bbox_layers = list(cross_section.bbox_sections)
+        try:
+            return kf.DCrossSection(
+                kcl=cross_section.kcl,
+                width=cross_section.width,
+                layer=cross_section.layer,
+                sections=sections,
+                bbox_layers=bbox_layers,
+                bbox_offsets=[
+                    cross_section.bbox_sections[layer] for layer in bbox_layers
+                ],
+                radius=cross_section.radius,
+                radius_min=cross_section.radius_min,
+                name=name,
+            )
+        except kf.exceptions.CrossSectionNamingConflictError:
+            _warn(
+                f"Could not rename native cross-section {_canonical_name(cross_section)!r} "
+                f"to {name!r} because the name is already in use; keeping the "
+                f"canonical name {cross_section.name!r}."
+            )
+            return cross_section
+    if isinstance(cross_section, kf.DAsymmetricCrossSection):
+        try:
+            return kf.DAsymmetricCrossSection(
+                kcl=cross_section.kcl,
+                section_min=cross_section.section_min,
+                section_max=cross_section.section_max,
+                layer=cross_section.layer,
+                sections=cross_section.sections,
+                bbox_sections=cross_section.bbox_sections,
+                radius=cross_section.radius,
+                radius_min=cross_section.radius_min,
+                name=name,
+            )
+        except kf.exceptions.CrossSectionNamingConflictError:
+            _warn(
+                f"Could not rename native cross-section {_canonical_name(cross_section)!r} "
+                f"to {name!r} because the name is already in use; keeping the "
+                f"canonical name {cross_section.name!r}."
+            )
+            return cross_section
+    raise TypeError(f"Unsupported native cross-section type: {type(cross_section)}")
+
+
+def _call_cross_section_factory(
+    func: Callable[..., Any],
+    args: tuple[Any, ...],
+    kwargs: dict[str, Any],
+) -> CrossSection:
+    result = func(*args, **kwargs)
+    if not isinstance(result, kf.DCrossSection | kf.DAsymmetricCrossSection):
+        raise TypeError(
+            "Cross-section factories must return a native CrossSection, "
+            f"got {type(result)}."
+        )
+    return result
+
+
+def _call_cross_section_factory_without_warnings(
+    func: Callable[..., Any],
+) -> CrossSection:
+    """Resolve a factory default without warning during lazy registration."""
+    result = func()
+    if not isinstance(result, kf.DCrossSection | kf.DAsymmetricCrossSection):
+        raise TypeError(
+            "Cross-section factories must return a native CrossSection, "
+            f"got {type(result)}."
+        )
+    return result
+
+
 def xsection[**P](
     func: CrossSectionCallable[P],
     xs_container: dict[str, CrossSectionFactory] = cross_sections,
     xs_default_mapping: dict[str, str] = _cross_section_default_names,
-) -> CrossSectionCallable[P]:
+) -> Callable[P, CrossSection]:
     """Decorator to register a cross-section function.
 
     Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
@@ -44,14 +181,18 @@ def xsection[**P](
         def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
             return gf.cross_section.cross_section(width=width, radius=radius)
     """
-    default_xs = func()  # type: ignore[call-arg]
-    xs_default_mapping[default_xs.name] = func.__name__
+    default_xs_name: str | None = None
 
     @wraps(func)
     def newfunc(*args: P.args, **kwargs: P.kwargs) -> CrossSection:
-        xs = func(*args, **kwargs)
-        if xs.name in xs_default_mapping:
-            xs._name = xs_default_mapping[xs.name]
+        nonlocal default_xs_name
+        if default_xs_name is None:
+            default_xs = _call_cross_section_factory_without_warnings(func)
+            default_xs_name = default_xs.name
+            xs_default_mapping[default_xs_name] = func.__name__
+        xs = _call_cross_section_factory(func, args, kwargs)
+        if xs.name == default_xs_name and not xs.base.is_named:
+            xs = _rename_native_cross_section(xs, func.__name__)
         return xs
 
     xs_container[func.__name__] = newfunc
@@ -62,7 +203,7 @@ def cross_section(
     width: float | typings.WidthFunction = 0.5,
     offset: float | typings.OffsetFunction = 0,
     layer: typings.LayerSpec = "WG",
-    sections: Sections | None = None,
+    sections: Sequence[KFactorySectionSpec | Section] | None = None,
     port_names: typings.IOPorts = ("o1", "o2"),
     port_types: typings.IOPorts = ("optical", "optical"),
     bbox_layers: typings.LayerSpecs | None = None,
@@ -73,31 +214,31 @@ def cross_section(
     cladding_centers: float | typings.Floats | None = None,
     radius: float | None = 10.0,
     radius_min: float | None = 7.0,
+    name: str | None = None,
     main_section_name: str = "_default",
 ) -> CrossSection:
-    """Return CrossSection.
+    """Return a native kfactory cross-section.
 
     Args:
         width: main Section width (um) or parameterized function from 0 to 1.
         offset: main Section center offset (um) or parameterized function from 0 to 1.
         layer: main section layer.
-        sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
+        sections: absolute auxiliary strips as ``(layer, section_min,
+            section_max)`` tuples.
+        port_names: legacy extrusion metadata. It is temporarily ignored.
+        port_types: legacy extrusion metadata. It is temporarily ignored.
         bbox_layers: list of layers bounding boxes to extrude.
         bbox_offsets: list of offset from bounding box edge.
         cladding_layers: list of layers to extrude.
         cladding_offsets: offset from main Section edge. Single float is
             broadcast to all cladding layers.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed. \
-                Single float is broadcast to all cladding layers.
+        cladding_simplify: legacy extrusion metadata. It is temporarily ignored.
         cladding_centers: center offset for each cladding layer. Defaults to 0. \
                 Single float is broadcast to all cladding layers.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
-        main_section_name: name of the main section. Defaults to _default
+        name: native cross-section name.
+        main_section_name: legacy section metadata. It is temporarily ignored.
 
     Example:
         ```python
@@ -135,104 +276,40 @@ def cross_section(
         └────────────────────────────────────────────────────────────┘
         ```
     """
-    section_list: list[Section] = list(sections or [])
-    cladding_simplify_not_none: list[float | None] | None = None
-    cladding_offsets_not_none: list[float] | None = None
-    cladding_centers_not_none: list[float] | None = None
-    if cladding_layers:
-
-        def _broadcast(
-            value: float | typings.Floats | None, default: float | None
-        ) -> list[Any]:
-            if isinstance(value, (int, float, np.number)):
-                return [float(value)] * len(cladding_layers)
-            if value is None or len(value) == 0:
-                return [default] * len(cladding_layers)
-            return list(value)
-
-        cladding_simplify_not_none = _broadcast(cladding_simplify, None)
-        cladding_offsets_not_none = _broadcast(cladding_offsets, 0)
-        cladding_centers_not_none = _broadcast(cladding_centers, 0)
-
-        if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets_not_none,
-                        cladding_simplify_not_none,
-                        cladding_centers_not_none,
-                    )
-                }
-            )
-            > 1
-        ):
-            raise ValueError(
-                f"{len(cladding_layers)=}, "
-                f"{len(cladding_offsets_not_none)=}, "
-                f"{len(cladding_simplify_not_none)=}, "
-                f"{len(cladding_centers_not_none)=} must have same length"
-            )
-    s = [
-        Section(
-            width=0 if callable(width) else cast(Any, width),
-            width_function=cast(Callable[..., Any], width) if callable(width) else None,
-            offset=0 if callable(offset) else cast(Any, offset),
-            offset_function=cast(Callable[..., Any], offset)
-            if callable(offset)
-            else None,
-            layer=layer,
-            port_names=port_names,
-            port_types=port_types,
-            name=main_section_name,
+    if port_names != ("o1", "o2"):
+        _warn("port_names is legacy extrusion metadata and is temporarily ignored.")
+    if port_types != ("optical", "optical"):
+        _warn("port_types is legacy extrusion metadata and is temporarily ignored.")
+    if cladding_simplify is not None:
+        _warn(
+            "cladding_simplify is legacy extrusion metadata and is temporarily ignored."
         )
-    ] + section_list
+    if main_section_name != "_default":
+        _warn(
+            "main_section_name is legacy section metadata and is temporarily "
+            "ignored; use name for the native cross-section name."
+        )
 
-    if (
-        cladding_layers
-        and cladding_offsets_not_none
-        and cladding_simplify_not_none
-        and cladding_centers_not_none
-    ):
+    native_sections: list[KFactorySectionSpec] = []
+    for section in sections or ():
+        if isinstance(section, Section):
+            native_sections.append(_section_to_kfactory_spec(section, warn=True))
+        else:
+            native_sections.append(section)
 
-        def _cladding_width_kwargs(offset: float) -> dict[str, Any]:
-            if callable(width):
-                return {
-                    "width_function": lambda t: cast(Callable[..., Any], width)(t)
-                    + 2 * offset
-                }
-            return {"width": cast(Any, width) + 2 * offset}
-
-        s += [
-            Section(
-                **_cladding_width_kwargs(cladding_offset),
-                layer=cladding_layer,
-                simplify=cladding_simplify,
-                offset=cladding_center,
-                name=f"cladding_{i}",
-            )
-            for i, (
-                cladding_layer,
-                cladding_offset,
-                cladding_simplify,
-                cladding_center,
-            ) in enumerate(
-                zip(
-                    cladding_layers,
-                    cladding_offsets_not_none,
-                    cladding_simplify_not_none,
-                    cladding_centers_not_none,
-                    strict=False,
-                )
-            )
-        ]
-    return CrossSection(
-        sections=tuple(s),
-        radius=radius,
-        radius_min=radius_min,
+    return kfactory_cross_section(
+        width=_nominal_value(width, "width", warn=True),
+        offset=_nominal_value(offset, "offset", warn=True),
+        layer=layer,
+        sections=native_sections,
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
+        cladding_layers=cladding_layers,
+        cladding_offsets=cladding_offsets,
+        cladding_centers=cladding_centers,
+        radius=radius,
+        radius_min=radius_min,
+        name=name,
     )
 
 
@@ -285,8 +362,20 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
             # Handle simple string matches
             if return_type in (
                 "CrossSection",
+                "SymmetricCrossSection",
+                "AsymmetricCrossSection",
+                "DCrossSection",
+                "DAsymmetricCrossSection",
                 "gf.CrossSection",
+                "gf.SymmetricCrossSection",
+                "gf.AsymmetricCrossSection",
+                "gf.DCrossSection",
+                "gf.DAsymmetricCrossSection",
                 "gdsfactory.CrossSection",
+                "gdsfactory.SymmetricCrossSection",
+                "gdsfactory.AsymmetricCrossSection",
+                "gdsfactory.DCrossSection",
+                "gdsfactory.DAsymmetricCrossSection",
             ):
                 return True
 
@@ -319,7 +408,7 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
                             resolved_type = closure_dict.get(return_type)
 
                 if resolved_type and isinstance(resolved_type, type):
-                    return issubclass(resolved_type, CrossSection)
+                    return _is_cross_section_type(resolved_type)
 
             except (TypeError, AttributeError, ValueError):
                 pass  # Ignore type resolution errors
@@ -327,13 +416,13 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
             return False
 
         # Direct type comparison
-        if return_type is CrossSection:
+        if _is_cross_section_type(return_type):
             return True
 
-        # Check if it's a subclass of CrossSection
+        # Check if it's a subclass of a supported cross-section class.
         if isinstance(return_type, type):
             try:
-                return issubclass(return_type, CrossSection)
+                return _is_cross_section_type(return_type)
             except TypeError:
                 # Handle cases where return_type is not a class
                 return False
@@ -342,6 +431,28 @@ def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
         if verbose:
             logger.warning(f"Error checking cross-section for {name}: {e}")
 
+    return False
+
+
+def _is_cross_section_type(value: Any) -> bool:
+    if value in (
+        kf.DCrossSection,
+        kf.DAsymmetricCrossSection,
+        kf.SymmetricalCrossSection,
+        kf.AsymmetricalCrossSection,
+        kf.CrossSection,
+    ):
+        return True
+    if isinstance(value, type):
+        return issubclass(
+            value,
+            (
+                kf.DCrossSection,
+                kf.DAsymmetricCrossSection,
+                kf.SymmetricalCrossSection,
+                kf.AsymmetricalCrossSection,
+            ),
+        )
     return False
 
 

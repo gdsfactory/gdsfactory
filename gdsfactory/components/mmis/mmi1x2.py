@@ -34,7 +34,7 @@ def mmi1x2(
         gap_mmi:  gap between tapered wg.
         taper: taper function.
         straight: straight function.
-        cross_section: specification (CrossSection, string or dict).
+        cross_section: specification (native cross-section, string or dict).
 
                length_mmi
                 <------>
@@ -56,7 +56,7 @@ def mmi1x2(
     c = Component()
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
     x = gf.get_cross_section(cross_section)
-    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
+    xs_mmi = gf.cross_section.copy_cross_section(x, width=width_mmi)
     width = width or x.width
 
     _taper = gf.get_component(

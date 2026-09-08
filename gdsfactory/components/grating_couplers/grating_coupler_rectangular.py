@@ -118,7 +118,7 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     xport = np.round((x0 + cgrating.x) / 2, 3)
     c.add_port(
         name="o2",

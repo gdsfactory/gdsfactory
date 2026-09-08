@@ -38,8 +38,8 @@ def coupler_bent_half(
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section)
-    xs1 = xs.copy(radius=radius_outer, width=width1)
-    xs2 = xs.copy(radius=radius_inner, width=width2)
+    xs1 = gf.cross_section.copy_cross_section(xs, width=width1)
+    xs2 = gf.cross_section.copy_cross_section(xs, width=width2)
 
     outer_bend = gf.path.arc(angle=-alpha, radius=radius_outer)
     inner_bend = gf.path.arc(angle=-alpha, radius=radius_inner)

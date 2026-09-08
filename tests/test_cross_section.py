@@ -3,11 +3,10 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-import jsondiff
 import numpy as np
 import numpy.typing as npt
 import pytest
-from hypothesis import given
+from hypothesis import assume, given
 from hypothesis import strategies as st
 from hypothesis.extra.numpy import arrays
 from pydantic import ValidationError
@@ -23,7 +22,7 @@ from gdsfactory.gpdk import LAYER
 )
 def test_waveguide_setting(width: float) -> None:
     x = gf.cross_section.cross_section(width=width)
-    assert x.width == width
+    assert x.width == pytest.approx(width, abs=2 * gf.kcl.dbu)
 
 
 def test_settings_different() -> None:
@@ -34,11 +33,12 @@ def test_settings_different() -> None:
 
 def test_transition_names() -> None:
     layer = (1, 0)
-    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
-    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
-
-    xs1 = gf.CrossSection(sections=(s1,))
-    xs2 = gf.CrossSection(sections=(s2,))
+    xs1 = gf.cross_section.cross_section(
+        width=5, layer=layer, name="transition_names_xs1"
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=50, layer=layer, name="transition_names_xs2"
+    )
     trans12 = gf.path.transition(
         cross_section1=xs1, cross_section2=xs2, width_type="linear"
     )
@@ -55,11 +55,12 @@ def test_transition_names() -> None:
 
 def test_transition_asymmetric_names() -> None:
     layer = (1, 0)
-    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
-    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
-
-    xs1 = gf.CrossSection(sections=(s1,))
-    xs2 = gf.CrossSection(sections=(s2,))
+    xs1 = gf.cross_section.cross_section(
+        width=5, layer=layer, name="transition_asymmetric_names_xs1"
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=50, layer=layer, name="transition_asymmetric_names_xs2"
+    )
     trans12 = gf.path.transition_asymmetric(
         cross_section1=xs1, cross_section2=xs2, width_type1="linear", width_type2="sine"
     )
@@ -75,24 +76,76 @@ def test_transition_asymmetric_names() -> None:
 
 
 def test_copy() -> None:
-    s = gf.Section(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
-    x1 = gf.CrossSection(sections=(s,))
-    x2 = x1.copy()
-    d = jsondiff.diff(x1.model_dump(), x2.model_dump())
-    assert len(d) == 0, d
+    x1 = gf.cross_section.cross_section(width=0.5, layer=(3, 0))
+    x2 = gf.cross_section.copy_cross_section(x1)
+    assert x1 is x2
 
-    xs1 = gf.get_cross_section("metal_routing")
-    xs2 = xs1.copy(width=2)
-    assert xs2.name != xs1.name, f"{xs2.name} == {xs1.name}"
+    native_wide = gf.cross_section.copy_cross_section(x1, width=2)
+    assert native_wide.width == pytest.approx(2, abs=2 * gf.kcl.dbu)
 
-    xs1 = gf.get_cross_section("metal_routing")
-    xs2 = xs1.copy(width=10)
-    assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
+    native = gf.get_cross_section("metal_routing")
+    assert isinstance(native, gf.DCrossSection)
 
 
 def test_name() -> None:
     s = gf.cross_section.strip()
     assert s.name == "strip"
+
+
+def test_cross_section_returns_native_symmetric_profile() -> None:
+    xs = gf.cross_section.cross_section(
+        width=0.61,
+        layer=(101, 0),
+        radius=None,
+        radius_min=None,
+        name="native_symmetric_profile",
+    )
+
+    assert isinstance(xs, gf.DCrossSection)
+    assert xs.name == "native_symmetric_profile"
+    assert xs.width == pytest.approx(0.61, abs=2 * gf.kcl.dbu)
+
+
+def test_cross_section_returns_native_asymmetric_profile() -> None:
+    xs = gf.cross_section.cross_section(
+        width=0.61,
+        offset=0.1,
+        layer=(102, 0),
+        sections=(((103, 0), 0.3, 0.5),),
+        radius=None,
+        radius_min=None,
+        name="native_asymmetric_profile",
+    )
+
+    assert isinstance(xs, gf.DAsymmetricCrossSection)
+    assert xs.name == "native_asymmetric_profile"
+    assert xs.get_sections()[0].section_min == pytest.approx(-0.205, abs=gf.kcl.dbu)
+
+
+def test_xsection_requires_native_factory() -> None:
+    @gf.cross_section.xsection
+    def native_profile() -> gf.DCrossSection:
+        return gf.cross_section.cross_section(
+            width=0.7, layer=(104, 0), radius=None, radius_min=None
+        )
+
+    xs = native_profile()
+    assert isinstance(xs, gf.DCrossSection)
+    assert xs.name == "native_profile"
+
+
+def test_cross_section_warns_when_dropping_legacy_metadata() -> None:
+    with pytest.warns(gf.cross_section.CrossSectionWarning, match="port_names"):
+        xs = gf.cross_section.cross_section(
+            width=0.7,
+            layer=(105, 0),
+            port_names=("e1", "e2"),
+            radius=None,
+            radius_min=None,
+            name="native_metadata_adapter",
+        )
+
+    assert isinstance(xs, gf.DCrossSection)
 
 
 xc_sin = partial(
@@ -137,14 +190,14 @@ def test_taper_cladding_offets() -> None:
 
 
 def test_is_cross_section_basic() -> None:
-    def basic_xs(width: float = 1.0) -> gf.CrossSection:
+    def basic_xs(width: float = 1.0) -> gf.DCrossSection:
         return gf.cross_section.cross_section(width=width, layer=(1, 0))
 
     assert gf.cross_section.is_cross_section("basic_xs", basic_xs)
 
 
 def test_is_cross_section_subclass() -> None:
-    class OtherCrossSection(gf.CrossSection):
+    class OtherCrossSection(gf.DCrossSection):
         pass
 
     def cross_section(**kwargs: Any) -> OtherCrossSection:
@@ -154,7 +207,7 @@ def test_is_cross_section_subclass() -> None:
 
 
 def test_is_cross_section_subclass_name_not_including_cross_section() -> None:
-    class SubclassCrossSection(gf.CrossSection):
+    class SubclassCrossSection(gf.DCrossSection):
         pass
 
     def cross_section(**kwargs: Any) -> SubclassCrossSection:
@@ -211,53 +264,52 @@ def test_cross_section_callable_width_offset(
     def offset_fn(t: float) -> float:
         return 0.1 * t
 
-    xs = gf.cross_section.cross_section(
-        width=width_fn,
-        offset=offset_fn,
-        layer=(1, 0),
-        cladding_layers=((2, 0),),
-        cladding_offsets=(cladding_offset,),
-    )
-    core, cladding = xs.sections
+    nominal_width = float(width_fn(0.5))
+    nominal_offset = offset_fn(0.5)
+    assume(nominal_width > 0.01)
 
-    assert core.width_function is width_fn
-    assert core.offset_function is offset_fn
-    assert cladding.width_function is not None
-    sampled = cladding.width_function(t_points)
-    np.testing.assert_allclose(
-        sampled,
-        width_fn(t_points) + 2 * cladding_offset,
-        err_msg="Sampled cladding width does not match expected mathematical output.",
+    with pytest.warns(gf.cross_section.CrossSectionWarning):
+        xs = gf.cross_section.cross_section(
+            width=width_fn,
+            offset=offset_fn,
+            layer=(1, 0),
+            cladding_layers=((2, 0),),
+            cladding_offsets=(cladding_offset,),
+        )
+
+    core, cladding = xs.get_sections()
+    assert core.width == pytest.approx(nominal_width, abs=2 * gf.kcl.dbu)
+    assert core.section_min == pytest.approx(
+        nominal_offset - nominal_width / 2, abs=gf.kcl.dbu
+    )
+    assert cladding.width == pytest.approx(
+        nominal_width + 2 * cladding_offset, abs=2 * gf.kcl.dbu
     )
 
 
 def test_is_cross_section_private() -> None:
-    def _private_xs() -> gf.CrossSection:
+    def _private_xs() -> gf.DCrossSection:
         return gf.cross_section.cross_section(width=1.0, layer=(1, 0))
 
     assert not gf.cross_section.is_cross_section("_private_xs", _private_xs)
 
 
 def test_taper_cross_section_instance_matches_name() -> None:
-    """Taper must honor width overrides when cross_section is a CrossSection.
+    """Taper must honor width overrides for a native cross-section.
 
-    Passing a CrossSection instance used to drop the taper's width overrides
-    (and reuse one geometry for both ports), giving a different result than the
-    equivalent string spec and poisoning the cell cache (#4588).
+    Passing a native cross-section instance must preserve the taper's width
+    overrides (and not reuse one geometry for both ports), matching the
+    equivalent string spec and avoiding cell-cache poisoning (#4588).
     """
-    from gdsfactory.cross_section import CrossSection, Section, xsection
+    from gdsfactory.cross_section import xsection
 
     @xsection
-    def _xs_4588(width: float = 0.5) -> CrossSection:
-        return CrossSection(
-            sections=(
-                Section(
-                    width=width,
-                    layer=(1, 0),
-                    port_names=("o1", "o2"),
-                    port_types=("optical", "optical"),
-                ),
-            ),
+    def _xs_4588(width: float = 0.5) -> gf.DCrossSection:
+        return gf.cross_section.cross_section(
+            width=width,
+            layer=(1, 0),
+            port_names=("o1", "o2"),
+            port_types=("optical", "optical"),
         )
 
     def _from_spec() -> gf.Component:

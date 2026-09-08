@@ -11,6 +11,13 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section import (
+    AsymmetricExtrusionSpec,
+    ExtrusionSection,
+    SectionReference,
+    SymmetricExtrusionSpec,
+    TransitionSection,
+)
 from gdsfactory.typings import CrossSectionSpec, LayerSpec, LayerSpecs
 
 from .._schematic import transition_schematic
@@ -54,6 +61,7 @@ def taper_cross_section(
     x1 = gf.get_cross_section(cross_section1)
     x2 = gf.get_cross_section(cross_section2)
 
+    excluded: set[int] = set()
     if exclude_layers:
         layers: list[LayerSpec] = (
             list(exclude_layers)
@@ -61,28 +69,70 @@ def taper_cross_section(
             and not (len(exclude_layers) == 2 and isinstance(exclude_layers[0], int))
             else [exclude_layers]  # type: ignore[list-item]
         )
-        excluded = {gf.get_layer(layer) for layer in layers}
+        excluded = {int(gf.get_layer(layer)) for layer in layers}
 
-        def _mark_skip(sections: tuple[gf.Section, ...]) -> tuple[gf.Section, ...]:
-            return tuple(
-                s.model_copy(update={"skip_transition": True})
-                if gf.get_layer(s.layer) in excluded
-                else s
-                for s in sections
+    def _references(
+        xs: gf.CrossSection,
+    ) -> dict[tuple[tuple[int, int], int], SectionReference]:
+        counts: dict[tuple[int, int], int] = {}
+        result: dict[tuple[tuple[int, int], int], SectionReference] = {}
+        for section in xs.get_sections():
+            key = gf.get_layer_tuple(section.layer)
+            index = counts.get(key, 0)
+            counts[key] = index + 1
+            result[(key, index)] = SectionReference(layer=key, index=index)
+        return result
+
+    references1 = _references(x1)
+    references2 = _references(x2)
+    mappings: list[TransitionSection] = []
+    for key, start_ref in references1.items():
+        end_ref = references2.get(key)
+        layer = key[0][0]
+        mappings.append(
+            TransitionSection(
+                start=start_ref,
+                end=end_ref,
+                extrusion=ExtrusionSection(
+                    port_names=("o1", "o2")
+                    if key == ((gf.get_layer_tuple(x1.layer)), 0)
+                    else (None, None),
+                    hidden=layer in excluded,
+                ),
             )
+        )
+    for key, end_ref in references2.items():
+        if key not in references1:
+            mappings.append(TransitionSection(start=None, end=end_ref))
 
-        x1 = x1.model_copy(update={"sections": _mark_skip(x1.sections)})
-        x2 = x2.model_copy(update={"sections": _mark_skip(x2.sections)})
+    if x1.is_symmetric() and x2.is_symmetric():
+        extrusion_spec: SymmetricExtrusionSpec | AsymmetricExtrusionSpec = (
+            SymmetricExtrusionSpec(sections=tuple(mappings))
+        )
+    else:
+        extrusion_spec = AsymmetricExtrusionSpec(sections=tuple(mappings))
 
     if x1 == x2 and not exclude_layers:
         return gf.components.straight(length=length, cross_section=x1)
 
-    transition = gf.path.transition(
-        cross_section1=x1,
-        cross_section2=x2,
-        width_type="linear" if linear else width_type,  # type: ignore
-        offset_type="linear" if linear else width_type,  # type: ignore
-    )
+    if x1.is_symmetric() and x2.is_symmetric():
+        transition = gf.path.transition(
+            cross_section1=x1,
+            cross_section2=x2,
+            width_type="linear" if linear else width_type,  # type: ignore
+            offset_type="linear" if linear else width_type,  # type: ignore
+            extrusion_spec=extrusion_spec,  # type: ignore[arg-type]
+        )
+    else:
+        transition = gf.path.transition_asymmetric(
+            cross_section1=x1,
+            cross_section2=x2,
+            width_type1="linear" if linear else width_type,  # type: ignore
+            width_type2="linear" if linear else width_type,  # type: ignore
+            offset_type1="linear" if linear else width_type,  # type: ignore
+            offset_type2="linear" if linear else width_type,  # type: ignore
+            extrusion_spec=extrusion_spec,  # type: ignore[arg-type]
+        )
     taper_path = gf.path.straight(length=length, npoints=npoints)
 
     c = gf.Component()

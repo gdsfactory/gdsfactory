@@ -20,7 +20,15 @@ if __name__ == "__main__":
     s0 = gf.Section(width=2, offset=-4, layer=(2, 0))
     s1 = gf.Section(width=2, offset=4, layer=(2, 0))
 
-    x = gf.CrossSection(sections=(s0, s1, g), radius=8)
+    x = gf.cross_section.cross_section(
+        width=g.width,
+        offset=g.offset,
+        layer=g.layer,
+        sections=(s0, s1),
+        radius=8,
+        port_names=g.port_names,
+        port_types=g.port_types,
+    )
     c = gf.path.extrude(p, cross_section=x)
     pad = c
 

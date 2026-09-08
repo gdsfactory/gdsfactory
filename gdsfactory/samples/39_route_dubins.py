@@ -21,5 +21,6 @@ if __name__ == "__main__":
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],
         cross_section=gf.cross_section.strip(width=3.2, radius=100),
+        radius=100,
     )
     c.show()
