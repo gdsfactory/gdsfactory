@@ -9,13 +9,12 @@ from __future__ import annotations
 import hashlib
 import warnings
 from collections.abc import Callable
-from typing import Any, Self
+from typing import Any, Self, TypeAlias
 
+import kfactory as kf
 import numpy as np
 from kfactory import (
     AsymmetricalCrossSection,
-    AsymmetricCrossSection,
-    CrossSection,
     DAsymmetricalCrossSection,
     DAsymmetricCrossSection,
     DCrossSection,
@@ -36,6 +35,13 @@ from gdsfactory.component import Component
 from gdsfactory.config import CONF, ErrorType
 
 nm = 1e-3
+
+# Public gdsfactory cross-sections are the µm-based kfactory wrappers.  The
+# DBU-based kfactory classes remain valid resolver inputs through CrossSectionSpec
+# below, but are deliberately not aliased to ``gf.CrossSection``.
+SymmetricCrossSection: TypeAlias = DCrossSection  # noqa: UP040
+AsymmetricCrossSection: TypeAlias = DAsymmetricCrossSection  # noqa: UP040
+CrossSection: TypeAlias = SymmetricCrossSection | AsymmetricCrossSection  # noqa: UP040
 
 
 port_names_electrical: typings.IOPorts = ("e1", "e2")
@@ -503,17 +509,16 @@ class TransitionAsymmetric(BaseModel, arbitrary_types_allowed=True):
         )
 
 
+type CrossSectionFactory = Callable[..., "CrossSection"]
 type LegacyCrossSectionFactory = Callable[..., "LegacyCrossSection"]
 type CrossSectionSpec = (
-    LegacyCrossSection
-    | str
+    str
     | dict[str, Any]
-    | LegacyCrossSectionFactory
     | CrossSection
+    | CrossSectionFactory
+    | kf.CrossSection
     | SymmetricalCrossSection
-    | DCrossSection
+    | kf.AsymmetricCrossSection
     | AsymmetricalCrossSection
     | DAsymmetricalCrossSection
-    | AsymmetricCrossSection
-    | DAsymmetricCrossSection
 )
