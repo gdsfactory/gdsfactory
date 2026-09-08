@@ -18,8 +18,6 @@ All public names are re-exported here for full backward compatibility with
 # --- base classes, type aliases, and constants ---
 from kfactory import (
     AsymmetricalCrossSection,
-    AsymmetricCrossSection,
-    CrossSection,
     DAsymmetricalCrossSection,
     DAsymmetricCrossSection,
     DCrossSection,
@@ -27,12 +25,16 @@ from kfactory import (
 )
 
 from gdsfactory.cross_section.base import (
+    AsymmetricCrossSection,
     ComponentAlongPath,
+    CrossSection,
+    CrossSectionFactory,
     CrossSectionSpec,
     LegacyCrossSection,
     LegacyCrossSectionFactory,
     Section,
     Sections,
+    SymmetricCrossSection,
     Transition,
     TransitionAsymmetric,
     cladding_layers_optical,
@@ -116,6 +118,7 @@ __all__ = [
     "AsymmetricalCrossSection",
     "ComponentAlongPath",
     "CrossSection",
+    "CrossSectionFactory",
     "CrossSectionSpec",
     "DAsymmetricCrossSection",
     "DAsymmetricalCrossSection",
@@ -127,6 +130,7 @@ __all__ = [
     "P",
     "Section",
     "Sections",
+    "SymmetricCrossSection",
     "SymmetricalCrossSection",
     "Transition",
     "TransitionAsymmetric",
