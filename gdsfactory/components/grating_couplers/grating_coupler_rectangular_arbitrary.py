@@ -141,5 +141,5 @@ def grating_coupler_rectangular_arbitrary(
     c.info["wavelength"] = wavelength
     c.info["fiber_angle"] = fiber_angle
 
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     return c

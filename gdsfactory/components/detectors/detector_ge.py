@@ -44,13 +44,11 @@ def ge_detector_straight_si_contacts(
         taper_cros_section: cross_section of the taper.
     """
     c = Component()
-    xs = gf.get_cross_section(taper_cros_section)
 
-    taper = gf.c.taper(
-        width1=xs.width,
-        width2=taper_width,
+    taper = gf.c.taper_cross_section(
+        cross_section1=taper_cros_section,
+        cross_section2=cross_section,
         length=taper_length,
-        cross_section=taper_cros_section,
     )
 
     via_stack = gf.get_component(
@@ -64,7 +62,7 @@ def ge_detector_straight_si_contacts(
     )
 
     t1 = c << taper
-    t1.connect("o2", wg["o1"], allow_width_mismatch=True)
+    t1.connect("o2", wg["o1"], allow_width_mismatch=True, mirror=True)
     c.add_port("o1", port=t1["o1"])
 
     via_stack_top = c << via_stack

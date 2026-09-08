@@ -86,8 +86,8 @@ def coupler_adiabatic(
     width = float(x.width)
     width_top = width + dw
     width_bot = width - dw
-    x_top = x.copy(width=width_top)
-    x_bot = x.copy(width=width_bot)
+    x_top = gf.cross_section.copy_cross_section(x, width=width_top)
+    x_bot = gf.cross_section.copy_cross_section(x, width=width_bot)
 
     coupler = c << gf.components.coupler_straight(length=length2, cross_section=x)
 

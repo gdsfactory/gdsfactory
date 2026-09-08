@@ -6,7 +6,14 @@ from scipy.integrate import quad
 
 import gdsfactory as gf
 from gdsfactory import Section
-from gdsfactory.cross_section import LegacyCrossSection
+from gdsfactory.cross_section import (
+    AsymmetricExtrusionSpec,
+    ExtrusionSection,
+    LegacyCrossSection,
+    SectionReference,
+    SymmetricExtrusionSpec,
+    TransitionSection,
+)
 from gdsfactory.gpdk import LAYER
 from gdsfactory.typings import LayerSpec
 
@@ -52,6 +59,56 @@ def test_extrude_transition() -> None:
     expected_area = (w1 + w2) / 2 * length
     actual_area = c.area((1, 0))
     assert actual_area == expected_area
+
+
+def test_native_transition_keeps_identical_enclosure() -> None:
+    xs1 = gf.cross_section.cross_section(
+        width=1.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(1.0,),
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=2.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(1.0,),
+    )
+
+    c = gf.path.extrude_transition(
+        gf.path.straight(length=10, npoints=11),
+        gf.path.transition(xs1, xs2, width_type="linear"),
+    )
+
+    assert c.ports["o1"].width == 1.0
+    assert c.ports["o2"].width == 2.0
+    assert c.area("SLAB90") == pytest.approx(35.0)
+
+
+def test_native_transition_requires_spec_for_changed_enclosure() -> None:
+    xs1 = gf.cross_section.cross_section(
+        width=1.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(1.0,),
+    )
+    xs2 = gf.cross_section.cross_section(
+        width=2.0,
+        layer="WG",
+        cladding_layers=("SLAB90",),
+        cladding_offsets=(2.0,),
+    )
+
+    with pytest.raises(ValueError, match="explicit SymmetricExtrusionSpec"):
+        gf.path.transition(xs1, xs2)
+
+
+def test_native_asymmetric_transition_requires_spec() -> None:
+    xs1 = gf.cross_section.cross_section(width=1.0, offset=0.1, layer="WG")
+    xs2 = gf.cross_section.cross_section(width=2.0, offset=0.2, layer="WG")
+
+    with pytest.raises(ValueError, match="AsymmetricExtrusionSpec"):
+        gf.path.transition_asymmetric(xs1, xs2)
 
 
 def test_extrude_transition_asymmetric() -> None:
@@ -138,6 +195,42 @@ def dummy_cladded_wg_cs(
     )
 
 
+def cladded_wg_transition_spec(
+    xs1: gf.CrossSection,
+    xs2: gf.CrossSection,
+    *,
+    asymmetric: bool = False,
+) -> SymmetricExtrusionSpec | AsymmetricExtrusionSpec:
+    """Map the intent/core/cladding strips explicitly for native transitions."""
+
+    def refs(xs: gf.CrossSection) -> tuple[SectionReference, ...]:
+        counts: dict[tuple[int, int], int] = {}
+        result = []
+        for section in xs.get_sections():
+            layer = gf.get_layer_tuple(section.layer)
+            index = counts.get(layer, 0)
+            counts[layer] = index + 1
+            result.append(SectionReference(layer=layer, index=index))
+        return tuple(result)
+
+    refs1 = refs(xs1)
+    refs2 = refs(xs2)
+    mappings = (
+        TransitionSection(
+            start=refs1[0],
+            extrusion=ExtrusionSection(port_names=("o1", None)),
+        ),
+        TransitionSection(start=refs1[1], end=refs2[1]),
+        TransitionSection(start=refs1[2], end=refs2[2]),
+        TransitionSection(
+            end=refs2[0],
+            extrusion=ExtrusionSection(port_names=(None, "o2")),
+        ),
+    )
+    spec_type = AsymmetricExtrusionSpec if asymmetric else SymmetricExtrusionSpec
+    return spec_type(sections=mappings)
+
+
 def test_transition_cross_section_different_layers() -> None:
     core_width = 1
     w1 = 1
@@ -164,7 +257,11 @@ def test_transition_cross_section_different_layers() -> None:
         clad_layer="WGCLAD",
         clad_width=w2,
     )
-    transition = gf.path.transition(cs1, cs2)
+    transition = gf.path.transition(
+        cs1,
+        cs2,
+        extrusion_spec=cladded_wg_transition_spec(cs1, cs2),
+    )
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
 
@@ -213,7 +310,11 @@ def test_transition_asymmetric_cross_section_different_layers() -> None:
         clad_width=w2,
     )
     transition = gf.path.transition_asymmetric(
-        cs1, cs2, width_type1=polynomial, width_type2="linear"
+        cs1,
+        cs2,
+        width_type1=polynomial,
+        width_type2="linear",
+        extrusion_spec=cladded_wg_transition_spec(cs1, cs2, asymmetric=True),
     )
     # In order to have a transition other than linear, we need to sample more points along the path
     p = gf.path.straight(length=length, npoints=100)

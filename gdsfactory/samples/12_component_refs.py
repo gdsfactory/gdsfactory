@@ -87,7 +87,7 @@ def crossing(
             port_id += 1
 
     c.auto_rename_ports()
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
     c.flatten()
     return c
 

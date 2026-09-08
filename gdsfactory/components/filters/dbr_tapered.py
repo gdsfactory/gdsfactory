@@ -102,7 +102,9 @@ def dbr_tapered(
     """
     c = gf.Component()
 
-    xs = gf.get_cross_section(cross_section=cross_section, width=w2)
+    xs = gf.cross_section.copy_cross_section(
+        gf.get_cross_section(cross_section=cross_section), width=w2
+    )
 
     input_taper = c << gf.components.taper(
         length=taper_length,
@@ -147,7 +149,7 @@ def dbr_tapered(
             cross_section=xs,
         )
 
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     c.add_port("o1", port=input_taper.ports["o1"])
     c.add_port("o2", port=output_taper.ports["o2"])
     return c

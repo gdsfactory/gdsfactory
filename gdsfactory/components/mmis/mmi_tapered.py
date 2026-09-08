@@ -181,7 +181,7 @@ def mmi_tapered(
         taper_outer_ref.connect("o2", taper_ref["o1"], allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_outer_ref.ports["o1"])
 
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
     c.auto_rename_ports()
     c.flatten()
     return c

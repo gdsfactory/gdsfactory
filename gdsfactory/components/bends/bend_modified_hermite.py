@@ -139,7 +139,7 @@ def _bend_modified_hermite(
         )
 
     xsec = gf.get_cross_section(cross_section)
-    if len(xsec.sections) > 1:
+    if len(xsec.get_sections()) > 1:
         warnings.warn(
             "bend_modified_hermite cross_section should have only one Section, as this bend varies the width of this one layer. Defaulting to using first Section.",
             UserWarning,
@@ -194,7 +194,7 @@ def _bend_modified_hermite(
     min_bend_radius = np.min(1 / np.abs(curvature))
 
     if not allow_min_radius_violation:
-        xsec.validate_radius(radius=min_bend_radius)
+        gf.cross_section.validate_radius(xsec, radius=min_bend_radius)
 
     polygon_points = np.concat(
         (inner_bend_points, np.flip(outer_bend_points, axis=0)), axis=0

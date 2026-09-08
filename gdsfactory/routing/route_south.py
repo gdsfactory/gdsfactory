@@ -39,6 +39,7 @@ def route_south(
     port_type: str | None = None,
     allow_width_mismatch: bool = False,
     auto_taper: bool = True,
+    radius: float | None = None,
 ) -> list[ManhattanRoute]:
     """Places routes to route a component ports to the south.
 
@@ -62,6 +63,7 @@ def route_south(
         port_type: optical or electrical.
         allow_width_mismatch: allow width mismatch.
         auto_taper: auto taper.
+        radius: bend radius. If None, uses the cross-section's operation default.
 
     Works well if the component looks roughly like a rectangular box with:
         north ports on the north of the box.
@@ -80,6 +82,7 @@ def route_south(
         ```
     """
     xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius or gf.get_cross_section_radius(cross_section)
     excluded_ports = excluded_ports or ()
     start_straight_length0 = start_straight_length
     routes: list[ManhattanRoute] = []
@@ -105,9 +108,16 @@ def route_south(
         return []
 
     port_type = port_type or optical_ports[0].port_type
-    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
-    bend90 = gf.get_component(bend90)
-    dy = abs(bend90.info["dy"])
+    bend90 = (
+        bend(cross_section=cross_section, radius=radius) if callable(bend) else bend
+    )
+    if isinstance(bend90, gf.Component):
+        bend90_component = bend90
+    else:
+        bend90_component = gf.get_component(
+            bend90, cross_section=cross_section, radius=radius
+        )
+    dy = abs(bend90_component.info["dy"])
 
     # Handle empty list gracefully
 
@@ -119,6 +129,7 @@ def route_south(
         port_type=port_type,
         allow_width_mismatch=allow_width_mismatch,
         auto_taper=False,
+        radius=radius,
     )
 
     # Used to avoid crossing between straights in special cases

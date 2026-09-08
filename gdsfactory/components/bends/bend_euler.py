@@ -10,6 +10,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.cross_section import ExtrusionSpec
 from gdsfactory.path import euler
 from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
 
@@ -29,6 +30,7 @@ def _bend_euler(
     allow_min_radius_violation: bool = False,
     all_angle: Literal[False] = False,
     angular_step: float | None = None,
+    extrusion_spec: ExtrusionSpec | None = None,
 ) -> Component: ...
 
 
@@ -45,6 +47,7 @@ def _bend_euler(
     allow_min_radius_violation: bool = False,
     all_angle: Literal[True] = True,
     angular_step: float | None = None,
+    extrusion_spec: ExtrusionSpec | None = None,
 ) -> ComponentAllAngle: ...
 
 
@@ -60,6 +63,7 @@ def _bend_euler(
     allow_min_radius_violation: bool = False,
     all_angle: bool = False,
     angular_step: float | None = None,
+    extrusion_spec: ExtrusionSpec | None = None,
 ) -> AnyComponent:
     """Euler bend with changing bend radius.
 
@@ -86,6 +90,7 @@ def _bend_euler(
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         all_angle: if True, the bend is drawn with a single euler curve.
         angular_step: if not None, the angle step in degrees for the all_angle bend.
+        extrusion_spec: optional extrusion metadata for the path sections.
 
     ```text
                   o2
@@ -97,19 +102,13 @@ def _bend_euler(
     ```
     """
     x = gf.get_cross_section(cross_section)
-    radius = radius or x.radius
+    radius = radius or x.radius or gf.get_cross_section_radius(cross_section)
 
     if radius is None:
         raise ValueError("radius must be specified")
 
-    if layer and width:
-        x = gf.get_cross_section(
-            cross_section, layer=layer or x.layer, width=width or x.width
-        )
-    elif layer:
-        x = gf.get_cross_section(cross_section, layer=layer or x.layer)
-    elif width:
-        x = gf.get_cross_section(cross_section, width=width or x.width)
+    if layer is not None or width is not None:
+        x = gf.cross_section.copy_cross_section(x, layer=layer, width=width)
 
     path = euler(
         radius=radius,
@@ -119,7 +118,7 @@ def _bend_euler(
         npoints=npoints,
         angular_step=angular_step,
     )
-    c = path.extrude(x, all_angle=all_angle)
+    c = path.extrude(x, all_angle=all_angle, extrusion_spec=extrusion_spec)
     min_bend_radius = float(np.round(path.info["Rmin"], 3))
     c.info["length"] = float(np.round(path.length(), 3))
     c.info["dy"] = float(
@@ -130,11 +129,11 @@ def _bend_euler(
     c.info["width"] = float(width or x.width)
 
     if not allow_min_radius_violation:
-        x.validate_radius(radius)
+        gf.cross_section.validate_radius(x, radius)
 
     top = None if int(angle) in {180, -180, -90} else 0
-    bottom = 0 if int(angle) in {-90} else None
-    x.add_bbox(c, top=top, bottom=bottom)
+    bottom = 0 if int(angle) == -90 else None
+    gf.path.add_bbox(c, x, top=top, bottom=bottom)
     c.add_route_info(
         cross_section=x,
         length=c.info["length"],
@@ -218,6 +217,7 @@ def bend_euler(
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
+    extrusion_spec: ExtrusionSpec | None = None,
 ) -> Component:
     """Regular degree euler bend.
 
@@ -232,6 +232,7 @@ def bend_euler(
         width: width to use. Defaults to cross_section.width.
         cross_section: specification (LegacyCrossSection, string, LegacyCrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
+        extrusion_spec: optional extrusion metadata for the path sections.
     """
     if abs(angle) not in {90, 180}:
         warnings.warn(
@@ -251,6 +252,7 @@ def bend_euler(
         width=width,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
+        extrusion_spec=extrusion_spec,
         all_angle=False,
     )
 

@@ -424,4 +424,60 @@ def kfactory_cross_section(
         )
 
 
-__all__ = ["KFactorySectionSpec", "kfactory_cross_section"]
+def copy_cross_section(
+    cross_section: kf.DCrossSection | kf.DAsymmetricCrossSection,
+    *,
+    width: float | None = None,
+    layer: typings.LayerSpec | kf.kdb.LayerInfo | None = None,
+) -> kf.DCrossSection | kf.DAsymmetricCrossSection:
+    """Copy native geometry with an explicit width or main layer override.
+
+    Radius is intentionally not an argument. Copied profiles do not carry the
+    source radius metadata; bend and route radius belongs to the operation
+    consuming the profile.
+    """
+    if width is None and layer is None:
+        return cross_section
+
+    target_layer = _layer_info(layer) if layer is not None else cross_section.layer
+    target_width = cross_section.width if width is None else float(width)
+    bbox_layers = list(cross_section.bbox_sections)
+    bbox_offsets = [cross_section.bbox_sections[item] for item in bbox_layers]
+    if isinstance(cross_section, kf.DCrossSection):
+        target_width_dbu = cross_section.kcl.to_dbu(target_width)
+        if target_width_dbu % 2:
+            target_width_dbu += 1
+        target_width = cross_section.kcl.to_um(target_width_dbu)
+        sections: list[tuple[Any, ...]] = []
+        for section_layer, layer_sections in cross_section.sections.items():
+            for section_min, section_max in layer_sections:
+                sections.append(
+                    (section_layer, section_max)
+                    if section_min is None
+                    else (section_layer, section_min, section_max)
+                )
+        return kf.DCrossSection(
+            kcl=cross_section.kcl,
+            width=target_width,
+            layer=target_layer,
+            sections=sections,
+            bbox_layers=bbox_layers,
+            bbox_offsets=bbox_offsets,
+            radius=None,
+            radius_min=None,
+        )
+
+    center = (cross_section.section_min + cross_section.section_max) / 2
+    return kf.DAsymmetricCrossSection(
+        kcl=cross_section.kcl,
+        section_min=center - target_width / 2,
+        section_max=center + target_width / 2,
+        layer=target_layer,
+        sections=cross_section.sections,
+        bbox_sections=cross_section.bbox_sections,
+        radius=None,
+        radius_min=None,
+    )
+
+
+__all__ = ["KFactorySectionSpec", "copy_cross_section", "kfactory_cross_section"]

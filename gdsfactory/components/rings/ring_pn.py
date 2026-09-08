@@ -8,7 +8,7 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cross_section import Section, rib
+from gdsfactory.cross_section import ExtrusionSection, ExtrusionSpec, Section, rib
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
@@ -33,6 +33,28 @@ cross_section_pn = partial(
     layer_metal="M1",
     width_metal=0.5,
 )
+
+
+def _pn_extrusion_spec() -> ExtrusionSpec:
+    """Return extrusion metadata for the default PN cross-section.
+
+    Native cross-sections intentionally contain geometry only.  The default
+    PN profile has two M1 strips after native section normalization; these are
+    the electrical ports that the ring component uses.
+    """
+    sections = [ExtrusionSection() for _ in range(12)]
+    sections[0] = ExtrusionSection(port_names=("o1", "o2"))
+    sections[1] = ExtrusionSection(
+        port_names=("e1_bot", "e2_bot"),
+        port_types=("electrical", "electrical"),
+    )
+    sections[2] = ExtrusionSection(
+        port_names=("e1_top", "e2_top"),
+        port_types=("electrical", "electrical"),
+    )
+    return ExtrusionSpec(sections=tuple(sections))
+
+
 _heater_vias = partial(
     via_stack,
     size=(0.5, 0.5),
@@ -96,7 +118,12 @@ def ring_double_pn(
 
     pn_cross_section_ = gf.get_cross_section(pn_cross_section, **kwargs)
     cross_section_ = gf.get_cross_section(cross_section, **kwargs)
-    cross_section_ = cross_section_.copy(**kwargs)
+    if kwargs:
+        cross_section_ = gf.cross_section.copy_cross_section(
+            cross_section_,
+            width=kwargs.get("width"),
+            layer=kwargs.get("layer"),
+        )
 
     heater_vias = gf.get_component(heater_vias)
     undoping_angle = 180 - doping_angle
@@ -105,7 +132,9 @@ def ring_double_pn(
     th_waveguide_path.append(
         gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
     )
-    th_waveguide = c << th_waveguide_path.extrude(cross_section=cross_section_)
+    th_waveguide = c << th_waveguide_path.extrude(
+        cross_section=cross_section_, port_cross_section=False
+    )
     th_waveguide.x = 0
     th_waveguide.y = (
         -radius
@@ -121,16 +150,32 @@ def ring_double_pn(
 
     r = gf.ComponentAllAngle()
     left_doped_ring_ref = r.add_ref_off_grid(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
+        doped_path.extrude(
+            cross_section=pn_cross_section_,
+            all_angle=True,
+            port_cross_section=False,
+        )
     )
     right_doped_ring_ref = r.add_ref_off_grid(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
+        doped_path.extrude(
+            cross_section=pn_cross_section_,
+            all_angle=True,
+            port_cross_section=False,
+        )
     )
     bottom_undoped_ring_ref = r.add_ref_off_grid(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
+        undoped_path.extrude(
+            cross_section=cross_section_,
+            all_angle=True,
+            port_cross_section=False,
+        )
     )
     top_undoped_ring_ref = r.add_ref_off_grid(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
+        undoped_path.extrude(
+            cross_section=cross_section_,
+            all_angle=True,
+            port_cross_section=False,
+        )
     )
 
     bottom_undoped_ring_ref.rotate(-undoping_angle / 2)
@@ -276,9 +321,14 @@ def ring_single_pn(
     undoped_path = gf.Path()
     undoped_path.append(gf.path.arc(radius=radius, angle=undoping_angle))
 
-    doped_ring_ref = r << doped_path.extrude(cross_section=pn_xs, all_angle=False)
+    doped_ring_ref = r << doped_path.extrude(
+        cross_section=pn_xs,
+        all_angle=False,
+        extrusion_spec=_pn_extrusion_spec(),
+        port_cross_section=False,
+    )
     undoped_ring_ref = r << undoped_path.extrude(
-        cross_section=cross_section, all_angle=False
+        cross_section=cross_section, all_angle=False, port_cross_section=False
     )
     undoped_ring_ref.rotate(-undoping_angle / 2)
     undoped_ring_ref.center = (0, 0)

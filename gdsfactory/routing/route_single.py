@@ -146,13 +146,14 @@ def route_single(
             port_types=(port_type, port_type),
         )
 
-    if route_width:
-        xs = gf.get_cross_section(cross_section, width=route_width)
-    else:
-        xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section)
+    # Capture the routing radius before applying a width override. Native
+    # cross-section copies intentionally do not carry radius metadata: radius
+    # belongs to the bend/routing operation, not to the geometry profile.
+    radius = radius or xs.radius or gf.get_cross_section_radius(cross_section)
+    if route_width and route_width != xs.width:
+        xs = gf.cross_section.copy_cross_section(xs, width=route_width)
     width = route_width or xs.width
-
-    radius = radius or xs.radius
     bend90 = gf.get_component(bend, cross_section=xs, radius=radius, width=width)
     if auto_taper:
         p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]

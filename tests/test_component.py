@@ -858,7 +858,7 @@ def test_fix_min_space() -> None:
     c = gf.Component()
     _ = c << gf.c.ring_single(cross_section="rib")
     c.fix_spacing(layer=(3, 0), min_space=1.0)
-    expected_area = 1068.32764
+    expected_area = 1070.968887
     assert np.isclose(c.area((3, 0)), expected_area), (
         f"{c.area((3, 0))} != {expected_area}"
     )

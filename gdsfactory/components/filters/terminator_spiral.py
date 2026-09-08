@@ -30,7 +30,9 @@ def terminator_spiral(
         cross_section: input cross-section.
     """
     cross_section_main = gf.get_cross_section(cross_section)
-    cross_section_tip = gf.get_cross_section(cross_section, width=width_tip)
+    cross_section_tip = gf.cross_section.copy_cross_section(
+        cross_section_main, width=width_tip
+    )
 
     xs = transition(
         cross_section2=cross_section_main,

@@ -168,7 +168,7 @@ def grating_coupler_elliptical(
             layer_slab,
         )
 
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     c.add_port(
         name="o2",
         center=(x, 0),

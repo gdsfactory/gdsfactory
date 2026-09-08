@@ -22,8 +22,8 @@ instances:
       - 2
       straight: straight
       straight_length: 30
-  straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_0_12000:
-    component: straight
+  wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_0_12000:
+    component: wire_straight
     info:
       length: 30
       route_info_length: 30
@@ -36,8 +36,8 @@ instances:
       length: 30
       npoints: 2
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_30000_m30000_A180:
-    component: straight
+  wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_30000_m30000_A180:
+    component: wire_straight
     info:
       length: 30
       route_info_length: 30
@@ -57,20 +57,20 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_0_12000:
+  wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_0_12000:
     mirror: false
     rotation: 0
     x: 0
     y: 12
-  straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_30000_m30000_A180:
+  wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_30000_m30000_A180:
     mirror: false
     rotation: 180
     x: 30
     y: -30
 ports:
-  bot_e1: straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_0_12000,e1
-  bot_e2: straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_0_12000,e2
+  bot_e1: wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_0_12000,e1
+  bot_e2: wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_0_12000,e2
   o1: spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_7ac50a2e_0_0,o1
   o2: spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_7ac50a2e_0_0,o2
-  top_e1: straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_30000_m30000_A180,e1
-  top_e2: straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a_30000_m30000_A180,e2
+  top_e1: wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_30000_m30000_A180,e1
+  top_e2: wire_straight_gdsfactorypcomponentspwaveguidespstraight_24a18df0_30000_m30000_A180,e2

@@ -29,7 +29,7 @@ instances:
       length_y: 0
       radius: 10
       straight: straight
-  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_0:
     component: straight
     info:
       length: 20
@@ -42,8 +42,14 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_62800:
     component: straight
     info:
       length: 20
@@ -56,6 +62,12 @@ instances:
       cross_section: strip
       length: 20
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets: []
 placements:
@@ -74,18 +86,18 @@ placements:
     rotation: 0
     x: 0
     y: 0.7
-  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_0:
     mirror: false
     rotation: 0
     x: -10
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_62800:
     mirror: false
     rotation: 0
     x: -10
     y: 62.8
 ports:
-  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0,o1
-  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_0,o2
-  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800,o1
-  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163_m10000_62800,o2
+  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_0,o1
+  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_0,o2
+  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_62800,o1
+  o4: straight_gdsfactorypcomponentspwaveguidespstraight_L20__cb98df00_m10000_62800,o2

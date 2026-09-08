@@ -89,7 +89,7 @@ def test_taper_cross_section_round_tripped_layer_spec() -> None:
 
     t1 = gf.components.taper_cross_section(xs1, xs2, length=10, linear=True)
     xs1_rt = gf.get_cross_section(t1.ports["o1"].cross_section)
-    assert xs1_rt.sections[0].layer == xs1.sections[0].layer
+    assert xs1_rt.get_sections()[0].layer == xs1.get_sections()[0].layer
 
     t2 = gf.components.taper_cross_section(xs1_rt, xs2, length=10, linear=True)
     assert any(t2.get_polygons(merge=False).values())

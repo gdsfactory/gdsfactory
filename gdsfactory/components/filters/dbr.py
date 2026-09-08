@@ -56,8 +56,9 @@ def dbr_cell(
     l2 = snap_to_grid(l2)
     w1 = snap_to_grid(w1, 2)
     w2 = snap_to_grid(w2, 2)
-    xs1 = gf.get_cross_section(cross_section, width=w1)
-    xs2 = gf.get_cross_section(cross_section, width=w2)
+    x = gf.get_cross_section(cross_section)
+    xs1 = gf.cross_section.copy_cross_section(x, width=w1)
+    xs2 = gf.cross_section.copy_cross_section(x, width=w2)
 
     c = Component()
     c1 = c << gf.c.straight(length=l1, cross_section=xs1)

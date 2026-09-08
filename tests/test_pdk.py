@@ -17,7 +17,7 @@ def test_get_cross_section() -> None:
     )
     cross_section = {"cross_section": "strip", "settings": {"width": 1}}
     xs = gf.get_cross_section(cross_section)
-    assert xs.sections[0].width == 1
+    assert xs.get_sections()[0].width == 1
 
 
 def test_get_layer() -> None:
@@ -317,10 +317,12 @@ def test_get_layer_name_exception_chaining() -> None:
     assert isinstance(exc_info.value.__cause__, (ValueError, KeyError, TypeError))
 
 
-def test_get_cross_section_instance_applies_kwargs() -> None:
-    """Overrides apply to LegacyCrossSection instances like they do for string specs (#4588)."""
+def test_get_cross_section_instance_rejects_kwargs() -> None:
+    """Native profile instances are copied explicitly instead of via the resolver."""
     xs = gf.get_cross_section("strip")
-    xs_wide = gf.get_cross_section(xs, width=2)
+    with pytest.raises(TypeError, match="Keyword overrides"):
+        gf.get_cross_section(xs, width=2)
+    xs_wide = gf.cross_section.copy_cross_section(xs, width=2)
     assert xs_wide.width == 2
     # the copy gets a derived name so it caches separately from the original
     assert xs_wide.name != xs.name
@@ -333,22 +335,19 @@ def test_get_cross_section_dict_applies_kwargs() -> None:
     spec = {"cross_section": "strip", "settings": {"width": 1}}
     assert gf.get_cross_section(spec).width == 1
     assert gf.get_cross_section(spec, width=3.0).width == 3.0
-    assert gf.get_cross_section(spec, radius=20).radius == 20
+    with pytest.raises(TypeError, match="radius overrides"):
+        gf.get_cross_section(spec, radius=20)
     # the override does not write back into spec["settings"]
     assert spec == {"cross_section": "strip", "settings": {"width": 1}}
 
 
-def test_get_cross_section_kfactory_applies_kwargs() -> None:
-    """A kfactory cross_section takes overrides like every other spec does."""
+def test_get_cross_section_kfactory_rejects_kwargs() -> None:
+    """Native profiles are copied explicitly and radius is operation metadata."""
     kf_xs = gf.components.straight().ports[0].cross_section
-    registered = gf.get_cross_section(kf_xs)
 
-    # the kfactory name describes the original, so an override cannot keep it
-    assert gf.get_cross_section(kf_xs, width=2.0).width == 2.0
-    assert gf.get_cross_section(kf_xs, width=2.0).name != registered.name
-
-    # an override that changes nothing leaves the name alone
-    assert gf.get_cross_section(kf_xs, radius=registered.radius).name == registered.name
+    with pytest.raises(TypeError, match="Keyword overrides"):
+        gf.get_cross_section(kf_xs, width=2.0)
+    assert gf.cross_section.copy_cross_section(kf_xs, width=2.0).width == 2.0
 
 
 def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
@@ -361,7 +360,7 @@ def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
     xs = gf.get_cross_section(sxs)
     assert xs.name == "unnamed_layer_xs"
     assert xs.width == 1.0
-    assert xs.layer == gf.get_layer((999, 999))
+    assert gf.get_layer_tuple(xs.layer) == (999, 999)
 
 
 def test_get_cross_section_invalid_spec_raises() -> None:

@@ -49,7 +49,7 @@ def straight_pin(
     """
     c = Component()
     if taper:
-        _taper = gf.get_component(taper)
+        _taper = gf.get_component(taper, cross_section=cross_section)
         length -= 2 * _taper.xsize
 
     wg = c << gf.components.straight(
@@ -60,8 +60,8 @@ def straight_pin(
     if taper:
         t1 = c << _taper
         t2 = c << _taper
-        t1.connect("o2", wg.ports["o1"])
-        t2.connect("o2", wg.ports["o2"])
+        t1.connect("o2", wg.ports["o1"], mirror=True)
+        t2.connect("o2", wg.ports["o2"], mirror=True)
         c.add_port("o1", port=t1.ports["o1"])
         c.add_port("o2", port=t2.ports["o1"])
 

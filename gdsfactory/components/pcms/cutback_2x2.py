@@ -27,19 +27,21 @@ def _bendu_double(
         port2: name of second optical port.
     """
     xs = gf.get_cross_section(cross_section)
-    radius = xs.radius
-    assert radius is not None
+    radius = gf.get_cross_section_radius(cross_section)
+    if radius is None:
+        raise ValueError(
+            "cutback_2x2 requires an explicit radius when the cross-section does "
+            "not define one."
+        )
 
-    xs_r2 = gf.get_cross_section(
-        cross_section,
-        radius=radius - (component.ports[port1].y - component.ports[port2].y),
-    )
+    radius_r2 = radius - (component.ports[port1].y - component.ports[port2].y)
 
     bendu = Component()
-    bend_r = bendu << gf.get_component(bend180, cross_section=xs)
+    bend_r = bendu << gf.get_component(bend180, cross_section=xs, radius=radius)
     bend_r2 = bendu << gf.get_component(
         bend180,
-        cross_section=xs_r2,
+        cross_section=xs,
+        radius=radius_r2,
     )
     bend_r2_instance = bend_r2.move(
         (0, component.ports[port1].y - component.ports[port2].y),
@@ -71,8 +73,12 @@ def _straight_double(
         straight: straight spec.
     """
     xs = gf.get_cross_section(cross_section)
-    radius = xs.radius
-    assert radius is not None
+    radius = gf.get_cross_section_radius(cross_section)
+    if radius is None:
+        raise ValueError(
+            "cutback_2x2 requires an explicit radius when the cross-section does "
+            "not define one."
+        )
 
     c = gf.Component()
     straight_component = gf.get_component(

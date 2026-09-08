@@ -74,16 +74,10 @@ def _bend_circular(
         o1_____/
     """
     x = gf.get_cross_section(cross_section)
-    radius = radius or x.radius
+    radius = radius or x.radius or gf.get_cross_section_radius(cross_section)
     assert radius is not None
-    if layer and width:
-        x = gf.get_cross_section(
-            cross_section, layer=layer or x.layer, width=width or x.width
-        )
-    elif layer:
-        x = gf.get_cross_section(cross_section, layer=layer or x.layer)
-    elif width:
-        x = gf.get_cross_section(cross_section, width=width or x.width)
+    if layer is not None or width is not None:
+        x = gf.cross_section.copy_cross_section(x, layer=layer, width=width)
 
     p = arc(radius=radius, angle=angle, npoints=npoints, angular_step=angular_step)
     c = p.extrude(x, all_angle=all_angle)
@@ -93,10 +87,10 @@ def _bend_circular(
     c.info["radius"] = float(radius)
     c.info["width"] = width or x.width
     top = None if int(angle) in {180, -180, -90} else 0
-    bottom = 0 if int(angle) in {-90} else None
-    x.add_bbox(c, top=top, bottom=bottom)
+    bottom = 0 if int(angle) == -90 else None
+    gf.path.add_bbox(c, x, top=top, bottom=bottom)
     if not allow_min_radius_violation:
-        x.validate_radius(radius)
+        gf.cross_section.validate_radius(x, radius)
     c.add_route_info(
         cross_section=x,
         length=c.info["length"],

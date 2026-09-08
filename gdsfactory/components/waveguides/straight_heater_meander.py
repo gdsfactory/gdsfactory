@@ -68,7 +68,7 @@ def straight_heater_meander(
     ports: dict[str, Port] = {}
 
     x = gf.get_cross_section(cross_section)
-    radius = radius or x.radius
+    radius = radius or x.radius or gf.get_cross_section_radius(cross_section)
     n = n or len(straight_widths)
 
     assert radius is not None
@@ -84,7 +84,9 @@ def straight_heater_meander(
 
     if straight_widths:
         for row, straight_width in enumerate(straight_widths):
-            cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
+            cross_section1 = gf.cross_section.copy_cross_section(
+                x, width=straight_width
+            )
 
             _straight = gf.c.straight(
                 length=straight_length - 2 * taper_length,

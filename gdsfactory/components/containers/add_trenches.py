@@ -56,7 +56,7 @@ def add_trenches(
     c.copy_child_info(component)
     if cross_section is not None:
         xs = gf.get_cross_section(cross_section)
-        xs.add_bbox(c)
+        gf.path.add_bbox(c, xs)
     return c
 
 

@@ -59,8 +59,14 @@ def coupler_bend(
     spacing = gap + width
 
     if radius is None:
-        radius = xi.radius or xo.radius
-        assert radius is not None, "cross_section must have a radius"
+        radius = gf.get_cross_section_radius(
+            cross_section_inner
+        ) or gf.get_cross_section_radius(cross_section_outer)
+        if radius is None:
+            raise ValueError(
+                "ring_single_bend_coupler requires an explicit radius when the "
+                "cross-section does not define one."
+            )
 
     bend90_inner_right = gf.get_component(
         bend,  # type: ignore[arg-type]

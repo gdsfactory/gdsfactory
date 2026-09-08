@@ -35,10 +35,9 @@ def cdsem_coupler(
         text_size: size of the text.
     """
     c = Component()
+    xs = gf.get_cross_section(cross_section)
     if width:
-        xs = gf.get_cross_section(cross_section, width=width)
-    else:
-        xs = gf.get_cross_section(cross_section)
+        xs = gf.cross_section.copy_cross_section(xs, width=width)
     p = 0.0
 
     if positions is not None:

@@ -12,7 +12,7 @@ instances:
       width: null
       width_mmi: 2.5
       width_taper: 1
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_625:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_625:
     component: straight
     info:
       length: 5
@@ -25,8 +25,14 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_m625:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_m625:
     component: straight
     info:
       length: 5
@@ -39,8 +45,14 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_m10000_0_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_m10000_0_A180:
     component: straight
     info:
       length: 5
@@ -53,36 +65,42 @@ instances:
       cross_section: strip
       length: 5
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
 nets:
 - p1: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_m10000_0_A180,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_m10000_0_A180,o1
 - p1: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_625,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_625,o1
 - p1: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0,o3
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_m625,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_m625,o1
 placements:
   mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_625:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_625:
     mirror: false
     rotation: 0
     x: 15.5
     y: 0.625
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_m625:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_m625:
     mirror: false
     rotation: 0
     x: 15.5
     y: -0.625
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_m10000_0_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_m10000_0_A180:
     mirror: false
     rotation: 180
     x: -10
     y: 0
 ports:
-  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_m10000_0_A180,o2
-  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_625,o2
-  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5_15500_m625,o2
+  o1: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_m10000_0_A180,o2
+  o2: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_625,o2
+  o3: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_856b29de_15500_m625,o2

@@ -28,8 +28,9 @@ def coupler_straight_asymmetric(
     """
     c = Component()
 
-    xs_top = gf.get_cross_section(cross_section, width=width_top)
-    xs_bot = gf.get_cross_section(cross_section, width=width_bot)
+    x = gf.get_cross_section(cross_section)
+    xs_top = gf.cross_section.copy_cross_section(x, width=width_top)
+    xs_bot = gf.cross_section.copy_cross_section(x, width=width_bot)
 
     top = c << gf.c.straight(length=length, cross_section=xs_top)
     bot = c << gf.c.straight(length=length, cross_section=xs_bot)

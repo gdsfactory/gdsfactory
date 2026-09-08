@@ -150,6 +150,7 @@ def port_array(
         kwargs: additional arguments.
 
     """
+    import gdsfactory as gf
     from gdsfactory import kcl
     from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -160,7 +161,7 @@ def port_array(
         cross_section = kwargs.pop("cross_section")
         xs = get_cross_section(cross_section)
         if width != xs.width:
-            xs = get_cross_section(xs.copy(width=width))
+            xs = gf.cross_section.copy_cross_section(xs, width=width)
         try:
             sym_xs: kf.SymmetricalCrossSection | None = (
                 kcl.get_symmetrical_cross_section(xs.name)

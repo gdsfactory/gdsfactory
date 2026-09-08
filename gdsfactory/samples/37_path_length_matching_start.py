@@ -17,7 +17,7 @@ gf.gpdk.PDK.activate()
 
 if __name__ == "__main__":
     xs = gf.get_cross_section("strip")
-    layer = gf.get_layer(xs.sections[0].layer)
+    layer = gf.get_layer(xs.get_sections()[0].layer)
 
     start_ports = [
         gf.Port(

@@ -138,5 +138,5 @@ def taper_adiabatic(
         cross_section=cross_section,
         layer=layer,
     )
-    xs.add_bbox(c)
+    gf.path.add_bbox(c, xs)
     return c

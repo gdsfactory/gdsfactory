@@ -16,6 +16,7 @@ def coupler_symmetric(
     dy: Delta = 4.0,
     dx: Delta = 10.0,
     cross_section: CrossSectionSpec = "strip",
+    radius: float | None = None,
     allow_min_radius_violation: bool = False,
 ) -> Component:
     r"""Two coupled straights with bends.
@@ -26,6 +27,7 @@ def coupler_symmetric(
         dy: port to port vertical spacing.
         dx: bend length in x direction.
         cross_section: section.
+        radius: optional bend radius.
         allow_min_radius_violation: if True does not check for min bend radius.
 
                        dx
@@ -42,15 +44,18 @@ def coupler_symmetric(
     """
     c = Component()
     x = gf.get_cross_section(cross_section)
+    effective_radius = radius or gf.get_cross_section_radius(cross_section)
+    if effective_radius is not None and not allow_min_radius_violation:
+        gf.cross_section.validate_radius(x, effective_radius)
     width = x.width
     dy = (dy - gap - width) / 2
 
-    bend_component = gf.get_component(
-        bend,
-        size=(dx, dy),
-        cross_section=cross_section,
-        allow_min_radius_violation=allow_min_radius_violation,
-    )
+    bend_kwargs = {
+        "size": (dx, dy),
+        "cross_section": cross_section,
+        "allow_min_radius_violation": allow_min_radius_violation,
+    }
+    bend_component = gf.get_component(bend, **bend_kwargs)
     top_bend = c << bend_component
     bot_bend = c << bend_component
     bend_ports = top_bend.ports.filter(port_type="optical")
@@ -120,6 +125,7 @@ def coupler(
     dy: Delta = 4.0,
     dx: Delta = 10.0,
     cross_section: CrossSectionSpec = "strip",
+    radius: float | None = None,
     allow_min_radius_violation: bool = False,
     bend: ComponentSpec = "bend_s",
 ) -> Component:
@@ -131,6 +137,7 @@ def coupler(
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (LegacyCrossSection, string or dict).
+        radius: optional bend radius.
         allow_min_radius_violation: if True does not check for min bend radius.
         bend: input and output sbend components.
 
@@ -147,10 +154,12 @@ def coupler(
                         coupler_straight  coupler_symmetric
     """
     c = Component()
+    effective_radius = radius or gf.get_cross_section_radius(cross_section)
     sbend = coupler_symmetric(
         gap=gap,
         dy=dy,
         dx=dx,
+        radius=radius,
         cross_section=cross_section,
         bend=bend,
         allow_min_radius_violation=allow_min_radius_violation,
@@ -172,9 +181,8 @@ def coupler(
     c.auto_rename_ports()
 
     x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
+    gf.path.add_bbox(c, x)
     c.flatten()
-    assert x.radius is not None
-    if not allow_min_radius_violation:
-        x.validate_radius(x.radius)
+    if effective_radius is not None and not allow_min_radius_violation:
+        gf.cross_section.validate_radius(x, effective_radius)
     return c

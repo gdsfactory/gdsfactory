@@ -1,5 +1,5 @@
 instances:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L198_4b710248_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L198_816c2176_0_0:
     component: straight
     info:
       length: 1980
@@ -12,13 +12,19 @@ instances:
       cross_section: pn
       length: 1980
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: null
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_1990000_0_A180:
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_1990000_0_A180_M:
     component: taper_strip_to_ridge
     info:
       length: 10
     settings:
-      cross_section: strip
+      cross_section: pn
       layer_slab: SLAB90
       layer_wg: WG
       length: 10
@@ -28,12 +34,12 @@ instances:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0:
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_m10000_0_M:
     component: taper_strip_to_ridge
     info:
       length: 10
     settings:
-      cross_section: strip
+      cross_section: pn
       layer_slab: SLAB90
       layer_wg: WG
       length: 10
@@ -102,23 +108,23 @@ instances:
       - via2
       - null
 nets:
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L198_4b710248_0_0,o1
-  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0,o2
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L198_4b710248_0_0,o2
-  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_1990000_0_A180,o2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L198_816c2176_0_0,o1
+  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_m10000_0_M,o2
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L198_816c2176_0_0,o2
+  p2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_1990000_0_A180_M,o2
 placements:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L198_4b710248_0_0:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L198_816c2176_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_1990000_0_A180:
-    mirror: false
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_1990000_0_A180_M:
+    mirror: true
     rotation: 180
     x: 1990
     y: 0
-  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0:
-    mirror: false
+  taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_m10000_0_M:
+    mirror: true
     rotation: 0
     x: -10
     y: 0
@@ -137,8 +143,8 @@ ports:
   bot_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000,e2
   bot_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000,e3
   bot_e4: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_m6000,e4
-  o1: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_m10000_0,o1
-  o2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7_1990000_0_A180,o1
+  o1: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_m10000_0_M,o1
+  o2: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_1b64910e_1990000_0_A180_M,o1
   top_e1: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000,e1
   top_e2: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000,e2
   top_e3: via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c_990000_6000,e3

@@ -1,99 +1,129 @@
 instances:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_5cb5b653_0_650:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_05a9ab7f_0_1650:
     component: straight
     info:
       length: 100
       route_info_length: 100
-      route_info_type: xs_28f5a27d
-      route_info_weight: 100
-      route_info_xs_28f5a27d_length: 100
-      width: 0.3
-    settings:
-      cross_section: strip_no_ports
-      length: 100
-      npoints: 2
-      width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_93831052_0_300:
-    component: straight
-    info:
-      length: 100
-      route_info_length: 100
-      route_info_type: xs_1f5bd993
-      route_info_weight: 100
-      route_info_xs_1f5bd993_length: 100
-      width: 0.2
-    settings:
-      cross_section: strip_no_ports
-      length: 100
-      npoints: 2
-      width: 0.2
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_ab962a62_0_50:
-    component: straight
-    info:
-      length: 100
-      route_info_length: 100
-      route_info_type: xs_6f4217dd
-      route_info_weight: 100
-      route_info_xs_6f4217dd_length: 100
-      width: 0.1
-    settings:
-      cross_section: strip_no_ports
-      length: 100
-      npoints: 2
-      width: 0.1
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b2466ad9_0_1100:
-    component: straight
-    info:
-      length: 100
-      route_info_length: 100
-      route_info_type: xs_caa9c64e
-      route_info_weight: 100
-      route_info_xs_caa9c64e_length: 100
-      width: 0.4
-    settings:
-      cross_section: strip_no_ports
-      length: 100
-      npoints: 2
-      width: 0.4
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_c728c80e_0_1650:
-    component: straight
-    info:
-      length: 100
-      route_info_length: 100
-      route_info_strip_no_ports_length: 100
-      route_info_type: strip_no_ports
+      route_info_strip_length: 100
+      route_info_type: strip
       route_info_weight: 100
       width: 0.5
     settings:
       cross_section: strip_no_ports
       length: 100
       npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width: 0.5
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_4286f7aa_0_300:
+    component: straight
+    info:
+      length: 100
+      route_info_028523d7_200_length: 100
+      route_info_length: 100
+      route_info_type: 028523d7_200
+      route_info_weight: 100
+      width: 0.2
+    settings:
+      cross_section: strip_no_ports
+      length: 100
+      npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width: 0.2
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_46b3bba1_0_50:
+    component: straight
+    info:
+      length: 100
+      route_info_028523d7_100_length: 100
+      route_info_length: 100
+      route_info_type: 028523d7_100
+      route_info_weight: 100
+      width: 0.1
+    settings:
+      cross_section: strip_no_ports
+      length: 100
+      npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width: 0.1
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b04bfc71_0_650:
+    component: straight
+    info:
+      length: 100
+      route_info_028523d7_300_length: 100
+      route_info_length: 100
+      route_info_type: 028523d7_300
+      route_info_weight: 100
+      width: 0.3
+    settings:
+      cross_section: strip_no_ports
+      length: 100
+      npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width: 0.3
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b3637e03_0_1100:
+    component: straight
+    info:
+      length: 100
+      route_info_028523d7_400_length: 100
+      route_info_length: 100
+      route_info_type: 028523d7_400
+      route_info_weight: 100
+      width: 0.4
+    settings:
+      cross_section: strip_no_ports
+      length: 100
+      npoints: 2
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      width: 0.4
 nets: []
 placements:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_5cb5b653_0_650:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0.65
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_93831052_0_300:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_ab962a62_0_50:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 0.05
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b2466ad9_0_1100:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 1.1
-  straight_gdsfactorypcomponentspwaveguidespstraight_L100_c728c80e_0_1650:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_05a9ab7f_0_1650:
     mirror: false
     rotation: 0
     x: 0
     y: 1.65
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_4286f7aa_0_300:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.3
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_46b3bba1_0_50:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.05
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b04bfc71_0_650:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0.65
+  straight_gdsfactorypcomponentspwaveguidespstraight_L100_b3637e03_0_1100:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 1.1
 ports: {}

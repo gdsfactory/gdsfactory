@@ -26,17 +26,23 @@ from kfactory import (
 
 from gdsfactory.cross_section.base import (
     AsymmetricCrossSection,
+    AsymmetricExtrusionSpec,
     ComponentAlongPath,
     CrossSection,
     CrossSectionFactory,
     CrossSectionSpec,
+    ExtrusionSection,
+    ExtrusionSpec,
     LegacyCrossSection,
     LegacyCrossSectionFactory,
     Section,
+    SectionReference,
     Sections,
     SymmetricCrossSection,
+    SymmetricExtrusionSpec,
     Transition,
     TransitionAsymmetric,
+    TransitionSection,
     cladding_layers_optical,
     cladding_offsets_optical,
     cladding_simplify_optical,
@@ -46,6 +52,7 @@ from gdsfactory.cross_section.base import (
     nm,
     port_names_electrical,
     port_types_electrical,
+    validate_radius,
 )
 
 # --- heater cross-section factories ---
@@ -60,6 +67,7 @@ from gdsfactory.cross_section.heater import (
 # --- kfactory profile construction ---
 from gdsfactory.cross_section.kfactory import (
     KFactorySectionSpec,
+    copy_cross_section,
     kfactory_cross_section,
 )
 
@@ -115,8 +123,8 @@ from gdsfactory.cross_section.utils import (
 # fmt: on
 
 __all__ = [
-    # base
     "AsymmetricCrossSection",
+    "AsymmetricExtrusionSpec",
     "AsymmetricalCrossSection",
     "ComponentAlongPath",
     "CrossSection",
@@ -127,21 +135,28 @@ __all__ = [
     "DAsymmetricCrossSection",
     "DAsymmetricalCrossSection",
     "DCrossSection",
+    "ExtrusionSection",
+    "ExtrusionSpec",
     "KFactorySectionSpec",
     "LegacyCrossSection",
     "LegacyCrossSectionCallable",
     "LegacyCrossSectionFactory",
     "P",
     "Section",
+    "SectionReference",
     "Sections",
     "SymmetricCrossSection",
+    "SymmetricExtrusionSpec",
     "SymmetricalCrossSection",
     "Transition",
     "TransitionAsymmetric",
+    "TransitionSection",
+    # base
     "_cross_section_default_names",
     "cladding_layers_optical",
     "cladding_offsets_optical",
     "cladding_simplify_optical",
+    "copy_cross_section",
     "cross_section",
     "cross_sections",
     "deprecated",
@@ -185,5 +200,6 @@ __all__ = [
     "strip_nitride_tip",
     "strip_no_ports",
     "strip_rib_tip",
+    "validate_radius",
     "xsection",
 ]

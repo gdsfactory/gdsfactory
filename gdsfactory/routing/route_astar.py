@@ -367,6 +367,7 @@ def route_astar_single(
     start_node: tuple[int, int] | None = None,
     end_node: tuple[int, int] | None = None,
     blocked_grid: npt.NDArray[np.bool_] | None = None,
+    radius: float | None = None,
     **kwargs: Any,
 ) -> Route:
     """Runs a single A* routing attempt between two ports.
@@ -386,6 +387,7 @@ def route_astar_single(
         start_node: Approximate (i, j) index of the start grid cell.
         end_node: Approximate (i, j) index of the end grid cell.
         blocked_grid: Precomputed grid with blocked obstacle cells.
+        radius: Optional routing radius passed explicitly to the bend and bundle.
         **kwargs: Additional arguments passed into the cross-section or route_bundle.
 
     Returns:
@@ -418,14 +420,23 @@ def route_astar_single(
     route_bundle_kwargs = {
         key: value for key, value in kwargs.items() if key in ROUTE_BUNDLE_KWARGS
     }
+    if radius is not None:
+        route_bundle_kwargs["radius"] = radius
     cross_section_kwargs = {
         key: value for key, value in kwargs.items() if key not in ROUTE_BUNDLE_KWARGS
     }
-    cross_section = (
-        gf.get_cross_section(cross_section, **cross_section_kwargs)
-        if cross_section_kwargs
-        else cross_section
-    )
+    width = cross_section_kwargs.pop("width", None)
+    layer = cross_section_kwargs.pop("layer", None)
+    if cross_section_kwargs or width is not None or layer is not None:
+        cross_section = gf.get_cross_section(cross_section, **cross_section_kwargs)
+        if radius is None:
+            radius = gf.get_cross_section_radius(cross_section)
+        if width is not None or layer is not None:
+            cross_section = gf.cross_section.copy_cross_section(
+                cross_section, width=width, layer=layer
+            )
+        if radius is not None:
+            route_bundle_kwargs["radius"] = radius
     return gf.routing.route_bundle(
         component=component,
         ports1=[port1],
@@ -446,6 +457,7 @@ def route_astar(
     distance: float = 8,
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "wire_corner",
+    radius: float | None = None,
     **kwargs: Any,
 ) -> Route:
     """A* router that evaluates several start/end node options and returns the best route.
@@ -462,6 +474,7 @@ def route_astar(
         distance: Clearance distance from obstacles in microns.
         cross_section: Cross-section specification for the routed waveguide.
         bend: Component to use for bends (e.g. ``wire_corner`` or ``bend_euler``).
+        radius: Optional routing radius passed explicitly to the bend and bundle.
         **kwargs: Additional keyword arguments forwarded to the cross-section or route_bundle.
 
     Returns:
@@ -475,14 +488,34 @@ def route_astar(
     route_bundle_kwargs = {
         key: value for key, value in kwargs.items() if key in ROUTE_BUNDLE_KWARGS
     }
+    if radius is not None:
+        route_bundle_kwargs["radius"] = radius
     cross_section_kwargs = {
         key: value for key, value in kwargs.items() if key not in ROUTE_BUNDLE_KWARGS
     }
-    cross_section = gf.get_cross_section(cross_section, **cross_section_kwargs)
+    width = cross_section_kwargs.pop("width", None)
+    layer = cross_section_kwargs.pop("layer", None)
+    if cross_section_kwargs or width is not None or layer is not None:
+        cross_section = gf.get_cross_section(cross_section, **cross_section_kwargs)
+        if radius is None:
+            radius = gf.get_cross_section_radius(cross_section)
+        if width is not None or layer is not None:
+            cross_section = gf.cross_section.copy_cross_section(
+                cross_section, width=width, layer=layer
+            )
+        if radius is not None:
+            route_bundle_kwargs["radius"] = radius
+    else:
+        cross_section = gf.get_cross_section(cross_section)
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
     blocked_grid = grid == 1
 
-    distance_from_node_to_port = 3 * (cross_section.radius or 3)  # in um
+    distance_from_node_to_port = 3 * (
+        radius
+        or cross_section.radius
+        or gf.get_cross_section_radius(cross_section)
+        or 3
+    )  # in um
 
     if port1.orientation in [0, 180]:
         start_node_coordinates = [
@@ -602,6 +635,8 @@ def route_astar(
     # A low-bend A* path can still be unbuildable once bend-radius and collision
     # constraints are applied downstream.
     valid_candidates: list[tuple[int, int, list[DPoint]]] = []
+    validation_route_kwargs = dict(route_bundle_kwargs)
+    validation_route_kwargs["raise_on_error"] = True
     for _, waypoint_count, waypoints in sorted(
         candidates, key=lambda item: (item[0], item[1])
     ):
@@ -613,7 +648,7 @@ def route_astar(
                 waypoints=waypoints,
                 cross_section=cross_section,
                 bend=bend,
-                raise_on_error=True,
+                **validation_route_kwargs,
             )
         except Exception:
             continue
