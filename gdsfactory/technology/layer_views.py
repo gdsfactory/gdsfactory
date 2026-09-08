@@ -755,9 +755,8 @@ class LayerView(BaseModel):
             layer=cls._process_layer(element.find("source").text, layer_pattern),  # type: ignore[union-attr,arg-type]
             fill_color=getattr(element.find("fill-color"), "text", None),
             frame_color=getattr(element.find("frame-color"), "text", None),
-            fill_brightness=getattr(element.find("fill-brightness"), "text", None) or 0,
-            frame_brightness=getattr(element.find("frame-brightness"), "text", None)
-            or 0,
+            fill_brightness=getattr(element.find("fill-brightness"), "text", 0),
+            frame_brightness=getattr(element.find("frame-brightness"), "text", 0),
             hatch_pattern=hatch_pattern or None,
             line_style=line_style
             if line_style is not None and len(line_style) > 0
