@@ -4,26 +4,22 @@ gf.gpdk.PDK.activate()
 
 
 if __name__ == "__main__":
-    s0 = gf.Section(
-        width=1.2, offset=0, layer=(2, 0), name="core", port_names=("o1", "o2")
-    )
-    s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(sections=(s0, s1, s2))
+    s0 = ((2, 0), -0.6, 0.6)
+    s1 = ((3, 0), -1.1, 1.1)
+    s2 = ((1, 0), 2.45, 3.55)
+    X1 = gf.cross_section.cross_section(width=None, sections=(s0, s1, s2))
 
     # Create the second Cross-section that we want to transition to.
-    s0 = gf.Section(
-        width=1, offset=0, layer=(2, 0), name="core", port_names=("o1", "o2")
-    )
-    s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(sections=(s0, s1, s2))
+    s0 = ((2, 0), -0.5, 0.5)
+    s1 = ((3, 0), -1.75, 1.75)
+    s2 = ((1, 0), 3.5, 6.5)
+    X2 = gf.cross_section.cross_section(width=None, sections=(s0, s1, s2))
 
     # To show the cross-sections, let us now create two paths and create components by extruding them.
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
-    wg1 = gf.path.extrude(P1, X1, register_cross_section=True)
-    wg2 = gf.path.extrude(P2, X2, register_cross_section=True)
+    wg1 = gf.path.extrude(P1, X1)
+    wg2 = gf.path.extrude(P2, X2)
 
     # Place both cross-section components and quickplot them,
     # Quickplot is designed to create a wide variety of complex graphs with a simple, concise syntax, making it ideal for quick data exploration.

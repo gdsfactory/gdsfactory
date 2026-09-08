@@ -6,6 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.cross_section.utils import validate_radius
 from gdsfactory.typings import AnyComponent, CrossSectionSpec, LayerSpec
 
 __all__ = [
@@ -139,9 +140,9 @@ def _bend_modified_hermite(
         )
 
     xsec = gf.get_cross_section(cross_section)
-    if len(xsec.sections) > 1:
+    if len(xsec.get_sections()) > 1:
         warnings.warn(
-            "bend_modified_hermite cross_section should have only one Section, as this bend varies the width of this one layer. Defaulting to using first Section.",
+            "bend_modified_hermite cross_section should have only one SectionSpec, as this bend varies the width of this one layer. Defaulting to using first SectionSpec.",
             UserWarning,
             stacklevel=3,
         )
@@ -194,7 +195,7 @@ def _bend_modified_hermite(
     min_bend_radius = np.min(1 / np.abs(curvature))
 
     if not allow_min_radius_violation:
-        xsec.validate_radius(radius=min_bend_radius)
+        validate_radius(xsec, radius=min_bend_radius)
 
     polygon_points = np.concat(
         (inner_bend_points, np.flip(outer_bend_points, axis=0)), axis=0
@@ -202,20 +203,22 @@ def _bend_modified_hermite(
 
     result = gf.ComponentAllAngle() if all_angle else gf.Component()
     result.add_polygon(points=polygon_points, layer=layer)
-    result.add_port(
-        name=port1,
-        center=interior_points[0],
-        width=width1,
-        orientation=270,
-        layer=layer,
-    )
-    result.add_port(
-        name=port2,
-        center=interior_points[-1],
-        width=width2,
-        orientation=(90 + angle) % 360,
-        layer=layer,
-    )
+    for name, center, width, orientation in (
+        (port1, interior_points[0], width1, 270),
+        (port2, interior_points[-1], width2, (90 + angle) % 360),
+    ):
+        result.add_port(
+            name=name,
+            center=center,
+            orientation=orientation,
+            cross_section=gf.cross_section.cross_section(
+                width=width,
+                layer=layer,
+                radius=xsec.radius,
+                radius_min=xsec.radius_min,
+                kcl=result.kcl,
+            ),
+        )
 
     result.info["min_bend_radius"] = min_bend_radius
     result.info["length"] = interior_path.length()

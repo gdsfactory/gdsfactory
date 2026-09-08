@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = ["crossing", "crossing45", "crossing_etched", "crossing_linear_taper"]
 
 import numpy as np
@@ -294,7 +296,7 @@ def crossing45(
     c.add_port("o4", port=b_br.ports["o1"])
 
     xs = gf.get_cross_section(cross_section)
-    xs.add_bbox(c)
+    add_bbox(c, xs)
     return c
 
 

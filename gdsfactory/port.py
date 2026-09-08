@@ -124,6 +124,25 @@ def to_dict(port: kf.port.ProtoPort[Any]) -> dict[str, Any]:
     }
 
 
+def core_port(port: Port) -> Port:
+    """Return a port on the core alone for an intentional change of cladding/doping.
+
+    Use both core ports when placing an abrupt interface between profiles with
+    different symmetry. The component's original ports keep their full profiles.
+    """
+    from gdsfactory.cross_section.utils import section_cross_section
+
+    result = port.copy()
+    section = port.cross_section.get_sections()[0]
+    profile, offset = section_cross_section(section, port.kcl)
+    center = port.dcplx_trans * kf.kdb.DPoint(0, offset)
+    result.center = (center.x, center.y)
+    result.cross_section = profile
+    if isinstance(profile, kf.DCrossSection):
+        result.mirror = False
+    return result
+
+
 class PortKwargs(TypedDict, total=False):
     layer: int
     port_type: str
@@ -150,44 +169,18 @@ def port_array(
         kwargs: additional arguments.
 
     """
-    from gdsfactory import kcl
-    from gdsfactory.pdk import get_cross_section, get_layer
+    from gdsfactory.cross_section.utils import get_port_cross_section, with_width
+    from gdsfactory.pdk import get_cross_section
 
     pitch_array = np.array(pitch)
-    if "layer" in kwargs:
-        kwargs["layer"] = get_layer(kwargs["layer"])
     if "cross_section" in kwargs:
         cross_section = kwargs.pop("cross_section")
-        xs = get_cross_section(cross_section)
-        if width != xs.width:
-            xs = get_cross_section(xs.copy(width=width))
-        try:
-            sym_xs: kf.SymmetricalCrossSection | None = (
-                kcl.get_symmetrical_cross_section(xs.name)
-            )
-        except KeyError:
-            sym_xs = None
-
-        kwargs.pop("cross_section", None)
-        info = kwargs.get("info", {})
-        info["cross_section"] = xs.name
-        kwargs["info"] = info
-
-        return [
-            Port(
-                name=str(i),
-                center=cast(
-                    "tuple[float, float]",
-                    tuple(
-                        np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array
-                    ),
-                ),
-                orientation=orientation,
-                cross_section=cast(Any, sym_xs),
-                **kwargs,
-            )  # type: ignore[call-overload]
-            for i in range(n)
-        ]
+        xs = with_width(get_cross_section(cross_section), width)
+        kwargs.pop("layer", None)
+    else:
+        xs = get_port_cross_section(width, kwargs.pop("layer"), kf.kcl)
+    info = dict(kwargs.get("info", {}))
+    info["cross_section"] = xs.name
     return [
         Port(
             name=str(i),
@@ -196,9 +189,10 @@ def port_array(
                 tuple(np.array(center) + i * pitch_array - (n - 1) / 2 * pitch_array),
             ),
             orientation=orientation,
-            width=width,
-            **kwargs,
-        )  # type: ignore[call-overload]
+            cross_section=xs,
+            port_type=kwargs.get("port_type", "optical"),
+            info=info,
+        )
         for i in range(n)
     ]
 

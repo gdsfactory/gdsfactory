@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = [
     "wire_corner",
     "wire_corner45",
@@ -15,18 +17,14 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import (
-    port_names_electrical,
-    port_types_electrical,
-)
 from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
 
 
 @gf.cell_with_module_name(tags=["waveguides"])
 def wire_corner(
     cross_section: CrossSectionSpec = "metal_routing",
-    port_names: PortNames = port_names_electrical,
-    port_types: PortTypes = port_types_electrical,
+    port_names: PortNames = ("e1", "e2"),
+    port_types: PortTypes = ("electrical", "electrical"),
     width: float | None = None,
     radius: float | None = None,
 ) -> Component:
@@ -47,6 +45,7 @@ def wire_corner(
     layer = x.layer
     assert layer is not None
     width = x.width
+    assert width is not None
 
     c = Component()
     a = width / 2
@@ -59,6 +58,7 @@ def wire_corner(
         width=width,
         orientation=180,
         layer=layer,
+        cross_section=x,
         port_type=port_types[0],
     )
     c.add_port(
@@ -67,11 +67,12 @@ def wire_corner(
         width=width,
         orientation=90,
         layer=layer,
+        cross_section=x,
         port_type=port_types[1],
     )
     c.info["length"] = width
     c.info["dy"] = width
-    x.add_bbox(c)
+    add_bbox(c, x)
     for port in c.ports:
         if port.port_type == "electrical":
             c.create_pin(ports=[port], name=port.name)
@@ -157,6 +158,7 @@ def wire_corner45(
             width=width,
             orientation=180,
             layer=layer,
+            cross_section=x,
             port_type="electrical",
         )
         c.add_port(
@@ -165,6 +167,7 @@ def wire_corner45(
             width=width,
             orientation=90,
             layer=layer,
+            cross_section=x,
             port_type="electrical",
         )
 
@@ -213,17 +216,12 @@ def wire_corner_sections(
 
     xmin, ymax = x.get_xmin_xmax()
 
-    main_section = x.sections[0]
-
-    all_sections = [main_section]
-    all_sections.extend(x.sections)
-
     c = Component()
 
-    for section in all_sections:
+    for section in x.get_sections():
         layer = section.layer
         width = section.width
-        offset = section.offset
+        offset = (section.section_min + section.section_max) / 2
         b = width / 2
 
         xpts = [xmin, offset - b, offset - b, offset + b, offset + b, xmin]
@@ -258,7 +256,7 @@ def wire_corner_sections(
     )
     c.info["length"] = ymax - xmin
     c.info["dy"] = ymax - xmin
-    x.add_bbox(c)
+    add_bbox(c, x)
     if port_type == "electrical":
         for port in c.ports:
             c.create_pin(ports=[port], name=port.name)

@@ -11,7 +11,6 @@ import numpy.typing as npt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, PortNames
 
@@ -174,27 +173,10 @@ def extend_ports(
             if extension:
                 extension_component = gf.get_component(extension)
             else:
-                if cross_section:
-                    cross_section_extension = cross_section
-                else:
-                    pdk = gf.get_active_pdk()
-                    cross_section_names = list(pdk.cross_sections)
-                    port_xs_name = port.info.get("cross_section", None)
-
-                    if port_xs_name and port_xs_name in cross_section_names:
-                        cross_section_extension = gf.get_cross_section(
-                            port.info["cross_section"]
-                        )
-                    else:
-                        cross_section_extension = cross_section_function(
-                            layer=gf.get_layer_tuple(port.layer),
-                            width=port.width,
-                            port_types=(port_type, port_type),
-                        )
-
                 extension_component = gf.components.straight(
                     length=length,
-                    cross_section=cross_section_extension,
+                    cross_section=cross_section
+                    or ports_to_connect[port_name].cross_section,
                 )
             port_labels = [p.name for p in extension_component.ports]
             port1 = port1 or port_labels[0]
@@ -207,6 +189,10 @@ def extend_ports(
                 port1,
                 ports_to_connect[port_name],
                 allow_width_mismatch=allow_width_mismatch,
+                mirror=isinstance(
+                    ports_to_connect[port_name].cross_section, gf.AsymmetricCrossSection
+                ),
+                use_mirror=True,
             )
             c.add_port(port_name, port=extension_ref.ports[port2])
             extension_port_names = extension_port_names or []

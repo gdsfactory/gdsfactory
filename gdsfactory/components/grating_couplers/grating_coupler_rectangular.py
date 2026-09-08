@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = ["grating_coupler_rectangular"]
 
 import numpy as np
@@ -118,7 +120,7 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
-    xs.add_bbox(c)
+    add_bbox(c, xs)
     xport = np.round((x0 + cgrating.x) / 2, 3)
     c.add_port(
         name="o2",

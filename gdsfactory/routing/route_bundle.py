@@ -380,8 +380,6 @@ def route_bundle(
             gf.cross_section.cross_section,
             layer=cast("LayerSpec", layer),
             width=cast("float", route_width),
-            port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
-            port_types=(port_type, port_type),
         )
 
     if len(ports1_) != len(ports2_):

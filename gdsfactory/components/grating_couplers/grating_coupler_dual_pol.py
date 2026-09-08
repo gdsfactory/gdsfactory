@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = ["grating_coupler_dual_pol"]
 
 import numpy as np
@@ -139,5 +141,5 @@ def grating_coupler_dual_pol(
     taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
-    xs.add_bbox(c)
+    add_bbox(c, xs)
     return c

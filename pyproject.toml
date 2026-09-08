@@ -31,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]~=3.0.4",
+  "kfactory[ipy]>=3.0.4,<4",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -361,3 +361,6 @@ showcontent = true
 
 [tool.ty.src]
 exclude = ["gdsfactory/samples"]
+
+[tool.uv.sources]
+kfactory = {path = "../kfactory", editable = true}

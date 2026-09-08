@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox, with_width
+
 __all__ = ["coupler_full"]
 
 import gdsfactory as gf
@@ -52,8 +54,8 @@ def coupler_full(
         x = gf.get_cross_section(cross_section=cross_section, width=width)
     else:
         x = gf.get_cross_section(cross_section=cross_section)
-    x_top = x.copy(width=x.width + dw)
-    x_bottom = x.copy(width=x.width - dw)
+    x_top = with_width(x, x.width + dw)
+    x_bottom = with_width(x, x.width - dw)
 
     taper_top = c << gf.components.taper(
         length=coupling_length,
@@ -93,7 +95,7 @@ def coupler_full(
     bend_output_top.connect("o2", taper_top.ports["o2"], mirror=True)
     bend_output_bottom.connect("o2", taper_bottom.ports["o2"], mirror=True)
 
-    x.add_bbox(c)
+    add_bbox(c, x)
 
     c.add_port("o1", port=bend_input_bottom.ports["o2"])
     c.add_port("o2", port=bend_input_top.ports["o2"])

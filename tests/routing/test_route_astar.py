@@ -40,7 +40,7 @@ def expanded_dbbox(
 
 def test_route_astar_obstacle_route() -> None:
     c = gf.Component()
-    cross_section = gf.get_cross_section("strip", radius=5)
+    cross_section = gf.get_cross_section("strip")
     straight = gf.components.straight(cross_section=cross_section)
     left = c << straight
     right = c << straight
@@ -67,6 +67,7 @@ def test_route_astar_obstacle_route() -> None:
         port1=left.ports["o1"],
         port2=right.ports["o2"],
         cross_section=cross_section,
+        radius=5,
         resolution=15,
         distance=12,
         avoid_layers=("M2",),
@@ -95,6 +96,7 @@ def test_route_astar_accepts_cross_section_kwargs() -> None:
         port1=left.ports["o2"],
         port2=right.ports["o1"],
         cross_section="strip",
+        radius=5,
         width=1,
         resolution=10,
         distance=5,
@@ -132,6 +134,7 @@ def test_route_astar_forwards_route_bundle_kwargs(
         port1=left.ports["o2"],
         port2=right.ports["o1"],
         cross_section="strip",
+        radius=5,
         width=1,
         raise_on_error=False,
         resolution=10,
@@ -162,6 +165,7 @@ def test_route_astar_does_not_copy_input_component(
         port1=left.ports["o2"],
         port2=right.ports["o1"],
         cross_section="strip",
+        radius=5,
         resolution=10,
         distance=5,
         bend=gf.components.bend_euler,
@@ -184,7 +188,7 @@ def test_count_bends_skips_duplicate_points_and_handles_non_manhattan() -> None:
 
 def test_route_astar_selects_fewest_actual_bends() -> None:
     c = gf.Component()
-    cross_section = gf.get_cross_section("strip", radius=5)
+    cross_section = gf.get_cross_section("strip")
     straight = gf.components.straight(cross_section=cross_section)
     left = c << straight
     right = c << straight
@@ -196,6 +200,7 @@ def test_route_astar_selects_fewest_actual_bends() -> None:
         port1=left.ports["o2"],
         port2=right.ports["o1"],
         cross_section=cross_section,
+        radius=5,
         resolution=10,
         distance=8,
         bend=gf.components.bend_euler,
@@ -261,9 +266,9 @@ def test_route_astar_single_preserves_kwargs(
 
     assert route.length == 1
     assert captured_kwargs["cross_section"].width == 1
-    assert captured_kwargs["cross_section"].layer == "M2"
-    assert captured_kwargs["cross_section"].radius == 7
+    assert captured_kwargs["cross_section"].layer == gf.get_layer_info("M2")
+    assert captured_kwargs["cross_section"].radius == 10
     assert captured_kwargs["raise_on_error"] is True
     assert "width" not in captured_kwargs
     assert "layer" not in captured_kwargs
-    assert "radius" not in captured_kwargs
+    assert captured_kwargs["radius"] == 7

@@ -1,27 +1,21 @@
-"""Cross-section utility functions, factories, and registration."""
+"""Factories for kfactory cross sections, expressed in micrometers."""
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
-from functools import partial, wraps
-from inspect import getmembers, isbuiltin, isfunction
-from types import BuiltinFunctionType, FunctionType, ModuleType
-from typing import Any, ParamSpec, Protocol, cast
+import warnings
+from collections.abc import Sequence
+from functools import wraps
+from inspect import getmembers, signature
+from types import ModuleType
+from typing import Any, ParamSpec, Protocol
 
-import numpy as np
-from kfactory import logger
+import kfactory as kf
 
 from gdsfactory import typings
-from gdsfactory.cross_section.base import (
-    CrossSection,
-    CrossSectionFactory,
-    Section,
-    Sections,
-)
+from gdsfactory.config import CONF, ErrorType
+from gdsfactory.cross_section.base import CrossSection, CrossSectionFactory, Sections
 
 cross_sections: dict[str, CrossSectionFactory] = {}
-_cross_section_default_names: dict[str, str] = {}
-
 P = ParamSpec("P")
 
 
@@ -34,340 +28,295 @@ class CrossSectionCallable(Protocol[P]):
 def xsection[**P](
     func: CrossSectionCallable[P],
     xs_container: dict[str, CrossSectionFactory] = cross_sections,
-    xs_default_mapping: dict[str, str] = _cross_section_default_names,
 ) -> CrossSectionCallable[P]:
-    """Decorator to register a cross-section function.
-
-    Ensures that the cross-section name matches the name of the function that generated it when created using default parameters
-
-        @xsection
-        def xs_sc(width=TECH.width_sc, radius=TECH.radius_sc):
-            return gf.cross_section.cross_section(width=width, radius=radius)
-    """
-    default_xs = func()  # type: ignore[call-arg]
-    xs_default_mapping[default_xs.name] = func.__name__
+    """Register a profile factory without evaluating it before a PDK is active."""
+    sig = signature(func)
+    defaults = sig.bind()
+    defaults.apply_defaults()
 
     @wraps(func)
-    def newfunc(*args: P.args, **kwargs: P.kwargs) -> CrossSection:
+    def factory(*args: P.args, **kwargs: P.kwargs) -> CrossSection:
         xs = func(*args, **kwargs)
-        if xs.name in xs_default_mapping:
-            xs._name = xs_default_mapping[xs.name]
+        arguments = sig.bind(*args, **kwargs)
+        arguments.apply_defaults()
+        is_default = all(
+            type(value) is type(defaults.arguments[key])
+            and value == defaults.arguments[key]
+            for key, value in arguments.arguments.items()
+        )
+        if is_default and not xs.base.is_named:
+            base = xs.kcl.get_base_cross_section(
+                xs.base.model_copy(update={"name": func.__name__})
+            )
+            xs = (
+                kf.DCrossSection(kcl=xs.kcl, base=base)
+                if isinstance(base, kf.SymmetricalCrossSection)
+                else kf.DAsymmetricCrossSection(kcl=xs.kcl, base=base)
+            )
         return xs
 
-    xs_container[func.__name__] = newfunc
-    return newfunc
+    xs_container[func.__name__] = factory
+    return factory
 
 
 def cross_section(
-    width: float | typings.WidthFunction = 0.5,
-    offset: float | typings.OffsetFunction = 0,
-    layer: typings.LayerSpec = "WG",
+    width: float | None = 0.5,
+    offset: float = 0,
+    layer: typings.LayerSpec | kf.kdb.LayerInfo = "WG",
     sections: Sections | None = None,
-    port_names: typings.IOPorts = ("o1", "o2"),
-    port_types: typings.IOPorts = ("optical", "optical"),
-    bbox_layers: typings.LayerSpecs | None = None,
+    bbox_layers: Sequence[typings.LayerSpec | kf.kdb.LayerInfo] | None = None,
     bbox_offsets: typings.Floats | None = None,
     cladding_layers: typings.LayerSpecs | None = None,
     cladding_offsets: float | typings.Floats | None = None,
-    cladding_simplify: float | typings.Floats | None = None,
     cladding_centers: float | typings.Floats | None = None,
-    radius: float | None = 10.0,
-    radius_min: float | None = 7.0,
-    main_section_name: str = "_default",
+    radius: float | None = None,
+    radius_min: float | None = None,
+    name: str | None = None,
+    kcl: kf.KCLayout | None = None,
 ) -> CrossSection:
-    """Return CrossSection.
+    """Build a profile, rounding each signed strip edge with KLayout's DBU rule.
 
-    Args:
-        width: main Section width (um) or parameterized function from 0 to 1.
-        offset: main Section center offset (um) or parameterized function from 0 to 1.
-        layer: main section layer.
-        sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        bbox_layers: list of layers bounding boxes to extrude.
-        bbox_offsets: list of offset from bounding box edge.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: offset from main Section edge. Single float is
-            broadcast to all cladding layers.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed. \
-                Single float is broadcast to all cladding layers.
-        cladding_centers: center offset for each cladding layer. Defaults to 0. \
-                Single float is broadcast to all cladding layers.
-        radius: routing bend radius (um).
-        radius_min: min acceptable bend radius.
-        main_section_name: name of the main section. Defaults to _default
-
-    Example:
-        ```python
-        import gdsfactory as gf
-
-        xs = gf.cross_section.cross_section(width=0.5, offset=0, layer='WG')
-        p = gf.path.arc(radius=10, angle=45)
-        c = p.extrude(xs)
-        c.plot()
-
-
-        ┌────────────────────────────────────────────────────────────┐
-        │                                                            │
-        │                                                            │
-        │                   boox_layer                               │
-        │                                                            │
-        │         ┌──────────────────────────────────────┐           │
-        │         │                            ▲         │bbox_offset│
-        │         │                            │         ├──────────►│
-        │         │           cladding_offset  │         │           │
-        │         │                            │         │           │
-        │         ├─────────────────────────▲──┴─────────┤           │
-        │         │                         │            │           │
-        ─ ─┤         │           core   width  │            │           ├─ ─ center
-        │         │                         │            │           │
-        │         ├─────────────────────────▼────────────┤           │
-        │         │                                      │           │
-        │         │                                      │           │
-        │         │                                      │           │
-        │         │                                      │           │
-        │         └──────────────────────────────────────┘           │
-        │                                                            │
-        │                                                            │
-        │                                                            │
-        └────────────────────────────────────────────────────────────┘
-        ```
+    Auxiliary sections are ``(layer, minimum, maximum)`` tuples in micrometers,
+    or kfactory DCrossSectionLayer objects. The main strip stays separate from
+    overlapping auxiliary strips. Mirrored auxiliary bands become edge-relative
+    enclosures when the main strip is centered; other profiles are asymmetric.
+    Port names, dynamic widths and other extrusion options belong to extrude().
     """
-    section_list: list[Section] = list(sections or [])
-    cladding_simplify_not_none: list[float | None] | None = None
-    cladding_offsets_not_none: list[float] | None = None
-    cladding_centers_not_none: list[float] | None = None
+    from gdsfactory.pdk import get_layer_info
+
+    kcl = kcl if kcl is not None else kf.kcl
+
+    def strip(
+        layer: typings.LayerSpec | kf.kdb.LayerInfo, lo: float, hi: float
+    ) -> kf.CrossSectionLayer:
+        return kf.CrossSectionLayer(
+            layer=get_layer_info(layer),
+            section_min=kcl.to_dbu(lo),
+            section_max=kcl.to_dbu(hi),
+        )
+
+    if width is None:
+        if not sections:
+            raise ValueError("A main width or a nonempty list of sections is required")
+        first, *sections = sections
+        main = (
+            strip(first.layer, first.section_min, first.section_max)
+            if isinstance(first, kf.DCrossSectionLayer)
+            else strip(*first)
+        )
+        width = kcl.to_um(main.width)
+    else:
+        main = strip(layer, offset - width / 2, offset + width / 2)
+    assert width is not None
+    auxiliary = [
+        strip(s.layer, s.section_min, s.section_max)
+        if isinstance(s, kf.DCrossSectionLayer)
+        else strip(*s)
+        for s in sections or ()
+    ]
     if cladding_layers:
 
-        def _broadcast(
-            value: float | typings.Floats | None, default: float | None
-        ) -> list[Any]:
-            if isinstance(value, (int, float, np.number)):
-                return [float(value)] * len(cladding_layers)
-            if value is None or len(value) == 0:
-                return [default] * len(cladding_layers)
-            return list(value)
+        def broadcast(value: float | typings.Floats | None) -> Sequence[float]:
+            if value is None:
+                return [0.0] * len(cladding_layers)
+            if isinstance(value, (int, float)):
+                return [value] * len(cladding_layers)
+            return value
 
-        cladding_simplify_not_none = _broadcast(cladding_simplify, None)
-        cladding_offsets_not_none = _broadcast(cladding_offsets, 0)
-        cladding_centers_not_none = _broadcast(cladding_centers, 0)
-
-        if (
-            len(
-                {
-                    len(x)
-                    for x in (
-                        cladding_layers,
-                        cladding_offsets_not_none,
-                        cladding_simplify_not_none,
-                        cladding_centers_not_none,
-                    )
-                }
-            )
-            > 1
+        for layer_spec, d, center in zip(
+            cladding_layers,
+            broadcast(cladding_offsets),
+            broadcast(cladding_centers),
+            strict=True,
         ):
-            raise ValueError(
-                f"{len(cladding_layers)=}, "
-                f"{len(cladding_offsets_not_none)=}, "
-                f"{len(cladding_simplify_not_none)=}, "
-                f"{len(cladding_centers_not_none)=} must have same length"
+            auxiliary.append(
+                strip(layer_spec, center - width / 2 - d, center + width / 2 + d)
             )
-    s = [
-        Section(
-            width=0 if callable(width) else cast(Any, width),
-            width_function=cast(Callable[..., Any], width) if callable(width) else None,
-            offset=0 if callable(offset) else cast(Any, offset),
-            offset_function=cast(Callable[..., Any], offset)
-            if callable(offset)
-            else None,
-            layer=layer,
-            port_names=port_names,
-            port_types=port_types,
-            name=main_section_name,
+    bbox = {
+        get_layer_info(layer_spec): kcl.to_dbu(d)
+        for layer_spec, d in zip(
+            bbox_layers or (),
+            bbox_offsets
+            if bbox_offsets is not None
+            else [0.0] * len(bbox_layers or ()),
+            strict=True,
         )
-    ] + section_list
-
-    if (
-        cladding_layers
-        and cladding_offsets_not_none
-        and cladding_simplify_not_none
-        and cladding_centers_not_none
-    ):
-
-        def _cladding_width_kwargs(offset: float) -> dict[str, Any]:
-            if callable(width):
-                return {
-                    "width_function": lambda t: cast(Callable[..., Any], width)(t)
-                    + 2 * offset
-                }
-            return {"width": cast(Any, width) + 2 * offset}
-
-        s += [
-            Section(
-                **_cladding_width_kwargs(cladding_offset),
-                layer=cladding_layer,
-                simplify=cladding_simplify,
-                offset=cladding_center,
-                name=f"cladding_{i}",
+    }
+    profile = kf.AsymmetricalCrossSection(
+        layer=main.layer,
+        section_min=main.section_min,
+        section_max=main.section_max,
+        sections=tuple(auxiliary),
+        bbox_sections=bbox,
+        radius=kcl.to_dbu(radius),
+        radius_min=kcl.to_dbu(radius_min),
+        name=name or "",
+    )
+    bands = {(s.layer, s.section_min, s.section_max) for s in profile.sections}
+    if main.section_min == -main.section_max and bands == {
+        (layer, -hi, -lo) for layer, lo, hi in bands
+    }:
+        half = main.section_max
+        enclosure = kf.LayerEnclosure(
+            main_layer=main.layer,
+            sections=[
+                (layer, hi - half) if lo == -hi else (layer, lo - half, hi - half)
+                for layer, lo, hi in bands
+                if hi > 0
+            ],
+            bbox_sections=list(bbox.items()),
+        )
+        base = kcl.get_symmetrical_cross_section(
+            kf.SymmetricalCrossSection(
+                width=main.width,
+                enclosure=enclosure,
+                name=name,
+                radius=profile.radius,
+                radius_min=profile.radius_min,
             )
-            for i, (
-                cladding_layer,
-                cladding_offset,
-                cladding_simplify,
-                cladding_center,
-            ) in enumerate(
-                zip(
-                    cladding_layers,
-                    cladding_offsets_not_none,
-                    cladding_simplify_not_none,
-                    cladding_centers_not_none,
-                    strict=False,
-                )
-            )
-        ]
-    return CrossSection(
-        sections=tuple(s),
-        radius=radius,
-        radius_min=radius_min,
-        bbox_layers=bbox_layers,
-        bbox_offsets=bbox_offsets,
+        )
+        return kf.DCrossSection(kcl=kcl, base=base)
+    return kf.DAsymmetricCrossSection(
+        kcl=kcl, base=kcl.get_asymmetrical_cross_section(profile)
     )
 
 
-def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
-    """Check if an object is a cross-section factory function.
+def with_width(xs: CrossSection, width: float) -> CrossSection:
+    """Replace the main width while keeping auxiliary strips at absolute bounds."""
+    if width == xs.width:
+        return xs
+    main, *sections = xs.get_sections()
+    return cross_section(
+        width=width,
+        offset=(main.section_min + main.section_max) / 2,
+        layer=xs.layer,
+        sections=sections,
+        bbox_layers=list(xs.bbox_sections),
+        bbox_offsets=list(xs.bbox_sections.values()),
+        radius=xs.radius,
+        radius_min=xs.radius_min,
+        kcl=xs.kcl,
+    )
 
-    Args:
-        name: Name of the object.
-        obj: Object to check.
-        verbose: Whether to print warnings for errors.
 
-    Returns:
-        True if the object is a cross-section factory function.
+def get_port_cross_section(
+    width: float,
+    layer: typings.LayerSpec | kf.kdb.LayerInfo,
+    kcl: kf.KCLayout,
+    *,
+    offset: float = 0,
+) -> CrossSection:
+    """Create a port profile using the PDK's explicit per-layer factory.
+
+    Unconfigured layers get a bare profile with no radius metadata. As with any
+    profile, its radii cannot be supplied or changed after first registration.
     """
-    if name.startswith("_"):
-        return False
+    from gdsfactory.pdk import get_active_pdk, get_layer_info
 
-    # Early prune: only consider functions, builtins or partials
-    func: FunctionType | BuiltinFunctionType | None = None
-    if isfunction(obj) or isbuiltin(obj):
-        func = obj
-    elif isinstance(obj, partial):
-        # Check if the underlying function is a function or builtin
-        if isfunction(obj.func) or isbuiltin(obj.func):
-            func = obj.func
-        else:
-            return False
-    else:
-        return False
+    layer = get_layer_info(layer)
+    factory = get_active_pdk().port_cross_sections.get((layer.layer, layer.datatype))
+    return (
+        factory(width=width, layer=layer, offset=offset, kcl=kcl)
+        if factory is not None
+        else cross_section(width=width, offset=offset, layer=layer, kcl=kcl)
+    )
 
-    # Ensure func is not None for type checker
-    if func is None:
-        return False
 
-    # Check if function is registered in the cross_sections dictionary
-    # This happens when decorated with @xsection
-    if name in cross_sections and cross_sections[name] is obj:
+def section_cross_section(
+    section: kf.DCrossSectionLayer, kcl: kf.KCLayout
+) -> tuple[CrossSection, float]:
+    """Return a strip's own profile and on-grid transverse origin (um).
+
+    An odd-DBU span uses asymmetric bounds; neither its width nor either edge
+    needs rounding again when the strip is placed at the returned origin.
+    """
+    strip = section.to_itype(kcl)
+    half = strip.width // 2
+    defaults = get_port_cross_section(
+        kcl.to_um(strip.width),
+        section.layer,
+        kcl,
+        offset=kcl.to_um(strip.width % 2) / 2,
+    )
+    profile = cross_section(
+        width=None,
+        sections=[(section.layer, kcl.to_um(-half), kcl.to_um(strip.width - half))],
+        radius=defaults.radius,
+        radius_min=defaults.radius_min,
+        kcl=kcl,
+    )
+    return profile, kcl.to_um(strip.section_min + half)
+
+
+def add_bbox(
+    component: typings.AnyComponentT,
+    xs: CrossSection,
+    top: float | None = None,
+    bottom: float | None = None,
+    right: float | None = None,
+    left: float | None = None,
+) -> typings.AnyComponentT:
+    """Add the profile's bounding-box layers around the component."""
+    from gdsfactory.add_padding import get_padding_points
+
+    polygons: list[tuple[kf.kdb.LayerInfo, list[typings.Coordinate]]] = [
+        (
+            layer,
+            get_padding_points(
+                component=component,
+                default=d,
+                top=top if top is not None else d,
+                bottom=bottom if bottom is not None else d,
+                right=right if right is not None else d,
+                left=left if left is not None else d,
+            ),
+        )
+        for layer, d in xs.bbox_sections.items()
+    ]
+    for layer, points in polygons:
+        component.add_polygon(points, layer=layer)
+    return component
+
+
+def validate_radius(
+    xs: CrossSection, radius: float, error_type: ErrorType | None = None
+) -> None:
+    """Check a bend against the profile's minimum radius."""
+    minimum = xs.radius_min
+    if minimum is not None and radius < minimum:
+        message = f"min_bend_radius {radius} < CrossSection.radius_min {minimum}."
+        error_type = error_type or CONF.bend_radius_error_type
+        if error_type == ErrorType.ERROR:
+            raise ValueError(message)
+        if error_type == ErrorType.WARNING:
+            warnings.warn(message, stacklevel=2)
+
+
+def is_cross_section(name: str, obj: Any, verbose: bool = False) -> bool:
+    """Whether an object is a cross-section factory."""
+    if name.startswith("_") or not callable(obj):
+        return False
+    if cross_sections.get(name) is obj:
         return True
-
-    # Fallback: check return type annotation
     try:
-        ann = getattr(func, "__annotations__", {})
-        return_type = ann.get("return")
-
-        if return_type is None:
-            return False
-
-        # Handle string annotations and forward references
-        if isinstance(return_type, str):
-            # Handle simple string matches
-            if return_type in (
-                "CrossSection",
-                "gf.CrossSection",
-                "gdsfactory.CrossSection",
-            ):
-                return True
-
-            # For other string annotations, try to resolve them in the function's context
-            try:
-                # Try globals first
-                func_globals = getattr(func, "__globals__", {})
-                resolved_type = func_globals.get(return_type)
-
-                # If not in globals, try closure variables
-                if (
-                    resolved_type is None
-                    and hasattr(func, "__closure__")
-                    and func.__closure__
-                ):
-                    # Get the names of closure variables
-                    if hasattr(func, "__code__") and hasattr(
-                        func.__code__, "co_freevars"
-                    ):
-                        freevars = func.__code__.co_freevars
-                        closure_values = func.__closure__
-                        if len(freevars) == len(closure_values):
-                            closure_dict = dict(
-                                zip(
-                                    freevars,
-                                    [cell.cell_contents for cell in closure_values],
-                                    strict=False,
-                                )
-                            )
-                            resolved_type = closure_dict.get(return_type)
-
-                if resolved_type and isinstance(resolved_type, type):
-                    return issubclass(resolved_type, CrossSection)
-
-            except (TypeError, AttributeError, ValueError):
-                pass  # Ignore type resolution errors
-
-            return False
-
-        # Direct type comparison
-        if return_type is CrossSection:
-            return True
-
-        # Check if it's a subclass of CrossSection
-        if isinstance(return_type, type):
-            try:
-                return issubclass(return_type, CrossSection)
-            except TypeError:
-                # Handle cases where return_type is not a class
-                return False
-
-    except Exception as e:
-        if verbose:
-            logger.warning(f"Error checking cross-section for {name}: {e}")
-
-    return False
+        annotation = signature(obj).return_annotation
+    except (TypeError, ValueError):
+        return False
+    return annotation is CrossSection or annotation in (
+        "CrossSection",
+        "gf.CrossSection",
+        "gdsfactory.CrossSection",
+    )
 
 
 def get_cross_sections(
     modules: Sequence[ModuleType] | ModuleType, verbose: bool = False
 ) -> dict[str, CrossSectionFactory]:
-    """Returns cross_sections from a module or list of modules.
-
-    Args:
-        modules: module or iterable of modules.
-        verbose: prints in case any errors occur.
-    """
-    # Optimize module input normalization and preallocate xs
-    if isinstance(modules, Sequence) and not isinstance(modules, str):
-        modules_ = modules
-    else:
-        modules_ = [modules]
-
-    xs: dict[str, CrossSectionFactory] = {
+    """Collect profile factories from modules."""
+    modules = [modules] if isinstance(modules, ModuleType) else modules
+    return {
         name: obj
-        for module in modules_
+        for module in modules
         for name, obj in getmembers(module)
         if is_cross_section(name, obj, verbose)
     }
-
-    return xs
-
-
-# cross_sections = get_cross_sections(sys.modules[__name__])

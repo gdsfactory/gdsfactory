@@ -370,9 +370,8 @@ class TestRegisterPorts:
         return Port(
             name=name,
             center=(x, 0),
-            width=0.5,
+            cross_section=gf.cross_section.strip(width=0.5, layer=layer_idx),
             orientation=orientation,
-            layer=layer_idx,
         )
 
     def test_adds_ports_to_component(self) -> None:

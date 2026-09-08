@@ -9,7 +9,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import Section
+from gdsfactory.cross_section import SectionSpec
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs, Port
 
 from .._schematic import straight_schematic
@@ -186,21 +186,18 @@ def straight_heater_meander_doped(
     heater: ComponentReference | None = None
 
     if layers_doping:
-        sections: tuple[Section, ...] = ()
+        sections: tuple[SectionSpec, ...] = ()
         for doping_layer in layers_doping:
-            sections += (Section(layer=doping_layer, width=heater_width, offset=0),)
+            sections += ((doping_layer, -(heater_width / 2), heater_width / 2),)
         heater_cross_section = partial(
             gf.cross_section.cross_section,
             width=heater_width,
             layer="WG",
             sections=sections,
-            port_names=("e1", "e2"),
-            port_types=("electrical", "electrical"),
         )
 
-        heater = c << gf.c.straight(
-            length=straight_length,
-            cross_section=heater_cross_section,
+        heater = c << gf.path.straight(straight_length).extrude(
+            heater_cross_section, ports={0: ("e1", "e2", "electrical")}
         )
         heater.movey(spacing * (rows // 2))
 

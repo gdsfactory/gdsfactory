@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = ["mmi"]
 
 import gdsfactory as gf
@@ -121,7 +123,7 @@ def mmi(
         taper_ref.connect("o2", port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
 
-    x.add_bbox(c)
+    add_bbox(c, x)
     c.auto_rename_ports()
     c.flatten()
     return c

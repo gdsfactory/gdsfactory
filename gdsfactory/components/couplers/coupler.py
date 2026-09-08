@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox, validate_radius
+
 __all__ = ["coupler", "coupler_straight", "coupler_symmetric"]
 
 import gdsfactory as gf
@@ -172,9 +174,9 @@ def coupler(
     c.auto_rename_ports()
 
     x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
+    add_bbox(c, x)
     c.flatten()
     assert x.radius is not None
     if not allow_min_radius_violation:
-        x.validate_radius(x.radius)
+        validate_radius(x, x.radius)
     return c

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = ["taper_adiabatic"]
 
 from collections.abc import Callable
@@ -138,5 +140,5 @@ def taper_adiabatic(
         cross_section=cross_section,
         layer=layer,
     )
-    xs.add_bbox(c)
+    add_bbox(c, xs)
     return c

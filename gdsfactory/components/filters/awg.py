@@ -45,6 +45,7 @@ def free_propagation_region(
     y1 = width1 / 2
     y2 = width2 / 2
     xs = gf.get_cross_section(cross_section)
+    port_xs = gf.get_cross_section(cross_section, width=wg_width)
     layer = xs.layer
     assert layer is not None
 
@@ -58,9 +59,8 @@ def free_propagation_region(
         c.add_port(
             "o1",
             center=(0, 0),
-            width=wg_width,
+            cross_section=port_xs,
             orientation=180,
-            layer=layer,
         )
     else:
         y = np.linspace(-width1 / 2 + wg_width / 2, width1 / 2 - wg_width / 2, inputs)
@@ -69,9 +69,8 @@ def free_propagation_region(
             c.add_port(
                 f"W{i}",
                 center=(0, float(yi)),
-                width=wg_width,
+                cross_section=port_xs,
                 orientation=180,
-                layer=layer,
             )
 
     y = np.linspace(-width2 / 2 + wg_width / 2, width2 / 2 - wg_width / 2, outputs)
@@ -80,9 +79,8 @@ def free_propagation_region(
         c.add_port(
             f"E{i}",
             center=(length, float(yi)),
-            width=wg_width,
+            cross_section=port_xs,
             orientation=0,
-            layer=layer,
         )
 
     c.info["length"] = length

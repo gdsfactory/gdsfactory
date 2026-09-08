@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = [
     "taper",
     "taper_electrical",
@@ -61,11 +63,8 @@ def taper(
     width1 = x1.width
     width2 = x2.width
     width_max = max([width1, width2])
-    if layer:
-        x = gf.get_cross_section(cross_section, width=width_max, layer=layer)
-    else:
-        x = gf.get_cross_section(cross_section, width=width_max)
-    layer = layer or x.layer
+    x = gf.get_cross_section(cross_section, width=width_max)
+    layer = x.layer if layer is None else layer
     assert layer is not None
 
     if isinstance(port, gf.Port):
@@ -87,11 +86,11 @@ def taper(
         )
         c.add_polygon(p1, layer=layer)
 
-        for s1, s2 in zip(x1.sections[1:], x2.sections[1:], strict=False):
+        for s1, s2 in zip(x1.get_sections()[1:], x2.get_sections()[1:], strict=False):
             y1 = s1.width / 2
             y2 = s2.width / 2
-            offset1 = s1.offset
-            offset2 = s2.offset
+            offset1 = (s1.section_min + s1.section_max) / 2
+            offset2 = (s2.section_min + s2.section_max) / 2
             p1 = gf.kdb.DPolygon(
                 [
                     gf.kdb.DPoint(0, offset1 + y1),
@@ -103,7 +102,7 @@ def taper(
             c.add_polygon(p1, layer=s1.layer)
 
     if with_bbox:
-        x.add_bbox(c)
+        add_bbox(c, x)
     c.add_port(
         name=port_names[0],
         center=(0, 0),
@@ -213,7 +212,7 @@ def taper_strip_to_ridge(
         c.add_port(name="o2", port=taper_ref_wg.ports["o2"])
 
     if length:
-        xs.add_bbox(c)
+        add_bbox(c, xs)
     c.flatten()
     return c
 

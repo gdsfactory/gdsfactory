@@ -10,17 +10,11 @@ gf.gpdk.PDK.activate()
 if __name__ == "__main__":
     p = gf.path.straight()
 
-    g = gf.Section(
-        width=2,
-        offset=0,
-        layer=(2, 0),
-        port_names=("e1", "e2"),
-        port_types=("electrical", "electrical"),
-    )
-    s0 = gf.Section(width=2, offset=-4, layer=(2, 0))
-    s1 = gf.Section(width=2, offset=4, layer=(2, 0))
+    g = ((2, 0), -1.0, 1.0)
+    s0 = ((2, 0), -5.0, -3.0)
+    s1 = ((2, 0), 3.0, 5.0)
 
-    x = gf.CrossSection(sections=(s0, s1, g), radius=8)
+    x = gf.cross_section.cross_section(width=None, sections=(s0, s1, g), radius=8)
     c = gf.path.extrude(p, cross_section=x)
     pad = c
 

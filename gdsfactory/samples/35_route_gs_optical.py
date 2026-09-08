@@ -11,15 +11,9 @@ if __name__ == "__main__":
     p = gf.path.straight()
     port_type = "optical"
 
-    s0 = gf.Section(
-        width=2,
-        offset=0,
-        layer=(2, 0),
-        port_names=("g1", "g2"),
-        port_types=(port_type, port_type),
-    )
-    s1 = gf.Section(width=2, offset=4, layer=(2, 0))
-    x = gf.CrossSection(sections=(s0, s1), radius=8)
+    s0 = ((2, 0), -1.0, 1.0)
+    s1 = ((2, 0), 3.0, 5.0)
+    x = gf.cross_section.cross_section(width=None, sections=(s0, s1), radius=8)
     c = gf.path.extrude(p, cross_section=x)
     pad = c
 

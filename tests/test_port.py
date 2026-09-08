@@ -90,7 +90,10 @@ def test_port() -> None:
 def test_select_ports_layer() -> None:
     ports = [
         gf.Port(
-            name="p1", center=(0, 0), width=1, orientation=0, layer=gf.get_layer((1, 0))
+            name="p1",
+            center=(0, 0),
+            cross_section=gf.cross_section.strip(width=1),
+            orientation=0,
         ),
         gf.Port(
             name="p2", center=(1, 0), width=1, orientation=0, layer=gf.get_layer((2, 0))
@@ -105,7 +108,10 @@ def test_select_ports_layer() -> None:
 def test_select_ports_layers_excluded() -> None:
     ports = [
         gf.Port(
-            name="p1", center=(0, 0), width=1, orientation=0, layer=gf.get_layer((1, 0))
+            name="p1",
+            center=(0, 0),
+            cross_section=gf.cross_section.strip(width=1),
+            orientation=0,
         ),
         gf.Port(
             name="p2", center=(1, 0), width=1, orientation=0, layer=gf.get_layer((2, 0))

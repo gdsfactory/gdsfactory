@@ -40,17 +40,21 @@ Classes and functions for construction and manipulation of geometric objects.
 
 ### Cross-section functions
 
-::: gdsfactory.cross_section.CrossSection
+`CrossSection` is the union of the two kfactory types below. See the
+[migration guide](cross_section_migration.md) for profile construction and
+extrusion options.
+
+::: gdsfactory.cross_section.SymmetricCrossSection
+
+::: gdsfactory.cross_section.AsymmetricCrossSection
 
 ::: gdsfactory.cross_section.Transition
 
-::: gdsfactory.cross_section.Section
 
 ::: gdsfactory.cross_section.cross_section
 
 ::: gdsfactory.cross_section.strip
 
-::: gdsfactory.cross_section.strip_no_ports
 
 ::: gdsfactory.cross_section.slot
 

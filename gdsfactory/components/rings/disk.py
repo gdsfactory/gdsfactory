@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import add_bbox
+
 __all__ = ["disk", "disk_heater"]
 
 import math
@@ -21,8 +23,7 @@ from .._schematic import ring_single_schematic
 def _compute_parameters(
     xs_bend: CrossSection, wrap_angle_deg: float, radius: float
 ) -> tuple[float, float, float, float]:
-    r_bend = xs_bend.radius
-    assert r_bend is not None  # Retain original safety check
+    r_bend = radius
     theta = wrap_angle_deg * 0.5  # The angle in degrees
 
     theta_rad = theta * (math.pi / 180.0)  # Convert once to radians
@@ -125,7 +126,7 @@ def disk(
     xs = gf.get_cross_section(cross_section=cross_section)
     radius_disk = radius
     radius = radius + xs.width / 2.0 + gap
-    xs_bend = xs.copy(radius=radius)
+    xs_bend = xs
 
     r_bend, size_x, dy, bus_length = _compute_parameters(
         xs_bend, wrap_angle_deg, radius
@@ -155,7 +156,7 @@ def disk(
 
     c.add_port("o1", port=straight_left.ports["o1"])
     c.add_port("o2", port=straight_right.ports["o2"])
-    xs.add_bbox(c)
+    add_bbox(c, xs)
     if parity == -1:
         c = c.rotate(180)
 

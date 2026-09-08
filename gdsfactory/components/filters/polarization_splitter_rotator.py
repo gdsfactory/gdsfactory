@@ -80,8 +80,6 @@ def polarization_splitter_rotator(
     def bend_s_width(t: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
         return w4 + (width_out - w4) * t
 
-    x_bend = x.copy(width_function=bend_s_width)
-
     bend_s_var = c << bezier(
         control_points=(
             (0, 0),
@@ -89,7 +87,8 @@ def polarization_splitter_rotator(
             (length_out / 2, dy),
             (length_out, dy),
         ),
-        cross_section=x_bend,
+        cross_section=x,
+        width_function=bend_s_width,
     )
 
     taper_out = c << gf.c.taper(
