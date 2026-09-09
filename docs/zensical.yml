@@ -40,9 +40,9 @@ nav:
       - notebooks/22_migration_8.md
   - Plugins: https://gdsfactory.github.io/gplugins/
   - Reference:
+      - PCells: components.md
       - API: api.md
       - Routing API: api_routing.md
-      - PCells: components.md
       - Contributing: contributing.md
       - Changelog: changelog.md
       - Training: https://gdsfactory.github.io/gdsfactory-photonics-training/index.html

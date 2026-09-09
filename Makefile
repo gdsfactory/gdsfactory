@@ -95,14 +95,17 @@ upload-twine: build ## Upload package to PyPI using twine
 lint: ## Run linting and formatting checks
 	uv run pre-commit run --all-files
 
-nbdocs: ## Convert notebooks to markdown
+nbdocs: ## Convert Jupytext Python notebooks to markdown
 	rm -rf docs/notebooks/*.md
+	find docs/notebooks -maxdepth 1 -name "*.py" | sort | \
+		xargs -P4 -I{} uv run --extra docs jupytext --to ipynb {}
 	find docs/notebooks -maxdepth 1 -name "*.ipynb" | sort | \
 		xargs -P4 -I{} uv run --extra docs jupyter nbconvert \
 			--execute --to markdown --embed-images \
 			--ExecutePreprocessor.timeout=600 \
 			--ExecutePreprocessor.allow_errors=True \
 			{} --output-dir docs/notebooks
+	rm -f docs/notebooks/*.ipynb
 	uv run python docs/hooks.py docs/notebooks/*.md
 
 docs: nbdocs ## Build documentation
