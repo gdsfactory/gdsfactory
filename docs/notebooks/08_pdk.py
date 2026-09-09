@@ -329,7 +329,7 @@ c.plot()
 #
 # You can define the layer views
 #
-# 1. From a Klayout `lyp` (layer properties file). 
+# 1. From a Klayout `lyp` (layer properties file).
 # 2. From a `yaml` file.
 # 3. From scratch, adding all your layers into a class.
 #
@@ -357,7 +357,7 @@ LAYER_VIEWS = gf.technology.LayerViews(PATH.klayout_yaml)
 #
 # There are also many other pdk settings you can define in the PDK.
 #
-# - `PDK.name` 
+# - `PDK.name`
 # - `PDK.version`
 # - `PDK.cells` functions registered in the PDK to create parametric cells.
 # - `PDK.cross_sections` functions registered in the PDK to create cross_sections.

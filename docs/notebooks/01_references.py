@@ -29,7 +29,7 @@ p = gf.Component()
 # Add a polygon.
 xpts = [0, 0, 5, 6, 9, 12]
 ypts = [0, 1, 1, 2, 2, 0]
-# The zip function takes two lists (xpts and ypts) and pairs their elements together. 
+# The zip function takes two lists (xpts and ypts) and pairs their elements together.
 # The first element of xpts is paired with the first of ypts, the second with the second, and so on.
 # This creates a sequence of (x, y) tuples. A tuple is a data structure that consists of multiple parts.
 # list(...): The output of zip is converted into a list of these coordinate tuples.
@@ -57,8 +57,8 @@ c.plot()
 # polygon.  Let us add two more references to `c`:
 
 # %%
-poly_ref2 = c.add_ref(p) 
-poly_ref3 = c.add_ref(p)  
+poly_ref2 = c.add_ref(p)
+poly_ref3 = c.add_ref(p)
 c.plot()
 
 # %% [markdown]
@@ -114,7 +114,7 @@ c.plot()
 c2 = gf.Component()
 d_ref1 = c2.add_ref(c)  # Reference the Component "c" that 3 references in it.
 d_ref2 = c2 << c  # Use the "<<" operator to create a 2nd reference to c.plot().
-d_ref3 = c2 << c 
+d_ref3 = c2 << c
 
 d_ref1.move((20, 0))
 d_ref2.move((40, 0))
@@ -181,7 +181,7 @@ c.plot()
 # %%
 import gdsfactory as gf
 
-c3 = gf.Component() 
+c3 = gf.Component()
 c = gf.components.straight(length=1)
 
 # This is the key step where the array is created.
@@ -190,7 +190,7 @@ c = gf.components.straight(length=1)
 # column_pitch=10: The horizontal distance between the centers of adjacent columns is 10 µm.
 # row_pitch=20: The vertical distance between the centers of adjacent rows is 20 µm.
 # The variable aref holds a reference to this entire array.
-aref = c3.add_ref(c, columns=2, rows=2, column_pitch=10, row_pitch=20)  
+aref = c3.add_ref(c, columns=2, rows=2, column_pitch=10, row_pitch=20)
 c3.add_ports(aref.ports) # The ports are then automatically named to indicate the position in the array (o1_0_0, o2_0_0, o1_1_0, o2_1_0, etc.).
 
 # Reference the Component "c" 4 references in it with a 2 rows, 2 columns array.
@@ -254,7 +254,7 @@ def dbr_period(w1=0.5, w2=0.6, l1=0.2, l2=0.4, straight=gf.components.straight):
     # The second waveguide (r2) is automatically moved to connect its input port (o1) to the output port of the first waveguide (r1.ports["o2"]).
     # The allow_width_mismatch=True is necessary because the two waveguides have different widths.
     r2.connect(port="o1", other=r1.ports["o2"], allow_width_mismatch=True)
-    
+
     # The unconnected input of the first section and the unconnected output of the second section are "exported".
     # These will become the ports of the main dbr_period component.
     c.add_port("o1", port=r1.ports["o1"])
@@ -272,7 +272,7 @@ period
 # period: The component to be repeated.
 # columns=n: Creates n copies in the horizontal direction (since n was set to 3, it creates 3 copies).
 # rows=1: Creates a single row.
-# column_pitch=l1 + l2: This sets the horizontal distance between the start of each repeated period. 
+# column_pitch=l1 + l2: This sets the horizontal distance between the start of each repeated period.
 # By setting it to the total length of one period (l1 + l2), the copies are placed perfectly end-to-end, creating a continuous structure.
 
 dbr = gf.Component()
@@ -435,10 +435,10 @@ c.pprint_ports(layer=(1, 0))
 c.get_ports_list(width=500)
 
 # %%
-# A straight_heater_metal component is created. 
+# A straight_heater_metal component is created.
 # This is a complex component that has both optical ports for the waveguide and electrical ports for the metal heater.
 c0 = gf.components.straight_heater_metal()
-c0.pprint_ports() # This command prints a neatly formatted table of the ports on the original component, c0. 
+c0.pprint_ports() # This command prints a neatly formatted table of the ports on the original component, c0.
 
 # %%
 c1 = c0.dup() # A duplicate of the component is created and stored in c1. Then, the auto_rename_ports() function is called on this new component.
@@ -505,14 +505,14 @@ import gdsfactory as gf
 # This contrast leads to the strip being able to confine light very tightly, thus allowing for sharp bends with minimal loss of light.
 cross_section = gf.cross_section.strip()
 
-# A 4x4 square component with two ports on each side is created. 
+# A 4x4 square component with two ports on each side is created.
 # The cross_section parameter ensures that all the ports on this component are defined as strip waveguides.
 nxn = gf.components.nxn(
     west=2, north=2, east=2, south=2, xsize=4, ysize=4, cross_section=cross_section)
 
 # The extend_ports function takes the nxn component and adds straight extensions to some of its ports.
 # component=nxn: The component to modify.
-# orientation=0: This tells the function to only add extensions to the ports that have an orientation of 0 degrees, 
+# orientation=0: This tells the function to only add extensions to the ports that have an orientation of 0 degrees,
 # which corresponds to the ports on the east (right) side of the component.
 c = gf.components.extension.extend_ports(component=nxn, orientation=0)
 c.plot()
@@ -537,7 +537,7 @@ c.plot()
 # %%
 c = gf.components.mmi1x2()
 
-# The add_pins_container function takes the mmi component and returns a new component that includes the original MMI geometry plus visual annotations for each port. 
+# The add_pins_container function takes the mmi component and returns a new component that includes the original MMI geometry plus visual annotations for each port.
 # These "pins" are typically short path markers and text labels showing the port's name (e.g., "o1"), making them easy to identify visually.
 c_with_pins = gf.add_pins.add_pins_container(c)
 
@@ -640,9 +640,9 @@ c.plot()
 import gdsfactory as gf
 
 # This creates a 180-degree circular bend, which is a U-shaped waveguide used to turn the path of light around completely.
-bend180 = gf.components.bend_circular180() 
+bend180 = gf.components.bend_circular180()
 
-# The following function creates a straight waveguide with PIN junctions and heaters. It includes the central silicon waveguide, 
+# The following function creates a straight waveguide with PIN junctions and heaters. It includes the central silicon waveguide,
 # doped regions (positive and negative), and metal contacts for applying a voltage, often used for thermal tuning or modulation.
 # The straight_pin component is designed to be thermo-optic phase shifter, not just a simple waveguide.
 # A thermo-optic phase shifter is a device on a photonic chip that uses heat to control the phase of a light wave.
@@ -749,7 +749,7 @@ import gdsfactory as gf
 
 c = gf.Component()
 text = c << gf.components.text("hello")
-text.dmirror(p1=(1, 1), p2=(1, 3))  
+text.dmirror(p1=(1, 1), p2=(1, 3))
 # Reflects across the line formed by p1 and p2.
 c.plot()
 

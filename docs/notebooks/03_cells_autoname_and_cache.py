@@ -245,7 +245,7 @@ wg4 = straight(length=13)
 import gdsfactory as gf
 
 
-@gf.cell    
+@gf.cell
 def wg(length: float = 3):
     return gf.components.straight(length=length)
 
@@ -289,13 +289,13 @@ c1.write_gds()
 # def die_bad():
 #     """BAD: c1 is an intermediate Unnamed cell."""
 #     c = gf.Component()
-#     
-#     c1 = gf.Component() 
+#
+#     c1 = gf.Component()
 #     _ = c1 << gf.components.straight(length=10)
-#     
-#     c << c1 
+#
+#     c << c1
 #     c << gf.components.die(size=(2e3, 2e3), street_width=10)
-#     
+#
 #     return c
 #
 #
@@ -318,10 +318,10 @@ import gdsfactory as gf
 def die_good():
     """GOOD: No intermediate cells are used."""
     c = gf.Component()
-    
+
     c << gf.components.straight(length=10)
     c << gf.components.die(size=(2000, 2000), street_width=10)
-    
+
     return c
 
 
