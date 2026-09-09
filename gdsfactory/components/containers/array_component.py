@@ -40,15 +40,19 @@ def array(
 
         2 rows x 4 columns
 
+    ```text
           column_pitch
           <---------->
          ___        ___       ___        ___
         |   |      |   |     |   |      |   |
         |___|      |___|     |___|      |___|
+    ```
 
+    ```text
          ___        ___       ___        ___
         |   |      |   |     |   |      |   |
         |___|      |___|     |___|      |___|
+    ```
     """
     if size:
         columns = int(size[0] / column_pitch)

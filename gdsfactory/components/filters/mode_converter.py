@@ -29,7 +29,7 @@ def mode_converter(
 
     By matching the effective indices of two waveguides with different widths,
     light can couple from different transverse modes e.g. TE0 <-> TE1.
-    https://doi.org/10.1109/JPHOT.2019.2941742
+    <https://doi.org/10.1109/JPHOT.2019.2941742>
 
     Args:
         gap: directional coupler gap.
@@ -43,6 +43,7 @@ def mode_converter(
         taper_length: taper length.
         cross_section: cross_section spec.
 
+    ```text
         o2 ---           --- o4
               \         /
                \       /
@@ -50,6 +51,7 @@ def mode_converter(
         o1 -----=======----- o3
                 |-----|
                 length
+    ```
 
         = : multimode width
         - : singlemode width

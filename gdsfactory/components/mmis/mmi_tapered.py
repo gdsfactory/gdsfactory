@@ -60,6 +60,7 @@ def mmi_tapered(
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
 
+    ```text
                                        ┌───────────┐
                                        │           ├───────────────┐
                                        │           │               ├────────────┐
@@ -77,6 +78,7 @@ def mmi_tapered(
             start                                  length_taper_out      end
                                        ◄───────────►
                                         length_mmi
+    ```
     """
     c = Component()
     gap_input_tapers = gf.snap.snap_to_grid(gap_input_tapers, grid_factor=2)

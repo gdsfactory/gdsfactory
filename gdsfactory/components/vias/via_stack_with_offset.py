@@ -42,6 +42,7 @@ def via_stack_with_offset(
 
         side view
 
+    ```text
          __________________________
         |                          |
         |                          | layers[2]
@@ -55,6 +56,7 @@ def via_stack_with_offset(
         |            |
         |  sizes[0]  |  layers[0]
         |____________|
+    ```
 
             vias[0] = None
 

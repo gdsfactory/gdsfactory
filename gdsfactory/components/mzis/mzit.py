@@ -34,7 +34,7 @@ def mzit(
     r"""Mzi tolerant to fabrication variations.
 
     based on Yufei Xing thesis
-    http://photonics.intec.ugent.be/publications/PhD.asp?ID=250
+    <http://photonics.intec.ugent.be/publications/PhD.asp?ID=250>
 
     Args:
         w0: input waveguide width (um).
@@ -55,6 +55,7 @@ def mzit(
         coupler2: coupler2 spec.
         cross_section: cross_section spec.
 
+    ```text
                            cp1
             4   2 __                  __  3___w0_t2   _w2___
                     \                /                      \
@@ -73,6 +74,7 @@ def mzit(
                   __/                 \ E0_w0__t2 __w1______/
             1   1
                            cp2
+    ```
 
 
     """

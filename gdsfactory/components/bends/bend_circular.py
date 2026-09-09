@@ -67,11 +67,13 @@ def _bend_circular(
         all_angle: if True returns a ComponentAllAngle.
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
 
+    ```text
                   o2
                   |
                  /
                 /
         o1_____/
+    ```
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius

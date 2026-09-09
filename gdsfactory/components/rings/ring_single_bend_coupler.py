@@ -39,12 +39,14 @@ def coupler_bend(
         bend: for bend.
         bend_output: for bend.
 
+    ```text
             r   4
             |   |
             |  / ___3
             | / /
         2____/ /
         1_____/
+    ```
     """
     c = Component()
 

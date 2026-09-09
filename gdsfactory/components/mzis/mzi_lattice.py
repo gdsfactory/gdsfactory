@@ -40,6 +40,7 @@ def mzi_lattice(
         straight_x_bot: bottom straight for length_x.
         cross_section: for routing (sxtop/sxbot to combiner).
 
+    ```text
                ______             ______
               |      |           |      |
               |      |           |      |
@@ -50,6 +51,7 @@ def mzi_lattice(
               |      |           |      |
               |______|           |      |
                                  |______|
+    ```
 
     """
     if len(coupler_lengths) != len(coupler_gaps):
@@ -186,6 +188,7 @@ def mzi_lattice_mmi(
         straight_x_bot: bottom straight for length_x.
         cross_section: for routing (sxtop/sxbot to combiner).
 
+    ```text
                ______             ______
               |      |           |      |
               |      |           |      |
@@ -196,6 +199,7 @@ def mzi_lattice_mmi(
               |      |           |      |
               |______|           |      |
                                  |______|
+    ```
 
     """
     length = len(coupler_widths)
