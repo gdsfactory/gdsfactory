@@ -58,7 +58,8 @@ test: test-data-gds ## Run tests
 	uv run pytest -s -n logical
 
 test-force: ## Run tests with force-regen
-	uv run pytest -n logical --force-regen -s
+	# Run serially so GDS difftest can prompt before replacing a reference file.
+	uv run pytest --force-regen -s
 
 cov: ## Run tests with coverage
 	uv run pytest --cov=gdsfactory --cov-report=xml:coverage.xml --cov-report=term-missing:skip-covered

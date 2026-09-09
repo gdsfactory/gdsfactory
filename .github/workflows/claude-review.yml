@@ -7,7 +7,10 @@ concurrency:
   cancel-in-progress: true
 jobs:
   claude-review:
-    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    # Forked pull requests do not receive repository secrets or OIDC tokens, both
+    # of which are required by the Claude action.  Skip them rather than failing
+    # every external contribution during authentication.
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
       contents: read
