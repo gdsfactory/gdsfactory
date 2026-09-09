@@ -84,12 +84,13 @@ pytest -s
 
 pytest will test any function that starts with `test_`. You can assert the number of polygons, the name, the length of a route or whatever you want.
 
-In addition to unit tests run against the library, gdsfactory has a suite of regression tests which ensure that Components are never unintentionally modified between revisions. These regression tests include
-| Test Type | Path | Format | Purpose |
-|-----------|------|--------|---------|
-| GDS | `tests/components/test_components.py:test_gds` | GDS | Tests that GDS files have not changed either structurally (cell names and hierarchy) or geometrically (XOR). |
-| Settings | `tests/components/test_components.py:test_settings` | YAML | Tests that component settings have not changed. |
-| Netlist | `tests/test_netlists.py` | YAML | Tests that you can convert components from YAML back and forth. |
+In addition to unit tests run against the library, gdsfactory has a suite of regression tests which ensure that Components are never unintentionally modified between revisions. These regression tests include:
+
+| Test Type | Path                                                 | Format | Purpose                                                                                                     |
+| --------- | ---------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
+| GDS       | `tests/components/test_components.py::test_gds`      | GDS    | Tests that GDS files have not changed either structurally (cell names and hierarchy) or geometrically (XOR). |
+| Settings  | `tests/components/test_components.py::test_settings` | YAML   | Tests that component settings have not changed.                                                             |
+| Netlist   | `tests/test_netlists.py`                             | YAML   | Tests that you can convert components from YAML back and forth.                                             |
 
 - regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `pytest --force-regen -s` from the repo root directory.
   - `tests/components/test_components.py` stores all the component settings in YAML
