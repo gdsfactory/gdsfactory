@@ -49,7 +49,7 @@ def via_stack(
     contains 4 ports (e1, e2, e3, e4)
 
     also know as Via array
-    http://www.vlsi-expert.com/2017/12/vias.html
+    <http://www.vlsi-expert.com/2017/12/vias.html>
 
     Args:
         size: of the layers.

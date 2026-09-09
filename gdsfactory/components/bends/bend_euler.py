@@ -67,10 +67,10 @@ def _bend_euler(
     However, if `with_arc_floorplan` is True, `radius` corresponds to the effective
     radius of curvature (making the curve a drop-in replacement for an arc). If
     p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
-    al. https://dx.doi.org/10.1364/oe.27.031394
+    al. <https://dx.doi.org/10.1364/oe.27.031394>
 
     default p = 0.5 based on this paper
-    https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937
+    <https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937>
 
     Args:
         radius: in um. Defaults to cross_section_radius.
@@ -173,6 +173,7 @@ def bend_euler_s(
         port1: input port name.
         port2: output port name.
 
+    ```text
                         _____ o2
                        /
                       /
@@ -183,6 +184,7 @@ def bend_euler_s(
                   /
                  /
          o1_____/
+    ```
 
     """
     c = Component()

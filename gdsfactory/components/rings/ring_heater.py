@@ -63,6 +63,7 @@ def ring_double_heater(
         length_extension_top: straight length extension at the end of the coupler top ports.
         length_extension_bot: straight length extension at the end of the coupler bottom ports.
 
+    ```text
            o2──────▲─────────o3
                    │gap_top
            xx──────▼─────────xxx
@@ -81,6 +82,7 @@ def ring_double_heater(
             xxx──────▲─────────xxx
                      │gap
              o1──────▼─────────o4
+    ```
     """
     gap_top = gap_top or gap
     gap_bot = gap_bot or gap

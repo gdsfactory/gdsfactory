@@ -123,7 +123,7 @@ def component_sequence(
         s = "AB-H-H-H-H-BA"
         c = gf.components.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
         c.plot()
-        ```
+    ```
     """
     ports_map = ports_map or {}
     named_references_counter: Counter[str] = Counter()

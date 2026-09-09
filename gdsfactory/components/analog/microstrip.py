@@ -1,6 +1,6 @@
 """Helper functions for RF layout.
 
-Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+Adapted from PHIDL <https://github.com/amccaugh/phidl/> by Adam McCaughan
 """
 
 from __future__ import annotations
@@ -70,7 +70,7 @@ def _microstrip_Z(
 
     References:
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
-        Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
+        Computer-Aided Design. <http://doi.org/10.1109/MWSYM.1980.1124303>
     """
     _validate_positive("wire_width", wire_width)
     _validate_positive("dielectric_thickness", dielectric_thickness)
@@ -105,7 +105,7 @@ def _microstrip_LC_per_meter(
 
     References:
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
-        Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
+        Computer-Aided Design. <http://doi.org/10.1109/MWSYM.1980.1124303>
     """
     # Use the fact that v = 1/sqrt(L_m*C_m) = 1/sqrt(eps*mu) and
     # Z = sqrt(L_m/C_m)   [Where L_m is inductance per meter]
@@ -136,7 +136,7 @@ def _microstrip_Z_with_Lk(
 
     References:
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
-        Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
+        Computer-Aided Design. <http://doi.org/10.1109/MWSYM.1980.1124303>
     """
     # Add a kinetic inductance and recalculate the impedance, be careful
     # to input Lk as a per-meter inductance
@@ -163,7 +163,7 @@ def _microstrip_v_with_Lk(
 
     References:
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
-        Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
+        Computer-Aided Design. <http://doi.org/10.1109/MWSYM.1980.1124303>
     """
     _validate_positive("wire_width", wire_width)
     L_m, C_m = _microstrip_LC_per_meter(wire_width, dielectric_thickness, eps_r)
@@ -188,7 +188,7 @@ def _find_microstrip_wire_width(
 
     References:
         Hammerstad, E., & Jensen, O. (1980). Accurate Models for Microstrip
-        Computer-Aided Design. http://doi.org/10.1109/MWSYM.1980.1124303
+        Computer-Aided Design. <http://doi.org/10.1109/MWSYM.1980.1124303>
     """
     _validate_positive("Z_target", Z_target)
     _validate_positive("dielectric_thickness", dielectric_thickness)

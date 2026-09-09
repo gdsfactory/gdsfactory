@@ -63,13 +63,16 @@ def grating_coupler_dual_pol(
                    /  /  /  /
                   /  /  /  /
 
+    ```text
                 _|-|_|-|_|-|___  --> unit_cells
                    base_layer |
             o1  ______________|
+    ```
 
 
         top view
 
+    ```text
                    -------------
                // | o   o   o  |
         o1 __ //  | o   o   o  |
@@ -80,6 +83,7 @@ def grating_coupler_dual_pol(
                     \\       //
                          |
                          o2
+    ```
 
     """
     xs = gf.get_cross_section(cross_section)

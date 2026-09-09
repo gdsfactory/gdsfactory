@@ -30,7 +30,7 @@ def straight_heater_doped_rib(
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
 
-    dimensions from https://doi.org/10.1364/OE.27.010456
+    dimensions from <https://doi.org/10.1364/OE.27.010456>
 
     Args:
         length: of the waveguide in um.
@@ -50,6 +50,7 @@ def straight_heater_doped_rib(
         xoffset_tip2: distance in um from output taper to via_stack.
 
 
+    ```text
                               length
         |<--------------------------------------------->|
         |              length_section                   |
@@ -70,11 +71,13 @@ def straight_heater_doped_rib(
             |        |____heater_width____|        |
             |        |                    |        |
             |________|                    |________|
+    ```
 
         taper         cross_section_heater
 
 
 
+    ```text
                                    |<------width------>|
                                     ____________________ heater_gap             slab_gap
              top_via_stack         |                   |<---------->| bot_via_stack   <-->
@@ -86,6 +89,7 @@ def straight_heater_doped_rib(
                                                                       heater_width
         <------------------------------------------------------------------------------>
                                        slab_width
+    ```
     """
     c = Component()
     cross_section_heater = gf.get_cross_section(
@@ -226,6 +230,7 @@ def straight_heater_doped_strip(
         xoffset_tip1: distance in um from input taper to via_stack.
         xoffset_tip2: distance in um from output taper to via_stack.
 
+    ```text
                               length
           <-|--------|--------------------------------->
             |        | length_section
@@ -242,9 +247,11 @@ def straight_heater_doped_strip(
                                           |          |
                                           |          |
                                           |__________|
+    ```
 
     cross_section
 
+    ```text
                                   |<------width------>|
           ____________             ___________________               ______________
          |            |           |     undoped Si    |             |              |
@@ -252,6 +259,7 @@ def straight_heater_doped_strip(
          |____________|           |___________________|             |______________|
                                                                      <------------>
                                                         heater_gap     heater_width
+    ```
     """
     return straight_heater_doped_rib(
         length=length,

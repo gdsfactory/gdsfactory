@@ -289,6 +289,49 @@ def flux_qubit_asymmetric(
     inner_comp.add_polygon(inner_points, layer=layer_metal)
 
     loop = gf.boolean(outer_comp, inner_comp, operation="not", layer=layer_metal)
+
+    # Cut the loop at each Josephson-junction location. The right edge is
+    # slanted, so its center at y=0 is displaced by half of ``x_offset``.
+    gap_margin = 0.05
+    alpha_gap = Component()
+    alpha_gap_ref = alpha_gap.add_ref(
+        gf.components.rectangle(
+            size=(alpha_junction_width + 2 * gap_margin, wire_width + 2 * gap_margin),
+            layer=layer_metal,
+        )
+    )
+    alpha_gap_ref.move(
+        (-alpha_junction_width / 2 - gap_margin, -loop_height / 2 - gap_margin)
+    )
+
+    beta_gap_left = Component()
+    beta_gap_left_ref = beta_gap_left.add_ref(
+        gf.components.rectangle(
+            size=(wire_width + 2 * gap_margin, junction_height + 2 * gap_margin),
+            layer=layer_metal,
+        )
+    )
+    beta_gap_left_ref.move(
+        (-loop_width / 2 - gap_margin, -junction_height / 2 - gap_margin)
+    )
+
+    right_edge_at_junction = loop_width / 2 + x_offset / 2
+    beta_gap_right = Component()
+    beta_gap_right_ref = beta_gap_right.add_ref(
+        gf.components.rectangle(
+            size=(wire_width + 2 * gap_margin, junction_height + 2 * gap_margin),
+            layer=layer_metal,
+        )
+    )
+    beta_gap_right_ref.move(
+        (
+            right_edge_at_junction - wire_width - gap_margin,
+            -junction_height / 2 - gap_margin,
+        )
+    )
+
+    for gap in (alpha_gap, beta_gap_left, beta_gap_right):
+        loop = gf.boolean(loop, gap, operation="not", layer=layer_metal)
     c.add_ref(loop)
 
     # Create the alpha junction (smaller, at bottom)
