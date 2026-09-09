@@ -73,9 +73,18 @@ def test_route_single_on_placer_error_warning() -> None:
     assert route is not None
 
 
-def test_route_single_on_placer_error_show_error() -> None:
+def test_route_single_on_placer_error_show_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """on_placer_error='show_error' raises and sends error to klayout marker database."""
     c, p1, p2, steps = _make_failing_route_args()
+    shown = False
+
+    def show_error(*args: object, **kwargs: object) -> None:
+        nonlocal shown
+        shown = True
+
+    monkeypatch.setattr(c, "show", show_error)
     with pytest.raises((PlacerError, ValueError)):
         gf.routing.route_single(
             c,
@@ -85,3 +94,4 @@ def test_route_single_on_placer_error_show_error() -> None:
             steps=steps,
             on_placer_error="show_error",
         )
+    assert shown
