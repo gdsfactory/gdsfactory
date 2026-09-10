@@ -1,7 +1,40 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.49.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.50.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.50.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.50.0) - 2026-09-09
+
+- feat: allow custom PHIX die fiducials [#4838](https://github.com/gdsfactory/gdsfactory/pull/4838)
+- Fix asymmetric flux qubit geometry and ports [#4836](https://github.com/gdsfactory/gdsfactory/pull/4836)
+- fix: draw correct geometry for resonator_cpw and resonator_lumped [#4832](https://github.com/gdsfactory/gdsfactory/pull/4832)
+- ci: run Claude review for fork PRs [#4835](https://github.com/gdsfactory/gdsfactory/pull/4835)
+- docs: fix regression test table rendering in developer.md [#4834](https://github.com/gdsfactory/gdsfactory/pull/4834)
+- docs: store tutorial notebooks as Jupytext Python [#4830](https://github.com/gdsfactory/gdsfactory/pull/4830)
+- ci: add Claude PR review workflow [#4765](https://github.com/gdsfactory/gdsfactory/pull/4765)
+- fix(#4365): safely handle missing brightness fields in LYP files [#4820](https://github.com/gdsfactory/gdsfactory/pull/4820)
+- fix: keep grid_with_text labels on their anchors [#4821](https://github.com/gdsfactory/gdsfactory/pull/4821)
+- docs: fix component docstrings [#4829](https://github.com/gdsfactory/gdsfactory/pull/4829)
+- docs: add PCB Gerber notebook tutorial [#4804](https://github.com/gdsfactory/gdsfactory/pull/4804)
+- docs: fix identical die_bad and die_good examples (#4772) [#4817](https://github.com/gdsfactory/gdsfactory/pull/4817)
+- Fix recursive remap_layers and recursive locking logic in general [#4815](https://github.com/gdsfactory/gdsfactory/pull/4815)
+- fix: accept negative standard circular bend angles [#4805](https://github.com/gdsfactory/gdsfactory/pull/4805)
+- Facilitate path inversion [#4784](https://github.com/gdsfactory/gdsfactory/pull/4784)
+- Fix to_gerber so a GDSFactory layout actually reaches PCB CAM [#4802](https://github.com/gdsfactory/gdsfactory/pull/4802)
+- Modified hermite bend [#4800](https://github.com/gdsfactory/gdsfactory/pull/4800)
+- Fix Gerber export (#4748) and emit a Ucamco `.gbrjob` so PIC layouts in um can be handed to RF/PCB CAM in mm. [#4748](https://github.com/gdsfactory/gdsfactory/issues/4748)
+- docs: clarify KCell to Component conversion [#4822](https://github.com/gdsfactory/gdsfactory/pull/4822)
+- update changelog [#4801](https://github.com/gdsfactory/gdsfactory/pull/4801)
+- build(deps): bump pre-commit from 4.6.1 to 4.6.2 [#4813](https://github.com/gdsfactory/gdsfactory/pull/4813)
+- build(deps): bump pyglet from 2.1.15 to 2.1.16 [#4809](https://github.com/gdsfactory/gdsfactory/pull/4809)
+- build(deps): bump pydantic-settings from 2.14.2 to 2.15.0 [#4811](https://github.com/gdsfactory/gdsfactory/pull/4811)
+- build(deps): bump scipy from 1.18.0 to 1.18.1 [#4812](https://github.com/gdsfactory/gdsfactory/pull/4812)
+- build(deps-dev): update flit-core requirement from <4,>=3.2 to >=3.2,<5 [#4810](https://github.com/gdsfactory/gdsfactory/pull/4810)
+- build(deps): bump docker/login-action from 4.5.1 to 4.6.0 [#4808](https://github.com/gdsfactory/gdsfactory/pull/4808)
+- build(deps): bump release-drafter/release-drafter from 7.6.0 to 7.7.0 [#4807](https://github.com/gdsfactory/gdsfactory/pull/4807)
+- build(deps): bump docker/login-action from 4.5.1 to 4.6.0 [#4808](https://github.com/gdsfactory/gdsfactory/pull/4808)
+- build(deps): bump release-drafter/release-drafter from 7.6.0 to 7.7.0 [#4807](https://github.com/gdsfactory/gdsfactory/pull/4807)
+
 
 ## [9.49.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.49.0) - 2026-08-25
 

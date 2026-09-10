@@ -57,7 +57,7 @@ def _bend_topic(
     width: float | None = None,
     all_angle: bool = False,
 ) -> AnyComponent:
-    """Returns a Third Order Polynomial Interconnected Circular (TOPIC) bend component, as described in this publication https://arxiv.org/html/2411.15025v1.
+    """Returns a Third Order Polynomial Interconnected Circular (TOPIC) bend component, as described in this publication <https://arxiv.org/html/2411.15025v1>.
 
     The bend consists of three parts:
     a. Initial transition from straight to bend, known as TOP segment.
@@ -147,7 +147,7 @@ def bend_topic(
 ) -> Component:
     """Returns a regular degree Third Order Polynomial Interconnected Circular (TOPIC) bend component.
 
-    The implementation follows the description in this publication https://arxiv.org/html/2411.15025v1.
+    The implementation follows the description in this publication <https://arxiv.org/html/2411.15025v1>.
 
     The bend consists of three parts:
     a. Initial transition from straight to bend, known as TOP segment.
@@ -196,7 +196,7 @@ def bend_topic_all_angle(
 ) -> ComponentAllAngle:
     """Returns a Third Order Polynomial Interconnected Circular (TOPIC) bend component of arbitrary angle.
 
-    The implementation follows the description in this publication https://arxiv.org/html/2411.15025v1.
+    The implementation follows the description in this publication <https://arxiv.org/html/2411.15025v1>.
 
     The bend consists of three parts:
     a. Initial transition from straight to bend, known as TOP segment.
@@ -251,6 +251,7 @@ def bend_topic_s(
         port1: input port name.
         port2: output port name.
 
+    ```text
                         _____ o2
                        /
                       /
@@ -261,6 +262,7 @@ def bend_topic_s(
                   /
                  /
          o1_____/
+    ```
 
     """
     c = Component()

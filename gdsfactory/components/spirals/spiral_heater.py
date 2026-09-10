@@ -332,7 +332,7 @@ def spiral_racetrack_heater_metal(
 ) -> Component:
     """Returns spiral racetrack with a heater above.
 
-    based on https://doi.org/10.1364/OL.400230 .
+    based on <https://doi.org/10.1364/OL.400230> .
 
     Args:
         min_radius: smallest radius. Defaults to the radius of the cross-section.
@@ -452,7 +452,7 @@ def spiral_racetrack_heater_doped(
 ) -> Component:
     """Returns spiral racetrack with a heater between the loops.
 
-    based on https://doi.org/10.1364/OL.400230 but with the heater between the loops.
+    based on <https://doi.org/10.1364/OL.400230> but with the heater between the loops.
 
     Args:
         min_radius: smallest radius in um. Defaults to the radius of the cross-section.

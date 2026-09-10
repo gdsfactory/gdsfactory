@@ -275,10 +275,24 @@ def flux_qubit_asymmetric(
         (-loop_width / 2, loop_height / 2),
     ]
 
+    # Offset the slanted wall along its normal.  Simply subtracting
+    # ``wire_width`` from x (as for a rectangular loop) produces a different
+    # wire width on the slanted side.
+    right_inset = wire_width / np.cos(angle_rad)
+
+    def right_edge(y: float) -> float:
+        return loop_width / 2 + (y + loop_height / 2) * np.tan(angle_rad)
+
     inner_points = [
         (-loop_width / 2 + wire_width, -loop_height / 2 + wire_width),
-        (loop_width / 2 - wire_width, -loop_height / 2 + wire_width),
-        (loop_width / 2 - wire_width + x_offset, loop_height / 2 - wire_width),
+        (
+            right_edge(-loop_height / 2 + wire_width) - right_inset,
+            -loop_height / 2 + wire_width,
+        ),
+        (
+            right_edge(loop_height / 2 - wire_width) - right_inset,
+            loop_height / 2 - wire_width,
+        ),
         (-loop_width / 2 + wire_width, loop_height / 2 - wire_width),
     ]
 
@@ -289,6 +303,63 @@ def flux_qubit_asymmetric(
     inner_comp.add_polygon(inner_points, layer=layer_metal)
 
     loop = gf.boolean(outer_comp, inner_comp, operation="not", layer=layer_metal)
+
+    # Cut the loop at each Josephson-junction location. The right-edge gap
+    # and junction follow the slanted wire, so their dimensions remain
+    # correct normal and tangential to that wire.
+    gap_margin = 0.05
+
+    def slanted_rectangle(
+        center: tuple[float, float], width: float, height: float
+    ) -> list[tuple[float, float]]:
+        """Returns a rectangle with width normal to the slanted right edge."""
+        normal = np.array((np.cos(angle_rad), -np.sin(angle_rad)))
+        tangent = np.array((np.sin(angle_rad), np.cos(angle_rad)))
+        center_array = np.asarray(center)
+        return [
+            tuple(center_array + sx * width / 2 * normal + sy * height / 2 * tangent)
+            for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))
+        ]
+
+    alpha_gap = Component()
+    alpha_gap_ref = alpha_gap.add_ref(
+        gf.components.rectangle(
+            size=(alpha_junction_width + 2 * gap_margin, wire_width + 2 * gap_margin),
+            layer=layer_metal,
+        )
+    )
+    alpha_gap_ref.move(
+        (-alpha_junction_width / 2 - gap_margin, -loop_height / 2 - gap_margin)
+    )
+
+    beta_gap_left = Component()
+    beta_gap_left_ref = beta_gap_left.add_ref(
+        gf.components.rectangle(
+            size=(wire_width + 2 * gap_margin, junction_height + 2 * gap_margin),
+            layer=layer_metal,
+        )
+    )
+    beta_gap_left_ref.move(
+        (-loop_width / 2 - gap_margin, -junction_height / 2 - gap_margin)
+    )
+
+    right_edge_at_junction = right_edge(0)
+    right_normal = np.array((np.cos(angle_rad), -np.sin(angle_rad)))
+    right_junction_center = np.asarray((right_edge_at_junction, 0.0)) - (
+        wire_width / 2 * right_normal
+    )
+    beta_gap_right = Component()
+    beta_gap_right.add_polygon(
+        slanted_rectangle(
+            tuple(right_junction_center),
+            wire_width + 2 * gap_margin,
+            junction_height + 2 * gap_margin,
+        ),
+        layer=layer_metal,
+    )
+
+    for gap in (alpha_gap, beta_gap_left, beta_gap_right):
+        loop = gf.boolean(loop, gap, operation="not", layer=layer_metal)
     c.add_ref(loop)
 
     # Create the alpha junction (smaller, at bottom)
@@ -314,18 +385,29 @@ def flux_qubit_asymmetric(
         (-loop_width / 2 + wire_width / 2 - junction_width / 2, -junction_height / 2)
     )
 
-    # Right side center x is shifted by half the x_offset
-    right_center_x = loop_width / 2 - wire_width / 2 + x_offset / 2
-    beta_junction_right = gf.components.rectangle(
-        size=(junction_width, junction_height),
+    c.add_polygon(
+        slanted_rectangle(
+            tuple(right_junction_center), junction_width, junction_height
+        ),
         layer=layer_junction,
     )
-    beta_junction_right_ref = c.add_ref(beta_junction_right)
-    beta_junction_right_ref.move(
-        (right_center_x - junction_width / 2, -junction_height / 2)
-    )
 
-    # Add control and readout ports
+    # Add metal leads that terminate at the two external ports.  Ports must be
+    # on physical conductor ends, not floating outside the qubit loop.
+    flux_lead = c.add_ref(
+        gf.components.rectangle(size=(wire_width, 10.0), layer=layer_metal)
+    )
+    flux_lead.move((-wire_width / 2, loop_height / 2))
+
+    readout_y = loop_height / 4
+    readout_start_x = right_edge(readout_y) - wire_width / 2
+    readout_lead = c.add_ref(
+        gf.components.rectangle(
+            size=(10.0 + wire_width / 2, wire_width), layer=layer_metal
+        )
+    )
+    readout_lead.move((readout_start_x, readout_y - wire_width / 2))
+
     c.add_port(
         name="flux_control",
         center=(0, loop_height / 2 + 10.0),
@@ -337,7 +419,7 @@ def flux_qubit_asymmetric(
 
     c.add_port(
         name="readout",
-        center=(loop_width / 2 + x_offset + 10.0, 0),
+        center=(right_edge(readout_y) + 10.0, readout_y),
         width=wire_width,
         orientation=0,
         layer=layer_metal,

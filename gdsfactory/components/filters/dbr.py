@@ -4,7 +4,7 @@ wavelength = 2*period*neff
 period = wavelength/2/neff
 
 dbr default parameters are from Stephen Lin thesis
-https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871
+<https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871>
 
 Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """
@@ -40,17 +40,20 @@ def dbr_cell(
         l1: thin length in um.
         w2: thick width in um.
         l2: thick length in um.
-        n: number of periods.
         cross_section: cross_section spec.
 
+    ```text
            l1      l2
         <-----><-------->
                 _________
         _______|
+    ```
 
+    ```text
           w1       w2
         _______
                |_________
+    ```
     """
     l1 = snap_to_grid(l1)
     l2 = snap_to_grid(l2)
@@ -90,14 +93,18 @@ def dbr(
         cross_section: cross_section spec.
         straight_length: length of the straight section between cutbacks.
 
+    ```text
            l1      l2
         <-----><-------->
                 _________
         _______|
+    ```
 
+    ```text
           w1       w2       ...  n times
         _______
                |_________
+    ```
     """
     c = Component()
     xs = gf.get_cross_section(cross_section)

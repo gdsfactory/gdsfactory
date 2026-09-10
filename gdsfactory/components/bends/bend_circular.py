@@ -6,13 +6,13 @@ __all__ = ["bend_circular", "bend_circular180", "bend_circular_all_angle"]
 
 import warnings
 from functools import partial
-from typing import Literal, overload
+from typing import Literal, Unpack, overload
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, ExtrusionPorts, LayerSpec
 
 from .._schematic import bend_schematic
 
@@ -28,6 +28,7 @@ def _bend_circular(
     allow_min_radius_violation: bool = False,
     all_angle: Literal[False] = False,
     angular_step: float | None = None,
+    **kwargs: Unpack[ExtrusionPorts],
 ) -> Component: ...
 
 
@@ -42,6 +43,7 @@ def _bend_circular(
     allow_min_radius_violation: bool = False,
     all_angle: Literal[True] = True,
     angular_step: float | None = None,
+    **kwargs: Unpack[ExtrusionPorts],
 ) -> ComponentAllAngle: ...
 
 
@@ -55,6 +57,7 @@ def _bend_circular(
     allow_min_radius_violation: bool = False,
     all_angle: bool = False,
     angular_step: float | None = None,
+    **kwargs: Unpack[ExtrusionPorts],
 ) -> Component | ComponentAllAngle:
     """Returns a radial arc.
 
@@ -68,12 +71,15 @@ def _bend_circular(
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
         all_angle: if True returns a ComponentAllAngle.
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
+        kwargs: optional ``port_type`` override for ports o1/o2.
 
+    ```text
                   o2
                   |
                  /
                 /
         o1_____/
+    ```
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
@@ -88,7 +94,8 @@ def _bend_circular(
         x = gf.get_cross_section(cross_section, width=width or x.width)
 
     p = arc(radius=radius, angle=angle, npoints=npoints, angular_step=angular_step)
-    c = p.extrude(x, all_angle=all_angle)
+    ports = {0: ("o1", "o2", kwargs["port_type"])} if "port_type" in kwargs else None
+    c = p.extrude(x, all_angle=all_angle, ports=ports)
 
     c.info["length"] = float(snap_to_grid(p.length()))
     c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
@@ -125,6 +132,7 @@ def bend_circular(
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
+    **kwargs: Unpack[ExtrusionPorts],
 ) -> Component:
     """Returns a radial arc.
 
@@ -137,6 +145,8 @@ def bend_circular(
         width: width to use. Defaults to cross_section.width.
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
+        kwargs: optional ``port_type`` override for ports o1/o2.
+            Defaults to the PDK's port policy.
     """
     if abs(angle) not in {90, 180}:
         warnings.warn(
@@ -154,6 +164,7 @@ def bend_circular(
         allow_min_radius_violation=allow_min_radius_violation,
         all_angle=False,
         angular_step=angular_step,
+        **kwargs,
     )
 
 

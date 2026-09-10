@@ -59,7 +59,7 @@ def straight_heater_meander_doped(
     based on SungWon Chung, Makoto Nakai, and Hossein Hashemi,
     Low-power thermo-optic silicon modulator for large-scale photonic integrated systems
     Opt. Express 27, 13430-13459 (2019)
-    https://www.osapublishing.org/oe/abstract.cfm?URI=oe-27-9-13430
+    <https://www.osapublishing.org/oe/abstract.cfm?URI=oe-27-9-13430>
 
     Args:
         length: total length of the optical path.

@@ -39,7 +39,6 @@ def mmi_90degree_hybrid(
         width_mmi: in y direction.
         gap_mmi: (width_taper + gap between tapered wg)/2.
         straight: straight function.
-        with_bbox: box in bbox_layers and bbox_offsets avoid DRC sharp edges.
         cross_section: spec.
 
     ```text

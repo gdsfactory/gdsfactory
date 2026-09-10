@@ -47,7 +47,7 @@ def mmi1x2_with_sbend(
 ) -> Component:
     """Returns 1x2 splitter for Cband.
 
-    https://opg.optica.org/oe/fulltext.cfm?uri=oe-21-1-1310&id=248418
+    <https://opg.optica.org/oe/fulltext.cfm?uri=oe-21-1-1310&id=248418>
 
     Args:
         with_sbend: add sbend.

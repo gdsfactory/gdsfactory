@@ -17,6 +17,12 @@ def die_frame(
     size: Size = (11200.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
 ) -> gf.Component:
+    """Returns a rectangular die floorplan.
+
+    Args:
+        size: die frame size (width, height), in um.
+        layer_floorplan: layer for the floorplan rectangle.
+    """
     return gf.c.rectangle(
         size=size, layer=layer_floorplan, centered=True, port_type=None
     )
@@ -27,6 +33,12 @@ def die_frame_rf(
     size: Size = (10400.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
 ) -> gf.Component:
+    """Returns a rectangular die floorplan sized for RF dies.
+
+    Args:
+        size: die frame size (width, height), in um.
+        layer_floorplan: layer for the floorplan rectangle.
+    """
     return gf.c.rectangle(
         size=size, layer=layer_floorplan, centered=True, port_type=None
     )
@@ -152,6 +164,10 @@ def die_frame_phix(
     pad_port_name_bot: str = "e2",
     pad_port_name_rf: str = "e2",
     layer_fiducial: LayerSpec = "M3",
+    fiducial_top_left: ComponentSpec | None = None,
+    fiducial_top_right: ComponentSpec | None = None,
+    fiducial_bottom_left: ComponentSpec | None = None,
+    fiducial_bottom_right: ComponentSpec | None = None,
     layer_ruler: LayerSpec = "WG",
     ruler_bbox_layers: tuple[LayerSpec, ...] | None = None,
     ruler_bbox_offset: float = 3.0,
@@ -190,6 +206,14 @@ def die_frame_phix(
         pad_port_name_bot: name of the pad port name at the bottom facing north.
         pad_port_name_rf: name of the RF pad port name.
         layer_fiducial: layer for fiducials.
+        fiducial_top_left: optional top-left fiducial. Defaults to the legacy
+            cross on ``layer_fiducial``.
+        fiducial_top_right: optional top-right fiducial. Defaults to the legacy
+            circle on ``layer_fiducial``.
+        fiducial_bottom_left: optional bottom-left fiducial. Defaults to the
+            legacy circle on ``layer_fiducial``.
+        fiducial_bottom_right: optional bottom-right fiducial. Defaults to the
+            legacy circle on ``layer_fiducial``.
         layer_ruler: layer for ruler.
         ruler_bbox_layers: layers for bbox.
         ruler_bbox_offset: offset for bbox.
@@ -347,9 +371,13 @@ def die_frame_phix(
     x0_pads = -xs / 2 + pad_side_distance
     x0 = x0_pads
 
-    top_left = c << gf.c.cross(layer=layer_fiducial, length=150, width=20)
-    top_left.xmax = x0 - 75
-    top_left.y = +ys / 2 - edge_to_pad_distance - 50
+    if fiducial_top_left:
+        top_left = c << gf.get_component(fiducial_top_left)
+        top_left.center = (x0 - 150, +ys / 2 - edge_to_pad_distance - 50)
+    else:
+        top_left = c << gf.c.cross(layer=layer_fiducial, length=150, width=20)
+        top_left.xmax = x0 - 75
+        top_left.y = +ys / 2 - edge_to_pad_distance - 50
 
     # north pads
     for i in range(npads):
@@ -361,13 +389,21 @@ def die_frame_phix(
             name=f"N{i}",
             port=pad_ref.ports[pad_port_name_top],
         )
-    top_right = c << gf.c.circle(layer=layer_fiducial, radius=75)
-    top_right.xmin = pad_ref.xmax + 480
-    top_right.y = +ys / 2 - edge_to_pad_distance - 50
+    if fiducial_top_right:
+        top_right = c << gf.get_component(fiducial_top_right)
+        top_right.center = (pad_ref.xmax + 555, +ys / 2 - edge_to_pad_distance - 50)
+    else:
+        top_right = c << gf.c.circle(layer=layer_fiducial, radius=75)
+        top_right.xmin = pad_ref.xmax + 480
+        top_right.y = +ys / 2 - edge_to_pad_distance - 50
 
-    bot_left = c << gf.c.circle(layer=layer_fiducial, radius=75)
-    bot_left.xmax = x0 - 75
-    bot_left.y = -ys / 2 + edge_to_pad_distance + 50
+    if fiducial_bottom_left:
+        bot_left = c << gf.get_component(fiducial_bottom_left)
+        bot_left.center = (x0 - 150, -ys / 2 + edge_to_pad_distance + 50)
+    else:
+        bot_left = c << gf.c.circle(layer=layer_fiducial, radius=75)
+        bot_left.xmax = x0 - 75
+        bot_left.y = -ys / 2 + edge_to_pad_distance + 50
 
     x0 = x0_pads
 
@@ -382,9 +418,13 @@ def die_frame_phix(
             port=pad_ref.ports[pad_port_name_bot],
         )
 
-    bot_right = c << gf.c.circle(layer=layer_fiducial, radius=75)
-    bot_right.xmin = pad_ref.xmax + 480
-    bot_right.ymin = -ys / 2 + edge_to_pad_distance
+    if fiducial_bottom_right:
+        bot_right = c << gf.get_component(fiducial_bottom_right)
+        bot_right.center = (pad_ref.xmax + 555, -ys / 2 + edge_to_pad_distance + 75)
+    else:
+        bot_right = c << gf.c.circle(layer=layer_fiducial, radius=75)
+        bot_right.xmin = pad_ref.xmax + 480
+        bot_right.ymin = -ys / 2 + edge_to_pad_distance
 
     elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
     for p in elec_ports:
@@ -412,6 +452,10 @@ def die_frame_phix_dc(
     pad_port_name_top: str = "e4",
     pad_port_name_bot: str = "e2",
     layer_fiducial: LayerSpec = "M3",
+    fiducial_top_left: ComponentSpec | None = None,
+    fiducial_top_right: ComponentSpec | None = None,
+    fiducial_bottom_left: ComponentSpec | None = None,
+    fiducial_bottom_right: ComponentSpec | None = None,
     layer_ruler: LayerSpec = "WG",
     ruler_bbox_layers: tuple[LayerSpec, ...] | None = None,
     ruler_bbox_offset: float = 3.0,
@@ -426,6 +470,43 @@ def die_frame_phix_dc(
     pad_rotation_dc_south: float = 0,
     pad_side_distance: float = 1160.0,
 ) -> Component:
+    """A PHIX die frame with DC pads only.
+
+    Args:
+        die_frame: die_frame spec.
+        nfibers: the number of grating couplers.
+        npads: the number of pads.
+        npads_rf: the number of RF pads on the left side.
+        fiber_pitch: the pitch of the grating couplers, in um.
+        pad_pitch: the pitch of the pads, in um.
+        pad_pitch_gsg: the pitch of the GSG pads, in um.
+        edge_coupler: the edge coupler component.
+        grating_coupler: Optional grating coupler.
+        cross_section: the cross section.
+        pad: the pad component.
+        pad_gsg: the GSG pad component.
+        edge_to_pad_distance: the distance from the edge to the pads, in um.
+        pad_port_name_top: name of the pad port name at the top facing south.
+        pad_port_name_bot: name of the pad port name at the bottom facing north.
+        layer_fiducial: layer for fiducials.
+        fiducial_top_left: optional top-left fiducial; defaults to a cross.
+        fiducial_top_right: optional top-right fiducial; defaults to a circle.
+        fiducial_bottom_left: optional bottom-left fiducial; defaults to a circle.
+        fiducial_bottom_right: optional bottom-right fiducial; defaults to a circle.
+        layer_ruler: layer for ruler.
+        ruler_bbox_layers: layers for bbox.
+        ruler_bbox_offset: offset for bbox.
+        ruler_yoffset: y-offset for ruler.
+        ruler_xoffset: x-offset for ruler.
+        with_right_fiber_coupler: if True, adds edge couplers on the right side.
+        with_left_fiber_coupler: if True, adds edge couplers on the left side.
+        fiber_coupler_xoffset: x-offset for fiber couplers.
+        text_offset: offset for text.
+        text: text component spec.
+        pad_rotation_dc_north: rotation for DC pads.
+        pad_rotation_dc_south: rotation for DC pads.
+        pad_side_distance: distance from the die frame side to the first pad, in um.
+    """
     return die_frame_phix(
         die_frame=die_frame,
         nfibers=nfibers,
@@ -443,6 +524,10 @@ def die_frame_phix_dc(
         pad_port_name_top=pad_port_name_top,
         pad_port_name_bot=pad_port_name_bot,
         layer_fiducial=layer_fiducial,
+        fiducial_top_left=fiducial_top_left,
+        fiducial_top_right=fiducial_top_right,
+        fiducial_bottom_left=fiducial_bottom_left,
+        fiducial_bottom_right=fiducial_bottom_right,
         layer_ruler=layer_ruler,
         ruler_bbox_layers=ruler_bbox_layers,
         ruler_bbox_offset=ruler_bbox_offset,
@@ -478,6 +563,10 @@ def die_frame_phix_rf(
     pad_port_name_bot: str = "e2",
     pad_port_name_rf: str = "e2",
     layer_fiducial: LayerSpec = "M3",
+    fiducial_top_left: ComponentSpec | None = None,
+    fiducial_top_right: ComponentSpec | None = None,
+    fiducial_bottom_left: ComponentSpec | None = None,
+    fiducial_bottom_right: ComponentSpec | None = None,
     layer_ruler: LayerSpec = "WG",
     ruler_bbox_layers: tuple[LayerSpec, ...] | None = None,
     ruler_bbox_offset: float = 3.0,
@@ -494,6 +583,46 @@ def die_frame_phix_rf(
     pad_rotation_dc_north: float = 0,
     pad_rotation_dc_south: float = 0,
 ) -> Component:
+    """A PHIX die frame with DC and RF pads.
+
+    Args:
+        die_frame: die_frame spec.
+        nfibers: the number of grating couplers.
+        npads: the number of pads.
+        npads_rf: the number of RF pads on the left side.
+        fiber_pitch: the pitch of the grating couplers, in um.
+        pad_pitch: the pitch of the pads, in um.
+        pad_pitch_gsg: the pitch of the GSG pads, in um.
+        edge_coupler: the edge coupler component.
+        grating_coupler: Optional grating coupler.
+        cross_section: the cross section.
+        pad: the pad component.
+        pad_gsg: the GSG pad component.
+        edge_to_pad_distance: the distance from the edge to the pads, in um.
+        pad_port_name_top: name of the pad port name at the top facing south.
+        pad_port_name_bot: name of the pad port name at the bottom facing north.
+        pad_port_name_rf: name of the RF pad port name.
+        layer_fiducial: layer for fiducials.
+        fiducial_top_left: optional top-left fiducial; defaults to a cross.
+        fiducial_top_right: optional top-right fiducial; defaults to a circle.
+        fiducial_bottom_left: optional bottom-left fiducial; defaults to a circle.
+        fiducial_bottom_right: optional bottom-right fiducial; defaults to a circle.
+        layer_ruler: layer for ruler.
+        ruler_bbox_layers: layers for bbox.
+        ruler_bbox_offset: offset for bbox.
+        ruler_yoffset: y-offset for ruler.
+        ruler_xoffset: x-offset for ruler.
+        with_right_fiber_coupler: if True, adds edge couplers on the right side.
+        with_left_fiber_coupler: if True, adds edge couplers on the left side.
+        fiber_coupler_xoffset: x-offset for fiber couplers.
+        text_offset: offset for text.
+        text: text component spec.
+        pad_side_distance: distance from the die frame side to the first pad, in um.
+        xoffset_rf_pads: RF pads x-offset.
+        pad_rotation_rf: rotation for RF pads.
+        pad_rotation_dc_north: rotation for DC pads.
+        pad_rotation_dc_south: rotation for DC pads.
+    """
     return die_frame_phix(
         die_frame=die_frame,
         nfibers=nfibers,
@@ -512,6 +641,10 @@ def die_frame_phix_rf(
         pad_port_name_bot=pad_port_name_bot,
         pad_port_name_rf=pad_port_name_rf,
         layer_fiducial=layer_fiducial,
+        fiducial_top_left=fiducial_top_left,
+        fiducial_top_right=fiducial_top_right,
+        fiducial_bottom_left=fiducial_bottom_left,
+        fiducial_bottom_right=fiducial_bottom_right,
         layer_ruler=layer_ruler,
         ruler_bbox_layers=ruler_bbox_layers,
         ruler_bbox_offset=ruler_bbox_offset,

@@ -103,9 +103,9 @@ def _bend_modified_hermite(
     port2: str = "o2",
     all_angle: bool = False,
 ) -> AnyComponent:
-    """Modified Hermite curve, described in "Low-Loss Silicon Nitride Bent Waveguides at O-Band with Modified Hermite Curves", Donghao Li et al, https://www.mdpi.com/2304-6732/13/2/175 .
+    """Modified Hermite curve, described in "Low-Loss Silicon Nitride Bent Waveguides at O-Band with Modified Hermite Curves", Donghao Li et al, <https://www.mdpi.com/2304-6732/13/2/175> .
 
-    Default parameters are taken from Table 3 of https://www.mdpi.com/2304-6732/13/2/175 .
+    Default parameters are taken from Table 3 of <https://www.mdpi.com/2304-6732/13/2/175> .
 
     Note that the default inner_tangent_magnitude and outer_tangent_magnitude parameters will need to be changed if you change radius or angle, as optimal values for those parameters depend on radius and angle.
 
@@ -241,9 +241,9 @@ def bend_modified_hermite(
     port1: str = "o1",
     port2: str = "o2",
 ) -> Component:
-    """Modified Hermite curve, described in "Low-Loss Silicon Nitride Bent Waveguides at O-Band with Modified Hermite Curves", Donghao Li et al, https://www.mdpi.com/2304-6732/13/2/175 .
+    """Modified Hermite curve, described in "Low-Loss Silicon Nitride Bent Waveguides at O-Band with Modified Hermite Curves", Donghao Li et al, <https://www.mdpi.com/2304-6732/13/2/175> .
 
-    Default parameters are taken from Table 3 of https://www.mdpi.com/2304-6732/13/2/175 .
+    Default parameters are taken from Table 3 of <https://www.mdpi.com/2304-6732/13/2/175> .
 
     Note that the default inner_tangent_magnitude and outer_tangent_magnitude parameters will need to be changed if you change radius or angle, as optimal values for those parameters depend on radius and angle.
 
@@ -299,9 +299,9 @@ def bend_modified_hermite_all_angle(
     port1: str = "o1",
     port2: str = "o2",
 ) -> ComponentAllAngle:
-    """Modified Hermite curve, described in "Low-Loss Silicon Nitride Bent Waveguides at O-Band with Modified Hermite Curves", Donghao Li et al, https://www.mdpi.com/2304-6732/13/2/175 .
+    """Modified Hermite curve, described in "Low-Loss Silicon Nitride Bent Waveguides at O-Band with Modified Hermite Curves", Donghao Li et al, <https://www.mdpi.com/2304-6732/13/2/175> .
 
-    Default parameters are taken from Table 3 of https://www.mdpi.com/2304-6732/13/2/175 .
+    Default parameters are taken from Table 3 of <https://www.mdpi.com/2304-6732/13/2/175> .
 
     This is the all_angle version that can handle angles that aren't integer multiples of 90 degrees.
 
@@ -356,7 +356,6 @@ def bend_modified_hermite_s(
 
     Args:
         radius: effective bend radius
-        angle: angle, in degrees.
         inner_tangent_magnitude: a1 parameter from Li et al.
         outer_tangent_magnitude: a2 parameter from Li et al.
         npoints: number of points to use for the inner wall of the curve, and the outer wall.

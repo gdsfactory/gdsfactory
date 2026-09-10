@@ -4,9 +4,11 @@ from __future__ import annotations
 
 __all__ = ["straight", "straight_all_angle", "straight_array", "wire_straight"]
 
+from typing import Unpack
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, ExtrusionPorts
 
 from .._schematic import straight_schematic, wire_schematic
 
@@ -17,6 +19,7 @@ def straight(
     npoints: int = 2,
     cross_section: CrossSectionSpec = "strip",
     width: float | None = None,
+    **kwargs: Unpack[ExtrusionPorts],
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -25,16 +28,21 @@ def straight(
         npoints: number of points.
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
+        kwargs: optional ``port_type`` override for ports o1/o2.
+            Defaults to the PDK's port policy.
 
+    ```text
         o1  ──────────────── o2
                 length
+    ```
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)
     else:
         x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
-    c = p.extrude(x, add_bbox=True)
+    ports = {0: ("o1", "o2", kwargs["port_type"])} if "port_type" in kwargs else None
+    c = p.extrude(x, add_bbox=True, ports=ports)
 
     c.info["length"] = length
     c.info["width"] = (
@@ -59,8 +67,10 @@ def straight_all_angle(
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
+    ```text
         o1  ──────────────── o2
                 length
+    ```
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)
@@ -121,8 +131,10 @@ def wire_straight(
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
+    ```text
         o1  ──────────────── o2
                 length
+    ```
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)

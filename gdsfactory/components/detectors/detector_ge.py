@@ -30,7 +30,7 @@ def ge_detector_straight_si_contacts(
     Ge. See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n
     Photodetector With Silicon Contacts", Journal of Lightwave Technology 33(4), 2015.
 
-    https://doi.org/10.1109/JLT.2014.2367134
+    <https://doi.org/10.1109/JLT.2014.2367134>
 
     Args:
         length: pd length.

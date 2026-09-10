@@ -39,13 +39,13 @@ p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
 # The + operator is used to concatenate the two paths.
 # It takes the second path (p2) and appends it to the end of the first path (p1), ensuring a smooth, continuous transition.
 p = p1 + p2
-f = p.plot()
+p.plot()
 
 # %%
 p1 = gf.path.straight(length=5)
 p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
 p = p2 + p1
-f = p.plot()
+p.plot()
 
 # %%
 # Note: -angle rotations correspond to a clockwise turn.
@@ -59,11 +59,11 @@ P += gf.path.straight(length=10)
 P += gf.path.arc(radius=8, angle=45)
 P += gf.path.straight(length=10)
 
-f = P.plot()
+P.plot()
 
 # %%
 p2 = P.copy().rotate(45)
-f = p2.plot()
+p2.plot()
 
 # %%
 P.points - p2.points
@@ -77,7 +77,7 @@ P.points - p2.points
 # %%
 P.movey(10)
 P.xmin = 20
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # You can also check the length of the curve with the `length()` method:
@@ -319,7 +319,7 @@ P.append(
     ]
 )
 
-f = P.plot()
+P.plot()
 
 # %%
 P = (
@@ -333,7 +333,7 @@ P = (
     + left_turn
     + straight
 )
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # **Example 2:** Create an "S-turn" just by making a list of `[left_turn,
@@ -346,7 +346,7 @@ P = gf.Path()
 s_turn = [left_turn, right_turn]
 
 P.append(s_turn)
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # **Example 3:** Repeat the S-turn 3 times by nesting our S-turn list in another list. Nesting means placing one data structure inside another of the same type. In this context, it means creating a "list of lists."
@@ -361,14 +361,14 @@ s_turn = [left_turn, right_turn]
 triple_s_turn = [s_turn, s_turn, s_turn]
 
 P.append(triple_s_turn)
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # Note you can also use the Path() constructor to immediately construct your Path:
 
 # %%
 P = gf.Path([straight, left_turn, straight, right_turn, straight])
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # ## Waypoint smooth paths
@@ -392,7 +392,7 @@ P = gf.path.smooth(
     bend=gf.path.euler,  # Alternatively, use pp.arc, which will create a constant-radius bend.
     use_eff=False,
 )
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # ## Waypoint sharp paths
@@ -403,7 +403,7 @@ f = P.plot()
 
 # %%
 P = gf.Path([(20, 10), (30, 10), (40, 30), (50, 30), (50, 20), (70, 20)])
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # **Example 2:** Using the "turn and move" method, where you manipulate the end angle of the path so that when you append points to it they are in the correct direction.  *Note: It is crucial that the number of points per straight section is set to 2 (`gf.path.straight(length, num_pts = 2)`) otherwise the extrusion algorithm will show defects.*
@@ -417,7 +417,7 @@ P.end_angle += -135  # "Turn" -135 degrees (right).
 P += gf.path.straight(length=15, npoints=2)  # "Walk" length of 15.
 P.end_angle = 0  # Force the direction to be 0 degrees.
 P += gf.path.straight(length=10, npoints=2)
-f = P.plot()
+P.plot()
 
 # %%
 s0 = ((1, 0), 0 - 1 / 2, 0 + 1 / 2)
@@ -563,7 +563,7 @@ P.append(
     ]
 )
 
-f = P.plot()
+P.plot()
 
 # %% [markdown]
 # Arc paths are equivalent to `bend_circular` and euler paths are equivalent to `bend_euler`.
@@ -610,7 +610,7 @@ P.append(
     ]
 )
 
-f = P.plot()
+P.plot()
 
 # %%
 s, K = P.curvature()
@@ -829,12 +829,12 @@ def my_custom_offset_fun(t):
 
 P1 = gf.path.straight(npoints=101)
 P1.offset(offset=my_custom_offset_fun)
-f = P1.plot()
+P1.plot()
 
 # %%
 P2 = P1.copy()  # Make a copy of the path.
 P2.mirror((1, 0))  # Mirror across X-axis.
-f2 = P2.plot()
+P2.plot()
 
 # %%
 P = gf.path.arc(radius=10, angle=45)
@@ -856,7 +856,7 @@ P.append(gf.path.straight(length=10))
 P.append(gf.path.arc(radius=8, angle=45))
 P.append(gf.path.straight(length=10))
 
-f = P.plot()
+P.plot()
 
 # %%
 c = gf.path.extrude(P, width=1, layer=(2, 0))

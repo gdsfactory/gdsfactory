@@ -30,6 +30,7 @@ def coupler_symmetric(
         cross_section: section.
         allow_min_radius_violation: if True does not check for min bend radius.
 
+    ```text
                        dx
                     |-----|
                        ___ o3
@@ -40,6 +41,7 @@ def coupler_symmetric(
                      \        |
                       \___    |
                            o4
+    ```
 
     """
     c = Component()
@@ -90,9 +92,11 @@ def coupler_straight(
         gap: between straights.
         cross_section: specification (CrossSection, string or dict).
 
+    ```text
         o2──────▲─────────o3
                 │gap
         o1──────▼─────────o4
+    ```
     """
     c = Component()
     x = gf.get_cross_section(cross_section)
@@ -136,6 +140,7 @@ def coupler(
         allow_min_radius_violation: if True does not check for min bend radius.
         bend: input and output sbend components.
 
+    ```text
                dx                                 dx
             |------|                           |------|
          o2 ________                           ______o3
@@ -145,6 +150,7 @@ def coupler(
                      /                       \            |
             ________/                         \_______    |
          o1                                          o4
+    ```
 
                         coupler_straight  coupler_symmetric
     """

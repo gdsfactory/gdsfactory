@@ -110,7 +110,7 @@ def awg(
     """Returns an Arrayed Waveguide grating.
 
     To simulate you can use
-    https://github.com/dnrobin/awg-python
+    <https://github.com/dnrobin/awg-python>
 
     Args:
         arms: number of arms.
