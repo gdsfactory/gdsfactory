@@ -3,6 +3,13 @@
 
 <!-- towncrier release notes start -->
 
+## [9.50.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.50.0) - 2026-09-09
+
+
+### Fixed
+
+- Fix Gerber export (#4748) and emit a Ucamco `.gbrjob` so PIC layouts in um can be handed to RF/PCB CAM in mm. [#4748](https://github.com/gdsfactory/gdsfactory/issues/4748)
+
 ## [9.49.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.49.0) - 2026-08-25
 
 - Fast path for ndarray in points_to_polygon [#4786](https://github.com/gdsfactory/gdsfactory/pull/4786)
