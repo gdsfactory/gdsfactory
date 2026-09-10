@@ -195,11 +195,13 @@ def test_taper_cross_section_instance_matches_name() -> None:
     """
     from gdsfactory.cross_section import CrossSection, xsection
 
-    @xsection
+    @partial(xsection, xs_container={})
     def _xs_4588(width: float = 0.5) -> CrossSection:
+        # Keep this named test profile distinct from the PDK's strip profile.
+        # The first named factory owns the canonical profile name in kfactory.
         return gf.cross_section.strip(
             width=None,
-            sections=(((1, 0), -(width / 2), width / 2),),
+            sections=(((4588, 0), -(width / 2), width / 2),),
         )
 
     def _from_spec() -> gf.Component:
