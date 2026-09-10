@@ -471,3 +471,33 @@ def test_all_presets_roundtrip_in_fresh_process(tmp_path: Path, reverse: bool) -
         capture_output=True,
         text=True,
     )
+
+
+@pytest.mark.parametrize(
+    "setup",
+    [
+        "test_path.test_path_zero_length()",
+        "test_path.test_path_extrude_transition()",
+        "gf.c.straight_heater_meander()",
+    ],
+)
+def test_process_profiles_are_initialized_before_use(setup: str) -> None:
+    """Early geometry creation must not register profiles without PDK radii."""
+    subprocess.run(
+        [
+            "uv",
+            "run",
+            "--no-sync",
+            "python",
+            "-c",
+            "import gdsfactory as gf; from tests import test_path; "
+            "gf.gpdk.PDK.activate(); "
+            f"{setup}; "
+            "gf.c.straight(); gf.c.straight_heater_metal(); "
+            "assert gf.get_cross_section('strip').radius == 10; "
+            "assert gf.get_cross_section('heater_metal').radius == 2.5",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )

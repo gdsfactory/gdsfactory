@@ -8,6 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.cross_section.utils import get_port_cross_section
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec, Port
 
 from .._schematic import straight_schematic
@@ -179,7 +180,10 @@ def straight_heater_meander(
 
     if layer_heater:
         heater_cross_section = partial(
-            gf.cross_section.cross_section, width=heater_width, layer=layer_heater
+            get_port_cross_section,
+            width=heater_width,
+            layer=layer_heater,
+            kcl=c.kcl,
         )
 
         heater = c << gf.c.straight(

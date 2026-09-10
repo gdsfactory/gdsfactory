@@ -18,9 +18,7 @@ from gdsfactory.path import Path, _parabolic_transition
 
 
 def test_path_zero_length() -> None:
-    c = gf.components.straight(
-        length=0.5e-3, cross_section=gf.cross_section.cross_section
-    )
+    c = gf.components.straight(length=0.5e-3, cross_section="strip")
     assert c.area((1, 0)) == 0
 
 
@@ -414,8 +412,8 @@ def test_path_hash_geometry() -> None:
 def test_path_extrude_transition() -> None:
     path = Path([(0, 0), (1, 0), (1, 1)])
     transition = gf.path.transition(
-        cross_section1=gf.cross_section.cross_section,
-        cross_section2=gf.cross_section.cross_section,
+        cross_section1="strip",
+        cross_section2="strip",
     )
     c = path.extrude_transition(transition)
     assert c.bbox() == kdb.DBox(0, -0.25, 1.25, 1)

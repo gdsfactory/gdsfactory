@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 
 gf.gpdk.PDK.activate()
@@ -14,8 +16,9 @@ if __name__ == "__main__":
     s0 = ((2, 0), -5.0, -3.0)
     s1 = ((2, 0), 3.0, 5.0)
 
-    x = gf.cross_section.cross_section(width=None, sections=(s0, s1, g), radius=8)
-    c = gf.path.extrude(p, cross_section=x)
+    # Route on the centered conductor, with ground conductors on either side.
+    x = gf.cross_section.cross_section(width=None, sections=(g, s0, s1), radius=8)
+    c = gf.path.extrude(p, cross_section=x, ports={0: ("e1", "e2", "electrical")})
     pad = c
 
     c2 = gf.Component()
@@ -33,6 +36,7 @@ if __name__ == "__main__":
         # bend='bend_circular',
         # bend='wire_corner'
         bend="wire_corner45",
+        straight=partial(gf.c.straight, port_type="electrical"),
         # bend='wire_corner_sections'
     )
     c2.show()

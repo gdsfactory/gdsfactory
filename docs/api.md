@@ -44,9 +44,13 @@ Classes and functions for construction and manipulation of geometric objects.
 [migration guide](cross_section_migration.md) for profile construction and
 extrusion options.
 
-::: gdsfactory.cross_section.SymmetricCrossSection
+`gf.cross_section.SymmetricCrossSection` aliases `kfactory.DCrossSection`:
 
-::: gdsfactory.cross_section.AsymmetricCrossSection
+::: kfactory.cross_section.DCrossSection
+
+`gf.cross_section.AsymmetricCrossSection` aliases `kfactory.DAsymmetricCrossSection`:
+
+::: kfactory.cross_section.DAsymmetricCrossSection
 
 ::: gdsfactory.cross_section.Transition
 

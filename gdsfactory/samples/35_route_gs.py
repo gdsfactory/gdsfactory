@@ -4,7 +4,13 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
-gf.gpdk.PDK.activate()
+# This example uses layer 2/0 for conductors, so bends and straights must
+# create electrical ports on that layer too.
+gf.Pdk(
+    name="gs_example",
+    base_pdks=[gf.gpdk.PDK],
+    layer_port_types={(2, 0): "electrical"},
+).activate()
 
 
 if __name__ == "__main__":
@@ -13,7 +19,7 @@ if __name__ == "__main__":
     s0 = ((2, 0), -1.0, 1.0)
     s1 = ((2, 0), 3.0, 5.0)
     x = gf.cross_section.cross_section(width=None, sections=(s0, s1), radius=8)
-    c = gf.path.extrude(p, cross_section=x)
+    c = gf.path.extrude(p, cross_section=x, ports={0: ("g1", "g2", "electrical")})
     pad = c
 
     c2 = gf.Component()

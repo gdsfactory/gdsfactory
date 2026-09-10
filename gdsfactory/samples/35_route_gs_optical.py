@@ -14,7 +14,7 @@ if __name__ == "__main__":
     s0 = ((2, 0), -1.0, 1.0)
     s1 = ((2, 0), 3.0, 5.0)
     x = gf.cross_section.cross_section(width=None, sections=(s0, s1), radius=8)
-    c = gf.path.extrude(p, cross_section=x)
+    c = gf.path.extrude(p, cross_section=x, ports={0: ("g1", "g2", port_type)})
     pad = c
 
     c2 = gf.Component()
