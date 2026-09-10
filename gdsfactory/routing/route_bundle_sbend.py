@@ -9,6 +9,7 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.route_single_sbend import _with_endpoint_straights
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
     ComponentSpec,
@@ -122,30 +123,13 @@ def route_bundle_sbend(
         else:
             bend = gf.get_component(bend_s, size=(xsize, ysize), **bend_kwargs)
 
-        port_names = [port.name for port in bend.ports]
-        straight_cross_section = cross_section or bend.ports[port_name].info.get(
-            "cross_section"
-        )
-        if start_straight_length:
-            bend = gf.components.extend_ports(
-                bend,
-                port_names=(port_name,),
-                extension=gf.components.straight(
-                    length=start_straight_length,
-                    cross_section=straight_cross_section,
-                    width=bend.ports[port_name].width,
-                ),
-            )
-        if end_straight_length:
-            end_port_name = next(name for name in port_names if name != port_name)
-            bend = gf.components.extend_ports(
-                bend,
-                port_names=(end_port_name,),
-                extension=gf.components.straight(
-                    length=end_straight_length,
-                    cross_section=straight_cross_section,
-                    width=bend.ports[end_port_name].width,
-                ),
+        if straight_length:
+            bend = _with_endpoint_straights(
+                bend=bend,
+                start_port_name=port_name,
+                start_straight_length=start_straight_length,
+                end_straight_length=end_straight_length,
+                cross_section=cross_section,
             )
         sbend = component << bend
         sbend.connect(

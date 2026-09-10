@@ -11,14 +11,11 @@ def assert_endpoint_straights(
     end_straight_length: float,
     bend_size: tuple[float, float],
 ) -> None:
-    start_extension = sbend.cell.insts[0]
-    bend = start_extension.cell.insts[0]
+    start_straight, bend, end_straight = sbend.cell.insts
 
     assert bend.cell.settings["size"] == bend_size
-    assert (
-        start_extension.cell.insts[1].cell.settings["length"] == start_straight_length
-    )
-    assert sbend.cell.insts[1].cell.settings["length"] == end_straight_length
+    assert start_straight.cell.settings["length"] == start_straight_length
+    assert end_straight.cell.settings["length"] == end_straight_length
 
 
 def test_route_bundle_sbend() -> None:

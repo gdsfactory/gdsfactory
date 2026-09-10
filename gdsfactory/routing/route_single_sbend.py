@@ -7,6 +7,42 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
+@gf.cell
+def _with_endpoint_straights(
+    bend: ComponentSpec,
+    start_port_name: str,
+    start_straight_length: float,
+    end_straight_length: float,
+    cross_section: CrossSectionSpec | None = None,
+) -> Component:
+    bend = gf.get_component(bend)
+    port_names = [port.name for port in bend.ports]
+    end_port_name = next(name for name in port_names if name != start_port_name)
+    cross_section = cross_section or bend.ports[start_port_name].info.get(
+        "cross_section"
+    )
+    start_straight = gf.components.straight(
+        length=start_straight_length,
+        cross_section=cross_section,
+        width=bend.ports[start_port_name].width,
+    )
+    end_straight = gf.components.straight(
+        length=end_straight_length,
+        cross_section=cross_section,
+        width=bend.ports[end_port_name].width,
+    )
+    return gf.components.component_sequence(
+        sequence="SBE",
+        symbol_to_component={
+            "S": (start_straight, "o1", "o2"),
+            "B": (bend, start_port_name, end_port_name),
+            "E": (end_straight, "o1", "o2"),
+        },
+        port_name1=start_port_name,
+        port_name2=end_port_name,
+    )
+
+
 def route_bundle_sbend(
     component: Component,
     port1: Port,
@@ -53,27 +89,13 @@ def route_bundle_sbend(
     straight_length = start_straight_length + end_straight_length
     size = (size[0] - math.copysign(straight_length, size[0]), size[1])
     bend = gf.get_component(bend_s, size=size, cross_section=cross_section)
-
-    port_names = [port.name for port in bend.ports]
-    if start_straight_length:
-        bend = gf.components.extend_ports(
-            bend,
-            port_names=(port_names[0],),
-            extension=gf.components.straight(
-                length=start_straight_length,
-                cross_section=cross_section,
-                width=bend.ports[port_names[0]].width,
-            ),
-        )
-    if end_straight_length:
-        bend = gf.components.extend_ports(
-            bend,
-            port_names=(port_names[1],),
-            extension=gf.components.straight(
-                length=end_straight_length,
-                cross_section=cross_section,
-                width=bend.ports[port_names[1]].width,
-            ),
+    if straight_length:
+        bend = _with_endpoint_straights(
+            bend=bend,
+            start_port_name=bend.ports[0].name,
+            start_straight_length=start_straight_length,
+            end_straight_length=end_straight_length,
+            cross_section=cross_section,
         )
 
     bend_ref = component << bend
