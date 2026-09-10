@@ -18,7 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from gdsfactory import logger
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import CrossSection, CrossSectionCallable
 from gdsfactory.cross_section import xsection as cross_section_xsection
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.serialization import clean_value_json
@@ -134,6 +134,12 @@ class Pdk(BaseModel):
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_views: includes layer name to color, opacity and pattern.
         layer_transitions: transitions between different cross_sections.
+        port_cross_sections: factories for width/layer-only and auxiliary ports,
+            keyed by physical layer tuple. Factories accept width, layer, offset and kcl
+            and define radius metadata when a profile is first created.
+        layer_port_types: main extrusion port types, keyed by physical layer tuple.
+        auxiliary_port_types: auxiliary extrusion port types, keyed by main and
+            auxiliary physical layer tuples.
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
             string: material name.
@@ -150,10 +156,15 @@ class Pdk(BaseModel):
 
     name: str
     version: str = ""
-    cross_sections: dict[str, CrossSectionFactory] = Field(
+    port_cross_sections: dict[tuple[int, int], CrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
-    cross_section_default_names: dict[str, str] = Field(
+    layer_port_types: dict[tuple[int, int], str] = Field(default_factory=dict)
+    auxiliary_port_types: dict[tuple[tuple[int, int], tuple[int, int]], str] = Field(
+        default_factory=dict
+    )
+
+    cross_sections: dict[str, CrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
@@ -227,10 +238,18 @@ class Pdk(BaseModel):
         self.cross_sections = cross_sections
         self.cells = cells
         self.containers = containers
+        for field in (
+            "port_cross_sections",
+            "layer_port_types",
+            "auxiliary_port_types",
+        ):
+            conventions = {}
+            for pdk in self.base_pdks:
+                conventions.update(getattr(pdk, field))
+            conventions.update(getattr(self, field))
+            setattr(self, field, conventions)
 
-    def xsection(
-        self, func: Callable[..., CrossSection]
-    ) -> Callable[..., CrossSection]:
+    def xsection[**P](self, func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
         """Decorator to register a cross section function.
 
         Ensures that the cross-section name matches the name of the function
@@ -244,9 +263,8 @@ class Pdk(BaseModel):
                 return gf.cross_section.cross_section(width=width, radius=radius)
         """
         return cross_section_xsection(
-            cast("CrossSectionFactory", func),  # type: ignore[redundant-cast]
+            func,
             self.cross_sections,
-            self.cross_section_default_names,
         )
 
     def activate(self, force: bool = False) -> None:
@@ -500,67 +518,44 @@ class Pdk(BaseModel):
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs: Any
     ) -> CrossSection:
-        """Returns cross_section from a cross_section spec.
-
-        Args:
-            cross_section: CrossSection, CrossSectionFactory, Transition, string or dict.
-            kwargs: settings to override.
-        """
-        if callable(cross_section):
-            return cross_section(**kwargs)
-        if isinstance(cross_section, str):
-            if cross_section not in self.cross_sections:
-                cross_sections = list(self.cross_sections.keys())
-                raise ValueError(f"{cross_section!r} not in {cross_sections}")
-            xs_func = self.cross_sections[cross_section]
-            xs = xs_func(**kwargs)
-            if xs.name in self.cross_section_default_names:
-                xs._name = self.cross_section_default_names[xs.name]
-            return xs
+        """Resolve a factory, profile, or persisted cross-section name."""
         if isinstance(cross_section, dict):
-            xs_dict = cast("dict[str, Any]", cross_section)  # type: ignore[redundant-cast]
-            xs_name = xs_dict.get("cross_section", None)
-            if xs_name is None:
+            cross_section = cast("dict[str, Any]", cross_section)
+            if "cross_section" not in cross_section:
                 raise ValueError("cross_section name is required")
-            settings = dict(xs_dict.get("settings", {}))
+            settings = dict(cross_section.get("settings", {}))
             settings.update(kwargs)
-            return self.get_cross_section(xs_name, **settings)
+            return self.get_cross_section(cross_section["cross_section"], **settings)
+        if isinstance(cross_section, str) and cross_section in self.cross_sections:
+            return self.get_cross_section(self.cross_sections[cross_section](**kwargs))
+        if callable(cross_section):
+            factory = cast("CrossSectionFactory", cross_section)
+            return self.get_cross_section(factory(**kwargs))
         if isinstance(cross_section, CrossSection):
             if kwargs:
-                # apply overrides like the str/factory branches do; the copy
-                # gets a derived name, so it caches separately from the
-                # registered cross_section
-                return cross_section.copy(**kwargs)
+                from gdsfactory.cross_section.utils import with_width
+
+                if set(kwargs) != {"width"}:
+                    raise ValueError(
+                        "Only width can be replaced on a profile; use a factory for other settings."
+                    )
+                return with_width(cross_section, kwargs["width"])
             return cross_section
-        if isinstance(cross_section, kf.DCrossSection | kf.SymmetricalCrossSection):
-            if isinstance(cross_section, kf.DCrossSection):
-                cross_section_ = cross_section.base
-            else:
-                cross_section_ = cross_section
-
-            layer: LayerSpec = kf.kcl.layout.layer(cross_section_.main_layer)
-            try:
-                layer = self.get_layer_name(layer)
-            except ValueError:
-                logger.debug("Could not resolve layer name for %r, using as-is", layer)
-
-            section_ = Section(
-                name="_default",
-                width=kf.kcl.to_um(cross_section_.width),
-                layer=layer,
-                port_names=("o1", "o2"),
+        if kwargs:
+            raise ValueError(
+                "Cross-section overrides require a factory or factory name."
             )
-            xs_ = CrossSection(
-                sections=(section_,),
-                radius=kf.kcl.to_um(cross_section_.radius),
-                radius_min=kf.kcl.to_um(cross_section_.radius_min),
+        if not isinstance(
+            cross_section,
+            str | kf.SymmetricalCrossSection | kf.AsymmetricalCrossSection,
+        ):
+            raise ValueError(
+                f"get_cross_section expects a CrossSectionSpec, got {type(cross_section)}"
             )
-            xs_._name = cross_section_.name
-            return xs_.copy(**kwargs) if kwargs else xs_
-        raise ValueError(
-            "get_cross_section expects a CrossSectionSpec (CrossSection, "
-            f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
-        )
+        base = kf.kcl.get_base_cross_section(cross_section)
+        if isinstance(base, kf.SymmetricalCrossSection):
+            return kf.DCrossSection(kcl=kf.kcl, base=base)
+        return kf.DAsymmetricCrossSection(kcl=kf.kcl, base=base)
 
     def get_layer(self, layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
         """Returns layer from a layer spec."""
@@ -571,7 +566,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return kf.kcl.layout.layer(*layer)
         if isinstance(layer, kf.kdb.LayerInfo):
-            return layer.layer
+            return kf.kcl.layout.layer(layer)
         if self.layers is None or not hasattr(self.layers, layer):
             layer_members = self.layers.__members__ if self.layers else {}
             raise ValueError(f"{layer!r} not in PDK {self.name!r} {layer_members}")
@@ -676,15 +671,7 @@ class Pdk(BaseModel):
         return yaml.safe_dump(d)
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
-        xs_name = next(
-            (
-                key
-                for key, value in self.cross_sections.items()
-                if value() == cross_section
-            ),
-            None,
-        )
-        return xs_name or cross_section.name
+        return cross_section.name
 
     @cached_property
     def klayout_technology(self) -> klayout_tech.KLayoutTechnology:
@@ -799,7 +786,7 @@ def get_layer_tuple(layer: LayerSpec) -> tuple[int, int]:
     return info.layer, info.datatype
 
 
-def get_layer_info(layer: LayerSpec) -> kf.kdb.LayerInfo:
+def get_layer_info(layer: LayerSpec | kf.kdb.LayerInfo) -> kf.kdb.LayerInfo:
     """Returns layer info from a layer spec."""
     layer_index = get_layer(layer)
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]

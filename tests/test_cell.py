@@ -21,10 +21,10 @@ def test_double_decorated_cell() -> None:
 
 
 def test_partial() -> None:
-    x1 = partial(gf.cross_section.cross_section, layer=(2, 0), width=0.6)
-    x2 = partial(gf.cross_section.cross_section, layer=(2, 0), width=0.6)
-    b1 = gf.components.bend_euler(cross_section=x1)
-    b2 = gf.components.bend_euler(cross_section=x2)
+    x1 = partial(gf.cross_section.strip, layer=(902, 0), width=0.6)
+    x2 = partial(gf.cross_section.strip, layer=(902, 0), width=0.6)
+    b1 = gf.components.bend_euler(cross_section=x1, radius=10)
+    b2 = gf.components.bend_euler(cross_section=x2, radius=10)
     assert b1.base is b2.base
 
 

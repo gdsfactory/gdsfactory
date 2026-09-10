@@ -1,68 +1,71 @@
 instances:
-  bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_13000:
+  bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_13000:
     component: bend_circular
     info:
       dy: 0.0
       length: 62.831
       radius: 20
+      route_info_028523d7_2000_length: 62.831
       route_info_length: 62.831
       route_info_min_bend_radius: 20
       route_info_n_bend_90: 2
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 62.831
-      route_info_xs_71f1de5e_length: 62.831
       width: 2
     settings:
       allow_min_radius_violation: false
       angle: -180
       angular_step: null
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       layer: null
       npoints: null
+      port_type: electrical
       radius: 20
       width: null
-  bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_m67000:
+  bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_m67000:
     component: bend_circular
     info:
       dy: 0.0
       length: 62.831
       radius: 20
+      route_info_028523d7_2000_length: 62.831
       route_info_length: 62.831
       route_info_min_bend_radius: 20
       route_info_n_bend_90: 2
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 62.831
-      route_info_xs_71f1de5e_length: 62.831
       width: 2
     settings:
       allow_min_radius_violation: false
       angle: -180
       angular_step: null
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       layer: null
       npoints: null
+      port_type: electrical
       radius: 20
       width: null
-  bend_circular_gdsfactorypcomponentspbendspbend_circular_f3a28e0a_37000_m27000_A180:
+  bend_circular_gdsfactorypcomponentspbendspbend_circular_49c60930_37000_m27000_A180:
     component: bend_circular
     info:
       dy: 0
       length: 62.831
       radius: 20
+      route_info_028523d7_2000_length: 62.831
       route_info_length: 62.831
       route_info_min_bend_radius: 20
       route_info_n_bend_90: 2
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 62.831
-      route_info_xs_71f1de5e_length: 62.831
       width: 2
     settings:
       allow_min_radius_violation: false
       angle: 180
       angular_step: null
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       layer: null
       npoints: null
+      port_type: electrical
       radius: 20
       width: null
   interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0:
@@ -76,103 +79,108 @@ instances:
       - 1
       - 0
       thickness: 5
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_5b1a893e_32000_13000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_cb8f1b92_32000_13000:
     component: straight
     info:
       length: 5
+      route_info_028523d7_2000_length: 5
       route_info_length: 5
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 5
-      route_info_xs_71f1de5e_length: 5
       width: 2
     settings:
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       length: 5
       npoints: 2
+      port_type: electrical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_13000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_13000:
     component: straight
     info:
       length: 60
+      route_info_028523d7_2000_length: 60
       route_info_length: 60
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 60
-      route_info_xs_71f1de5e_length: 60
       width: 2
     settings:
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       length: 60
       npoints: 2
+      port_type: electrical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_m67000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_m67000:
     component: straight
     info:
       length: 60
+      route_info_028523d7_2000_length: 60
       route_info_length: 60
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 60
-      route_info_xs_71f1de5e_length: 60
       width: 2
     settings:
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       length: 60
       npoints: 2
+      port_type: electrical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m107000_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m107000_A180:
     component: straight
     info:
       length: 60
+      route_info_028523d7_2000_length: 60
       route_info_length: 60
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 60
-      route_info_xs_71f1de5e_length: 60
       width: 2
     settings:
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       length: 60
       npoints: 2
+      port_type: electrical
       width: null
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m27000_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m27000_A180:
     component: straight
     info:
       length: 60
+      route_info_028523d7_2000_length: 60
       route_info_length: 60
-      route_info_type: xs_71f1de5e
+      route_info_type: 028523d7_2000
       route_info_weight: 60
-      route_info_xs_71f1de5e_length: 60
       width: 2
     settings:
-      cross_section: xs_71f1de5e
+      cross_section: 028523d7_2000
       length: 60
       npoints: 2
+      port_type: electrical
       width: null
 nets:
-- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_13000,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_13000,o2
-- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_13000,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m27000_A180,o1
-- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_m67000,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_m67000,o2
-- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_m67000,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m107000_A180,o1
-- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_f3a28e0a_37000_m27000_A180,o1
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m27000_A180,o2
-- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_f3a28e0a_37000_m27000_A180,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_m67000,o1
-- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_5b1a893e_32000_13000,o2
-  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_13000,o1
+- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_13000,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_13000,o2
+- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_13000,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m27000_A180,o1
+- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_m67000,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_m67000,o2
+- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_m67000,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m107000_A180,o1
+- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_49c60930_37000_m27000_A180,o1
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m27000_A180,o2
+- p1: bend_circular_gdsfactorypcomponentspbendspbend_circular_49c60930_37000_m27000_A180,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_m67000,o1
+- p1: straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_cb8f1b92_32000_13000,o2
+  p2: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_13000,o1
 placements:
-  bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_13000:
+  bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_13000:
     mirror: false
     rotation: 0
     x: 97
     y: 13
-  bend_circular_gdsfactorypcomponentspbendspbend_circular_32a91d87_97000_m67000:
+  bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b_97000_m67000:
     mirror: false
     rotation: 0
     x: 97
     y: -67
-  bend_circular_gdsfactorypcomponentspbendspbend_circular_f3a28e0a_37000_m27000_A180:
+  bend_circular_gdsfactorypcomponentspbendspbend_circular_49c60930_37000_m27000_A180:
     mirror: false
     rotation: 180
     x: 37
@@ -182,30 +190,30 @@ placements:
     rotation: 0
     x: 0
     y: 0
-  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_5b1a893e_32000_13000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_cb8f1b92_32000_13000:
     mirror: false
     rotation: 0
     x: 32
     y: 13
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_13000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_13000:
     mirror: false
     rotation: 0
     x: 37
     y: 13
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_37000_m67000:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_37000_m67000:
     mirror: false
     rotation: 0
     x: 37
     y: -67
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m107000_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m107000_A180:
     mirror: false
     rotation: 180
     x: 97
     y: -107
-  straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m27000_A180:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m27000_A180:
     mirror: false
     rotation: 180
     x: 97
     y: -27
 ports:
-  output: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m107000_A180,o2
+  output: straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65_97000_m107000_A180,o2

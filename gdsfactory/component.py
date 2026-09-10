@@ -208,12 +208,16 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         ]
 
     @overload
-    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape: ...
+    def add_polygon(
+        self, points: _PolygonPoints, layer: LayerSpec | kdb.LayerInfo
+    ) -> kdb.Shape: ...
     @overload
-    def add_polygon(self, points: kdb.Region, layer: LayerSpec) -> None: ...
+    def add_polygon(
+        self, points: kdb.Region, layer: LayerSpec | kdb.LayerInfo
+    ) -> None: ...
     @abstractmethod
     def add_polygon(
-        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec
+        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec | kdb.LayerInfo
     ) -> kdb.Shape | None: ...
 
     def bbox_np(self) -> npt.NDArray[np.float64]:
@@ -231,11 +235,10 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         center: Position | kdb.DPoint | None = None,
         width: float | None = None,
         orientation: AngleInDegrees | None = None,
-        layer: LayerSpec | None = None,
+        layer: LayerSpec | kdb.LayerInfo | None = None,
         port_type: str | None = None,
-        keep_mirror: bool = False,
+        keep_mirror: bool | None = None,
         cross_section: CrossSectionSpec | None = None,
-        register_cross_section: bool = False,
     ) -> DPort:
         """Adds a Port to the Component.
 
@@ -247,41 +250,50 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             orientation: orientation of the port. If None and port is provided, preserves the original port's orientation. If None and port is not provided, defaults to 0.
             layer: layer spec to add port on.
             port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
-            keep_mirror: if True, keeps the mirror of the port.
+            keep_mirror: preserves the port mirror; defaults to preserving asymmetric profiles.
             cross_section: cross_section of the port.
-            register_cross_section: registers the CrossSection factory
         """
         if self.locked:
             raise LockedError(self)
 
-        from gdsfactory.pdk import get_active_pdk, get_cross_section, get_layer
+        from gdsfactory.pdk import get_cross_section, get_layer
 
         # Resolve initial values and determine if we need to override the transformation
         override_transformation = False
         if port:
             override_transformation = (center is not None) or (orientation is not None)
             center = center if center is not None else port.center
-            width = width if width is not None else port.width
+            if width is None and cross_section is None:
+                width = port.width
             orientation = orientation if orientation is not None else port.orientation
-            layer = layer if layer is not None else port.layer
+            if layer is None and cross_section is None:
+                layer = port.layer
             port_type = port_type if port_type is not None else port.port_type
             name = name if name is not None else port.name
-            _xs = port.info.get("cross_section")
-            _xs_is_registered = (
-                isinstance(_xs, str) and _xs in get_active_pdk().cross_sections
-            )
             cross_section = (
                 cross_section
                 if cross_section is not None
-                else _xs
-                if _xs_is_registered
-                else getattr(port, "cross_section", _xs)
+                else port.to_dtype().cross_section
             )
 
         # Apply CrossSection overrides
         xs_name = None
+        xs = None
         if cross_section:
             xs = get_cross_section(cross_section)
+            from gdsfactory.cross_section.utils import (
+                get_port_cross_section,
+                with_width,
+            )
+
+            if layer is not None and get_layer(layer) != get_layer(xs.layer):
+                xs = get_port_cross_section(
+                    width=width if width is not None else xs.width,
+                    layer=layer,
+                    kcl=self.kcl,
+                )
+            elif width is not None and width != xs.width:
+                xs = with_width(xs, width)
             xs_name = xs.name
             if layer is None:
                 layer = xs.layer
@@ -308,6 +320,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if center is None:
             raise AddPortError("Must specify center or port")
 
+        if xs is None:
+            from gdsfactory.cross_section.utils import get_port_cross_section
+
+            xs = get_port_cross_section(width, layer, self.kcl)
+
         # Prefer port.dcplx_trans if port is provided and no overriding parameters are given
         # Otherwise, construct a new transformation based on the provided or inherited parameters
         if not port or override_transformation:
@@ -318,7 +335,9 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
                 trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
         else:
             trans = port.dcplx_trans
-            if not keep_mirror:
+            if keep_mirror is False or (
+                keep_mirror is None and port.base.is_symmetric()
+            ):
                 trans.mirror = False
 
         layer = get_layer(layer)
@@ -332,8 +351,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
             name=name,
-            width=width,
-            layer=layer,
+            cross_section=xs,
             port_type=port_type,
             dcplx_trans=trans,
             info=info,
@@ -341,19 +359,6 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         if xs_name:
             _port.info["cross_section"] = xs_name
-            if register_cross_section:
-                from gdsfactory.pdk import get_active_pdk
-
-                pdk = get_active_pdk()
-                if xs_name in pdk.cross_sections:
-                    xs_registered = get_cross_section(xs_name)
-                    xs_new = xs
-                    if xs_registered != xs_new:
-                        raise KeyError(
-                            f"Found a different CrossSection named {xs_name} in pdk.cross_sections, cannot register {xs_new}"
-                        )
-                else:
-                    pdk.register_cross_sections(**{xs_name: lambda: xs})
 
         return _port
 
@@ -951,7 +956,7 @@ class Component(ComponentBase, kf.DKCell):
             )
         return texts
 
-    def area(self, layer: LayerSpec) -> float:
+    def area(self, layer: LayerSpec | kdb.LayerInfo) -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer
 
@@ -1328,11 +1333,15 @@ class Component(ComponentBase, kf.DKCell):
         self.kcl.layout.end_changes()
 
     @overload
-    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape: ...
-    @overload
-    def add_polygon(self, points: kdb.Region, layer: LayerSpec) -> None: ...
     def add_polygon(
-        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec
+        self, points: _PolygonPoints, layer: LayerSpec | kdb.LayerInfo
+    ) -> kdb.Shape: ...
+    @overload
+    def add_polygon(
+        self, points: kdb.Region, layer: LayerSpec | kdb.LayerInfo
+    ) -> None: ...
+    def add_polygon(
+        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec | kdb.LayerInfo
     ) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
@@ -1672,11 +1681,15 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         return c
 
     @overload
-    def add_polygon(self, points: _PolygonPoints, layer: LayerSpec) -> kdb.Shape: ...
-    @overload
-    def add_polygon(self, points: kdb.Region, layer: LayerSpec) -> None: ...
     def add_polygon(
-        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec
+        self, points: _PolygonPoints, layer: LayerSpec | kdb.LayerInfo
+    ) -> kdb.Shape: ...
+    @overload
+    def add_polygon(
+        self, points: kdb.Region, layer: LayerSpec | kdb.LayerInfo
+    ) -> None: ...
+    def add_polygon(
+        self, points: _PolygonPoints | kdb.Region, layer: LayerSpec | kdb.LayerInfo
     ) -> kdb.Shape | None:
         """Adds a Polygon to the Component and returns a klayout Shape.
 
@@ -1696,7 +1709,7 @@ class ComponentAllAngle(ComponentBase, kf.VKCell):
         res = self.shapes(_layer).insert(polygon)  # type: ignore[func-returns-value]
         return res
 
-    def get_polygons(self, layer: LayerSpec) -> list[kf.kdb.DPolygon]:
+    def get_polygons(self, layer: LayerSpec | kdb.LayerInfo) -> list[kf.kdb.DPolygon]:
         """Returns a list of polygons from the Component."""
         from gdsfactory import get_layer
 

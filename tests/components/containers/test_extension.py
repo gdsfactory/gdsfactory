@@ -108,8 +108,18 @@ def test_extend_ports_centered_keeps_non_extended_ports_on_instance() -> None:
 
 
 def test_line_function() -> None:
-    p_start = gf.Port(name="o1", center=(0, 0), width=0.5, orientation=0, layer=1)
-    p_end = gf.Port(name="o2", center=(10, 0), width=0.5, orientation=0, layer=1)
+    p_start = gf.Port(
+        name="o1",
+        center=(0, 0),
+        cross_section=gf.cross_section.strip(width=0.5),
+        orientation=0,
+    )
+    p_end = gf.Port(
+        name="o2",
+        center=(10, 0),
+        cross_section=gf.cross_section.strip(width=0.5),
+        orientation=0,
+    )
     p0, p1, p2, p3 = extension.line(p_start, p_end)
     assert p0 is not None
     assert p1 is not None

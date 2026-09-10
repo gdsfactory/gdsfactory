@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import with_width
+
 __all__ = ["coupler_adiabatic"]
 
 import gdsfactory as gf
@@ -87,8 +89,8 @@ def coupler_adiabatic(
     width = float(x.width)
     width_top = width + dw
     width_bot = width - dw
-    x_top = x.copy(width=width_top)
-    x_bot = x.copy(width=width_bot)
+    x_top = with_width(x, width_top)
+    x_bot = with_width(x, width_bot)
 
     coupler = c << gf.components.coupler_straight(length=length2, cross_section=x)
 

@@ -6,7 +6,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section.utils import get_port_cross_section
 from gdsfactory.port import Port
 from gdsfactory.typings import LayerSpec
 
@@ -17,6 +18,7 @@ def _add_meander(
     radius: float,
     turns: int,
     cross_section: CrossSection,
+    port_type: str,
     port: Port | None = None,
 ) -> tuple[Port, Port]:
     """Adds a serpentine of straights and 180 degree bends to ``c``.
@@ -31,6 +33,7 @@ def _add_meander(
         radius: bend radius of the 180 degree turns in um.
         turns: number of 180 degree turns. ``turns + 1`` straight runs are drawn.
         cross_section: cross section to extrude.
+        port_type: type of the meander ports, independent of the layer policy.
         port: optional port to connect the first straight run to.
 
     Returns:
@@ -43,10 +46,12 @@ def _add_meander(
     if turns < 0:
         raise ValueError(f"{turns=} must not be negative")
 
-    straight = gf.components.straight(length=run, cross_section=cross_section)
+    straight = gf.components.straight(
+        length=run, cross_section=cross_section, port_type=port_type
+    )
     bends = [
         gf.components.bend_circular(
-            angle=angle, radius=radius, cross_section=cross_section
+            angle=angle, radius=radius, cross_section=cross_section, port_type=port_type
         )
         for angle in (-180.0, 180.0)
     ]
@@ -71,10 +76,8 @@ def _meander_length(run: float, radius: float, turns: int) -> float:
 def _cpw_cross_section(
     width: float,
     gap: float,
-    radius: float,
     layer_metal: LayerSpec,
     layer_gap: LayerSpec,
-    port_type: str,
 ) -> CrossSection:
     """Returns a coplanar waveguide cross section.
 
@@ -84,25 +87,16 @@ def _cpw_cross_section(
     Args:
         width: width of the center conductor in um.
         gap: width of each slot in um.
-        radius: default bend radius in um.
         layer_metal: layer for the center conductor.
         layer_gap: layer for the two slots.
-        port_type: port type for the two ends of the extrusion.
     """
-    offset = (width + gap) / 2
-    return CrossSection(
+    return gf.cross_section.cross_section(
+        width=width,
+        layer=layer_metal,
         sections=(
-            Section(
-                width=width,
-                layer=layer_metal,
-                port_names=("o1", "o2"),
-                port_types=(port_type, port_type),
-                name="center",
-            ),
-            Section(width=gap, offset=offset, layer=layer_gap, name="slot_top"),
-            Section(width=gap, offset=-offset, layer=layer_gap, name="slot_bot"),
+            (layer_gap, width / 2, width / 2 + gap),
+            (layer_gap, -width / 2 - gap, -width / 2),
         ),
-        radius=radius,
     )
 
 
@@ -163,25 +157,30 @@ def resonator_cpw(
     xs_main = _cpw_cross_section(
         width=width,
         gap=gap,
-        radius=radius,
         layer_metal=layer_metal,
         layer_gap=layer_gap,
-        port_type=port_type,
     )
     port_in, port_out = _add_meander(
-        c, run=run, radius=radius, turns=turns, cross_section=xs_main
+        c,
+        run=run,
+        radius=radius,
+        turns=turns,
+        cross_section=xs_main,
+        port_type=port_type,
     )
 
     if coupling_length > 0:
         xs_coupling = _cpw_cross_section(
             width=width,
             gap=coupling_gap,
-            radius=radius,
             layer_metal=layer_metal,
             layer_gap=layer_gap,
+        )
+        arm = gf.components.straight(
+            length=coupling_length,
+            cross_section=xs_coupling,
             port_type=port_type,
         )
-        arm = gf.components.straight(length=coupling_length, cross_section=xs_coupling)
         arm_in = c << arm
         arm_out = c << arm
         arm_in.connect("o1", port_in)
@@ -256,18 +255,7 @@ def resonator_lumped(
 
     c = Component()
 
-    xs = CrossSection(
-        sections=(
-            Section(
-                width=inductor_width,
-                layer=layer_metal,
-                port_names=("o1", "o2"),
-                port_types=(port_type, port_type),
-                name="wire",
-            ),
-        ),
-        radius=inductor_radius,
-    )
+    xs = get_port_cross_section(inductor_width, layer_metal, c.kcl)
 
     capacitor = gf.get_component(
         "interdigital_capacitor",
@@ -280,7 +268,11 @@ def resonator_lumped(
     cap_ref = c << capacitor
 
     # Straight interconnect from the capacitor to the inductor.
-    link = c << gf.components.straight(length=coupling_gap, cross_section=xs)
+    link = c << gf.components.straight(
+        length=coupling_gap,
+        cross_section=xs,
+        port_type=port_type,
+    )
     link.connect(
         "o1",
         cap_ref.ports["o2"],
@@ -294,6 +286,7 @@ def resonator_lumped(
         radius=inductor_radius,
         turns=inductor_turns,
         cross_section=xs,
+        port_type=port_type,
         port=link.ports["o2"],
     )
 

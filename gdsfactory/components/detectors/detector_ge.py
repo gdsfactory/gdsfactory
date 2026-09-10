@@ -64,7 +64,11 @@ def ge_detector_straight_si_contacts(
     )
 
     t1 = c << taper
-    t1.connect("o2", wg["o1"], allow_width_mismatch=True)
+    t1.connect(
+        gf.port.core_port(t1.ports["o2"]),
+        gf.port.core_port(wg["o1"]),
+        allow_width_mismatch=True,
+    )
     c.add_port("o1", port=t1["o1"])
 
     via_stack_top = c << via_stack

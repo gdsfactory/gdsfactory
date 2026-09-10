@@ -158,11 +158,8 @@ xs = rib()        # rib waveguide
 xs = metal1()     # metal routing layer
 
 # Custom cross section
-xs = gf.CrossSection(
-    sections=[
-        gf.Section(width=0.5, layer="WG", name="core"),
-        gf.Section(width=3.0, layer="SLAB90", name="slab"),
-    ]
+xs = cross_section(
+    width=0.5, layer="WG", sections=[("SLAB90", -1.5, 1.5)]
 )
 ```
 
@@ -179,9 +176,8 @@ c = gf.path.extrude(p, xs)
 # Transition between cross sections
 xs1 = gf.cross_section.strip()
 xs2 = gf.cross_section.rib()
-transition = gf.path.extrude_transition(
-    p, cross_section1=xs1, cross_section2=xs2
-)
+transition = gf.path.transition(xs1, xs2)
+c = gf.path.extrude_transition(p, transition)
 ```
 
 ## Routing

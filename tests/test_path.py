@@ -18,9 +18,7 @@ from gdsfactory.path import Path, _parabolic_transition
 
 
 def test_path_zero_length() -> None:
-    c = gf.components.straight(
-        length=0.5e-3, cross_section=gf.cross_section.cross_section
-    )
+    c = gf.components.straight(length=0.5e-3, cross_section="strip")
     assert c.area((1, 0)) == 0
 
 
@@ -82,31 +80,27 @@ def double_loop() -> Component:
     P.rotate(-45)
 
     # Create the crosssection
-    s0 = gf.Section(width=1.5, offset=0, layer=(2, 0), port_names=("in", "out"))
-    s1 = gf.Section(width=0.5, offset=2, layer=(0, 0))
-    s2 = gf.Section(width=0.5, offset=4, layer=(1, 0))
-    s3 = gf.Section(width=1, offset=0, layer=(3, 0))
-    X = gf.CrossSection(sections=(s0, s1, s2, s3))
+    s0 = ((2, 0), -0.75, 0.75)
+    s1 = ((0, 0), 1.75, 2.25)
+    s2 = ((1, 0), 3.75, 4.25)
+    s3 = ((3, 0), -0.5, 0.5)
+    X = gf.cross_section.cross_section(width=None, sections=(s0, s1, s2, s3))
     return gf.path.extrude(P, X, simplify=0.3)
 
 
 @gf.cell
 def transition() -> Component:
     c = gf.Component()
-    s0 = gf.Section(
-        width=1.2, offset=0, layer=(2, 0), name="core", port_names=("in1", "out1")
-    )
-    s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(sections=(s0, s1, s2))
+    s0 = ((2, 0), -0.6, 0.6)
+    s1 = ((3, 0), -1.1, 1.1)
+    s2 = ((1, 0), 2.45, 3.55)
+    X1 = gf.cross_section.cross_section(width=None, sections=(s0, s1, s2))
 
     # Create the second CrossSection that we want to transition to
-    s0 = gf.Section(
-        width=1, offset=0, layer=(2, 0), name="core", port_names=("in1", "out1")
-    )
-    s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(sections=(s0, s1, s2))
+    s0 = ((2, 0), -0.5, 0.5)
+    s1 = ((3, 0), -1.75, 1.75)
+    s2 = ((1, 0), 3.5, 6.5)
+    X2 = gf.cross_section.cross_section(width=None, sections=(s0, s1, s2))
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
     # Xtrans = gf.cross_section.strip(port_names=('in1', 'out1'))
@@ -114,18 +108,19 @@ def transition() -> Component:
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
 
-    wg1 = gf.path.extrude(P1, X1)
-    wg2 = gf.path.extrude(P2, X2)
+    ports = {0: ("in1", "out1", "optical")}
+    wg1 = gf.path.extrude(P1, X1, ports=ports)
+    wg2 = gf.path.extrude(P2, X2, ports=ports)
 
     P4 = gf.path.euler(radius=25, angle=90, p=0.5, use_eff=False)
-    wg_trans = gf.path.extrude_transition(P4, Xtrans)
+    wg_trans = gf.path.extrude_transition(P4, Xtrans, ports=ports)
 
     wg1_ref = c << wg1
     wgt_ref = c << wg_trans
-    wgt_ref.connect("in1", wg1_ref.ports["out1"])
+    wgt_ref.connect("in1", wg1_ref.ports["out1"], mirror=True)
 
     wg2_ref = c << wg2
-    wg2_ref.connect("in1", wgt_ref.ports["out1"])
+    wg2_ref.connect("in1", wgt_ref.ports["out1"], mirror=True)
     return c
 
 
@@ -154,9 +149,9 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 def test_layers1() -> None:
     P = gf.path.straight(length=10.001)
-    s = gf.Section(width=0.5, offset=0, layer=LAYER.WG, port_names=("in", "out"))
-    X = gf.CrossSection(sections=(s,))
-    c = gf.path.extrude(P, X, simplify=5e-3)
+    s = (LAYER.WG, -0.25, 0.25)
+    X = gf.cross_section.strip(width=None, sections=(s,))
+    c = gf.path.extrude(P, X, simplify=5e-3, ports={0: ("in", "out", "optical")})
     assert c.ports["in"].layer == LAYER.WG
     assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
 
@@ -417,8 +412,8 @@ def test_path_hash_geometry() -> None:
 def test_path_extrude_transition() -> None:
     path = Path([(0, 0), (1, 0), (1, 1)])
     transition = gf.path.transition(
-        cross_section1=gf.cross_section.cross_section,
-        cross_section2=gf.cross_section.cross_section,
+        cross_section1="strip",
+        cross_section2="strip",
     )
     c = path.extrude_transition(transition)
     assert c.bbox() == kdb.DBox(0, -0.25, 1.25, 1)
@@ -540,8 +535,8 @@ def test_path_smooth() -> None:
     points = np.array([(-50, 50), (-100, 100), (-100, 200)])
 
     P = gf.path.smooth(points=points, radius=10, bend=gf.path.euler)
-    section = gf.Section(width=20.0, layer=(1, 0))
-    X = gf.CrossSection(sections=(section,))
+    section = ((1, 0), -10.0, 10.0)
+    X = gf.cross_section.strip(width=None, sections=(section,))
 
     c = P.extrude(cross_section=X)
     assert np.isclose(c.area((1, 0)), 3404.6317885)

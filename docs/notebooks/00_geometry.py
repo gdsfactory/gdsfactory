@@ -22,7 +22,7 @@ from gdsfactory.gpdk import PDK
 gf.gpdk.PDK.activate()
 # Create a blank component (essentially an empty GDS cell with some special features).
 c = gf.Component()
-p1 = c.add_polygon([(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0))
+c.add_polygon([(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0))
 c.write_gds("demo.gds")  # Write it to a GDS file. You can open it in klayout.
 c.show()  # Show it in klayout.
 c.plot()  # Plot it in jupyter notebook.
@@ -57,7 +57,7 @@ c.plot()
 
 # %%
 c = gf.Component()
-p1 = c.add_polygon(
+c.add_polygon(
     [(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0)
 )  # DPolygons are in um
 p2 = c.get_region(layer=(1, 0))  # Get the region of the polygon.
@@ -74,7 +74,7 @@ c.plot()
 
 # %%
 c = gf.Component()
-p1 = c.add_polygon(
+c.add_polygon(
     [(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0)
 )  # Polygons are in um.
 r1 = c.get_region(layer=(1,0))  # Regions are in DBU (1 nm in this case).
@@ -197,7 +197,7 @@ c.plot()
 # %%
 c = gf.Component()
 
-wg1 = c << straight(length=1, layer=(1, 0))
+c.add_ref(straight(length=1, layer=(1, 0)))
 wg2 = c << straight(length=2, layer=(2, 0))
 wg3 = c << straight(length=3, layer=(3, 0))
 

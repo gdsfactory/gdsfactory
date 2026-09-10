@@ -47,6 +47,7 @@ from gdsfactory.technology import (
 from gdsfactory.typings import Layer
 
 gf.gpdk.PDK.activate()
+gf.clear_cache()
 
 nm = 1e-3
 
@@ -137,7 +138,14 @@ c.plot()
 # %% [markdown]
 # ## Cross_Sections
 #
-# You can create a `CrossSection` from scratch or you can customize the cross_section functions in `gf.cross_section`
+# Cross-section factories return kfactory `DCrossSection` or
+# `DAsymmetricCrossSection` objects directly. `gf.CrossSection` is their union,
+# suitable for return annotations, not a constructor. Customize a preset or use
+# `gf.cross_section.cross_section()` with absolute auxiliary-strip bounds.
+#
+# Define `radius` and `radius_min` when the profile is first created. The same
+# profile cannot later acquire or change its radius defaults, even under a
+# different factory name. Pass geometric overrides to bends and routers instead.
 
 # %%
 from gdsfactory.cross_section import CrossSection, cross_section, xsection
@@ -184,8 +192,8 @@ def pin(
 ) -> CrossSection:
     """Return PIN cross_section."""
     sections = (
-        gf.Section(layer=layer_p, width=width_p, offset=offset_p),
-        gf.Section(layer=layer_n, width=width_n, offset=offset_n),
+        (layer_p, offset_p - width_p / 2, offset_p + width_p / 2),
+        (layer_n, offset_n - width_n / 2, offset_n + width_n / 2),
     )
 
     return cross_section(
@@ -238,6 +246,7 @@ cross_sections = dict(strip_wide=strip_wide, pin=pin, strip=strip)
 #
 # For example, you can make some wide MMIs for a particular technology. Let us now assume that the best MMI width you found to be 9um.
 
+
 # %%
 def mmi1x2(width_mmi: float = 9, **kwargs) -> gf.Component:
     c = gf.components.mmi1x2(width_mmi=width_mmi)
@@ -282,8 +291,50 @@ pdk1 = gf.Pdk(
     cross_sections=cross_sections,
     cells=cells,
     layer_views=generic_pdk.layer_views,
+    port_cross_sections={
+        (1, 0): strip,
+        (2, 0): strip2,
+        (49, 0): gf.cross_section.metal3,
+    },
+    layer_port_types={(1, 0): "optical", (2, 0): "optical", (49, 0): "electrical"},
+    auxiliary_port_types={((1, 0), (49, 0)): "electrical"},
 )
 pdk1.activate()
+
+# %% [markdown]
+# ### Port conventions belong to the PDK
+#
+# `port_cross_sections` supplies process defaults when `Component.add_port()`
+# has only a width and layer, and when extrusion derives an auxiliary port.
+# Its keys are physical `(layer, datatype)` tuples, not layout-local indices.
+# Prefer `cross_section=xs` when the complete profile is already available.
+#
+# `layer_port_types` selects the main extrusion port type. The
+# `(main_layer, auxiliary_layer)` keys of `auxiliary_port_types` opt auxiliary
+# strips into ports. These conventions do not become part of the profile;
+# an explicit extrusion `ports` map overrides them, and `ports={}` disables ports.
+
+# %%
+manual = gf.Component()
+manual.add_port(name="o1", width=0.5, layer=LAYER.WG, center=(0, 0), orientation=0)
+assert manual.ports["o1"].cross_section.radius == strip().radius
+
+xs_heated = cross_section(width=0.5, layer="WG", sections=[("M3", -1, 1)])
+heated = gf.path.straight(10).extrude(xs_heated)
+assert {p.port_type for p in heated.ports} == {"optical", "electrical"}
+assert len(gf.path.straight(10).extrude(xs_heated, ports={}).ports) == 0
+heated.plot()
+
+# %% [markdown]
+# Choose a different bend radius at the geometry call, not by re-registering
+# `strip(radius=20)`. The original profile keeps its process defaults.
+
+# %%
+xs_strip = strip()
+default_radius = xs_strip.radius
+bend = gf.components.bend_euler(cross_section=xs_strip, radius=20)
+assert xs_strip.radius == default_radius
+bend.plot()
 
 # %%
 pdk1.get_layer("WG")
@@ -400,6 +451,7 @@ layer_transitions = {
     LAYER.M3: "taper_electrical",
 }
 
+
 class GenericConstants(gf.Constants):
     """Generic PDK constants."""
 
@@ -417,12 +469,15 @@ PDK = Pdk(
     containers=containers_dict,
     cross_sections=cross_sections,
     layers=LAYER,
+    port_cross_sections=generic_pdk.port_cross_sections,
+    layer_port_types=generic_pdk.layer_port_types,
+    auxiliary_port_types=generic_pdk.auxiliary_port_types,
     layer_stack=LAYER_STACK,
     layer_views=LAYER_VIEWS,
     layer_transitions=layer_transitions,  # How to transition between layers.
     materials_index=materials_index,  # Material index for device level simulations.
     constants=GenericConstants(),
-    connectivity=LAYER_CONNECTIVITY, # For tracing connectivity across layers such as metals.
+    connectivity=LAYER_CONNECTIVITY,  # For tracing connectivity across layers such as metals.
 )
 
 # %% [markdown]
@@ -438,7 +493,7 @@ PDK = Pdk(
 #
 # gdsfactory is **NOT** backwards compatible, which means that the package will keep improving and evolving.
 #
-# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==9.50.0` replacing `9.50.0` by whatever version you end up using.
+# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==9.49.0` replacing `9.49.0` by whatever version you end up using.
 # 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 #
 #
