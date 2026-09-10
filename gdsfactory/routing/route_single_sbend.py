@@ -7,29 +7,22 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
 
 
-def _add_endpoint_straights(
+def add_straight(
     component: Component,
-    port1: Port,
-    port2: Port,
-    start_straight_length: float,
-    end_straight_length: float,
+    port: Port,
+    length: float,
+    port_index: int,
     cross_section: CrossSectionSpec,
     width: float | None = None,
     **connect_kwargs: Any,
-) -> tuple[Port, Port]:
-    def add_straight(port: Port, length: float, port_index: int) -> Port:
-        if not length:
-            return port
-        straight = component << gf.components.straight(
-            length=length, cross_section=cross_section, width=width
-        )
-        straight.connect(straight.ports[port_index], port, **connect_kwargs)
-        return straight.ports[1 - port_index]
-
-    return (
-        add_straight(port1, start_straight_length, 0),
-        add_straight(port2, end_straight_length, 1),
+) -> Port:
+    if not length:
+        return port
+    straight = component << gf.components.straight(
+        length=length, cross_section=cross_section, width=width
     )
+    straight.connect(straight.ports[port_index], port, **connect_kwargs)
+    return straight.ports[1 - port_index]
 
 
 def route_bundle_sbend(
@@ -69,12 +62,20 @@ def route_bundle_sbend(
         c.plot()
         ```
     """
-    bend_port1, bend_port2 = _add_endpoint_straights(
+    bend_port1 = add_straight(
         component,
         port1,
-        port2,
         start_straight_length,
+        0,
+        cross_section,
+        allow_layer_mismatch=allow_layer_mismatch,
+        allow_width_mismatch=allow_width_mismatch,
+    )
+    bend_port2 = add_straight(
+        component,
+        port2,
         end_straight_length,
+        1,
         cross_section,
         allow_layer_mismatch=allow_layer_mismatch,
         allow_width_mismatch=allow_width_mismatch,

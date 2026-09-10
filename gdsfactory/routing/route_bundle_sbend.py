@@ -8,7 +8,7 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.routing.route_single_sbend import _add_endpoint_straights
+from gdsfactory.routing.route_single_sbend import add_straight
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
     ComponentSpec,
@@ -100,12 +100,22 @@ def route_bundle_sbend(
             cross_section or p1.info.get("cross_section") or "strip"
         )
         bend_width = p1.width if use_port_width else None
-        bend_port1, bend_port2 = _add_endpoint_straights(
+        bend_port1 = add_straight(
             component,
             p1,
-            p2,
             start_straight_length,
+            0,
+            straight_cross_section,
+            width=bend_width,
+            allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
+        )
+        bend_port2 = add_straight(
+            component,
+            p2,
             end_straight_length,
+            1,
             straight_cross_section,
             width=bend_width,
             allow_width_mismatch=allow_width_mismatch,
