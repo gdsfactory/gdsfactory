@@ -208,4 +208,5 @@ placements:
     x: 97
     y: -27
 ports:
+  input: interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc_0_0,e1
   output: straight_gdsfactorypcomponentspwaveguidespstraight_L60__e2aa7e80_97000_m107000_A180,o2
