@@ -58,7 +58,6 @@ version = "9.50.0"
 bench = ["asv>=0.6,<1"]
 cad = ["kweb>=1.1.9,<2.1"]
 dev = [
-  "codeflash",
   "hypothesis",
   "ipykernel",
   "jupyterlab",
@@ -102,15 +101,6 @@ maintainer = [
 
 [project.scripts]
 gf = "gdsfactory.cli:app"
-
-[tool.codeflash]
-benchmarks-root = ""
-formatter-cmds = ["ruff check --exit-zero --fix $file", "ruff format $file"]
-ignore-paths = []
-# All paths are relative to this pyproject.toml's directory.
-module-root = "gdsfactory"
-test-framework = "pytest"
-tests-root = "tests"
 
 [tool.codespell]
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
