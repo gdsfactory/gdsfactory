@@ -283,7 +283,7 @@ def resonator_lumped(
     link = c << gf.components.straight(length=coupling_gap, cross_section=xs)
     link.connect(
         "o1",
-        cap_ref.ports["o2"],
+        cap_ref.ports["e2"],
         allow_width_mismatch=True,
         allow_type_mismatch=True,
     )
@@ -297,7 +297,7 @@ def resonator_lumped(
         port=link.ports["o2"],
     )
 
-    c.add_port(name="input", port=cap_ref.ports["o1"], port_type=port_type)
+    c.add_port(name="input", port=cap_ref.ports["e1"], port_type=port_type)
     c.add_port(name="output", port=ind_out)
 
     # Add metadata
