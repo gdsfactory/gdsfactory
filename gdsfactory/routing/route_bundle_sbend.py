@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import math
 from typing import Any
 
 import kfactory as kf
@@ -9,7 +8,7 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.routing.route_single_sbend import _with_endpoint_straights
+from gdsfactory.routing.route_single_sbend import _add_endpoint_straights
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
     ComponentSpec,
@@ -97,8 +96,24 @@ def route_bundle_sbend(
                 f"port1 = {p1.orientation} deg and port2 = {p2.orientation}"
             )
 
-        ys = p2.center[1] - p1.center[1]
-        xs = p2.center[0] - p1.center[0]
+        straight_cross_section = (
+            cross_section or p1.info.get("cross_section") or "strip"
+        )
+        bend_width = p1.width if use_port_width else None
+        bend_port1, bend_port2 = _add_endpoint_straights(
+            component,
+            p1,
+            p2,
+            start_straight_length,
+            end_straight_length,
+            straight_cross_section,
+            width=bend_width,
+            allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
+        )
+        ys = bend_port2.center[1] - bend_port1.center[1]
+        xs = bend_port2.center[0] - bend_port1.center[0]
 
         if p1.orientation in [0, 180]:
             xsize = xs
@@ -111,8 +126,6 @@ def route_bundle_sbend(
             xsize = -ys
             ysize = xs
 
-        straight_length = start_straight_length + end_straight_length
-        xsize -= math.copysign(straight_length, xsize)
         bend_kwargs = dict(**kwargs)
         if cross_section is not None:
             bend_kwargs["cross_section"] = cross_section
@@ -122,19 +135,10 @@ def route_bundle_sbend(
             )
         else:
             bend = gf.get_component(bend_s, size=(xsize, ysize), **bend_kwargs)
-
-        if straight_length:
-            bend = _with_endpoint_straights(
-                bend=bend,
-                start_port_name=port_name,
-                start_straight_length=start_straight_length,
-                end_straight_length=end_straight_length,
-                cross_section=cross_section,
-            )
         sbend = component << bend
         sbend.connect(
             port_name,
-            p1,
+            bend_port1,
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
             allow_type_mismatch=allow_type_mismatch,

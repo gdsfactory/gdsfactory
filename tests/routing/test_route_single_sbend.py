@@ -11,7 +11,7 @@ def assert_endpoint_straights(
     end_straight_length: float,
     bend_size: tuple[float, float],
 ) -> None:
-    start_straight, bend, end_straight = sbend.cell.insts
+    start_straight, end_straight, bend = list(sbend.parent_cell.insts)[-3:]
 
     assert bend.cell.settings["size"] == bend_size
     assert start_straight.cell.settings["length"] == start_straight_length
