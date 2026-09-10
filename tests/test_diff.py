@@ -102,6 +102,17 @@ def test_diff_identical_files() -> None:
     assert result.layers == []
 
 
+def test_diff_identical_files_do_not_write_output(tmp_path: Path) -> None:
+    """An identical comparison does not create a misleading diff layout."""
+    ref_gds = _gds_dir / "big_rect.gds"
+    output = tmp_path / "identical_diff.gds"
+
+    result = diff(ref_gds, ref_gds, out_file=output)
+
+    assert not result
+    assert not output.exists()
+
+
 def test_diff_missing_layer(tmp_path: Path) -> None:
     """A layer present in only one file gets IoU=0 and correct present_in."""
     import gdsfactory as gf

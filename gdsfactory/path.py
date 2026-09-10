@@ -184,6 +184,14 @@ class Path(UMGeometricObject):
         trans: kdb.Trans | kdb.DTrans | kdb.ICplxTrans | kdb.DCplxTrans,
         /,
     ) -> Any:
+        """Transforms the Path in place.
+
+        Applies a transformation as a magnification, then a mirroring at
+        the x-axis, then a rotation, then a displacement, following KLayout.
+
+        Args:
+            trans: the transformation to apply.
+        """
         if isinstance(trans, kdb.DCplxTrans):
             trans_ = trans
         elif isinstance(trans, kdb.DTrans):
@@ -193,7 +201,13 @@ class Path(UMGeometricObject):
         else:
             trans_ = trans.to_itrans(gf.kcl.dbu)
 
-        new_points = self.points
+        new_points = np.asarray(self.points, dtype=np.float64)
+
+        if trans_.mag != 1:
+            new_points = new_points * trans_.mag
+
+        if trans_.mirror:
+            new_points = new_points * np.array([1.0, -1.0])
 
         if trans_.angle != 0:
             angle_rad = np.radians(trans_.angle)
@@ -206,19 +220,14 @@ class Path(UMGeometricObject):
                     [-sin_angle, cos_angle],
                 ]
             )
-            new_points = np.dot(self.points, rotation_matrix)
+            new_points = np.dot(new_points, rotation_matrix)
 
         new_points = new_points + np.array([trans_.disp.x, trans_.disp.y])
 
-        if trans_.mirror:
-            new_points[:, 1] = -new_points[:, 1]
-
         self.points = new_points
-        if len(self.points) > 1:
-            nx1, ny1 = self.points[1] - self.points[0]
-            self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-            nx2, ny2 = self.points[-1] - self.points[-2]
-            self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
+        sign = -1 if trans_.mirror else 1
+        self.start_angle = mod(sign * self.start_angle + trans_.angle, 360)
+        self.end_angle = mod(sign * self.end_angle + trans_.angle, 360)
 
     def dbbox(self, layer: int | None = None) -> kdb.DBox:
         return kdb.DBox(*self.bbox_np().flatten())
@@ -663,6 +672,18 @@ class Path(UMGeometricObject):
             self.end_angle = mod(2 * angle - self.end_angle, 360)
         return self
 
+    def invert(self) -> Path:
+        """Inverts the Path by reversing the order of its points.
+
+        The shape of the path is unchanged, but its start becomes its end and vice versa.
+        """
+        self.points = self.points[::-1]
+        self.start_angle, self.end_angle = (
+            mod(self.end_angle + 180, 360),
+            mod(self.start_angle + 180, 360),
+        )
+        return self
+
 
 PathFactory = Callable[..., Path]
 T = TypeVar("T", float, npt.NDArray[np.floating[Any]])
@@ -966,6 +987,15 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
             )
         named_sections[name] = section
     return named_sections
+
+
+def _is_implicit_section_name(name: str) -> bool:
+    """Return whether a section name was assigned by gdsfactory."""
+    return name == "_default" or (
+        len(name) == 10
+        and name.startswith("s_")
+        and all(character in "0123456789abcdef" for character in name[2:])
+    )
 
 
 @overload
@@ -1387,6 +1417,17 @@ def extrude_transition(
     names2 = list(named_sections2.keys())
 
     common_sections = set(names1).intersection(names2)
+    if not common_sections and len(names1) == len(names2) == 1:
+        name1, name2 = names1[0], names2[0]
+        section1 = named_sections1[name1]
+        section2 = named_sections2[name2]
+        if (
+            _is_implicit_section_name(name1)
+            and _is_implicit_section_name(name2)
+            and get_layer(section1.layer) == get_layer(section2.layer)
+        ):
+            named_sections2[name1] = named_sections2.pop(name2)
+            common_sections = {name1}
     if not common_sections:
         raise ValueError(
             f"transition() found no common section names X1 {names1} and X2 {names2}"

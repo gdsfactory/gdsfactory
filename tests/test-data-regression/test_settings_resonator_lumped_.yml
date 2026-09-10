@@ -1,9 +1,10 @@
 info:
   capacitor_fingers: 4
+  inductor_length: 428.496
   inductor_radius: 20
   inductor_turns: 3
   resonator_type: lumped
-name: resonator_lumped_gdsfactorypcomponentspquantumpresonato_5db680c0
+name: resonator_lumped_gdsfactorypcomponentspquantumpresonato_db34893e
 settings:
   capacitor_finger_gap: 2
   capacitor_finger_length: 20
@@ -11,6 +12,7 @@ settings:
   capacitor_thickness: 5
   coupling_gap: 5
   inductor_radius: 20
+  inductor_run: 60
   inductor_turns: 3
   inductor_width: 2
   layer_metal:

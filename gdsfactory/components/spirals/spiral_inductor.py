@@ -22,7 +22,7 @@ def spiral_inductor(
     The inductor is designed with a square spiral geometry, featuring inner and outer connection tails.
 
     See J. M. Hornibrook, J. I. Colless, A. C. Mahoney, X. G. Croot, S. Blanvillain, H. Lu, A. C. Gossard, D. J. Reilly;
-    Frequency multiplexing for readout of spin qubits. Appl. Phys. Lett. 10 March 2014; 104 (10): 103108. https://doi.org/10.1063/1.4868107
+    Frequency multiplexing for readout of spin qubits. Appl. Phys. Lett. 10 March 2014; 104 (10): 103108. <https://doi.org/10.1063/1.4868107>
 
     Args:
         width: Width of the inductor track in microns. Determines the cross-sectional area of the inductor.

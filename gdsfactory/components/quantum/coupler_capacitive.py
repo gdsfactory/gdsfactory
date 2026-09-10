@@ -22,6 +22,7 @@ def coupler_capacitive(
     A capacitive coupler consists of two metal pads separated by a small gap,
     providing capacitive coupling between circuit elements like qubits and resonators.
 
+    ```text
                     ______               ______
           _______  |      |             |      | _______
          |       | |      |             |      ||       |
@@ -29,6 +30,7 @@ def coupler_capacitive(
          |       | |      |             |      ||       |
          |_______| |      |             |      ||_______|
                    |______|             |______|
+    ```
 
     Args:
         pad_width: Width of each coupling pad in μm.
@@ -144,6 +146,7 @@ def coupler_interdigital(
     Returns:
         Component: A gdsfactory component with the interdigital coupler geometry.
 
+    ```text
                     ┌────────┐
                    base columns
                    ↓                    ↓
@@ -158,6 +161,7 @@ def coupler_interdigital(
          │        │█                    █│        │
          │        │█████████████        █│        │
          └────────┘█                    █└────────┘
+    ```
 
     """
     c = Component()
@@ -283,6 +287,7 @@ def coupler_tunable(
     Returns:
         Component: A gdsfactory component with the tunable coupler geometry.
 
+    ```text
                     (connected to feed)
                          _______
                         |       |
@@ -304,6 +309,7 @@ def coupler_tunable(
                         |       |
                         |_______|
                     (connected to feed)
+    ```
     """
     c = Component()
 

@@ -1,0 +1,14 @@
+info:
+  length: 24.073
+  min_bend_radius: 11.932
+name: bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc
+settings:
+  allow_min_radius_violation: false
+  angle: 90
+  cross_section: strip
+  inner_tangent_magnitude: 26.5
+  npoints: 100
+  outer_tangent_magnitude: 30
+  port1: o1
+  port2: o2
+  radius: 15

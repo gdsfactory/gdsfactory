@@ -1,0 +1,220 @@
+instances:
+  via3_S0p7_0p7_E1_P2_10249_67000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via3
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      enclosure: 1
+      pitch: 2
+      size:
+      - 0.7
+      - 0.7
+  via3_S0p7_0p7_E1_P2_10249_m49000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via3
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      enclosure: 1
+      pitch: 2
+      size:
+      - 0.7
+      - 0.7
+  via3_S0p7_0p7_E1_P2_m12249_55000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via3
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      enclosure: 1
+      pitch: 2
+      size:
+      - 0.7
+      - 0.7
+  via3_S0p7_0p7_E1_P2_m12249_m61000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via3
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      enclosure: 1
+      pitch: 2
+      size:
+      - 0.7
+      - 0.7
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_10249_43000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_10249_m73000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m12249_55000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m12249_m61000:
+    array:
+      column_pitch: 2
+      columns: 2
+      row_pitch: 2
+      rows: 4
+    component: via
+    info:
+      column_pitch: 2
+      enclosure: 1
+      row_pitch: 2
+      xsize: 0.7
+      ysize: 0.7
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 1
+      layer: VIA1
+      pitch: 2
+      row_pitch: null
+      size:
+      - 0.7
+      - 0.7
+nets: []
+placements:
+  via3_S0p7_0p7_E1_P2_10249_67000:
+    mirror: false
+    rotation: 0
+    x: 10.249
+    y: 67
+  via3_S0p7_0p7_E1_P2_10249_m49000:
+    mirror: false
+    rotation: 0
+    x: 10.249
+    y: -49
+  via3_S0p7_0p7_E1_P2_m12249_55000:
+    mirror: false
+    rotation: 0
+    x: -12.249
+    y: 55
+  via3_S0p7_0p7_E1_P2_m12249_m61000:
+    mirror: false
+    rotation: 0
+    x: -12.249
+    y: -61
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_10249_43000:
+    mirror: false
+    rotation: 0
+    x: 10.249
+    y: 43
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_10249_m73000:
+    mirror: false
+    rotation: 0
+    x: 10.249
+    y: -73
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m12249_55000:
+    mirror: false
+    rotation: 0
+    x: -12.249
+    y: 55
+  via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e_m12249_m61000:
+    mirror: false
+    rotation: 0
+    x: -12.249
+    y: -61
+ports: {}

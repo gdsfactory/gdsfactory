@@ -16,7 +16,7 @@ def test_awg_default_builds() -> None:
 
 def test_awg_constant_length_increment() -> None:
     """Each arm is exactly length_increment longer than the previous one."""
-    dl = 12.5
+    dl = 50
     c = awg(arms=8, length_increment=dl)
     lengths = np.asarray(c.info["arm_lengths"])
     assert np.allclose(np.diff(lengths), dl, atol=1e-3), lengths

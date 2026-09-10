@@ -20,7 +20,6 @@ categories:
     labels:
       - "maintenance"
       - "github_actions"
-      - "codeflash"
   - title: "Documentation"
     label: "documentation"
   - title: "Typing"

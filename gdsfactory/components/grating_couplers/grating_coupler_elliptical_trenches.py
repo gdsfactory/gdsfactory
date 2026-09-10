@@ -63,10 +63,12 @@ def grating_coupler_elliptical_trenches(
 
                       fiber
 
+    ```text
                    /  /  /  /
                   /  /  /  /
                 _|-|_|-|_|-|___
         WG  o1  ______________|
+    ```
 
     """
     xs = gf.get_cross_section(cross_section)

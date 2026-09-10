@@ -1,8 +1,28 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Port
+
+
+def add_straight(
+    component: Component,
+    port: Port,
+    length: float,
+    port_index: int,
+    cross_section: CrossSectionSpec,
+    width: float | None = None,
+    **connect_kwargs: Any,
+) -> Port:
+    if not length:
+        return port
+    straight = component << gf.components.straight(
+        length=length, cross_section=cross_section, width=width
+    )
+    straight.connect(straight.ports[port_index], port, **connect_kwargs)
+    return straight.ports[1 - port_index]
 
 
 def route_bundle_sbend(
@@ -13,6 +33,8 @@ def route_bundle_sbend(
     cross_section: CrossSectionSpec = "strip",
     allow_layer_mismatch: bool = False,
     allow_width_mismatch: bool = False,
+    start_straight_length: float = 0.0,
+    end_straight_length: float = 0.0,
 ) -> ComponentReference:
     """Returns an Sbend to connect two ports.
 
@@ -24,6 +46,8 @@ def route_bundle_sbend(
         cross_section: cross_section.
         allow_layer_mismatch: allow layer mismatch.
         allow_width_mismatch: allow width mismatch.
+        start_straight_length: length of the straight at the start of the route.
+        end_straight_length: length of the straight at the end of the route.
 
     Example:
         ```python
@@ -38,8 +62,26 @@ def route_bundle_sbend(
         c.plot()
         ```
     """
-    ysize = port2.center[1] - port1.center[1]
-    xsize = port2.center[0] - port1.center[0]
+    bend_port1 = add_straight(
+        component,
+        port1,
+        start_straight_length,
+        0,
+        cross_section,
+        allow_layer_mismatch=allow_layer_mismatch,
+        allow_width_mismatch=allow_width_mismatch,
+    )
+    bend_port2 = add_straight(
+        component,
+        port2,
+        end_straight_length,
+        1,
+        cross_section,
+        allow_layer_mismatch=allow_layer_mismatch,
+        allow_width_mismatch=allow_width_mismatch,
+    )
+    ysize = bend_port2.center[1] - bend_port1.center[1]
+    xsize = bend_port2.center[0] - bend_port1.center[0]
 
     # We need to act differently if the route is orthogonal in x
     # or orthogonal in y
@@ -49,7 +91,7 @@ def route_bundle_sbend(
     bend_ref = component << bend
     bend_ref.connect(
         bend_ref.ports[0],
-        port1,
+        bend_port1,
         allow_layer_mismatch=allow_layer_mismatch,
         allow_width_mismatch=allow_width_mismatch,
     )

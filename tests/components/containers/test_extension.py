@@ -22,9 +22,11 @@ def test_extend_ports_with_extension() -> None:
 
 
 def test_extend_ports_with_auto_taper() -> None:
-    c0 = gf.c.straight(width=0.5)
+    c0 = gf.c.straight(width=2.0)
     extended_c = extend_ports(component=c0, auto_taper=True, cross_section="strip")
     assert len(extended_c.ports) > 0
+    tapers = [i for i in extended_c.insts if i.cell.name.startswith("taper")]
+    assert len(tapers) == 2, [i.cell.name for i in extended_c.insts]
 
 
 def test_extend_ports_with_custom_port_names() -> None:
@@ -62,6 +64,47 @@ def test_extend_ports_with_custom_cross_section() -> None:
     c0 = gf.c.straight(width=0.5)
     extended_c = extend_ports(component=c0, cross_section="strip")
     assert len(extended_c.ports) > 0
+
+
+def test_extend_ports_auto_taper_port_locations() -> None:
+    """Ports land past the auto taper, at the end of the extension."""
+    c0 = gf.c.straight(width=2.0, length=10)
+    # no allow_width_mismatch: the extension now meets the taper's narrow end
+    c = extend_ports(component=c0, cross_section="strip", length=5)
+
+    taper = gf.get_component(
+        gf.get_active_pdk().layer_transitions[gf.get_layer("WG")],
+        width1=2.0,
+        width2=0.5,
+    )
+    extension = (taper.dxmax - taper.dxmin) + 5
+
+    assert c["o1"].center == pytest.approx((-extension, 0))
+    assert c["o2"].center == pytest.approx((10 + extension, 0))
+    assert c["o1"].width == 0.5
+    # ports sit on the component edge, not buried inside the taper
+    assert c.dxmin == pytest.approx(-extension)
+    assert c.dxmax == pytest.approx(10 + extension)
+
+
+def test_extend_ports_auto_taper_respects_port_names() -> None:
+    """No taper is planted on a port that was not requested."""
+    c0 = gf.c.straight(width=2.0, length=10)
+    c = extend_ports(component=c0, cross_section="strip", length=5, port_names=("o1",))
+
+    assert len(c.insts) == 3  # component + one taper + one extension
+    assert c["o2"].center == pytest.approx((10, 0))
+    assert c["o2"].width == 2.0
+
+
+def test_extend_ports_centered_keeps_non_extended_ports_on_instance() -> None:
+    """Non-extended ports follow the centered instance, not the original cell."""
+    c0 = gf.c.mmi1x2()
+    c = extend_ports(component=c0, port_names=("o1",), length=5, centered=True)
+
+    inst = next(i for i in c.insts if i.cell.name.startswith("mmi1x2"))
+    for name in ("o2", "o3"):
+        assert c[name].center == pytest.approx(inst.ports[name].center)
 
 
 def test_line_function() -> None:

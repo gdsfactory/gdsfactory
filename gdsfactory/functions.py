@@ -198,40 +198,28 @@ def get_polygons_points(
     Args:
         component_or_instance: to extract the polygons.
         merge: if True, merges the polygons.
-        scale: if True, scales the points.
+        scale: if not None, scales the points.
         by: the format of the resulting keys in the dictionary ('index', 'name', 'tuple').
         layers: list of layer specs to extract the polygons from. If None, extracts all layers.
     """
     polygons_dict = get_polygons(
         component_or_instance=component_or_instance, merge=merge, by=by, layers=layers
     )
-    polygons_points: dict[
-        tuple[int, int] | str | int, list[npt.NDArray[np.floating[Any]]]
-    ] = {}
-    for layer, polygons in polygons_dict.items():
-        all_points: list[npt.NDArray[np.floating[Any]]] = []
-        for polygon in polygons:
-            if scale:
-                points = np.array(
-                    [
-                        (point.x * scale, point.y * scale)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(component_or_instance.kcl.dbu)
-                        .each_point()
-                    ]
-                )
-            else:
-                points = np.array(
-                    [
-                        (point.x, point.y)
-                        for point in polygon.to_simple_polygon()
-                        .to_dtype(component_or_instance.kcl.dbu)
-                        .each_point()
-                    ]
-                )
-            all_points.append(points)
-        polygons_points[layer] = all_points
-    return polygons_points
+    dbu = component_or_instance.kcl.dbu
+    scale = scale or 1
+    return {
+        layer: [
+            scale
+            * np.array(
+                [
+                    (point.x, point.y)
+                    for point in polygon.to_simple_polygon().to_dtype(dbu).each_point()
+                ]
+            )
+            for polygon in polygons
+        ]
+        for layer, polygons in polygons_dict.items()
+    }
 
 
 def get_point_inside(

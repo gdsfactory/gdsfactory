@@ -162,6 +162,12 @@ Classes and functions for construction and manipulation of geometric objects.
 
 ::: gdsfactory.technology.LogicalLayer
 
+::: gdsfactory.technology.NormalVariation
+
+::: gdsfactory.technology.UniformVariation
+
+::: gdsfactory.technology.AsymmetricVariation
+
 ::: gdsfactory.technology.lyp_to_dataclass
 
 ## Pack

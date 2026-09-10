@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.13.1
-      - uses: actions/checkout@v7.0.0
+      - uses: actions/checkout@v7.0.1
       - uses: actions/cache@v6.1.0
         with:
           path: |

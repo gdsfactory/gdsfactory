@@ -24,6 +24,7 @@ def coupler_asymmetric(
         dx: bend length in x direction.
         cross_section: spec.
 
+    ```text
                         dx
                      |-----|
                       _____ o2
@@ -31,6 +32,7 @@ def coupler_asymmetric(
                _____/          |
          gap o1____________    |  dy
                             o3
+    ```
     """
     c = Component()
     x = gf.get_cross_section(cross_section)

@@ -67,11 +67,13 @@ def _bend_circular(
         all_angle: if True returns a ComponentAllAngle.
         angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
 
+    ```text
                   o2
                   |
                  /
                 /
         o1_____/
+    ```
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
@@ -134,7 +136,7 @@ def bend_circular(
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
-    if angle not in {90, 180}:
+    if abs(angle) not in {90, 180}:
         warnings.warn(
             f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead.",
             UserWarning,

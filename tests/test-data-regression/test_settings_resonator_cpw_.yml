@@ -1,7 +1,8 @@
 info:
-  frequency_estimate: 150
+  frequency_estimate: 118.656
   gap: 6
-  length: 1000
+  length: 1264.159
+  meander_turns: 4
   resonator_type: cpw
   width: 10
 name: resonator_cpw_gdsfactorypcomponentspquantumpresonator_L_cafe5f4c

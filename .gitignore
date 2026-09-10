@@ -18,6 +18,8 @@ openrouter/
 scalene-profile.json
 scalene-output.json
 scalene-profile.html
+docs/notebooks/*.md
+docs/notebooks/*.ipynb
 
 # C extensions
 *.so
@@ -66,6 +68,7 @@ sample_reticle.csv
 
 
 # Packages
+uv.lock
 *.egg
 *.oas
 *.egg-info

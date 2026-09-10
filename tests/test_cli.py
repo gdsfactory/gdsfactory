@@ -80,6 +80,7 @@ class TestCLIHelp:
             "merge-gds",
             "watch",
             "show",
+            "diff",
             "gds-diff",
             "install-klayout-genericpdk",
             "install-git-diff",
@@ -91,6 +92,36 @@ class TestCLIHelp:
             result = runner.invoke(app, [command, "--help"])
             assert result.exit_code == 0, f"Help failed for command: {command}"
             assert "Usage:" in result.stdout
+
+
+class TestDiff:
+    """Test the headless layout diff command."""
+
+    def test_writes_xor_layout(
+        self, runner: CliRunner, sample_gds_file: Path, temp_dir: Path
+    ) -> None:
+        """Differences return code 2 and write the requested XOR layout."""
+        import gdsfactory as gf
+
+        changed_path = temp_dir / "changed.gds"
+        gf.components.rectangle(size=(2, 1)).write_gds(changed_path)
+        output_path = temp_dir / "difference.gds"
+
+        result = runner.invoke(
+            app,
+            [
+                "diff",
+                str(sample_gds_file),
+                str(changed_path),
+                "--xor",
+                "--output",
+                str(output_path),
+            ],
+        )
+
+        assert result.exit_code == 2
+        assert output_path.is_file()
+        assert output_path.stat().st_size > 0
 
 
 class TestLayermapToDataclass:

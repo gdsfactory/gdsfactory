@@ -27,6 +27,7 @@ nav:
       - notebooks/07_mask.md
       - notebooks/11_best_practices.md
       - notebooks/12_grid_snapping.md
+      - PCB Gerber layouts: notebooks/13_pcb_gerber.md
   - Schematic:
       - notebooks/10_schematic.md
       - notebooks/10_yaml_component.md
@@ -39,9 +40,9 @@ nav:
       - notebooks/22_migration_8.md
   - Plugins: https://gdsfactory.github.io/gplugins/
   - Reference:
+      - PCells: components.md
       - API: api.md
       - Routing API: api_routing.md
-      - PCells: components.md
       - Contributing: contributing.md
       - Changelog: changelog.md
       - Training: https://gdsfactory.github.io/gdsfactory-photonics-training/index.html
