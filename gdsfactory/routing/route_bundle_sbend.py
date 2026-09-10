@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from typing import Any
 
 import kfactory as kf
@@ -33,6 +34,8 @@ def route_bundle_sbend(
     auto_taper: bool = True,
     cross_section: CrossSectionSpec | None = None,
     layer_transitions: LayerTransitions | None = None,
+    start_straight_length: float = 0.0,
+    end_straight_length: float = 0.0,
     **kwargs: Any,
 ) -> list[ManhattanRoute]:
     """Places sbend routes from ports1 to ports2.
@@ -52,6 +55,8 @@ def route_bundle_sbend(
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         cross_section: cross-section to use for auto-tapering. Required when auto_taper=True.
         layer_transitions: dictionary of layer transitions for auto-tapering.
+        start_straight_length: length of the straight at the start of the route.
+        end_straight_length: length of the straight at the end of the route.
         kwargs: cross_section settings.
 
     """
@@ -105,6 +110,8 @@ def route_bundle_sbend(
             xsize = -ys
             ysize = xs
 
+        straight_length = start_straight_length + end_straight_length
+        xsize -= math.copysign(straight_length, xsize)
         bend_kwargs = dict(**kwargs)
         if cross_section is not None:
             bend_kwargs["cross_section"] = cross_section
@@ -114,6 +121,32 @@ def route_bundle_sbend(
             )
         else:
             bend = gf.get_component(bend_s, size=(xsize, ysize), **bend_kwargs)
+
+        port_names = [port.name for port in bend.ports]
+        straight_cross_section = cross_section or bend.ports[port_name].info.get(
+            "cross_section"
+        )
+        if start_straight_length:
+            bend = gf.components.extend_ports(
+                bend,
+                port_names=(port_name,),
+                extension=gf.components.straight(
+                    length=start_straight_length,
+                    cross_section=straight_cross_section,
+                    width=bend.ports[port_name].width,
+                ),
+            )
+        if end_straight_length:
+            end_port_name = next(name for name in port_names if name != port_name)
+            bend = gf.components.extend_ports(
+                bend,
+                port_names=(end_port_name,),
+                extension=gf.components.straight(
+                    length=end_straight_length,
+                    cross_section=straight_cross_section,
+                    width=bend.ports[end_port_name].width,
+                ),
+            )
         sbend = component << bend
         sbend.connect(
             port_name,

@@ -5,6 +5,22 @@ import pytest
 import gdsfactory as gf
 
 
+def assert_endpoint_straights(
+    sbend: gf.ComponentReference,
+    start_straight_length: float,
+    end_straight_length: float,
+    bend_size: tuple[float, float],
+) -> None:
+    start_extension = sbend.cell.insts[0]
+    bend = start_extension.cell.insts[0]
+
+    assert bend.cell.settings["size"] == bend_size
+    assert (
+        start_extension.cell.insts[1].cell.settings["length"] == start_straight_length
+    )
+    assert sbend.cell.insts[1].cell.settings["length"] == end_straight_length
+
+
 def test_route_bundle_sbend() -> None:
     c = gf.Component(name="test_route_bundle_sbend")
     mmi1 = c << gf.components.mmi1x2()
@@ -14,6 +30,42 @@ def test_route_bundle_sbend() -> None:
 
     gf.routing.route_bundle_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
     assert len(c.insts) == 3
+
+
+def test_route_single_sbend_endpoint_straights() -> None:
+    c = gf.Component()
+    left = c << gf.components.straight(length=10)
+    right = c << gf.components.straight(length=10)
+    right.movex(50)
+    right.movey(5)
+
+    sbend = gf.routing.route_single_sbend(
+        c,
+        left.ports["o2"],
+        right.ports["o1"],
+        start_straight_length=3,
+        end_straight_length=7,
+    )
+
+    assert_endpoint_straights(sbend, 3, 7, (30, 5))
+
+
+def test_route_bundle_sbend_endpoint_straights() -> None:
+    c = gf.Component()
+    left = c << gf.components.straight(length=10)
+    right = c << gf.components.straight(length=10)
+    right.movex(50)
+    right.movey(5)
+
+    gf.routing.route_bundle_sbend(
+        c,
+        left.ports["o2"],
+        right.ports["o1"],
+        start_straight_length=3,
+        end_straight_length=7,
+    )
+
+    assert_endpoint_straights(c.insts[-1], 3, 7, (30, 5))
 
 
 def test_route_bundle_sbend_non_orthogonal() -> None:
