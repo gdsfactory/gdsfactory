@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = ["add_trenches", "add_trenches90"]
 
 from functools import partial
@@ -58,7 +56,7 @@ def add_trenches(
     c.copy_child_info(component)
     if cross_section is not None:
         xs = gf.get_cross_section(cross_section)
-        add_bbox(c, xs)
+        xs.add_bbox(c)
     return c
 
 

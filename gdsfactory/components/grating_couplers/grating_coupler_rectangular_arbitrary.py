@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = ["grating_coupler_rectangular_arbitrary"]
 
 import numpy as np
@@ -143,5 +141,5 @@ def grating_coupler_rectangular_arbitrary(
     c.info["wavelength"] = wavelength
     c.info["fiber_angle"] = fiber_angle
 
-    add_bbox(c, xs)
+    xs.add_bbox(c)
     return c

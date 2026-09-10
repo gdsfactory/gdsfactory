@@ -1370,7 +1370,7 @@ requires-dist = [
     { name = "jupyter", marker = "extra == 'docs'" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], editable = "../kfactory" },
+    { name = "kfactory", extras = ["ipy"], specifier = ">=3.1.0,<4" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -2376,8 +2376,8 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "3.0.4"
-source = { editable = "../kfactory" }
+version = "3.1.0"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
     { name = "cachetools" },
@@ -2398,6 +2398,10 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/1d/2d/85ae77ab71898678ff0528cd1b4ea3fdc1fc7aebc0291ee5e9b96f94b29d/kfactory-3.1.0.tar.gz", hash = "sha256:9393ff2c6b1975f0b093755af58752e91be46f5ab7417307b7ee1c6e38f50d20", size = 1695900, upload-time = "2026-09-09T15:32:02.105Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/32/2e/804b491f6984b30e0da5a2cf5c623a06cfaa8bbc71f5dabc4f7759d0721a/kfactory-3.1.0-py3-none-any.whl", hash = "sha256:01135dc84274e6a0775ea7d5cb17315957a739a5a30746a067f267b0679ae9c7", size = 293197, upload-time = "2026-09-09T15:32:00.662Z" },
+]
 
 [package.optional-dependencies]
 ipy = [
@@ -2405,75 +2409,6 @@ ipy = [
     { name = "ipython" },
     { name = "ipytree" },
     { name = "ipywidgets" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "aenum", specifier = ">=3.1.17,<4" },
-    { name = "cachetools", specifier = ">=7.1.7,<7.2" },
-    { name = "erdantic", marker = "extra == 'docs'", specifier = ">=1.2.1,<1.3" },
-    { name = "griffe-inherited-docstrings", marker = "extra == 'docs'", specifier = ">=1.1.3,<1.2" },
-    { name = "griffe-pydantic", marker = "extra == 'docs'", specifier = ">=1.3.1,<1.4" },
-    { name = "griffe-warnings-deprecated", marker = "extra == 'docs'", specifier = ">=1.1.1,<1.2" },
-    { name = "ipyevents", marker = "extra == 'ipy'", specifier = ">=2.0.4,<2.1" },
-    { name = "ipykernel", marker = "extra == 'notebooks'", specifier = ">=7.3,<7.4" },
-    { name = "ipython", marker = "extra == 'ipy'", specifier = ">=9.16.1,<9.17" },
-    { name = "ipytree", marker = "extra == 'ipy'", specifier = ">=0.2.2,<0.3" },
-    { name = "ipywidgets", marker = "extra == 'ipy'", specifier = ">=8.1.9,<8.2" },
-    { name = "jupytext", marker = "extra == 'notebooks'", specifier = ">=1.19.5,<1.20" },
-    { name = "kfactory", extras = ["ci"], marker = "extra == 'dev'" },
-    { name = "kfactory", extras = ["docs"], marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], marker = "extra == 'notebooks'" },
-    { name = "kfactory", extras = ["notebooks"], marker = "extra == 'docs'" },
-    { name = "kfnetlist", specifier = ">=0.2.2" },
-    { name = "klayout", specifier = ">=0.30.11,<0.31" },
-    { name = "loguru", specifier = ">=0.7.3,<0.8" },
-    { name = "mkdocs-literate-nav", marker = "extra == 'docs'", specifier = ">=0.6.3,<0.7" },
-    { name = "mkdocs-video", marker = "extra == 'docs'", specifier = ">=1.5,<1.6" },
-    { name = "mkdocstrings", extras = ["python"], marker = "extra == 'docs'", specifier = ">=1.0.6,<1.1" },
-    { name = "nbconvert", marker = "extra == 'notebooks'", specifier = ">=7.17.1,<7.18" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.6.2,<4.7" },
-    { name = "pydantic", specifier = ">=2.13.4,<2.14" },
-    { name = "pydantic-extra-types", specifier = ">=2.11.1,<2.12" },
-    { name = "pydantic-settings", specifier = ">=2.15,<3" },
-    { name = "pygit2", specifier = ">=1.20,<2" },
-    { name = "pymdown-extensions", marker = "extra == 'docs'", specifier = ">=11.0.2,<11.1" },
-    { name = "pytest", marker = "extra == 'ci'", specifier = ">=9.1.1,<9.2" },
-    { name = "pytest-cov", marker = "extra == 'ci'", specifier = ">=7.1,<7.2" },
-    { name = "pytest-datadir", marker = "extra == 'ci'", specifier = ">=1.8,<1.9" },
-    { name = "pytest-randomly", marker = "extra == 'ci'", specifier = ">=4.1,<4.2" },
-    { name = "pytest-regressions", marker = "extra == 'ci'", specifier = ">=2.11,<2.12" },
-    { name = "pytest-xdist", marker = "extra == 'ci'", specifier = ">=3.8,<3.9" },
-    { name = "rapidfuzz", specifier = ">=3.14.5,<4" },
-    { name = "rectangle-packer", specifier = ">=2.1,<3" },
-    { name = "requests", specifier = ">=2.34.2,<3" },
-    { name = "ruamel-yaml", specifier = ">=0.19.1,<0.20" },
-    { name = "ruamel-yaml-string", specifier = ">=0.1.1,<0.2" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = "~=0.16.4" },
-    { name = "rust-just", marker = "extra == 'dev'", specifier = "~=1.58.0" },
-    { name = "scipy", specifier = ">=1.18.1,<2" },
-    { name = "scipy-stubs", marker = "extra == 'dev'", specifier = ">=1.18.1,<1.19" },
-    { name = "semver", specifier = ">=3.0.4,<4" },
-    { name = "tbump", marker = "extra == 'dev'", specifier = ">=6.11,<6.12" },
-    { name = "toolz", specifier = ">=1.1,<2" },
-    { name = "ty", marker = "extra == 'dev'", specifier = ">=0.0.74,<0.1" },
-    { name = "typer", specifier = "~=0.27.1" },
-    { name = "types-cachetools", marker = "extra == 'ci'", specifier = ">=7.0.0.20260713,<7.1" },
-    { name = "types-cachetools", marker = "extra == 'dev'", specifier = ">=7.0.0.20260713,<7.1" },
-    { name = "types-docutils", marker = "extra == 'dev'", specifier = ">=0.22.3.20260724,<0.23" },
-    { name = "types-pygments", marker = "extra == 'dev'", specifier = ">=2.21.0.20260819,<2.22" },
-    { name = "types-requests", marker = "extra == 'ci'", specifier = ">=2.33.0.20260712,<2.34" },
-    { name = "types-requests", marker = "extra == 'dev'", specifier = ">=2.33.0.20260712,<2.34" },
-    { name = "types-setuptools", marker = "extra == 'dev'", specifier = ">=84.0.0.20260812,<84.1" },
-    { name = "uv", marker = "extra == 'ci'", specifier = ">=0.12.6,<0.13" },
-    { name = "zensical", marker = "extra == 'docs'", specifier = ">=0.0.57,<0.1" },
-]
-provides-extras = ["ci", "dev", "docs", "ipy", "notebooks"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pytest", specifier = ">=9.1.1,<9.2" },
-    { name = "pytest-regressions", specifier = ">=2.11,<2.12" },
 ]
 
 [[package]]

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = [
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_te",
@@ -171,7 +169,7 @@ def grating_coupler_elliptical(
             layer_slab,
         )
 
-    add_bbox(c, xs)
+    xs.add_bbox(c)
     c.add_port(
         name="o2",
         center=(x, 0),

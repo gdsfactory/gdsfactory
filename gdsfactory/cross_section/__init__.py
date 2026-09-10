@@ -73,7 +73,6 @@ from gdsfactory.cross_section.presets import (
 from gdsfactory.cross_section.utils import (
     CrossSectionCallable,
     P,
-    add_bbox,
     cross_section,
     cross_sections,
     get_cross_sections,
@@ -98,7 +97,6 @@ __all__ = [
     "SymmetricCrossSection",
     "Transition",
     "TransitionAsymmetric",
-    "add_bbox",
     "cladding_layers_optical",
     "cladding_offsets_optical",
     "cross_section",

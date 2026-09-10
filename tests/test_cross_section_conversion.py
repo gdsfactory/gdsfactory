@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import inspect
 import subprocess
 from functools import partial
 from pathlib import Path
+from unittest.mock import patch
 
 import kfactory as kf
 import pytest
@@ -12,6 +14,188 @@ import pytest
 import gdsfactory as gf
 from gdsfactory._kcl import temporary_kcl
 from gdsfactory.typings import ComponentFactory
+
+
+@pytest.mark.parametrize("all_angle", [False, True])
+@pytest.mark.parametrize("offset", [0.0, 0.125])
+def test_extrude_bbox_flag(offset: float, all_angle: bool) -> None:
+    xs = gf.cross_section.cross_section(
+        width=0.5,
+        offset=offset,
+        sections=[("SLAB90", -1.0, 1.0)],
+        bbox_layers=["DEVREC", "M1"],
+        bbox_offsets=[2.0, 0.5],
+    )
+    assert isinstance(xs, gf.AsymmetricCrossSection) == bool(offset)
+    path = gf.path.straight(10)
+    bare = path.extrude(xs, all_angle=all_angle)
+    explicit = path.extrude(xs, all_angle=all_angle, add_bbox=False)
+    padded = path.extrude(xs, all_angle=all_angle, add_bbox=True)
+    functional = gf.path.extrude(path, xs, all_angle=all_angle, add_bbox=True)
+    for layer, padding in xs.bbox_sections.items():
+        index = padded.kcl.layer(layer)
+        assert bare.dbbox(index).empty()
+        assert explicit.dbbox(index).empty()
+        assert padded.dbbox(index) == bare.dbbox().enlarged(padding)
+        assert functional.dbbox(index) == padded.dbbox(index)
+    for component in (bare, explicit, padded, functional):
+        for port in component.ports:
+            assert port.cross_section.base == xs.base
+    for section in xs.get_sections():
+        index = padded.kcl.layer(section.layer)
+        assert padded.dbbox(index) == bare.dbbox(index)
+
+
+@pytest.mark.parametrize("all_angle", [False, True])
+@pytest.mark.parametrize("offset", [0.0, 0.125])
+def test_extrude_calls_kfactory_add_bbox(offset: float, all_angle: bool) -> None:
+    gf.clear_cache()
+    xs = gf.cross_section.cross_section(
+        width=0.5,
+        offset=offset,
+        radius=10,
+        radius_min=5,
+        bbox_layers=["DEVREC", "M1"],
+        bbox_offsets=[2.0, 0.5],
+    )
+    cls = kf.DAsymmetricCrossSection if offset else kf.DCrossSection
+    assert type(xs) is cls
+    path = gf.path.straight(10)
+    with patch.object(cls, "add_bbox", autospec=True, side_effect=cls.add_bbox) as draw:
+        path.extrude(xs, all_angle=all_angle)
+        draw.assert_not_called()
+        c = path.extrude(xs, all_angle=all_angle, add_bbox=True)
+        draw.assert_called_once_with(xs, c)
+
+
+@pytest.mark.parametrize("offset", [0.0, 0.125])
+@pytest.mark.parametrize(
+    "factory",
+    [
+        gf.c.straight,
+        gf.c.straight_all_angle,
+        gf.c.bend_euler,
+        gf.c.bend_s,
+        gf.c.taper,
+        gf.c.wire_corner,
+        gf.c.grating_coupler_elliptical,
+    ],
+)
+def test_components_call_kfactory_add_bbox(
+    factory: ComponentFactory, offset: float
+) -> None:
+    gf.clear_cache()
+    xs = gf.cross_section.cross_section(
+        width=0.5,
+        offset=offset,
+        radius=10,
+        radius_min=5,
+        bbox_layers=["DEVREC", "M1"],
+        bbox_offsets=[2.0, 0.5],
+    )
+    cls = type(xs)
+    with patch.object(cls, "add_bbox", autospec=True, side_effect=cls.add_bbox) as draw:
+        # Exercise construction even when a virtual factory has cached its result.
+        c = inspect.unwrap(factory)(cross_section=xs)
+    assert any(call.args[0].base == xs.base for call in draw.call_args_list)
+    for layer in xs.bbox_sections:
+        assert not c.dbbox(c.kcl.layer(layer)).empty()
+
+
+@pytest.mark.parametrize("all_angle", [False, True])
+@pytest.mark.parametrize("offset", [0.0, 0.125])
+@pytest.mark.parametrize("explicit_ref", [False, True])
+def test_component_add_bbox_with_pending_vinsts(
+    all_angle: bool, offset: float, explicit_ref: bool
+) -> None:
+    gf.clear_cache()
+    xs = gf.cross_section.cross_section(
+        width=0.5,
+        offset=offset,
+        radius=10,
+        radius_min=5,
+        bbox_layers=["DEVREC", "M1"],
+        bbox_offsets=[2.0, 0.5],
+    )
+    c = gf.ComponentAllAngle() if all_angle else gf.Component()
+    child = gf.ComponentAllAngle()
+    bounds = gf.kdb.DBox(0, -1, 10, 2)
+    child.shapes(xs.layer).insert(bounds)
+    c.create_vinst(child)
+    with patch("kfactory.cross_section.logger.warning") as warning:
+        xs.add_bbox(c, ref=bounds if explicit_ref else None)
+        if all_angle:
+            warning.assert_not_called()
+        else:
+            warning.assert_called_once()
+            assert "insert_vinsts()" in warning.call_args.args[0]
+    for layer, padding in xs.bbox_sections.items():
+        assert c.dbbox(c.kcl.layer(layer)) == bounds.enlarged(padding)
+    assert len(c.vinsts) == 1
+
+
+@pytest.mark.parametrize("all_angle", [False, True])
+def test_bbox_uses_emitted_geometry(all_angle: bool) -> None:
+    xs = gf.cross_section.cross_section(
+        width=0.5,
+        sections=[("SLAB90", -5.0, 5.0)],
+        bbox_layers=["DEVREC"],
+        bbox_offsets=[1.0],
+    )
+    c = gf.path.straight(10).extrude(
+        xs,
+        all_angle=all_angle,
+        add_bbox=True,
+        hidden=[1],
+        insets={0: (2.0, 3.0)},
+        width_function=lambda t: 0.5 + t,
+        offset_function=lambda t: t,
+        ports={},
+    )
+    assert c.dbbox(gf.get_layer("DEVREC")) == gf.kdb.DBox(1.0, -2.75, 8.0, 1.25)
+    assert c.dbbox(gf.get_layer("SLAB90")).empty()
+    empty = gf.path.straight(10).extrude(
+        xs, all_angle=all_angle, add_bbox=True, hidden=[0, 1], ports={}
+    )
+    assert empty.dbbox().empty()
+
+
+@pytest.mark.parametrize("angle", [90, -90, 180, -180])
+@pytest.mark.parametrize("bend", [gf.c.bend_circular, gf.c.bend_euler, gf.c.bend_topic])
+def test_bend_bbox_clipping(bend: ComponentFactory, angle: float) -> None:
+    xs = gf.cross_section.cross_section(
+        width=0.5,
+        radius=10,
+        radius_min=5,
+        bbox_layers=["DEVREC", "M1"],
+        bbox_offsets=[2.0, 0.5],
+    )
+    c = bend(cross_section=xs, angle=angle)
+    core = c.dbbox(c.kcl.layer(xs.layer))
+    for layer, padding in xs.bbox_sections.items():
+        expected = core.enlarged(padding)
+        if angle == 90:
+            expected.top = core.top
+        elif angle == -90:
+            expected.bottom = core.bottom
+        assert c.dbbox(c.kcl.layer(layer)) == expected
+
+
+@pytest.mark.parametrize(
+    "factory", [gf.c.straight, gf.c.straight_all_angle, gf.c.wire_corner, gf.c.taper]
+)
+def test_component_bbox_layers(factory: ComponentFactory) -> None:
+    xs = gf.cross_section.cross_section(
+        width=0.5,
+        radius=10,
+        radius_min=5,
+        bbox_layers=["DEVREC", "M1"],
+        bbox_offsets=[2.0, 0.5],
+    )
+    c = factory(cross_section=xs)
+    core = c.dbbox(c.kcl.layer(xs.layer))
+    for layer, padding in xs.bbox_sections.items():
+        assert c.dbbox(c.kcl.layer(layer)) == core.enlarged(padding)
 
 
 @pytest.mark.parametrize("offset", [0.0, 0.125, -0.125])

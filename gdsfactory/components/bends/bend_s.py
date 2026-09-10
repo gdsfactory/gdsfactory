@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox, validate_radius
+from gdsfactory.cross_section.utils import validate_radius
 
 __all__ = ["bend_s", "bend_s_offset", "bezier"]
 
@@ -82,7 +82,7 @@ def bezier(
         path.start_angle = start_angle or snap_angle(path.start_angle)
         path.end_angle = end_angle or snap_angle(path.end_angle)
 
-    c = path.extrude(xs, width_function=width_function)
+    c = path.extrude(xs, width_function=width_function, add_bbox=True)
     curv = curvature(path_points, t)
     length = path.length()
     if max(np.abs(curv)) == 0:
@@ -104,7 +104,6 @@ def bezier(
     if not allow_min_radius_violation:
         validate_radius(xs, min_bend_radius, bend_radius_error_type)
 
-    add_bbox(c, xs)
     return c
 
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox, with_width
+from gdsfactory.cross_section.utils import with_width
 
 __all__ = ["coupler_full"]
 
@@ -95,7 +95,7 @@ def coupler_full(
     bend_output_top.connect("o2", taper_top.ports["o2"], mirror=True)
     bend_output_bottom.connect("o2", taper_bottom.ports["o2"], mirror=True)
 
-    add_bbox(c, x)
+    x.add_bbox(c)
 
     c.add_port("o1", port=bend_input_bottom.ports["o2"])
     c.add_port("o2", port=bend_input_top.ports["o2"])

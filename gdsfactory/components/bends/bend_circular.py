@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox, validate_radius
+from gdsfactory.cross_section.utils import validate_radius
 
 __all__ = ["bend_circular", "bend_circular180", "bend_circular_all_angle"]
 
@@ -94,9 +94,11 @@ def _bend_circular(
     c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     c.info["radius"] = float(radius)
     c.info["width"] = width or x.width
-    top = None if int(angle) in {180, -180, -90} else 0
-    bottom = 0 if int(angle) == -90 else None
-    add_bbox(c, x, top=top, bottom=bottom)
+    x.add_bbox(
+        c,
+        top=None if int(angle) in {180, -180, -90} else 0,
+        bottom=0 if int(angle) == -90 else None,
+    )
     if not allow_min_radius_violation:
         validate_radius(x, radius)
     c.add_route_info(

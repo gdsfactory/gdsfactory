@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = ["dbr_tapered"]
 
 from typing import cast
@@ -149,7 +147,7 @@ def dbr_tapered(
             cross_section=xs,
         )
 
-    add_bbox(c, xs)
+    xs.add_bbox(c)
     c.add_port("o1", port=input_taper.ports["o1"])
     c.add_port("o2", port=output_taper.ports["o2"])
     return c

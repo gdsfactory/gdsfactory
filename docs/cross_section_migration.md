@@ -88,8 +88,52 @@ from 1066.994205 to 1067.644168 µm²; after `fix_spacing(min_space=1)` the test
 area is 1070.968887 µm². `ring_single_pn` explicitly supplies the former slab
 tolerance at extrusion time and matches its existing geometry golden.
 
-`add_bbox(component, xs)` and `validate_radius(xs, radius)` are functions in
-`gf.cross_section`. Bend and route radius overrides belong on the bend or route
+## Bounding-box layers
+
+Both kfactory cross-section types store `bbox_sections` as a mapping from
+`LayerInfo` to padding in micrometers. To draw them during extrusion, use
+`path.extrude(xs, add_bbox=True)` or
+`gf.path.extrude(path, xs, add_bbox=True)`. The flag defaults to `False` and does
+not change the profile or its port metadata. Padding surrounds all emitted
+geometry, including auxiliary strips, after applying extrusion controls.
+An empty extrusion produces no bbox geometry.
+
+For a manually drawn component, use kfactory's `xs.add_bbox()` directly:
+
+```python
+xs.add_bbox(component)  # all geometry, including child instances
+xs.add_bbox(component, ref=xs.layer)  # only the main layer's bounds
+xs.add_bbox(component, ref=instance)  # bounds after instance placement
+xs.add_bbox(component, ref=gf.kdb.DBox(0, -1, 10, 1), top=0)
+```
+
+These are alternative ways to select the reference bounds, not calls to stack.
+`ref` also accepts a layer index or an integer `Box` in the target layout's dbu.
+Instances (`Instance`, `DInstance`, or `VInstance`) use their transformed bounds
+in their parent's coordinates; these must match the target component's coordinate
+system. Cells are not accepted as `ref`; pass `cell.dbbox()` explicitly instead.
+The cross section, target, and instance reference must share the same `KCLayout`
+object. Equal DBUs do not make different layouts interchangeable: their layer
+indices can differ. A mismatch raises `ValueError` before drawing or layer lookup.
+Real cells use integer-DBU geometry; virtual cells use a separate micrometer
+implementation that preserves off-grid bounds and padding overrides.
+The method snapshots the reference bounds so padding does not accumulate
+between layers. Optional `top`, `bottom`, `left`, and `right` override padding
+for that edge on every bbox layer, in the cross section's units. Bend factories
+use these overrides to retain their existing clipping. The separate
+`gf.cross_section.add_bbox()` helper is removed.
+
+For a `Component` with pending `vinsts`, bounds include approximate virtual-instance
+geometry and `xs.add_bbox()` logs a warning, even with an explicit reference.
+Call `component.insert_vinsts()` before `xs.add_bbox(component)` for bounds based
+on materialized geometry. Adding bbox layers does not insert virtual instances
+automatically. `ComponentAllAngle` uses virtual instances normally and does not
+emit this warning merely because it contains them.
+
+## Radius defaults
+
+`validate_radius(xs, radius)` remains a function in `gf.cross_section`.
+Bend and route radius overrides belong on the bend or route
 call. A layout has one canonical name per profile, and different explicit
 radius defaults for the same profile conflict. `metal_routing` is an alias of
 the `metal3` factory. `strip_no_ports` is replaced by `strip` and `ports={}`.

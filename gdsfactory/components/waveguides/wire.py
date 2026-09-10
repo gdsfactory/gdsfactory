@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = [
     "wire_corner",
     "wire_corner45",
@@ -72,7 +70,7 @@ def wire_corner(
     )
     c.info["length"] = width
     c.info["dy"] = width
-    add_bbox(c, x)
+    x.add_bbox(c)
     for port in c.ports:
         if port.port_type == "electrical":
             c.create_pin(ports=[port], name=port.name)
@@ -256,7 +254,7 @@ def wire_corner_sections(
     )
     c.info["length"] = ymax - xmin
     c.info["dy"] = ymax - xmin
-    add_bbox(c, x)
+    x.add_bbox(c)
     if port_type == "electrical":
         for port in c.ports:
             c.create_pin(ports=[port], name=port.name)

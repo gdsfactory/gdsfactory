@@ -531,6 +531,8 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | dict[int, float] | None = None,
         all_angle: Literal[False] = False,
+        *,
+        add_bbox: bool = False,
         **kwargs: Any,
     ) -> Component: ...
 
@@ -542,6 +544,8 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | dict[int, float] | None = None,
         all_angle: Literal[True] = True,
+        *,
+        add_bbox: bool = False,
         **kwargs: Any,
     ) -> ComponentAllAngle: ...
 
@@ -553,6 +557,8 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | dict[int, float] | None = None,
         all_angle: bool = True,
+        *,
+        add_bbox: bool = False,
         **kwargs: Any,
     ) -> AnyComponent: ...
 
@@ -563,6 +569,8 @@ class Path(UMGeometricObject):
         width: float | None = None,
         simplify: float | dict[int, float] | None = None,
         all_angle: bool = False,
+        *,
+        add_bbox: bool = False,
         **kwargs: Any,
     ) -> AnyComponent:
         """Returns Component by extruding a Path with a CrossSection.
@@ -579,6 +587,8 @@ class Path(UMGeometricObject):
                     by more than the value listed here will be removed.
 
             all_angle: if True, the bend is drawn with a single euler curve.
+            add_bbox: draw the cross section's bbox layers around the extruded
+                geometry. Defaults to False.
             **kwargs: extrusion controls such as ports, width functions, and insets.
 
         Example:
@@ -597,6 +607,7 @@ class Path(UMGeometricObject):
             width=width,
             simplify=simplify,
             all_angle=all_angle,
+            add_bbox=add_bbox,
             **kwargs,
         )
 
@@ -1079,6 +1090,7 @@ def extrude(
     simplify: float | dict[int, float] | None = None,
     all_angle: bool = False,
     *,
+    add_bbox: bool = False,
     ports: dict[int, tuple[str | None, str | None, str]] | None = None,
     width_function: Callable | dict[int, Callable] | None = None,
     offset_function: Callable | dict[int, Callable] | None = None,
@@ -1092,6 +1104,11 @@ def extrude(
     individual strips. ``ports={}`` suppresses ports; other maps specify
     ``index: (start_name, end_name, port_type)``. Insets and hidden strips affect
     only this extrusion and do not change the cross section.
+
+    ``add_bbox=True`` draws ``xs.bbox_sections`` around the bounding box of all
+    emitted geometry, after insets, hidden strips, and width/offset functions.
+    Each offset is in micrometers and uses the same unpadded bounding box.
+    Defaults to False; the bbox metadata on port cross sections is unaffected.
     """
     from gdsfactory.cross_section.utils import cross_section as make_cross_section
     from gdsfactory.cross_section.utils import get_port_cross_section, with_width
@@ -1200,6 +1217,8 @@ def extrude(
             -1,
             path.end_angle,
         )
+    if add_bbox:
+        xs.add_bbox(c)
     c.info["length"] = p.length()
     return c
 

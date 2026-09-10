@@ -248,36 +248,6 @@ def section_cross_section(
     return profile, kcl.to_um(strip.section_min + half)
 
 
-def add_bbox(
-    component: typings.AnyComponentT,
-    xs: CrossSection,
-    top: float | None = None,
-    bottom: float | None = None,
-    right: float | None = None,
-    left: float | None = None,
-) -> typings.AnyComponentT:
-    """Add the profile's bounding-box layers around the component."""
-    from gdsfactory.add_padding import get_padding_points
-
-    polygons: list[tuple[kf.kdb.LayerInfo, list[typings.Coordinate]]] = [
-        (
-            layer,
-            get_padding_points(
-                component=component,
-                default=d,
-                top=top if top is not None else d,
-                bottom=bottom if bottom is not None else d,
-                right=right if right is not None else d,
-                left=left if left is not None else d,
-            ),
-        )
-        for layer, d in xs.bbox_sections.items()
-    ]
-    for layer, points in polygons:
-        component.add_polygon(points, layer=layer)
-    return component
-
-
 def validate_radius(
     xs: CrossSection, radius: float, error_type: ErrorType | None = None
 ) -> None:

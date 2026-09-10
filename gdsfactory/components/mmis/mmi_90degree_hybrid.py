@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = ["mmi_90degree_hybrid"]
 
 import gdsfactory as gf
@@ -152,5 +150,5 @@ def mmi_90degree_hybrid(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
 
     c.flatten()
-    add_bbox(c, x)
+    x.add_bbox(c)
     return c

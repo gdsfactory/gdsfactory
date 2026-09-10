@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section.utils import add_bbox
 from gdsfactory.typings import ComponentFactory, Layer
 
 gf.gpdk.PDK.activate()
@@ -88,7 +87,7 @@ def crossing(
             port_id += 1
 
     c.auto_rename_ports()
-    add_bbox(c, x)
+    x.add_bbox(c)
     c.flatten()
     return c
 

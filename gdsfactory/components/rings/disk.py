@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = ["disk", "disk_heater"]
 
 import math
@@ -156,7 +154,7 @@ def disk(
 
     c.add_port("o1", port=straight_left.ports["o1"])
     c.add_port("o2", port=straight_right.ports["o2"])
-    add_bbox(c, xs)
+    xs.add_bbox(c)
     if parity == -1:
         c = c.rotate(180)
 

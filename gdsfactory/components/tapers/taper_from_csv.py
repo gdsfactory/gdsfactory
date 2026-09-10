@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = [
     "taper_0p5_to_3_l36",
     "taper_from_csv",
@@ -82,7 +80,7 @@ def taper_from_csv(
         layer=layer,
         cross_section=x,
     )
-    add_bbox(c, x)
+    x.add_bbox(c)
     return c
 
 

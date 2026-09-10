@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = ["straight", "straight_all_angle", "straight_array", "wire_straight"]
 
 import gdsfactory as gf
@@ -36,8 +34,7 @@ def straight(
     else:
         x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
-    c = p.extrude(x)
-    add_bbox(c, x)
+    c = p.extrude(x, add_bbox=True)
 
     c.info["length"] = length
     c.info["width"] = (
@@ -70,8 +67,7 @@ def straight_all_angle(
     else:
         x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
-    c = p.extrude(x, all_angle=True)
-    add_bbox(c, x)
+    c = p.extrude(x, all_angle=True, add_bbox=True)
 
     c.info["length"] = length
     c.info["width"] = (
@@ -133,8 +129,7 @@ def wire_straight(
     else:
         x = gf.get_cross_section(cross_section)
     p = gf.path.straight(length=length, npoints=npoints)
-    c = p.extrude(x)
-    add_bbox(c, x)
+    c = p.extrude(x, add_bbox=True)
 
     c.info["length"] = length
     c.info["width"] = (

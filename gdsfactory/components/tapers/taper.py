@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import add_bbox
-
 __all__ = [
     "taper",
     "taper_electrical",
@@ -102,7 +100,7 @@ def taper(
             c.add_polygon(p1, layer=s1.layer)
 
     if with_bbox:
-        add_bbox(c, x)
+        x.add_bbox(c)
     c.add_port(
         name=port_names[0],
         center=(0, 0),
@@ -212,7 +210,7 @@ def taper_strip_to_ridge(
         c.add_port(name="o2", port=taper_ref_wg.ports["o2"])
 
     if length:
-        add_bbox(c, xs)
+        xs.add_bbox(c)
     c.flatten()
     return c
 
