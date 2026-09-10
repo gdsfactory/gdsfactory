@@ -50,6 +50,23 @@ def test_route_single_sbend_endpoint_straights() -> None:
     assert_endpoint_straights(sbend, 3, 7, (30, 5))
 
 
+def test_route_single_sbend_without_endpoint_straights() -> None:
+    c = gf.Component()
+    left = c << gf.components.straight(length=10)
+    right = c << gf.components.straight(length=10)
+    right.movex(50)
+    right.movey(5)
+
+    sbend = gf.routing.route_single_sbend(
+        c,
+        left.ports["o2"],
+        right.ports["o1"],
+    )
+
+    assert tuple(sbend.ports[0].center) == tuple(left.ports["o2"].center)
+    assert tuple(sbend.ports[1].center) == tuple(right.ports["o1"].center)
+
+
 def test_route_bundle_sbend_endpoint_straights() -> None:
     c = gf.Component()
     left = c << gf.components.straight(length=10)
@@ -76,3 +93,13 @@ def test_route_bundle_sbend_non_orthogonal() -> None:
 
     with pytest.raises(ValueError, match="Ports need to have orthogonal orientation"):
         gf.routing.route_bundle_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
+
+
+def test_route_single_sbend_non_orthogonal() -> None:
+    c = gf.Component(name="test_route_single_sbend_non_orthogonal")
+    mmi1 = c << gf.components.mmi1x2()
+    mmi2 = c << gf.components.mmi1x2()
+    mmi2.rotate(45)
+
+    with pytest.raises(ValueError, match="Ports need to have orthogonal orientation"):
+        gf.routing.route_single_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
