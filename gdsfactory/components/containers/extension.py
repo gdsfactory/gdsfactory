@@ -184,9 +184,18 @@ def extend_ports(
                         )
 
                     elif isinstance(port_xs_settings, dict):
-                        cross_section_extension = gf.CrossSection.model_validate(
-                            port_xs_settings
-                        )
+                        from pydantic import ValidationError
+
+                        try:
+                            cross_section_extension = gf.CrossSection.model_validate(
+                                port_xs_settings
+                            )
+                        except ValidationError:
+                            cross_section_extension = cross_section_function(
+                                layer=gf.get_layer_tuple(port.layer),
+                                width=port.width,
+                                port_types=(port_type, port_type),
+                            )
 
                     else:
                         cross_section_extension = cross_section_function(
