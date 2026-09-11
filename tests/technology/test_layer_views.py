@@ -1,4 +1,5 @@
 import pathlib
+import xml.etree.ElementTree as ET
 
 import pytest
 from pydantic_extra_types.color import Color
@@ -109,6 +110,47 @@ def test_line_style_to_klayout_xml() -> None:
     line_style = LineStyle(name="test", custom_style=None)
     with pytest.raises(KeyError):
         line_style.to_klayout_xml()
+
+
+def test_lyp_to_yaml_preserves_custom_patterns(tmp_path: pathlib.Path) -> None:
+    hatch_pattern = HatchPattern(name="dots", custom_pattern=".*\n*.")
+    single_line_pattern = HatchPattern(name="single", custom_pattern="*")
+    line_style = LineStyle(name="dash", custom_style="*.*.")
+    layer_views = LayerViews(
+        layer_views={
+            "WG": LayerView(
+                name="WG",
+                layer=(1, 0),
+                hatch_pattern=hatch_pattern,
+                line_style=line_style,
+            )
+        },
+        custom_dither_patterns={
+            "dots": hatch_pattern,
+            "single": single_line_pattern,
+        },
+        custom_line_styles={"dash": line_style},
+    )
+    lyp_path = tmp_path / "layers.lyp"
+    yaml_path = tmp_path / "layers.yaml"
+
+    layer_views.to_lyp(lyp_path)
+    tree = ET.parse(lyp_path)
+    pattern_without_geometry = ET.SubElement(tree.getroot(), "custom-dither-pattern")
+    ET.SubElement(pattern_without_geometry, "order").text = "2"
+    ET.SubElement(pattern_without_geometry, "name").text = "missing"
+    tree.write(lyp_path)
+    loaded_from_lyp = LayerViews.from_lyp(lyp_path)
+    loaded_from_lyp.to_yaml(yaml_path)
+    roundtrip = LayerViews.from_yaml(yaml_path)
+
+    layer_view = roundtrip.layer_views["WG"]
+    assert layer_view.hatch_pattern == "dots"
+    assert roundtrip.custom_dither_patterns["dots"].custom_pattern == ".*\n*."
+    assert roundtrip.custom_dither_patterns["single"].custom_pattern == "*"
+    assert "missing" not in roundtrip.custom_dither_patterns
+    assert layer_view.line_style == "dash"
+    assert roundtrip.custom_line_styles["dash"].custom_style == "*.*."
 
 
 def test_layer_view_init() -> None:
