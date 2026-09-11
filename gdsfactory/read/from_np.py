@@ -8,8 +8,12 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.boolean import boolean
-from gdsfactory.component import Component
+from gdsfactory.component import (
+    Component,
+    boolean_not,
+    boolean_or,
+    points_to_polygon,
+)
 from gdsfactory.typings import PathType
 
 
@@ -65,23 +69,24 @@ def from_np(
     # Apply contours from the outside in so that islands nested inside holes are
     # restored after their enclosing hole is subtracted. Combining all positive
     # and negative contours separately loses this even-odd nesting information.
-    polygons: list[tuple[float, Component]] = []
-    for contour in contours:
-        area = compute_area_signed(contour)
-        points = contour * 1e-3 * nm_per_pixel
-        polygon = Component()
-        polygon.add_polygon(points, layer=layer)
-        polygons.append((area, polygon))
-
-    result = Component()
-    for area, polygon in sorted(polygons, key=lambda item: abs(item[0]), reverse=True):
-        result = boolean(
-            result,
-            polygon,
-            operation="or" if area < 0 else "not",
-            layer=layer,
+    c = Component()
+    layer_index = gf.get_layer(layer)
+    dbu = c.kcl.dbu
+    region = gf.kdb.Region()
+    for area, contour in sorted(
+        ((compute_area_signed(contour), contour) for contour in contours),
+        key=lambda item: abs(item[0]),
+        reverse=True,
+    ):
+        poly = cast("gf.kdb.DPolygon", points_to_polygon(contour * 1e-3 * nm_per_pixel))
+        contour_region = gf.kdb.Region(poly.to_itype(dbu))
+        region = (
+            boolean_or(region, contour_region)
+            if area < 0
+            else boolean_not(region, contour_region)
         )
-    return result
+    c.shapes(layer_index).insert(region)
+    return c
 
 
 @gf.cell
