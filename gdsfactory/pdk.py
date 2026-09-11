@@ -542,7 +542,9 @@ class Pdk(BaseModel):
             try:
                 layer = self.get_layer_name(layer)
             except ValueError:
-                logger.debug("Could not resolve layer name for %r, using as-is", layer)
+                logger.debug(
+                    "Could not resolve layer name for {!r}, using as-is", layer
+                )
 
             section_ = Section(
                 name="_default",
@@ -871,8 +873,8 @@ def _ensure_pdk_layers_registered(pdk: Pdk) -> None:
                     info.layer,
                     info.datatype,
                 ):
-                    logger.debug(
-                        "Layer index %s is already occupied by %s; cannot restore %s",
+                    logger.warning(
+                        "Layer index {} is already occupied by {}; cannot restore {}",
                         target_index,
                         existing_info,
                         info,
@@ -882,12 +884,11 @@ def _ensure_pdk_layers_registered(pdk: Pdk) -> None:
                 layout.move_layer(existing_index, target_index)
                 layout.delete_layer(existing_index)
             except RuntimeError:
-                logger.debug(
-                    "Could not move layer %s from index %s to %s",
+                logger.opt(exception=True).warning(
+                    "Could not move layer {} from index {} to {}",
                     info,
                     existing_index,
                     target_index,
-                    exc_info=True,
                 )
             continue
         if layout.is_valid_layer(target_index):
@@ -897,8 +898,8 @@ def _ensure_pdk_layers_registered(pdk: Pdk) -> None:
                 info.datatype,
             ):
                 continue
-            logger.debug(
-                "Layer index %s is already occupied by %s; cannot restore %s",
+            logger.warning(
+                "Layer index {} is already occupied by {}; cannot restore {}",
                 target_index,
                 existing_info,
                 info,
@@ -940,8 +941,8 @@ def _prune_foreign_layers(pdk: Pdk) -> None:
         try:
             layout.delete_layer(index)
         except RuntimeError:
-            logger.debug(
-                "Could not delete empty inactive layer %s", info, exc_info=True
+            logger.opt(exception=True).debug(
+                "Could not delete empty inactive layer {}", info
             )
 
 
