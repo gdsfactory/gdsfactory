@@ -36,8 +36,9 @@ def test_from_np_preserves_island_inside_hole() -> None:
     component = from_np(array, nm_per_pixel=1_000, threshold=0.5)
 
     # Marching squares places the contours halfway between pixels: the expected
-    # area is outer contour - hole + the nested island.
-    assert component.area((1, 0)) == pytest.approx(168.5 - 48.5 + 8.5)
+    # area is outer contour - hole + the nested island. Absolute tolerance so
+    # small geometry differences across skimage/KLayout versions don't flake.
+    assert component.area((1, 0)) == pytest.approx(168.5 - 48.5 + 8.5, abs=1e-3)
 
 
 def test_from_np_no_contours_raises() -> None:
