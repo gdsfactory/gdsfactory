@@ -60,25 +60,29 @@ jobs:
       - name: Test with pytest
         run: |
           make cov
-      - name: Upload coverage to GitHub
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-        uses: actions/upload-code-coverage@v1
-        with:
-          file: coverage.xml
-          language: Python
-          label: code-coverage/pytest
-          fail-on-error: false
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v7
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false
-      - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false
+      # Run under `if: !cancelled()` so test results still upload when pytest fails,
+      # which is exactly when the failed-test report is useful.
+      - if: ${{ !cancelled() }}
+        parallel:
+          - name: Upload coverage to GitHub
+            if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+            uses: actions/upload-code-coverage@v1
+            with:
+              file: coverage.xml
+              language: Python
+              label: code-coverage/pytest
+              fail-on-error: false
+          - name: Upload coverage to Codecov
+            uses: codecov/codecov-action@v7
+            with:
+              token: ${{ secrets.CODECOV_TOKEN }}
+              fail_ci_if_error: false
+          - name: Upload test results to Codecov
+            uses: codecov/codecov-action@v7
+            with:
+              token: ${{ secrets.CODECOV_TOKEN }}
+              report_type: test_results
+              fail_ci_if_error: false
 
   test_samples:
     runs-on: ubuntu-latest
