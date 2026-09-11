@@ -60,10 +60,7 @@ jobs:
       - name: Test with pytest
         run: |
           make cov
-      # Run under `if: !cancelled()` so test results still upload when pytest fails,
-      # which is exactly when the failed-test report is useful.
-      - if: ${{ !cancelled() }}
-        parallel:
+      - parallel:
           - name: Upload coverage to GitHub
             if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
             uses: actions/upload-code-coverage@v1
@@ -77,7 +74,10 @@ jobs:
             with:
               token: ${{ secrets.CODECOV_TOKEN }}
               fail_ci_if_error: false
+          # `!cancelled()` so test results still upload when pytest fails, which
+          # is exactly when the failed-test report is useful.
           - name: Upload test results to Codecov
+            if: ${{ !cancelled() }}
             uses: codecov/codecov-action@v7
             with:
               token: ${{ secrets.CODECOV_TOKEN }}
