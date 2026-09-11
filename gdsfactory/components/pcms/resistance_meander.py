@@ -70,7 +70,9 @@ def resistance_meander(
     col.move((length_row - width, -width))
 
     # Creating entire straight net
-    N = Component(name=name)
+    # This cell is flattened before returning, so a fixed name only creates
+    # collisions when different meanders coexist in the same layout.
+    N = Component()
     n = 1
     for i in range(num_rows):
         d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)
