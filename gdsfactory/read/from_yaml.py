@@ -849,6 +849,9 @@ def _get_dependency_graph(net: Netlist) -> nx.DiGraph:
     # Use set lookup for allowed keys, and perform checks with minimal nesting
     for i1, pl in net.placements.items():
         for k, v in pl:
+            if isinstance(v, kf.schematic.AnchorRef):
+                g.add_edge(v.instance, i1)
+                continue
             if k not in allowed_keys or not isinstance(v, str) or "," not in v:
                 continue
             i2 = v.split(",", 1)[0]
@@ -1141,7 +1144,10 @@ def _update_reference_by_placement(
         raise ValueError(
             f"Can only set one of x, xmin, xmax. Got: {x=}, {xmin=}, {xmax=}"
         )
-    if isinstance(x, str):
+    if isinstance(x, kf.schematic.AnchorRefX):
+        bbox = refs[x.instance].dbbox()
+        ref.x += {"left": bbox.left, "right": bbox.right}.get(x.x, bbox.center().x)
+    elif isinstance(x, str):
         i, q = x.split(",")
         if q in valid_anchor_value_keywords:
             _dx = _get_anchor_value_from_name(refs[i], q, "x")
@@ -1176,7 +1182,10 @@ def _update_reference_by_placement(
         raise ValueError(
             f"Can only set one of y, ymin, ymax. Got: {y=}, {ymin=}, {ymax=}"
         )
-    if isinstance(y, str):
+    if isinstance(y, kf.schematic.AnchorRefY):
+        bbox = refs[y.instance].dbbox()
+        ref.y += {"bottom": bbox.bottom, "top": bbox.top}.get(y.y, bbox.center().y)
+    elif isinstance(y, str):
         i, q = y.split(",")
         if q in valid_anchor_value_keywords:
             _dy = _get_anchor_value_from_name(refs[i], q, "y")
