@@ -512,3 +512,24 @@ def test_route_bundle_width() -> None:
     )
     expected_length = 53274.356
     assert route[0].length == expected_length, route[0].length
+
+
+def test_route_bundle_layer_and_width_scaling() -> None:
+    component = gf.Component()
+    layer_index = component.kcl.layer(1, 0)
+    port1 = Port(name="o1", center=(10, 0), width=0.8, orientation=0, layer=layer_index)
+    port2 = Port(
+        name="o2", center=(90, 0), width=0.8, orientation=180, layer=layer_index
+    )
+
+    routes = route_bundle(
+        component,
+        [port1],
+        [port2],
+        layer=(1, 0),
+        route_width=0.8,
+    )
+
+    assert routes[0].length == 80_000
+    assert component.dbbox().width() == 80
+    assert np.isclose(component.dbbox().height(), 0.8)
