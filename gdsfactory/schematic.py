@@ -130,6 +130,7 @@ class Placement(BaseModel):
     port: str | Anchor | None = None
     rotation: float = 0
     mirror: bool | str | float = False
+    mirror_y: bool | float = False
 
     def __getitem__(self, key: str) -> Any:
         """Allows to access the placement attributes as a dictionary."""
