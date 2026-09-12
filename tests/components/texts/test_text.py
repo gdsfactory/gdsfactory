@@ -41,3 +41,18 @@ def test_text_custom_font_requires_metrics() -> None:
 
     with pytest.raises(ValueError, match="Missing width or indent"):
         gf.c.text(text="A", font=font)
+
+
+@pytest.mark.parametrize("character", ["0", "1", "A", "m"])
+def test_text_builtin_font_is_monospace(character: str) -> None:
+    single = gf.c.text(text=character, size=10)
+    double = gf.c.text(text=character * 2, size=10)
+
+    assert double.dxsize - single.dxsize == pytest.approx(11)
+
+
+def test_text_builtin_font_can_use_proportional_spacing() -> None:
+    single = gf.c.text(text="1", size=10, monospace=False)
+    double = gf.c.text(text="11", size=10, monospace=False)
+
+    assert double.dxsize - single.dxsize == pytest.approx(5)
