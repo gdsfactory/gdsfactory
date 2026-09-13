@@ -30,13 +30,13 @@ def straight_pin_slot(
 ) -> Component:
     """Returns a PIN straight waveguide with slotted via.
 
-    https://doi.org/10.1364/OE.26.029983
+    <https://doi.org/10.1364/OE.26.029983>
 
     500um length for PI phase shift
-    https://ieeexplore.ieee.org/document/8268112
+    <https://ieeexplore.ieee.org/document/8268112>
 
     to go beyond 2PI, you will need at least 1mm
-    https://ieeexplore.ieee.org/document/8853396/
+    <https://ieeexplore.ieee.org/document/8853396/>
 
     Args:
         length: of the waveguide.

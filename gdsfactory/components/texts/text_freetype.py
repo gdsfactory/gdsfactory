@@ -110,10 +110,16 @@ def text_freetype(
 
     justify = justify.lower()
     for inst in t.insts:
-        if justify == "center":
-            inst.move((0, 0))
-
-        elif justify == "right":
-            inst.xmax = 0
+        match justify:
+            case "left":
+                inst.xmax = 0
+            case "center":
+                inst.xmin = -inst.xsize / 2
+            case "right":
+                inst.xmin = 0
+            case _:
+                raise ValueError(
+                    f"justify = {justify!r} not in ('center', 'right', 'left')"
+                )
     t.flatten()
     return t

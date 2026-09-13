@@ -56,7 +56,6 @@ def ruler(
         layer: Specific layer to put the ruler geometry on.
         bbox_layers: Layers to include in the bounding box.
         bbox_offset: Offsets for each bounding box layer.
-        cross_section: Cross-section spec for the ruler. Overrides layer if provided.
         long_marks: Marks that are long.
         text_size: Size of the text in um.
     """

@@ -36,6 +36,7 @@ def mmi2x2(
         straight: straight function.
         cross_section: spec.
 
+    ```text
                    length_mmi
                     <------>
                     ________
@@ -48,6 +49,7 @@ def mmi2x2(
             o1  __            __  o4
                   \          /
                    |________|
+    ```
 
                  <->
             length_taper

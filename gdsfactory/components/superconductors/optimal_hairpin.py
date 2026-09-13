@@ -36,7 +36,7 @@ def optimal_hairpin(
     Notes:
         Hairpin pitch must be greater than width.
 
-        Optimal structure from https://doi.org/10.1103/PhysRevB.84.174510
+        Optimal structure from <https://doi.org/10.1103/PhysRevB.84.174510>
         Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
         superconducting nanocircuits. Physical Review B, 84(17), 1-27.
     """

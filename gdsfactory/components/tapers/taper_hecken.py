@@ -1,6 +1,6 @@
 """Hecken taper for microstrip impedance matching.
 
-Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+Adapted from PHIDL <https://github.com/amccaugh/phidl/> by Adam McCaughan
 """
 
 from __future__ import annotations

@@ -38,6 +38,7 @@ def via(
         column_pitch: Optional pitch between columns of vias. Default is pitch.
         row_pitch: Optional pitch between rows of vias. Default is pitch.
 
+    ```text
         enclosure
         _________________________________________
         |<--->                                  |
@@ -50,6 +51,7 @@ def via(
         |      <------------->                  |
         |           pitch                       |
         |_______________________________________|
+    ```
     """
     row_pitch = row_pitch or pitch
     column_pitch = column_pitch or pitch

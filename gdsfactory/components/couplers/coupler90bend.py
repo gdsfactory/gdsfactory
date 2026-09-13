@@ -26,12 +26,14 @@ def coupler90bend(
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
 
+    ```text
             r   3 4
             |   | |
             |  / /
             | / /
         2____/ /
         1_____/
+    ```
 
     """
     c = Component()

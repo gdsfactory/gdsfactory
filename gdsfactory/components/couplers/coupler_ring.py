@@ -34,6 +34,7 @@ def coupler_ring(
         cross_section_bend: optional bend cross_section spec.
         length_extension: straight length extension at the end of the coupler bottom ports.
 
+    ```text
           o2                              o3
           xx                              xx
           xx                             xx
@@ -45,6 +46,7 @@ def coupler_ring(
                          │gap
                  o1──────▼─────────◄──────────────► o4
                                     length_extension
+    ```
     """
     if radius is None:
         radius = gf.get_cross_section(cross_section).radius

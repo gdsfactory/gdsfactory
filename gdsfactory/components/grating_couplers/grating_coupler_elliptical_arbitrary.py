@@ -67,11 +67,13 @@ def grating_coupler_elliptical_arbitrary(
             Positive bias increases gap and reduces width to keep period constant.
         cross_section: cross_section spec for waveguide port.
 
-    https://en.wikipedia.org/wiki/Ellipse
-    c = (a1 ** 2 - b1 ** 2) ** 0.5
-    e = (1 - (b1 / a1) ** 2) ** 0.5
-    print(e)
+    Notes:
+        Ellipse conventions, see <https://en.wikipedia.org/wiki/Ellipse>
 
+        c = (a1 ** 2 - b1 ** 2) ** 0.5
+        e = (1 - (b1 / a1) ** 2) ** 0.5
+
+    ```text
                       fiber
 
                    /  /  /  /
@@ -80,7 +82,7 @@ def grating_coupler_elliptical_arbitrary(
                 _|-|_|-|_|-|___ layer
                    layer_slab |
             o1  ______________|
-
+    ```
     """
     xs = gf.get_cross_section(cross_section)
     wg_width = xs.width
@@ -218,9 +220,11 @@ def grating_coupler_elliptical_uniform(
                    /  /  /  /
                   /  /  /  /
 
+    ```text
                 _|-|_|-|_|-|___ layer
                    layer_slab |
             o1  ______________|
+    ```
 
     """
     widths = (period * fill_factor,) * n_periods

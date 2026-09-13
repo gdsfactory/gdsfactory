@@ -14,6 +14,12 @@ from ..texts.text import text
 
 @gf.cell_with_module_name(tags=["pcms"])
 def pixel(size: int = 1, layer: LayerSpec = "WG") -> Component:
+    """Returns a square pixel, the building block of the QR code.
+
+    Args:
+        size: side length of the square, in um.
+        layer: layer to use.
+    """
     c = gf.Component()
     a = size / 2
     c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)

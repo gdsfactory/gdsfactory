@@ -24,11 +24,12 @@ def coupler_adiabatic(
     """Returns 50/50 adiabatic coupler.
 
     Design based on asymmetric adiabatic 3dB coupler designs, such as those.
-    - https://doi.org/10.1364/CLEO.2010.CThAA2,
-    - https://doi.org/10.1364/CLEO_SI.2017.SF1I.5
-    - https://doi.org/10.1364/CLEO_SI.2018.STh4B.4
+    - <https://doi.org/10.1364/CLEO.2010.CThAA2>,
+    - <https://doi.org/10.1364/CLEO_SI.2017.SF1I.5>
+    - <https://doi.org/10.1364/CLEO_SI.2018.STh4B.4>
 
-    input Bezier curves, with poles set to half of the x-length of the S-bend.
+    The coupler comprises five regions:
+
     1. is the first half of input S-bend where input widths taper by +dw and -dw
     2. is the second half of the S-bend straight with constant, unbalanced widths
     3. is the region where the two asymmetric straights gradually come together

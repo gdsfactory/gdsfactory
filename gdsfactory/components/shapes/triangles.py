@@ -34,6 +34,7 @@ def triangle(
         ybot: bottom ysize.
         layer: layer.
 
+    ```text
         xtop
            _
           | \
@@ -44,6 +45,7 @@ def triangle(
           |      \
           |______|ybot
               x
+    ```
     """
     c = Component()
     points = [(0, 0), (x, 0), (x, ybot), (xtop, y), (0, y)]

@@ -8,6 +8,7 @@ from kfactory.routing.generic import ManhattanRoute
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.route_single_sbend import add_straight
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
     ComponentSpec,
@@ -33,6 +34,8 @@ def route_bundle_sbend(
     auto_taper: bool = True,
     cross_section: CrossSectionSpec | None = None,
     layer_transitions: LayerTransitions | None = None,
+    start_straight_length: float = 0.0,
+    end_straight_length: float = 0.0,
     **kwargs: Any,
 ) -> list[ManhattanRoute]:
     """Places sbend routes from ports1 to ports2.
@@ -52,6 +55,8 @@ def route_bundle_sbend(
         auto_taper: if True, auto-tapers ports to the cross-section of the route.
         cross_section: cross-section to use for auto-tapering. Required when auto_taper=True.
         layer_transitions: dictionary of layer transitions for auto-tapering.
+        start_straight_length: length of the straight at the start of the route.
+        end_straight_length: length of the straight at the end of the route.
         kwargs: cross_section settings.
 
     """
@@ -91,8 +96,34 @@ def route_bundle_sbend(
                 f"port1 = {p1.orientation} deg and port2 = {p2.orientation}"
             )
 
-        ys = p2.center[1] - p1.center[1]
-        xs = p2.center[0] - p1.center[0]
+        straight_cross_section = (
+            cross_section or p1.info.get("cross_section") or "strip"
+        )
+        bend_width = p1.width if use_port_width else None
+        bend_port1 = add_straight(
+            component,
+            p1,
+            start_straight_length,
+            0,
+            straight_cross_section,
+            width=bend_width,
+            allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
+        )
+        bend_port2 = add_straight(
+            component,
+            p2,
+            end_straight_length,
+            1,
+            straight_cross_section,
+            width=bend_width,
+            allow_width_mismatch=allow_width_mismatch,
+            allow_layer_mismatch=allow_layer_mismatch,
+            allow_type_mismatch=allow_type_mismatch,
+        )
+        ys = bend_port2.center[1] - bend_port1.center[1]
+        xs = bend_port2.center[0] - bend_port1.center[0]
 
         if p1.orientation in [0, 180]:
             xsize = xs
@@ -117,7 +148,7 @@ def route_bundle_sbend(
         sbend = component << bend
         sbend.connect(
             port_name,
-            p1,
+            bend_port1,
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
             allow_type_mismatch=allow_type_mismatch,

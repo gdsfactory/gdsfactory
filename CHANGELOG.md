@@ -1,7 +1,106 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.45.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.50.0...main)
 
 <!-- towncrier release notes start -->
+
+## [9.50.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.50.0) - 2026-09-09
+
+- feat: allow custom PHIX die fiducials [#4838](https://github.com/gdsfactory/gdsfactory/pull/4838)
+- Fix asymmetric flux qubit geometry and ports [#4836](https://github.com/gdsfactory/gdsfactory/pull/4836)
+- fix: draw correct geometry for resonator_cpw and resonator_lumped [#4832](https://github.com/gdsfactory/gdsfactory/pull/4832)
+- ci: run Claude review for fork PRs [#4835](https://github.com/gdsfactory/gdsfactory/pull/4835)
+- docs: fix regression test table rendering in developer.md [#4834](https://github.com/gdsfactory/gdsfactory/pull/4834)
+- docs: store tutorial notebooks as Jupytext Python [#4830](https://github.com/gdsfactory/gdsfactory/pull/4830)
+- ci: add Claude PR review workflow [#4765](https://github.com/gdsfactory/gdsfactory/pull/4765)
+- fix(#4365): safely handle missing brightness fields in LYP files [#4820](https://github.com/gdsfactory/gdsfactory/pull/4820)
+- fix: keep grid_with_text labels on their anchors [#4821](https://github.com/gdsfactory/gdsfactory/pull/4821)
+- docs: fix component docstrings [#4829](https://github.com/gdsfactory/gdsfactory/pull/4829)
+- docs: add PCB Gerber notebook tutorial [#4804](https://github.com/gdsfactory/gdsfactory/pull/4804)
+- docs: fix identical die_bad and die_good examples (#4772) [#4817](https://github.com/gdsfactory/gdsfactory/pull/4817)
+- Fix recursive remap_layers and recursive locking logic in general [#4815](https://github.com/gdsfactory/gdsfactory/pull/4815)
+- fix: accept negative standard circular bend angles [#4805](https://github.com/gdsfactory/gdsfactory/pull/4805)
+- Facilitate path inversion [#4784](https://github.com/gdsfactory/gdsfactory/pull/4784)
+- Fix to_gerber so a GDSFactory layout actually reaches PCB CAM [#4802](https://github.com/gdsfactory/gdsfactory/pull/4802)
+- Modified hermite bend [#4800](https://github.com/gdsfactory/gdsfactory/pull/4800)
+- Fix Gerber export (#4748) and emit a Ucamco `.gbrjob` so PIC layouts in um can be handed to RF/PCB CAM in mm. [#4748](https://github.com/gdsfactory/gdsfactory/issues/4748)
+- docs: clarify KCell to Component conversion [#4822](https://github.com/gdsfactory/gdsfactory/pull/4822)
+- update changelog [#4801](https://github.com/gdsfactory/gdsfactory/pull/4801)
+- build(deps): bump pre-commit from 4.6.1 to 4.6.2 [#4813](https://github.com/gdsfactory/gdsfactory/pull/4813)
+- build(deps): bump pyglet from 2.1.15 to 2.1.16 [#4809](https://github.com/gdsfactory/gdsfactory/pull/4809)
+- build(deps): bump pydantic-settings from 2.14.2 to 2.15.0 [#4811](https://github.com/gdsfactory/gdsfactory/pull/4811)
+- build(deps): bump scipy from 1.18.0 to 1.18.1 [#4812](https://github.com/gdsfactory/gdsfactory/pull/4812)
+- build(deps-dev): update flit-core requirement from <4,>=3.2 to >=3.2,<5 [#4810](https://github.com/gdsfactory/gdsfactory/pull/4810)
+- build(deps): bump docker/login-action from 4.5.1 to 4.6.0 [#4808](https://github.com/gdsfactory/gdsfactory/pull/4808)
+- build(deps): bump release-drafter/release-drafter from 7.6.0 to 7.7.0 [#4807](https://github.com/gdsfactory/gdsfactory/pull/4807)
+- build(deps): bump docker/login-action from 4.5.1 to 4.6.0 [#4808](https://github.com/gdsfactory/gdsfactory/pull/4808)
+- build(deps): bump release-drafter/release-drafter from 7.6.0 to 7.7.0 [#4807](https://github.com/gdsfactory/gdsfactory/pull/4807)
+
+
+## [9.49.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.49.0) - 2026-08-25
+
+- Fast path for ndarray in points_to_polygon [#4786](https://github.com/gdsfactory/gdsfactory/pull/4786)
+- feat: add RF inductors, transformers, and geometry helpers [#4789](https://github.com/gdsfactory/gdsfactory/pull/4789)
+- Applying get_cross_section kwarg overrides for dict spec and kf xs [#4794](https://github.com/gdsfactory/gdsfactory/pull/4794)
+- Follow KLayout's order for Path transformations [#4795](https://github.com/gdsfactory/gdsfactory/pull/4795)
+- Fix issues with `extend_ports` [#4788](https://github.com/gdsfactory/gdsfactory/pull/4788)
+- Avoid hardcoded tolerance in _ensure_manhattan_waypoints [#4787](https://github.com/gdsfactory/gdsfactory/pull/4787)
+- Fix use of on_collision/on_placer_error in route_bundle [#4791](https://github.com/gdsfactory/gdsfactory/pull/4791)
+- docs: restore round corners notebook plots [#4797](https://github.com/gdsfactory/gdsfactory/pull/4797)
+- docs: add inspect.software health badge [#4792](https://github.com/gdsfactory/gdsfactory/pull/4792)
+
+
+## [9.48.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.48.0) - 2026-08-12
+
+- feat(component): expose smooth_factor parameter in fix_spacing() [#4739](https://github.com/gdsfactory/gdsfactory/pull/4739)
+- feat: add layer stack background materials [#4780](https://github.com/gdsfactory/gdsfactory/pull/4780)
+- Add get_polygons_points to ComponentAllAngle [#4767](https://github.com/gdsfactory/gdsfactory/pull/4767)
+- Fix to_np [#4776](https://github.com/gdsfactory/gdsfactory/pull/4776)
+- feat: add layer stack variation fields [#4768](https://github.com/gdsfactory/gdsfactory/pull/4768)
+- docs: add electrical pins tutorial section and rename add_electric_pins -> add_electrical_pins [#4762](https://github.com/gdsfactory/gdsfactory/pull/4762)
+- test: cover bend_s width override [#4681](https://github.com/gdsfactory/gdsfactory/pull/4681)
+- Fix routing through waypoints in route_bundle [#4750](https://github.com/gdsfactory/gdsfactory/pull/4750)
+- fix type annotation of add_polygon with overloads [#4763](https://github.com/gdsfactory/gdsfactory/pull/4763)
+- refactor(add_electric_pins): Refactor to the add_electric_pins function to include fall back default layers [#4749](https://github.com/gdsfactory/gdsfactory/pull/4749)
+- Add on_placer_error to route_single matching route_bundle [#4746](https://github.com/gdsfactory/gdsfactory/pull/4746)
+- docs: activate generic PDK in quick start [#4684](https://github.com/gdsfactory/gdsfactory/pull/4684)
+
+## [9.47.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.47.0) - 2026-07-29
+
+- refactor(spice): allow for port to pin mapping in add_electric_pins [#4742](https://github.com/gdsfactory/gdsfactory/pull/4742)
+- fix route_single not using cross section everywhere [#4736](https://github.com/gdsfactory/gdsfactory/pull/4736)
+- refactor(spice): allow for port to pin mapping in add_electric_pins [#4742](https://github.com/gdsfactory/gdsfactory/pull/4742)
+- docs: add section on adding new layers to PDK tutorial [#4741](https://github.com/gdsfactory/gdsfactory/pull/4741)
+- Test headless layout diff output [#4728](https://github.com/gdsfactory/gdsfactory/pull/4728)
+- feat(electrical): add electric pins to start fixing SPICE export issues - ports logically connected by name are not being recognized as logically connected [#4737](https://github.com/gdsfactory/gdsfactory/pull/4737)
+- fix: generate redirects for legacy documentation URLs [#4692](https://github.com/gdsfactory/gdsfactory/pull/4692)
+
+
+## [9.46.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.46.0) - 2026-07-21
+
+- replace old kfactory routing strategies with route_bundle only - update to kf3 [#4515](https://github.com/gdsfactory/gdsfactory/pull/4515)
+- Fix incorrect route_bundle separation docstring [#4637](https://github.com/gdsfactory/gdsfactory/pull/4637)
+- fix: support negative bend_s_offset values [#4678](https://github.com/gdsfactory/gdsfactory/pull/4678)
+- ci: test only Python 3.12 and 3.14 (min and max) [#4676](https://github.com/gdsfactory/gdsfactory/pull/4676)
+- Fix via_stack_with_offset [#4669](https://github.com/gdsfactory/gdsfactory/pull/4669)
+- Replace .. plot:: RST directives with markdown Example sections [#4668](https://github.com/gdsfactory/gdsfactory/pull/4668)
+- Fix exception-safe cleanup for temporary KCLayout helpers [#4666](https://github.com/gdsfactory/gdsfactory/pull/4666)
+- Add representative ASV layout benchmarks [#4650](https://github.com/gdsfactory/gdsfactory/pull/4650)
+- fix pre-commit: TypeAlias for ComponentReference + import ordering [#4662](https://github.com/gdsfactory/gdsfactory/pull/4662)
+- Resolve merge conflicts with main on #4515 [#4660](https://github.com/gdsfactory/gdsfactory/pull/4660)
+- Fix CI failures on #4515: port names, write_cells, ComponentReference [#4659](https://github.com/gdsfactory/gdsfactory/pull/4659)
+- Remove RST directives from docstrings for mkdocstrings compatibility [#4658](https://github.com/gdsfactory/gdsfactory/pull/4658)
+- Fix component plot generation in write_cells.py [#4656](https://github.com/gdsfactory/gdsfactory/pull/4656)
+- Render component plots as images in docs [#4655](https://github.com/gdsfactory/gdsfactory/pull/4655)
+- Migrate docs from Jupyter Book to zensical [#4653](https://github.com/gdsfactory/gdsfactory/pull/4653)
+- Vectorize Archimedean spiral path generation [#4651](https://github.com/gdsfactory/gdsfactory/pull/4651)
+- Add docs links for Cornerstone, Luxtelligence, and Quantum RF PDKs [#4644](https://github.com/gdsfactory/gdsfactory/pull/4644)
+- update readme [#4643](https://github.com/gdsfactory/gdsfactory/pull/4643)
+- fix: eliminate cell name conflicts in spiral_racetrack_fixed_length [#4614](https://github.com/gdsfactory/gdsfactory/pull/4614)
+- ci(pages): bump docs artifact retention to 7 days [#4636](https://github.com/gdsfactory/gdsfactory/pull/4636)
+- perf: precompute layer filters in select_ports [#4618](https://github.com/gdsfactory/gdsfactory/pull/4618)
+- Fix grid_factor being ignored in snap_to_grid when nm is set [#4638](https://github.com/gdsfactory/gdsfactory/pull/4638)
+- update kfactory to 3.0.2 [#4670](https://github.com/gdsfactory/gdsfactory/pull/4670)
+
 
 ## [9.45.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.45.0) - 2026-07-03
 

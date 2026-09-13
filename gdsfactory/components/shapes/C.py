@@ -24,6 +24,7 @@ def C(
         layer: layer spec.
         port_type: optical or electrical.
 
+    ```text
          ______
         |       o1
         |   ___
@@ -31,6 +32,7 @@ def C(
         |  |___
         ||<---> size[0]
         |______ o2
+    ```
     """
     layer = gf.get_layer(layer)
     c = Component()

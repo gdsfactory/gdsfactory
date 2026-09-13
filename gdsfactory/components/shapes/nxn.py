@@ -38,6 +38,7 @@ def nxn(
         wg_margin: margin from straight to component edge.
         kwargs: port_settings.
 
+    ```text
             3   4
             |___|_
         2 -|      |- 5
@@ -45,6 +46,7 @@ def nxn(
         1 -|______|- 6
             |   |
             8   7
+    ```
     """
     c = gf.Component()
     _ = c << gf.components.rectangle(size=(xsize, ysize), layer=layer)

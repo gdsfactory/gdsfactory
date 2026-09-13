@@ -26,18 +26,18 @@ def straight_pin(
     """Returns rib waveguide with doping and via_stacks used for PN and PIN modulators.
 
     For PIN:
-    https://doi.org/10.1364/OE.26.029983
+    <https://doi.org/10.1364/OE.26.029983>
 
     500um length for PI phase shift
-    https://ieeexplore.ieee.org/document/8268112
+    <https://ieeexplore.ieee.org/document/8268112>
 
     to go beyond 2PI, you will need at least 1mm
-    https://ieeexplore.ieee.org/document/8853396/
+    <https://ieeexplore.ieee.org/document/8853396/>
 
     For PN:
     Typical lengths in practice are 2-5mm depending on doping,engineering and application:
-    https://opg.optica.org/oe/fulltext.cfm?uri=oe-21-25-30350&id=275107
-    https://opg.optica.org/oe/fulltext.cfm?uri=oe-20-11-12014&id=233271
+    <https://opg.optica.org/oe/fulltext.cfm?uri=oe-21-25-30350&id=275107>
+    <https://opg.optica.org/oe/fulltext.cfm?uri=oe-20-11-12014&id=233271>
 
     Args:
         length: of the waveguide.

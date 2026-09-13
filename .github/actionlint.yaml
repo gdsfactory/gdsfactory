@@ -2,3 +2,7 @@ paths:
   .github/workflows/test_code.yml:
     ignore:
       - 'unknown permission scope "code-quality"'
+      # actionlint v1.7.12 predates parallel steps (shipped 2026-06-25) and does
+      # not know the `parallel:` step key yet. See rhysd/actionlint#693.
+      - 'unexpected key "parallel" for "step" section'
+      - 'step must run script with "run" section or run action with "uses" section'

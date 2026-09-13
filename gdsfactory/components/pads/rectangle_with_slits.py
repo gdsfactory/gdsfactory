@@ -36,6 +36,7 @@ def rectangle_with_slits(
         slit_row_pitch: pitch for rows of slits.
         slit_enclosure: from slit to rectangle edge.
 
+    ```text
         slit_enclosure
         _____________________________________
         |<--->                              |
@@ -55,6 +56,7 @@ def rectangle_with_slits(
         |            slit_size[0]           |
         |___________________________________|
                         size[0]
+    ```
     """
     c = Component()
     layer_tuple = gf.get_layer_tuple(layer)

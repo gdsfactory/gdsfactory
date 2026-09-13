@@ -54,6 +54,7 @@ def delay_snake_sbend(
         sbend_xsize: sbend size.
         cross_section: cross_section spec.
 
+    ```text
                          length1
          <----------------------------
                length2    spacing    |
@@ -67,6 +68,7 @@ def delay_snake_sbend(
                |
                ---------------------->----------->
                    length3              length4
+    ```
 
         We adjust length2 and length3
     """

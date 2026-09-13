@@ -2,4 +2,6 @@ mask*
 components.md
 components_images/
 notebooks/*.md
+notebooks/*.ipynb
+notebooks/*_files/
 _build/

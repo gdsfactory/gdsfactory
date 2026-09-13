@@ -39,6 +39,7 @@ def from_updk(
     suffix: str = "",
     add_plot_to_docstring: bool = True,
     pdk_name: str = "pdk",
+    parameter_format: str = "{name}={value}",
 ) -> str:
     """Read uPDK YAML file and returns a gdsfactory script.
 
@@ -63,6 +64,8 @@ def from_updk(
         suffix: optional suffix to add to the script.
         add_plot_to_docstring: if True, add a plot to the docstring.
         pdk_name: name of the pdk.
+        parameter_format: format for each parameter in generated black-box names.
+            Supports ``{name}``, ``{value}``, and ``{block_name}`` placeholders.
     """
     optical_xsections = optical_xsections or []
     electrical_xsections = electrical_xsections or []
@@ -147,14 +150,22 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
             if parameters
             else []
         )
-        parameters_equal = (
-            [
-                f"{clean_value_name(p_name)}={{{clean_value_name(p_name)}}}"
-                for p_name in parameters
-            ]
-            if parameters
-            else []
-        )
+        parameters_formatted = []
+        for p_name in parameters:
+            name = clean_value_name(p_name)
+            try:
+                parameters_formatted.append(
+                    parameter_format.format(
+                        name=name,
+                        value=f"{{{name}}}",
+                        block_name=block_name,
+                    )
+                )
+            except KeyError as error:
+                raise ValueError(
+                    "parameter_format supports only {name}, {value}, and "
+                    "{block_name} placeholders"
+                ) from error
 
         parameters_labels = (
             "\n".join(
@@ -166,7 +177,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
             if layer_label and parameters_colon
             else ""
         )
-        list_parameters = "\\n".join(f"{p_name}" for p_name in parameters_equal)
+        list_parameters = "\\n".join(parameters_formatted)
         parameters_labels = f"    c.add_label(text=f'Parameters:\\n{list_parameters}', position=(0,0), layer=layer_label)\n"
 
         docstring = block.get("doc", "")
@@ -192,8 +203,8 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
             doc = f'"""{docstring}    {plot_docstring}"""'
 
         cell_name = (
-            f"{block_name}:{','.join(parameters_equal)}"
-            if parameters_equal
+            f"{block_name}:{','.join(parameters_formatted)}"
+            if parameters_formatted
             else block_name
         )
 

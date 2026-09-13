@@ -1,6 +1,6 @@
 """Helper functions for RF layout.
 
-Adapted from PHIcL https://github.com/amccaugh/phidl/ by Adam McCaughan
+Adapted from PHIcL <https://github.com/amccaugh/phidl/> by Adam McCaughan
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ def ytron_round(
 
     McCaughan, A. N., Abebe, N. S., Zhao, Q.-Y. & Berggren, K. K.
     Using Geometry To Sense Current. Nano Lett. 16, 7626-7631 (2016).
-    http://dx.doi.org/10.1021/acs.nanolett.6b03593
+    <http://dx.doi.org/10.1021/acs.nanolett.6b03593>
 
     Args:
         rho: Radius of curvature of ytron intersection point.

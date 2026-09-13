@@ -170,14 +170,14 @@ def grid_with_text(
         if text:
             for text_offset, text_anchor in zip_longest(text_offsets, text_anchors):
                 t = c << gf.get_component(text, text=text_string)
+                if text_mirror:
+                    t.dmirror()
+                if text_rotation:
+                    t.rotate(text_rotation)
                 size_info = instance.dsize_info
                 text_offset = text_offset or (0, 0)
                 text_anchor = text_anchor or "center"
                 o = np.array(text_offset)
                 d = np.array(getattr(size_info, text_anchor))
                 t.move(tuple(o + d))
-                if text_mirror:
-                    t.dmirror()
-                if text_rotation:
-                    t.rotate(text_rotation)
     return c

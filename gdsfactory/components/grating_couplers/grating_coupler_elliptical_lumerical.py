@@ -87,8 +87,8 @@ def grating_coupler_elliptical_lumerical(
     """Returns a grating coupler from lumerical inverse design 3D optimization.
 
     this is a wrapper of components.grating_coupler_elliptical_arbitrary
-    https://support.lumerical.com/hc/en-us/articles/1500000306621
-    https://support.lumerical.com/hc/en-us/articles/360042800573
+    <https://support.lumerical.com/hc/en-us/articles/1500000306621>
+    <https://support.lumerical.com/hc/en-us/articles/360042800573>
 
     Here are the simulation settings used in lumerical
 
@@ -106,7 +106,6 @@ def grating_coupler_elliptical_lumerical(
 
     Args:
         parameters: xinput, gap1, width1, gap2, width2 ...
-        layer: for waveguide.
         layer_slab: for slab.
         taper_angle: in deg.
         taper_length: in um.

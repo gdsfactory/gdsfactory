@@ -25,7 +25,7 @@ def coupler_broadband(
 ) -> Component:
     """Returns broadband coupler component.
 
-    https://docs.flexcompute.com/projects/tidy3d/en/latest/notebooks/BroadbandDirectionalCoupler.html
+    <https://docs.flexcompute.com/projects/tidy3d/en/latest/notebooks/BroadbandDirectionalCoupler.html>
     proposed in Zeqin Lu, Han Yun, Yun Wang, Zhitian Chen, Fan Zhang, Nicolas A. F. Jaeger, and Lukas Chrostowski,
     "Broadband silicon photonic directional coupler using asymmetric-waveguide based phase control,"
     Opt. Express 23, 3795-3808 (2015), DOI: 10.1364/OE.23.003795.

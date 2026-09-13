@@ -26,8 +26,10 @@ def straight(
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
+    ```text
         o1  ──────────────── o2
                 length
+    ```
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)
@@ -58,8 +60,10 @@ def straight_all_angle(
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
+    ```text
         o1  ──────────────── o2
                 length
+    ```
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)
@@ -119,8 +123,10 @@ def wire_straight(
         cross_section: specification (CrossSection, string or dict).
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
+    ```text
         o1  ──────────────── o2
                 length
+    ```
     """
     if width is not None:
         x = gf.get_cross_section(cross_section, width=width)

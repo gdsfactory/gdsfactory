@@ -89,6 +89,9 @@ def test_copy() -> None:
     xs2 = xs1.copy(width=10)
     assert xs2.name == xs1.name, f"{xs2.name} != {xs1.name}"
 
+    with pytest.raises(ValueError, match=r"width > 0"):
+        xs1.copy(width=0)
+
 
 def test_name() -> None:
     s = gf.cross_section.strip()

@@ -36,6 +36,7 @@ def mmi1x2(
         straight: straight function.
         cross_section: specification (CrossSection, string or dict).
 
+    ```text
                length_mmi
                 <------>
                 ________
@@ -48,6 +49,7 @@ def mmi1x2(
                |          __  o3
                |         /
                |________|
+    ```
 
              <->
         length_taper

@@ -24,6 +24,35 @@ def test_path_zero_length() -> None:
     assert c.area((1, 0)) == 0
 
 
+@pytest.mark.parametrize("insets", [(2, 0), (0, 1)])
+def test_curved_path_insets_preserve_endpoint_tangents(
+    insets: tuple[float, float],
+) -> None:
+    path = gf.path.straight(length=10) + gf.path.euler(
+        radius=100, angle=15, p=0.5, use_eff=False
+    )
+    section = gf.Section(
+        width=6,
+        insets=insets,
+        layer=(2, 0),
+        port_names=("o1", "o2"),
+    )
+
+    component = gf.path.extrude(path, gf.CrossSection(sections=[section]))
+
+    if insets[1] == 0:
+        expected_end_angle = path.end_angle
+    else:
+        segments = np.diff(path.points, axis=0)
+        reverse_lengths = np.cumsum(np.linalg.norm(segments, axis=1)[::-1])
+        reverse_index = np.flatnonzero(reverse_lengths >= insets[1])[0]
+        segment = segments[len(segments) - 1 - reverse_index]
+        expected_end_angle = np.degrees(np.arctan2(segment[1], segment[0]))
+
+    assert component.ports["o1"].orientation == pytest.approx(180)
+    assert component.ports["o2"].orientation == pytest.approx(expected_end_angle)
+
+
 @pytest.mark.parametrize("npoints", [17, 100])
 def test_spiral_archimedean_matches_reference(npoints: int) -> None:
     min_bend_radius = 5.0
@@ -358,6 +387,23 @@ def test_mirror() -> None:
     )
 
 
+def test_invert() -> None:
+    path = Path([(0, 0), (1, 0), (1, 1)])
+    assert path.start_angle == 0
+    assert path.end_angle == 90
+    path.invert()
+    np.testing.assert_array_equal(
+        path.points, np.array([(1, 1), (1, 0), (0, 0)], dtype=np.float64)
+    )
+    assert path.start_angle == 270
+    assert path.end_angle == 180
+
+    path = Path([(0, 0), (1, 0)], start_angle=200, end_angle=270)
+    path.invert()
+    assert path.start_angle == 90
+    assert path.end_angle == 20
+
+
 def test_centerpoint_offset_curve() -> None:
     path = Path([(0, 0), (1, 0), (2, 0)])
     offset_distance = [0.5]
@@ -386,6 +432,17 @@ def test_centerpoint_offset_curve() -> None:
     np.testing.assert_array_almost_equal(new_points, expected_points)
 
 
+def test_centerpoint_offset_curve_across_angle_branch_cut() -> None:
+    """Nearly collinear segments stay stable when their angles cross +/- pi."""
+    points = np.array([(1, 0), (0, 1e-6), (-1, 0)], dtype=np.float64)
+    path = Path(points)
+
+    new_points = path.centerpoint_offset_curve(points, offset_distance=0.5)
+
+    assert np.all(np.isfinite(new_points))
+    assert np.max(np.linalg.norm(new_points - points, axis=1)) < 0.501
+
+
 def test_path_hash() -> None:
     assert hash(Path([(0, 0), (1, 1), (2, 0)])) == hash(Path([(0, 0), (1, 1), (2, 0)]))
 
@@ -405,6 +462,16 @@ def test_path_extrude_transition() -> None:
     )
     c = path.extrude_transition(transition)
     assert c.bbox() == kdb.DBox(0, -0.25, 1.25, 1)
+
+
+def test_path_extrude_transition_matches_generated_names_by_layer() -> None:
+    cross_section1 = gf.cross_section.cross_section(width=1, layer=(1, 0))
+    cross_section2 = gf.CrossSection(sections=(gf.Section(width=2, layer=(1, 0)),))
+    transition = gf.path.transition(cross_section1, cross_section2)
+
+    component = gf.path.extrude_transition(gf.path.straight(length=10), transition)
+
+    assert component.area((1, 0)) == pytest.approx(15)
 
 
 def test_path_copy() -> None:
@@ -462,6 +529,61 @@ def test_path_transform_icplx() -> None:
         path.points, np.array([(1, 1), (x + 1, 1), (x + 1, x + 1)])
     )
     assert gf.path.Path().kcl is gf.kcl
+
+
+@pytest.mark.parametrize(
+    "trans",
+    [
+        kdb.DCplxTrans(3, 4),
+        kdb.DCplxTrans(1, 45, False, 0, 0),
+        kdb.DCplxTrans(1, 0, True, 0, 10),  # what mirror_y(5) builds
+        kdb.DCplxTrans(1, 180, True, 8, 0),  # what mirror_x(4) builds
+        kdb.DCplxTrans(1, 90, True, 5, 7),
+        kdb.DCplxTrans(1, 30, True, -2, 3),
+        kdb.DCplxTrans(2.0, 0, False, 0, 0),
+        kdb.DCplxTrans(1.5, 45, True, 1, -1),
+    ],
+)
+def test_path_transform_matches_klayout(trans: kdb.DCplxTrans) -> None:
+    """Path.transform must compose the transformation the way KLayout does.
+
+    KLayout applies magnification, then mirroring at the x-axis, then rotation,
+    then displacement. Applying the mirror last instead negates the displacement,
+    which makes mirror_y(y) reflect about y = -y.
+    """
+    points = [(0.0, 0.0), (3.0, 0.0), (3.0, 1.0)]
+    path = Path(points)
+    path.transform(trans)
+    expected = np.array(
+        [(p.x, p.y) for p in (trans.trans(kdb.DPoint(*xy)) for xy in points)]
+    )
+    np.testing.assert_allclose(path.points, expected, atol=1e-12)
+
+
+def test_path_transform_keeps_analytic_angles() -> None:
+    """Transform must carry the analytic tangents, not re-derive chord angles."""
+    path = gf.path.euler(radius=10, angle=90)
+    assert (path.start_angle, path.end_angle) == (0, 90)
+
+    # the endpoint chord of the discretized curve is not the tangent, so a chord
+    # based angle would drift away from the exact values below
+    chord = np.degrees(np.arctan2(*(path.points[1] - path.points[0])[::-1]))
+    assert abs(chord) > 1e-6
+
+    moved = path.copy()
+    moved.move((5, 5))
+    assert moved.start_angle == pytest.approx(0, abs=1e-9)
+    assert moved.end_angle == pytest.approx(90, abs=1e-9)
+
+    rotated = path.copy()
+    rotated.rotate(30)
+    assert rotated.start_angle == pytest.approx(30, abs=1e-9)
+    assert rotated.end_angle == pytest.approx(120, abs=1e-9)
+
+    mirrored = path.copy()
+    mirrored.mirror_y(3)
+    assert mirrored.start_angle == pytest.approx(0, abs=1e-9)
+    assert mirrored.end_angle == pytest.approx(270, abs=1e-9)
 
 
 def test_path_smooth() -> None:

@@ -4,6 +4,7 @@ __all__ = ["spiral_inductor"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.typings import LayerSpec
 
 from .._schematic import spiral_schematic
 
@@ -15,6 +16,7 @@ def spiral_inductor(
     turns: int = 16,
     outer_diameter: float = 800,
     tail: float = 50.0,
+    layer: LayerSpec = "M1",
 ) -> Component:
     """Generates a spiral inductor for superconducting resonator applications, particularly in qubit readout circuits.
 
@@ -22,7 +24,7 @@ def spiral_inductor(
     The inductor is designed with a square spiral geometry, featuring inner and outer connection tails.
 
     See J. M. Hornibrook, J. I. Colless, A. C. Mahoney, X. G. Croot, S. Blanvillain, H. Lu, A. C. Gossard, D. J. Reilly;
-    Frequency multiplexing for readout of spin qubits. Appl. Phys. Lett. 10 March 2014; 104 (10): 103108. https://doi.org/10.1063/1.4868107
+    Frequency multiplexing for readout of spin qubits. Appl. Phys. Lett. 10 March 2014; 104 (10): 103108. <https://doi.org/10.1063/1.4868107>
 
     Args:
         width: Width of the inductor track in microns. Determines the cross-sectional area of the inductor.
@@ -30,6 +32,7 @@ def spiral_inductor(
         turns: Number of complete spiral turns. Higher values increase inductance but require more space.
         outer_diameter: Overall size of the inductor in microns. Defines the maximum extent of the spiral.
         tail: Length of the inner and outer connection tails in microns. Used for connecting to other circuit elements.
+        layer: Metal layer for the inductor geometry and ports.
 
     Returns:
         Component: A GDSFactory component containing the spiral inductor pattern.
@@ -45,7 +48,13 @@ def spiral_inductor(
     P += gf.path.straight(length=tail)
 
     # Store the path length in component info
-    c = gf.path.extrude(P, layer=(1, 0), width=width)
+    cross_section = gf.cross_section.cross_section(
+        width=width,
+        layer=layer,
+        port_names=("e1", "e2"),
+        port_types=("electrical", "electrical"),
+    )
+    c = gf.path.extrude(P, cross_section=cross_section)
     c.info["length"] = P.length()
     return c
 

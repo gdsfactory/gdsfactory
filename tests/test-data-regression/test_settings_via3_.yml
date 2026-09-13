@@ -1,0 +1,13 @@
+info:
+  column_pitch: 2
+  enclosure: 1
+  row_pitch: 2
+  xsize: 0.7
+  ysize: 0.7
+name: via3_S0p7_0p7_E1_P2
+settings:
+  enclosure: 1
+  pitch: 2
+  size:
+  - 0.7
+  - 0.7

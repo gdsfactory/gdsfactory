@@ -20,7 +20,7 @@ def mmi2x2_with_sbend(
     """Returns mmi2x2 for Cband.
 
     C_band 2x2MMI in 220nm thick silicon
-    https://opg.optica.org/oe/fulltext.cfm?uri=oe-25-23-28957&id=376719
+    <https://opg.optica.org/oe/fulltext.cfm?uri=oe-25-23-28957&id=376719>
 
     Args:
         with_sbend: add sbend.

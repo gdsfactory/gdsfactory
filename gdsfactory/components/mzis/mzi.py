@@ -82,6 +82,7 @@ def mzi(
         auto_rename_ports: if True, renames ports.
         auto_detect_port_names: whether to auto detect ports names. Ignores port_e* arguments if True.
 
+    ```text
                        b2______b3
                       |  sxtop  |
               straight_y        |
@@ -96,6 +97,7 @@ def mzi(
                       |         |
                      b6__sxbot__b7
                           Lx
+    ```
     """
     if auto_detect_port_names:
         splitter_instance = gf.get_component(splitter)

@@ -29,11 +29,13 @@ def ring_single_array(
         list_of_dicts: settings for each ring.
         cross_section: spec.
 
+    ```text
            ______               ______
           |      |             |      |
           |      |  length_y   |      |
           |      |             |      |
          --======-- spacing ----==gap==--
+    ```
 
           length_x
     """

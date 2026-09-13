@@ -58,12 +58,15 @@ def grating_coupler_rectangular_arbitrary(
                    /  /  /  /
                   /  /  /  /
 
+    ```text
                 _|-|_|-|_|-|___ layer
                    layer_slab |
             o1  ______________|
+    ```
 
 
 
+    ```text
         top view     _________
                     /| | | | |
                    / | | | | |
@@ -76,6 +79,7 @@ def grating_coupler_rectangular_arbitrary(
                     \|_|_|_|_|
                  <-->
                 taper_length
+    ```
 
     """
     xs = gf.get_cross_section(cross_section)

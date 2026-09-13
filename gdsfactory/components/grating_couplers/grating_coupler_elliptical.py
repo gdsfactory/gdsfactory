@@ -66,9 +66,11 @@ def grating_coupler_elliptical(
                    /  /  /  /
                   /  /  /  /
 
+    ```text
                 _|-|_|-|_|-|___ layer
                    layer_slab |
             o1  ______________|
+    ```
 
     """
     xs = gf.get_cross_section(cross_section)

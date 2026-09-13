@@ -77,6 +77,14 @@ def test_to_np_with_pad_width() -> None:
     assert img.shape[0] > 0 and img.shape[1] > 0
 
 
+def test_to_np_shape_follows_component() -> None:
+    c = gf.components.rectangle(size=(10, 1), layer=(1, 0))
+    img = to_np(c, nm_per_pixel=100, layers=((1, 0),), pad_width=0)
+
+    assert img.shape == (100, 10)
+    assert int((img > 0).sum()) == img.size
+
+
 def test_to_np_with_bend_circular() -> None:
     c = bend_circular()
     img = to_np(c, nm_per_pixel=20)

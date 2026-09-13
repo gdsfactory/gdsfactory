@@ -72,6 +72,7 @@ def rectangles(
         port_type: optical, electrical.
         port_orientations: list of port_orientations to add.
 
+    ```text
             ┌──────────────┐
             │              │
             │   ┌──────┐   │
@@ -81,6 +82,7 @@ def rectangles(
             │   └──────┘   │
             │              │
             └──────────────┘
+    ```
 
     """
     c = Component()

@@ -54,6 +54,7 @@ def ring_single(
     Raises:
         ValueError: If length_x or length_y is negative.
 
+    ```text
                     xxxxxxxxxxxxx
                 xxxxx           xxxx
               xxx                   xxx
@@ -72,6 +73,7 @@ def ring_single(
                          │gap
                  o1──────▼─────────o2◄──────────────►
                                      length_extension
+    ```
     """
     if length_y < 0:
         raise ValueError(f"length_y={length_y} must be >= 0")

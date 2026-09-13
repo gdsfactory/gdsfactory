@@ -18,7 +18,7 @@ from gdsfactory.typings import (
 
 
 def add_pads_bot(
-    component: ComponentSpec = "straight_heater_metal",
+    component: ComponentSpec = "interdigitated_electrodes",
     select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
@@ -155,7 +155,7 @@ def add_pads_bot(
 
 
 def add_pads_top(
-    component: ComponentSpec = "straight_heater_metal",
+    component: ComponentSpec = "interdigitated_electrodes",
     select_ports: SelectPorts = select_ports_electrical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = "metal_routing",

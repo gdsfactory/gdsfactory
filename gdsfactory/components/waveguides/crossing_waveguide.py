@@ -233,11 +233,13 @@ def crossing45(
     The 45 Degree crossing CANNOT be kept as an SRef since
     we only allow for multiples of 90Deg rotations in SRef.
 
+    ```text
         ----   ----
             \ /
              X
             / \
         ---    ----
+    ```
 
     """
     crossing = gf.get_component(crossing)
