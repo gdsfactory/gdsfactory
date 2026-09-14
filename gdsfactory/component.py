@@ -369,8 +369,14 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         """
         if self.locked:
             raise LockedError(self)
-        port = self.ports[name]
-        self.ports.bases.remove(port.base)
+        base = self.ports[name].base
+        # Remove by identity: BasePort.__eq__ compares geometry and ignores the
+        # name for transformation-defined ports, so list.remove() would drop the
+        # first geometrically equal port rather than the requested one.
+        for index, candidate in enumerate(self.ports.bases):
+            if candidate is base:
+                del self.ports.bases[index]
+                break
         return self
 
     def copy(self) -> Component:

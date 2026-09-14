@@ -1158,6 +1158,7 @@ dev = [
     { name = "pytest-github-actions-annotate-failures" },
     { name = "pytest-randomly" },
     { name = "pytest-regressions" },
+    { name = "pytest-subtests" },
     { name = "pytest-xdist" },
     { name = "ty" },
     { name = "types-cachetools" },
@@ -1233,6 +1234,7 @@ requires-dist = [
     { name = "pytest-github-actions-annotate-failures", marker = "extra == 'dev'" },
     { name = "pytest-randomly", marker = "extra == 'dev'" },
     { name = "pytest-regressions", marker = "extra == 'dev'" },
+    { name = "pytest-subtests", marker = "extra == 'dev'" },
     { name = "pytest-xdist", marker = "extra == 'dev'" },
     { name = "pyyaml" },
     { name = "qrcode" },
@@ -4039,6 +4041,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ba/0f/1d6b8cc851596be52c401af53fd0d844e72921b0b11866b88995673cd320/pytest_regressions-2.11.0.tar.gz", hash = "sha256:d4a86092f979eb25d2403c51b2b61039781c4c7c7a364a56b9fa838872a650f7", size = 117474, upload-time = "2026-05-25T12:09:01.796Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/97/61/fe772eda66bb8e2ee72da2937382aa4f803ca1e41092ca8d59953e96262c/pytest_regressions-2.11.0-py3-none-any.whl", hash = "sha256:fcb2bbcfb2fda256624d434c88cb1e4003667b7e078ee4084887cf839bbdf831", size = 25556, upload-time = "2026-05-25T12:09:00.292Z" },
+]
+
+[[package]]
+name = "pytest-subtests"
+version = "0.15.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "attrs" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bb/d9/20097971a8d315e011e055d512fa120fd6be3bdb8f4b3aa3e3c6bf77bebc/pytest_subtests-0.15.0.tar.gz", hash = "sha256:cb495bde05551b784b8f0b8adfaa27edb4131469a27c339b80fd8d6ba33f887c", size = 18525, upload-time = "2025-10-20T16:26:18.358Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/23/64/bba465299b37448b4c1b84c7a04178399ac22d47b3dc5db1874fe55a2bd3/pytest_subtests-0.15.0-py3-none-any.whl", hash = "sha256:da2d0ce348e1f8d831d5a40d81e3aeac439fec50bd5251cbb7791402696a9493", size = 9185, upload-time = "2025-10-20T16:26:17.239Z" },
 ]
 
 [[package]]

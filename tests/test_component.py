@@ -1,10 +1,13 @@
-from collections.abc import Callable
+import string
+from collections.abc import Callable, Sequence
 from typing import Any
 
 import kfactory as kf
 import klayout.db as kdb
 import numpy as np
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 from kfactory.exceptions import LockedError
 
 import gdsfactory as gf
@@ -120,6 +123,293 @@ def test_remove_port() -> None:
 
     with pytest.raises(LockedError):
         gf.components.straight().remove_port("o1")
+
+
+# ---------------------------------------------------------------------------
+# remove_port helpers
+# ---------------------------------------------------------------------------
+def _component_with_ports(
+    names: Sequence[str], port_type: str = "optical"
+) -> gf.Component:
+    """Return an unlocked component with one port per name, spread along a line."""
+    component = gf.Component()
+    for index, name in enumerate(names):
+        component.add_port(
+            name=name,
+            center=(10 * index, 0),
+            width=1 + index,
+            orientation=(90 * index) % 360,
+            layer=LAYER.WG,
+            port_type=port_type,
+        )
+    return component
+
+
+def _port_snapshot(component: gf.Component) -> dict[str | None, tuple[Any, ...]]:
+    """Return a comparable snapshot of every port, keyed by name."""
+    return {
+        port.name: (
+            port.center,
+            port.orientation,
+            port.width,
+            port.port_type,
+            port.layer,
+        )
+        for port in component.ports
+    }
+
+
+def _port_names(component: gf.Component) -> list[str | None]:
+    return [port.name for port in component.ports]
+
+
+# ---------------------------------------------------------------------------
+# remove_port: example-based tests
+# ---------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    ("component_factory", "port_name"),
+    [
+        (gf.components.straight, "o1"),
+        (gf.components.straight, "o2"),
+        (gf.components.bend_euler, "o1"),
+        (gf.components.bend_euler, "o2"),
+        (gf.components.mmi1x2, "o1"),
+        (gf.components.mmi1x2, "o2"),
+        (gf.components.mmi1x2, "o3"),
+    ],
+)
+def test_remove_port_removes_only_the_named_port(
+    component_factory: Callable[[], gf.Component], port_name: str
+) -> None:
+    """Removing a port leaves every other port untouched and in order."""
+    component = component_factory().copy()
+    expected = [name for name in _port_names(component) if name != port_name]
+
+    assert component.remove_port(port_name) is component
+    assert _port_names(component) == expected
+    assert port_name not in component.ports
+
+
+def test_remove_port_sequentially_empties_the_component(
+    subtests: pytest.FixtureRequest,
+) -> None:
+    """Removing every port one by one converges on an empty port collection."""
+    names = ["o1", "o2", "o3", "e1", "e2"]
+    component = _component_with_ports(names)
+
+    for index, name in enumerate(names):
+        with subtests.test(msg="remove port", port=name):
+            assert component.remove_port(name) is component
+            assert name not in component.ports
+            assert len(component.ports) == len(names) - index - 1
+            assert _port_names(component) == names[index + 1 :]
+
+    assert len(component.ports) == 0
+
+
+def test_remove_port_chaining() -> None:
+    """remove_port returns self so calls can be chained."""
+    component = _component_with_ports(["o1", "o2", "o3"])
+
+    assert component.remove_port("o1").remove_port("o3") is component
+    assert _port_names(component) == ["o2"]
+
+
+@pytest.mark.parametrize("missing", ["", " ", "o0", "missing", "O1", "o1 ", "0", "1"])
+def test_remove_port_unknown_name_raises_and_does_not_mutate(missing: str) -> None:
+    """An unknown name raises KeyError and leaves the component unchanged."""
+    component = _component_with_ports(["o1", "o2"])
+    before = _port_snapshot(component)
+
+    with pytest.raises(KeyError):
+        component.remove_port(missing)
+
+    assert _port_snapshot(component) == before
+
+
+@pytest.mark.parametrize("port_name", ["o1", "o2", "missing"])
+def test_remove_port_locked_component_raises_and_does_not_mutate(
+    port_name: str,
+) -> None:
+    """Locked cells reject removal, including for names that do not exist."""
+    component = gf.components.straight()
+    assert component.locked
+    before = _port_snapshot(component)
+
+    with pytest.raises(LockedError):
+        component.remove_port(port_name)
+
+    assert _port_snapshot(component) == before
+
+
+def test_remove_port_preserves_surviving_port_attributes(
+    subtests: pytest.FixtureRequest,
+) -> None:
+    """Surviving ports keep their geometry, width, type and layer."""
+    component = _component_with_ports(["o1", "o2", "o3", "o4"])
+    before = _port_snapshot(component)
+
+    component.remove_port("o2")
+    after = _port_snapshot(component)
+    assert set(after) == {"o1", "o3", "o4"}
+
+    for name, attributes in after.items():
+        with subtests.test(msg="attributes preserved", port=name):
+            assert attributes == before[name]
+
+
+def test_remove_port_mixed_port_types(subtests: pytest.FixtureRequest) -> None:
+    """Optical and electrical ports are removable independently of each other."""
+    component = gf.Component()
+    component.add_port(
+        name="o1", center=(0, 0), width=1, orientation=180, layer=LAYER.WG
+    )
+    component.add_port(
+        name="e1",
+        center=(10, 0),
+        width=10,
+        orientation=0,
+        layer=LAYER.M1,
+        port_type="electrical",
+    )
+
+    with subtests.test(msg="remove the electrical port"):
+        component.remove_port("e1")
+        assert _port_names(component) == ["o1"]
+        assert component.ports["o1"].port_type == "optical"
+
+    with subtests.test(msg="remove the optical port"):
+        component.remove_port("o1")
+        assert len(component.ports) == 0
+
+
+def test_remove_port_with_geometrically_identical_ports() -> None:
+    """Ports are matched by name, not by value.
+
+    ``BasePort.__eq__`` ignores the name for transformation-defined ports, so a
+    value-based removal would drop the first geometrically equal port instead of
+    the requested one.
+    """
+    component = gf.Component()
+    for name in ("o1", "o2"):
+        component.add_port(
+            name=name, center=(0, 0), width=1, orientation=0, layer=LAYER.WG
+        )
+
+    component.remove_port("o2")
+    assert _port_names(component) == ["o1"]
+
+
+def test_remove_port_duplicate_names_removes_one_occurrence() -> None:
+    """With duplicate names, each call removes a single port."""
+    component = gf.Component()
+    for center in ((0, 0), (10, 0)):
+        component.add_port(
+            name="o1", center=center, width=1, orientation=0, layer=LAYER.WG
+        )
+    assert len(component.ports) == 2
+
+    component.remove_port("o1")
+    assert len(component.ports) == 1
+    component.remove_port("o1")
+    assert len(component.ports) == 0
+
+    with pytest.raises(KeyError):
+        component.remove_port("o1")
+
+
+def test_remove_port_then_add_port_with_the_same_name() -> None:
+    """A removed name is free to be reused by a new, different port."""
+    component = _component_with_ports(["o1", "o2"])
+    component.remove_port("o1")
+    component.add_port(
+        name="o1", center=(50, 50), width=2, orientation=270, layer=LAYER.WG
+    )
+
+    assert set(_port_names(component)) == {"o1", "o2"}
+    assert component.ports["o1"].center == (50.0, 50.0)
+    assert component.ports["o1"].orientation == 270.0
+
+
+def test_remove_port_does_not_affect_copies() -> None:
+    """Removing a port mutates only the component it was called on."""
+    original = gf.components.straight().copy()
+    clone = original.copy()
+
+    original.remove_port("o1")
+    assert "o1" not in original.ports
+    assert "o1" in clone.ports
+
+
+# ---------------------------------------------------------------------------
+# remove_port: property-based tests
+# ---------------------------------------------------------------------------
+_port_name_strategy = st.text(
+    alphabet=string.ascii_lowercase + string.digits, min_size=1, max_size=4
+)
+_port_names_strategy = st.lists(
+    _port_name_strategy, min_size=1, max_size=6, unique=True
+)
+
+
+@given(names=_port_names_strategy, data=st.data())
+@settings(max_examples=50, deadline=None)
+def test_remove_port_removes_exactly_one_port(
+    names: list[str], data: st.DataObject
+) -> None:
+    """Removing a name drops that name and preserves the order of the rest."""
+    component = _component_with_ports(names)
+    name = data.draw(st.sampled_from(names))
+
+    component.remove_port(name)
+    assert _port_names(component) == [other for other in names if other != name]
+
+
+@given(names=_port_names_strategy, data=st.data())
+@settings(max_examples=50, deadline=None)
+def test_remove_port_in_any_order_empties_the_component(
+    names: list[str], data: st.DataObject
+) -> None:
+    """Removal order does not matter: every port can always be removed."""
+    component = _component_with_ports(names)
+
+    for name in data.draw(st.permutations(names)):
+        component.remove_port(name)
+
+    assert len(component.ports) == 0
+
+
+@given(names=_port_names_strategy, data=st.data())
+@settings(max_examples=50, deadline=None)
+def test_remove_port_is_inverse_of_add_port(
+    names: list[str], data: st.DataObject
+) -> None:
+    """Removing a port and adding it back restores the original port set."""
+    component = _component_with_ports(names)
+    before = _port_snapshot(component)
+
+    name = data.draw(st.sampled_from(names))
+    port = component.ports[name].copy()
+    component.remove_port(name)
+    component.add_port(name=name, port=port)
+
+    assert _port_snapshot(component) == before
+
+
+@given(names=_port_names_strategy, data=st.data())
+@settings(max_examples=50, deadline=None)
+def test_remove_port_unknown_name_is_always_a_noop(
+    names: list[str], data: st.DataObject
+) -> None:
+    """No unknown name can ever mutate the port collection."""
+    component = _component_with_ports(names)
+    missing = data.draw(_port_name_strategy.filter(lambda name: name not in names))
+    before = _port_snapshot(component)
+
+    with pytest.raises(KeyError):
+        component.remove_port(missing)
+
+    assert _port_snapshot(component) == before
 
 
 def test_remove_layers_recursive_multiple_layers() -> None:
