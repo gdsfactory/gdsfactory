@@ -200,8 +200,8 @@ c.plot()
 #
 # There are two main types of movement:
 #
-# 1. Using Integer DataBaseUnits (DBU) (default), in most foundries, 1 DBU = 1nm
-# 2. Using Decimals Floats. Where 1.0 represents 1.0um
+# 1. In um (default): `move`, `movex`, `center`, `xmin`, ... where 1.0 represents 1 um.
+# 2. In integer database units (DBU): `imove`, `imovex`, `icenter`, `ixmin`, ... in most foundries 1 DBU = 1 nm.
 
 # %%
 c = gf.Component()
@@ -210,11 +210,11 @@ wg1 = c << straight(length=1, layer=(1, 0))
 wg2 = c << straight(length=2, layer=(2, 0))
 wg3 = c << straight(length=3, layer=(3, 0))
 
-# Shift the second straight we created over by dx = 2, dy = 2 um. D stands for decimal.
+# Shift the second straight we created over by dx = 2, dy = 2 um.
 wg2.move((2.0, 2.0))
 
 # Then, move again the third straight by 3um.
-wg3.movex(3)  # Equivalent to wg3.move(3).
+wg3.movex(3)  # Equivalent to wg3.move((3, 0)).
 
 c.plot()
 
@@ -290,11 +290,11 @@ c2.plot()
 # like the polygons created by `gf.components.text()`.
 
 # %%
-# This adds the text "First label" at mwg1_ref.dcenter,
+# This adds the text "First label" at mwg1_ref.center,
 # the center of the first waveguide instance (mwg1_ref).
-c2.add_label(text="First label", position=mwg1_ref.dcenter)
+c2.add_label(text="First label", position=mwg1_ref.center)
 # Same as above, with the text "Second label" at the center of mwg2_ref.
-c2.add_label(text="Second label", position=mwg2_ref.dcenter)
+c2.add_label(text="Second label", position=mwg2_ref.center)
 
 # Labels are useful for recording information.
 c2.add_label(
