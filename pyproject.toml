@@ -52,7 +52,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
-version = "9.50.0"
+version = "9.51.0"
 
 [project.optional-dependencies]
 bench = ["asv>=0.6,<1"]
@@ -300,7 +300,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "9.50.0"
+current = "9.51.0"
 regex = '''
   (?P<major>\d+)
   \.
