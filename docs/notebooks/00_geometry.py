@@ -61,7 +61,7 @@ p1 = c.add_polygon(
     [(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0)
 )  # DPolygons are in um
 p2 = c.get_region(layer=(1, 0))  # Get the region of the polygon.
-p3 = p2.size(2000)  # Regions are in nm!
+p3 = p2.sized(2000)  # Regions are in DBU (1 DBU = 1 nm here).
 c.add_polygon(p3, layer=(2, 0))  # Add the region to the component.
 c.plot()
 
@@ -85,14 +85,20 @@ c.add_polygon(r3, layer=(2, 0))  # Add the region to the component.
 c.plot()
 
 # %%
-c = gf.Component() # Creates a new blank component.
-p1 = [(-8, -6), (6, 8), (7, 17), (9, 5)] # This adds a list of coordinates (p1) and adds it to the component c on the layer (1, 0).
+# Create a new blank component.
+c = gf.Component()
+# Define the polygon vertices (in um) and add the polygon on layer (1, 0).
+p1 = [(-8, -6), (6, 8), (7, 17), (9, 5)]
 s1 = c.add_polygon(p1, layer=(1, 0))
-r1 = gf.Region(s1.polygon) # To manipulate the shape, the polygon is converted into a region object (r1).
-r2 = r1.sized(2000)  # In DBU, 1 DBU = 1 nm, size it by 2000 nm = 2um.
-r3 = r2 - r1 # We then take the larger region (r2) and subtract the smaller region (r)1 from it. The result is a new region (r3).
-c.add_polygon(r3, layer=(2, 0)) # The newly created r3 is then added to the component c, but on the layer (2, 0) this time.
-c.plot() # This command generates a plot of the component, allowing you to see the final result.
+# Convert the polygon into a Region to manipulate the shape.
+r1 = gf.Region(s1.polygon)
+# Regions are in DBU (1 DBU = 1 nm here): sizing by 2000 moves every edge out by 2 um.
+r2 = r1.sized(2000)
+# Subtract the original region (r1) from the grown one (r2), leaving an outline (r3).
+r3 = r2 - r1
+# Add the outline on layer (2, 0) and plot the result.
+c.add_polygon(r3, layer=(2, 0))
+c.plot()
 
 # %%
 c = gf.Component()
@@ -102,12 +108,13 @@ r1 = gf.Region(s1.polygon)
 r2 = r1.sized(2000)  # In DBU, 1 DBU = 1 nm, size it by 2000 nm = 2um.
 r3 = r2 - r1
 
-c2 = gf.Component() # This portion creates an empty component in which r3 gets added into, this happens on the layer (2, 0) and then gets plotted.
+# Create an empty component, add r3 to it on layer (2, 0) and plot it.
+c2 = gf.Component()
 c2.add_polygon(r3, layer=(2, 0))
 c2.plot()
 
 # %% [markdown]
-# ## Connect **ports**
+# ## Connect ports
 #
 # Components can have a "Port" that allows you to connect ComponentReferences together like legos.
 #
@@ -117,25 +124,27 @@ c2.plot()
 
 
 # %%
-# The straight function, which is a parametric component generator, gets defined here.
-# It is a reusable recipe that can create a straight waveguide of any specified length, width, and layer.
-
-# %%
+# The straight function is a parametric component generator: a reusable recipe
+# that creates a straight waveguide of any specified length, width, and layer.
 def straight(length=10, width: float = 1, layer=(1, 0)):
     c = gf.Component()
-    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer) # This draws the main rectangular body of the waveguide.
-    c.add_port( # This adds two connection points, or ports, which are essential for connecting this component to others.
-        name="o1", center=(0, width / 2), width=width, orientation=180, layer=layer # "o1" is the input port and is facing left due to rotation (orientation=180)
-    )
+    # Draw the main rectangular body of the waveguide.
+    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # Add the two ports used to connect this component to others.
+    # "o1" is the input port, facing left (orientation=180).
     c.add_port(
-        name="o2", center=(length, width / 2), width=width, orientation=0, layer=layer # "o2" is the output port and is facing right.
+        name="o1", center=(0, width / 2), width=width, orientation=180, layer=layer
+    )
+    # "o2" is the output port, facing right (orientation=0).
+    c.add_port(
+        name="o2", center=(length, width / 2), width=width, orientation=0, layer=layer
     )
     return c
 
 
 c = gf.Component()
 
-# Three waveguides are created. They have different lengths and sit on different layers, but all have the same width.
+# Create three waveguides on different layers, all with the same width.
 wg1 = c << straight(length=6, width=2.5, layer=(1, 0))
 wg2 = c << straight(length=6, width=2.5, layer=(2, 0))
 wg3 = c << straight(length=15, width=2.5, layer=(3, 0))
@@ -150,7 +159,7 @@ c.plot()
 # %% [markdown]
 # Now we can connect everything together using the ports:
 #
-# Each straight has two ports: 'o1' and 'o2', respectively on the East and West sides of the rectangular straight component. These are arbitrary
+# Each straight has two ports: 'o1' and 'o2', respectively on the West and East sides of the rectangular straight component. These are arbitrary
 # names defined in our straight() function above
 
 # %%
@@ -165,7 +174,7 @@ c.plot()
 
 # %% [markdown]
 # Ports can be added by copying existing ports. In the example below, ports are added at the component-level on c from the existing ports of children wg1 and wg3
-# (i.e. eastmost and westmost ports)
+# (i.e. westmost and eastmost ports)
 
 # %%
 c.add_port("o1", port=wg1.ports["o1"])
@@ -281,18 +290,19 @@ c2.plot()
 # like the polygons created by `gf.components.text()`.
 
 # %%
-# This adds the text "First label" to the component. The position is set to mwg1_ref.dcenter,
-# which automatically places the label at the center of the first waveguide instance (mwg1_ref).
+# This adds the text "First label" at mwg1_ref.dcenter,
+# the center of the first waveguide instance (mwg1_ref).
 c2.add_label(text="First label", position=mwg1_ref.dcenter)
-# Same as the above, except the text is "Second label" and it is referring to the instance (mwg2_ref).
+# Same as above, with the text "Second label" at the center of mwg2_ref.
 c2.add_label(text="Second label", position=mwg2_ref.dcenter)
 
 # Labels are useful for recording information.
 c2.add_label(
     # An f-string (text) is used to create a dynamic and multi-line (\n) label.
-    # It automatically calculates the total width of the component (c2.xsize) and embeds it in the text.
+    # It embeds the x size of the component (c2.xsize) in the text.
     text=f"The x size of this\nlayout is {c2.xsize}",
-    position=(c2.x, c2.y), # The label is placed at the component's origin (c2.x, c2.y), which is typically (0, 0).
+    # The label is placed at the center of the component's bounding box.
+    position=(c2.x, c2.y),
     layer=(10, 0), # The label is placed on layer 10.
 )
 c2.plot()
@@ -332,7 +342,8 @@ c.plot()
 # %%
 # A=e2: This sets the first shape for the operation (the one being subtracted from).
 # B=e1: This sets the second shape (the one that will be removed).
-# operation="not": In gdsfactory, the "not" operation is equivalent to a subtraction (A - B). It keeps the parts of shape A that do not overlap with shape B.
+# operation="not": in gdsfactory, "not" is equivalent to a subtraction (A - B).
+# It keeps the parts of shape A that do not overlap with shape B.
 c2 = gf.boolean(A=e2, B=e1, operation="not", layer=(2, 0))
 c2.plot()
 
@@ -342,9 +353,11 @@ c2.plot()
 # %%
 c = gf.Component()
 # This line adds a reference (an instance) of a standard mmi1x2 component to c.
-# An MMI is a common device used in photonics to split one input signal into two output signals.
+# An MMI is a common device used in photonics to split one input signal into
+# two output signals.
 mmi = c.add_ref(gf.components.mmi1x2())
-# This adds a reference to a bend_circular component, which is a simple 90-degree curved waveguide.
+# This adds a reference to a bend_circular component,
+# which is a simple 90-degree curved waveguide.
 bend = c.add_ref(gf.components.bend_circular(layer=(1, 0)))
 c.plot()
 
