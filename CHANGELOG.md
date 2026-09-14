@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [9.51.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.51.0) - 2026-09-14
+
+No significant changes.
+
+
 ## [9.50.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.50.0) - 2026-09-09
 
 - feat: allow custom PHIX die fiducials [#4838](https://github.com/gdsfactory/gdsfactory/pull/4838)
