@@ -1,11 +1,31 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.50.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.51.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [9.51.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.51.0) - 2026-09-14
 
-No significant changes.
+- Preserve multisection cross sections in extend_ports [#4715](https://github.com/gdsfactory/gdsfactory/pull/4715)
+- fix add_pads_bot/add_pads_top default component [#4840](https://github.com/gdsfactory/gdsfactory/pull/4840)
+- Support custom uPDK parameter formatting [#4723](https://github.com/gdsfactory/gdsfactory/pull/4723)
+- Preserve steps in route bundle error paths [#4716](https://github.com/gdsfactory/gdsfactory/pull/4716)
+- Preserve custom LYP patterns in YAML [#4719](https://github.com/gdsfactory/gdsfactory/pull/4719)
+- ci: upload JUnit test results to Codecov Test Analytics [#4852](https://github.com/gdsfactory/gdsfactory/pull/4852)
+- Fix import sorting in test_layerstack [#4848](https://github.com/gdsfactory/gdsfactory/pull/4848)
+- ci: add merge_group trigger to test_code and docs workflows [#4850](https://github.com/gdsfactory/gdsfactory/pull/4850)
+- Preserve nested islands in from_np [#4706](https://github.com/gdsfactory/gdsfactory/pull/4706)
+- Keep layer source out of LYP names [#4712](https://github.com/gdsfactory/gdsfactory/pull/4712)
+- Avoid FreeType outline orientation segfault [#4705](https://github.com/gdsfactory/gdsfactory/pull/4705)
+- Test layer-stack sizing and KLayout 3D scripts [#4730](https://github.com/gdsfactory/gdsfactory/pull/4730)
+- Preserve curved path tangents with section insets [#4720](https://github.com/gdsfactory/gdsfactory/pull/4720)
+- fix: use the capacitor's electrical ports in resonator_lumped [#4845](https://github.com/gdsfactory/gdsfactory/pull/4845)
+- fix: use electrical ports for analog components [#4680](https://github.com/gdsfactory/gdsfactory/pull/4680)
+- Test virtual instances loaded from YAML [#4718](https://github.com/gdsfactory/gdsfactory/pull/4718)
+- Stabilize path offsets across the angle branch cut [#4726](https://github.com/gdsfactory/gdsfactory/pull/4726)
+- Match generated transition section names by layer [#4727](https://github.com/gdsfactory/gdsfactory/pull/4727)
+- fix: validate zero-width cross-section copy overrides [#4798](https://github.com/gdsfactory/gdsfactory/pull/4798)
+- Remove Codeflash integration [#4841](https://github.com/gdsfactory/gdsfactory/pull/4841)
+- add endpoint straight lengths to sbend routers [#4839](https://github.com/gdsfactory/gdsfactory/pull/4839)
 
 
 ## [9.50.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.50.0) - 2026-09-09
