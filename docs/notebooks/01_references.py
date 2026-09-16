@@ -292,9 +292,9 @@ p1 = dbr.add_port("o2", port=period.ports["o2"])
 
 # The crucial step that corrects the position of the output port (p1).
 # (l1 + l2) * n: This calculates the total length of the DBR (the length of one period multiplied by the number of periods, n=3).
-# By setting p1.dcenter to this new coordinate, the output port is moved to the very end of the final DBR structure.
+# By setting p1.center to this new coordinate, the output port is moved to the very end of the final DBR structure.
 
-p1.dcenter = ((l1 + l2) * n, 0)
+p1.center = ((l1 + l2) * n, 0)
 dbr.draw_ports()
 dbr
 
@@ -749,7 +749,7 @@ import gdsfactory as gf
 
 c = gf.Component()
 text = c << gf.components.text("hello")
-text.dmirror(p1=(1, 1), p2=(1, 3))
+text.mirror(p1=(1, 1), p2=(1, 3))
 # Reflects across the line formed by p1 and p2.
 c.plot()
 
@@ -780,13 +780,13 @@ c.plot()
 print(
     "printing the bounding box of text in terms of [(xmin, ymin), (xmax, ymax)] in um"
 )
-print(text.dbbox())  # In Decimal um (float).
+print(text.bbox())  # In um (float).
 print("xsize and ysize:")
 print(text.xsize)  # Will print the width of text in the x dimension in um
 print(text.ysize)  # Will print the height of text in the y dimension in um
 
 print("center:")
-print(text.dcenter)  # Gives you the center coordinate of its bounding box in DBU
+print(text.center)  # Gives you the center coordinate of its bounding box in um
 print("xmax")
 print(text.xmax)  # Gives you the rightmost (+x) edge of the text bounding box
 
@@ -802,7 +802,7 @@ c.plot()
 
 
 # %%
-ellipse.dcenter = (0, 0)  # Move the ellipse to the center of the bounding box.
+ellipse.center = (0, 0)  # Move the ellipse to the center of the bounding box.
 
 # Next, let us move the text to the left edge of the ellipse.
 text.y = (
@@ -849,7 +849,7 @@ c.plot()
 # When we query the properties of c, they will be calculated with respect to this bounding-rectangle.  For instance:
 
 print("Center of Component c:")
-print(c.dcenter)
+print(c.center)
 
 print("X-max of Component c:")
 print(c.xmax)
