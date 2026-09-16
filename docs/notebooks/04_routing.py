@@ -538,14 +538,14 @@ def demo_connect_bundle():
             ref = c << test_connect_bundle_u_indirect(
                 dy=s * dy, orientation=orientation
             )
-            ref.dcenter = (i * x, j * y)
+            ref.center = (i * x, j * y)
 
             ref = c << test_connect_bundle_udirect(dy=s * dy, orientation=orientation)
-            ref.dcenter = (i * x, j * y + y0)
+            ref.center = (i * x, j * y + y0)
 
     for i, config in enumerate(["A", "B", "C", "D"]):
         ref = c << test_connect_corner(config=config)
-        ref.dcenter = (i * x, 1700)
+        ref.center = (i * x, 1700)
 
     return c
 
