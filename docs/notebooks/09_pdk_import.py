@@ -120,7 +120,7 @@ c3.pprint_ports()
 # 2. have one GDS file with all the cells inside.
 # 3. Have a KLayout layermap. Makes it easier to create the layermap.
 #
-# With that you can easily create the PDK as as python package.
+# With that you can easily create the PDK as a python package.
 #
 # Thanks to having a gdsfactory PDK as a python package you can:
 #

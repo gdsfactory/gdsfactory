@@ -1,8 +1,8 @@
 # Installation
 
-We support Python 3.11, 3.12 and 3.13, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
+We support Python 3.12, 3.13 and 3.14, and recommend [VSCode](https://code.visualstudio.com/) IDE and UV.
 
-However we recommend python 3.11 or 3.12 as some extensions may not work on 3.13 yet.
+However we recommend Python 3.12, the version used in the contributor setup below.
 
 
 ## Installation for users in a new environment
@@ -21,7 +21,7 @@ Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsf
 The following lines will:
 
 - clone your gdsfactory fork (make sure you change `YourUserName` with your GitHub user name)
-- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test-data)
+- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test_klayout)
 - install gdsfactory on your computer in `-e` edit mode.
 - install pre-commit hooks for making sure your code syntax and style matches some basic rules.
 
@@ -65,14 +65,14 @@ pip install jupyterlab
 - Make sure tests pass on GitHub.
 - Install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
 
-Pre-commit makes sure your code is formatted following black and checks syntax.
+Pre-commit makes sure your code is formatted with ruff and checks syntax.
 If you forgot to `pre-commit install` you can fix pre-commit issues by running
 
 ```
 pre-commit run --all-files
 ```
 
-until you fix all the issues that the pre-commit check complaints about.
+until you fix all the issues that the pre-commit check complains about.
 
 ## Tests
 
@@ -92,7 +92,7 @@ In addition to unit tests run against the library, gdsfactory has a suite of reg
 | Settings  | `tests/components/test_components.py::test_settings` | YAML   | Tests that component settings have not changed.                                                             |
 | Netlist   | `tests/test_netlists.py`                             | YAML   | Tests that you can convert components from YAML back and forth.                                             |
 
-- regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `pytest --force-regen -s` from the repo root directory.
+- regression tests: avoid unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `pytest --force-regen -s` from the repo root directory.
   - `tests/components/test_components.py` stores all the component settings in YAML
   - `tests/test_netlists.py` stores all the component netlist in YAML and rebuilds the component from the netlist. Converts the routed PIC into YAML and build back into the same PIC from its YAML definition
   - difftest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`. When running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences. It will prompt you to review the differences in klayout and approve or reject the new GDS.
@@ -167,6 +167,8 @@ What do we test?
 - Component Settings.
 
 ```python
+import pathlib
+
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
