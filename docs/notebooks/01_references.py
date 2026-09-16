@@ -660,8 +660,8 @@ symbol_to_component = {
 }
 
 # Generate a sequence.
-# This is simply a chain of characters. Each of them represents a component.
-# with a given input and and a given output.
+# This is simply a chain of characters. Each of them represents a component
+# with a given input and a given output.
 
 sequence = "DC-P-P-P-P-CD"
 component = gf.components.component_sequence(
