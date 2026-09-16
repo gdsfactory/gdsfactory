@@ -38,6 +38,28 @@ def test_import_gds_hierarchy() -> None:
     assert c.name == c0.name, c.name
 
 
+def test_import_gds_renames_active_layout_conflict(tmp_path: Path) -> None:
+    """Rename a top cell that conflicts after copying into the active layout."""
+    gf.clear_cache()
+    gdspath = tmp_path / "shared_name.gds"
+    source = gf.Component("shared_name")
+    source.add_polygon([(0, 0), (1, 0), (1, 1)], layer=(1, 0))
+    source.write_gds(gdspath)
+
+    gf.clear_cache()
+    existing = gf.Component("shared_name")
+    original_debug_names = kf.config.debug_names
+    try:
+        kf.config.debug_names = True
+        imported = import_gds(gdspath, rename_duplicated_cells=True)
+    finally:
+        kf.config.debug_names = original_debug_names
+
+    assert existing.name == "shared_name"
+    assert imported.name == "shared_name$1"
+    assert not imported.bbox().empty()
+
+
 @pytest.mark.parametrize("reader", [import_gds, import_gds_multiple_top_cells])
 def test_import_gds_cleans_up_temp_kcl_on_read_error(
     tmp_path: Path, reader: Callable[..., object]
