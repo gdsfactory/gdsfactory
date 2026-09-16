@@ -18,7 +18,7 @@ def interdigital_capacitor(
     finger_length: float | int = 20.0,
     finger_gap: float | int = 2.0,
     thickness: float | int = 5.0,
-    layer: LayerSpec = "WG",
+    layer: LayerSpec = "M1",
 ) -> Component:
     """Generate an interdigital capacitor component with ports on both ends.
 
@@ -44,7 +44,7 @@ def interdigital_capacitor(
 
     Returns:
         Component: A gdsfactory component with the interdigital capacitor geometry
-        and two ports ('o1' and 'o2') on opposing sides.
+        and two electrical ports ('e1' and 'e2') on opposing sides.
     """
     c = Component()
 
@@ -109,17 +109,19 @@ def interdigital_capacitor(
     c.add_polygon(points_1, layer=layer)
     c.add_polygon(points_2, layer=layer)
     c.add_port(
-        name="o1",
+        name="e1",
         center=(0, height / 2),
         width=thickness,
         orientation=180,
         layer=layer,
+        port_type="electrical",
     )
     c.add_port(
-        name="o2",
+        name="e2",
         center=(width, height / 2),
         width=thickness,
         orientation=0,
         layer=layer,
+        port_type="electrical",
     )
     return c

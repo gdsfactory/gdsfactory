@@ -66,6 +66,23 @@ def test_extend_ports_with_custom_cross_section() -> None:
     assert len(extended_c.ports) > 0
 
 
+def test_extend_ports_preserves_unregistered_multisection_cross_section() -> None:
+    cross_section = gf.cross_section.cross_section(
+        width=1.2,
+        sections=(((2, 0), -0.6, 0.6),),
+    )
+    component = gf.c.straight(length=7, cross_section=cross_section)
+
+    extended = extend_ports(component=component, length=3)
+
+    for layer in ((1, 0), (2, 0)):
+        polygons = extended.get_polygons(by="tuple")[layer]
+        xmin = min(polygon.bbox().left for polygon in polygons) * extended.kcl.dbu
+        xmax = max(polygon.bbox().right for polygon in polygons) * extended.kcl.dbu
+        assert xmin == pytest.approx(-3)
+        assert xmax == pytest.approx(10)
+
+
 def test_extend_ports_auto_taper_port_locations() -> None:
     """Ports land past the auto taper, at the end of the extension."""
     c0 = gf.c.straight(width=2.0, length=10)

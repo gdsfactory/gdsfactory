@@ -1003,7 +1003,9 @@ def _path_with_insets(p: Path, insets: tuple[float, float]) -> Path:
     return Path(
         np.vstack(
             (endpoints[0], points[(lengths > start) & (lengths < stop)], endpoints[1])
-        )
+        ),
+        start_angle=p.start_angle if insets[0] == 0 else None,
+        end_angle=p.end_angle if insets[1] == 0 else None,
     )
 
 
@@ -1346,7 +1348,7 @@ def _compute_offset_directions(
     """
     dx = np.diff(points[:, 0])
     dy = np.diff(points[:, 1])
-    theta = np.arctan2(dy, dx)
+    theta = np.unwrap(np.arctan2(dy, dx))
     theta = np.concatenate([theta[:1], theta, theta[-1:]])
     theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2
     dtheta_int = np.pi + theta[:-1] - theta[1:]

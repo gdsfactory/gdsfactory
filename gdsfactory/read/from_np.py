@@ -8,8 +8,12 @@ import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.boolean import boolean
-from gdsfactory.component import Component
+from gdsfactory.component import (
+    Component,
+    boolean_not,
+    boolean_or,
+    points_to_polygon,
+)
 from gdsfactory.typings import PathType
 
 
@@ -48,8 +52,6 @@ def from_np(
     """
     from skimage import measure
 
-    c = Component()
-    d = Component()
     ndarray = np.pad(ndarray, 2)
     contours = measure.find_contours(ndarray, threshold)
     assert len(contours) > 0, (
@@ -57,15 +59,34 @@ def from_np(
         " threshold"
     )
 
-    for contour in contours:
-        area = compute_area_signed(contour)
-        points = contour * 1e-3 * nm_per_pixel
-        if area < 0:
-            c.add_polygon(points, layer=layer)
-        else:
-            d.add_polygon(points, layer=layer)
+    if not invert:
+        d = Component()
+        for contour in contours:
+            if compute_area_signed(contour) >= 0:
+                d.add_polygon(contour * 1e-3 * nm_per_pixel, layer=layer)
+        return d
 
-    return boolean(c, d, operation="not", layer=layer) if invert else d
+    # Apply contours from the outside in so that islands nested inside holes are
+    # restored after their enclosing hole is subtracted. Combining all positive
+    # and negative contours separately loses this even-odd nesting information.
+    c = Component()
+    layer_index = gf.get_layer(layer)
+    dbu = c.kcl.dbu
+    region = gf.kdb.Region()
+    for area, contour in sorted(
+        ((compute_area_signed(contour), contour) for contour in contours),
+        key=lambda item: abs(item[0]),
+        reverse=True,
+    ):
+        poly = cast("gf.kdb.DPolygon", points_to_polygon(contour * 1e-3 * nm_per_pixel))
+        contour_region = gf.kdb.Region(poly.to_itype(dbu))
+        region = (
+            boolean_or(region, contour_region)
+            if area < 0
+            else boolean_not(region, contour_region)
+        )
+    c.shapes(layer_index).insert(region)
+    return c
 
 
 @gf.cell

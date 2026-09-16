@@ -22,6 +22,11 @@ def add_pads0() -> Component:
 components = [add_pads0]
 
 
+@pytest.mark.parametrize("add_pads", [gf.routing.add_pads_bot, gf.routing.add_pads_top])
+def test_default_component(add_pads: Any) -> None:
+    add_pads()
+
+
 @pytest.fixture(params=components)
 def component(request: pytest.FixtureRequest) -> Any:
     return request.param()

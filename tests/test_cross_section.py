@@ -77,6 +77,9 @@ def test_replace_width() -> None:
     assert wider.get_sections()[1:] == xs.get_sections()[1:]
     assert gf.cross_section.with_width(xs, xs.width) is xs
 
+    with pytest.raises(ValueError):
+        gf.cross_section.with_width(xs, 0)
+
 
 def test_name() -> None:
     s = gf.cross_section.strip()

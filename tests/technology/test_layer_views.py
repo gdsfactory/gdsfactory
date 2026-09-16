@@ -1,4 +1,5 @@
 import pathlib
+import xml.etree.ElementTree as ET
 
 import pytest
 from pydantic_extra_types.color import Color
@@ -111,6 +112,47 @@ def test_line_style_to_klayout_xml() -> None:
         line_style.to_klayout_xml()
 
 
+def test_lyp_to_yaml_preserves_custom_patterns(tmp_path: pathlib.Path) -> None:
+    hatch_pattern = HatchPattern(name="dots", custom_pattern=".*\n*.")
+    single_line_pattern = HatchPattern(name="single", custom_pattern="*")
+    line_style = LineStyle(name="dash", custom_style="*.*.")
+    layer_views = LayerViews(
+        layer_views={
+            "WG": LayerView(
+                name="WG",
+                layer=(1, 0),
+                hatch_pattern=hatch_pattern,
+                line_style=line_style,
+            )
+        },
+        custom_dither_patterns={
+            "dots": hatch_pattern,
+            "single": single_line_pattern,
+        },
+        custom_line_styles={"dash": line_style},
+    )
+    lyp_path = tmp_path / "layers.lyp"
+    yaml_path = tmp_path / "layers.yaml"
+
+    layer_views.to_lyp(lyp_path)
+    tree = ET.parse(lyp_path)
+    pattern_without_geometry = ET.SubElement(tree.getroot(), "custom-dither-pattern")
+    ET.SubElement(pattern_without_geometry, "order").text = "2"
+    ET.SubElement(pattern_without_geometry, "name").text = "missing"
+    tree.write(lyp_path)
+    loaded_from_lyp = LayerViews.from_lyp(lyp_path)
+    loaded_from_lyp.to_yaml(yaml_path)
+    roundtrip = LayerViews.from_yaml(yaml_path)
+
+    layer_view = roundtrip.layer_views["WG"]
+    assert layer_view.hatch_pattern == "dots"
+    assert roundtrip.custom_dither_patterns["dots"].custom_pattern == ".*\n*."
+    assert roundtrip.custom_dither_patterns["single"].custom_pattern == "*"
+    assert "missing" not in roundtrip.custom_dither_patterns
+    assert layer_view.line_style == "dash"
+    assert roundtrip.custom_line_styles["dash"].custom_style == "*.*."
+
+
 def test_layer_view_init() -> None:
     lv = LayerView(gds_layer=1, gds_datatype=0)
     assert lv.layer == (1, 0)
@@ -197,6 +239,21 @@ def test_nested_layerview_subclass_to_lyp(tmp_path: pathlib.Path) -> None:
     assert "<group-members>" in content
     assert "<name>LAYER_A</name>" in content
     assert "<name>LAYER_B</name>" in content
+
+
+def test_to_lyp_keeps_layer_source_out_of_name(tmp_path: pathlib.Path) -> None:
+    layer_views = LayerViews(
+        layer_views={
+            "WG": LayerView(name="WG", layer=(1, 0), layer_in_name=True),
+        }
+    )
+
+    path = layer_views.to_lyp(tmp_path / "layers.lyp")
+    content = path.read_text()
+
+    assert "<name>WG</name>" in content
+    assert "<name>WG 1/0</name>" not in content
+    assert "<source>1/0@1</source>" in content
 
 
 def test_nested_layerview_explicit_group_members_preserved() -> None:
