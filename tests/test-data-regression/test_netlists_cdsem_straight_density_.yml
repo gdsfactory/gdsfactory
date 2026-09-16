@@ -1,141 +1,141 @@
 instances:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_1350:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_1350:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_150:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_150:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_1950:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_1950:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_2550:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_2550:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_3150:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_3150:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_3750:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_3750:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_4350:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_4350:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_4950:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_4950:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_5550:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_5550:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_750:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_750:
     component: straight
     info:
       length: 420
+      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: xs_28f5a27d
+      route_info_type: 028523d7_300
       route_info_weight: 420
-      route_info_xs_28f5a27d_length: 420
       width: 0.3
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       length: 420
       npoints: 2
       width: 0.3
@@ -154,52 +154,52 @@ instances:
       text: 300 300
 nets: []
 placements:
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_1350:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_1350:
     mirror: false
     rotation: 0
     x: 0
     y: 1.35
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_150:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_150:
     mirror: false
     rotation: 0
     x: 0
     y: 0.15
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_1950:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_1950:
     mirror: false
     rotation: 0
     x: 0
     y: 1.95
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_2550:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_2550:
     mirror: false
     rotation: 0
     x: 0
     y: 2.55
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_3150:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_3150:
     mirror: false
     rotation: 0
     x: 0
     y: 3.15
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_3750:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_3750:
     mirror: false
     rotation: 0
     x: 0
     y: 3.75
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_4350:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_4350:
     mirror: false
     rotation: 0
     x: 0
     y: 4.35
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_4950:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_4950:
     mirror: false
     rotation: 0
     x: 0
     y: 4.95
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_5550:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_5550:
     mirror: false
     rotation: 0
     x: 0
     y: 5.55
-  straight_gdsfactorypcomponentspwaveguidespstraight_L420_6e9615c2_0_750:
+  straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0_0_750:
     mirror: false
     rotation: 0
     x: 0

@@ -1,6 +1,7 @@
 import pytest
 from kfactory import DPort
 
+import gdsfactory as gf
 from gdsfactory.routing.sort_ports import sort_ports, sort_ports_x, sort_ports_y
 
 
@@ -8,22 +9,19 @@ def test_sort_ports_x() -> None:
     ports = [
         DPort(
             name="p1",
-            width=5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=5),
             port_type="optical",
             center=(3, 0),
         ),
         DPort(
             name="p2",
-            width=5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=5),
             port_type="optical",
             center=(1, 0),
         ),
         DPort(
             name="p3",
-            width=5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=5),
             port_type="optical",
             center=(2, 0),
         ),
@@ -36,22 +34,19 @@ def test_sort_ports_y() -> None:
     ports = [
         DPort(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             center=(0, 3),
         ),
         DPort(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             center=(0, 1),
         ),
         DPort(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             center=(0, 2),
         ),
@@ -64,22 +59,19 @@ def test_sort_ports_horizontal() -> None:
     ports1 = [
         DPort(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             center=(0, 3),
         ),
         DPort(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             center=(0, 1),
         ),
         DPort(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             center=(0, 2),
         ),
@@ -87,24 +79,21 @@ def test_sort_ports_horizontal() -> None:
     ports2 = [
         DPort(
             name="p4",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=180,
             center=(10, 2),
         ),
         DPort(
             name="p5",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=180,
             center=(10, 1),
         ),
         DPort(
             name="p6",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=180,
             center=(10, 3),
@@ -120,24 +109,21 @@ def test_sort_ports_vertical() -> None:
     ports1 = [
         DPort(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=90,
             center=(3, 0),
         ),
         DPort(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=90,
             center=(1, 0),
         ),
         DPort(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=90,
             center=(2, 0),
@@ -146,24 +132,21 @@ def test_sort_ports_vertical() -> None:
     ports2 = [
         DPort(
             name="p4",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=270,
             center=(2, 10),
         ),
         DPort(
             name="p5",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=270,
             center=(1, 10),
         ),
         DPort(
             name="p6",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=270,
             center=(3, 10),
@@ -179,24 +162,21 @@ def test_sort_ports_enforce_ordering() -> None:
     ports1 = [
         DPort(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=0,
             center=(0, 3),
         ),
         DPort(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=0,
             center=(0, 1),
         ),
         DPort(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=0,
             center=(0, 2),
@@ -205,22 +185,19 @@ def test_sort_ports_enforce_ordering() -> None:
     ports2 = [
         DPort(
             name="p4",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             orientation=180,
             center=(10, 2),
         ),
         DPort(
             name="p5",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             orientation=180,
             center=(10, 1),
         ),
         DPort(
             name="p6",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             orientation=180,
             center=(10, 3),
         ),
@@ -235,16 +212,14 @@ def test_sort_ports_mixed_orientation() -> None:
     ports1 = [
         DPort(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=0,
             center=(0, 3),
         ),
         DPort(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=0,
             center=(0, 1),
@@ -253,16 +228,14 @@ def test_sort_ports_mixed_orientation() -> None:
     ports2 = [
         DPort(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=90,
             center=(10, 2),
         ),
         DPort(
             name="p4",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=90,
             center=(10, 1),
@@ -282,8 +255,7 @@ def test_sort_ports_validation() -> None:
     ports1 = [
         DPort(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=0,
             center=(0, 0),
@@ -292,16 +264,14 @@ def test_sort_ports_validation() -> None:
     ports2 = [
         DPort(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=180,
             center=(10, 0),
         ),
         DPort(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(),
             port_type="optical",
             orientation=180,
             center=(10, 1),

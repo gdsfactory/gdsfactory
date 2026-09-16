@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 requires = ["flit_core>=3.2,<5"]
 
 [project]
-authors = [{name = "gdsfactory community", email = "contact@gdsfactory.com"}]
+authors = [{ name = "gdsfactory community", email = "contact@gdsfactory.com" }]
 classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -31,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]~=3.0.4",
+  "kfactory[ipy]>=3.2.1,<4",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -48,7 +48,7 @@ dependencies = [
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"

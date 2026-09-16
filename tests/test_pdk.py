@@ -17,7 +17,7 @@ def test_get_cross_section() -> None:
     )
     cross_section = {"cross_section": "strip", "settings": {"width": 1}}
     xs = gf.get_cross_section(cross_section)
-    assert xs.sections[0].width == 1
+    assert xs.width == 1
 
 
 def test_get_layer() -> None:
@@ -333,7 +333,8 @@ def test_get_cross_section_dict_applies_kwargs() -> None:
     spec = {"cross_section": "strip", "settings": {"width": 1}}
     assert gf.get_cross_section(spec).width == 1
     assert gf.get_cross_section(spec, width=3.0).width == 3.0
-    assert gf.get_cross_section(spec, radius=20).radius == 20
+    with pytest.raises(kf.exceptions.CrossSectionNamingConflictError):
+        gf.get_cross_section(spec, radius=20)
     # the override does not write back into spec["settings"]
     assert spec == {"cross_section": "strip", "settings": {"width": 1}}
 
@@ -347,12 +348,13 @@ def test_get_cross_section_kfactory_applies_kwargs() -> None:
     assert gf.get_cross_section(kf_xs, width=2.0).width == 2.0
     assert gf.get_cross_section(kf_xs, width=2.0).name != registered.name
 
-    # an override that changes nothing leaves the name alone
-    assert gf.get_cross_section(kf_xs, radius=registered.radius).name == registered.name
+    # Radius belongs to the bend/route call, not a profile override.
+    with pytest.raises(ValueError, match="Only width"):
+        gf.get_cross_section(kf_xs, radius=registered.radius)
 
 
 def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
-    """A SymmetricalCrossSection on an unnameable layer keeps the raw layer index."""
+    """A profile on an unnameable layer keeps its physical LayerInfo."""
     enclosure = kf.LayerEnclosure(main_layer=kf.kdb.LayerInfo(999, 999), kcl=gf.kcl)
     sxs = kf.SymmetricalCrossSection(
         width=1000, enclosure=enclosure, name="unnamed_layer_xs"
@@ -361,7 +363,7 @@ def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
     xs = gf.get_cross_section(sxs)
     assert xs.name == "unnamed_layer_xs"
     assert xs.width == 1.0
-    assert xs.layer == gf.get_layer((999, 999))
+    assert xs.layer == kf.kdb.LayerInfo(999, 999)
 
 
 def test_get_cross_section_invalid_spec_raises() -> None:
