@@ -460,15 +460,17 @@ def test_path_extrude_transition() -> None:
 
 
 def test_path_extrude_transition_matches_sections_by_layer() -> None:
-    cross_section1 = gf.cross_section.cross_section(width=1, layer=(1, 0))
+    # Bare test profiles must not claim the PDK's waveguide radius defaults.
+    layer = (4569, 0)
+    cross_section1 = gf.cross_section.cross_section(width=1, layer=layer)
     cross_section2 = gf.cross_section.cross_section(
-        width=None, sections=(((1, 0), -1, 1),)
+        width=None, sections=((layer, -1, 1),)
     )
     transition = gf.path.transition(cross_section1, cross_section2)
 
     component = gf.path.extrude_transition(gf.path.straight(length=10), transition)
 
-    assert component.area((1, 0)) == pytest.approx(15)
+    assert component.area(layer) == pytest.approx(15)
 
 
 def test_path_copy() -> None:
