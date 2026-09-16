@@ -95,8 +95,7 @@ maintainer = [
   "xdoctest",
   "mypy",
   "tbump",
-  "autotyping",
-  "towncrier"
+  "autotyping"
 ]
 
 [project.scripts]
@@ -260,20 +259,6 @@ mypkg = [
 [tool.setuptools.packages]
 find = {}
 
-[tool.tbump]
-
-[[tool.tbump.before_commit]]
-cmd = "towncrier build --yes --version {new_version}"
-name = "create & check changelog"
-
-[[tool.tbump.before_commit]]
-cmd = "git add CHANGELOG.md"
-name = "create & check changelog"
-
-[[tool.tbump.before_commit]]
-cmd = "grep -q -F {new_version} CHANGELOG.md"
-name = "create & check changelog"
-
 [[tool.tbump.file]]
 src = "README.md"
 
@@ -314,46 +299,6 @@ regex = '''
     \.dev(?P<dev>\d+)
   )?
   '''
-
-[tool.towncrier]
-directory = ".changelog.d"
-filename = "CHANGELOG.md"
-issue_format = "[#{issue}](https://github.com/gdsfactory/gdsfactory/issues/{issue})"
-package = "gdsfactory"
-start_string = "<!-- towncrier release notes start -->\n"
-template = ".changelog.d/changelog_template.jinja"
-title_format = "## [{version}](https://github.com/gdsfactory/gdsfactory/releases/tag/v{version}) - {project_date}"
-underlines = ["", "", ""]
-
-[[tool.towncrier.type]]
-directory = "security"
-name = "Security"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "removed"
-name = "Removed"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "deprecated"
-name = "Deprecated"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "added"
-name = "Added"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "changed"
-name = "Changed"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "fixed"
-name = "Fixed"
-showcontent = true
 
 [tool.ty.src]
 exclude = ["gdsfactory/samples"]
