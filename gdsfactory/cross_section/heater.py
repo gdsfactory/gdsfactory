@@ -7,10 +7,8 @@ from typing import Any
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
     CrossSection,
-    Section,
     Sections,
-    port_names_electrical,
-    port_types_electrical,
+    SectionSpec,
 )
 from gdsfactory.cross_section.presets import strip
 from gdsfactory.cross_section.utils import xsection
@@ -72,16 +70,19 @@ def strip_heater_metal_undercut(
         ```
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
-    section_list: list[Section] = list(sections or [])
+    section_list: list[SectionSpec] = list(sections or [])
     section_list += [
-        Section(
-            layer=layer_heater,
-            width=heater_width,
-            port_names=port_names_electrical,
-            port_types=port_types_electrical,
+        (layer_heater, -(heater_width / 2), heater_width / 2),
+        (
+            layer_trench,
+            trench_offset - trench_width / 2,
+            trench_offset + trench_width / 2,
         ),
-        Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
-        Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
+        (
+            layer_trench,
+            -trench_offset - trench_width / 2,
+            -trench_offset + trench_width / 2,
+        ),
     ]
 
     return strip(
@@ -99,7 +100,6 @@ def strip_heater_metal(
     heater_width: float = 2.5,
     layer_heater: typings.LayerSpec = "HEATER",
     sections: Sections | None = None,
-    insets: tuple[float, float] | None = None,
     **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
@@ -112,7 +112,6 @@ def strip_heater_metal(
         heater_width: of metal heater.
         layer_heater: for the metal.
         sections: cross_section sections.
-        insets: for the heater.
         kwargs: cross_section settings.
 
     Example:
@@ -125,16 +124,8 @@ def strip_heater_metal(
         c.plot()
         ```
     """
-    section_list: list[Section] = list(sections or [])
-    section_list += [
-        Section(
-            layer=layer_heater,
-            width=heater_width,
-            port_names=port_names_electrical,
-            port_types=port_types_electrical,
-            insets=insets,
-        )
-    ]
+    section_list: list[SectionSpec] = list(sections or [])
+    section_list += [(layer_heater, -(heater_width / 2), heater_width / 2)]
 
     return strip(
         width=width,
@@ -187,13 +178,12 @@ def strip_heater_doped(
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
-    section_list: list[Section] = list(sections or [])
+    section_list: list[SectionSpec] = list(sections or [])
     section_list += [
-        Section(
-            layer=layer,
-            width=heater_width + 2 * cladding_offset,
-            offset=+heater_offset,
-            name=f"heater_upper_{layer}",
+        (
+            layer,
+            heater_offset - (heater_width + 2 * cladding_offset) / 2,
+            heater_offset + (heater_width + 2 * cladding_offset) / 2,
         )
         for layer, cladding_offset in zip(
             layers_heater, bbox_offsets_heater, strict=False
@@ -201,11 +191,10 @@ def strip_heater_doped(
     ]
 
     section_list += [
-        Section(
-            layer=layer,
-            width=heater_width + 2 * cladding_offset,
-            offset=-heater_offset,
-            name=f"heater_lower_{layer}",
+        (
+            layer,
+            -heater_offset - (heater_width + 2 * cladding_offset) / 2,
+            -heater_offset + (heater_width + 2 * cladding_offset) / 2,
         )
         for layer, cladding_offset in zip(
             layers_heater, bbox_offsets_heater, strict=False
@@ -274,27 +263,25 @@ def rib_heater_doped(
     else:
         raise ValueError("At least one heater must be True")
 
-    section_list: list[Section] = list(sections or [])
+    section_list: list[SectionSpec] = list(sections or [])
     section_list += [
-        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab")
+        (layer_slab, slab_offset - slab_width / 2, slab_offset + slab_width / 2)
     ]
 
     if with_bot_heater:
         section_list += [
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=+heater_offset,
-                name="heater_upper",
+            (
+                layer_heater,
+                heater_offset - heater_width / 2,
+                heater_offset + heater_width / 2,
             )
         ]
     if with_top_heater:
         section_list += [
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=-heater_offset,
-                name="heater_lower",
+            (
+                layer_heater,
+                -heater_offset - heater_width / 2,
+                -heater_offset + heater_width / 2,
             )
         ]
     return strip(
@@ -385,34 +372,38 @@ def rib_heater_doped_via_stack(
 
     heater_offset = width / 2 + heater_gap + heater_width / 2
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
-    section_list: list[Section] = list(sections or [])
+    section_list: list[SectionSpec] = list(sections or [])
     section_list += [
-        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab"),
+        (
+            layer_slab,
+            slab_offset - slab_width / 2,
+            slab_offset + slab_width / 2,
+        ),
     ]
     if with_bot_heater:
         section_list += [
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=+heater_offset,
+            (
+                layer_heater,
+                heater_offset - heater_width / 2,
+                heater_offset + heater_width / 2,
             )
         ]
 
     if with_top_heater:
         section_list += [
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=-heater_offset,
+            (
+                layer_heater,
+                -heater_offset - heater_width / 2,
+                -heater_offset + heater_width / 2,
             )
         ]
 
     if with_bot_heater:
         section_list += [
-            Section(
-                layer=layer,
-                width=heater_width + 2 * cladding_offset,
-                offset=+via_stack_offset,
+            (
+                layer,
+                via_stack_offset - (heater_width + 2 * cladding_offset) / 2,
+                via_stack_offset + (heater_width + 2 * cladding_offset) / 2,
             )
             for layer, cladding_offset in zip(
                 layers_via_stack, bbox_offsets_via_stack, strict=False
@@ -421,10 +412,10 @@ def rib_heater_doped_via_stack(
 
     if with_top_heater:
         section_list += [
-            Section(
-                layer=layer,
-                width=heater_width + 2 * cladding_offset,
-                offset=-via_stack_offset,
+            (
+                layer,
+                -via_stack_offset - (heater_width + 2 * cladding_offset) / 2,
+                -via_stack_offset + (heater_width + 2 * cladding_offset) / 2,
             )
             for layer, cladding_offset in zip(
                 layers_via_stack, bbox_offsets_via_stack, strict=False

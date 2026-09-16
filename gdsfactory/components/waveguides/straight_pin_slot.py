@@ -67,8 +67,8 @@ def straight_pin_slot(
     if taper_component:
         t1 = c << taper_component
         t2 = c << taper_component
-        t1.connect("o2", wg.ports["o1"])
-        t2.connect("o2", wg.ports["o2"])
+        t1.connect(gf.port.core_port(t1.ports["o2"]), gf.port.core_port(wg.ports["o1"]))
+        t2.connect(gf.port.core_port(t2.ports["o2"]), gf.port.core_port(wg.ports["o2"]))
         c.add_port("o1", port=t1.ports["o1"])
         c.add_port("o2", port=t2.ports["o1"])
 

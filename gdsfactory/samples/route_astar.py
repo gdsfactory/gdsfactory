@@ -9,7 +9,7 @@ if __name__ == "__main__":
     port_prefix = "o"
     bend = gf.components.bend_euler
 
-    cross_section = gf.get_cross_section(cross_section_name, radius=5)
+    cross_section = gf.get_cross_section(cross_section_name)
     w = gf.components.straight(cross_section=cross_section)
     left = c << w
     right = c << w
@@ -39,6 +39,7 @@ if __name__ == "__main__":
         port1=port1,
         port2=port2,
         cross_section=cross_section,
+        radius=5,
         # resolution=15: This parameter controls the grid size for the A* search algorithm. The router converts the component's layout into a grid,
         # and a value of 15 means the grid cells are 15 nanometers on each side (since gdsfactory's default unit is micrometers, this corresponds to 0.015 um).
         # A smaller resolution creates a finer grid, which can find more complex paths but takes longer to compute.

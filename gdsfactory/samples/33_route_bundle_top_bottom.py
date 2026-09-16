@@ -20,7 +20,7 @@ if __name__ == "__main__":
             center=(xs_top[i], 0),
             width=0.5,
             orientation=270,
-            layer=gf.get_layer(layer),
+            cross_section=gf.get_cross_section("strip", layer=layer),
         )
         for i in range(N)
     ]
@@ -31,7 +31,7 @@ if __name__ == "__main__":
             center=(xs_bottom[i], -300),
             width=0.5,
             orientation=90,
-            layer=gf.get_layer(layer),
+            cross_section=gf.get_cross_section("strip", layer=layer),
         )
         for i in range(N)
     ]

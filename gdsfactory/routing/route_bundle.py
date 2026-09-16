@@ -171,7 +171,7 @@ def route_bundle(
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec | tuple[ComponentSpec, ComponentSpec] = "bend_euler",
     sort_ports: bool = False,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -222,7 +222,9 @@ def route_bundle(
             Required unless both layer and route_width are given. Mutually exclusive with layer.
         layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
         separation: bundle separation (center to center) in um.
-        bend: function for the bend. Defaults to euler.
+        bend: function for the bend. Defaults to euler. For asymmetric cross
+            sections, factories must accept angle=90 and angle=-90. Alternatively,
+            pass a pair of opposite-handed bend cells with the same cross section.
         sort_ports: sort port coordinates.
         start_straight_length: minimum straight length in um after the start ports.
         end_straight_length: minimum straight length in um before the end ports.
@@ -380,8 +382,6 @@ def route_bundle(
             gf.cross_section.cross_section,
             layer=cast("LayerSpec", layer),
             width=cast("float", route_width),
-            port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
-            port_types=(port_type, port_type),
         )
 
     if len(ports1_) != len(ports2_):
@@ -532,13 +532,35 @@ def route_bundle(
     if waypoints_ is not None and len(waypoints_) >= 2:
         waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])
 
-    bend90 = (
-        bend
-        if isinstance(bend, gf.Component)
-        else gf.get_component(
+    bend90: gf.Component | tuple[gf.Component, gf.Component]
+    if isinstance(bend, tuple):
+        bend90 = (
+            bend[0]
+            if isinstance(bend[0], gf.Component)
+            else gf.get_component(
+                bend[0], cross_section=cross_section, radius=radius, width=width
+            ),
+            bend[1]
+            if isinstance(bend[1], gf.Component)
+            else gf.get_component(
+                bend[1], cross_section=cross_section, radius=radius, width=width
+            ),
+        )
+    elif isinstance(bend, gf.Component):
+        bend90 = bend
+    elif isinstance(xs, gf.AsymmetricCrossSection):
+        bend90 = (
+            gf.get_component(
+                bend, cross_section=cross_section, radius=radius, width=width, angle=90
+            ),
+            gf.get_component(
+                bend, cross_section=cross_section, radius=radius, width=width, angle=-90
+            ),
+        )
+    else:
+        bend90 = gf.get_component(
             bend, cross_section=cross_section, radius=radius, width=width
         )
-    )
 
     def straight_um(width: float, length: float) -> gf.Component:
         return gf.get_component(

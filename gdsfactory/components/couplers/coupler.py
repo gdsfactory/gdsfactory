@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import validate_radius
+
 __all__ = ["coupler", "coupler_straight", "coupler_symmetric"]
 
 import gdsfactory as gf
@@ -182,5 +184,5 @@ def coupler(
     c.flatten()
     assert x.radius is not None
     if not allow_min_radius_violation:
-        x.validate_radius(x.radius)
+        validate_radius(x, x.radius)
     return c
