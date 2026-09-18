@@ -149,6 +149,11 @@ def test_pdk_sets_dbu(restore_kcl_state: None) -> None:
 def test_pdk_dbu_change_on_reactivation_after_cells_raises(
     restore_kcl_state: None,
 ) -> None:
+    """Re-activating the active PDK cannot rescale a layout that holds cells.
+
+    Switching to a *different* Pdk instance empties the layout first, so only a
+    same-instance re-activation can reach this guard.
+    """
     pdk = gf.Pdk(
         name="dbu_blocked",
         layers=LAYER,
@@ -158,14 +163,9 @@ def test_pdk_dbu_change_on_reactivation_after_cells_raises(
     gf.components.straight()
     assert len(gf.kcl.kcells) > 0
 
-    rescaled = gf.Pdk(
-        name="dbu_blocked",
-        layers=LAYER,
-        cross_sections={"strip": gf.cross_section.strip},
-        dbu=0.0005,
-    )
+    pdk.dbu = 0.0005
     with pytest.raises(ValueError, match=r"cell\(s\) already exist"):
-        rescaled.activate(force=True)
+        pdk.activate(force=True)
 
 
 def test_pdk_switch_clears_cells(restore_kcl_state: None) -> None:
@@ -221,14 +221,14 @@ def test_pdk_switch_does_not_reserve_cells_by_name(restore_kcl_state: None) -> N
     assert wide().dbbox().height() == 2.0
 
 
-def test_clear_cache_rebuilds_vcell_after_pdk_switch(restore_kcl_state: None) -> None:
-    """A @vcell must not be re-served from the previous PDK after clear_cache.
+def test_pdk_switch_rebuilds_vcell(restore_kcl_state: None) -> None:
+    """A @vcell must not be re-served from the previous PDK after a switch.
 
     Virtual cells live outside the layout, so clear_kcells() cannot reach them and
     the decorator has no destroyed()-based self-healing. Since a cross_section
-    serializes to its name, both PDKs below share a single cache key. They also
-    share a name, so activating the second one does not clear anything by itself
-    and clear_cache() is the only thing that can force the rebuild.
+    serializes to its name, the two PDKs below share a single cache key, so only
+    dropping the virtual factory caches can force the rebuild. They share a name
+    too, which must not stop the switch from doing it.
     """
     narrow = gf.Pdk(
         name="vcell_cache",
@@ -243,7 +243,6 @@ def test_clear_cache_rebuilds_vcell_after_pdk_switch(restore_kcl_state: None) ->
         layers=LAYER,
         cross_sections={"strip": partial(gf.cross_section.strip, width=2.0)},
     )
-    gf.clear_cache()
     wide.activate(force=True)
 
     assert gf.components.straight_all_angle(length=10).dbbox().height() == 2.0
@@ -252,8 +251,8 @@ def test_clear_cache_rebuilds_vcell_after_pdk_switch(restore_kcl_state: None) ->
 def test_pdk_same_dbu_with_existing_cells_allowed(restore_kcl_state: None) -> None:
     """Re-activating the active PDK with an unchanged DBU keeps the cells.
 
-    Switching to a *different* PDK clears the caches first, so only a same-name
-    re-activation can reach the guard with cells present.
+    Switching to a *different* Pdk instance clears the caches first, so only a
+    same-instance re-activation can reach the guard with cells present.
     """
     pdk = gf.Pdk(
         name="dbu_same",
@@ -323,8 +322,9 @@ def test_activate_custom_pdk_keeps_layers_with_geometry(
 ) -> None:
     """A layer outside the PDK that holds shapes is kept, not pruned (#4595).
 
-    Pruning must never orphan geometry. Switching to a *different* PDK empties
-    the layout first, so the case only arises on a same-name re-activation.
+    Pruning must never orphan geometry. Switching to a *different* Pdk instance
+    empties the layout first, so the case only arises on a same-instance
+    re-activation.
     """
 
     class MyFabLayers(LayerMap):

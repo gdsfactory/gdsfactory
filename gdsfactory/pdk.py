@@ -253,16 +253,17 @@ class Pdk(BaseModel):
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active).
 
-        Activating a PDK with a different name than the active one resets the
-        layout and the cell factory caches, because cell names and cache keys
-        serialize cross-sections and layers to their name and are therefore
-        ambiguous across PDKs.
+        Activating a different Pdk instance than the active one resets the layout
+        and the cell factory caches, because cell names and cache keys serialize
+        cross-sections and layers to their name and are therefore ambiguous across
+        PDKs. Two Pdk objects that share a name are still different PDKs: the name
+        says nothing about the cross-sections, layers or cells they carry.
 
         Args:
             force: re-run the activation even if this PDK is already active.
         """
         global _ACTIVE_PDK
-        if not force and _ACTIVE_PDK and _ACTIVE_PDK.name == self.name:
+        if not force and _ACTIVE_PDK is self:
             return
 
         logger.debug(f"{self.name!r} PDK {self.version} is now active")
@@ -837,7 +838,7 @@ def get_constant(constant_name: Any) -> Any:
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
 
-    if _ACTIVE_PDK is not None and _ACTIVE_PDK.name != pdk.name:
+    if _ACTIVE_PDK is not None and _ACTIVE_PDK is not pdk:
         if kf.kcl.kcells:
             warnings.warn(
                 f"Activating PDK {pdk.name!r} discards the "
