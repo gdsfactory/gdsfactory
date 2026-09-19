@@ -53,5 +53,19 @@ def test_schematic_cell() -> None:
     assert c.cell_index() == gf.kcl.layout.cell("my_straight_W1p1_L5").cell_index()
 
 
+def test_clear_cache_empties_factory_caches() -> None:
+    """clear_cache drops the layout cells and every factory's memoized result."""
+    gf.components.straight(length=13.7)
+    gf.components.straight_all_angle(length=13.7)
+    assert any(f.cache for f in gf.kcl.factories.all())
+    assert any(f.cache for f in gf.kcl.virtual_factories.all())
+
+    gf.clear_cache()
+
+    assert len(gf.kcl.kcells) == 0
+    assert not any(f.cache for f in gf.kcl.factories.all())
+    assert not any(f.cache for f in gf.kcl.virtual_factories.all())
+
+
 if __name__ == "__main__":
     test_partial()
