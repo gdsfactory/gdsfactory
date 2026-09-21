@@ -20,7 +20,7 @@ from warnings import warn
 
 import kfactory as kf
 from kfactory.routing.generic import ManhattanRoute
-from kfactory.routing.optical import PathLengthConfig
+from kfactory.routing.optical import PathLengthConfig, place_manhattan
 from kfactory.schematic import Constraint
 
 import gdsfactory as gf
@@ -164,6 +164,57 @@ def _ensure_manhattan_waypoints(
     return result
 
 
+def _route_exact_waypoint_bend_sequence(
+    component: gf.Component,
+    port1: gf.Port,
+    port2: gf.Port,
+    waypoints: Sequence[kf.kdb.DPoint],
+    width: float,
+    cross_section: CrossSectionSpec,
+    straight: ComponentSpec,
+    bend90: gf.Component,
+    bend90_cells: Sequence[gf.Component],
+    taper_cell: gf.Component | None,
+    port_type: str,
+    min_straight_taper: float,
+    allow_width_mismatch: bool | None,
+    allow_layer_mismatch: bool | None,
+    allow_type_mismatch: bool | None,
+) -> ManhattanRoute:
+    """Route a single explicit waypoint path with an ordered bend sequence."""
+
+    def straight_dbu(width: int, length: int, **kwargs: Any) -> gf.Component:
+        xs = kwargs.pop("cross_section", cross_section)
+        return gf.get_component(
+            straight,
+            length=component.kcl.to_um(length),
+            cross_section=xs,
+            width=component.kcl.to_um(width),
+            **kwargs,
+        )
+
+    pts = [component.kcl.to_dbu(kf.kdb.DPoint(*port1.center))]
+    pts.extend(point.to_itype(component.kcl.dbu) for point in waypoints)
+    pts.append(component.kcl.to_dbu(kf.kdb.DPoint(*port2.center)))
+
+    return place_manhattan(
+        component.to_itype(),
+        p1=port1.to_itype(),
+        p2=port2.to_itype(),
+        pts=pts,
+        route_width=component.kcl.to_dbu(width),
+        straight_factory=straight_dbu,
+        bend90_cell=bend90.to_itype(),
+        bend90_cells=[bend_cell.to_itype() for bend_cell in bend90_cells],
+        taper_cell=taper_cell.to_itype() if taper_cell else None,
+        port_type=port_type,
+        min_straight_taper=component.kcl.to_dbu(min_straight_taper),
+        allow_width_mismatch=allow_width_mismatch,
+        allow_layer_mismatch=allow_layer_mismatch,
+        allow_type_mismatch=allow_type_mismatch,
+    )
+
+
 def route_bundle(
     component: gf.Component,
     ports1: Port | Ports | list[Pin] | None = None,
@@ -171,7 +222,7 @@ def route_bundle(
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec | Sequence[ComponentSpec] = "bend_euler",
     sort_ports: bool = False,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -222,7 +273,9 @@ def route_bundle(
             Required unless both layer and route_width are given. Mutually exclusive with layer.
         layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
         separation: bundle separation (center to center) in um.
-        bend: function for the bend. Defaults to euler.
+        bend: bend spec or ordered sequence of bend specs. When a sequence is provided,
+            the bends are applied in order along the route and the last bend is reused
+            for any remaining corners.
         sort_ports: sort port coordinates.
         start_straight_length: minimum straight length in um after the start ports.
         end_straight_length: minimum straight length in um before the end ports.
@@ -532,13 +585,28 @@ def route_bundle(
     if waypoints_ is not None and len(waypoints_) >= 2:
         waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])
 
-    bend90 = (
-        bend
-        if isinstance(bend, gf.Component)
-        else gf.get_component(
-            bend, cross_section=cross_section, radius=radius, width=width
+    bend90_cells = None
+    if isinstance(bend, Sequence) and not isinstance(bend, str):
+        bend_sequence = list(bend)
+        if not bend_sequence:
+            raise ValueError("bend sequence must contain at least one bend spec")
+        bend90_cells = [
+            bend_spec
+            if isinstance(bend_spec, gf.Component)
+            else gf.get_component(
+                bend_spec, cross_section=cross_section, radius=radius, width=width
+            )
+            for bend_spec in bend_sequence
+        ]
+        bend90 = bend90_cells[0]
+    else:
+        bend90 = (
+            bend
+            if isinstance(bend, gf.Component)
+            else gf.get_component(
+                bend, cross_section=cross_section, radius=radius, width=width
+            )
         )
-    )
 
     def straight_um(width: float, length: float) -> gf.Component:
         return gf.get_component(
@@ -595,37 +663,66 @@ def route_bundle(
         elif kf_on_placer_error == "ignore":
             kf_on_placer_error = None
 
-        route = kf.routing.optical.route_bundle(
-            component,
-            ports1_,
-            ports2_,
-            separation=separation,
-            straight_factory=straight_um,
-            bend90_cell=bend90,
-            taper_cell=taper_cell,
-            starts=start_straight_length,
-            ends=end_straight_length,
-            min_straight_taper=min_straight_taper,
-            place_port_type=port_type,
-            collision_check_layers=[
-                c.kcl.layout.get_info(layer) for layer in collision_check_layer_enums
+        if (
+            bend90_cells is not None
+            and waypoints_ is not None
+            and len(ports1_) == 1
+            and len(ports2_) == 1
+            and sbend is None
+        ):
+            route = [
+                _route_exact_waypoint_bend_sequence(
+                    component=component,
+                    port1=ports1_[0],
+                    port2=ports2_[0],
+                    waypoints=waypoints_,
+                    width=width,
+                    cross_section=cross_section,
+                    straight=straight,
+                    bend90=bend90,
+                    bend90_cells=bend90_cells,
+                    taper_cell=taper_cell,
+                    port_type=port_type,
+                    min_straight_taper=min_straight_taper,
+                    allow_width_mismatch=allow_width_mismatch,
+                    allow_layer_mismatch=allow_layer_mismatch,
+                    allow_type_mismatch=allow_type_mismatch,
+                )
             ]
-            if collision_check_layer_enums
-            else None,
-            on_collision=kf_on_collision,
-            on_placer_error=kf_on_placer_error,
-            allow_width_mismatch=allow_width_mismatch,
-            allow_layer_mismatch=allow_layer_mismatch,
-            allow_type_mismatch=allow_type_mismatch,
-            bboxes=list(bboxes or []),
-            route_width=width,
-            sort_ports=sort_ports,
-            waypoints=waypoints_,
-            end_angles=end_angles,
-            start_angles=start_angles,
-            constraints=route_constraints,
-            sbend_factory=_sbend if sbend else None,
-        )
+        else:
+            route = kf.routing.optical.route_bundle(
+                component,
+                ports1_,
+                ports2_,
+                separation=separation,
+                straight_factory=straight_um,
+                bend90_cell=bend90,
+                bend90_cells=bend90_cells,
+                taper_cell=taper_cell,
+                starts=start_straight_length,
+                ends=end_straight_length,
+                min_straight_taper=min_straight_taper,
+                place_port_type=port_type,
+                collision_check_layers=[
+                    c.kcl.layout.get_info(layer)
+                    for layer in collision_check_layer_enums
+                ]
+                if collision_check_layer_enums
+                else None,
+                on_collision=kf_on_collision,
+                on_placer_error=kf_on_placer_error,
+                allow_width_mismatch=allow_width_mismatch,
+                allow_layer_mismatch=allow_layer_mismatch,
+                allow_type_mismatch=allow_type_mismatch,
+                bboxes=list(bboxes or []),
+                route_width=width,
+                sort_ports=sort_ports,
+                waypoints=waypoints_,
+                end_angles=end_angles,
+                start_angles=start_angles,
+                constraints=route_constraints,
+                sbend_factory=_sbend if sbend else None,
+            )
     except Exception as e:
         if raise_on_error:
             if "kdb.Trans" in str(e):
