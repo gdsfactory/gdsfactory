@@ -66,12 +66,12 @@ def fine_grid() -> Iterator[None]:
     from gdsfactory.gpdk import PDK
 
     original_dbu = gf.kcl.dbu
-    gf.kcl.clear_kcells()
+    gf.clear_cache()
     try:
         gf.kcl.dbu = 0.0005
         yield
     finally:
-        gf.kcl.clear_kcells()
+        gf.clear_cache()
         gf.kcl.dbu = original_dbu
         PDK.activate(force=True)
 
