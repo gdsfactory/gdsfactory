@@ -590,12 +590,22 @@ def route_bundle(
         bend_sequence = list(bend)
         if not bend_sequence:
             raise ValueError("bend sequence must contain at least one bend spec")
+
+        def _resolve_bend_spec(bend_spec: ComponentSpec) -> gf.Component:
+            if isinstance(bend_spec, gf.Component):
+                return bend_spec
+
+            bend_kwargs: dict[str, Any] = {
+                "cross_section": cross_section,
+                "width": width,
+            }
+            if not (isinstance(bend_spec, partial) and bend_spec.keywords and "radius" in bend_spec.keywords):
+                bend_kwargs["radius"] = radius
+
+            return gf.get_component(bend_spec, **bend_kwargs)
+
         bend90_cells = [
-            bend_spec
-            if isinstance(bend_spec, gf.Component)
-            else gf.get_component(
-                bend_spec, cross_section=cross_section, radius=radius, width=width
-            )
+            _resolve_bend_spec(bend_spec)
             for bend_spec in bend_sequence
         ]
         bend90 = bend90_cells[0]

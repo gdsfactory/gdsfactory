@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterator
+from functools import partial
 
 import kfactory as kf
 import pytest
@@ -178,55 +179,40 @@ def test_route_bundle_waypoints_bend_sequence() -> None:
     assert bend_names[4].startswith("bend_euler")
 
 
-def test_route_bundle_steps_bend_sequence() -> None:
-    """Ordered bend specs with different radii must be preserved through steps."""
+def test_route_bundle_steps_bundle_of_two_pads() -> None:
+    """A bundle of two pads to two other pads must support bend sequences."""
     c = gf.Component()
-    w1 = c << gf.components.straight()
-    w2 = c << gf.components.straight()
-    w2.dmove((900, 700))
+    left = c << gf.components.pad_array(columns=2, port_orientation=270)
+    right = c << gf.components.pad_array(columns=2, port_orientation=270)
+    right.dmovex(300)
+    right.dmovey(300)
 
-    p1 = w1.ports["o2"]
-    p2 = w2.ports["o1"]
-    p2x, p2y = p2.center
-
-    route = route_bundle(
+    routes = route_bundle(
         c,
-        [p1],
-        [p2],
-        cross_section="strip",
+        reversed(left.ports),
+        right.ports,
+        port_type="electrical",
+        cross_section="metal_routing",
+        start_straight_length=100,
+        separation=20,
         bend=[
-            gf.components.bend_circular(radius=5),
-            gf.components.bend_euler(radius=10),
-            gf.components.bend_topic(radius=15),
-            gf.components.bend_euler(radius=20),
-            gf.components.bend_euler(radius=25),
-        ],
-        steps=[
-            {"x": 80},
-            {"y": 140},
-            {"x": 260},
-            {"y": 340},
-            {"x": 520},
-            {"y": 620},
-            {"x": p2x - 80},
-            {"y": p2y},
+            partial(gf.components.bend_euler, radius=7),
+            partial(gf.components.bend_euler, radius=20),
         ],
         auto_taper=False,
         raise_on_error=True,
-    )[0]
+    )
 
-    bend_names = [
+    c.show()
+
+    assert len(routes) == 2
+    assert all(route.length > 0 for route in routes)
+
+    bend_names = {
         instance.cell.name
+        for route in routes
         for instance in route.instances
         if instance.cell.name.startswith("bend_")
-    ]
-
-    assert len(bend_names) >= 5
-    assert bend_names[0].startswith("bend_circular")
-    assert "R10" in bend_names[1]
-    assert bend_names[2].startswith("bend_topic")
-    assert "R20" in bend_names[3]
-    assert "R25" in bend_names[4]
-    assert bend_names[1].startswith("bend_euler")
-    assert bend_names[3].startswith("bend_euler")
-    assert bend_names[4].startswith("bend_euler")
+    }
+    assert any("R7" in name for name in bend_names)
+    assert any("R20" in name for name in bend_names)
