@@ -1,10 +1,12 @@
 import pytest
 
+import gdsfactory as gf
 from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
     get_default_bend,
     get_list_ports_angle,
+    validate_bend90,
 )
 from gdsfactory.typings import Port
 
@@ -232,3 +234,18 @@ def test_get_list_ports_angle() -> None:
 )
 def test_get_default_bend(port_type: str, expected: str) -> None:
     assert get_default_bend(port_type) == expected
+
+
+def test_validate_bend90() -> None:
+    validate_bend90(gf.get_component("bend_euler", cross_section="strip"), "optical")
+    validate_bend90(
+        gf.get_component("wire_corner", cross_section="metal_routing"), "electrical"
+    )
+
+
+def test_validate_bend90_wrong_port_type() -> None:
+    corner = gf.get_component("wire_corner", cross_section="strip")
+    with pytest.raises(ValueError, match="0 'optical' ports") as excinfo:
+        validate_bend90(corner, "optical")
+    assert "bend='bend_euler'" in str(excinfo.value)
+    assert "port_type='electrical'" in str(excinfo.value)

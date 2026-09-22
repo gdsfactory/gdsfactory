@@ -135,3 +135,20 @@ def test_route_single_default_bend(cross_section: str, bend: str) -> None:
     bends = _bends(c)
     assert bends
     assert all(name.startswith(bend) for name in bends)
+
+
+@pytest.mark.parametrize("with_waypoints", [False, True])
+def test_route_single_incompatible_bend(with_waypoints: bool) -> None:
+    c, port1, port2 = _two_straights("strip")
+    waypoints = (
+        [(port1.x + 50, port1.y), (port1.x + 50, port2.y)] if with_waypoints else None
+    )
+    with pytest.raises(ValueError, match="0 'optical' ports"):
+        gf.routing.route_single(
+            c,
+            port1,
+            port2,
+            cross_section="strip",
+            bend="wire_corner",
+            waypoints=waypoints,
+        )

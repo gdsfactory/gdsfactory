@@ -546,3 +546,17 @@ def test_route_bundle_default_bend(cross_section: str, bend: str) -> None:
     bends = _bends(c)
     assert bends
     assert all(name.startswith(bend) for name in bends)
+
+
+@pytest.mark.parametrize("raise_on_error", [True, False])
+def test_route_bundle_incompatible_bend(raise_on_error: bool) -> None:
+    c, port1, port2 = _two_straights("strip")
+    with pytest.raises(ValueError, match="0 'optical' ports"):
+        route_bundle(
+            c,
+            [port1],
+            [port2],
+            cross_section="strip",
+            bend="wire_corner",
+            raise_on_error=raise_on_error,
+        )
