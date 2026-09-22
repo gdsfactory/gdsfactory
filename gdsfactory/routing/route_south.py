@@ -16,6 +16,7 @@ from gdsfactory.routing.route_bundle import route_bundle
 from gdsfactory.routing.utils import (
     direction_ports_from_list_ports,
     get_default_bend,
+    validate_bend90,
 )
 from gdsfactory.typings import (
     ComponentSpec,
@@ -57,7 +58,8 @@ def route_south(
                 Supplying this information helps avoiding straight collisions.
         gc_port_name: grating coupler port name. Used only if io_gratings_lines is supplied.
         bend: spec. If None, follows the type of the ports being routed:
-            wire_corner for an electrical route, bend_euler otherwise.
+            wire_corner for an electrical route (wire_corner_sections for a
+            multi-section one), bend_euler otherwise.
         straight: spec.
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
@@ -102,18 +104,21 @@ def route_south(
             if p.name not in excluded_ports
         ]
 
-    if auto_taper:
-        optical_ports = add_auto_tapers(component, optical_ports, cross_section)
-
     if not optical_ports:
         return []
 
     port_type = port_type or optical_ports[0].port_type
+    default_bend = get_default_bend(port_type, xs)
     if bend is None:
-        bend = get_default_bend(port_type)
-    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
-    bend90 = gf.get_component(bend90)
+        bend = default_bend
+    bend90 = gf.get_component(
+        bend, cross_section=cross_section, radius=xs.radius, width=xs.width
+    )
+    validate_bend90(bend90, port_type, default_bend)
     dy = abs(bend90.info["dy"])
+
+    if auto_taper:
+        optical_ports = add_auto_tapers(component, optical_ports, cross_section)
 
     # Handle empty list gracefully
 
