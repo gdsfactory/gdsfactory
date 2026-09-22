@@ -28,7 +28,7 @@ from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
-from gdsfactory.routing.utils import get_default_bend
+from gdsfactory.routing.utils import get_default_bend, validate_bend90
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -543,6 +543,7 @@ def route_bundle(
             bend, cross_section=cross_section, radius=radius, width=width
         )
     )
+    validate_bend90(bend90, port_type)
 
     def straight_um(width: float, length: float) -> gf.Component:
         return gf.get_component(

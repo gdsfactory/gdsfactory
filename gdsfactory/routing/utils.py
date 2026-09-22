@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+from collections import Counter
 from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 from gdsfactory.typings import ComponentSpec, Port
+
+if TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 
 class RouteWarning(UserWarning):
@@ -24,6 +29,39 @@ def get_default_bend(port_type: str) -> ComponentSpec:
             or an explicit `port_type=`.
     """
     return "wire_corner" if port_type == "electrical" else "bend_euler"
+
+
+def validate_bend90(bend90: Component, port_type: str) -> None:
+    """Raises if a bend cannot be placed on a route of `port_type`.
+
+    Args:
+        bend90: Bend cell, built the way the router will place it.
+        port_type: Port type the route is placed on.
+
+    Raises:
+        ValueError: If the bend does not have exactly two `port_type` ports.
+    """
+    matching = bend90.ports.filter(port_type=port_type)
+    if len(matching) == 2:
+        return
+
+    counts = Counter(port.port_type for port in bend90.ports)
+    instead = next(
+        (
+            f"pass port_type={other!r} to route the ports it does have"
+            for other, count in counts.items()
+            if count == 2
+        ),
+        "pass a bend that has them",
+    )
+    has = ", ".join(f"{count} {name}" for name, count in counts.items()) or "none"
+    raise ValueError(
+        f"Cannot route {port_type!r} ports with bend {bend90.name!r}: it has "
+        f"{len(matching)} {port_type!r} ports, and a 90 degree bend needs exactly 2, "
+        f"one to enter the turn and one to leave it. Its ports are: {has}. Use "
+        f"bend={get_default_bend(port_type)!r}, the default for {port_type!r} routes, "
+        f"or {instead}."
+    )
 
 
 def direction_ports_from_list_ports(
