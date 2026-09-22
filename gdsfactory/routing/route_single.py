@@ -39,7 +39,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.routing.utils import get_default_bend
+from gdsfactory.routing.utils import get_default_bend, validate_bend90
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -158,6 +158,7 @@ def route_single(
 
     radius = radius or xs.radius
     bend90 = gf.get_component(bend, cross_section=xs, radius=radius, width=width)
+    validate_bend90(bend90, port_type)
     if auto_taper:
         p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
