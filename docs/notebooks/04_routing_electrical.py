@@ -112,8 +112,6 @@ route = gf.routing.route_bundle( # The route_bundle function is an auto-router t
         {"y": 200},
     ],
     cross_section="metal_routing",
-    bend=gf.components.wire_corner,
-    port_type="electrical",
     allow_width_mismatch=True,
     auto_taper=False,
 )

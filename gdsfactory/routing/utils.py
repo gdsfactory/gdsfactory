@@ -2,11 +2,28 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from gdsfactory.typings import Port
+from gdsfactory.typings import ComponentSpec, Port
 
 
 class RouteWarning(UserWarning):
     pass
+
+
+def get_default_bend(port_type: str) -> ComponentSpec:
+    """Returns the bend for a Manhattan route whose caller did not choose one.
+
+    Keyed on the port type being routed rather than on the cross-section, because the
+    port type is what the placer selects the bend's own ports by, so the default is one
+    that can be placed by construction.
+
+    `wire_corner` draws the main section only, so a multi-section electrical
+    cross-section (GS, GSG) needs a bend that draws them all like `wire_corner_sections`.
+
+    Args:
+        port_type: Port type the route is placed on, normally `ports1[0].port_type`
+            or an explicit `port_type=`.
+    """
+    return "wire_corner" if port_type == "electrical" else "bend_euler"
 
 
 def direction_ports_from_list_ports(

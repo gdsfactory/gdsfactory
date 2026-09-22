@@ -360,7 +360,7 @@ def route_astar_single(
     port2: Port,
     resolution: float = 1,
     cross_section: CrossSectionSpec = "strip",
-    bend: ComponentSpec = "wire_corner",
+    bend: ComponentSpec | None = None,
     G: nx.Graph | None = None,
     x: npt.NDArray[np.number[Any]] | None = None,
     y: npt.NDArray[np.number[Any]] | None = None,
@@ -379,7 +379,8 @@ def route_astar_single(
         port2: End port of the route.
         resolution: Grid discretization step in microns.
         cross_section: Cross-section specification for the routed waveguide.
-        bend: Component used for bends (e.g. wire_corner or bend_euler).
+        bend: Component used for bends. If None, follows the type of the ports
+            being routed: wire_corner for an electrical route, bend_euler otherwise.
         G: Precomputed NetworkX grid graph with obstacle nodes removed.
         x: 1D array of x-coordinates for grid columns.
         y: 1D array of y-coordinates for grid rows.
@@ -445,7 +446,7 @@ def route_astar(
     avoid_layers: Sequence[LayerSpec] | None = None,
     distance: float = 8,
     cross_section: CrossSectionSpec = "strip",
-    bend: ComponentSpec = "wire_corner",
+    bend: ComponentSpec | None = None,
     **kwargs: Any,
 ) -> Route:
     """A* router that evaluates several start/end node options and returns the best route.
@@ -461,7 +462,9 @@ def route_astar(
         avoid_layers: Layers that should be treated as obstacles.
         distance: Clearance distance from obstacles in microns.
         cross_section: Cross-section specification for the routed waveguide.
-        bend: Component to use for bends (e.g. ``wire_corner`` or ``bend_euler``).
+        bend: Component to use for bends. If None, follows the type of the ports
+            being routed: ``wire_corner`` for an electrical route, ``bend_euler``
+            otherwise.
         **kwargs: Additional keyword arguments forwarded to the cross-section or route_bundle.
 
     Returns:
