@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections import Counter
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
@@ -8,59 +7,65 @@ from gdsfactory.typings import ComponentSpec, Port
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
+    from gdsfactory.cross_section import CrossSection
 
 
 class RouteWarning(UserWarning):
     pass
 
 
-def get_default_bend(port_type: str) -> ComponentSpec:
+class BendPortTypeError(ValueError):
+    """Raised when a bend has no two ports of the port type being routed."""
+
+
+def get_default_bend(port_type: str, cross_section: CrossSection) -> ComponentSpec:
     """Returns the bend for a Manhattan route whose caller did not choose one.
 
-    Keyed on the port type being routed rather than on the cross-section, because the
-    port type is what the placer selects the bend's own ports by, so the default is one
-    that can be placed by construction.
+    Keyed on the port type being routed rather than on the cross-section's port types,
+    because the port type is what the placer selects the bend's own ports by, so the
+    default is one that can be placed by construction.
 
-    `wire_corner` draws the main section only, so a multi-section electrical
-    cross-section (GS, GSG) needs a bend that draws them all like `wire_corner_sections`.
+    An electrical route gets a square corner. `wire_corner` draws the main section
+    only, so a multi-section cross-section (GS, GSG) gets `wire_corner_sections`,
+    which draws them all.
 
     Args:
         port_type: Port type the route is placed on, normally `ports1[0].port_type`
             or an explicit `port_type=`.
+        cross_section: Cross-section the route is drawn with.
     """
-    return "wire_corner" if port_type == "electrical" else "bend_euler"
+    if port_type != "electrical":
+        return "bend_euler"
+    return "wire_corner" if len(cross_section.sections) == 1 else "wire_corner_sections"
 
 
-def validate_bend90(bend90: Component, port_type: str) -> None:
+def validate_bend90(
+    bend90: Component, port_type: str, default_bend: ComponentSpec
+) -> None:
     """Raises if a bend cannot be placed on a route of `port_type`.
 
     Args:
         bend90: Bend cell, built the way the router will place it.
         port_type: Port type the route is placed on.
+        default_bend: The route's default from `get_default_bend`, suggested instead
+            unless `bend90` is that bend already.
 
     Raises:
-        ValueError: If the bend does not have exactly two `port_type` ports.
+        BendPortTypeError: If the bend does not have exactly two `port_type` ports.
     """
     matching = bend90.ports.filter(port_type=port_type)
     if len(matching) == 2:
         return
 
-    counts = Counter(port.port_type for port in bend90.ports)
-    instead = next(
-        (
-            f"pass port_type={other!r} to route the ports it does have"
-            for other, count in counts.items()
-            if count == 2
-        ),
-        "pass a bend that has them",
+    port_types = [port.port_type for port in bend90.ports]
+    hint = (
+        ""
+        if bend90.function_name == default_bend
+        else f" Use bend={default_bend!r}, the default for this route."
     )
-    has = ", ".join(f"{count} {name}" for name, count in counts.items()) or "none"
-    raise ValueError(
-        f"Cannot route {port_type!r} ports with bend {bend90.name!r}: it has "
-        f"{len(matching)} {port_type!r} ports, and a 90 degree bend needs exactly 2, "
-        f"one to enter the turn and one to leave it. Its ports are: {has}. Use "
-        f"bend={get_default_bend(port_type)!r}, the default for {port_type!r} routes, "
-        f"or {instead}."
+    raise BendPortTypeError(
+        f"Bend {bend90.name!r} has {len(matching)} {port_type!r} ports, but needs "
+        f"2 to route {port_type!r} ports. Its port types are {port_types}.{hint}"
     )
 
 

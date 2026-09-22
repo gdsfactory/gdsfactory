@@ -224,7 +224,8 @@ def route_bundle(
         layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
         separation: bundle separation (center to center) in um.
         bend: function for the bend. If None, follows the type of the ports being
-            routed: wire_corner for an electrical route, bend_euler otherwise.
+            routed: wire_corner for an electrical route (wire_corner_sections for a
+            multi-section one), bend_euler otherwise.
         sort_ports: sort port coordinates.
         start_straight_length: minimum straight length in um after the start ports.
         end_straight_length: minimum straight length in um before the end ports.
@@ -376,8 +377,6 @@ def route_bundle(
     ports1_ = ports1_resolved
     ports2_ = ports2_resolved
     port_type = port_type or ports1_[0].port_type
-    if bend is None:
-        bend = get_default_bend(port_type)
 
     if cross_section is None:
         cross_section = partial(
@@ -399,6 +398,19 @@ def route_bundle(
     width = route_width or xs.width
 
     radius = radius or xs.radius
+
+    default_bend = get_default_bend(port_type, xs)
+    if bend is None:
+        bend = default_bend
+    bend90 = (
+        bend
+        if isinstance(bend, gf.Component)
+        else gf.get_component(
+            bend, cross_section=cross_section, radius=radius, width=width
+        )
+    )
+    validate_bend90(bend90, port_type, default_bend)
+
     taper_cell = gf.get_component(taper) if taper else None
 
     if collision_check_layers:
@@ -535,15 +547,6 @@ def route_bundle(
 
     if waypoints_ is not None and len(waypoints_) >= 2:
         waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])
-
-    bend90 = (
-        bend
-        if isinstance(bend, gf.Component)
-        else gf.get_component(
-            bend, cross_section=cross_section, radius=radius, width=width
-        )
-    )
-    validate_bend90(bend90, port_type)
 
     def straight_um(width: float, length: float) -> gf.Component:
         return gf.get_component(

@@ -85,7 +85,8 @@ def route_single(
         cross_section: spec.
         layer: layer spec.
         bend: bend spec. If None, follows the type of the ports being routed:
-            wire_corner for an electrical route, bend_euler otherwise.
+            wire_corner for an electrical route (wire_corner_sections for a
+            multi-section one), bend_euler otherwise.
         straight: straight spec.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
@@ -139,8 +140,6 @@ def route_single(
     p1 = port1
     p2 = port2
     port_type = port_type or p1.port_type
-    if bend is None:
-        bend = get_default_bend(port_type)
 
     if cross_section is None:
         cross_section = gf.cross_section.cross_section(
@@ -157,8 +156,11 @@ def route_single(
     width = route_width or xs.width
 
     radius = radius or xs.radius
+    default_bend = get_default_bend(port_type, xs)
+    if bend is None:
+        bend = default_bend
     bend90 = gf.get_component(bend, cross_section=xs, radius=radius, width=width)
-    validate_bend90(bend90, port_type)
+    validate_bend90(bend90, port_type, default_bend)
     if auto_taper:
         p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
