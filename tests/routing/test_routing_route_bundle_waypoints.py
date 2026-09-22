@@ -9,6 +9,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.routing.route_bundle import _ensure_manhattan_waypoints, route_bundle
+from gdsfactory.routing.route_bundle_with_bends import route_bundle_with_bends
 
 
 def test_route_bundle_waypoints(data_regression: DataRegressionFixture) -> None:
@@ -134,7 +135,7 @@ def test_route_bundle_waypoints_bend_sequence() -> None:
     p2 = w2.ports["o1"]
     p2x, p2y = p2.center
 
-    route = route_bundle(
+    route = route_bundle_with_bends(
         c,
         [p1],
         [p2],
@@ -187,7 +188,7 @@ def test_route_bundle_steps_bundle_of_two_pads() -> None:
     right.dmovex(300)
     right.dmovey(300)
 
-    routes = route_bundle(
+    routes = route_bundle_with_bends(
         c,
         reversed(left.ports),
         right.ports,
