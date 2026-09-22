@@ -267,3 +267,19 @@ def test_route_astar_single_preserves_kwargs(
     assert "width" not in captured_kwargs
     assert "layer" not in captured_kwargs
     assert "radius" not in captured_kwargs
+
+
+@pytest.mark.parametrize(
+    ("cross_section", "bend"),
+    [("strip", "bend_euler"), ("metal_routing", "wire_corner")],
+)
+def test_route_astar_default_bend(cross_section: str, bend: str) -> None:
+    c = gf.Component()
+    straight = gf.components.straight(cross_section=cross_section)
+    left = c << straight
+    right = c << straight
+    right.move((200, 150))
+    gf.routing.route_astar(
+        c, left.ports[1], right.ports[0], cross_section=cross_section
+    )
+    assert any(inst.cell.name.startswith(bend) for inst in c.insts)

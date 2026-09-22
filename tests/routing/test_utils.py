@@ -3,6 +3,7 @@ import pytest
 from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
+    get_default_bend,
     get_list_ports_angle,
 )
 from gdsfactory.typings import Port
@@ -219,3 +220,15 @@ def test_get_list_ports_angle() -> None:
     ]
     with pytest.raises(ValueError, match="All port angles should be the same"):
         get_list_ports_angle(ports_different)
+
+
+@pytest.mark.parametrize(
+    ("port_type", "expected"),
+    [
+        ("electrical", "wire_corner"),
+        ("optical", "bend_euler"),
+        ("vertical_te", "bend_euler"),
+    ],
+)
+def test_get_default_bend(port_type: str, expected: str) -> None:
+    assert get_default_bend(port_type) == expected
