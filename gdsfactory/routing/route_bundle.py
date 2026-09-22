@@ -28,6 +28,7 @@ from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
+from gdsfactory.routing.utils import get_default_bend
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -171,7 +172,7 @@ def route_bundle(
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec | None = None,
     sort_ports: bool = False,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -222,7 +223,8 @@ def route_bundle(
             Required unless both layer and route_width are given. Mutually exclusive with layer.
         layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
         separation: bundle separation (center to center) in um.
-        bend: function for the bend. Defaults to euler.
+        bend: function for the bend. If None, follows the type of the ports being
+            routed: wire_corner for an electrical route, bend_euler otherwise.
         sort_ports: sort port coordinates.
         start_straight_length: minimum straight length in um after the start ports.
         end_straight_length: minimum straight length in um before the end ports.
@@ -374,6 +376,8 @@ def route_bundle(
     ports1_ = ports1_resolved
     ports2_ = ports2_resolved
     port_type = port_type or ports1_[0].port_type
+    if bend is None:
+        bend = get_default_bend(port_type)
 
     if cross_section is None:
         cross_section = partial(

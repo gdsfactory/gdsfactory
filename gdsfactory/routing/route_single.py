@@ -39,6 +39,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.utils import get_default_bend
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -57,7 +58,7 @@ def route_single(
     port2: Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec | None = None,
     straight: ComponentSpec = "straight",
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
@@ -83,7 +84,8 @@ def route_single(
         port2: end port.
         cross_section: spec.
         layer: layer spec.
-        bend: bend spec.
+        bend: bend spec. If None, follows the type of the ports being routed:
+            wire_corner for an electrical route, bend_euler otherwise.
         straight: straight spec.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
@@ -137,6 +139,8 @@ def route_single(
     p1 = port1
     p2 = port2
     port_type = port_type or p1.port_type
+    if bend is None:
+        bend = get_default_bend(port_type)
 
     if cross_section is None:
         cross_section = gf.cross_section.cross_section(
