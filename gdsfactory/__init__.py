@@ -83,6 +83,7 @@ from gdsfactory.pdk import (
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.grid import grid, grid_with_text
+from gdsfactory.stack import stack_add
 
 c = components
 Region = kdb.Region
@@ -173,6 +174,7 @@ __all__ = (
     "schematic_cell",
     "show",
     "snap",
+    "stack_add",
     "technology",
     "typings",
     "vcell",
