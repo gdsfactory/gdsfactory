@@ -512,3 +512,90 @@ def test_route_bundle_width() -> None:
     )
     expected_length = 53274.356
     assert route[0].length == expected_length, route[0].length
+
+
+def _two_straights(cross_section: str) -> tuple[Component, Port, Port]:
+    c = gf.Component()
+    straight = gf.components.straight(cross_section=cross_section)
+    left = c << straight
+    right = c << straight
+    right.move((300, 200))
+    return c, left.ports[1], right.ports[0]
+
+
+def _bends(c: Component) -> list[str]:
+    return [
+        inst.cell.name
+        for inst in c.insts
+        if inst.cell.name.startswith(("bend_euler", "wire_corner"))
+    ]
+
+
+@pytest.mark.parametrize(
+    ("cross_section", "bend"),
+    [
+        ("strip", "bend_euler"),
+        # Optical, even though it has an electrical heater section.
+        ("strip_heater_metal", "bend_euler"),
+        ("metal_routing", "wire_corner"),
+    ],
+)
+def test_route_bundle_default_bend(cross_section: str, bend: str) -> None:
+    c, port1, port2 = _two_straights(cross_section)
+    route_bundle(c, [port1], [port2], cross_section=cross_section)
+    bends = _bends(c)
+    assert bends
+    assert all(name.startswith(bend) for name in bends)
+
+
+@pytest.mark.parametrize("raise_on_error", [True, False])
+def test_route_bundle_incompatible_bend(raise_on_error: bool) -> None:
+    c, port1, port2 = _two_straights("strip")
+    with pytest.raises(ValueError, match="0 'optical' ports"):
+        route_bundle(
+            c,
+            [port1],
+            [port2],
+            cross_section="strip",
+            bend="wire_corner",
+            raise_on_error=raise_on_error,
+        )
+
+
+def test_route_bundle_default_bend_multi_section() -> None:
+    c = gf.Component()
+    straight = gf.components.straight(cross_section="gs")
+    left = c << straight
+    right = c << straight
+    right.move((600, 600))
+    route_bundle(
+        c, [left.ports[1]], [right.ports[0]], cross_section="gs", raise_on_error=True
+    )
+    corners = [
+        gf.Component(base=inst.cell.base)
+        for inst in c.insts
+        if inst.cell.name.startswith("wire_corner_sections")
+    ]
+    assert corners
+    # wire_corner draws no M3 at all, as it only draws the main M3_ABSTRACT section.
+    assert all(corner.area(layer="M3") > 0 for corner in corners)
+
+
+def test_route_bundle_incompatible_bend_leaves_component_unchanged() -> None:
+    c = gf.Component()
+    straight = gf.components.straight(cross_section="strip", width=0.8)
+    left = c << straight
+    right = c << straight
+    right.move((300, 200))
+    with pytest.raises(ValueError, match="0 'optical' ports"):
+        route_bundle(
+            c,
+            [left.ports[1]],
+            [right.ports[0]],
+            cross_section="strip",
+            bend="wire_corner",
+            steps=[{"dx": 50}, {"dy": 200}],
+            layer_marker=(2, 0),
+        )
+    # Neither the auto-tapers nor the step markers were placed.
+    assert len(c.insts) == 2

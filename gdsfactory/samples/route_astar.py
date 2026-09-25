@@ -7,7 +7,6 @@ if __name__ == "__main__":
     c = gf.Component()
     cross_section_name = "strip"
     port_prefix = "o"
-    bend = gf.components.bend_euler
 
     cross_section = gf.get_cross_section(cross_section_name, radius=5)
     w = gf.components.straight(cross_section=cross_section)
@@ -45,6 +44,5 @@ if __name__ == "__main__":
         resolution=15,
         distance=12,
         avoid_layers=("M2",),
-        bend=bend,
     )
     c.show()

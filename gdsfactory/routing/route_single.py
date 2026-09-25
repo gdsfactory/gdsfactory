@@ -39,6 +39,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
+from gdsfactory.routing.utils import get_default_bend, validate_bend90
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -57,7 +58,7 @@ def route_single(
     port2: Port,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec | None = None,
     straight: ComponentSpec = "straight",
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
@@ -83,7 +84,9 @@ def route_single(
         port2: end port.
         cross_section: spec.
         layer: layer spec.
-        bend: bend spec.
+        bend: bend spec. If None, follows the type of the ports being routed:
+            wire_corner for an electrical route (wire_corner_sections for a
+            multi-section one), bend_euler otherwise.
         straight: straight spec.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
@@ -153,7 +156,11 @@ def route_single(
     width = route_width or xs.width
 
     radius = radius or xs.radius
+    default_bend = get_default_bend(port_type, xs)
+    if bend is None:
+        bend = default_bend
     bend90 = gf.get_component(bend, cross_section=xs, radius=radius, width=width)
+    validate_bend90(bend90, port_type, default_bend)
     if auto_taper:
         p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]

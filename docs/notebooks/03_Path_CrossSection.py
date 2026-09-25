@@ -210,6 +210,7 @@ c2 = gf.Component()
 pad1 = c2 << c
 pad2 = c2 << c
 pad2.move((100, 100))
+# The bend defaults to wire_corner_sections, which draws every section of the cross-section at the corner.
 gf.routing.route_bundle(c2, [pad1.ports["e2"]], [pad2.ports["e1"]], cross_section=x, port_type='electrical')
 c2.plot()
 
