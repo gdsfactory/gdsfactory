@@ -270,7 +270,7 @@ def route_bundle(
         constraints: list of kfactory routing constraints (``kf.schematic.Constraint`` \
             instances, e.g. ``kf.schematic.PathLengthMatch``) passed through to \
             kfactory. Mutually exclusive with ``path_length_matching_config``.
-        layer_label: layer to place length labels on the route.
+        layer_label: layer to place length labels (in um) on the route.
         port1: deprecated, use ports1. Single start port for single-port routing.
         port2: deprecated, use ports2. Single end port for single-port routing.
         name: Name for the route. This is not important yet, but once constraints are implemented, the constraint, depending
@@ -672,7 +672,7 @@ def route_bundle(
     if layer_label:
         for route_i in route:
             c.add_label(
-                text=f"{route_i.length:.3f}",
+                text=f"{route_i.length * c.kcl.dbu:.3f}",
                 layer=layer_label,
                 position=route_i.instances[0].dcenter,
             )
