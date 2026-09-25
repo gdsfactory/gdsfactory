@@ -20,7 +20,11 @@ def array(
     post_process: PostProcesses | None = None,
     auto_rename_ports: bool = False,
 ) -> Component:
-    """Returns an array of components.
+    """Returns a Component containing a regular array of references.
+
+    For an editable array, use `Component.add_ref()` and change the reference's
+    `na` (columns) and `nb` (rows). See
+    [Resizing an existing array](https://gdsfactory.github.io/gdsfactory/notebooks/01_references/#resizing-an-existing-array).
 
     Args:
         component: to replicate.
