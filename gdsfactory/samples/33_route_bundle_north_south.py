@@ -26,7 +26,7 @@ def test_north_to_south(layer: tuple[int, int] = (1, 0)) -> gf.Component:
             center=(xs1[i], 0),
             width=0.5,
             orientation=a1,
-            layer=gf.get_layer(layer),
+            cross_section=gf.get_cross_section("strip", layer=layer),
         )
         for i in range(N)
     ]
@@ -37,7 +37,7 @@ def test_north_to_south(layer: tuple[int, int] = (1, 0)) -> gf.Component:
             center=(xs2[i], dy),
             width=0.5,
             orientation=a2,
-            layer=gf.get_layer(layer),
+            cross_section=gf.get_cross_section("strip", layer=layer),
         )
         for i in range(N)
     ]

@@ -1,24 +1,24 @@
 instances:
-  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_2ffcf9b0_0_250:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_67ed8952_0_250:
     component: coupler_straight
     info: {}
     settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       gap: 0.15
       length: 420
-  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_731ab8ff_0_7250:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_69869ec8_0_14250:
     component: coupler_straight
     info: {}
     settings:
-      cross_section: strip_no_ports
-      gap: 0.2
-      length: 420
-  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_c386a235_0_14250:
-    component: coupler_straight
-    info: {}
-    settings:
-      cross_section: strip_no_ports
+      cross_section: strip
       gap: 0.25
+      length: 420
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_fe42d8a7_0_7250:
+    component: coupler_straight
+    info: {}
+    settings:
+      cross_section: strip
+      gap: 0.2
       length: 420
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_2496a904_425000_14000:
     component: text_rectangular
@@ -61,21 +61,21 @@ instances:
       text: '150'
 nets: []
 placements:
-  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_2ffcf9b0_0_250:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_67ed8952_0_250:
     mirror: false
     rotation: 0
     x: 0
     y: 0.25
-  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_731ab8ff_0_7250:
-    mirror: false
-    rotation: 0
-    x: 0
-    y: 7.25
-  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_c386a235_0_14250:
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_69869ec8_0_14250:
     mirror: false
     rotation: 0
     x: 0
     y: 14.25
+  coupler_straight_gdsfactorypcomponentspcouplerspcoupler_fe42d8a7_0_7250:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 7.25
   text_rectangular_gdsfactorypcomponentsptextsptext_recta_2496a904_425000_14000:
     mirror: false
     rotation: 0

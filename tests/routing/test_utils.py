@@ -1,5 +1,6 @@
 import pytest
 
+import gdsfactory as gf
 from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
@@ -12,48 +13,42 @@ def test_direction_ports_from_list_ports() -> None:
     ports = [
         Port(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 0),
         ),
         Port(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(0, 0),
         ),
         Port(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=180,
             center=(0, 0),
         ),
         Port(
             name="p4",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=270,
             center=(0, 0),
         ),
         Port(
             name="p5",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 1),
         ),
         Port(
             name="p6",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(1, 0),
@@ -75,24 +70,21 @@ def test_check_ports_have_equal_spacing() -> None:
     ports_h = [
         Port(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 0),
         ),
         Port(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 1),
         ),
         Port(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 2),
@@ -103,24 +95,21 @@ def test_check_ports_have_equal_spacing() -> None:
     ports_v = [
         Port(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(0, 0),
         ),
         Port(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(1, 0),
         ),
         Port(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(2, 0),
@@ -131,24 +120,21 @@ def test_check_ports_have_equal_spacing() -> None:
     ports_unequal = [
         Port(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 0),
         ),
         Port(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 1),
         ),
         Port(
             name="p3",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(0, 2.5),
@@ -168,8 +154,7 @@ def test_get_list_ports_angle() -> None:
     ports_single = [
         Port(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(0, 0),
@@ -180,16 +165,14 @@ def test_get_list_ports_angle() -> None:
     ports_same = [
         Port(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(0, 0),
         ),
         Port(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(1, 0),
@@ -202,16 +185,14 @@ def test_get_list_ports_angle() -> None:
     ports_different = [
         Port(
             name="p1",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=90,
             center=(0, 0),
         ),
         Port(
             name="p2",
-            width=0.5,
-            layer=1,
+            cross_section=gf.cross_section.strip(width=0.5),
             port_type="optical",
             orientation=0,
             center=(1, 0),

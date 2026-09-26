@@ -8,7 +8,7 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cross_section import Section, rib
+from gdsfactory.cross_section import rib
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionFactory,
@@ -22,7 +22,7 @@ from ..vias.via_stack import via_stack
 
 cross_section_rib = partial(
     gf.cross_section.strip,
-    sections=(Section(width=2 * 2.425, layer="SLAB90", name="slab"),),
+    sections=(("SLAB90", -2.425, 2.425),),
 )
 cross_section_pn = partial(
     gf.cross_section.pn,
@@ -94,7 +94,6 @@ def ring_double_pn(
 
     pn_cross_section_ = gf.get_cross_section(pn_cross_section, **kwargs)
     cross_section_ = gf.get_cross_section(cross_section, **kwargs)
-    cross_section_ = cross_section_.copy(**kwargs)
 
     heater_vias = gf.get_component(heater_vias)
     undoping_angle = 180 - doping_angle
@@ -134,9 +133,18 @@ def ring_double_pn(
     bottom_undoped_ring_ref.rotate(-undoping_angle / 2)
     bottom_undoped_ring_ref.x = th_waveguide.x
 
-    left_doped_ring_ref.connect("o1", bottom_undoped_ring_ref.ports["o1"])
-    right_doped_ring_ref.connect("o2", bottom_undoped_ring_ref.ports["o2"])
-    top_undoped_ring_ref.connect("o2", left_doped_ring_ref.ports["o2"])
+    left_doped_ring_ref.connect(
+        gf.port.core_port(left_doped_ring_ref.ports["o1"]),
+        gf.port.core_port(bottom_undoped_ring_ref.ports["o1"]),
+    )
+    right_doped_ring_ref.connect(
+        gf.port.core_port(right_doped_ring_ref.ports["o2"]),
+        gf.port.core_port(bottom_undoped_ring_ref.ports["o2"]),
+    )
+    top_undoped_ring_ref.connect(
+        gf.port.core_port(top_undoped_ring_ref.ports["o2"]),
+        gf.port.core_port(left_doped_ring_ref.ports["o2"]),
+    )
 
     ring = c.add_ref_off_grid(r)
     ring.center = (0, 0)
@@ -168,10 +176,10 @@ def ring_double_pn(
 
         bottom_l_heater_via = c << heater_vias
         bottom_r_heater_via = c << heater_vias
-        bottom_l_heater_via.x = bottom_heater_ref.ports["o1"].x
-        bottom_l_heater_via.y = bottom_heater_ref.ports["o1"].y
-        bottom_r_heater_via.x = bottom_heater_ref.ports["o2"].x
-        bottom_r_heater_via.y = bottom_heater_ref.ports["o2"].y
+        bottom_l_heater_via.x = bottom_heater_ref.ports["e1"].x
+        bottom_l_heater_via.y = bottom_heater_ref.ports["e1"].y
+        bottom_r_heater_via.x = bottom_heater_ref.ports["e2"].x
+        bottom_r_heater_via.y = bottom_heater_ref.ports["e2"].y
 
         top_heater_ref = c << heater
         top_heater_ref.rotate(180 - (undoping_angle - doped_heater_angle_buffer) / 2)
@@ -182,10 +190,10 @@ def ring_double_pn(
 
         top_l_heater_via = c << heater_vias
         top_r_heater_via = c << heater_vias
-        top_l_heater_via.x = top_heater_ref.ports["o1"].x
-        top_l_heater_via.y = top_heater_ref.ports["o1"].y
-        top_r_heater_via.x = top_heater_ref.ports["o2"].x
-        top_r_heater_via.y = top_heater_ref.ports["o2"].y
+        top_l_heater_via.x = top_heater_ref.ports["e1"].x
+        top_l_heater_via.y = top_heater_ref.ports["e1"].y
+        top_r_heater_via.x = top_heater_ref.ports["e2"].x
+        top_r_heater_via.y = top_heater_ref.ports["e2"].y
 
     c.add_port("o1", port=th_waveguide.ports["o1"])
     c.add_port("o2", port=th_waveguide.ports["o2"])
@@ -228,6 +236,7 @@ def ring_single_pn(
     heater_vias: ComponentSpec = _heater_vias,
     pn_vias: ComponentSpec = "via_stack_slab_m3",
     pn_vias_width: float = 3,
+    slab_simplify: float = 0.05,
 ) -> gf.Component:
     """Returns single pn ring with optional doped heater.
 
@@ -245,6 +254,7 @@ def ring_single_pn(
         heater_vias: components specifications for heater vias.
         pn_vias: components specifications for pn vias.
         pn_vias_width: width of pn vias.
+        slab_simplify: polygon simplification tolerance for the undoped slab (um).
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     c = gf.Component()
@@ -272,13 +282,30 @@ def ring_single_pn(
     undoped_path = gf.Path()
     undoped_path.append(gf.path.arc(radius=radius, angle=undoping_angle))
 
-    doped_ring_ref = r << doped_path.extrude(cross_section=pn_xs, all_angle=False)
+    ports = {0: ("o1", "o2", "optical")}
+    for index, section in enumerate(pn_xs.get_sections()):
+        if section.layer == gf.get_layer_info("M1"):
+            side = "top" if section.section_min + section.section_max > 0 else "bot"
+            ports[index] = (f"e1_{side}", f"e2_{side}", "electrical")
+    doped_ring_ref = r << doped_path.extrude(
+        cross_section=pn_xs, all_angle=False, ports=ports
+    )
+    undoped_xs = gf.get_cross_section(cross_section)
     undoped_ring_ref = r << undoped_path.extrude(
-        cross_section=cross_section, all_angle=False
+        cross_section=undoped_xs,
+        all_angle=False,
+        simplify={
+            i: slab_simplify
+            for i, section in enumerate(undoped_xs.get_sections())
+            if i and section.layer == gf.get_layer_info("SLAB90")
+        },
     )
     undoped_ring_ref.rotate(-undoping_angle / 2)
     undoped_ring_ref.center = (0, 0)
-    doped_ring_ref.connect("o1", undoped_ring_ref.ports["o1"])
+    doped_ring_ref.connect(
+        gf.port.core_port(doped_ring_ref.ports["o1"]),
+        gf.port.core_port(undoped_ring_ref.ports["o1"]),
+    )
 
     via = gf.get_component(pn_vias, size=(pn_vias_width, pn_vias_width))
     gnd = r << via
@@ -320,11 +347,11 @@ def ring_single_pn(
 
         bottom_l_heater_via = c << heater_vias
         bottom_r_heater_via = c << heater_vias
-        bottom_l_heater_via.xmin = bottom_heater_ref.ports["o1"].x
-        bottom_l_heater_via.ymax = bottom_heater_ref.ports["o1"].y
+        bottom_l_heater_via.xmin = bottom_heater_ref.ports["e1"].x
+        bottom_l_heater_via.ymax = bottom_heater_ref.ports["e1"].y
 
-        bottom_r_heater_via.xmax = bottom_heater_ref.ports["o2"].x
-        bottom_r_heater_via.ymax = bottom_heater_ref.ports["o2"].y
+        bottom_r_heater_via.xmax = bottom_heater_ref.ports["e2"].x
+        bottom_r_heater_via.ymax = bottom_heater_ref.ports["e2"].y
 
         c.add_port(name="heater_sig", port=bottom_l_heater_via["e4"])
         c.add_port(name="heater_gnd", port=bottom_r_heater_via["e4"])

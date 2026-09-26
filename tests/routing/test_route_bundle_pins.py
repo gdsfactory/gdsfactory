@@ -87,7 +87,12 @@ def test_route_bundle_pins_type_mismatch_raises() -> None:
     """Mixing Pins and Ports should raise TypeError."""
     c = gf.Component(name="test_rb_pins_mismatch")
     pin1 = _make_pin(c, "src", (0, 0), ["E"])
-    port2 = gf.Port(name="p2", center=(200, 0), width=0.5, orientation=180, layer=1)
+    port2 = gf.Port(
+        name="p2",
+        center=(200, 0),
+        cross_section=gf.cross_section.strip(width=0.5),
+        orientation=180,
+    )
     with pytest.raises(TypeError):
         route_bundle(c, [pin1], [port2], cross_section="strip")
 
@@ -95,8 +100,18 @@ def test_route_bundle_pins_type_mismatch_raises() -> None:
 def test_route_bundle_ports_still_works() -> None:
     """Existing Port-based routing is unaffected."""
     c = gf.Component(name="test_rb_ports_compat")
-    port1 = gf.Port(name="p1", center=(0, 0), width=0.5, orientation=0, layer=1)
-    port2 = gf.Port(name="p2", center=(200, 0), width=0.5, orientation=180, layer=1)
+    port1 = gf.Port(
+        name="p1",
+        center=(0, 0),
+        cross_section=gf.cross_section.strip(width=0.5),
+        orientation=0,
+    )
+    port2 = gf.Port(
+        name="p2",
+        center=(200, 0),
+        cross_section=gf.cross_section.strip(width=0.5),
+        orientation=180,
+    )
     routes = route_bundle(c, [port1], [port2], cross_section="strip")
     assert len(routes) == 1
 

@@ -316,14 +316,9 @@ def _angle_difference(angle1: float, angle2: float) -> float:
 
 def _flip_port(port: kf.DPort | kf.Port) -> kf.DPort:
     """Return a copy of the port with orientation flipped by 180°."""
-    return kf.DPort(
-        name=port.name,
-        center=(port.x, port.y),
-        orientation=port.orientation + 180,
-        width=port.width,
-        layer=port.layer,
-        port_type=port.port_type,
-    )
+    flipped = port.to_dtype().copy()
+    flipped.orientation += 180
+    return flipped
 
 
 _default_port_matcher = SmartPortMatcher()

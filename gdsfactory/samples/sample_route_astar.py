@@ -9,7 +9,7 @@ gf.gpdk.PDK.activate()
 
 if __name__ == "__main__":
     c = gf.Component()
-    cross_section = gf.get_cross_section("strip", radius=5)
+    cross_section = gf.get_cross_section("strip")
     bend = gf.components.bend_euler
 
     straight = gf.components.straight(cross_section=cross_section)
@@ -37,6 +37,7 @@ if __name__ == "__main__":
         port1=left.ports["o1"],
         port2=right.ports["o2"],
         cross_section=cross_section,
+        radius=5,
         resolution=15,
         distance=12,
         avoid_layers=("M2",),

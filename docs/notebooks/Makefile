@@ -11,7 +11,7 @@ clear:
 	jupytext --clear-metadata *.py
 
 sync:
-	jupytext --to py:percent --test *.py
+	uv run --extra docs jupytext --to py:percent --test *.py
 
 md_to_py:
 	jupytext *.md --to py
@@ -33,4 +33,4 @@ rm_ipynb:
 	rm **/*.ipynb
 
 set:
-	jupytext --to py:percent *.py
+	uv run --extra docs jupytext --to py:percent *.py

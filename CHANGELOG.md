@@ -1,8 +1,6 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v9.51.0...main)
 
-<!-- towncrier release notes start -->
-
 ## [9.51.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v9.51.0) - 2026-09-14
 
 - Preserve multisection cross sections in extend_ports [#4715](https://github.com/gdsfactory/gdsfactory/pull/4715)
