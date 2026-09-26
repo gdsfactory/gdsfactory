@@ -16,6 +16,7 @@ from kfactory.layout import Constants
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
 from gdsfactory import logger
+from gdsfactory._kcl import clear_cache
 from gdsfactory.component import Component, ComponentAllAngle
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, Section
@@ -250,9 +251,19 @@ class Pdk(BaseModel):
         )
 
     def activate(self, force: bool = False) -> None:
-        """Set current pdk to the active pdk (if not already active)."""
+        """Set current pdk to the active pdk (if not already active).
+
+        Activating a different Pdk instance than the active one resets the layout
+        and the cell factory caches, because cell names and cache keys serialize
+        cross-sections and layers to their name and are therefore ambiguous across
+        PDKs. Two Pdk objects that share a name are still different PDKs: the name
+        says nothing about the cross-sections, layers or cells they carry.
+
+        Args:
+            force: re-run the activation even if this PDK is already active.
+        """
         global _ACTIVE_PDK
-        if not force and _ACTIVE_PDK and _ACTIVE_PDK.name == self.name:
+        if not force and _ACTIVE_PDK is self:
             return
 
         logger.debug(f"{self.name!r} PDK {self.version} is now active")
@@ -827,11 +838,22 @@ def get_constant(constant_name: Any) -> Any:
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
 
+    if _ACTIVE_PDK is not None and _ACTIVE_PDK is not pdk:
+        if kf.kcl.kcells:
+            warnings.warn(
+                f"Activating PDK {pdk.name!r} discards the "
+                f"{len(kf.kcl.kcells)} cell(s) built under "
+                f"{_ACTIVE_PDK.name!r}: cell names and cache keys are not "
+                "PDK-scoped. Existing Component objects become unusable.",
+                stacklevel=3,
+            )
+        clear_cache()
+
     if pdk.dbu != kf.kcl.dbu and len(kf.kcl.kcells) > 0:
         raise ValueError(
             f"Cannot change DBU from {kf.kcl.dbu} to {pdk.dbu}: "
-            f"{len(kf.kcl.kcells)} cell(s) already exist on the KCLayout."
-            "Activate the PDK before building any cells."
+            f"{len(kf.kcl.kcells)} cell(s) already exist on the KCLayout. "
+            "Call gf.clear_cache() first, or activate the PDK before building any cells."
         )
 
     _ACTIVE_PDK = pdk
@@ -919,8 +941,8 @@ def _prune_foreign_layers(pdk: Pdk) -> None:
     Reassigning ``kf.kcl.layers``/``infos`` only updates the name bookkeeping, not
     the layout's physical layer slots, so drop any registered layer that is not
     part of the active PDK. Empty layers are removed; layers that already hold
-    geometry are kept so activating a PDK after building cells never silently
-    discards shapes (and the on-demand error layer is always kept).
+    geometry are kept so pruning never orphans shapes (and the on-demand error
+    layer is always kept).
     """
     if pdk.layers is None:
         return
