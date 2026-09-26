@@ -7,6 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.routing.route_bundle import route_bundle, route_bundle_electrical
 from gdsfactory.routing.route_bundle_all_angle import route_bundle_all_angle
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
+from gdsfactory.routing.route_bundle_with_bends import route_bundle_with_bends
 from gdsfactory.typings import Port, Ports, Route, RoutingStrategies, RoutingStrategy
 
 
@@ -43,6 +44,7 @@ def support_nets(func: RoutingStrategy) -> RoutingStrategy:
 routing_strategies: RoutingStrategies = {
     "route_bundle": support_nets(route_bundle),
     "route_bundle_electrical": support_nets(route_bundle_electrical),
+    "route_bundle_with_bends": support_nets(route_bundle_with_bends),
     "route_bundle_all_angle": support_nets(route_bundle_all_angle),
     "route_bundle_sbend": support_nets(route_bundle_sbend),
 }
