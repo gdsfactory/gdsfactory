@@ -672,7 +672,7 @@ def route_bundle(
     if layer_label:
         for route_i in route:
             c.add_label(
-                text=f"{route_i.length * c.kcl.dbu:.3f}",
+                text=f"{c.kcl.to_um(route_i.length):.3f}",
                 layer=layer_label,
                 position=route_i.instances[0].dcenter,
             )
