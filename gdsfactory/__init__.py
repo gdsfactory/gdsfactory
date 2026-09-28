@@ -44,6 +44,7 @@ from gdsfactory.boolean import boolean
 
 from gdsfactory import cross_section
 from gdsfactory import port
+from gdsfactory import component_functions
 from gdsfactory import components
 from gdsfactory import containers
 from gdsfactory import labels
@@ -135,6 +136,7 @@ __all__ = (
     "cell",
     "cell_with_module_name",
     "clear_cache",
+    "component_functions",
     "components",
     "compose",
     "constant",

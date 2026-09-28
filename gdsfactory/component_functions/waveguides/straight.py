@@ -7,14 +7,11 @@ __all__ = ["straight", "straight_all_angle", "straight_array", "wire_straight"]
 from typing import Unpack
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import CrossSectionSpec, ExtrusionPorts
 
-from .._schematic import straight_schematic, wire_schematic
 
-
-@gf.cell_with_module_name(schematic_function=straight_schematic, tags=["waveguides"])
 def straight(
     length: float = 10.0,
     npoints: int = 2,
@@ -37,16 +34,22 @@ def straight(
                 length
     ```
     """
-    return cf.straight(
-        length=length,
-        npoints=npoints,
-        cross_section=cross_section,
-        width=width,
-        **kwargs,
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
+    p = gf.path.straight(length=length, npoints=npoints)
+    ports = {0: ("o1", "o2", kwargs["port_type"])} if "port_type" in kwargs else None
+    c = p.extrude(x, add_bbox=True, ports=ports)
+
+    c.info["length"] = length
+    c.info["width"] = (
+        x.width if len(x.get_sections()) == 0 else x.get_sections()[0].width
     )
+    c.add_route_info(cross_section=x, length=length)
+    return c
 
 
-@gf.vcell
 def straight_all_angle(
     length: float = 10.0,
     npoints: int = 2,
@@ -66,12 +69,21 @@ def straight_all_angle(
                 length
     ```
     """
-    return cf.straight_all_angle(
-        length=length, npoints=npoints, cross_section=cross_section, width=width
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
+    p = gf.path.straight(length=length, npoints=npoints)
+    c = p.extrude(x, all_angle=True, add_bbox=True)
+
+    c.info["length"] = length
+    c.info["width"] = (
+        x.width if len(x.get_sections()) == 0 else x.get_sections()[0].width
     )
+    c.add_route_info(cross_section=x, length=length)
+    return c
 
 
-@gf.cell_with_module_name(tags=["waveguides"])
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,
@@ -88,12 +100,18 @@ def straight_array(
         length: straight length (um).
         cross_section: specification (CrossSection, string or dict).
     """
-    return cf.straight_array(
-        n=n, spacing=spacing, length=length, cross_section=cross_section
-    )
+    c = Component()
+    wg = get_component("straight", cross_section=cross_section, length=length)
+
+    for i in range(n):
+        wref = c.add_ref(wg)
+        wref.y += i * (spacing + wg.info["width"])
+        c.add_ports(wref.ports, prefix=str(i))
+
+    c.auto_rename_ports()
+    return c
 
 
-@gf.cell_with_module_name(schematic_function=wire_schematic, tags=["waveguides"])
 def wire_straight(
     length: float = 10.0,
     npoints: int = 2,
@@ -113,6 +131,16 @@ def wire_straight(
                 length
     ```
     """
-    return cf.wire_straight(
-        length=length, npoints=npoints, cross_section=cross_section, width=width
+    if width is not None:
+        x = gf.get_cross_section(cross_section, width=width)
+    else:
+        x = gf.get_cross_section(cross_section)
+    p = gf.path.straight(length=length, npoints=npoints)
+    c = p.extrude(x, add_bbox=True)
+
+    c.info["length"] = length
+    c.info["width"] = (
+        x.width if len(x.get_sections()) == 0 else x.get_sections()[0].width
     )
+    c.add_route_info(cross_section=x, length=length)
+    return c
