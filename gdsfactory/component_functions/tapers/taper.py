@@ -2,26 +2,19 @@ from __future__ import annotations
 
 __all__ = [
     "taper",
-    "taper_electrical",
     "taper_nc_sc",
     "taper_sc_nc",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
-    "taper_strip_to_slab150",
 ]
 
-from functools import partial
-
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
-from .._schematic import taper_schematic, transition_schematic
 
-
-@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
 def taper(
     length: float = 10.0,
     width1: float = 0.5,
@@ -49,21 +42,88 @@ def taper(
         port_types: input and output port types. Second type only used if with_two_ports.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
     """
-    return cf.taper(
-        length=length,
-        width1=width1,
-        width2=width2,
+    if len(port_types) != 2:
+        raise ValueError("port_types should have two elements")
+
+    x1 = gf.get_cross_section(cross_section, width=width1)
+    if width2:
+        width2 = gf.snap.snap_to_grid2x(width2)
+        x2 = gf.get_cross_section(cross_section, width=width2)
+    else:
+        x2 = x1
+
+    width1 = x1.width
+    width2 = x2.width
+    width_max = max([width1, width2])
+    x = gf.get_cross_section(cross_section, width=width_max)
+    layer = x.layer if layer is None else layer
+    assert layer is not None
+
+    if isinstance(port, gf.Port):
+        width1 = port.width
+
+    width2 = width2 or width1
+    c = gf.Component()
+    y1 = width1 / 2
+    y2 = width2 / 2
+
+    if length:
+        p1 = gf.kdb.DPolygon(
+            [
+                gf.kdb.DPoint(0, y1),
+                gf.kdb.DPoint(length, y2),
+                gf.kdb.DPoint(length, -y2),
+                gf.kdb.DPoint(0, -y1),
+            ]
+        )
+        c.add_polygon(p1, layer=layer)
+
+        for s1, s2 in zip(x1.get_sections()[1:], x2.get_sections()[1:], strict=False):
+            y1 = s1.width / 2
+            y2 = s2.width / 2
+            offset1 = (s1.section_min + s1.section_max) / 2
+            offset2 = (s2.section_min + s2.section_max) / 2
+            p1 = gf.kdb.DPolygon(
+                [
+                    gf.kdb.DPoint(0, offset1 + y1),
+                    gf.kdb.DPoint(length, offset2 + y2),
+                    gf.kdb.DPoint(length, offset2 - y2),
+                    gf.kdb.DPoint(0, offset1 - y1),
+                ]
+            )
+            c.add_polygon(p1, layer=s1.layer)
+
+    if with_bbox:
+        x.add_bbox(c)
+    c.add_port(
+        name=port_names[0],
+        center=(0, 0),
+        width=width1,
+        orientation=180,
         layer=layer,
-        port=port,
-        with_two_ports=with_two_ports,
-        cross_section=cross_section,
-        port_names=port_names,
-        port_types=port_types,
-        with_bbox=with_bbox,
+        cross_section=x1,
+        port_type=port_types[0],
     )
+    if with_two_ports:
+        c.add_port(
+            name=port_names[1],
+            center=(length, 0),
+            width=width2,
+            orientation=0,
+            layer=layer,
+            cross_section=x2,
+            port_type=port_types[1],
+        )
+
+    c.info["length"] = length
+    c.info["width1"] = float(width1)
+    c.info["width2"] = float(width2)
+    for port in c.ports:
+        if port.port_type == "electrical":
+            c.create_pin(ports=[port], name=port.name)
+    return c
 
 
-@gf.cell_with_module_name(schematic_function=transition_schematic, tags=["tapers"])
 def taper_strip_to_ridge(
     length: float = 10.0,
     width1: float = 0.5,
@@ -102,21 +162,54 @@ def taper_strip_to_ridge(
     ```
 
     """
-    return cf.taper_strip_to_ridge(
+    xs = gf.get_cross_section(cross_section)
+
+    taper_wg = get_component(
+        "taper",
         length=length,
         width1=width1,
         width2=width2,
-        w_slab1=w_slab1,
-        w_slab2=w_slab2,
-        layer_wg=layer_wg,
-        layer_slab=layer_slab,
         cross_section=cross_section,
-        use_slab_port=use_slab_port,
-        slab_port_layer=slab_port_layer,
+        layer=layer_wg,
+    )
+    taper_slab = get_component(
+        "taper",
+        length=length,
+        width1=w_slab1,
+        width2=w_slab2,
+        cross_section=cross_section,
+        with_bbox=False,
+        layer=layer_slab,
     )
 
+    c = gf.Component()
+    taper_ref_wg = c << taper_wg
+    taper_ref_slab = c << taper_slab
 
-@gf.cell_with_module_name(schematic_function=transition_schematic, tags=["tapers"])
+    c.info["length"] = length
+    c.add_port(name="o1", port=taper_ref_wg.ports["o1"])
+
+    if slab_port_layer:
+        port = taper_ref_wg.ports["o2"]
+        c.add_port(
+            name="o2",
+            width=port.width,
+            orientation=port.orientation,
+            layer=slab_port_layer,
+            center=port.center,
+        )
+
+    if use_slab_port:
+        c.add_port(name="o2", port=taper_ref_slab.ports["o2"])
+    else:
+        c.add_port(name="o2", port=taper_ref_wg.ports["o2"])
+
+    if length:
+        xs.add_bbox(c)
+    c.flatten()
+    return c
+
+
 def taper_strip_to_ridge_trenches(
     length: float = 10.0,
     width: float = 0.5,
@@ -137,21 +230,33 @@ def taper_strip_to_ridge_trenches(
         layer_wg: waveguide layer.
         trench_offset: after waveguide in um.
     """
-    return cf.taper_strip_to_ridge_trenches(
-        length=length,
-        width=width,
-        slab_offset=slab_offset,
-        trench_width=trench_width,
-        trench_layer=trench_layer,
-        layer_wg=layer_wg,
-        trench_offset=trench_offset,
+    c = gf.Component()
+    y0 = width / 2 + trench_width - trench_offset
+    yL = width / 2 + trench_width - trench_offset + slab_offset
+
+    # straight
+    x = [0, length, length, 0]
+    yw = [y0, yL, -yL, -y0]
+    c.add_polygon(list(zip(x, yw, strict=False)), layer=layer_wg)
+
+    # top trench
+    ymin0 = width / 2
+    yminL = width / 2
+    ymax0 = width / 2 + trench_width
+    ymaxL = width / 2 + trench_width + slab_offset
+    x = [0, length, length, 0]
+    ytt = [ymin0, yminL, ymaxL, ymax0]
+    ytb = [-ymin0, -yminL, -ymaxL, -ymax0]
+    c.add_polygon(list(zip(x, ytt, strict=False)), layer=trench_layer)
+    c.add_polygon(list(zip(x, ytb, strict=False)), layer=trench_layer)
+
+    c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer_wg)
+    c.add_port(
+        name="o2", center=(length, 0), width=width, orientation=0, layer=layer_wg
     )
+    return c
 
 
-taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
-
-
-@gf.cell_with_module_name(schematic_function=transition_schematic, tags=["tapers"])
 def taper_sc_nc(
     width1: float = 0.5,
     width2: float = 1,
@@ -174,19 +279,20 @@ def taper_sc_nc(
         width_tip_silicon: tip width for strip.
         cross_section: cross_section specification.
     """
-    return cf.taper_sc_nc(
-        width1=width1,
-        width2=width2,
-        length=length,
+    return get_component(
+        "taper_strip_to_ridge",
         layer_wg=layer_wg,
-        layer_nitride=layer_nitride,
-        width_tip_nitride=width_tip_nitride,
-        width_tip_silicon=width_tip_silicon,
+        layer_slab=layer_nitride,
+        length=length,
+        width1=width1,
+        width2=width_tip_silicon,
+        w_slab1=width_tip_nitride,
+        w_slab2=width2,
+        use_slab_port=True,
         cross_section=cross_section,
     )
 
 
-@gf.cell_with_module_name(schematic_function=transition_schematic, tags=["tapers"])
 def taper_nc_sc(
     width1: float = 1,
     width2: float = 0.5,
@@ -209,9 +315,11 @@ def taper_nc_sc(
         width_tip_silicon: tip width for strip.
         cross_section: cross_section specification.
     """
-    return cf.taper_nc_sc(
-        width1=width1,
-        width2=width2,
+    c = gf.Component()
+    taper = get_component(
+        "taper_sc_nc",
+        width1=width2,
+        width2=width1,
         length=length,
         layer_wg=layer_wg,
         layer_nitride=layer_nitride,
@@ -219,16 +327,10 @@ def taper_nc_sc(
         width_tip_silicon=width_tip_silicon,
         cross_section=cross_section,
     )
-
-
-taper_electrical = partial(
-    taper,
-    port_types=("electrical", "electrical"),
-    port_names=("e1", "e2"),
-    cross_section="metal_routing",
-)
-
-taper_with_trenches = partial(
-    taper,
-    cross_section="rib_with_trenches",
-)
+    c.copy_child_info(taper)
+    ref = c << taper
+    ref.mirror_x()
+    c.add_ports(ref.ports)
+    c.auto_rename_ports()
+    c.flatten()
+    return c

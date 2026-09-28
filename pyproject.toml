@@ -235,6 +235,7 @@ select = [
 
 [tool.ruff.lint.per-file-ignores]
 "docs/notebooks/*.py" = ["F821", "E402", "F405", "F403", "D103"]
+"gdsfactory/component_functions/*.py" = ["F403", "F405"]  # import *
 "gdsfactory/components/*.py" = ["F403", "F405"]  # import *
 "gdsfactory/generic_tech/*.py" = ["F403", "F405"]  # import *
 "gdsfactory/samples/*.py" = ["N999"]  # module name
