@@ -45,6 +45,9 @@ repos:
     rev: v2.15.0
     hooks:
       - id: pretty-format-toml
+        additional_dependencies:
+          - toml-sort==0.25.0
+          - tomlrt==2.2.12
         args: [--autofix]
         exclude: uv\.lock
   - repo: https://github.com/aristanetworks/j2lint.git

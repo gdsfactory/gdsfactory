@@ -4,6 +4,7 @@ __all__ = ["spiral_inductor"]
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section.utils import get_port_cross_section
 from gdsfactory.typings import LayerSpec
 
 from .._schematic import spiral_schematic
@@ -48,13 +49,10 @@ def spiral_inductor(
     P += gf.path.straight(length=tail)
 
     # Store the path length in component info
-    cross_section = gf.cross_section.cross_section(
-        width=width,
-        layer=layer,
-        port_names=("e1", "e2"),
-        port_types=("electrical", "electrical"),
+    cross_section = get_port_cross_section(width, layer, gf.kcl)
+    c = gf.path.extrude(
+        P, cross_section=cross_section, ports={0: ("e1", "e2", "electrical")}
     )
-    c = gf.path.extrude(P, cross_section=cross_section)
     c.info["length"] = P.length()
     return c
 

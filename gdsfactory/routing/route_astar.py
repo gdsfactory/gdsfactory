@@ -27,7 +27,7 @@ from gdsfactory.typings import (
     Route,
 )
 
-ROUTE_BUNDLE_KWARGS = {"raise_on_error"}
+ROUTE_BUNDLE_KWARGS = {"raise_on_error", "radius"}
 
 
 def get_route_bend_count(route: Route) -> int:
@@ -482,7 +482,8 @@ def route_astar(
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
     blocked_grid = grid == 1
 
-    distance_from_node_to_port = 3 * (cross_section.radius or 3)  # in um
+    radius = route_bundle_kwargs.get("radius", cross_section.radius)
+    distance_from_node_to_port = 3 * (radius or 3)  # in um
 
     if port1.orientation in [0, 180]:
         start_node_coordinates = [
@@ -614,6 +615,7 @@ def route_astar(
                 cross_section=cross_section,
                 bend=bend,
                 raise_on_error=True,
+                radius=radius,
             )
         except Exception:
             continue

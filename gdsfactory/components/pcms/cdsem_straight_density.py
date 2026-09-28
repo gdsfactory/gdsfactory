@@ -18,7 +18,7 @@ def cdsem_straight_density(
     gaps: Floats = gaps,
     length: float = 420.0,
     label: str = "",
-    cross_section: CrossSectionSpec = "strip_no_ports",
+    cross_section: CrossSectionSpec = "strip",
     text: ComponentSpec | None = "text_rectangular",
     text_size: float = 1.0,
 ) -> Component:

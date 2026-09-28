@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import validate_radius
+
 __all__ = ["bend_circular_heater"]
 
 import gdsfactory as gf
@@ -39,29 +41,23 @@ def bend_circular_heater(
     width = x.width
 
     offset = heater_to_wg_distance + width / 2
-    s1 = gf.Section(
-        width=heater_width,
-        offset=+offset,
-        layer=layer_heater,
-    )
-    s2 = gf.Section(
-        width=heater_width,
-        offset=-offset,
-        layer=layer_heater,
-    )
-    sections = list(x.sections) + [s1, s2]
+    s1 = (layer_heater, offset - heater_width / 2, offset + heater_width / 2)
+    s2 = (layer_heater, -offset - heater_width / 2, -offset + heater_width / 2)
+    sections = list(x.get_sections()) + [s1, s2]
 
-    xs = x.copy(sections=tuple(sections))
+    xs = gf.cross_section.cross_section(
+        width=None, sections=sections, radius=x.radius, radius_min=x.radius_min
+    )
     p = arc(radius=radius, angle=angle, npoints=npoints)
 
     c = Component()
-    path = p.extrude(xs)
+    path = p.extrude(xs, ports={0: ("o1", "o2", "optical")})
     ref = c << path
     c.add_ports(ref.ports)
     c.info["length"] = p.length()
     c.info["dx"] = float(abs(p.points[0][0] - p.points[-1][0]))
     c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     if not allow_min_radius_violation:
-        x.validate_radius(radius)
+        validate_radius(x, radius)
     c.flatten()
     return c

@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 requires = ["flit_core>=3.2,<5"]
 
 [project]
-authors = [{name = "gdsfactory community", email = "contact@gdsfactory.com"}]
+authors = [{ name = "gdsfactory community", email = "contact@gdsfactory.com" }]
 classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -31,7 +31,7 @@ dependencies = [
   "toolz<2",
   "types-PyYAML",
   "typer<1",
-  "kfactory[ipy]~=3.0.4",
+  "kfactory[ipy]>=3.2.1,<4",
   "watchdog<7",
   "freetype-py",
   "mapbox_earcut",
@@ -48,11 +48,11 @@ dependencies = [
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
-version = "9.51.0"
+version = "10.0.0rc0"
 
 [project.optional-dependencies]
 bench = ["asv>=0.6,<1"]
@@ -95,8 +95,7 @@ maintainer = [
   "xdoctest",
   "mypy",
   "tbump",
-  "autotyping",
-  "towncrier"
+  "autotyping"
 ]
 
 [project.scripts]
@@ -260,23 +259,6 @@ mypkg = [
 [tool.setuptools.packages]
 find = {}
 
-[tool.tbump]
-
-[[tool.tbump.before_commit]]
-cmd = "towncrier build --yes --version {new_version}"
-name = "create & check changelog"
-
-[[tool.tbump.before_commit]]
-cmd = "git add CHANGELOG.md"
-name = "create & check changelog"
-
-[[tool.tbump.before_commit]]
-cmd = "grep -q -F {new_version} CHANGELOG.md"
-name = "create & check changelog"
-
-[[tool.tbump.file]]
-src = ".github/workflows/release.yml"
-
 [[tool.tbump.file]]
 src = "README.md"
 
@@ -300,54 +282,23 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "9.51.0"
+current = "10.0.0rc0"
 regex = '''
   (?P<major>\d+)
   \.
   (?P<minor>\d+)
   \.
   (?P<patch>\d+)
+  (?:
+    (?P<pre>(a|b|rc)\d+)
+  )?
+  (?:
+    \.post(?P<post>\d+)
+  )?
+  (?:
+    \.dev(?P<dev>\d+)
+  )?
   '''
-
-[tool.towncrier]
-directory = ".changelog.d"
-filename = "CHANGELOG.md"
-issue_format = "[#{issue}](https://github.com/gdsfactory/gdsfactory/issues/{issue})"
-package = "gdsfactory"
-start_string = "<!-- towncrier release notes start -->\n"
-template = ".changelog.d/changelog_template.jinja"
-title_format = "## [{version}](https://github.com/gdsfactory/gdsfactory/releases/tag/v{version}) - {project_date}"
-underlines = ["", "", ""]
-
-[[tool.towncrier.type]]
-directory = "security"
-name = "Security"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "removed"
-name = "Removed"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "deprecated"
-name = "Deprecated"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "added"
-name = "Added"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "changed"
-name = "Changed"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "fixed"
-name = "Fixed"
-showcontent = true
 
 [tool.ty.src]
 exclude = ["gdsfactory/samples"]

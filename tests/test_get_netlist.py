@@ -1,9 +1,46 @@
 from __future__ import annotations
 
+import kfactory as kf
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.get_netlist import PortCenterMatcher, SmartPortMatcher, legacy_namer
+from gdsfactory.get_netlist import (
+    PortCenterMatcher,
+    SmartPortMatcher,
+    _flip_port,
+    legacy_namer,
+)
+
+
+@pytest.mark.parametrize("integer", [False, True])
+@pytest.mark.parametrize("offset", [0.0, 0.1])
+def test_flip_port_preserves_cross_section(
+    kcl: kf.KCLayout, integer: bool, offset: float
+) -> None:
+    """Netlist port flips preserve units, profiles and the owning layout."""
+    xs = gf.cross_section.cross_section(
+        width=0.8, offset=offset, layer=(100, 0), radius=17, kcl=kcl
+    )
+    original = kf.DPort(
+        name="test",
+        cross_section=xs,
+        kcl=kcl,
+        center=(1, 2),
+        orientation=90,
+        mirror_x=True,
+        info={"test": "preserved"},
+    )
+    source = original.to_itype() if integer else original
+    registered = dict(kcl.cross_sections.cross_sections)
+    flipped = _flip_port(source)
+    assert flipped.kcl is kcl
+    assert flipped.cross_section == xs
+    assert flipped.center == original.center
+    assert flipped.orientation == 270
+    assert original.orientation == 90
+    assert flipped.mirror == original.mirror
+    assert flipped.info == original.info
+    assert kcl.cross_sections.cross_sections == registered
 
 
 def test_netlist_simple() -> None:

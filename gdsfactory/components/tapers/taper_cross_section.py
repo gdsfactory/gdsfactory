@@ -54,6 +54,7 @@ def taper_cross_section(
     x1 = gf.get_cross_section(cross_section1)
     x2 = gf.get_cross_section(cross_section2)
 
+    skipped = []
     if exclude_layers:
         layers: list[LayerSpec] = (
             list(exclude_layers)
@@ -63,16 +64,11 @@ def taper_cross_section(
         )
         excluded = {gf.get_layer(layer) for layer in layers}
 
-        def _mark_skip(sections: tuple[gf.Section, ...]) -> tuple[gf.Section, ...]:
-            return tuple(
-                s.model_copy(update={"skip_transition": True})
-                if gf.get_layer(s.layer) in excluded
-                else s
-                for s in sections
-            )
-
-        x1 = x1.model_copy(update={"sections": _mark_skip(x1.sections)})
-        x2 = x2.model_copy(update={"sections": _mark_skip(x2.sections)})
+        skipped = [
+            i
+            for i, s in enumerate(x1.get_sections())
+            if gf.get_layer(s.layer) in excluded
+        ]
 
     if x1 == x2 and not exclude_layers:
         return gf.components.straight(length=length, cross_section=x1)
@@ -86,7 +82,9 @@ def taper_cross_section(
     taper_path = gf.path.straight(length=length, npoints=npoints)
 
     c = gf.Component()
-    ref = c << gf.path.extrude_transition(taper_path, transition=transition)
+    ref = c << gf.path.extrude_transition(
+        taper_path, transition=transition, skip_transition=skipped
+    )
     c.add_ports(ref.ports)
     c.add_route_info(cross_section=x1, length=length, taper=True)
     c.flatten()

@@ -16,7 +16,7 @@ def verniers(
     xsize: float = 100.0,
     layer_label: LayerSpec = "TEXT",
     straight: ComponentSpec = "straight",
-    cross_section: CrossSectionSpec = "strip_no_ports",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
 ) -> Component:
     """Returns a component with verniers.

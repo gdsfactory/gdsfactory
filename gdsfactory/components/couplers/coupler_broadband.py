@@ -96,7 +96,7 @@ def coupler_broadband(
     ]
     c.add_polygon(vertices_bot, layer=layer)
 
-    for section in xs.sections[1:]:
+    for section in xs.get_sections()[1:]:
         w = section.width / 2
         layer_ = section.layer
         assert layer_ is not None

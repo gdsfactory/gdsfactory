@@ -20,9 +20,8 @@ def test_route_bundle_sort_ports(
         gf.Port(
             name=f"R_{i}",
             center=(0, ys_right[i]),
-            width=0.5,
+            cross_section=gf.cross_section.strip(width=0.5, layer=layer),
             orientation=180,
-            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]
@@ -30,9 +29,8 @@ def test_route_bundle_sort_ports(
         gf.Port(
             name=f"L_{i}",
             center=(-400, ys_left[i]),
-            width=0.5,
+            cross_section=gf.cross_section.strip(width=0.5, layer=layer),
             orientation=0,
-            layer=gf.kcl.layout.layer(*layer),
         )
         for i in range(N)
     ]

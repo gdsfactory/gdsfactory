@@ -106,7 +106,6 @@ nbdocs: ## Convert Jupytext Python notebooks to markdown
 			--ExecutePreprocessor.timeout=600 \
 			--ExecutePreprocessor.allow_errors=True \
 			{} --output-dir docs/notebooks
-	rm -f docs/notebooks/*.ipynb
 	uv run python docs/hooks.py docs/notebooks/*.md
 
 docs: nbdocs ## Build documentation

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import validate_radius
+
 __all__ = ["bend_s", "bend_s_offset", "bezier"]
 
 import math
@@ -51,6 +53,7 @@ def bezier(
     bend_radius_error_type: ErrorType | None = None,
     allow_min_radius_violation: bool = False,
     width: float | None = None,
+    width_function: gf.typings.WidthFunction | None = None,
 ) -> Component:
     """Returns Bezier bend.
 
@@ -64,6 +67,7 @@ def bezier(
         bend_radius_error_type: error type.
         allow_min_radius_violation: bool.
         width: width to use. Defaults to cross_section.width.
+        width_function: optional main-strip width along the extruded path.
     """
     if width:
         xs = gf.get_cross_section(cross_section, width=width)
@@ -78,7 +82,7 @@ def bezier(
         path.start_angle = start_angle or snap_angle(path.start_angle)
         path.end_angle = end_angle or snap_angle(path.end_angle)
 
-    c = path.extrude(xs)
+    c = path.extrude(xs, width_function=width_function, add_bbox=True)
     curv = curvature(path_points, t)
     length = path.length()
     if max(np.abs(curv)) == 0:
@@ -98,9 +102,8 @@ def bezier(
     )
 
     if not allow_min_radius_violation:
-        xs.validate_radius(min_bend_radius, bend_radius_error_type)
+        validate_radius(xs, min_bend_radius, bend_radius_error_type)
 
-    xs.add_bbox(c)
     return c
 
 
@@ -291,7 +294,7 @@ def bend_s_offset(
     radius = radius or xs.radius
     assert radius is not None, "radius cannot be None"
 
-    xs.validate_radius(radius)
+    validate_radius(xs, radius)
     angle, middle_length = _get_euler_sbend_angle_middle_length_from_jog(
         jog=abs(offset) / 2, radius=radius, p=p, use_eff=with_arc_floorplan
     )

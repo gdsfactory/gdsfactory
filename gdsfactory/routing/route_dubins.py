@@ -22,6 +22,7 @@ def route_dubins(
     port1: Port,
     port2: Port,
     cross_section: CrossSectionSpec,
+    radius: float | None = None,
 ) -> OpticalAllAngleRoute:
     """Route between ports using Dubins paths with radius from cross-section.
 
@@ -30,6 +31,7 @@ def route_dubins(
         port1: input port.
         port2: output port.
         cross_section: cross-section.
+        radius: routing bend radius (um), defaults to the profile's radius.
     """
     # Get start position and orientation
     x1, y1 = port1.center
@@ -44,9 +46,9 @@ def route_dubins(
 
     xs = gf.get_cross_section(cross_section)
     # Find the Dubins path between ports using radius from cross-section
-    path = dubins_path(start=START, end=END, cross_section=xs)  # Convert radius to um
+    path = dubins_path(start=START, end=END, cross_section=xs, radius=radius)
     instances = place_dubins_path(component, xs, port1, solution=path)
-    length = dubins_path_length(START, END, xs)
+    length = sum(length for _, length, _ in path)
 
     backbone = [gf.kdb.DPoint(x1, y1), gf.kdb.DPoint(x2, y2)]  # TODO: fix this
     return OpticalAllAngleRoute(
@@ -163,6 +165,7 @@ def dubins_path(
     start: tuple[float, float, float],
     end: tuple[float, float, float],
     cross_section: CrossSectionSpec,
+    radius: float | None = None,
 ) -> list[tuple[str, float, float]]:
     """Finds the Dubins path between two points."""
     xs = gf.get_cross_section(cross_section)
@@ -174,7 +177,7 @@ def dubins_path(
     eyaw = m.radians(eyaw)
 
     # Use radius in um
-    c = xs.radius  # Already converted to um
+    c = xs.radius if radius is None else radius
 
     assert c is not None, "Cross-section radius is None"
 
@@ -277,10 +280,11 @@ def place_dubins_path(
 
     for mode, length, radius in solution:
         if mode == "L":
-            # Length and radius are in um, convert to nm for gdsfactory
             arc_angle = 180 * length / (m.pi * radius)
             bend = c.add_ref_off_grid(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+                bend_circular_all_angle(
+                    angle=arc_angle, radius=radius, cross_section=xs
+                )
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]
@@ -289,7 +293,9 @@ def place_dubins_path(
         elif mode == "R":
             arc_angle = -(180 * length / (m.pi * radius))
             bend = c.add_ref_off_grid(
-                bend_circular_all_angle(angle=arc_angle, cross_section=xs)
+                bend_circular_all_angle(
+                    angle=arc_angle, radius=radius, cross_section=xs
+                )
             )
             bend.connect("o1", current_position)
             current_position = bend.ports["o2"]

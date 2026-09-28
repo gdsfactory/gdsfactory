@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from gdsfactory.cross_section.utils import validate_radius
+
 __all__ = ["bend_euler", "bend_euler180", "bend_euler_all_angle", "bend_euler_s"]
 
 import warnings
@@ -130,11 +132,13 @@ def _bend_euler(
     c.info["width"] = float(width or x.width)
 
     if not allow_min_radius_violation:
-        x.validate_radius(radius)
+        validate_radius(x, radius)
 
-    top = None if int(angle) in {180, -180, -90} else 0
-    bottom = 0 if int(angle) in {-90} else None
-    x.add_bbox(c, top=top, bottom=bottom)
+    x.add_bbox(
+        c,
+        top=None if int(angle) in {180, -180, -90} else 0,
+        bottom=0 if int(angle) == -90 else None,
+    )
     c.add_route_info(
         cross_section=x,
         length=c.info["length"],

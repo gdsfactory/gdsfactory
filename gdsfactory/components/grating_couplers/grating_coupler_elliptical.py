@@ -153,6 +153,7 @@ def grating_coupler_elliptical(
         width=wg_width,
         orientation=180,
         layer=layer,
+        cross_section=xs,
         port_type="optical",
     )
 

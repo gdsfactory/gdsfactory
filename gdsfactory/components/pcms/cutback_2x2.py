@@ -30,16 +30,12 @@ def _bendu_double(
     radius = xs.radius
     assert radius is not None
 
-    xs_r2 = gf.get_cross_section(
-        cross_section,
-        radius=radius - (component.ports[port1].y - component.ports[port2].y),
-    )
-
     bendu = Component()
     bend_r = bendu << gf.get_component(bend180, cross_section=xs)
     bend_r2 = bendu << gf.get_component(
         bend180,
-        cross_section=xs_r2,
+        cross_section=xs,
+        radius=radius - (component.ports[port1].y - component.ports[port2].y),
     )
     bend_r2_instance = bend_r2.move(
         (0, component.ports[port1].y - component.ports[port2].y),

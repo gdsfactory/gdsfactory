@@ -12,6 +12,7 @@ from keyword import iskeyword
 from typing import Any, overload
 
 import attrs
+import kfactory as kf
 import numpy as np
 import orjson
 import pydantic
@@ -93,7 +94,13 @@ def clean_value_json(
         serialize_function_as_dict: serialize function as dict. False serializes as string.
         serialization_max_digits: maximum number of digits for float serialization.
     """
+    from gdsfactory.cross_section import CrossSection
     from gdsfactory.path import Path
+
+    if isinstance(value, CrossSection):
+        return value.name
+    if isinstance(value, kf.kdb.LayerInfo):
+        return value.name or (value.layer, value.datatype)
 
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(
