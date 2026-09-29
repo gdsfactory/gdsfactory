@@ -99,7 +99,6 @@ if TYPE_CHECKING:
     from gdsfactory.technology.layer_views import LayerViews
     from gdsfactory.typings import (
         AngleInDegrees,
-        AnyComponent,
         ComponentSpec,
         Coordinates,
         CornerMode,
@@ -455,7 +454,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         for key, value in kwargs.items():
             info[f"route_info_{key}"] = value
 
-    def copy_child_info(self, component: kf.ProtoTKCell[Any]) -> None:
+    def copy_child_info(self, component: kf.kcell.AnyKCell) -> None:
         """Copy and settings info from child component into parent.
 
         Parent components can access child cells settings.
@@ -654,7 +653,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         )
 
     def add_ref_off_grid(
-        self, component: AnyComponent, name: str | None = None
+        self, component: kf.kcell.AnyKCell, name: str | None = None
     ) -> VInstance:
         """Adds a component instance reference to a Component without snapping to grid.
 
