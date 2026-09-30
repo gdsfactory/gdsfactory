@@ -162,11 +162,11 @@ def via_stack(
                 auto_rename_ports=False,
             )
             if multiple_port_layers:
-                layer_name = (
-                    layer_index.name
-                    if hasattr(layer_index, "name")
-                    else f"{layer_index[0]}_{layer_index[1]}"
-                )
+                if hasattr(layer_index, "name"):
+                    layer_name = layer_index.name
+                else:
+                    layer, datatype = gf.get_layer_tuple(layer_index)
+                    layer_name = f"{layer}_{datatype}"
                 for port in ref.ports:
                     c.add_port(name=f"{port.name}_{layer_name}", port=port)
             else:

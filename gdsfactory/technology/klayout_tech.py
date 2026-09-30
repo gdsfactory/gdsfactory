@@ -133,8 +133,9 @@ class KLayoutTechnology(BaseModel):
             ET.SubElement(mebes, k).text = v
 
         reader_opts = root.find("reader-options")
-        if reader_opts is not None:
-            lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))  # type: ignore[arg-type]
+        lefdef = reader_opts.find("lefdef") if reader_opts is not None else None
+        if reader_opts is not None and lefdef is not None:
+            lefdef_idx = list(reader_opts).index(lefdef)
             reader_opts.insert(lefdef_idx + 1, mebes)
 
         # FIXME
