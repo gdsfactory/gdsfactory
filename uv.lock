@@ -1101,7 +1101,7 @@ wheels = [
 
 [[package]]
 name = "gdsfactory"
-version = "9.50.0"
+version = "9.51.0"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
@@ -1195,7 +1195,7 @@ requires-dist = [
     { name = "autotyping", marker = "extra == 'maintainer'" },
     { name = "doc8", marker = "extra == 'maintainer'" },
     { name = "freetype-py" },
-    { name = "gplugins", extras = ["devsim", "femwell", "gmsh", "meow", "sax", "schematic", "tidy3d"], marker = "extra == 'full'", specifier = ">=1.1,<3.0" },
+    { name = "gplugins", extras = ["devsim", "femwell", "meow", "sax", "schematic", "tidy3d"], marker = "extra == 'full'", specifier = ">=1.1,<3.0" },
     { name = "graphviz" },
     { name = "hypothesis", marker = "extra == 'dev'" },
     { name = "ipykernel" },
