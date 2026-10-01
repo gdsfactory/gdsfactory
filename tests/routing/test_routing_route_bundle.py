@@ -512,3 +512,23 @@ def test_route_bundle_width() -> None:
     )
     expected_length = 53274.356
     assert route[0].length == expected_length, route[0].length
+
+
+def test_route_bundle_layer_label_in_um() -> None:
+    c = gf.Component()
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.dmove((100, 40))
+    routes = route_bundle(
+        c,
+        [c1.ports["o3"], c1.ports["o4"]],
+        [c2.ports["o2"], c2.ports["o1"]],
+        separation=5.0,
+        cross_section="strip",
+        sort_ports=True,
+        layer_label="TEXT",
+    )
+
+    labels = sorted(float(t.string) for t in c.get_labels("TEXT", recursive=False))
+    lengths_um = sorted(route.length * c.kcl.dbu for route in routes)
+    assert np.allclose(labels, lengths_um), labels

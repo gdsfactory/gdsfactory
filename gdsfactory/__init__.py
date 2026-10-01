@@ -43,6 +43,7 @@ from gdsfactory.cross_section import (
 from gdsfactory.difftest import DiffResult, LayerDiff, difftest, diff
 from gdsfactory.boolean import boolean
 
+from gdsfactory import config
 from gdsfactory import cross_section
 from gdsfactory import port
 from gdsfactory import components
@@ -133,6 +134,7 @@ __all__ = (
     "clear_cache",
     "components",
     "compose",
+    "config",
     "constant",
     "container",
     "containers",
