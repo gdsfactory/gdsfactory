@@ -32,6 +32,13 @@ def test_component_copy() -> None:
     )
 
 
+def test_component_to_dict_can_include_none_settings() -> None:
+    component = gf.components.straight(width=None)
+
+    assert "width" not in component.to_dict()["settings"]
+    assert component.to_dict(exclude_none=False)["settings"]["width"] is None
+
+
 def test_component_all_angle_copy() -> None:
     c1 = gf.components.straight_all_angle(length=10)
     c2 = c1.dup()
