@@ -17,9 +17,9 @@ def to_kdb_dpoints(
         point
         if isinstance(point, kdb.DPoint)
         else (
-            kdb.DPoint(point[0], point[1])
-            if isinstance(point, tuple)
-            else kdb.DPoint(point.x, point.y)
+            kdb.DPoint(point.x, point.y)
+            if isinstance(point, kdb.Point)
+            else kdb.DPoint(point[0], point[1])
         )
         for point in points
     ]

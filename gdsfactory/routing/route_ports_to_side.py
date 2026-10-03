@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Literal, cast
+from typing import Any, Literal
 
 import kfactory as kf
 import numpy as np
@@ -35,8 +35,8 @@ def route_ports_to_side(
     cross_section: CrossSectionSpec,
     ports: Ports | None = None,
     side: Literal["north", "east", "south", "west"] = "north",
-    x: float | None | Literal["east", "west"] = None,
-    y: float | None | Literal["north", "south"] = None,
+    x: float | Literal["east", "west"] | None = None,
+    y: float | Literal["north", "south"] | None = None,
     **kwargs: Any,
 ) -> tuple[list[ManhattanRoute], list[kf.DPort]]:
     """Routes ports to a given side.
@@ -88,9 +88,6 @@ def route_ports_to_side(
 
     if side in {"north", "south"}:
         y_value = y if y is not None else side
-        if isinstance(y_value, str):
-            y_value = cast("Literal['north', 'south']", y_value)
-        side = cast("Literal['north', 'south']", side)
         return route_ports_to_y(
             component=component,
             ports=ports,
@@ -100,8 +97,7 @@ def route_ports_to_side(
             **kwargs,
         )
     if side in {"east", "west"}:
-        x_value = x if x is not None else cast("Literal['east', 'west']", side)
-        side = cast("Literal['west', 'east']", side)
+        x_value = x if x is not None else side
         return route_ports_to_x(
             component=component,
             ports=ports,

@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import cast
 
 import shapely
+import shapely.ops
 from kfactory import LayerEnum
 from trimesh.scene.scene import Scene
 

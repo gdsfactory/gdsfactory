@@ -16,7 +16,6 @@ import sys
 import threading
 import time
 import traceback
-from types import SimpleNamespace
 
 import kfactory as kf
 from IPython.terminal.embed import embed
@@ -344,8 +343,8 @@ def watch(
             for fn in fns:
                 path = os.path.join(root, fn)
                 if path.endswith((".py", ".pic.yml")):
-                    event = SimpleNamespace(is_directory=False, src_path=path)
-                    watcher.on_created(event)  # type: ignore
+                    event = FileCreatedEvent(path)
+                    watcher.on_created(event)
 
     logger.info(
         f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"

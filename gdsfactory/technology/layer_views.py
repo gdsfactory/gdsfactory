@@ -733,7 +733,7 @@ class LayerView(BaseModel):
         if name is None:
             return None
 
-        hatch_pattern = element.find("dither-pattern").text  # type: ignore[union-attr]
+        hatch_pattern = getattr(element.find("dither-pattern"), "text", None)
         # Translate KLayout index to hatch name
         if hatch_pattern and re.match(r"I\d+", hatch_pattern):
             hatch_pattern = list(_klayout_dither_patterns.keys())[
