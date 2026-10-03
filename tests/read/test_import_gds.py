@@ -38,6 +38,56 @@ def test_import_gds_hierarchy() -> None:
     assert c.name == c0.name, c.name
 
 
+def test_import_gds_renames_active_layout_conflict(tmp_path: Path) -> None:
+    """Rename a top cell that conflicts after copying into the active layout."""
+    gf.clear_cache()
+    gdspath = tmp_path / "shared_name.gds"
+    source = gf.Component("shared_name")
+    source.add_polygon([(0, 0), (1, 0), (1, 1)], layer=(1, 0))
+    source.write_gds(gdspath)
+
+    gf.clear_cache()
+    existing = gf.Component("shared_name")
+    original_debug_names = kf.config.debug_names
+    try:
+        kf.config.debug_names = True
+        imported = import_gds(gdspath, rename_duplicated_cells=True)
+    finally:
+        kf.config.debug_names = original_debug_names
+
+    assert existing.name == "shared_name"
+    assert imported.name == "shared_name$1"
+    assert not imported.bbox().empty()
+
+
+def test_import_gds_renames_active_layout_subcell_conflict(tmp_path: Path) -> None:
+    """Rename a conflicting child without modifying the active-layout cell."""
+    gf.clear_cache()
+    gdspath = tmp_path / "hierarchy.gds"
+    source_child = gf.Component("shared_child")
+    source_child.add_polygon([(0, 0), (2, 0), (2, 2)], layer=(1, 0))
+    source_top = gf.Component("source_top")
+    source_top.add_ref(source_child, name="child")
+    source_top.write_gds(gdspath)
+
+    gf.clear_cache()
+    existing_child = gf.Component("shared_child")
+    existing_child.add_polygon([(0, 0), (10, 0), (10, 10)], layer=(2, 0))
+    original_debug_names = kf.config.debug_names
+    try:
+        kf.config.debug_names = True
+        imported = import_gds(gdspath, rename_duplicated_cells=True)
+    finally:
+        kf.config.debug_names = original_debug_names
+
+    imported_child = imported.insts["child"].cell
+    assert imported.name == "source_top"
+    assert existing_child.name == "shared_child"
+    assert existing_child.bbox() == kf.kdb.DBox(0, 0, 10, 10)
+    assert imported_child.name == "shared_child$1"
+    assert imported_child.bbox() == kf.kdb.DBox(0, 0, 2, 2)
+
+
 @pytest.mark.parametrize("reader", [import_gds, import_gds_multiple_top_cells])
 def test_import_gds_cleans_up_temp_kcl_on_read_error(
     tmp_path: Path, reader: Callable[..., object]
