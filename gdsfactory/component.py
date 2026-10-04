@@ -692,6 +692,64 @@ class Component(ComponentBase, kf.DKCell):
 
     routes: dict[str, Route] = Field(default_factory=dict)
 
+    @override
+    def flatten(self, merge: bool = True) -> None:
+        """Flatten the component, including virtual instances below the top level.
+
+        Args:
+            merge: Merge the shapes on all layers.
+        """
+        if self.locked:
+            raise LockedError(self)
+
+        def collect(
+            cell: kf.kcell.ProtoTKCell[Any] | kf.VKCell,
+            transform: kdb.DCplxTrans,
+            insert_direct: bool = True,
+        ) -> None:
+            if isinstance(cell, kf.VKCell):
+                # The base flatten already copies virtual-to-virtual branches.
+                for instance in cell.insts:
+                    collect(instance.cell, transform * instance.trans)
+                return
+
+            def collect_direct(
+                parent: kf.kcell.ProtoTKCell[Any],
+                parent_transform: kdb.DCplxTrans,
+                insert: bool,
+            ) -> None:
+                for virtual in parent.vinsts:
+                    if insert:
+                        virtual.insert_into_flat(self, trans=parent_transform)
+                    collect(virtual.cell, parent_transform * virtual.trans)
+
+            targets = [
+                index
+                for index in cell.called_cells()
+                if index in cell.kcl.tkcells and cell.kcl[index].vinsts
+            ]
+            descendants = []
+            if targets:
+                iterator = cell.kdb_cell.begin_instances_rec()
+                iterator.targets = targets
+                # Exhaust the iterator before writing: it locks the layout.
+                # Each delivered element includes its real-array transform.
+                descendants = [
+                    (
+                        cell.kcl[item.inst_cell().cell_index()],
+                        transform * item.dtrans() * item.inst_dtrans(),
+                    )
+                    for item in iterator.each()
+                ]
+            collect_direct(cell, transform, insert_direct)
+            for child, child_transform in descendants:
+                collect_direct(child, child_transform, True)
+
+        # Copy missing geometry to this component without modifying shared or
+        # locked descendants. Top-level virtual instances remain the base's job.
+        collect(self, kdb.DCplxTrans(), insert_direct=False)
+        super().flatten(merge=merge)
+
     def dup(self, new_name: str | None = None) -> Self:
         """Copy the full cell.
 
