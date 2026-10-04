@@ -299,6 +299,51 @@ dbr.draw_ports()
 dbr
 
 # %% [markdown]
+# ### Resizing an existing array
+#
+# Create an array with `Component.add_ref()`, then resize it using
+# [na](https://gdsfactory.github.io/kfactory/3.0.0/reference/instance/#kfactory.instance.ProtoTInstance.na)
+# (columns) and [nb](https://gdsfactory.github.io/kfactory/3.0.0/reference/instance/#kfactory.instance.ProtoTInstance.nb)
+# (rows). The parent component holds one array reference.
+
+# %%
+array_container = gf.Component()
+pad = gf.components.pad()
+array_ref = array_container.add_ref(
+    pad,
+    columns=2,
+    rows=2,
+    column_pitch=150,
+    row_pitch=150,
+)
+array_container.plot()
+
+# %% [markdown]
+# Grow the same reference from 2 by 2 to 3 by 3, keeping its pitches and pad cell.
+
+# %%
+array_ref.na += 1  # Add one column.
+array_ref.nb = 3  # Use three rows.
+
+assert (array_ref.na, array_ref.nb) == (3, 3)
+assert len(array_container.insts) == 1
+array_container.plot()
+
+# %% [markdown]
+# Each increment adds a whole column or row. Export ports after resizing;
+# ports already copied to the parent do not update automatically.
+
+# %%
+array_container.add_ports(array_ref.ports)
+
+# %% [markdown]
+# - Resize while the parent is editable. `gf.components.array()` returns a cached,
+#   locked component.
+# - Start with at least two repetitions in one direction and nonzero pitches in
+#   directions you plan to grow. `add_ref(columns=1, rows=1)` creates a single
+#   instance and does not retain the pitches.
+
+# %% [markdown]
 # ## Connect references
 #
 # We have seen that once you create a reference you can manipulate the reference to move it to a location. Here we are going to connect that reference to a port. Remember that we follow that a certain reference `source` connects to a `destination` port.

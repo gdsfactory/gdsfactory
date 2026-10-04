@@ -28,6 +28,7 @@ from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
+from gdsfactory.routing.utils import get_default_bend, validate_bend90
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -171,7 +172,7 @@ def route_bundle(
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec | None = None,
     sort_ports: bool = False,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -222,7 +223,9 @@ def route_bundle(
             Required unless both layer and route_width are given. Mutually exclusive with layer.
         layer: layer to use for the route. Requires route_width. Mutually exclusive with cross_section.
         separation: bundle separation (center to center) in um.
-        bend: function for the bend. Defaults to euler.
+        bend: function for the bend. If None, follows the type of the ports being
+            routed: wire_corner for an electrical route (wire_corner_sections for a
+            multi-section one), bend_euler otherwise.
         sort_ports: sort port coordinates.
         start_straight_length: minimum straight length in um after the start ports.
         end_straight_length: minimum straight length in um before the end ports.
@@ -270,7 +273,7 @@ def route_bundle(
         constraints: list of kfactory routing constraints (``kf.schematic.Constraint`` \
             instances, e.g. ``kf.schematic.PathLengthMatch``) passed through to \
             kfactory. Mutually exclusive with ``path_length_matching_config``.
-        layer_label: layer to place length labels on the route.
+        layer_label: layer to place length labels (in um) on the route.
         port1: deprecated, use ports1. Single start port for single-port routing.
         port2: deprecated, use ports2. Single end port for single-port routing.
         name: Name for the route. This is not important yet, but once constraints are implemented, the constraint, depending
@@ -395,6 +398,19 @@ def route_bundle(
     width = route_width or xs.width
 
     radius = radius or xs.radius
+
+    default_bend = get_default_bend(port_type, xs)
+    if bend is None:
+        bend = default_bend
+    bend90 = (
+        bend
+        if isinstance(bend, gf.Component)
+        else gf.get_component(
+            bend, cross_section=cross_section, radius=radius, width=width
+        )
+    )
+    validate_bend90(bend90, port_type, default_bend)
+
     taper_cell = gf.get_component(taper) if taper else None
 
     if collision_check_layers:
@@ -532,14 +548,6 @@ def route_bundle(
     if waypoints_ is not None and len(waypoints_) >= 2:
         waypoints_ = _ensure_manhattan_waypoints(waypoints_, start_port=ports1_[0])
 
-    bend90 = (
-        bend
-        if isinstance(bend, gf.Component)
-        else gf.get_component(
-            bend, cross_section=cross_section, radius=radius, width=width
-        )
-    )
-
     def straight_um(width: float, length: float) -> gf.Component:
         return gf.get_component(
             straight, length=length, cross_section=cross_section, width=width
@@ -672,7 +680,7 @@ def route_bundle(
     if layer_label:
         for route_i in route:
             c.add_label(
-                text=f"{route_i.length:.3f}",
+                text=f"{c.kcl.to_um(route_i.length):.3f}",
                 layer=layer_label,
                 position=route_i.instances[0].dcenter,
             )

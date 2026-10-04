@@ -1,9 +1,13 @@
 import pytest
 
+import gdsfactory as gf
 from gdsfactory.routing.utils import (
+    BendPortTypeError,
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
+    get_default_bend,
     get_list_ports_angle,
+    validate_bend90,
 )
 from gdsfactory.typings import Port
 
@@ -219,3 +223,46 @@ def test_get_list_ports_angle() -> None:
     ]
     with pytest.raises(ValueError, match="All port angles should be the same"):
         get_list_ports_angle(ports_different)
+
+
+@pytest.mark.parametrize(
+    ("port_type", "cross_section", "expected"),
+    [
+        ("electrical", "metal_routing", "wire_corner"),
+        ("electrical", "gs", "wire_corner_sections"),
+        ("optical", "strip", "bend_euler"),
+        # Optical, even though it has an electrical heater section.
+        ("optical", "strip_heater_metal", "bend_euler"),
+        ("vertical_te", "strip", "bend_euler"),
+    ],
+)
+def test_get_default_bend(port_type: str, cross_section: str, expected: str) -> None:
+    xs = gf.get_cross_section(cross_section)
+    assert get_default_bend(port_type, xs) == expected
+
+
+def test_validate_bend90() -> None:
+    validate_bend90(
+        gf.get_component("bend_euler", cross_section="strip"), "optical", "bend_euler"
+    )
+    validate_bend90(
+        gf.get_component("wire_corner", cross_section="metal_routing"),
+        "electrical",
+        "wire_corner",
+    )
+
+
+def test_validate_bend90_wrong_port_type() -> None:
+    corner = gf.get_component("wire_corner", cross_section="strip")
+    with pytest.raises(BendPortTypeError, match="0 'optical' ports") as excinfo:
+        validate_bend90(corner, "optical", "bend_euler")
+    assert "Use bend='bend_euler'" in str(excinfo.value)
+    assert "['electrical', 'electrical']" in str(excinfo.value)
+
+
+def test_validate_bend90_default_is_not_suggested() -> None:
+    # bend_euler takes the port types of the metal cross-section it is drawn with.
+    bend = gf.get_component("bend_euler", cross_section="metal_routing")
+    with pytest.raises(BendPortTypeError, match="0 'optical' ports") as excinfo:
+        validate_bend90(bend, "optical", "bend_euler")
+    assert "Use bend=" not in str(excinfo.value)

@@ -20,6 +20,7 @@ from kfactory import DSchematic as Schematic
 from kfactory import DPin, ProtoPin
 
 from gdsfactory._cell import cell, vcell, cell_with_module_name, schematic_cell
+from gdsfactory._kcl import clear_cache
 from gdsfactory.path import Path
 from gdsfactory.component import (
     Component,
@@ -42,6 +43,7 @@ from gdsfactory.cross_section import (
 from gdsfactory.difftest import DiffResult, LayerDiff, difftest, diff
 from gdsfactory.boolean import boolean
 
+from gdsfactory import config
 from gdsfactory import cross_section
 from gdsfactory import port
 from gdsfactory import components
@@ -96,11 +98,6 @@ if sys.version_info[:2] == (3, 10):
     )
 
 
-def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
-    """Clears the whole layout object cache for the default layout."""
-    kcl.clear_kcells()
-
-
 __all__ = (
     "CONF",
     "PATH",
@@ -137,6 +134,7 @@ __all__ = (
     "clear_cache",
     "components",
     "compose",
+    "config",
     "constant",
     "container",
     "containers",
