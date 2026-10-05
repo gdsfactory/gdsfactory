@@ -116,3 +116,19 @@ def test_fallback_to_gf_components_warns(restore_pdk: None) -> None:
 def test_unknown_component_raises() -> None:
     with pytest.raises(ValueError, match="not in PDK"):
         cf.get_component("does_not_exist")
+
+
+def test_pdk_override_applies_inside_mzis(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.mzi_lattice())
+    assert not _has_marker(gf.components.mzi_lattice_mmi())
+    assert not _has_marker(gf.components.mzi_pads_center())
+    assert not _has_marker(gf.components.mzit())
+    assert not _has_marker(gf.components.mzit_lattice())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    assert _has_marker(gf.components.mzi_lattice())
+    assert _has_marker(gf.components.mzi_lattice_mmi())
+    assert _has_marker(gf.components.mzi_pads_center())
+    assert _has_marker(gf.components.mzit())
+    assert _has_marker(gf.components.mzit_lattice())
