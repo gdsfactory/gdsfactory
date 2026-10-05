@@ -30,6 +30,7 @@ def _spec_name(component: ComponentSpec) -> str | None:
 
 def get_component(
     component: ComponentSpec,
+    /,
     settings: Mapping[str, Any] | None = None,
     **kwargs: Any,
 ) -> Component:
@@ -40,6 +41,10 @@ def get_component(
     this falls back to the ``gdsfactory.components`` cell of the same name and
     issues a ``ComponentFallbackWarning``.
 
+    ``component`` is positional-only, so containers can take their own
+    ``component`` setting as a keyword, e.g.
+    ``get_component("array", component=pad, columns=3)``.
+
     Args:
         component: Component, ComponentFactory, string or dict.
         settings: settings to override.
@@ -49,13 +54,14 @@ def get_component(
 
     pdk = get_active_pdk()
     name = _spec_name(component)
+    overrides = {**kwargs, **(settings or {})}
 
     if name is None or name in pdk.cells or name in pdk.containers:
-        return pdk.get_component(component, settings=settings, **kwargs)
+        return pdk.get_component(component, settings=overrides)
 
     factory = getattr(gdsfactory.components, name, None)
     if not callable(factory):
-        return pdk.get_component(component, settings=settings, **kwargs)
+        return pdk.get_component(component, settings=overrides)
 
     warnings.warn(
         f"{name!r} is not in PDK {pdk.name!r}. Falling back to "
@@ -67,5 +73,5 @@ def get_component(
     merged: dict[str, Any] = {}
     if isinstance(component, dict):
         merged.update(component.get("settings", {}))
-    merged.update(settings or {})
-    return pdk.get_component(factory, settings=merged, **kwargs)
+    merged.update(overrides)
+    return pdk.get_component(factory, settings=merged)

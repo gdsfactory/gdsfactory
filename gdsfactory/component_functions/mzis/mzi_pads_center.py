@@ -81,8 +81,7 @@ def mzi_pads_center(
 
     m = c << mzi_ps
     pads = c << get_component(
-        "array",
-        settings=dict(component=pad, columns=3, rows=1, column_pitch=pad_pitch),
+        "array", component=pad, columns=3, rows=1, column_pitch=pad_pitch
     )
     pads.x = m.x
     pads.y = m.y

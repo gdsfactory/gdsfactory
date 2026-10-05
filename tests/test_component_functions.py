@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import inspect
 from collections.abc import Callable, Iterator
 from typing import Any
@@ -135,6 +136,35 @@ def test_fallback_to_gf_components_warns(restore_pdk: None) -> None:
         )
     assert taper.info["length"] == 5
     assert taper.info["width2"] == 2
+
+
+def test_get_component_takes_component_setting() -> None:
+    """Containers can get their own ``component`` setting as a keyword."""
+    c = cf.get_component("array", component="straight", columns=2)
+    assert c.settings["component"] == "straight"
+    assert c.settings["columns"] == 2
+
+
+@pytest.mark.parametrize("fallback", [False, True])
+def test_get_component_settings_precedence(restore_pdk: None, fallback: bool) -> None:
+    """Spec settings, then kwargs, then settings, with or without fallback."""
+    if fallback:
+        _activate_pdk(
+            "missing_taper", {k: v for k, v in PDK.cells.items() if k != "taper"}
+        )
+        warns = pytest.warns(cf.ComponentFallbackWarning)
+    else:
+        warns = contextlib.nullcontext()
+    spec = {"component": "taper", "settings": {"length": 5, "width2": 2}}
+
+    with warns:
+        taper = cf.get_component(spec, length=7)
+    assert taper.info["length"] == 7
+    assert taper.info["width2"] == 2
+
+    with warns:
+        taper = cf.get_component(spec, settings={"length": 9}, length=7)
+    assert taper.info["length"] == 9
 
 
 def test_unknown_component_raises() -> None:
