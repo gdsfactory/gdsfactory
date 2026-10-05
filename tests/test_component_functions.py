@@ -186,3 +186,20 @@ def test_pdk_override_applies_inside_bends(restore_pdk: None) -> None:
     # bend_s used to call bezier and gf.components.straight directly.
     assert _has_marker(gf.components.bend_s())
     assert _has_marker(gf.components.bend_s(size=(10, 0)))
+
+
+def test_pdk_override_applies_inside_tapers(restore_pdk: None) -> None:
+    assert not _has_marker(
+        gf.components.taper_cross_section(
+            cross_section1="strip", cross_section2="strip"
+        )
+    )
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # taper_cross_section used to call gf.components.straight directly.
+    assert _has_marker(
+        gf.components.taper_cross_section(
+            cross_section1="strip", cross_section2="strip"
+        )
+    )
