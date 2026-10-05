@@ -112,3 +112,35 @@ def test_route_single_on_placer_error_show_error(
             on_placer_error="show_error",
         )
     assert shown
+
+
+def test_route_single_raise_on_error() -> None:
+    """raise_on_error=True raises even when on_placer_error is 'warning'."""
+    c, p1, p2, steps = _make_failing_route_args()
+    with pytest.raises(PlacerError):
+        gf.routing.route_single(
+            c,
+            p1,
+            p2,
+            cross_section="strip",
+            steps=steps,
+            on_placer_error="warning",
+            raise_on_error=True,
+        )
+
+
+def test_route_single_raise_on_error_ignore() -> None:
+    """raise_on_error=True does not override on_placer_error='ignore'."""
+    c, p1, p2, steps = _make_failing_route_args()
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        route = gf.routing.route_single(
+            c,
+            p1,
+            p2,
+            cross_section="strip",
+            steps=steps,
+            on_placer_error="ignore",
+            raise_on_error=True,
+        )
+    assert route is not None

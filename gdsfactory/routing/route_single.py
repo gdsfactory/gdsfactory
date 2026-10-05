@@ -77,6 +77,7 @@ def route_single(
     on_placer_error: Literal["error", "show_error", "warning", "ignore"] | None = None,
     on_error: Literal["error"] | None = None,
     layer_transitions: LayerTransitions | None = None,
+    raise_on_error: bool | None = None,
 ) -> ManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
@@ -113,6 +114,8 @@ def route_single(
             error markers. If None, uses CONF.on_placer_error.
         on_error: deprecated, use on_placer_error instead. Maps to on_placer_error.
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
+        raise_on_error: if True, raises an exception on routing error instead of adding error markers.
+            If None, uses CONF.raise_on_error (False by default).
 
     Example:
         ```python
@@ -136,6 +139,8 @@ def route_single(
 
     on_collision = on_collision or CONF.on_collision
     on_placer_error = on_placer_error or CONF.on_placer_error
+    if raise_on_error is None:
+        raise_on_error = CONF.raise_on_error
 
     if cross_section is None and (layer is None or route_width is None):
         raise ValueError(
@@ -253,7 +258,9 @@ def route_single(
                 route_width=c.kcl.to_dbu(width),
             )
         except Exception as e:
-            if on_placer_error == "error":
+            if on_placer_error == "error" or (
+                raise_on_error and on_placer_error == "warning"
+            ):
                 raise kf.routing.generic.PlacerError(
                     f"Error while trying to place route from {p1.name} to {p2.name} at"
                     f" points (dbu): {w}"
@@ -333,7 +340,7 @@ def route_single(
                 on_placer_error=kf_on_placer_error,
             )[0]
         except Exception as e:
-            if on_placer_error == "error" or on_collision == "error":
+            if raise_on_error or on_placer_error == "error" or on_collision == "error":
                 raise
 
             if on_placer_error == "show_error" or on_collision == "show_error":
