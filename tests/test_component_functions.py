@@ -54,6 +54,30 @@ def marked_straight(
     return c
 
 
+@gf.cell(basename="marked_bezier", register_factory=False)
+def marked_bezier(
+    control_points: tuple[tuple[float, float], ...] = (
+        (0.0, 0.0),
+        (5.0, 0.0),
+        (5.0, 1.8),
+        (10.0, 1.8),
+    ),
+    npoints: int = 201,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    width: float | None = None,
+) -> gf.Component:
+    c = cf.bezier(
+        control_points=control_points,
+        npoints=npoints,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+        width=width,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 def _has_marker(c: gf.Component) -> bool:
     return not c.kdb_cell.bbox(gf.get_layer(MARKER)).empty()
 
@@ -148,3 +172,17 @@ def test_pdk_override_applies_inside_mmis(restore_pdk: None) -> None:
     assert _has_marker(gf.components.mmi1x2_with_sbend())
     assert _has_marker(gf.components.mmi2x2())
     assert _has_marker(gf.components.mmi_90degree_hybrid())
+
+
+def test_pdk_override_applies_inside_bends(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.bend_s())
+    assert not _has_marker(gf.components.bend_s(size=(10, 0)))
+
+    _activate_pdk(
+        "override_bends",
+        {**PDK.cells, "bezier": marked_bezier, "straight": marked_straight},
+    )
+
+    # bend_s used to call bezier and gf.components.straight directly.
+    assert _has_marker(gf.components.bend_s())
+    assert _has_marker(gf.components.bend_s(size=(10, 0)))
