@@ -1,0 +1,18 @@
+instances:
+  ellipse_gdsfactorypcomponentspshapespellipse_R3_1p1_AR2_646aa358_0_0:
+    component: ellipse
+    info: {}
+    settings:
+      angle_resolution: 2.5
+      layer: SLAB150
+      radii:
+      - 3
+      - 1.1
+nets: []
+placements:
+  ellipse_gdsfactorypcomponentspshapespellipse_R3_1p1_AR2_646aa358_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+ports: {}

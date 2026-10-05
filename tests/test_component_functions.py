@@ -116,3 +116,22 @@ def test_fallback_to_gf_components_warns(restore_pdk: None) -> None:
 def test_unknown_component_raises() -> None:
     with pytest.raises(ValueError, match="not in PDK"):
         cf.get_component("does_not_exist")
+
+
+def test_pdk_override_applies_inside_waveguides(restore_pdk: None) -> None:
+    names = [
+        "straight_heater_doped_rib",
+        "straight_heater_meander",
+        "straight_heater_meander_doped",
+        "straight_heater_metal",
+        "straight_heater_metal_simple",
+        "straight_pin",
+        "straight_pin_slot",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name

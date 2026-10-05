@@ -1,0 +1,9 @@
+info: {}
+name: crossing_arm_gdsfactorypcomponentspwaveguidespcrossing__931e4e94
+settings:
+  L: 3.4
+  cross_section: strip
+  layer_slab: SLAB150
+  r1: 3
+  r2: 1.1
+  w: 1.2
