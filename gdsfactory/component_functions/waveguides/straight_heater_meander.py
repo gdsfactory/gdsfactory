@@ -100,7 +100,7 @@ def straight_heater_meander(
                 length=taper_length,
             )
             straight_with_tapers = get_component(
-                "extend_ports", settings=dict(component=_straight), extension=taper
+                "extend_ports", component=_straight, extension=taper
             )
             straight_ref = c << straight_with_tapers
             straight_ref.y = row * spacing

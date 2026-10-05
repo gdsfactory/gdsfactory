@@ -15,7 +15,9 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.component_functions._get_component import get_component
-from gdsfactory.components.bends.bend_s import find_min_curv_bezier_control_points
+from gdsfactory.component_functions.bends.bend_s import (
+    find_min_curv_bezier_control_points,
+)
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
 
 

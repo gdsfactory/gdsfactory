@@ -100,11 +100,12 @@ def straight_heater_metal_undercut(
         if component.settings.get("length") == 0:
             sequence = sequence.replace(symbol, "")
 
+    # Copy, since a PDK may register component_sequence as a cached cell.
     c = get_component(
         "component_sequence",
         sequence=sequence,
         symbol_to_component=symbol_to_component,
-    )
+    ).copy()
     x = gf.get_cross_section(cross_section_heater)
     heater_width = x.width
 

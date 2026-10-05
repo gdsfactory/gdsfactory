@@ -252,3 +252,16 @@ def test_pdk_override_applies_inside_waveguides(restore_pdk: None) -> None:
 
     for name in names:
         assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_cached_component_sequence_is_not_modified(restore_pdk: None) -> None:
+    """straight_heater_metal_undercut works when a PDK caches its sequence."""
+    cached = gf.cell(
+        gf.components.component_sequence,
+        basename="cached_component_sequence",
+        register_factory=False,
+    )
+    _activate_pdk("cached_sequence", {**PDK.cells, "component_sequence": cached})
+
+    c = gf.components.straight_heater_metal_undercut()
+    assert {"l_e1", "r_e1"} <= {p.name for p in c.ports}
