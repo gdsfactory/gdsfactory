@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import inspect
 from collections.abc import Callable, Iterator
+from functools import partial
 from typing import Any
 
 import pytest
@@ -12,7 +13,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.gpdk import PDK
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 MARKER = "DRC_MARKER"
 
@@ -76,6 +77,19 @@ def marked_bezier(
         width=width,
     )
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_via", register_factory=False)
+def marked_via(
+    size: tuple[float, float] = (0.7, 0.7),
+    enclosure: float = 1.0,
+    layer: LayerSpec = "VIAC",
+    pitch: float = 2,
+) -> gf.Component:
+    c = cf.via(size=size, enclosure=enclosure, layer=layer, pitch=pitch)
+    # Inside the via, so the via bbox (used to place the via array) is unchanged.
+    c.add_polygon([(-0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, 0.1)], layer=MARKER)
     return c
 
 
@@ -265,3 +279,28 @@ def test_cached_component_sequence_is_not_modified(restore_pdk: None) -> None:
 
     c = gf.components.straight_heater_metal_undercut()
     assert {"l_e1", "r_e1"} <= {p.name for p in c.ports}
+
+
+def test_pdk_override_applies_inside_vias(restore_pdk: None) -> None:
+    names = [
+        "via_chain",
+        "via_corner",
+        "via_stack",
+        "via_stack_corner45",
+        "via_stack_corner45_extended",
+        "via_stack_with_offset",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_vias",
+        {
+            **PDK.cells,
+            "via1": partial(marked_via, layer="VIA1", enclosure=1),
+            "viac": partial(marked_via, layer="VIAC"),
+        },
+    )
+
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name
