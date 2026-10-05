@@ -39,7 +39,11 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
-from gdsfactory.routing.utils import get_default_bend, validate_bend90
+from gdsfactory.routing.utils import (
+    get_default_bend,
+    to_kf_error_action,
+    validate_bend90,
+)
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -69,8 +73,8 @@ def route_single(
     radius: float | None = None,
     route_width: float | None = None,
     auto_taper: bool = True,
-    on_collision: Literal["error", "show_error", "warning"] | None = None,
-    on_placer_error: Literal["error", "show_error", "warning"] | None = None,
+    on_collision: Literal["error", "show_error", "warning", "ignore"] | None = None,
+    on_placer_error: Literal["error", "show_error", "warning", "ignore"] | None = None,
     on_error: Literal["error"] | None = None,
     layer_transitions: LayerTransitions | None = None,
 ) -> ManhattanRoute:
@@ -102,9 +106,11 @@ def route_single(
         on_collision: action to take on route collision. "error" raises an exception.
             "show_error" shows the error in klayout's marker database.
             "warning" emits a warning and falls back to error markers.
-            None silently falls back to error markers. Defaults to CONF.on_collision.
-        on_placer_error: action to take on placer error. Same options as on_collision.
-            Defaults to CONF.on_placer_error.
+            "ignore" places the route without checking for collisions.
+            If None, uses CONF.on_collision.
+        on_placer_error: action to take on placer error. "error", "show_error" and
+            "warning" behave as for on_collision. "ignore" silently falls back to
+            error markers. If None, uses CONF.on_placer_error.
         on_error: deprecated, use on_placer_error instead. Maps to on_placer_error.
         layer_transitions: dictionary of layer transitions to use for the routing when auto_taper=True.
 
@@ -308,10 +314,8 @@ def route_single(
             )
 
     else:
-        kf_on_collision = "error" if on_collision == "warning" else on_collision
-        kf_on_placer_error = (
-            "error" if on_placer_error == "warning" else on_placer_error
-        )
+        kf_on_collision = to_kf_error_action(on_collision)
+        kf_on_placer_error = to_kf_error_action(on_placer_error)
         try:
             return kf.routing.optical.route_bundle(
                 c=component,

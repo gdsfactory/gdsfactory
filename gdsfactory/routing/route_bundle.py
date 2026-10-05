@@ -28,7 +28,11 @@ from gdsfactory.config import CONF
 from gdsfactory.routing.auto_taper import add_auto_tapers
 from gdsfactory.routing.resolve_pins import resolve_pins
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
-from gdsfactory.routing.utils import get_default_bend, validate_bend90
+from gdsfactory.routing.utils import (
+    get_default_bend,
+    to_kf_error_action,
+    validate_bend90,
+)
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -591,18 +595,6 @@ def route_bundle(
         route_constraints = list(constraints or [])
 
     try:
-        kf_on_collision = on_collision
-        if kf_on_collision == "warning":
-            kf_on_collision = "error"
-        elif kf_on_collision == "ignore":
-            kf_on_collision = None
-
-        kf_on_placer_error = on_placer_error
-        if kf_on_placer_error == "warning":
-            kf_on_placer_error = "error"
-        elif kf_on_placer_error == "ignore":
-            kf_on_placer_error = None
-
         route = kf.routing.optical.route_bundle(
             component,
             ports1_,
@@ -620,8 +612,8 @@ def route_bundle(
             ]
             if collision_check_layer_enums
             else None,
-            on_collision=kf_on_collision,
-            on_placer_error=kf_on_placer_error,
+            on_collision=to_kf_error_action(on_collision),
+            on_placer_error=to_kf_error_action(on_placer_error),
             allow_width_mismatch=allow_width_mismatch,
             allow_layer_mismatch=allow_layer_mismatch,
             allow_type_mismatch=allow_type_mismatch,
