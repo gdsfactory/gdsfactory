@@ -265,3 +265,13 @@ def test_cached_component_sequence_is_not_modified(restore_pdk: None) -> None:
 
     c = gf.components.straight_heater_metal_undercut()
     assert {"l_e1", "r_e1"} <= {p.name for p in c.ports}
+
+
+def test_pdk_override_applies_inside_detectors(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.ge_detector_straight_si_contacts())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # ge_detector_straight_si_contacts used to call gf.components.straight
+    # directly.
+    assert _has_marker(gf.components.ge_detector_straight_si_contacts())
