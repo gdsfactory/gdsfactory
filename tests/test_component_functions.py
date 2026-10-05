@@ -130,6 +130,23 @@ def marked_optimal_hairpin(
     return c
 
 
+@gf.cell(basename="marked_pad", register_factory=False)
+def marked_pad(
+    size: tuple[float, float] = (100.0, 100.0),
+    layer: str = "MTOP",
+    port_orientation: float | None = 0,
+    port_orientations: tuple[int, ...] | None = (180, 90, 0, -90),
+) -> gf.Component:
+    c = cf.pad(
+        size=size,
+        layer=layer,
+        port_orientation=port_orientation,
+        port_orientations=port_orientations,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 def _has_marker(c: gf.Component) -> bool:
     return not c.kdb_cell.bbox(gf.get_layer(MARKER)).empty()
 
@@ -366,3 +383,19 @@ def test_pdk_override_applies_inside_superconductors(restore_pdk: None) -> None:
 
     # snspd used to call optimal_hairpin and gf.c.compass directly.
     assert _has_marker(gf.components.snspd())
+
+
+def test_pdk_override_applies_inside_pads(restore_pdk: None) -> None:
+    pad_names = ["pad_array", "pad_gsg_short", "pads_shorted"]
+    straight_names = ["pad_gs", "pad_gsg"]
+    for name in pad_names + straight_names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_pads",
+        {**PDK.cells, "pad": marked_pad, "straight": marked_straight},
+    )
+
+    # pad_gs and pad_gsg used to call gf.c.straight directly.
+    for name in pad_names + straight_names:
+        assert _has_marker(getattr(gf.components, name)()), name

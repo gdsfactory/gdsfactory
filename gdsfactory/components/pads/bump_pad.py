@@ -1,15 +1,11 @@
 from __future__ import annotations
 
-from typing import Any
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import (
     LayerSpec,
 )
-
-from ..shapes import octagon
-from ..vias import via_stack
 
 __all__ = ["bump_pad", "bump_pad_grid"]
 
@@ -33,79 +29,14 @@ def bump_pad(
         port_type: port type for pad port.
         add_via: whether to add a via stack.
     """
-    c = Component()
-    layer = gf.get_layer(layer)
-    size_ = gf.get_constant(size)
-    rect = octagon(
-        side_length=size, layer=layer, port_width=port_width, port_type=port_type
+    return cf.bump_pad(
+        size=size,
+        layer=layer,
+        port_width=port_width,
+        port_layer=port_layer,
+        port_type=port_type,
+        add_via=add_via,
     )
-    c_ref = c.add_ref(rect)
-    if add_via:
-        via_n = c << via_stack()
-        via_n.y = c_ref.ports["o5"].y - via_n.ports["e1"].width / 2
-        p = via_n.ports["e2"]
-        c.add_port(
-            name="e2",
-            center=p.center,
-            width=p.width,
-            orientation=p.orientation,
-            port_type=p.port_type,
-            layer=port_layer,
-        )
-
-        via_e = c << via_stack()
-        via_e.x = c_ref.ports["o3"].x - via_e.ports["e1"].width / 2
-        p = via_e.ports["e3"]
-        c.add_port(
-            name="e3",
-            center=p.center,
-            width=p.width,
-            orientation=p.orientation,
-            port_type=p.port_type,
-            layer=port_layer,
-        )
-
-        via_s = c << via_stack()
-        via_s.y = c_ref.ports["o1"].y + via_s.ports["e1"].width / 2
-        p = via_s.ports["e4"]
-        c.add_port(
-            name="e4",
-            center=p.center,
-            width=p.width,
-            orientation=p.orientation,
-            port_type=p.port_type,
-            layer=port_layer,
-        )
-
-        via_w = c << via_stack()
-        via_w.x = c_ref.ports["o7"].x + via_w.ports["e1"].width / 2
-        p = via_w.ports["e1"]
-        c.add_port(
-            name="e1",
-            center=p.center,
-            width=p.width,
-            orientation=p.orientation,
-            port_type=p.port_type,
-            layer=port_layer,
-        )
-    else:
-        for i, j in enumerate([1, 3, 5, 7]):
-            p = c_ref.ports[f"o{j}"]
-            c.add_port(
-                name=f"e{i + 1}",
-                center=p.center,
-                width=port_width,
-                orientation=p.orientation,
-                port_type=port_type,
-                layer=layer,
-            )
-    c.info["size"] = size_
-
-    elec = [p for p in c.ports if p.port_type in {"electrical", "pad"}]
-    if elec:
-        c.create_pin(ports=elec, name="pad")
-
-    return c
 
 
 @gf.cell_with_module_name(tags=["pads"])
@@ -139,35 +70,17 @@ def bump_pad_grid(
         skip_pads: list of (col, row) tuples to skip.
         add_via: whether to add a via stack.
     """
-    c = Component()
-
-    pad_kwargs: dict[str, Any] = {}
-    if layer is not None:
-        pad_kwargs["layer"] = layer
-    if size is not None:
-        pad_kwargs["size"] = size
-
-    pad_component = bump_pad(
-        size=size,
-        layer=layer,
+    return cf.bump_pad_grid(
+        columns=columns,
+        rows=rows,
+        column_pitch=column_pitch,
+        row_pitch=row_pitch,
+        offset=offset,
         port_width=port_width,
         port_layer=port_layer,
+        size=size,
+        layer=layer,
+        auto_rename_ports=auto_rename_ports,
+        skip_pads=skip_pads,
         add_via=add_via,
     )
-
-    for col in range(columns):
-        for row in range(rows):
-            if skip_pads is not None and (col, row) in skip_pads:
-                continue
-            pad = c << pad_component
-            center = (col * column_pitch, row * row_pitch + (col % 2) * offset)
-            pad.center = center
-            c.add_ports(pad.ports, prefix=f"e{row + 1}_{col + 1}_")
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    if auto_rename_ports:
-        c.auto_rename_ports()
-    return c

@@ -16,6 +16,7 @@ from . import (
     microfluidics,
     mmis,
     mzis,
+    pads,
     superconductors,
     tapers,
     waveguides,
@@ -28,6 +29,7 @@ from .mems import *
 from .microfluidics import *
 from .mmis import *
 from .mzis import *
+from .pads import *
 from .superconductors import *
 from .tapers import *
 from .waveguides import *
@@ -54,6 +56,8 @@ __all__ = [
     "bent_beam",
     "bezier",
     "bolometer",
+    "bump_pad",
+    "bump_pad_grid",
     "cantilever",
     "comb_drive",
     "crossing",
@@ -94,7 +98,15 @@ __all__ = [
     "optimal_90deg",
     "optimal_hairpin",
     "optimal_step",
+    "pad",
+    "pad_array",
+    "pad_gs",
+    "pad_gsg",
+    "pad_gsg_short",
+    "pads",
+    "pads_shorted",
     "ramp",
+    "rectangle_with_slits",
     "snspd",
     "straight",
     "straight_all_angle",
