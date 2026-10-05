@@ -2,15 +2,10 @@ from __future__ import annotations
 
 __all__ = ["ramp"]
 
-import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
-from .._schematic import taper_schematic
 
-
-@gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
 def ramp(
     length: float = 10.0,
     width1: float = 5.0,
@@ -27,4 +22,20 @@ def ramp(
         width2: Width of the end of the ramp section (defaults to width1).
         layer: Specific layer to put polygon geometry on.
     """
-    return cf.ramp(length=length, width1=width1, width2=width2, layer=layer)
+    if width2 is None:
+        width2 = width1
+    xpts = [0, length, length, 0]
+    ypts = [width1, width2, 0, 0]
+    c = Component()
+    c.add_polygon(tuple(zip(xpts, ypts, strict=False)), layer=layer)
+    c.add_port(
+        name="o1", center=(0, width1 / 2), width=width1, orientation=180, layer=layer
+    )
+    c.add_port(
+        name="o2",
+        center=(length, width2 / 2),
+        width=width2,
+        orientation=0,
+        layer=layer,
+    )
+    return c

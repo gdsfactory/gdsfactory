@@ -3,48 +3,15 @@ from __future__ import annotations
 __all__ = ["taper_adiabatic"]
 
 from collections.abc import Callable
-from typing import Any
-
-import numpy as np
-import numpy.typing as npt
 
 import gdsfactory as gf
-from gdsfactory.path import transition_adiabatic
+from gdsfactory import component_functions as cf
+from gdsfactory.component_functions.tapers.taper_adiabatic import (
+    neff_TE1550SOI_220nm,
+)
 from gdsfactory.typings import CrossSectionSpec
 
 from .._schematic import taper_schematic
-
-
-def neff_TE1550SOI_220nm(w: float) -> float:
-    """Returns the effective index of the fundamental TE mode for a 220nm-thick core with 3.45 index, fully clad with 1.44 index.
-
-    Args:
-        w: width in um.
-
-    Returns:
-        effective index.
-    """
-    adiabatic_polyfit_TE1550SOI_220nm = np.array(
-        [
-            1.02478963e-09,
-            -8.65556534e-08,
-            3.32415694e-06,
-            -7.68408985e-05,
-            1.19282177e-03,
-            -1.31366332e-02,
-            1.05721429e-01,
-            -6.31057637e-01,
-            2.80689677e00,
-            -9.26867694e00,
-            2.24535191e01,
-            -3.90664800e01,
-            4.71899278e01,
-            -3.74726005e01,
-            1.77381560e01,
-            -1.12666286e00,
-        ]
-    )
-    return float(np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w).item())
 
 
 @gf.cell_with_module_name(schematic_function=taper_schematic, tags=["tapers"])
@@ -81,62 +48,14 @@ def taper_adiabatic(
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper." Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
         npoints: number of points for sampling
     """
-    xs = gf.get_cross_section(cross_section)
-    layer = xs.layer
-    assert layer is not None
-
-    # Obtain optimal curve
-    x_opt, w_opt = transition_adiabatic(
-        width1,
-        width2,
+    return cf.taper_adiabatic(
+        width1=width1,
+        width2=width2,
+        length=length,
         neff_w=neff_w,
-        wavelength=wavelength,
         alpha=alpha,
+        wavelength=wavelength,
+        npoints=npoints,
+        cross_section=cross_section,
         max_length=max_length,
     )
-
-    # Resample the points
-    from scipy import interpolate
-
-    w_opt_interp = interpolate.interp1d(x_opt, w_opt)
-
-    if not length:
-        length = x_opt[-1]
-    x = np.linspace(0, length, npoints)
-    w: npt.NDArray[np.floating[Any]] = w_opt_interp(x)
-
-    assert isinstance(w, np.ndarray)
-
-    # Stretch/compress x
-    x_array: npt.NDArray[np.float64] = np.linspace(0, length, npoints) * (
-        1 + length - x_opt[-1]
-    )
-    assert isinstance(x_array, np.ndarray)
-    y_array = w / 2
-
-    c = gf.Component()
-    c.add_polygon(
-        [(float(x), float(y)) for x, y in zip(x_array, y_array, strict=False)]
-        + [(float(x), float(y)) for x, y in zip(x_array, -y_array, strict=False)][::-1],
-        layer=layer,
-    )
-
-    # Define ports
-    c.add_port(
-        name="o1",
-        center=(0, 0),
-        width=width1,
-        orientation=180,
-        cross_section=cross_section,
-        layer=layer,
-    )
-    c.add_port(
-        name="o2",
-        center=(length, 0),
-        width=width2,
-        orientation=0,
-        cross_section=cross_section,
-        layer=layer,
-    )
-    xs.add_bbox(c)
-    return c

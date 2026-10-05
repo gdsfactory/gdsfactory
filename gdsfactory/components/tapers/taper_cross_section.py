@@ -10,8 +10,9 @@ __all__ = [
 from functools import partial
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
 from .._schematic import transition_schematic
 
@@ -51,44 +52,15 @@ def taper_cross_section(
 
 
     """
-    x1 = gf.get_cross_section(cross_section1)
-    x2 = gf.get_cross_section(cross_section2)
-
-    skipped = []
-    if exclude_layers:
-        layers: list[LayerSpec] = (
-            list(exclude_layers)
-            if isinstance(exclude_layers, (list, tuple))
-            and not (len(exclude_layers) == 2 and isinstance(exclude_layers[0], int))
-            else [exclude_layers]  # type: ignore[list-item]
-        )
-        excluded = {gf.get_layer(layer) for layer in layers}
-
-        skipped = [
-            i
-            for i, s in enumerate(x1.get_sections())
-            if gf.get_layer(s.layer) in excluded
-        ]
-
-    if x1 == x2 and not exclude_layers:
-        return gf.components.straight(length=length, cross_section=x1)
-
-    transition = gf.path.transition(
-        cross_section1=x1,
-        cross_section2=x2,
-        width_type="linear" if linear else width_type,  # type: ignore
-        offset_type="linear" if linear else width_type,  # type: ignore
+    return cf.taper_cross_section(
+        cross_section1=cross_section1,
+        cross_section2=cross_section2,
+        length=length,
+        npoints=npoints,
+        linear=linear,
+        width_type=width_type,
+        exclude_layers=exclude_layers,
     )
-    taper_path = gf.path.straight(length=length, npoints=npoints)
-
-    c = gf.Component()
-    ref = c << gf.path.extrude_transition(
-        taper_path, transition=transition, skip_transition=skipped
-    )
-    c.add_ports(ref.ports)
-    c.add_route_info(cross_section=x1, length=length, taper=True)
-    c.flatten()
-    return c
 
 
 taper_cross_section_linear = partial(taper_cross_section, linear=True, npoints=2)
