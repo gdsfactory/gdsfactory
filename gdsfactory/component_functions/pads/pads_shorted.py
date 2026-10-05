@@ -2,13 +2,11 @@ from __future__ import annotations
 
 __all__ = ["pads_shorted"]
 
-import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
-@gf.cell_with_module_name(tags=["pads"])
 def pads_shorted(
     pad: ComponentSpec = "pad",
     columns: int = 8,
@@ -25,10 +23,20 @@ def pads_shorted(
         layer_metal: for the short.
         metal_width: for the short.
     """
-    return cf.pads_shorted(
-        pad=pad,
-        columns=columns,
-        pad_pitch=pad_pitch,
-        layer_metal=layer_metal,
-        metal_width=metal_width,
+    c = Component()
+    pad = get_component(pad)
+    for i in range(columns):
+        pad_ref = c.add_ref(pad)
+        pad_ref.movex(i * pad_pitch - columns / 2 * pad_pitch + pad_pitch / 2)
+
+    short = get_component(
+        "rectangle",
+        size=(pad_pitch * (columns - 1), metal_width),
+        layer=layer_metal,
+        centered=True,
     )
+    c.add_ref(short)
+    elec = [p for p in c.ports if p.port_type == "electrical"]
+    if elec:
+        c.create_pin(ports=elec, name="pad")
+    return c
