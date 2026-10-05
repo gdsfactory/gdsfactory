@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["doubly_clamped_beam"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -28,72 +29,14 @@ def doubly_clamped_beam(
         layer: layer spec.
         port_type: port type for electrical ports.
     """
-    c = Component()
-
-    total_length = 2 * anchor_length + beam_length
-    x_start = -total_length / 2
-
-    # Left anchor
-    c.add_polygon(
-        [
-            (x_start, -anchor_width / 2),
-            (x_start + anchor_length, -anchor_width / 2),
-            (x_start + anchor_length, anchor_width / 2),
-            (x_start, anchor_width / 2),
-        ],
-        layer=layer,
-    )
-
-    # Central beam
-    beam_x0 = x_start + anchor_length
-    c.add_polygon(
-        [
-            (beam_x0, -beam_width / 2),
-            (beam_x0 + beam_length, -beam_width / 2),
-            (beam_x0 + beam_length, beam_width / 2),
-            (beam_x0, beam_width / 2),
-        ],
-        layer=layer,
-    )
-
-    # Right anchor
-    right_x0 = beam_x0 + beam_length
-    c.add_polygon(
-        [
-            (right_x0, -anchor_width / 2),
-            (right_x0 + anchor_length, -anchor_width / 2),
-            (right_x0 + anchor_length, anchor_width / 2),
-            (right_x0, anchor_width / 2),
-        ],
-        layer=layer,
-    )
-
-    # Port at left anchor outside edge
-    c.add_port(
-        "e1",
-        center=(x_start, 0),
-        width=anchor_width,
-        orientation=180,
+    return cf.doubly_clamped_beam(
+        beam_width=beam_width,
+        beam_length=beam_length,
+        anchor_width=anchor_width,
+        anchor_length=anchor_length,
         layer=layer,
         port_type=port_type,
     )
-
-    # Port at right anchor outside edge
-    c.add_port(
-        "e2",
-        center=(right_x0 + anchor_length, 0),
-        width=anchor_width,
-        orientation=0,
-        layer=layer,
-        port_type=port_type,
-    )
-
-    if port_type == "electrical":
-        for p in list(c.ports):
-            if p.name and p.port_type == "electrical":
-                c.create_pin(ports=[p], name=p.name)
-
-    return c
 
 
 if __name__ == "__main__":
