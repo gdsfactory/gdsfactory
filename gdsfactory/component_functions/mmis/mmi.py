@@ -3,14 +3,11 @@ from __future__ import annotations
 __all__ = ["mmi"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from .._schematic import ckt_schematic
 
-
-@gf.cell_with_module_name(schematic_function=ckt_schematic, tags=["mmis"])
 def mmi(
     inputs: int = 1,
     outputs: int = 4,
@@ -63,19 +60,68 @@ def mmi(
             length_taper
     ```
     """
-    return cf.mmi(
-        inputs=inputs,
-        outputs=outputs,
-        width=width,
-        width_taper=width_taper,
-        length_taper=length_taper,
-        length_mmi=length_mmi,
-        width_mmi=width_mmi,
-        gap_input_tapers=gap_input_tapers,
-        gap_output_tapers=gap_output_tapers,
-        taper=taper,
-        straight=straight,
+    c = Component()
+    gap_input_tapers = gf.snap.snap_to_grid(gap_input_tapers, grid_factor=2)
+    gap_output_tapers = gf.snap.snap_to_grid(gap_output_tapers, grid_factor=2)
+    w_taper = width_taper
+    x = gf.get_cross_section(cross_section)
+    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
+    width = width or x.width
+
+    _taper = get_component(
+        taper,
+        length=length_taper,
+        width1=width,
+        width2=w_taper,
         cross_section=cross_section,
-        input_positions=input_positions,
-        output_positions=output_positions,
     )
+
+    _ = c << get_component(straight, length=length_mmi, cross_section=xs_mmi)
+    wg_spacing_input = gap_input_tapers + width_taper
+    wg_spacing_output = gap_output_tapers + width_taper
+
+    yi = -(inputs - 1) * wg_spacing_input / 2
+    yo = -(outputs - 1) * wg_spacing_output / 2
+
+    input_positions = input_positions or [
+        yi + i * wg_spacing_input for i in range(inputs)
+    ]
+    output_positions = output_positions or [
+        yo + i * wg_spacing_output for i in range(outputs)
+    ]
+
+    temp_component = Component()
+
+    ports = [
+        temp_component.add_port(
+            name=f"in_{i}",
+            orientation=180,
+            center=(0, y),
+            width=w_taper,
+            layer=gf.get_layer(x.layer),
+            cross_section=x,
+        )
+        for i, y in enumerate(input_positions)
+    ]
+
+    ports += [
+        temp_component.add_port(
+            name=f"out_{i}",
+            orientation=0,
+            center=(+length_mmi, y),
+            width=w_taper,
+            layer=gf.get_layer(x.layer),
+            cross_section=x,
+        )
+        for i, y in enumerate(output_positions)
+    ]
+
+    for port in ports:
+        taper_ref = c << _taper
+        taper_ref.connect("o2", port, allow_width_mismatch=True)
+        c.add_port(name=port.name, port=taper_ref.ports["o1"])
+
+    x.add_bbox(c)
+    c.auto_rename_ports()
+    c.flatten()
+    return c

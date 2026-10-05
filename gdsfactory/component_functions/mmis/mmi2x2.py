@@ -3,14 +3,11 @@ from __future__ import annotations
 __all__ = ["mmi2x2"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from .._schematic import mmi_2x2_schematic
 
-
-@gf.cell_with_module_name(schematic_function=mmi_2x2_schematic, tags=["mmis"])
 def mmi2x2(
     width: float | None = None,
     width_taper: float = 1.0,
@@ -54,14 +51,54 @@ def mmi2x2(
             length_taper
 
     """
-    return cf.mmi2x2(
-        width=width,
-        width_taper=width_taper,
-        length_taper=length_taper,
-        length_mmi=length_mmi,
-        width_mmi=width_mmi,
-        gap_mmi=gap_mmi,
-        taper=taper,
-        straight=straight,
+    c = gf.Component()
+    gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
+    w_taper = width_taper
+    x = gf.get_cross_section(cross_section)
+    width = width or x.width
+
+    _taper = get_component(
+        taper,
+        length=length_taper,
+        width1=width,
+        width2=w_taper,
         cross_section=cross_section,
     )
+
+    a = gap_mmi / 2 + width_taper / 2
+    _ = c << get_component(
+        straight, length=length_mmi, width=width_mmi, cross_section=cross_section
+    )
+
+    temp_component = Component()
+
+    ports = [
+        temp_component.add_port(
+            name="o1", orientation=180, center=(0, -a), width=w_taper, cross_section=x
+        ),
+        temp_component.add_port(
+            name="o2", orientation=180, center=(0, +a), width=w_taper, cross_section=x
+        ),
+        temp_component.add_port(
+            name="o3",
+            orientation=0,
+            center=(length_mmi, +a),
+            width=w_taper,
+            cross_section=x,
+        ),
+        temp_component.add_port(
+            name="o4",
+            orientation=0,
+            center=(length_mmi, -a),
+            width=w_taper,
+            cross_section=x,
+        ),
+    ]
+
+    for port in ports:
+        taper_ref = c << _taper
+        taper_ref.connect(port="o2", other=port, allow_width_mismatch=True)
+        c.add_port(name=port.name, port=taper_ref.ports["o1"])
+
+    c.flatten()
+    return c

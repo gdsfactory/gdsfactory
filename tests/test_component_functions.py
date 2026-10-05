@@ -116,3 +116,19 @@ def test_fallback_to_gf_components_warns(restore_pdk: None) -> None:
 def test_unknown_component_raises() -> None:
     with pytest.raises(ValueError, match="not in PDK"):
         cf.get_component("does_not_exist")
+
+
+def test_pdk_override_applies_inside_mmis(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.mmi())
+    assert not _has_marker(gf.components.mmi1x2_with_sbend())
+    assert not _has_marker(gf.components.mmi2x2())
+    assert not _has_marker(gf.components.mmi_90degree_hybrid())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # mmi2x2 used to default to gf.components.straight and mmi1x2_with_sbend
+    # called it directly, bypassing the PDK.
+    assert _has_marker(gf.components.mmi())
+    assert _has_marker(gf.components.mmi1x2_with_sbend())
+    assert _has_marker(gf.components.mmi2x2())
+    assert _has_marker(gf.components.mmi_90degree_hybrid())
