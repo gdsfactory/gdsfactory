@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from functools import partial
 from typing import Any
 
@@ -85,3 +86,37 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     """Avoid regressions when exporting settings."""
     component = get_component_with_defaults(component_name)
     data_regression.check(clean_value_json(component.to_dict()))
+
+
+def _stable_name(name: str) -> str:
+    """Drops the counter of unnamed cells, which depends on test order."""
+    return re.sub(r"^Unnamed_\d+$", "Unnamed", name)
+
+
+def _cell_names(component: gf.Component | gf.ComponentAllAngle) -> list[str]:
+    """Returns the sorted names of all cells below component."""
+    if isinstance(component, gf.Component):
+        kcl = component.kcl
+        names = {kcl[i].name for i in component.kdb_cell.called_cells()}
+    else:
+        names = set()
+        for inst in [*component.insts, *component.vinsts]:
+            names.add(inst.cell.name)
+            names.update(_cell_names(inst.cell))
+    return sorted({_stable_name(name) for name in names})
+
+
+def test_cell_names(data_regression: DataRegressionFixture) -> None:
+    """Snapshot the name of every cell and of the cells below it.
+
+    A cell name hashes the cell's settings, so the diff of the snapshot lists
+    every cell whose name changed.
+    """
+    snapshot = {}
+    for name in sorted(cells_to_test):
+        component = get_component_with_defaults(name)
+        snapshot[name] = {
+            "name": _stable_name(component.name),
+            "children": _cell_names(component),
+        }
+    data_regression.check(snapshot)
