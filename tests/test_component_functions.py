@@ -12,7 +12,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.gpdk import PDK
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 MARKER = "DRC_MARKER"
 
@@ -75,6 +75,17 @@ def marked_bezier(
         allow_min_radius_violation=allow_min_radius_violation,
         width=width,
     )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_pixel_array", register_factory=False)
+def marked_pixel_array(
+    pixels: str = gf.components.character_a,
+    pixel_size: float = 10.0,
+    layer: LayerSpec = "M1",
+) -> gf.Component:
+    c = cf.pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c
 
@@ -265,3 +276,18 @@ def test_cached_component_sequence_is_not_modified(restore_pdk: None) -> None:
 
     c = gf.components.straight_heater_metal_undercut()
     assert {"l_e1", "r_e1"} <= {p.name for p in c.ports}
+
+
+def test_pdk_override_applies_inside_texts(restore_pdk: None) -> None:
+    names = ["text_lines", "text_rectangular", "text_rectangular_multi_layer"]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_pixel_array", {**PDK.cells, "pixel_array": marked_pixel_array}
+    )
+
+    # text_rectangular used to call pixel_array directly and text_lines
+    # called gf.c.text_rectangular.
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name

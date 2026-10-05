@@ -8,12 +8,13 @@ Component functions look up sub-cells by name in the active PDK through
 ``get_component``, so PDK overrides apply inside composite components.
 """
 
-from . import bends, mmis, mzis, tapers, waveguides
+from . import bends, mmis, mzis, tapers, texts, waveguides
 from ._get_component import ComponentFallbackWarning, get_component
 from .bends import *
 from .mmis import *
 from .mzis import *
 from .tapers import *
+from .texts import *
 from .waveguides import *
 
 __all__ = [
@@ -55,6 +56,7 @@ __all__ = [
     "mzis",
     "mzit",
     "mzit_lattice",
+    "pixel_array",
     "ramp",
     "straight",
     "straight_all_angle",
@@ -80,6 +82,13 @@ __all__ = [
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
     "tapers",
+    "text",
+    "text_freetype",
+    "text_klayout",
+    "text_lines",
+    "text_rectangular",
+    "text_rectangular_multi_layer",
+    "texts",
     "waveguides",
     "wire_corner",
     "wire_corner45",
