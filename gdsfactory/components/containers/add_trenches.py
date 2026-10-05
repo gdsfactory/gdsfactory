@@ -2,9 +2,9 @@ from __future__ import annotations
 
 __all__ = ["add_trenches", "add_trenches90"]
 
-from functools import partial
 
 import gdsfactory as gf
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
@@ -60,7 +60,7 @@ def add_trenches(
     return c
 
 
-add_trenches90 = partial(
+add_trenches90 = CellAlias(
     add_trenches, component="bend_euler", top=0, left=0, right=None
 )
 

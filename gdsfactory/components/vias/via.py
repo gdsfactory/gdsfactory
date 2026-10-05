@@ -3,11 +3,11 @@ from __future__ import annotations
 __all__ = ["via", "via1", "via2", "via_circular", "viac"]
 
 from collections.abc import Sequence
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import LayerSpec, Size
 
 
@@ -96,6 +96,6 @@ def via_circular(
     )
 
 
-viac = partial(via, layer="VIAC")
-via1 = partial(via, layer="VIA1", enclosure=1)
-via2 = partial(via, layer="VIA2")
+viac = CellAlias(via, layer="VIAC")
+via1 = CellAlias(via, layer="VIA1", enclosure=1)
+via2 = CellAlias(via, layer="VIA2")

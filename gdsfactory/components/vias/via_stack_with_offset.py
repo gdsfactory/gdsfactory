@@ -7,11 +7,11 @@ __all__ = [
 ]
 
 from collections.abc import Sequence
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Size
 
 
@@ -70,19 +70,19 @@ def via_stack_with_offset(
     )
 
 
-via_stack_with_offset_ppp_m1 = partial(
+via_stack_with_offset_ppp_m1 = CellAlias(
     via_stack_with_offset,
     layers=("PPP", "M1"),
     vias=(None, "viac"),
 )
 
-via_stack_with_offset_ppp_m1 = partial(
+via_stack_with_offset_ppp_m1 = CellAlias(
     via_stack_with_offset,
     layers=("PPP", "M1"),
     vias=(None, "viac"),
 )
 
-via_stack_with_offset_m1_m3 = partial(
+via_stack_with_offset_m1_m3 = CellAlias(
     via_stack_with_offset,
     layers=("M1", "M2", "MTOP"),
     vias=(None, "via1", "via2"),

@@ -2,15 +2,15 @@ from __future__ import annotations
 
 __all__ = ["add_termination"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec
 
 from ..tapers.taper import taper
 
-_terminator_function = partial(taper, width2=0.1)
+_terminator_function = CellAlias(taper, width2=0.1)
 
 
 @gf.cell_with_module_name(tags=["containers"])

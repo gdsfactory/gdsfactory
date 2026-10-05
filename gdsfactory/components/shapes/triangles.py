@@ -9,12 +9,12 @@ __all__ = [
     "triangle_thin",
 ]
 
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import LayerSpec
 
 
@@ -119,6 +119,6 @@ def triangle4(**kwargs: Any) -> Component:
     return cf.triangle4(**kwargs)
 
 
-triangle_thin = partial(triangle, xtop=0.2, x=2, y=5)
-triangle2_thin = partial(triangle2, xtop=0.2, x=2, y=5)
-triangle4_thin = partial(triangle4, xtop=0.2, x=2, y=5)
+triangle_thin = CellAlias(triangle, xtop=0.2, x=2, y=5)
+triangle2_thin = CellAlias(triangle2, xtop=0.2, x=2, y=5)
+triangle4_thin = CellAlias(triangle4, xtop=0.2, x=2, y=5)

@@ -1,5 +1,3 @@
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component, ComponentAllAngle
@@ -11,6 +9,8 @@ __all__ = [
     "bend_modified_hermite_all_angle",
     "bend_modified_hermite_s",
 ]
+
+from gdsfactory.component_functions import CellAlias
 
 from .._schematic import bend_schematic, sbend_schematic
 
@@ -161,4 +161,4 @@ def bend_modified_hermite_s(
     )
 
 
-bend_modified_hermite180 = partial(bend_modified_hermite, angle=180)
+bend_modified_hermite180 = CellAlias(bend_modified_hermite, angle=180)

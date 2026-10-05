@@ -8,11 +8,11 @@ __all__ = [
     "straight_heater_metal_undercut_90_90",
 ]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import straight_schematic
@@ -113,19 +113,19 @@ def straight_heater_metal_simple(
     )
 
 
-straight_heater_metal = partial(
+straight_heater_metal = CellAlias(
     straight_heater_metal_undercut,
     with_undercut=False,
     length_straight_input=0.1,
     length_undercut=5,
     length_undercut_spacing=0,
 )
-straight_heater_metal_90_90 = partial(
+straight_heater_metal_90_90 = CellAlias(
     straight_heater_metal,
     port_orientation1=90,
     port_orientation2=90,
 )
-straight_heater_metal_undercut_90_90 = partial(
+straight_heater_metal_undercut_90_90 = CellAlias(
     straight_heater_metal_undercut,
     port_orientation1=90,
     port_orientation2=90,

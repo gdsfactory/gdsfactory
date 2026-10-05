@@ -5,11 +5,11 @@ __all__ = [
     "grating_coupler_elliptical_lumerical_etch70",
 ]
 
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 from .._schematic import grating_coupler_schematic
@@ -146,7 +146,7 @@ def grating_coupler_elliptical_lumerical(
     return c
 
 
-grating_coupler_elliptical_lumerical_etch70 = partial(
+grating_coupler_elliptical_lumerical_etch70 = CellAlias(
     grating_coupler_elliptical_lumerical,
     info=dict(
         etch_depth=80e-3,

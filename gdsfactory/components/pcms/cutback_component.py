@@ -2,11 +2,11 @@ from __future__ import annotations
 
 __all__ = ["cutback_component", "cutback_component_mirror"]
 
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from ..containers.component_sequence import component_sequence
@@ -111,4 +111,4 @@ def cutback_component(
     return c
 
 
-cutback_component_mirror = partial(cutback_component, mirror=True)
+cutback_component_mirror = CellAlias(cutback_component, mirror=True)

@@ -10,11 +10,11 @@ __all__ = [
     "taper_strip_to_slab150",
 ]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
@@ -148,7 +148,7 @@ def taper_strip_to_ridge_trenches(
     )
 
 
-taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
+taper_strip_to_slab150 = CellAlias(taper_strip_to_ridge, layer_slab="SLAB150")
 
 
 @gf.cell_with_module_name(schematic_function=transition_schematic, tags=["tapers"])
@@ -221,14 +221,14 @@ def taper_nc_sc(
     )
 
 
-taper_electrical = partial(
+taper_electrical = CellAlias(
     taper,
     port_types=("electrical", "electrical"),
     port_names=("e1", "e2"),
     cross_section="metal_routing",
 )
 
-taper_with_trenches = partial(
+taper_with_trenches = CellAlias(
     taper,
     cross_section="rib_with_trenches",
 )

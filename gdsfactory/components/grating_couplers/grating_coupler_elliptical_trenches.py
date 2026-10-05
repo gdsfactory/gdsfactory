@@ -6,12 +6,12 @@ __all__ = [
     "grating_coupler_tm",
 ]
 
-from functools import partial
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
@@ -144,11 +144,11 @@ def grating_coupler_elliptical_trenches(
     return c
 
 
-grating_coupler_te = partial(
+grating_coupler_te = CellAlias(
     grating_coupler_elliptical_trenches, polarization="te", taper_angle=35
 )
 
-grating_coupler_tm = partial(
+grating_coupler_tm = CellAlias(
     grating_coupler_elliptical_trenches,
     polarization="tm",
     neff=1.8,

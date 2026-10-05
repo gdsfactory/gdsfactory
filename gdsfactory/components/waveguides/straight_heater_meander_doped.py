@@ -4,30 +4,30 @@ from __future__ import annotations
 
 __all__ = ["straight_heater_meander_doped", "via_stack_heater_meander_doped"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs
 
 from .._schematic import straight_schematic
 from ..vias.via import via
 from ..vias.via_stack import via_stack
 
-via_stack_heater_meander_doped = partial(
+via_stack_heater_meander_doped = CellAlias(
     via_stack,
     size=(1.5, 1.5),
     layers=("M1", "M2"),
     vias=(
-        partial(
+        CellAlias(
             via,
             layer="VIAC",
             size=(0.1, 0.1),
             pitch=0.2,
             enclosure=0.1,
         ),
-        partial(
+        CellAlias(
             via,
             layer="VIA1",
             size=(0.1, 0.1),

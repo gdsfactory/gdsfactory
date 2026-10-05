@@ -11,11 +11,11 @@ __all__ = [
     "pad_small",
 ]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
@@ -64,8 +64,8 @@ def pad(
     )
 
 
-pad_rectangular = partial(pad, size="pad_size")
-pad_small = partial(pad, size=(80, 80))
+pad_rectangular = CellAlias(pad, size="pad_size")
+pad_small = CellAlias(pad, size=(80, 80))
 
 
 @gf.cell_with_module_name(schematic_function=pad_schematic, tags=["pads"])
@@ -109,8 +109,8 @@ def pad_array(
     )
 
 
-pad_array90 = partial(pad_array, port_orientation=90)
-pad_array270 = partial(pad_array, port_orientation=270)
+pad_array90 = CellAlias(pad_array, port_orientation=90)
+pad_array270 = CellAlias(pad_array, port_orientation=270)
 
-pad_array0 = partial(pad_array, port_orientation=0, columns=1, rows=3)
-pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
+pad_array0 = CellAlias(pad_array, port_orientation=0, columns=1, rows=3)
+pad_array180 = CellAlias(pad_array, port_orientation=180, columns=1, rows=3)

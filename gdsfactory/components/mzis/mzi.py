@@ -13,11 +13,11 @@ __all__ = [
     "mzm",
 ]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import mzi_2x2_schematic
@@ -130,8 +130,8 @@ def mzi(
     )
 
 
-mzi1x2 = partial(mzi, splitter="mmi1x2", combiner="mmi1x2")
-mzi2x2_2x2 = partial(
+mzi1x2 = CellAlias(mzi, splitter="mmi1x2", combiner="mmi1x2")
+mzi2x2_2x2 = CellAlias(
     mzi,
     splitter="mmi2x2",
     combiner="mmi2x2",
@@ -142,20 +142,20 @@ mzi2x2_2x2 = partial(
     length_x=None,
 )
 
-mzi1x2_2x2 = partial(
+mzi1x2_2x2 = CellAlias(
     mzi,
     combiner="mmi2x2",
     port_e1_combiner="o3",
     port_e0_combiner="o4",
 )
 
-mzi_coupler = partial(
+mzi_coupler = CellAlias(
     mzi2x2_2x2,
     splitter="coupler",
     combiner="coupler",
 )
 
-mzi_pin = partial(
+mzi_pin = CellAlias(
     mzi,
     straight_x_top="straight_pin",
     cross_section_x_top="pin",
@@ -163,16 +163,16 @@ mzi_pin = partial(
     length_x=100,
 )
 
-mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
+mzi_phase_shifter = CellAlias(mzi, straight_x_top="straight_heater_metal", length_x=200)
 
-mzi2x2_2x2_phase_shifter = partial(
+mzi2x2_2x2_phase_shifter = CellAlias(
     mzi2x2_2x2, straight_x_top="straight_heater_metal", length_x=200
 )
 
-mzi_phase_shifter_top_heater_metal = partial(
+mzi_phase_shifter_top_heater_metal = CellAlias(
     mzi_phase_shifter, straight_x_top="straight_heater_metal"
 )
 
-mzm = partial(
+mzm = CellAlias(
     mzi_phase_shifter, straight_x_top="straight_pin", straight_x_bot="straight_pin"
 )

@@ -9,12 +9,12 @@ __all__ = [
     "staircase",
 ]
 
-from functools import partial
 from itertools import islice
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec
 
 from ..containers.component_sequence import component_sequence
@@ -237,5 +237,5 @@ def cutback_bend180(
     return c
 
 
-cutback_bend180circular = partial(cutback_bend180, component="bend_circular180")
-cutback_bend90circular = partial(cutback_bend90, component="bend_circular")
+cutback_bend180circular = CellAlias(cutback_bend180, component="bend_circular180")
+cutback_bend90circular = CellAlias(cutback_bend90, component="bend_circular")
