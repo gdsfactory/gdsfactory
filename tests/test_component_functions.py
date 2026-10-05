@@ -12,7 +12,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.gpdk import PDK
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 MARKER = "DRC_MARKER"
 
@@ -74,6 +74,27 @@ def marked_bezier(
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
         width=width,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_optimal_hairpin", register_factory=False)
+def marked_optimal_hairpin(
+    width: float = 0.2,
+    pitch: float = 0.6,
+    length: float = 10,
+    turn_ratio: float = 4,
+    num_pts: int = 50,
+    layer: LayerSpec = (1, 0),
+) -> gf.Component:
+    c = cf.optimal_hairpin(
+        width=width,
+        pitch=pitch,
+        length=length,
+        turn_ratio=turn_ratio,
+        num_pts=num_pts,
+        layer=layer,
     )
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c
@@ -265,3 +286,15 @@ def test_cached_component_sequence_is_not_modified(restore_pdk: None) -> None:
 
     c = gf.components.straight_heater_metal_undercut()
     assert {"l_e1", "r_e1"} <= {p.name for p in c.ports}
+
+
+def test_pdk_override_applies_inside_superconductors(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.snspd())
+
+    _activate_pdk(
+        "override_optimal_hairpin",
+        {**PDK.cells, "optimal_hairpin": marked_optimal_hairpin},
+    )
+
+    # snspd used to call optimal_hairpin and gf.c.compass directly.
+    assert _has_marker(gf.components.snspd())
