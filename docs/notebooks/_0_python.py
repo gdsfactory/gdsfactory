@@ -116,7 +116,7 @@ y = double_with_validator(x)
 print(y)
 
 # %% [markdown]
-# Let us try to create an error `x` and you will get a clear message the the function `double` does not work with strings.
+# Let us try to create an error `x` and you will get a clear message that the function `double` does not work with strings.
 
 # %% [markdown]
 # ```python

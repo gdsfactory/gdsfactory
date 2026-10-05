@@ -10,7 +10,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
-from gdsfactory.routing.utils import direction_ports_from_list_ports
+from gdsfactory.routing.utils import (
+    direction_ports_from_list_ports,
+    get_default_bend,
+)
 from gdsfactory.typings import (
     BoundingBoxes,
     ComponentSpec,
@@ -28,7 +31,7 @@ def route_fiber_array(
     component_to_route: Component | ComponentReference,
     pitch: float = 127.0,
     grating_coupler: ComponentSpecOrList = "grating_coupler_te",
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec | None = None,
     straight: ComponentSpec = "straight",
     fanout_length: float | None = None,
     max_y0_optical: None = None,
@@ -68,7 +71,9 @@ def route_fiber_array(
         component_to_route: component to route.
         pitch: pitch between the array.
         grating_coupler: grating coupler instance, function or list of functions.
-        bend: for bends.
+        bend: for bends. If None, follows port_type: wire_corner for an electrical
+            route (wire_corner_sections for a multi-section one),
+            bend_euler otherwise.
         straight: straight.
         fanout_length: target distance between gratings and the southmost component port.
             If None, automatically calculated.
@@ -111,7 +116,9 @@ def route_fiber_array(
         avoid_component_bbox: avoid component bbox for routing.
         kwargs: route_bundle settings.
     """
-    x = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section)
+    if bend is None:
+        bend = get_default_bend(port_type, xs)
 
     excluded_ports = excluded_ports or []
     if port_names is None:
@@ -379,7 +386,7 @@ def route_fiber_array(
 
         port0 = gca1[gc_port_name]
         port1 = gca2[gc_port_name]
-        radius = radius_loopback or radius or x.radius
+        radius = radius_loopback or radius or xs.radius
         assert radius is not None
         radius_dbu = component.kcl.to_dbu(radius)
         d_loop = straight_to_grating_spacing + radius + gca1.ysize

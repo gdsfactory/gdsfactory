@@ -85,3 +85,43 @@ def test_route_south_with_io_gratings() -> None:
         component=c, component_to_route=cr, io_gratings_lines=[gc_line]
     )
     assert len(routes) == 6  # 4 north + 2 east ports
+
+
+def _bends(c: gf.Component) -> list[str]:
+    return [
+        inst.cell.name
+        for inst in c.insts
+        if inst.cell.name.startswith(("bend_euler", "wire_corner"))
+    ]
+
+
+def test_route_south_default_bend_optical() -> None:
+    c = gf.Component()
+    cr = c << gf.components.mmi2x2()
+    gf.routing.route_south(c, cr)
+    bends = _bends(c)
+    assert bends
+    assert all(name.startswith("bend_euler") for name in bends)
+
+
+def test_route_south_default_bend_electrical() -> None:
+    c = gf.Component()
+    cr = c << gf.components.pad_array(columns=3, port_orientation=90)
+    gf.routing.route_south(
+        c,
+        cr,
+        select_ports=lambda ports, **_: list(ports),
+        cross_section="metal_routing",
+    )
+    bends = _bends(c)
+    assert bends
+    assert all(name.startswith("wire_corner") for name in bends)
+
+
+def test_route_south_incompatible_bend_leaves_component_unchanged() -> None:
+    c = gf.Component()
+    cr = c << gf.components.straight(length=10, width=2)
+    with pytest.raises(ValueError, match="0 'optical' ports"):
+        gf.routing.route_south(c, cr, bend="wire_corner", auto_taper=True)
+    # The auto-tapers were not placed.
+    assert len(c.insts) == 1
