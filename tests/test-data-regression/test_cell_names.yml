@@ -302,6 +302,9 @@ coupler_bend:
   - bend_circular_all_angle_R10p7_A60_NNone_ASNone_LNone_WN_9f56c48a
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_5085889c_2ba588ae921c33e
   name: coupler_bend_gdsfactorypcomponentspringspring_single_be_33d3cd75
+coupler_bent_half:
+  children: []
+  name: coupler_bent_half_gdsfactorypcomponentspcouplerspcouple_890a2ec4
 coupler_broadband:
   children:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407

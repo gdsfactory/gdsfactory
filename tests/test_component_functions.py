@@ -13,7 +13,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.gpdk import PDK
-from gdsfactory.typings import CrossSectionSpec, Ints, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, Ints, LayerSpec
 
 MARKER = "DRC_MARKER"
 
@@ -203,6 +203,56 @@ def marked_via(
     c = cf.via(size=size, enclosure=enclosure, layer=layer, pitch=pitch)
     # Inside the via, so the via bbox (used to place the via array) is unchanged.
     c.add_polygon([(-0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_bend_euler", register_factory=False)
+def marked_bend_euler(
+    radius: float | None = None,
+    angle: float = 90.0,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int | None = None,
+    angular_step: float | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+) -> gf.Component:
+    c = cf.bend_euler(
+        radius=radius,
+        angle=angle,
+        p=p,
+        with_arc_floorplan=with_arc_floorplan,
+        npoints=npoints,
+        angular_step=angular_step,
+        layer=layer,
+        width=width,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_coupler_symmetric", register_factory=False)
+def marked_coupler_symmetric(
+    bend: ComponentSpec = "bend_s",
+    gap: float = 0.234,
+    dy: Delta = 4.0,
+    dx: Delta = 10.0,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+) -> gf.Component:
+    c = cf.coupler_symmetric(
+        bend=bend,
+        gap=gap,
+        dy=dy,
+        dx=dx,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c
 
 
@@ -562,3 +612,57 @@ def test_partials_of_cells_are_cell_aliases() -> None:
         if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
     )
     assert not plain
+
+
+def test_pdk_override_applies_inside_couplers(restore_pdk: None) -> None:
+    straight_names = [
+        "coupler90",
+        "coupler_adiabatic",
+        "coupler_asymmetric",
+        "coupler_broadband",
+        "coupler_ring",
+        "coupler_straight",
+        "coupler_straight_asymmetric",
+    ]
+    bend_euler_names = [
+        "coupler90",
+        "coupler90bend",
+        "coupler_broadband",
+        "coupler_ring",
+    ]
+    bezier_names = [
+        "coupler",
+        "coupler_adiabatic",
+        "coupler_asymmetric",
+        "coupler_full",
+        "coupler_symmetric",
+    ]
+    for name in {*straight_names, *bend_euler_names, *bezier_names}:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # coupler_straight, coupler_asymmetric and coupler_straight_asymmetric used
+    # to call gf.c.straight directly, and coupler_ring called coupler90 and
+    # coupler_straight directly.
+    for name in straight_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_bend_euler", {**PDK.cells, "bend_euler": marked_bend_euler})
+
+    for name in bend_euler_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_bezier", {**PDK.cells, "bezier": marked_bezier})
+
+    # coupler_adiabatic used to call bezier directly.
+    for name in bezier_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_coupler_symmetric",
+        {**PDK.cells, "coupler_symmetric": marked_coupler_symmetric},
+    )
+
+    # coupler used to call coupler_symmetric directly.
+    assert _has_marker(gf.components.coupler())

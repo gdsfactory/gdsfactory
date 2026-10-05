@@ -14,7 +14,6 @@ __all__ = [
     "coupler",
     "coupler90",
     "coupler90bend",
-    "coupler90circular",
     "coupler_adiabatic",
     "coupler_asymmetric",
     "coupler_bent",

@@ -3,14 +3,11 @@ from __future__ import annotations
 __all__ = ["coupler_straight_asymmetric"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import CrossSectionSpec
 
-from .._schematic import coupler_schematic
 
-
-@gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["couplers"])
 def coupler_straight_asymmetric(
     length: float = 10.0,
     gap: float = 0.27,
@@ -27,10 +24,19 @@ def coupler_straight_asymmetric(
         width_bot: of bottom straight.
         cross_section: cross_section spec.
     """
-    return cf.coupler_straight_asymmetric(
-        length=length,
-        gap=gap,
-        width_top=width_top,
-        width_bot=width_bot,
-        cross_section=cross_section,
-    )
+    c = Component()
+
+    xs_top = gf.get_cross_section(cross_section, width=width_top)
+    xs_bot = gf.get_cross_section(cross_section, width=width_bot)
+
+    top = c << get_component("straight", length=length, cross_section=xs_top)
+    bot = c << get_component("straight", length=length, cross_section=xs_bot)
+
+    dy = 0.5 * (width_top + width_bot) + gap
+    top.movey(dy)
+    c.add_port("o1", port=bot.ports[0])
+    c.add_port("o2", port=top.ports[0])
+    c.add_port("o3", port=top.ports[1])
+    c.add_port("o4", port=bot.ports[1])
+    c.flatten()
+    return c

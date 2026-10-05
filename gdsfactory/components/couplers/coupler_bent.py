@@ -1,8 +1,7 @@
-__all__ = ["coupler_bent"]
-
-import numpy as np
+__all__ = ["coupler_bent", "coupler_bent_half"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 
 from .._schematic import coupler_schematic
 
@@ -30,58 +29,16 @@ def coupler_bent_half(
         length_straight_exit: length straight exit.
         cross_section: cross_section.
     """
-    radius_outer = radius + (width1 + gap) / 2
-    radius_inner = radius - (width2 + gap) / 2
-    alpha = round(np.rad2deg(length / (2 * radius)), 4)
-    beta = alpha
-
-    c = gf.Component()
-
-    xs = gf.get_cross_section(cross_section)
-    from gdsfactory.cross_section.utils import with_width
-
-    xs1 = with_width(xs, width1)
-    xs2 = with_width(xs, width2)
-
-    outer_bend = gf.path.arc(angle=-alpha, radius=radius_outer)
-    inner_bend = gf.path.arc(angle=-alpha, radius=radius_inner)
-
-    outer_straight = gf.path.straight(length=length, npoints=100)
-    inner_straight = gf.path.straight(length=length, npoints=100)
-
-    outer_exit_bend = gf.path.arc(angle=alpha, radius=radius_outer)
-    inner_exit_bend_down = gf.path.arc(angle=-beta, radius=radius_inner)
-    inner_exit_bend_up = gf.path.arc(angle=alpha + beta, radius=radius_inner)
-
-    inner_exit_straight = gf.path.straight(
-        length=length_straight,
-        npoints=100,
+    return cf.coupler_bent_half(
+        gap=gap,
+        radius=radius,
+        length=length,
+        width1=width1,
+        width2=width2,
+        length_straight=length_straight,
+        length_straight_exit=length_straight_exit,
+        cross_section=cross_section,
     )
-    outer_exit_straight = gf.path.straight(
-        length=length_straight_exit,
-        npoints=100,
-    )
-
-    outer = outer_bend + outer_straight + outer_exit_bend + outer_exit_straight
-    inner = (
-        inner_bend
-        + inner_straight
-        + inner_exit_bend_down
-        + inner_exit_bend_up
-        + inner_exit_straight
-    )
-
-    inner_component = c << inner.extrude(xs2)
-    outer_component = c << outer.extrude(xs1)
-    outer_component.movey(+(width1 + gap) / 2)
-    inner_component.movey(-(width2 + gap) / 2)
-
-    c.add_port("o1", port=outer_component.ports["o1"])
-    c.add_port("o2", port=inner_component.ports["o1"])
-    c.add_port("o3", port=outer_component.ports["o2"])
-    c.add_port("o4", port=inner_component.ports["o2"])
-    c.flatten()
-    return c
 
 
 @gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["couplers"])
@@ -107,9 +64,7 @@ def coupler_bent(
         length_straight: input and output straight length.
         cross_section: cross_section.
     """
-    c = gf.Component()
-
-    right_half = c << coupler_bent_half(
+    return cf.coupler_bent(
         gap=gap,
         radius=radius,
         length=length,
@@ -118,22 +73,3 @@ def coupler_bent(
         length_straight=length_straight,
         cross_section=cross_section,
     )
-    left_half = c << coupler_bent_half(
-        gap=gap,
-        radius=radius,
-        length=length,
-        width1=width1,
-        width2=width2,
-        length_straight=length_straight,
-        cross_section=cross_section,
-    )
-
-    left_half.connect(port="o1", other=right_half.ports["o1"], mirror=True)
-
-    c.add_port("o1", port=left_half.ports["o3"])
-    c.add_port("o2", port=left_half.ports["o4"])
-    c.add_port("o3", port=right_half.ports["o3"])
-    c.add_port("o4", port=right_half.ports["o4"])
-
-    c.flatten()
-    return c
