@@ -7,11 +7,11 @@ __all__ = [
     "taper_cross_section_sine",
 ]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
 from .._schematic import transition_schematic
@@ -63,8 +63,8 @@ def taper_cross_section(
     )
 
 
-taper_cross_section_linear = partial(taper_cross_section, linear=True, npoints=2)
-taper_cross_section_sine = partial(taper_cross_section, linear=False, npoints=101)
-taper_cross_section_parabolic = partial(
+taper_cross_section_linear = CellAlias(taper_cross_section, linear=True, npoints=2)
+taper_cross_section_sine = CellAlias(taper_cross_section, linear=False, npoints=101)
+taper_cross_section_parabolic = CellAlias(
     taper_cross_section, linear=False, width_type="parabolic", npoints=101
 )

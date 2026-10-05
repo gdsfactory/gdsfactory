@@ -2,10 +2,10 @@ from __future__ import annotations
 
 __all__ = ["coupler90", "coupler90circular"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import coupler_schematic
@@ -73,4 +73,4 @@ def coupler90(
     return c
 
 
-coupler90circular = partial(coupler90, bend="bend_circular")
+coupler90circular = CellAlias(coupler90, bend="bend_circular")

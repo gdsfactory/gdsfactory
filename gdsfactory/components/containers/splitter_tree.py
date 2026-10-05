@@ -20,12 +20,12 @@ from __future__ import annotations
 
 __all__ = ["splitter_tree", "switch_tree"]
 
-from functools import partial
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Spacing
 
 from ..mzis import mzi1x2_2x2
@@ -142,7 +142,7 @@ def splitter_tree(
     return c
 
 
-_mzi1x2_2x2 = partial(
+_mzi1x2_2x2 = CellAlias(
     mzi1x2_2x2,
     combiner="mmi2x2",
     delta_length=0,
@@ -150,7 +150,7 @@ _mzi1x2_2x2 = partial(
     length_x=None,
 )
 
-switch_tree = partial(
+switch_tree = CellAlias(
     splitter_tree,
     coupler=_mzi1x2_2x2,
     spacing=(500, 100),

@@ -4,12 +4,12 @@ from __future__ import annotations
 
 __all__ = ["awg", "free_propagation_region"]
 
-from functools import partial
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Step
 
 
@@ -89,9 +89,9 @@ def free_propagation_region(
     return c
 
 
-free_propagation_region_input = partial(free_propagation_region, inputs=1)
+free_propagation_region_input = CellAlias(free_propagation_region, inputs=1)
 
-free_propagation_region_output = partial(
+free_propagation_region_output = CellAlias(
     free_propagation_region, inputs=10, width1=10, width2=20.0
 )
 

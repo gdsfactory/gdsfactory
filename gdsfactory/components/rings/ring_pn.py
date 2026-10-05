@@ -8,6 +8,7 @@ from typing import Any
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.cross_section import rib
 from gdsfactory.typings import (
     ComponentSpec,
@@ -33,13 +34,13 @@ cross_section_pn = partial(
     layer_metal="M1",
     width_metal=0.5,
 )
-_heater_vias = partial(
+_heater_vias = CellAlias(
     via_stack,
     size=(0.5, 0.5),
     layers=("M1", "M2", "M3"),
     vias=(
-        partial(via, layer="VIAC", size=(0.1, 0.1), enclosure=0.01, pitch=0.2),
-        partial(
+        CellAlias(via, layer="VIAC", size=(0.1, 0.1), enclosure=0.01, pitch=0.2),
+        CellAlias(
             via,
             layer="VIA1",
             size=(0.1, 0.1),

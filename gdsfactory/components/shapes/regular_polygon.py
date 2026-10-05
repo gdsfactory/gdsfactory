@@ -2,11 +2,11 @@ from __future__ import annotations
 
 __all__ = ["hexagon", "octagon", "regular_polygon"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import LayerSpec
 
 
@@ -37,5 +37,5 @@ def regular_polygon(
     )
 
 
-hexagon = partial(regular_polygon, sides=6)
-octagon = partial(regular_polygon, sides=8)
+hexagon = CellAlias(regular_polygon, sides=6)
+octagon = CellAlias(regular_polygon, sides=8)

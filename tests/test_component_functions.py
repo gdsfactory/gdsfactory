@@ -511,14 +511,54 @@ def test_pdk_override_applies_inside_vias(restore_pdk: None) -> None:
     for name in names:
         assert not _has_marker(getattr(gf.components, name)()), name
 
-    _activate_pdk(
-        "override_vias",
-        {
-            **PDK.cells,
-            "via1": partial(marked_via, layer="VIA1", enclosure=1),
-            "viac": partial(marked_via, layer="VIAC"),
-        },
-    )
+    # via1, via2 and viac are aliases of via, so overriding via reaches them.
+    _activate_pdk("override_via", {**PDK.cells, "via": marked_via})
 
     for name in names:
         assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_cell_alias_matches_partial() -> None:
+    """A CellAlias serializes, names its cells and shows its signature like a partial."""
+    from gdsfactory.serialization import clean_value_json
+
+    alias = cf.CellAlias(gf.components.via, layer="VIA1")
+    plain = partial(gf.components.via, layer="VIA1")
+
+    assert inspect.signature(alias) == inspect.signature(plain)
+    assert clean_value_json(alias) == clean_value_json(plain)
+    assert alias() is plain()
+
+
+def test_cell_alias_of_alias_is_flattened() -> None:
+    alias = cf.CellAlias(gf.components.via1, size=(1, 1))
+    assert alias.func is gf.components.via
+    assert alias.keywords == {**gf.components.via1.keywords, "size": (1, 1)}
+
+
+def test_cell_alias_takes_keywords_only() -> None:
+    with pytest.raises(TypeError):
+        cf.CellAlias(gf.components.via, (1, 1))
+    with pytest.raises(TypeError):
+        gf.components.via1((1, 1))
+
+
+def test_cell_alias_resolves_base_cell_by_name(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.via1())
+
+    _activate_pdk("override_via", {**PDK.cells, "via": marked_via})
+
+    assert _has_marker(gf.components.via1())
+    assert _has_marker(gf.components.via_stack_m2_m3())
+    assert gf.components.via1().settings["layer"] == "VIA1"
+
+
+def test_partials_of_cells_are_cell_aliases() -> None:
+    """Every partial of a cell in gf.components is a CellAlias."""
+    cells = gf.get_active_pdk().cells
+    plain = sorted(
+        name
+        for name, cell in cells.items()
+        if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
+    )
+    assert not plain

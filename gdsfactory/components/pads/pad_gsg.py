@@ -4,10 +4,10 @@ from __future__ import annotations
 
 __all__ = ["pad_gs", "pad_gsg", "pad_gsg_open", "pad_gsg_short"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
 from .._schematic import pad_schematic
@@ -45,7 +45,7 @@ def pad_gsg_short(
     )
 
 
-pad_gsg_open = partial(pad_gsg_short, short=False)
+pad_gsg_open = CellAlias(pad_gsg_short, short=False)
 
 
 @gf.cell_with_module_name(schematic_function=pad_schematic, tags=["pads"])

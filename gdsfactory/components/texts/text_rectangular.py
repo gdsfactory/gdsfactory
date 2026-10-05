@@ -3,12 +3,12 @@ from __future__ import annotations
 __all__ = ["text_rectangular", "text_rectangular_multi_layer"]
 
 from collections.abc import Callable
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.component_functions.texts.text_rectangular_font import (
     rectangular_font,
 )
@@ -73,4 +73,4 @@ def text_rectangular_multi_layer(
     )
 
 
-text_rectangular_mini = partial(text_rectangular, size=1)
+text_rectangular_mini = CellAlias(text_rectangular, size=1)

@@ -2,10 +2,10 @@ from __future__ import annotations
 
 __all__ = ["ring_double_heater", "ring_single_heater"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, Float2
 
 from .._schematic import ring_double_schematic
@@ -206,4 +206,4 @@ def ring_double_heater(
     return c
 
 
-ring_single_heater = partial(ring_double_heater, with_drop=False)
+ring_single_heater = CellAlias(ring_double_heater, with_drop=False)

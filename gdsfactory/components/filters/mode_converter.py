@@ -2,10 +2,10 @@ from __future__ import annotations
 
 __all__ = ["mode_converter"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import ckt_schematic
@@ -17,7 +17,7 @@ def mode_converter(
     gap: float = 0.3,
     length: float = 10,
     coupler_straight_asymmetric: ComponentSpec = "coupler_straight_asymmetric",
-    bend: ComponentSpec = partial(bend_s, size=(25, 3)),
+    bend: ComponentSpec = CellAlias(bend_s, size=(25, 3)),
     taper: ComponentSpec = "taper",
     mm_width: float = 1.2,
     mc_mm_width: float = 1,

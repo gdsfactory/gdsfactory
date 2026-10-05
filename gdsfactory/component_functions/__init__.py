@@ -24,6 +24,7 @@ from . import (
     vias,
     waveguides,
 )
+from ._alias import CellAlias
 from ._get_component import ComponentFallbackWarning, get_component
 from .bends import *
 from .detectors import *
@@ -42,6 +43,7 @@ from .waveguides import *
 
 __all__ = [
     "C",
+    "CellAlias",
     "ComponentFallbackWarning",
     "L",
     "anchored_flexure",

@@ -3,12 +3,12 @@ from __future__ import annotations
 __all__ = ["fiber_size", "marker_te", "marker_tm", "rectangle", "rectangles"]
 
 from collections.abc import Sequence
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import Ints, LayerSpec, LayerSpecs, Size
 
 
@@ -39,8 +39,12 @@ def rectangle(
 
 
 fiber_size = 10.4
-marker_te = partial(rectangle, size=(fiber_size, fiber_size), layer="TE", centered=True)
-marker_tm = partial(rectangle, size=(fiber_size, fiber_size), layer="TM", centered=True)
+marker_te = CellAlias(
+    rectangle, size=(fiber_size, fiber_size), layer="TE", centered=True
+)
+marker_tm = CellAlias(
+    rectangle, size=(fiber_size, fiber_size), layer="TM", centered=True
+)
 
 
 @gf.cell_with_module_name(tags=["shapes"])

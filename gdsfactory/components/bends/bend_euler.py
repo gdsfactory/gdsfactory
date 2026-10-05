@@ -2,11 +2,11 @@ from __future__ import annotations
 
 __all__ = ["bend_euler", "bend_euler180", "bend_euler_all_angle", "bend_euler_s"]
 
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component, ComponentAllAngle
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 from .._schematic import bend_schematic, sbend_schematic
@@ -153,4 +153,4 @@ def bend_euler_all_angle(
     )
 
 
-bend_euler180 = partial(bend_euler, angle=180)
+bend_euler180 = CellAlias(bend_euler, angle=180)
