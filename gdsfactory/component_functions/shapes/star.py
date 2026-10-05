@@ -2,14 +2,12 @@ from __future__ import annotations
 
 __all__ = ["star"]
 
+import numpy as np
 
-import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags=["shapes"])
 def star(
     inner_radius: float = 5.0,
     outer_radius: float = 10.0,
@@ -24,14 +22,16 @@ def star(
         n_points: number of star points.
         layer: layer spec.
     """
-    return cf.star(
-        inner_radius=inner_radius,
-        outer_radius=outer_radius,
-        n_points=n_points,
-        layer=layer,
-    )
+    if n_points < 3:
+        raise ValueError(f"n_points={n_points} must be >= 3")
+    if inner_radius <= 0 or outer_radius <= 0:
+        raise ValueError("radii must be > 0")
 
-
-if __name__ == "__main__":
-    c = star()
-    c.show()
+    c = Component()
+    angles = np.linspace(0, 2 * np.pi, 2 * n_points, endpoint=False)
+    points = []
+    for i, a in enumerate(angles):
+        r = outer_radius if i % 2 == 0 else inner_radius
+        points.append((r * np.cos(a), r * np.sin(a)))
+    c.add_polygon(points, layer=layer)
+    return c

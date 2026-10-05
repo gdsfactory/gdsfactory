@@ -8,16 +8,20 @@ Component functions look up sub-cells by name in the active PDK through
 ``get_component``, so PDK overrides apply inside composite components.
 """
 
-from . import bends, mmis, mzis, tapers, waveguides
+from . import bends, mmis, mzis, shapes, tapers, waveguides
 from ._get_component import ComponentFallbackWarning, get_component
 from .bends import *
 from .mmis import *
 from .mzis import *
+from .shapes import *
 from .tapers import *
 from .waveguides import *
 
 __all__ = [
+    "C",
     "ComponentFallbackWarning",
+    "L",
+    "bbox",
     "bend_circular",
     "bend_circular_all_angle",
     "bend_circular_heater",
@@ -34,11 +38,19 @@ __all__ = [
     "bend_topic_s",
     "bends",
     "bezier",
+    "circle",
+    "circle_wave",
+    "compass",
+    "cross",
     "crossing",
     "crossing45",
     "crossing_arm",
     "crossing_etched",
     "crossing_linear_taper",
+    "dash",
+    "ellipse",
+    "fiducial_squares",
+    "fractal",
     "get_component",
     "mmi",
     "mmi1x2",
@@ -55,7 +67,17 @@ __all__ = [
     "mzis",
     "mzit",
     "mzit_lattice",
+    "nxn",
+    "pie_arc",
     "ramp",
+    "rect_su_shape",
+    "rect_taper",
+    "rectangle",
+    "rectangles",
+    "regular_polygon",
+    "rounded_rectangle",
+    "shapes",
+    "star",
     "straight",
     "straight_all_angle",
     "straight_array",
@@ -80,6 +102,11 @@ __all__ = [
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
     "tapers",
+    "torus",
+    "torus_wave",
+    "triangle",
+    "triangle2",
+    "triangle4",
     "waveguides",
     "wire_corner",
     "wire_corner45",
