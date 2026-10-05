@@ -30,6 +30,7 @@ def test_route_from_steps() -> None:
             {"x": 120},
             {"y": 80},
         ],
+        raise_on_error=True,
     )
 
 
@@ -65,6 +66,7 @@ def test_route_waypoints() -> None:
             (p1x + o, ytop),
             (p1x + o, p1y),
         ],
+        raise_on_error=True,
     )
 
 
@@ -100,6 +102,7 @@ def test_route_waypoints_numpy() -> None:
             (p1x + o, ytop),
             (p1x + o, p1y),
         ],
+        raise_on_error=True,
     )
 
 
@@ -131,7 +134,13 @@ def _bends(c: gf.Component) -> list[str]:
 )
 def test_route_single_default_bend(cross_section: str, bend: str) -> None:
     c, port1, port2 = _two_straights(cross_section)
-    gf.routing.route_single(c, port1, port2, cross_section=cross_section)
+    gf.routing.route_single(
+        c,
+        port1,
+        port2,
+        cross_section=cross_section,
+        raise_on_error=True,
+    )
     bends = _bends(c)
     assert bends
     assert all(name.startswith(bend) for name in bends)
@@ -151,4 +160,5 @@ def test_route_single_incompatible_bend(with_waypoints: bool) -> None:
             cross_section="strip",
             bend="wire_corner",
             waypoints=waypoints,
+            raise_on_error=True,
         )
