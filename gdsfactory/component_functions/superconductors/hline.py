@@ -3,12 +3,10 @@ from __future__ import annotations
 __all__ = ["hline"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags=["superconductors"])
 def hline(
     length: float = 10.0,
     width: float = 0.5,
@@ -40,9 +38,34 @@ def hline(
         - Port "o2" is at x=length with orientation 0° (east)
         - If length or width is 0 or negative, no polygon is created but ports are still added
     """
-    return cf.hline(
-        length=length,
+    c = gf.Component()
+    if length > 0 and width > 0:
+        a = width / 2
+        c.add_polygon([(0, -a), (length, -a), (length, a), (0, a)], layer=layer)
+
+    c.add_port(
+        name="o1",
+        center=(0.0, 0.0),
         width=width,
+        orientation=180,
         layer=layer,
         port_type=port_type,
     )
+    c.add_port(
+        name="o2",
+        center=(length, 0.0),
+        width=width,
+        orientation=0,
+        layer=layer,
+        port_type=port_type,
+    )
+
+    c.info["width"] = width
+    c.info["length"] = length
+
+    if port_type == "electrical":
+        for p in list(c.ports):
+            if p.name and p.port_type == "electrical":
+                c.create_pin(ports=[p], name=p.name)
+
+    return c

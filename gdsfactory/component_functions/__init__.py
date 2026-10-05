@@ -16,6 +16,7 @@ from . import (
     microfluidics,
     mmis,
     mzis,
+    superconductors,
     tapers,
     waveguides,
 )
@@ -27,6 +28,7 @@ from .mems import *
 from .microfluidics import *
 from .mmis import *
 from .mzis import *
+from .superconductors import *
 from .tapers import *
 from .waveguides import *
 
@@ -70,6 +72,7 @@ __all__ = [
     "gear",
     "get_component",
     "h_junction",
+    "hline",
     "meander_channel",
     "mems",
     "microfluidics",
@@ -88,7 +91,11 @@ __all__ = [
     "mzis",
     "mzit",
     "mzit_lattice",
+    "optimal_90deg",
+    "optimal_hairpin",
+    "optimal_step",
     "ramp",
+    "snspd",
     "straight",
     "straight_all_angle",
     "straight_array",
@@ -101,6 +108,7 @@ __all__ = [
     "straight_piecewise",
     "straight_pin",
     "straight_pin_slot",
+    "superconductors",
     "t_junction",
     "taper",
     "taper_adiabatic",
@@ -120,4 +128,5 @@ __all__ = [
     "wire_corner45_straight",
     "wire_corner_sections",
     "wire_straight",
+    "ytron_round",
 ]
