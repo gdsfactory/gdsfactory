@@ -2,14 +2,14 @@ from __future__ import annotations
 
 __all__ = ["ellipse"]
 
+import numpy as np
+from numpy import cos, pi, sin, sqrt
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags=["shapes"])
 def ellipse(
     radii: tuple[float, float] = (10.0, 5.0),
     angle_resolution: float = 2.5,
@@ -26,4 +26,12 @@ def ellipse(
     if the first element is larger, the ellipse will be horizontal and if the second
     element is larger, the ellipse will be vertical.
     """
-    return cf.ellipse(radii=radii, angle_resolution=angle_resolution, layer=layer)
+    c = gf.Component()
+    a = radii[0]
+    b = radii[1]
+    t = np.linspace(0, 360, int(360 / angle_resolution) + 1) * pi / 180
+    r = a * b / (sqrt((b * cos(t)) ** 2 + (a * sin(t)) ** 2))
+    xpts = r * cos(t)
+    ypts = r * sin(t)
+    c.add_polygon(points=list(zip(xpts, ypts, strict=False)), layer=layer)
+    return c

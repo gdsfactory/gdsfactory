@@ -12,7 +12,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.gpdk import PDK
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, Ints, LayerSpec
 
 MARKER = "DRC_MARKER"
 
@@ -154,6 +154,40 @@ def marked_pixel_array(
     layer: LayerSpec = "M1",
 ) -> gf.Component:
     c = cf.pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_compass", register_factory=False)
+def marked_compass(
+    size: tuple[float, float] = (4.0, 2.0),
+    layer: LayerSpec = "WG",
+    port_type: str | None = "electrical",
+    port_inclusion: float = 0.0,
+    port_orientations: Ints | None = (180, 90, 0, -90),
+    auto_rename_ports: bool = True,
+) -> gf.Component:
+    c = cf.compass(
+        size=size,
+        layer=layer,
+        port_type=port_type,
+        port_inclusion=port_inclusion,
+        port_orientations=port_orientations,
+        auto_rename_ports=auto_rename_ports,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_triangle", register_factory=False)
+def marked_triangle(
+    x: float = 10,
+    xtop: float = 0,
+    y: float = 20,
+    ybot: float = 0,
+    layer: LayerSpec = "WG",
+) -> gf.Component:
+    c = cf.triangle(x=x, xtop=xtop, y=y, ybot=ybot, layer=layer)
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c
 
@@ -425,3 +459,27 @@ def test_pdk_override_applies_inside_texts(restore_pdk: None) -> None:
     # called gf.c.text_rectangular.
     for name in names:
         assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_pdk_override_applies_inside_shapes(restore_pdk: None) -> None:
+    components: dict[str, Callable[[], gf.Component]] = {
+        "rectangle": gf.components.rectangle,
+        "rectangles": gf.components.rectangles,
+        "cross": gf.components.cross,
+        "fiducial_squares": gf.components.fiducial_squares,
+        "nxn": gf.components.nxn,
+        "rect_su_shape": lambda: gf.components.rect_su_shape(L1=-10),
+        "triangle2": gf.components.triangle2,
+        "triangle4": gf.components.triangle4,
+    }
+    for name, component in components.items():
+        assert not _has_marker(component()), name
+
+    _activate_pdk(
+        "override_shapes",
+        {**PDK.cells, "compass": marked_compass, "triangle": marked_triangle},
+    )
+
+    # These used to call rectangle, compass and triangle directly.
+    for name, component in components.items():
+        assert _has_marker(component()), name

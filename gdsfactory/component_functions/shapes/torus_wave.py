@@ -2,14 +2,12 @@ from __future__ import annotations
 
 __all__ = ["torus_wave"]
 
+import numpy as np
 
-import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags=["shapes"])
 def torus_wave(
     inner_radius: float = 5.0,
     outer_radius: float = 10.0,
@@ -34,17 +32,25 @@ def torus_wave(
         angle_resolution: degrees per point.
         layer: layer spec.
     """
-    return cf.torus_wave(
-        inner_radius=inner_radius,
-        outer_radius=outer_radius,
-        amplitude=amplitude,
-        n_oscillations=n_oscillations,
-        in_phase=in_phase,
-        angle_resolution=angle_resolution,
-        layer=layer,
+    c = Component()
+    n_points = int(np.round(360.0 / angle_resolution)) + 1
+    theta = np.linspace(0, 2 * np.pi, n_points, endpoint=True)
+
+    r_outer = outer_radius + amplitude * np.sin(n_oscillations * theta)
+    phase_shift = 0 if in_phase else np.pi / 2
+    r_inner = inner_radius + amplitude * np.sin(n_oscillations * theta + phase_shift)
+
+    outer_x = r_outer * np.cos(theta)
+    outer_y = r_outer * np.sin(theta)
+    inner_x = r_inner[::-1] * np.cos(theta[::-1])
+    inner_y = r_inner[::-1] * np.sin(theta[::-1])
+
+    points = list(
+        zip(
+            np.concatenate([outer_x, inner_x]),
+            np.concatenate([outer_y, inner_y]),
+            strict=False,
+        )
     )
-
-
-if __name__ == "__main__":
-    c = torus_wave()
-    c.show()
+    c.add_polygon(points, layer=layer)
+    return c

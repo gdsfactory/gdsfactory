@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["rect_taper"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -30,44 +31,14 @@ def rect_taper(
         layer: layer spec.
         port_type: None, optical, or electrical.
     """
-    c = Component()
-    hw = rect_width / 2
-    tw = taper_width / 2
-    total_length = rect_length + taper_length
-
-    points = [
-        (0, -hw),
-        (rect_length, -hw),
-        (total_length, -tw),
-        (total_length, tw),
-        (rect_length, hw),
-        (0, hw),
-    ]
-    c.add_polygon(points, layer=layer)
-
-    if port_type:
-        prefix = "o" if port_type == "optical" else "e"
-        c.add_port(
-            f"{prefix}1",
-            center=(0, 0),
-            width=rect_width,
-            orientation=180,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.add_port(
-            f"{prefix}2",
-            center=(total_length, 0),
-            width=taper_width,
-            orientation=0,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.auto_rename_ports()
-    if port_type == "electrical":
-        for port in c.ports:
-            c.create_pin(ports=[port], name=port.name)
-    return c
+    return cf.rect_taper(
+        rect_width=rect_width,
+        rect_length=rect_length,
+        taper_length=taper_length,
+        taper_width=taper_width,
+        layer=layer,
+        port_type=port_type,
+    )
 
 
 if __name__ == "__main__":
