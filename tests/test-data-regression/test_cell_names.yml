@@ -448,7 +448,7 @@ delay_snake:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
   - straight_gdsfactorypcomponentspwaveguidespstraight_L0_N_6819b7a0
   - straight_gdsfactorypcomponentspwaveguidespstraight_L757_f26f2f14
-  name: delay_snake_gdsfactorypcomponentspspiralspdelay_snake_L_c0ddbee1
+  name: delay_snake_gdsfactorypcomponentspspiralspdelay_snake_L_1875abed
 delay_snake2:
   children:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422

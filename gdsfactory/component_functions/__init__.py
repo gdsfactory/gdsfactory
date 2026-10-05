@@ -18,6 +18,7 @@ from . import (
     mzis,
     pads,
     shapes,
+    spirals,
     superconductors,
     tapers,
     texts,
@@ -35,6 +36,7 @@ from .mmis import *
 from .mzis import *
 from .pads import *
 from .shapes import *
+from .spirals import *
 from .superconductors import *
 from .tapers import *
 from .texts import *
@@ -81,6 +83,9 @@ __all__ = [
     "crossing_etched",
     "crossing_linear_taper",
     "dash",
+    "delay_snake",
+    "delay_snake2",
+    "delay_snake_sbend",
     "detectors",
     "doubly_clamped_beam",
     "edge_coupler_array",
@@ -137,6 +142,18 @@ __all__ = [
     "rounded_rectangle",
     "shapes",
     "snspd",
+    "spiral",
+    "spiral_archimedes",
+    "spiral_double",
+    "spiral_fermat",
+    "spiral_inductor",
+    "spiral_logarithmic",
+    "spiral_racetrack",
+    "spiral_racetrack_fixed_length",
+    "spiral_racetrack_heater_doped",
+    "spiral_racetrack_heater_metal",
+    "spiral_rectangular",
+    "spirals",
     "star",
     "straight",
     "straight_all_angle",
