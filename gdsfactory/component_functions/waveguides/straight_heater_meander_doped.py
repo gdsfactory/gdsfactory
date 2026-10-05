@@ -105,7 +105,7 @@ def straight_heater_meander_doped(
         )
 
         straight_with_tapers = get_component(
-            "extend_ports", settings=dict(component=straight), extension=taper
+            "extend_ports", component=straight, extension=taper
         )
         straight_ref = c << straight_with_tapers
         if row < len(straight_widths) // 2:
