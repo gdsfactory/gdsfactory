@@ -55,6 +55,36 @@ def marked_straight(
     return c
 
 
+@gf.cell(basename="marked_taper", register_factory=False)
+def marked_taper(
+    length: float = 10.0,
+    width1: float = 0.5,
+    width2: float | None = None,
+    with_two_ports: bool = True,
+    cross_section: CrossSectionSpec = "strip",
+    port_names: tuple[str, str] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
+) -> gf.Component:
+    c = cf.taper(
+        length=length,
+        width1=width1,
+        width2=width2,
+        with_two_ports=with_two_ports,
+        cross_section=cross_section,
+        port_names=port_names,
+        port_types=port_types,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_edge_coupler_array", register_factory=False)
+def marked_edge_coupler_array(**kwargs: Any) -> gf.Component:
+    c = cf.edge_coupler_array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 @gf.cell(basename="marked_bezier", register_factory=False)
 def marked_bezier(
     control_points: tuple[tuple[float, float], ...] = (
@@ -275,3 +305,31 @@ def test_pdk_override_applies_inside_detectors(restore_pdk: None) -> None:
     # ge_detector_straight_si_contacts used to call gf.components.straight
     # directly.
     assert _has_marker(gf.components.ge_detector_straight_si_contacts())
+
+
+def test_pdk_override_applies_inside_edge_couplers(restore_pdk: None) -> None:
+    names = [
+        "edge_coupler_silicon",
+        "edge_coupler_array",
+        "edge_coupler_array_with_loopback",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_taper", {**PDK.cells, "taper": marked_taper})
+
+    # edge_coupler_silicon used to call gf.components.taper directly.
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_edge_coupler_array",
+        {**PDK.cells, "edge_coupler_array": marked_edge_coupler_array},
+    )
+
+    # edge_coupler_array_with_loopback used to call edge_coupler_array directly.
+    assert _has_marker(gf.components.edge_coupler_array_with_loopback())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    assert _has_marker(gf.components.edge_coupler_array_with_loopback())

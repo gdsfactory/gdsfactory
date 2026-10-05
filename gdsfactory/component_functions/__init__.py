@@ -8,10 +8,21 @@ Component functions look up sub-cells by name in the active PDK through
 ``get_component``, so PDK overrides apply inside composite components.
 """
 
-from . import bends, detectors, mems, microfluidics, mmis, mzis, tapers, waveguides
+from . import (
+    bends,
+    detectors,
+    edge_couplers,
+    mems,
+    microfluidics,
+    mmis,
+    mzis,
+    tapers,
+    waveguides,
+)
 from ._get_component import ComponentFallbackWarning, get_component
 from .bends import *
 from .detectors import *
+from .edge_couplers import *
 from .mems import *
 from .microfluidics import *
 from .mmis import *
@@ -50,6 +61,10 @@ __all__ = [
     "crossing_linear_taper",
     "detectors",
     "doubly_clamped_beam",
+    "edge_coupler_array",
+    "edge_coupler_array_with_loopback",
+    "edge_coupler_silicon",
+    "edge_couplers",
     "folded_spring",
     "ge_detector_straight_si_contacts",
     "gear",
