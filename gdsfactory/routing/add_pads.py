@@ -24,7 +24,7 @@ def add_pads_bot(
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
     pad: ComponentSpec = "pad_rectangular",
-    bend: ComponentSpec = "wire_corner",
+    bend: ComponentSpec | None = None,
     straight_separation: float = 15.0,
     pad_pitch: float = 100.0,
     port_type: str = "electrical",
@@ -48,7 +48,9 @@ def add_pads_bot(
         pad_port_name: pad input port name.
         pad_port_labels: pad list of labels.
         pad: spec for route terminations.
-        bend: bend spec.
+        bend: bend spec. If None, follows port_type: wire_corner for an electrical
+            route (wire_corner_sections for a multi-section one),
+            bend_euler otherwise.
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_pitch: in um. Defaults to pad_pitch constant from the PDK.
         port_type: port type.
@@ -161,7 +163,7 @@ def add_pads_top(
     cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
     pad: ComponentSpec = "pad_rectangular",
-    bend: ComponentSpec = "wire_corner",
+    bend: ComponentSpec | None = None,
     straight_separation: float = 15.0,
     pad_pitch: float = 100.0,
     port_type: str = "electrical",
@@ -185,7 +187,9 @@ def add_pads_top(
         pad_port_name: pad input port name.
         pad_port_labels: pad list of labels.
         pad: spec for route terminations.
-        bend: bend spec.
+        bend: bend spec. If None, follows port_type: wire_corner for an electrical
+            route (wire_corner_sections for a multi-section one),
+            bend_euler otherwise.
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_pitch: in um. Defaults to pad_pitch constant from the PDK.
         port_type: port type.
