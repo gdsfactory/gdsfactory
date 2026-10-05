@@ -1,125 +1,16 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import validate_radius
-
 __all__ = ["bend_circular", "bend_circular180", "bend_circular_all_angle"]
 
-import warnings
 from functools import partial
-from typing import Literal, Unpack, overload
+from typing import Unpack
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component, ComponentAllAngle
-from gdsfactory.path import arc
-from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, ExtrusionPorts, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, ExtrusionPorts
 
 from .._schematic import bend_schematic
-
-
-@overload
-def _bend_circular(
-    radius: float | None = None,
-    angle: float = 90.0,
-    npoints: int | None = None,
-    layer: LayerSpec | None = None,
-    width: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
-    allow_min_radius_violation: bool = False,
-    all_angle: Literal[False] = False,
-    angular_step: float | None = None,
-    **kwargs: Unpack[ExtrusionPorts],
-) -> Component: ...
-
-
-@overload
-def _bend_circular(
-    radius: float | None = None,
-    angle: float = 90.0,
-    npoints: int | None = None,
-    layer: LayerSpec | None = None,
-    width: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
-    allow_min_radius_violation: bool = False,
-    all_angle: Literal[True] = True,
-    angular_step: float | None = None,
-    **kwargs: Unpack[ExtrusionPorts],
-) -> ComponentAllAngle: ...
-
-
-def _bend_circular(
-    radius: float | None = None,
-    angle: float = 90.0,
-    npoints: int | None = None,
-    layer: LayerSpec | None = None,
-    width: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
-    allow_min_radius_violation: bool = False,
-    all_angle: bool = False,
-    angular_step: float | None = None,
-    **kwargs: Unpack[ExtrusionPorts],
-) -> Component | ComponentAllAngle:
-    """Returns a radial arc.
-
-    Args:
-        radius: in um. Defaults to cross_section_radius.
-        angle: angle of arc (degrees).
-        npoints: number of points.
-        layer: layer to use. Defaults to cross_section.layer.
-        width: width to use. Defaults to cross_section.width.
-        cross_section: spec (CrossSection, string or dict).
-        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
-        all_angle: if True returns a ComponentAllAngle.
-        angular_step: If provided, determines the angular step (in degrees) between points. Mutually exclusive with npoints.
-        kwargs: optional ``port_type`` override for ports o1/o2.
-
-    ```text
-                  o2
-                  |
-                 /
-                /
-        o1_____/
-    ```
-    """
-    x = gf.get_cross_section(cross_section)
-    radius = radius or x.radius
-    assert radius is not None
-    if layer and width:
-        x = gf.get_cross_section(
-            cross_section, layer=layer or x.layer, width=width or x.width
-        )
-    elif layer:
-        x = gf.get_cross_section(cross_section, layer=layer or x.layer)
-    elif width:
-        x = gf.get_cross_section(cross_section, width=width or x.width)
-
-    p = arc(radius=radius, angle=angle, npoints=npoints, angular_step=angular_step)
-    ports = {0: ("o1", "o2", kwargs["port_type"])} if "port_type" in kwargs else None
-    c = p.extrude(x, all_angle=all_angle, ports=ports)
-
-    c.info["length"] = float(snap_to_grid(p.length()))
-    c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
-    c.info["radius"] = float(radius)
-    c.info["width"] = width or x.width
-    x.add_bbox(
-        c,
-        top=None if int(angle) in {180, -180, -90} else 0,
-        bottom=0 if int(angle) == -90 else None,
-    )
-    if not allow_min_radius_violation:
-        validate_radius(x, radius)
-    c.add_route_info(
-        cross_section=x,
-        length=c.info["length"],
-        n_bend_90=abs(angle / 90.0),
-        min_bend_radius=radius,
-    )
-    for prt in c.ports:  # positive radius for outward left turning
-        if all(prt.center == p.points[0]):
-            prt.info["radius"] = -radius if angle > 0 else radius
-        elif all(prt.center == p.points[-1]):
-            prt.info["radius"] = radius if angle > 0 else -radius
-    return c
 
 
 @gf.cell_with_module_name(schematic_function=bend_schematic, tags=["bends"])
@@ -148,22 +39,15 @@ def bend_circular(
         kwargs: optional ``port_type`` override for ports o1/o2.
             Defaults to the PDK's port policy.
     """
-    if abs(angle) not in {90, 180}:
-        warnings.warn(
-            f"bend_euler angle should be 90 or 180. Got {angle}. Use bend_euler_all_angle instead.",
-            UserWarning,
-            stacklevel=3,
-        )
-    return _bend_circular(
+    return cf.bend_circular(
         radius=radius,
         angle=angle,
         npoints=npoints,
+        angular_step=angular_step,
         layer=layer,
         width=width,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
-        all_angle=False,
-        angular_step=angular_step,
         **kwargs,
     )
 
@@ -191,16 +75,15 @@ def bend_circular_all_angle(
         cross_section: spec (CrossSection, string or dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
-    return _bend_circular(
+    return cf.bend_circular_all_angle(
         radius=radius,
         angle=angle,
         npoints=npoints,
+        angular_step=angular_step,
         layer=layer,
         width=width,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
-        all_angle=True,
-        angular_step=angular_step,
     )
 
 
