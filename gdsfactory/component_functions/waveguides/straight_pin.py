@@ -2,20 +2,15 @@
 
 from __future__ import annotations
 
-__all__ = ["straight_pin", "straight_pn"]
-
-from functools import partial
+__all__ = ["straight_pin"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.cross_section import pin
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from .._schematic import modulator_schematic
 
-
-@gf.cell_with_module_name(schematic_function=modulator_schematic, tags=["waveguides"])
 def straight_pin(
     length: float = 500.0,
     cross_section: CrossSectionSpec = pin,
@@ -48,18 +43,46 @@ def straight_pin(
         via_stack_spacing: spacing between via_stacks.
         taper: optional taper.
     """
-    return cf.straight_pin(
-        length=length,
+    c = Component()
+    if taper:
+        _taper = get_component(taper)
+        length -= 2 * _taper.xsize
+
+    wg = c << get_component(
+        "straight",
         cross_section=cross_section,
-        via_stack=via_stack,
-        via_stack_width=via_stack_width,
-        via_stack_spacing=via_stack_spacing,
-        taper=taper,
+        length=length,
     )
 
+    if taper:
+        t1 = c << _taper
+        t2 = c << _taper
+        t1.connect(gf.port.core_port(t1.ports["o2"]), gf.port.core_port(wg.ports["o1"]))
+        t2.connect(gf.port.core_port(t2.ports["o2"]), gf.port.core_port(wg.ports["o2"]))
+        c.add_port("o1", port=t1.ports["o1"])
+        c.add_port("o2", port=t2.ports["o1"])
 
-straight_pn = partial(straight_pin, cross_section="pn", length=2000)
+    else:
+        c.add_ports(wg.ports)
 
-if __name__ == "__main__":
-    c = straight_pin()
-    c.show()
+    via_stack_length = length
+    _via_stack = get_component(via_stack, size=(via_stack_length, via_stack_width))
+    via_stack_top = c << _via_stack
+    via_stack_bot = c << _via_stack
+    via_stack_bot.xmin = wg.xmin
+    via_stack_top.xmin = wg.xmin
+
+    via_stack_top.ymin = +via_stack_spacing / 2
+    via_stack_bot.ymax = -via_stack_spacing / 2
+
+    c.add_ports(via_stack_bot.ports, prefix="bot_")
+    c.add_ports(via_stack_top.ports, prefix="top_")
+
+    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
+    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
+    if top_ports:
+        c.create_pin(ports=top_ports, name="top")
+    if bot_ports:
+        c.create_pin(ports=bot_ports, name="bot")
+
+    return c

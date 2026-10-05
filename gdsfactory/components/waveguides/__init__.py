@@ -12,6 +12,7 @@ from .wire import *
 __all__ = [
     "crossing",
     "crossing45",
+    "crossing_arm",
     "crossing_etched",
     "crossing_linear_taper",
     "straight",
@@ -31,6 +32,7 @@ __all__ = [
     "straight_pin_slot",
     "straight_pn",
     "straight_pn_slot",
+    "via_stack_heater_meander_doped",
     "wire_corner",
     "wire_corner45",
     "wire_corner45_straight",

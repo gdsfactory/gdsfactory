@@ -7,6 +7,7 @@ __all__ = ["straight_pin_slot", "straight_pn_slot"]
 from functools import partial
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -52,76 +53,20 @@ def straight_pin_slot(
         taper: optional taper.
         width: width of the waveguide. If None, it will use the width of the cross_section.
     """
-    c = Component()
-    taper_component: Component | None = None
-    if taper:
-        taper_component = gf.get_component(taper)
-        length -= 2 * taper_component.xsize
-
-    wg = c << gf.components.straight(
-        cross_section=cross_section, length=length, width=width
+    return cf.straight_pin_slot(
+        length=length,
+        cross_section=cross_section,
+        via_stack=via_stack,
+        via_stack_width=via_stack_width,
+        via_stack_slab=via_stack_slab,
+        via_stack_slab_top=via_stack_slab_top,
+        via_stack_slab_bot=via_stack_slab_bot,
+        via_stack_slab_width=via_stack_slab_width,
+        via_stack_spacing=via_stack_spacing,
+        via_stack_slab_spacing=via_stack_slab_spacing,
+        taper=taper,
+        width=width,
     )
-
-    via_stack_slab_width = via_stack_slab_width or via_stack_width
-
-    if taper_component:
-        t1 = c << taper_component
-        t2 = c << taper_component
-        t1.connect(gf.port.core_port(t1.ports["o2"]), gf.port.core_port(wg.ports["o1"]))
-        t2.connect(gf.port.core_port(t2.ports["o2"]), gf.port.core_port(wg.ports["o2"]))
-        c.add_port("o1", port=t1.ports["o1"])
-        c.add_port("o2", port=t2.ports["o1"])
-
-    else:
-        c.add_ports(wg.ports)
-
-    via_stack_length = length
-
-    if via_stack:
-        via_stack_top = c << gf.get_component(
-            via_stack,
-            size=(via_stack_length, via_stack_width),
-        )
-        via_stack_bot = c << gf.get_component(
-            via_stack,
-            size=(via_stack_length, via_stack_width),
-        )
-
-        via_stack_bot.x = wg.x
-        via_stack_top.x = wg.x
-
-        via_stack_top.ymin = +via_stack_spacing / 2
-        via_stack_bot.ymax = -via_stack_spacing / 2
-        c.add_ports(via_stack_bot.ports, prefix="bot_")
-        c.add_ports(via_stack_top.ports, prefix="top_")
-
-    via_stack_slab_top = via_stack_slab_top or via_stack_slab
-    via_stack_slab_bot = via_stack_slab_bot or via_stack_slab
-
-    if via_stack_slab_top:
-        slot_top = c << gf.get_component(
-            via_stack_slab_top,
-            size=(via_stack_length, via_stack_slab_width),
-        )
-        slot_top.x = wg.x
-        slot_top.ymin = +via_stack_slab_spacing / 2
-
-    if via_stack_slab_bot:
-        slot_bot = c << gf.get_component(
-            via_stack_slab_bot,
-            size=(via_stack_length, via_stack_slab_width),
-        )
-        slot_bot.x = wg.x
-        slot_bot.ymax = -via_stack_slab_spacing / 2
-
-    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
-    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
-    if top_ports:
-        c.create_pin(ports=top_ports, name="top")
-    if bot_ports:
-        c.create_pin(ports=bot_ports, name="bot")
-
-    return c
 
 
 straight_pn_slot = partial(straight_pin_slot, cross_section="pn")

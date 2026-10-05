@@ -366,6 +366,10 @@ crossing45:
   - bezier_gdsfactorypcomponentspbendspbend_s_CP2p828427124_a092e861_f2dd4fc45546d6ff
   - crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5_68e372cff378ed
   name: crossing45_gdsfactorypcomponentspwaveguidespcrossing_wa_631c2603
+crossing_arm:
+  children:
+  - ellipse_gdsfactorypcomponentspshapespellipse_R3_1p1_AR2_646aa358
+  name: crossing_arm_gdsfactorypcomponentspwaveguidespcrossing__931e4e94
 crossing_etched:
   children: []
   name: crossing_etched_gdsfactorypcomponentspwaveguidespcrossi_8fec5ed3
@@ -1413,7 +1417,7 @@ straight_heater_meander:
   name: straight_heater_meander_gdsfactorypcomponentspwaveguide_a14bb5f1
 straight_heater_meander_doped:
   children: []
-  name: straight_heater_meander_doped_gdsfactorypcomponentspwav_f67c41d2
+  name: straight_heater_meander_doped_gdsfactorypcomponentspwav_b1b421e4
 straight_heater_metal:
   children: []
   name: straight_heater_metal_undercut_gdsfactorypcomponentspwa_1bc8609e
@@ -1733,6 +1737,13 @@ via_stack_heater_m3:
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+via_stack_heater_meander_doped:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_13dabab2
+  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_d235db8a
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p1_LVIA1__33ecaa95
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p1_LVIAC__38b3c27c
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S1p5_1p5_48d3aa2b
 via_stack_heater_mtop:
   children:
   - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65

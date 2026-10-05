@@ -233,3 +233,22 @@ def test_pdk_override_applies_inside_tapers(restore_pdk: None) -> None:
             cross_section1="strip", cross_section2="strip"
         )
     )
+
+
+def test_pdk_override_applies_inside_waveguides(restore_pdk: None) -> None:
+    names = [
+        "straight_heater_doped_rib",
+        "straight_heater_meander",
+        "straight_heater_meander_doped",
+        "straight_heater_metal",
+        "straight_heater_metal_simple",
+        "straight_pin",
+        "straight_pin_slot",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name

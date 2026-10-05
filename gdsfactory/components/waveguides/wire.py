@@ -11,9 +11,8 @@ __all__ = [
 
 from typing import Any
 
-import numpy as np
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, LayerSpec, PortNames, PortTypes
 
@@ -35,46 +34,13 @@ def wire_corner(
         width: optional width. Defaults to cross_section width.
         radius: ignored.
     """
-    if width:
-        x = gf.get_cross_section(cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section)
-
-    layer = x.layer
-    assert layer is not None
-    width = x.width
-    assert width is not None
-
-    c = Component()
-    a = width / 2
-    xpts = [-a, a, a, -a]
-    ypts = [-a, -a, a, a]
-    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
-    c.add_port(
-        name=port_names[0],
-        center=(-a, 0),
+    return cf.wire_corner(
+        cross_section=cross_section,
+        port_names=port_names,
+        port_types=port_types,
         width=width,
-        orientation=180,
-        layer=layer,
-        cross_section=x,
-        port_type=port_types[0],
+        radius=radius,
     )
-    c.add_port(
-        name=port_names[1],
-        center=(0, a),
-        width=width,
-        orientation=90,
-        layer=layer,
-        cross_section=x,
-        port_type=port_types[1],
-    )
-    c.info["length"] = width
-    c.info["dy"] = width
-    x.add_bbox(c)
-    for port in c.ports:
-        if port.port_type == "electrical":
-            c.create_pin(ports=[port], name=port.name)
-    return c
 
 
 @gf.cell(tags=["waveguides"])
@@ -90,31 +56,9 @@ def wire_corner45_straight(
         radius: of the corner. Defaults to width.
         cross_section: metal_routing.
     """
-    c = gf.Component()
-    xs = gf.get_cross_section(cross_section)
-    radius = radius or xs.radius or width
-
-    if radius is None:
-        raise ValueError("Either radius or width must be specified")
-
-    p = gf.Path(
-        [
-            (0.0, 0.0),
-            (radius / 2.0, 0.0),
-            (radius, radius / 2.0),
-            (radius, radius),
-        ]
+    return cf.wire_corner45_straight(
+        width=width, radius=radius, cross_section=cross_section
     )
-
-    if width:
-        xs = gf.get_cross_section(cross_section, width=width)
-    else:
-        xs = gf.get_cross_section(cross_section)
-    c = p.extrude(cross_section=xs)
-    for port in c.ports:
-        if port.port_type == "electrical":
-            c.create_pin(ports=[port], name=port.name)
-    return c
 
 
 @gf.cell_with_module_name(tags=["waveguides"])
@@ -134,65 +78,13 @@ def wire_corner45(
         layer: optional layer.
         with_corner90_ports: if True adds ports at 90 degrees.
     """
-    if width:
-        x = gf.get_cross_section(cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section)
-    layer = layer or x.layer
-    assert layer is not None
-    width = width or x.width
-    radius = radius or width
-
-    c = Component()
-    a = width / 2
-    xpts = [0, radius + a, radius + a, -np.sqrt(2) * width]
-    ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
-    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
-
-    if with_corner90_ports:
-        c.add_port(
-            name="e1",
-            center=(0, 0),
-            width=width,
-            orientation=180,
-            layer=layer,
-            cross_section=x,
-            port_type="electrical",
-        )
-        c.add_port(
-            name="e2",
-            center=(radius, radius),
-            width=width,
-            orientation=90,
-            layer=layer,
-            cross_section=x,
-            port_type="electrical",
-        )
-
-    else:
-        w = float(np.round(width * np.sqrt(2), 3))
-
-        c.add_port(
-            name="e1",
-            center=(-w / 2, -a),
-            width=w,
-            orientation=270,
-            layer=layer,
-            port_type="electrical",
-        )
-        c.add_port(
-            name="e2",
-            center=(radius + a, radius + w / 2),
-            width=w,
-            orientation=0,
-            layer=layer,
-            port_type="electrical",
-        )
-    c.info["length"] = float(np.sqrt(2) * radius)
-    for port in c.ports:
-        if port.port_type == "electrical":
-            c.create_pin(ports=[port], name=port.name)
-    return c
+    return cf.wire_corner45(
+        cross_section=cross_section,
+        radius=radius,
+        width=width,
+        layer=layer,
+        with_corner90_ports=with_corner90_ports,
+    )
 
 
 @gf.cell_with_module_name(tags=["waveguides"])
@@ -210,52 +102,6 @@ def wire_corner_sections(
         port_type: "electrical" or "optical".
         kwargs: cross_section settings, ignored (such as radius, width, layer).
     """
-    x = gf.get_cross_section(cross_section)
-
-    xmin, ymax = x.get_xmin_xmax()
-
-    c = Component()
-
-    for section in x.get_sections():
-        layer = section.layer
-        width = section.width
-        offset = (section.section_min + section.section_max) / 2
-        b = width / 2
-
-        xpts = [xmin, offset - b, offset - b, offset + b, offset + b, xmin]
-        ypts = [
-            -offset + b,
-            -offset + b,
-            ymax,
-            ymax,
-            -offset - b,
-            -offset - b,
-        ]
-
-        assert layer is not None
-
-        c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
-
-    c.add_port(
-        name="e1",
-        center=(xmin, -(xmin + ymax) / 2),
-        orientation=180,
-        cross_section=x,
-        layer=x.layer,
-        port_type=port_type,
+    return cf.wire_corner_sections(
+        cross_section=cross_section, port_type=port_type, **kwargs
     )
-    c.add_port(
-        name="e2",
-        center=((xmin + ymax) / 2, ymax),
-        orientation=90,
-        cross_section=x,
-        layer=x.layer,
-        port_type=port_type,
-    )
-    c.info["length"] = ymax - xmin
-    c.info["dy"] = ymax - xmin
-    x.add_bbox(c)
-    if port_type == "electrical":
-        for port in c.ports:
-            c.create_pin(ports=[port], name=port.name)
-    return c
