@@ -19,6 +19,7 @@ from . import (
     pads,
     superconductors,
     tapers,
+    texts,
     waveguides,
 )
 from ._get_component import ComponentFallbackWarning, get_component
@@ -32,6 +33,7 @@ from .mzis import *
 from .pads import *
 from .superconductors import *
 from .tapers import *
+from .texts import *
 from .waveguides import *
 
 __all__ = [
@@ -105,6 +107,7 @@ __all__ = [
     "pad_gsg_short",
     "pads",
     "pads_shorted",
+    "pixel_array",
     "ramp",
     "rectangle_with_slits",
     "snspd",
@@ -134,6 +137,13 @@ __all__ = [
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
     "tapers",
+    "text",
+    "text_freetype",
+    "text_klayout",
+    "text_lines",
+    "text_rectangular",
+    "text_rectangular_multi_layer",
+    "texts",
     "waveguides",
     "wire_corner",
     "wire_corner45",

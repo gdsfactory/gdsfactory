@@ -147,6 +147,17 @@ def marked_pad(
     return c
 
 
+@gf.cell(basename="marked_pixel_array", register_factory=False)
+def marked_pixel_array(
+    pixels: str = gf.components.character_a,
+    pixel_size: float = 10.0,
+    layer: LayerSpec = "M1",
+) -> gf.Component:
+    c = cf.pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 def _has_marker(c: gf.Component) -> bool:
     return not c.kdb_cell.bbox(gf.get_layer(MARKER)).empty()
 
@@ -398,4 +409,19 @@ def test_pdk_override_applies_inside_pads(restore_pdk: None) -> None:
 
     # pad_gs and pad_gsg used to call gf.c.straight directly.
     for name in pad_names + straight_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_pdk_override_applies_inside_texts(restore_pdk: None) -> None:
+    names = ["text_lines", "text_rectangular", "text_rectangular_multi_layer"]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_pixel_array", {**PDK.cells, "pixel_array": marked_pixel_array}
+    )
+
+    # text_rectangular used to call pixel_array directly and text_lines
+    # called gf.c.text_rectangular.
+    for name in names:
         assert _has_marker(getattr(gf.components, name)()), name
