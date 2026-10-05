@@ -21,6 +21,7 @@ from . import (
     superconductors,
     tapers,
     texts,
+    vias,
     waveguides,
 )
 from ._get_component import ComponentFallbackWarning, get_component
@@ -36,6 +37,7 @@ from .shapes import *
 from .superconductors import *
 from .tapers import *
 from .texts import *
+from .vias import *
 from .waveguides import *
 
 __all__ = [
@@ -172,6 +174,15 @@ __all__ = [
     "triangle",
     "triangle2",
     "triangle4",
+    "via",
+    "via_chain",
+    "via_circular",
+    "via_corner",
+    "via_stack",
+    "via_stack_corner45",
+    "via_stack_corner45_extended",
+    "via_stack_with_offset",
+    "vias",
     "waveguides",
     "wire_corner",
     "wire_corner45",

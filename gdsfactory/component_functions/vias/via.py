@@ -1,17 +1,16 @@
 from __future__ import annotations
 
-__all__ = ["via", "via1", "via2", "via_circular", "viac"]
+__all__ = ["via", "via_circular"]
 
 from collections.abc import Sequence
-from functools import partial
+from typing import cast
 
-import gdsfactory as gf
-from gdsfactory import component_functions as cf
+import numpy as np
+
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
 
-@gf.cell_with_module_name(tags=["vias"])
 def via(
     size: Size = (0.7, 0.7),
     enclosure: float = 1.0,
@@ -51,20 +50,36 @@ def via(
         |_______________________________________|
     ```
     """
-    return cf.via(
-        size=size,
-        enclosure=enclosure,
-        layer=layer,
-        bbox_layers=bbox_layers,
-        bbox_offset=bbox_offset,
-        bbox_offsets=bbox_offsets,
-        pitch=pitch,
-        column_pitch=column_pitch,
-        row_pitch=row_pitch,
-    )
+    row_pitch = row_pitch or pitch
+    column_pitch = column_pitch or pitch
+
+    c = Component()
+    c.info["row_pitch"] = row_pitch
+    c.info["column_pitch"] = column_pitch
+    c.info["enclosure"] = enclosure
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
+
+    width, height = size
+    a = width / 2
+    b = height / 2
+    c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
+
+    bbox_layers = bbox_layers or []
+    bbox_offsets = bbox_offsets or [bbox_offset] * len(bbox_layers)
+
+    if len(bbox_offsets) != len(bbox_layers):
+        raise ValueError(
+            f"bbox_offsets {bbox_offsets=} should have the same length as bbox_layers {bbox_layers=}"
+        )
+
+    for layer, bbox_offset in zip(bbox_layers, bbox_offsets, strict=False):
+        a = (width + 2 * bbox_offset) / 2
+        b = (height + 2 * bbox_offset) / 2
+        c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
+    return c
 
 
-@gf.cell_with_module_name(tags=["vias"])
 def via_circular(
     radius: float = 0.35,
     enclosure: float = 1.0,
@@ -85,17 +100,22 @@ def via_circular(
         row_pitch: Optional pitch between rows of vias. Default is pitch.
         angle_resolution: number of degrees per point.
     """
-    return cf.via_circular(
-        radius=radius,
-        enclosure=enclosure,
-        layer=layer,
-        pitch=pitch,
-        column_pitch=column_pitch,
-        row_pitch=row_pitch,
-        angle_resolution=angle_resolution,
-    )
+    if radius <= 0:
+        raise ValueError(f"radius={radius} must be > 0")
+    c = Component()
+    t = np.linspace(0, 360, int(360 / angle_resolution) + 1) * np.pi / 180
+    xpts = (radius * np.cos(t)).tolist()
+    ypts = (radius * np.sin(t)).tolist()
+    xpts = cast("list[float]", xpts)
+    ypts = cast("list[float]", ypts)
+    c.add_polygon(points=list(zip(xpts, ypts, strict=False)), layer=layer)
+    row_pitch = row_pitch or pitch
+    column_pitch = column_pitch or pitch
 
-
-viac = partial(via, layer="VIAC")
-via1 = partial(via, layer="VIA1", enclosure=1)
-via2 = partial(via, layer="VIA2")
+    c.info["row_pitch"] = row_pitch
+    c.info["column_pitch"] = column_pitch
+    c.info["enclosure"] = enclosure
+    c.info["radius"] = radius
+    c.info["xsize"] = 2 * radius
+    c.info["ysize"] = 2 * radius
+    return c

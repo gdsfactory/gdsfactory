@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import inspect
 from collections.abc import Callable, Iterator
+from functools import partial
 from typing import Any
 
 import pytest
@@ -189,6 +190,19 @@ def marked_triangle(
 ) -> gf.Component:
     c = cf.triangle(x=x, xtop=xtop, y=y, ybot=ybot, layer=layer)
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_via", register_factory=False)
+def marked_via(
+    size: tuple[float, float] = (0.7, 0.7),
+    enclosure: float = 1.0,
+    layer: LayerSpec = "VIAC",
+    pitch: float = 2,
+) -> gf.Component:
+    c = cf.via(size=size, enclosure=enclosure, layer=layer, pitch=pitch)
+    # Inside the via, so the via bbox (used to place the via array) is unchanged.
+    c.add_polygon([(-0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, 0.1)], layer=MARKER)
     return c
 
 
@@ -483,3 +497,28 @@ def test_pdk_override_applies_inside_shapes(restore_pdk: None) -> None:
     # These used to call rectangle, compass and triangle directly.
     for name, component in components.items():
         assert _has_marker(component()), name
+
+
+def test_pdk_override_applies_inside_vias(restore_pdk: None) -> None:
+    names = [
+        "via_chain",
+        "via_corner",
+        "via_stack",
+        "via_stack_corner45",
+        "via_stack_corner45_extended",
+        "via_stack_with_offset",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_vias",
+        {
+            **PDK.cells,
+            "via1": partial(marked_via, layer="VIA1", enclosure=1),
+            "viac": partial(marked_via, layer="VIAC"),
+        },
+    )
+
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name
