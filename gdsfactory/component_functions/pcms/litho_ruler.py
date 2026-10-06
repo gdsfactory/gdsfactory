@@ -3,11 +3,10 @@ from __future__ import annotations
 __all__ = ["litho_ruler"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags=["pcms"])
 def litho_ruler(
     height: float = 2,
     width: float = 0.5,
@@ -30,11 +29,11 @@ def litho_ruler(
         num_marks: Total number of marks to generate.
         layer: Specific layer to put the ruler geometry on.
     """
-    return cf.litho_ruler(
-        height=height,
-        width=width,
-        spacing=spacing,
-        scale=scale,
-        num_marks=num_marks,
-        layer=layer,
-    )
+    pitch = spacing + width
+    c = gf.Component()
+    for n in range(num_marks):
+        h = height * scale[n % len(scale)]
+        ref = c << get_component("rectangle", size=(width, h), layer=layer)
+        ref.movex((n - num_marks / 2) * pitch + spacing / 2.0)
+
+    return c

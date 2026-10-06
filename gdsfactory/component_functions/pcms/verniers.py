@@ -5,12 +5,11 @@ __all__ = ["verniers"]
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 
-@gf.cell_with_module_name(tags=["pcms"])
 def verniers(
     widths: Floats = (0.1, 0.2, 0.3, 0.4, 0.5),
     gap: float = 0.1,
@@ -31,12 +30,16 @@ def verniers(
         cross_section: cross_section spec.
         kwargs: straight settings.
     """
-    return cf.verniers(
-        widths=widths,
-        gap=gap,
-        xsize=xsize,
-        layer_label=layer_label,
-        straight=straight,
-        cross_section=cross_section,
-        **kwargs,
-    )
+    c = gf.Component()
+    y = 0.0
+
+    for width in widths:
+        w = c << get_component(
+            straight, width=width, length=xsize, cross_section=cross_section, **kwargs
+        )
+        y += width / 2
+        w.y = y
+        c.add_label(text=str(int(width * 1e3)), position=(0, y), layer=layer_label)
+        y += width / 2 + gap
+
+    return c

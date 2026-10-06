@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["litho_calipers"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
@@ -31,29 +32,15 @@ def litho_calipers(
         layer1: layer.
         layer2: layer.
     """
-    D = gf.Component()
-    num_notches_total = num_notches * 2 + 1
-    centre_notch = num_notches
-    R1 = gf.c.rectangle(size=notch_size, layer=layer1, port_type=None)
-    R2 = gf.c.rectangle(size=notch_size, layer=layer2, port_type=None)
-
-    for i in range(num_notches_total):
-        if i == centre_notch:
-            ref = D.add_ref(R1)
-            ref.movex(i * (notch_size[0] + notch_spacing)).movey(notch_size[1])
-            ref = D.add_ref(R2)
-            ref.movex(
-                i * (notch_size[0] + notch_spacing)
-                + offset_per_notch * (centre_notch - i)
-            ).movey(-2 * notch_size[1] - row_spacing)
-        ref = D.add_ref(R1)
-        ref.movex(i * (notch_size[0] + notch_spacing))
-        ref = D.add_ref(R2)
-        ref.movex(
-            i * (notch_size[0] + notch_spacing) + offset_per_notch * (centre_notch - i)
-        )
-        ref.movey(-notch_size[1] - row_spacing)
-    return D
+    return cf.litho_calipers(
+        notch_size=notch_size,
+        notch_spacing=notch_spacing,
+        num_notches=num_notches,
+        offset_per_notch=offset_per_notch,
+        row_spacing=row_spacing,
+        layer1=layer1,
+        layer2=layer2,
+    )
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ from __future__ import annotations
 __all__ = ["cdsem_all"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -40,62 +41,17 @@ def cdsem_all(
         cdsem_bend180: spec.
         text_size: in um.
     """
-    c = Component()
-    _c1 = gf.get_component(
-        "cdsem_straight",
+    return cf.cdsem_all(
         widths=widths,
+        dense_lines_width=dense_lines_width,
+        dense_lines_width_difference=dense_lines_width_difference,
+        dense_lines_gap=dense_lines_gap,
+        dense_lines_labels=dense_lines_labels,
+        straight=straight,
+        bend90=bend90,
         cross_section=cross_section,
+        text=text,
+        spacing=spacing,
+        cdsem_bend180=cdsem_bend180,
+        text_size=text_size,
     )
-
-    all_devices = [_c1]
-
-    if bend90:
-        all_devices += [
-            gf.get_component(
-                cdsem_bend180,
-                width=width,
-                straight=straight,
-                bend90=bend90,
-                cross_section=cross_section,
-                text=text,
-                text_size=text_size,
-            )
-            for width in widths
-        ]
-
-    if dense_lines_width:
-        density_params = [
-            (
-                dense_lines_width - dense_lines_width_difference,
-                dense_lines_gap - dense_lines_width_difference,
-                dense_lines_labels[0],
-            ),
-            (dense_lines_width, dense_lines_gap, dense_lines_labels[1]),
-            (
-                dense_lines_width + dense_lines_width_difference,
-                dense_lines_gap + dense_lines_width_difference,
-                dense_lines_labels[2],
-            ),
-        ]
-
-        all_devices += [
-            gf.get_component(
-                "cdsem_straight_density",
-                widths=(w,) * 10,
-                gaps=(g,) * 10,
-                label=lbl,
-                cross_section=cross_section,
-                text=text,
-                text_size=text_size,
-            )
-            for w, g, lbl in density_params
-        ]
-
-    ymin = 0.0
-    for d in all_devices:
-        ref = c.add_ref(d)
-        ref.xmin = 0
-        ref.ymin = ymin
-        ymin += ref.ysize + spacing
-
-    return c

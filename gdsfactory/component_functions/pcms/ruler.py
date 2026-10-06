@@ -3,11 +3,10 @@ from __future__ import annotations
 __all__ = ["ruler"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags=["pcms"])
 def ruler(
     height_long: float = 55,
     height_short: float = 5,
@@ -60,16 +59,30 @@ def ruler(
         long_marks: Marks that are long.
         text_size: Size of the text in um.
     """
-    return cf.ruler(
-        height_long=height_long,
-        height_short=height_short,
-        height_numbered=height_numbered,
-        width=width,
-        spacing=spacing,
-        marks=marks,
-        layer=layer,
-        bbox_layers=bbox_layers,
-        bbox_offset=bbox_offset,
-        long_marks=long_marks,
-        text_size=text_size,
-    )
+    ymin = 0.0
+    c = gf.Component()
+    for i, mark in enumerate(marks):
+        h = height_numbered if mark else height_short
+        h = height_long if mark in long_marks else h
+
+        if mark in long_marks:
+            ymin = 0.0
+        else:
+            ymin += height_short
+
+        ref = c << get_component(
+            "rectangle", size=(width, h), layer=layer, port_type=None
+        )
+        ref.xmin = i * spacing
+        ref.ymin = ymin
+
+        if mark is not None:
+            t = c << get_component(
+                "text_rectangular", text=str(mark), size=text_size / 5, layer=layer
+            )
+            t.rotate(90)
+            t.ymin = ref.ymin + 1
+            t.xmax = ref.xmin - 1
+    if bbox_layers:
+        gf.add_padding(c, layers=bbox_layers, default=bbox_offset)
+    return c

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from functools import partial
 from typing import Any
 
@@ -61,6 +62,16 @@ default_container_arguments: dict[str, dict[str, Any]] = dict(
         cross_section_metal="metal_routing",
         pad_pitch=100,
     ),
+    resistance_meander_net=dict(
+        num_rows=25, length_row=38.96, width=1.0, res_layer="MTOP"
+    ),
+    resistance_meander_row=dict(length_row=38.96, width=1.0, res_layer="MTOP"),
+)
+
+# Arguments that are components, so they are built once the PDK is active.
+default_component_arguments: dict[str, Callable[[], dict[str, Any]]] = dict(
+    bendu_double=lambda: dict(component=gf.c.mmi2x2()),
+    straight_double=lambda: dict(component=gf.c.mmi2x2()),
 )
 
 
@@ -73,6 +84,8 @@ def get_component_with_defaults(name: str) -> gf.Component:
     """Get a component, applying default arguments if specified."""
     if name in default_container_arguments:
         return cells[name](**default_container_arguments[name])
+    if name in default_component_arguments:
+        return cells[name](**default_component_arguments[name]())
     return cells[name]()
 
 

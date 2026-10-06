@@ -1,0 +1,7 @@
+info: {}
+name: resistance_meander_net_NR25_LR38p96_W1_RLMTOP
+settings:
+  length_row: 38.96
+  num_rows: 25
+  res_layer: MTOP
+  width: 1

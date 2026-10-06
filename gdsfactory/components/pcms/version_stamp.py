@@ -2,14 +2,11 @@ from __future__ import annotations
 
 __all__ = ["pixel", "qrcode", "version_stamp"]
 
-import datetime
-import platform
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
-
-from ..texts.text import text
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -20,10 +17,10 @@ def pixel(size: int = 1, layer: LayerSpec = "WG") -> Component:
         size: side length of the square, in um.
         layer: layer to use.
     """
-    c = gf.Component()
-    a = size / 2
-    c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
-    return c
+    return cf.pixel(
+        size=size,
+        layer=layer,
+    )
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -35,20 +32,11 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
         psize: pixel size.
         layer: layer to use.
     """
-    import qrcode
-
-    pix = pixel(size=psize, layer=layer)
-    q = qrcode.QRCode()
-    q.add_data(data)
-    matrix = q.get_matrix()
-    c = gf.Component()
-    for i, row in enumerate(matrix):
-        for j, value in enumerate(row):
-            if value:
-                ref = c << pix
-                ref.center = (i * psize, j * psize)
-    c.flatten()
-    return c
+    return cf.qrcode(
+        data=data,
+        psize=psize,
+        layer=layer,
+    )
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -71,41 +59,11 @@ def version_stamp(
         text_size: Text size.
 
     """
-    now = datetime.datetime.now()
-    timestamp = f"{now:%Y-%m-%d %H:%M:%S}"
-    short_stamp = f"{now:%y.%m.%d.%H.%M.%S}"
-
-    c = gf.Component()
-    if with_qr_code:
-        data = f"{timestamp}/{platform.node()}"
-        q = c << qrcode(layer=layer, data=data, psize=pixel_size)
-        q.center = (0, 0)
-        x = q.xsize * 0.5 + 10
-
-    else:
-        x = 0
-
-    _ = c << text(
-        position=(x, text_size + 2 * pixel_size),
-        text=short_stamp,
+    return cf.version_stamp(
+        labels=labels,
+        with_qr_code=with_qr_code,
         layer=layer,
-        justify="left",
-        size=text_size,
+        pixel_size=pixel_size,
+        version=version,
+        text_size=text_size,
     )
-
-    if version:
-        _ = c << text(
-            position=(x, 0), text=version, layer=layer, justify="left", size=text_size
-        )
-
-    for i, line in enumerate(labels):
-        _ = c << text(
-            position=(x, -(i + 1) * (text_size + 2 * pixel_size)),
-            text=line,
-            layer=layer,
-            justify="left",
-            size=text_size,
-        )
-
-    c.flatten()
-    return c

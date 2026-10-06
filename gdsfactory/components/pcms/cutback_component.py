@@ -5,11 +5,10 @@ __all__ = ["cutback_component", "cutback_component_mirror"]
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
-
-from ..containers.component_sequence import component_sequence
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -51,64 +50,23 @@ def cutback_component(
         radius: radius for the bends. Defaults to cross_section radius.
         kwargs: component settings.
     """
-    xs = gf.get_cross_section(cross_section)
-
-    component = gf.get_component(component, **kwargs)
-    bendu = gf.get_component(bend180, cross_section=xs)
-
-    radius = radius or xs.radius
-    assert radius is not None
-    straight_length = radius * 2 if straight_length is None else straight_length
-    straight_component = gf.get_component(
-        straight, length=straight_length, cross_section=xs
+    return cf.cutback_component(
+        component=component,
+        cols=cols,
+        rows=rows,
+        port1=port1,
+        port2=port2,
+        bend180=bend180,
+        mirror=mirror,
+        mirror1=mirror1,
+        mirror2=mirror2,
+        straight_length=straight_length,
+        straight_length_pair=straight_length_pair,
+        straight=straight,
+        cross_section=cross_section,
+        radius=radius,
+        **kwargs,
     )
-    # Define a map between symbols and (component, input port, output port)
-    symbol_to_component = {
-        "A": (component, port1, port2),
-        "B": (component, port2, port1),
-        "D": (bendu, "o1", "o2"),
-        "C": (bendu, "o2", "o1"),
-        "-": (straight_component, "o1", "o2"),
-        "_": (straight_component, "o2", "o1"),
-    }
-    if straight_length_pair:
-        straight_pair = gf.get_component(
-            straight, length=straight_length_pair, cross_section=xs
-        )
-        symbol_to_component["."] = (straight_pair, "o2", "o1")
-
-    # Generate the sequence of staircases
-    s = ""
-    a = "!A" if mirror1 else "A"
-    b = "!B" if mirror2 else "B"
-
-    for i in range(rows):
-        if straight_length_pair:
-            s += f"{a}.{b}" * cols
-        else:
-            s += (a + b) * cols
-
-        if mirror:
-            s += "C" if i % 2 == 0 else "D"
-        else:
-            s += "D" if i % 2 == 0 else "C"
-
-    s = s[:-1]
-    s += "-_"
-
-    for i in range(rows):
-        if straight_length_pair:
-            s += f"{a}.{b}" * cols
-        else:
-            s += (a + b) * cols
-        s += "D" if (i + rows) % 2 == 0 else "C"
-
-    s = s[:-1]
-
-    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
-    n = 2 * s.count("A")
-    c.info["components"] = n
-    return c
 
 
 cutback_component_mirror = CellAlias(cutback_component, mirror=True)

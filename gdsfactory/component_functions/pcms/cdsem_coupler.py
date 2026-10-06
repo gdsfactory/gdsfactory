@@ -7,12 +7,11 @@ __all__ = ["cdsem_coupler"]
 from collections.abc import Sequence
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module_name(tags=["pcms"])
 def cdsem_coupler(
     length: float = 420.0,
     gaps: Sequence[float] = (0.15, 0.2, 0.25),
@@ -35,13 +34,27 @@ def cdsem_coupler(
         width: width of the waveguide. If None, it will use the width of the cross_section.
         text_size: size of the text.
     """
-    return cf.cdsem_coupler(
-        length=length,
-        gaps=gaps,
-        cross_section=cross_section,
-        text=text,
-        spacing=spacing,
-        positions=positions,
-        width=width,
-        text_size=text_size,
-    )
+    c = Component()
+    if width:
+        xs = gf.get_cross_section(cross_section, width=width)
+    else:
+        xs = gf.get_cross_section(cross_section)
+    p = 0.0
+
+    if positions is not None:
+        positions = positions or [None] * len(gaps)
+    else:
+        positions = [i * spacing for i in range(len(gaps))]
+
+    for gap, position in zip(gaps, positions, strict=False):
+        line = c << get_component(
+            "coupler_straight", length=length, cross_section=xs, gap=gap
+        )
+        p = position or p
+        line.ymin = p
+        if text:
+            t = c << get_component(text, text=str(int(gap * 1e3)), size=text_size)
+            t.xmin = line.xmax + 5
+            t.ymin = p
+
+    return c
