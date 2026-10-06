@@ -13,6 +13,9 @@
 #
 #
 # `route_bundle_electrical` has `bend = wire_corner` with a 90deg bend corner.
+#
+# `route_bundle` and `route_single` pick `wire_corner` too when they route electrical ports and you don't pass a `bend`.
+# For a multi-section cross-section (GS, GSG) they pick `wire_corner_sections`, which draws every section.
 
 # %%
 import gdsfactory as gf
@@ -112,8 +115,6 @@ route = gf.routing.route_bundle( # The route_bundle function is an auto-router t
         {"y": 200},
     ],
     cross_section="metal_routing",
-    bend=gf.components.wire_corner,
-    port_type="electrical",
     allow_width_mismatch=True,
     auto_taper=False,
 )

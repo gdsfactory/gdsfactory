@@ -34,5 +34,6 @@ if __name__ == "__main__":
         cross_section=x,
         raise_on_error=True,
         port_type="electrical",
+        bend="bend_euler",
     )
     c2.show()

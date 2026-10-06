@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import inspect
 import subprocess
+import sys
 from functools import partial
 from pathlib import Path
 from unittest.mock import patch
@@ -456,21 +457,20 @@ def _roundtrip_presets(directory: Path, reverse: bool = False) -> None:
 
 @pytest.mark.parametrize("reverse", [False, True])
 def test_all_presets_roundtrip_in_fresh_process(tmp_path: Path, reverse: bool) -> None:
-    subprocess.run(
+    result = subprocess.run(
         [
-            "uv",
-            "run",
-            "--no-sync",
-            "python",
+            sys.executable,
             "-c",
-            "from pathlib import Path; import sys; from tests.test_cross_section_conversion import _roundtrip_presets; _roundtrip_presets(Path(sys.argv[1]), bool(int(sys.argv[2])))",
+            "from pathlib import Path; import sys; from test_cross_section_conversion import _roundtrip_presets; _roundtrip_presets(Path(sys.argv[1]), bool(int(sys.argv[2])))",
             str(tmp_path),
             str(int(reverse)),
         ],
-        check=True,
+        cwd=Path(__file__).parent,
+        check=False,
         capture_output=True,
         text=True,
     )
+    assert result.returncode == 0, result.stderr
 
 
 @pytest.mark.parametrize(
@@ -483,21 +483,20 @@ def test_all_presets_roundtrip_in_fresh_process(tmp_path: Path, reverse: bool) -
 )
 def test_process_profiles_are_initialized_before_use(setup: str) -> None:
     """Early geometry creation must not register profiles without PDK radii."""
-    subprocess.run(
+    result = subprocess.run(
         [
-            "uv",
-            "run",
-            "--no-sync",
-            "python",
+            sys.executable,
             "-c",
-            "import gdsfactory as gf; from tests import test_path; "
+            "import gdsfactory as gf; import test_path; "
             "gf.gpdk.PDK.activate(); "
             f"{setup}; "
             "gf.c.straight(); gf.c.straight_heater_metal(); "
             "assert gf.get_cross_section('strip').radius == 10; "
             "assert gf.get_cross_section('heater_metal').radius == 2.5",
         ],
-        check=True,
+        cwd=Path(__file__).parent,
+        check=False,
         capture_output=True,
         text=True,
     )
+    assert result.returncode == 0, result.stderr
