@@ -42,9 +42,9 @@ def coupler_adiabatic(
         length2: coupling region, where asymmetric straights gradually
             become the same width.
         length3: output region where the two straights separate.
-        wg_sep: Distance between center-to-center in the coupling region (Region 2).
-        input_wg_sep: Separation of the two straights at the input, center-to-center.
-        output_wg_sep: Separation of the two straights at the output, center-to-center.
+        wg_sep: Distance between edge-to-edge in the coupling region (Region 2).
+        input_wg_sep: Separation of the two straights at the input, edge-to-edge.
+        output_wg_sep: Separation of the two straights at the output, edge-to-edge.
         dw: Change in straight width.
             In Region 1, top arm tapers to width+dw, bottom taper to width-dw.
         cross_section: cross_section spec.
@@ -90,7 +90,7 @@ def coupler_adiabatic(
     x_top = x.copy(width=width_top)
     x_bot = x.copy(width=width_bot)
 
-    coupler = c << gf.components.coupler_straight(length=0, cross_section=x)
+    coupler = c << gf.components.coupler_straight(length=0, cross_section=x, gap=wg_sep)
 
     taper_top = c << gf.components.taper(length=length2,
         width1=width, width2=width_top, cross_section=cross_section
