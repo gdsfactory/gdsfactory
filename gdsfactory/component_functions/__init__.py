@@ -15,6 +15,7 @@ from . import (
     detectors,
     edge_couplers,
     filters,
+    grating_couplers,
     mems,
     microfluidics,
     mmis,
@@ -37,6 +38,7 @@ from .couplers import *
 from .detectors import *
 from .edge_couplers import *
 from .filters import *
+from .grating_couplers import *
 from .mems import *
 from .microfluidics import *
 from .mmis import *
@@ -144,6 +146,18 @@ __all__ = [
     "ge_detector_straight_si_contacts",
     "gear",
     "get_component",
+    "grating_coupler_array",
+    "grating_coupler_dual_pol",
+    "grating_coupler_elliptical",
+    "grating_coupler_elliptical_arbitrary",
+    "grating_coupler_elliptical_lumerical",
+    "grating_coupler_elliptical_trenches",
+    "grating_coupler_elliptical_uniform",
+    "grating_coupler_loss",
+    "grating_coupler_rectangular",
+    "grating_coupler_rectangular_arbitrary",
+    "grating_coupler_tree",
+    "grating_couplers",
     "h_junction",
     "hline",
     "loop_mirror",

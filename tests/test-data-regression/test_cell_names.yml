@@ -666,7 +666,10 @@ grating_coupler_dual_pol:
   - rectangle_gdsfactorypcomponentspshapesprectangle_S0p3_0_d85f7637
   - rectangle_gdsfactorypcomponentspshapesprectangle_S11_11_c82d519f
   - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb
-  name: grating_coupler_dual_pol_gdsfactorypcomponentspgrating__bb68872e
+  name: grating_coupler_dual_pol_gdsfactorypcomponentspgrating__9b341bf7
+grating_coupler_dual_pol_unit_cell:
+  children: []
+  name: rectangle_gdsfactorypcomponentspshapesprectangle_S0p3_0_d85f7637
 grating_coupler_elliptical:
   children: []
   name: grating_coupler_elliptical_gdsfactorypcomponentspgratin_2f9b04be
