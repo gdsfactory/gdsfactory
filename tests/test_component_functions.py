@@ -283,9 +283,14 @@ def marked_bend_circular(
     angle: float = 90.0,
     width: float | None = None,
     cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
 ) -> gf.Component:
     c = cf.bend_circular(
-        radius=radius, angle=angle, width=width, cross_section=cross_section
+        radius=radius,
+        angle=angle,
+        width=width,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
     )
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c
@@ -308,6 +313,20 @@ def marked_coupler_symmetric(
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
     )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_pixel", register_factory=False)
+def marked_pixel(size: int = 1, layer: LayerSpec = "WG") -> gf.Component:
+    c = cf.pixel(size=size, layer=layer)
+    c.add_polygon([(0, 0), (0.1, 0), (0.1, 0.1), (0, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_text", register_factory=False)
+def marked_text(**kwargs: Any) -> gf.Component:
+    c = cf.text(**kwargs)
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c
 
@@ -957,3 +976,149 @@ def test_pdk_override_applies_inside_couplers(restore_pdk: None) -> None:
 
     # coupler used to call coupler_symmetric directly.
     assert _has_marker(gf.components.coupler())
+
+
+def test_pdk_override_applies_inside_pcms(restore_pdk: None) -> None:
+    components: dict[str, Callable[[], gf.Component]] = {
+        name: getattr(gf.components, name)
+        for name in [
+            "cavity",
+            "cdsem_all",
+            "cdsem_bend180",
+            "cdsem_coupler",
+            "cdsem_straight",
+            "cdsem_straight_density",
+            "cutback_2x2",
+            "cutback_bend",
+            "cutback_bend90",
+            "cutback_bend90circular",
+            "cutback_bend180",
+            "cutback_bend180circular",
+            "cutback_component",
+            "cutback_splitter",
+            "greek_cross",
+            "greek_cross_with_pads",
+            "litho_calipers",
+            "litho_ruler",
+            "litho_steps",
+            "qrcode",
+            "resistance_meander",
+            "resistance_sheet",
+            "ruler",
+            "staircase",
+            "verniers",
+        ]
+    }
+    components.update(
+        {
+            "bendu_double": lambda: gf.components.bendu_double(
+                component=gf.components.mmi2x2()
+            ),
+            "straight_double": lambda: gf.components.straight_double(
+                component=gf.components.mmi2x2()
+            ),
+            "resistance_meander_row": lambda: gf.components.resistance_meander_row(
+                length_row=10, width=1, res_layer="MTOP"
+            ),
+            "resistance_meander_net": lambda: gf.components.resistance_meander_net(
+                num_rows=3, length_row=10, width=1, res_layer="MTOP"
+            ),
+            "version_stamp": lambda: gf.components.version_stamp(with_qr_code=True),
+        }
+    )
+    overrides: dict[str, tuple[Callable[..., gf.Component], list[str]]] = {
+        "straight": (
+            marked_straight,
+            [
+                "cavity",
+                "cdsem_all",
+                "cdsem_bend180",
+                "cdsem_coupler",
+                "cdsem_straight",
+                "cdsem_straight_density",
+                "cutback_2x2",
+                "cutback_bend",
+                "cutback_bend90",
+                "cutback_bend90circular",
+                "cutback_bend180",
+                "cutback_bend180circular",
+                "cutback_component",
+                "cutback_splitter",
+                "staircase",
+                "straight_double",
+                "verniers",
+            ],
+        ),
+        # bend_euler180 is an alias of bend_euler.
+        "bend_euler": (
+            marked_bend_euler,
+            [
+                "cutback_bend",
+                "cutback_bend90",
+                "cutback_bend180",
+                "cutback_component",
+                "cutback_splitter",
+                "staircase",
+            ],
+        ),
+        # bend_circular180 is an alias of bend_circular.
+        "bend_circular": (
+            marked_bend_circular,
+            [
+                "bendu_double",
+                "cdsem_all",
+                "cdsem_bend180",
+                "cutback_2x2",
+                "cutback_bend90circular",
+                "cutback_bend180circular",
+            ],
+        ),
+        # rectangle, cross and via_stack are built from compass.
+        "compass": (
+            marked_compass,
+            [
+                "greek_cross",
+                "greek_cross_with_pads",
+                "litho_calipers",
+                "litho_ruler",
+                "litho_steps",
+                "resistance_meander",
+                "resistance_meander_net",
+                "resistance_meander_row",
+                "resistance_sheet",
+                "ruler",
+            ],
+        ),
+        "via": (
+            marked_via,
+            ["greek_cross", "greek_cross_with_pads", "resistance_sheet"],
+        ),
+        # text_rectangular is built from pixel_array.
+        "pixel_array": (
+            marked_pixel_array,
+            [
+                "cdsem_all",
+                "cdsem_bend180",
+                "cdsem_coupler",
+                "cdsem_straight",
+                "cdsem_straight_density",
+                "ruler",
+            ],
+        ),
+        "pixel": (marked_pixel, ["qrcode", "version_stamp"]),
+        "text": (marked_text, ["litho_steps", "version_stamp"]),
+        # cavity builds its coupler from coupler_symmetric and its dbr from dbr_cell.
+        "coupler_symmetric": (marked_coupler_symmetric, ["cavity"]),
+        "dbr_cell": (marked_dbr_cell, ["cavity"]),
+    }
+    for cell_name, (marked, names) in overrides.items():
+        _activate_pdk(PDK.name, dict(PDK.cells))
+        for name in names:
+            assert not _has_marker(components[name]()), name
+
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+
+        # cdsem_*, cutback_2x2, greek_cross, litho_*, qrcode, resistance_*,
+        # ruler and version_stamp used to call their sub-cells directly.
+        for name in names:
+            assert _has_marker(components[name]()), (cell_name, name)

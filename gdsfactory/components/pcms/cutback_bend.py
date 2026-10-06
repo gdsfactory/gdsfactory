@@ -9,23 +9,13 @@ __all__ = [
     "staircase",
 ]
 
-from itertools import islice
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec
-
-from ..containers.component_sequence import component_sequence
-
-
-def _get_bend_size(bend90: Component) -> float:
-    # Use islice to efficiently fetch first 2 ports from bend90.ports, avoiding list creation
-    p1, p2 = islice(bend90.ports, 2)
-    dx = abs(p2.x - p1.x)
-    dy = abs(p2.y - p1.y)
-    return max(dx, dy)
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -54,30 +44,14 @@ def cutback_bend(
 
         _ this is a row
     """
-    from gdsfactory.pdk import get_component
-
-    bend90 = get_component(component, **kwargs)
-    straightx = gf.get_component(straight, length=straight_length, **kwargs)
-
-    # Define a map between symbols and (component, input port, output port)
-    symbol_to_component = {
-        "A": (bend90, "o1", "o2"),
-        "B": (bend90, "o2", "o1"),
-        "S": (straightx, "o1", "o2"),
-    }
-
-    # Generate the sequence of staircases
-    s = ""
-    for i in range(cols):
-        s += "ASBS" * rows
-        s += "ASAS" if i % 2 == 0 else "BSBS"
-    s = s[:-4]
-
-    c = component_sequence(
-        sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
+    return cf.cutback_bend(
+        component=component,
+        straight=straight,
+        straight_length=straight_length,
+        rows=rows,
+        cols=cols,
+        **kwargs,
     )
-    c.info["components"] = rows * cols * 2 + cols * 2 - 2
-    return c
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -104,32 +78,15 @@ def cutback_bend90(
            _
         |_| |
     """
-    bend90 = gf.get_component(component, **kwargs)
-    straightx = gf.get_component(straight, length=straight_length, **kwargs)
-    straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
-    straighty = gf.get_component(straight, length=straight_length, **kwargs)
-
-    # Define a map between symbols and (component, input port, output port)
-    symbol_to_component = {
-        "A": (bend90, "o1", "o2"),
-        "B": (bend90, "o2", "o1"),
-        "-": (straightx, "o1", "o2"),
-        "|": (straighty, "o1", "o2"),
-    }
-
-    # Generate the sequence of staircases
-    s = "".join(
-        "A-A-B-B-" * rows + "|" if i % 2 == 0 else "B-B-A-A-" * rows + "|"
-        for i in range(cols)
+    return cf.cutback_bend90(
+        component=component,
+        straight=straight,
+        straight_length=straight_length,
+        rows=rows,
+        cols=cols,
+        spacing=spacing,
+        **kwargs,
     )
-    s = s[:-1]
-
-    # Create the component from the sequence
-    c = component_sequence(
-        sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
-    )
-    c.info["components"] = rows * cols * 4
-    return c
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -152,33 +109,14 @@ def staircase(
         cols: number of cols.
         kwargs: cross_section settings.
     """
-    bend90 = (
-        component
-        if isinstance(component, Component)
-        else gf.get_component(component, **kwargs)
+    return cf.staircase(
+        component=component,
+        straight=straight,
+        length_v=length_v,
+        length_h=length_h,
+        rows=rows,
+        **kwargs,
     )
-
-    wgh = gf.get_component(straight, length=length_h, **kwargs)
-    wgv = gf.get_component(straight, length=length_v, **kwargs)
-
-    # Define a map between symbols and (component, input port, output port)
-    symbol_to_component = {
-        "A": (bend90, "o1", "o2"),
-        "B": (bend90, "o2", "o1"),
-        "-": (wgh, "o1", "o2"),
-        "|": (wgv, "o1", "o2"),
-    }
-
-    # Generate the sequence of staircases
-    s = "-A|B" * rows + "-"
-
-    c = component_sequence(
-        sequence=s,
-        symbol_to_component=symbol_to_component,
-        start_orientation=0,
-    )
-    c.info["components"] = 2 * rows
-    return c
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -207,34 +145,15 @@ def cutback_bend180(
 
         _ this is a column
     """
-    bend180 = gf.get_component(component, **kwargs)
-    straightx = gf.get_component(straight, length=straight_length, **kwargs)
-    wg_vertical = gf.get_component(
-        straight,
-        length=2 * bend180.xsize + straight_length + spacing,
+    return cf.cutback_bend180(
+        component=component,
+        straight=straight,
+        straight_length=straight_length,
+        rows=rows,
+        cols=cols,
+        spacing=spacing,
         **kwargs,
     )
-
-    # Define a map between symbols and (component, input port, output port)
-    symbol_to_component = {
-        "D": (bend180, "o1", "o2"),
-        "C": (bend180, "o2", "o1"),
-        "-": (straightx, "o1", "o2"),
-        "|": (wg_vertical, "o1", "o2"),
-    }
-
-    # Generate the sequence of staircases
-    s = "".join(
-        "D-C-" * rows + "|" if i % 2 == 0 else "C-D-" * rows + "|" for i in range(cols)
-    )
-
-    s = s[:-1]
-
-    c = component_sequence(
-        sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
-    )
-    c.info["components"] = rows * cols * 2 + cols * 2 - 2
-    return c
 
 
 cutback_bend180circular = CellAlias(cutback_bend180, component="bend_circular180")

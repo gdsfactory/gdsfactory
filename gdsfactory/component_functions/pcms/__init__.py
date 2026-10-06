@@ -8,7 +8,6 @@ from .cdsem_straight_density import *
 from .cutback_2x2 import *
 from .cutback_bend import *
 from .cutback_component import *
-from .cutback_loss import *
 from .cutback_splitter import *
 from .greek_cross import *
 from .litho_calipers import *
@@ -34,18 +33,9 @@ __all__ = [
     "cutback_2x2",
     "cutback_bend",
     "cutback_bend90",
-    "cutback_bend90circular",
     "cutback_bend180",
-    "cutback_bend180circular",
     "cutback_component",
-    "cutback_component_mirror",
-    "cutback_loss",
-    "cutback_loss_bend90",
-    "cutback_loss_bend180",
-    "cutback_loss_mmi1x2",
-    "cutback_loss_spirals",
     "cutback_splitter",
-    "gaps",
     "greek_cross",
     "greek_cross_with_pads",
     "litho_calipers",
@@ -64,5 +54,4 @@ __all__ = [
     "vernier_scale",
     "verniers",
     "version_stamp",
-    "widths",
 ]

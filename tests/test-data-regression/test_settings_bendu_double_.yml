@@ -1,0 +1,8 @@
+info: {}
+name: bendu_double_gdsfactorypcomponentsppcmspcutback_2x2_Cmm_6ad902cb
+settings:
+  bend180: bend_circular180
+  component: mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  cross_section: strip
+  port1: o1
+  port2: o2

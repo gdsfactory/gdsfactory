@@ -156,6 +156,11 @@ bend_topic_s:
   children:
   - bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d
   name: bend_topic_s_gdsfactorypcomponentspbendspbend_topic_RNo_d06a41da
+bendu_double:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_7db8d848
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_89f01867
+  name: bendu_double_gdsfactorypcomponentsppcmspcutback_2x2_Cmm_6ad902cb
 bent_beam:
   children: []
   name: bent_beam_gdsfactorypcomponentspmemspbent_beam_BW1_BL40_44b4b5c5
@@ -384,11 +389,11 @@ crossing_linear_taper:
   name: crossing_linear_taper_gdsfactorypcomponentspwaveguidesp_720cf0b8
 cutback_2x2:
   children:
-  - _bendu_double_gdsfactorypcomponentsppcmspcutback_2x2_Cm_4e07e9f2
-  - _straight_double_gdsfactorypcomponentsppcmspcutback_2x2_f639dc6b
   - bend_circular_gdsfactorypcomponentspbendspbend_circular_7db8d848
   - bend_circular_gdsfactorypcomponentspbendspbend_circular_89f01867
+  - bendu_double_gdsfactorypcomponentsppcmspcutback_2x2_Cmm_6ad902cb
   - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - straight_double_gdsfactorypcomponentsppcmspcutback_2x2__8707a764
   - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
   name: cutback_2x2_gdsfactorypcomponentsppcmspcutback_2x2_Cmmi_2b86b30c
 cutback_bend:
@@ -1141,6 +1146,17 @@ regular_polygon:
 resistance_meander:
   children: []
   name: resistance_meander_gdsfactorypcomponentsppcmspresistanc_c0ce6264
+resistance_meander_net:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S1_1_L_eeafcd24
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S38p96_92bf575a
+  - resistance_meander_row_LR38p96_W1_RLMTOP
+  name: resistance_meander_net_NR25_LR38p96_W1_RLMTOP
+resistance_meander_row:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S1_1_L_eeafcd24
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S38p96_92bf575a
+  name: resistance_meander_row_LR38p96_W1_RLMTOP
 resistance_sheet:
   children:
   - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489
@@ -1433,6 +1449,10 @@ straight_array:
   children:
   - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
   name: straight_array_gdsfactorypcomponentspwaveguidespstraigh_4d2a5b84
+straight_double:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: straight_double_gdsfactorypcomponentsppcmspcutback_2x2__8707a764
 straight_heater_doped_rib:
   children: []
   name: straight_heater_doped_rib_gdsfactorypcomponentspwavegui_6db4eef8

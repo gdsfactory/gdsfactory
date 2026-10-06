@@ -5,12 +5,11 @@ __all__ = ["cavity"]
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell_with_module_name(tags=["pcms"])
 def cavity(
     component: ComponentSpec = "dbr",
     coupler: ComponentSpec = "coupler",
@@ -41,10 +40,17 @@ def cavity(
     ```
 
     """
-    return cf.cavity(
-        component=component,
-        coupler=coupler,
-        length=length,
-        gap=gap,
-        **kwargs,
-    )
+    mirror = get_component(component)
+    coupler = get_component(coupler, length=length, gap=gap, **kwargs)
+
+    c = gf.Component()
+    cr = c << coupler
+    ml = c << mirror
+    mr = c << mirror
+
+    ml.connect("o1", other=cr.ports["o2"])
+    mr.connect("o1", other=cr.ports["o3"])
+    c.add_port("o1", port=cr.ports["o1"])
+    c.add_port("o2", port=cr.ports["o4"])
+    c.copy_child_info(mirror)
+    return c
