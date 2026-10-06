@@ -206,6 +206,20 @@ def marked_via(
     return c
 
 
+@gf.cell(basename="marked_grating_coupler_elliptical_arbitrary", register_factory=False)
+def marked_grating_coupler_elliptical_arbitrary(**kwargs: Any) -> gf.Component:
+    c = cf.grating_coupler_elliptical_arbitrary(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_straight_array", register_factory=False)
+def marked_straight_array(**kwargs: Any) -> gf.Component:
+    c = cf.straight_array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 def _has_marker(c: gf.Component) -> bool:
     return not c.kdb_cell.bbox(gf.get_layer(MARKER)).empty()
 
@@ -562,3 +576,55 @@ def test_partials_of_cells_are_cell_aliases() -> None:
         if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
     )
     assert not plain
+
+
+def test_pdk_override_applies_inside_grating_couplers(restore_pdk: None) -> None:
+    taper_names = [
+        "grating_coupler_dual_pol",
+        "grating_coupler_elliptical_trenches",
+        "grating_coupler_rectangular",
+        "grating_coupler_rectangular_arbitrary",
+    ]
+    compass_names = ["grating_coupler_dual_pol", "grating_coupler_rectangular"]
+    arbitrary_names = [
+        "grating_coupler_elliptical_lumerical",
+        "grating_coupler_elliptical_uniform",
+    ]
+    for name in {*taper_names, *compass_names, *arbitrary_names}:
+        assert not _has_marker(getattr(gf.components, name)()), name
+    assert not _has_marker(gf.components.grating_coupler_tree())
+
+    _activate_pdk("override_taper", {**PDK.cells, "taper": marked_taper})
+
+    # grating_coupler_rectangular_arbitrary used to call taper directly.
+    for name in taper_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_compass", {**PDK.cells, "compass": marked_compass})
+
+    # grating_coupler_dual_pol and grating_coupler_rectangular used to call
+    # gf.c.rectangle directly.
+    for name in compass_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_grating_coupler_elliptical_arbitrary",
+        {
+            **PDK.cells,
+            "grating_coupler_elliptical_arbitrary": (
+                marked_grating_coupler_elliptical_arbitrary
+            ),
+        },
+    )
+
+    # These used to call grating_coupler_elliptical_arbitrary directly.
+    for name in arbitrary_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_straight_array",
+        {**PDK.cells, "straight_array": marked_straight_array},
+    )
+
+    # grating_coupler_tree used to call gf.c.straight_array directly.
+    assert _has_marker(gf.components.grating_coupler_tree())

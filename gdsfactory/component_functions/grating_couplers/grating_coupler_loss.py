@@ -3,12 +3,11 @@ from __future__ import annotations
 __all__ = ["grating_coupler_loss"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module_name(tags=["grating_couplers"])
 def grating_coupler_loss(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = "grating_coupler_elliptical_trenches",
@@ -33,12 +32,27 @@ def grating_coupler_loss(
         nfibers: number of fibers to connect.
         grating_coupler_spacing: um.
     """
-    return cf.grating_coupler_loss(
-        pitch=pitch,
-        grating_coupler=grating_coupler,
-        cross_section=cross_section,
-        port_name=port_name,
-        rotation=rotation,
-        nfibers=nfibers,
-        grating_coupler_spacing=grating_coupler_spacing,
-    )
+    gc = get_component(grating_coupler)
+    c = gf.Component()
+    xmin = 0.0
+
+    for i in range(2, nfibers - 1, 2):
+        g1 = c << gc
+        g1.rotate(rotation)
+        g1.x = xmin
+
+        g2 = c << gc
+        g2.rotate(rotation)
+        g2.x = xmin + i * pitch
+
+        gf.routing.route_bundle(
+            c,
+            g1[port_name],
+            g2[port_name],
+            start_straight_length=40.0,
+            cross_section=cross_section,
+        )
+
+        xmin = g2.xmax + grating_coupler_spacing + gc.xsize / 2
+
+    return c

@@ -7,20 +7,22 @@ __all__ = [
 
 from typing import Any
 
-import gdsfactory as gf
-from gdsfactory import component_functions as cf
-from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
+import numpy as np
 
-from .._schematic import grating_coupler_schematic
+import gdsfactory as gf
+from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
+from gdsfactory.component_functions.grating_couplers.functions import (
+    grating_taper_points,
+    grating_tooth_points,
+)
+from gdsfactory.functions import DEG2RAD
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
 
 
-@gf.cell_with_module_name(
-    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
-)
 def grating_coupler_elliptical_arbitrary(
     gaps: Floats = _gaps,
     widths: Floats = _widths,
@@ -78,27 +80,102 @@ def grating_coupler_elliptical_arbitrary(
             o1  ______________|
     ```
     """
-    return cf.grating_coupler_elliptical_arbitrary(
-        gaps=gaps,
-        widths=widths,
-        taper_length=taper_length,
-        taper_angle=taper_angle,
-        wavelength=wavelength,
-        fiber_angle=fiber_angle,
-        nclad=nclad,
-        layer_slab=layer_slab,
-        layer_grating=layer_grating,
-        taper_to_slab_offset=taper_to_slab_offset,
-        polarization=polarization,
-        spiked=spiked,
-        bias_gap=bias_gap,
-        cross_section=cross_section,
+    xs = gf.get_cross_section(cross_section)
+    wg_width = xs.width
+    assert xs.layer is not None
+    layer_wg = gf.get_layer(xs.layer)
+
+    layer_grating = layer_grating or layer_wg
+    layer_grating = gf.get_layer(layer_grating)
+    sthc = np.sin(fiber_angle * DEG2RAD)
+
+    # generate component
+    c = gf.Component()
+    c.info["polarization"] = polarization
+    c.info["wavelength"] = wavelength
+
+    # get the physical parameters needed to compute ellipses
+    gaps_array = gf.snap.snap_to_grid(np.array(gaps) + bias_gap)
+    widths_array = gf.snap.snap_to_grid(np.array(widths) - bias_gap)
+    periods = [g + w for g, w in zip(gaps_array, widths_array, strict=False)]
+    neffs = [wavelength / p + nclad * sthc for p in periods]
+    ds = [neff**2 - nclad**2 * sthc**2 for neff in neffs]
+    a1s = [round(wavelength * neff / d, 3) for neff, d in zip(neffs, ds, strict=False)]
+    b1s = [round(wavelength / np.sqrt(d), 3) for d in ds]
+    x1s = [round(wavelength * nclad * sthc / d, 3) for d in ds]
+    xis = np.add(
+        taper_length + np.cumsum(periods), -widths_array / 2
+    )  # position of middle of each tooth
+    ps = np.divide(xis, periods)
+
+    # grating teeth
+    for a1, b1, x1, p, width in zip(a1s, b1s, x1s, ps, widths_array, strict=False):
+        pts = grating_tooth_points(
+            p * a1, p * b1, p * x1, float(width), taper_angle, spiked=spiked
+        )
+        c.add_polygon(pts, layer_grating)
+
+    # taper
+    p = taper_length / periods[0]  # (gaps[0]+widths[0])
+    a_taper = p * a1s[0]
+    b_taper = p * b1s[0]
+    x_taper = p * x1s[0]
+    x_output = a_taper + x_taper - taper_length + widths_array[0] / 2
+
+    if layer_grating == layer_wg:
+        pts = grating_taper_points(
+            a_taper, b_taper, x_output, x_taper, taper_angle, wg_width=wg_width
+        )
+        c.add_polygon(pts, layer_wg)
+
+    else:
+        pts = grating_taper_points(
+            a_taper,
+            b_taper,
+            x_output,
+            x_taper + np.sum(widths_array) + np.sum(gaps_array) + 1,
+            taper_angle,
+            wg_width=wg_width,
+        )
+        c.add_polygon(pts, layer=layer_wg)
+
+    c.add_port(
+        name="o1",
+        center=(x_output, 0),
+        width=wg_width,
+        orientation=180,
+        layer=layer_wg,
+        cross_section=xs,
     )
 
+    if layer_slab:
+        slab_xmin = taper_length + taper_to_slab_offset
+        slab_xmax = c.xmax + 0.5
+        slab_ysize = c.ysize + 2.0
+        yslab = slab_ysize / 2
+        c.add_polygon(
+            [
+                (slab_xmin, yslab),
+                (slab_xmax, yslab),
+                (slab_xmax, -yslab),
+                (slab_xmin, -yslab),
+            ],
+            layer_slab,
+        )
 
-@gf.cell_with_module_name(
-    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
-)
+    xs.add_bbox(c)
+    x = (taper_length + xis[-1]) / 2
+    c.add_port(
+        name="o2",
+        center=(x, 0),
+        width=10,
+        orientation=0,
+        layer=xs.layer,
+        port_type=f"vertical_{polarization}",
+    )
+    return c
+
+
 def grating_coupler_elliptical_uniform(
     n_periods: int = 20,
     period: float = 0.75,
@@ -143,9 +220,8 @@ def grating_coupler_elliptical_uniform(
     ```
 
     """
-    return cf.grating_coupler_elliptical_uniform(
-        n_periods=n_periods,
-        period=period,
-        fill_factor=fill_factor,
-        **kwargs,
+    widths = (period * fill_factor,) * n_periods
+    gaps = (period * (1 - fill_factor),) * n_periods
+    return get_component(
+        "grating_coupler_elliptical_arbitrary", gaps=gaps, widths=widths, **kwargs
     )

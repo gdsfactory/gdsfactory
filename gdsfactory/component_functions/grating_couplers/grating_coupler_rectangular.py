@@ -2,18 +2,14 @@ from __future__ import annotations
 
 __all__ = ["grating_coupler_rectangular"]
 
+import numpy as np
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
-from .._schematic import grating_coupler_schematic
 
-
-@gf.cell_with_module_name(
-    schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
-)
 def grating_coupler_rectangular(
     n_periods: int = 20,
     period: float = 0.75,
@@ -80,19 +76,62 @@ def grating_coupler_rectangular(
                 taper_length
     ```
     """
-    return cf.grating_coupler_rectangular(
-        n_periods=n_periods,
-        period=period,
-        fill_factor=fill_factor,
-        width_grating=width_grating,
-        length_taper=length_taper,
-        polarization=polarization,
-        wavelength=wavelength,
-        taper=taper,
-        layer_slab=layer_slab,
-        layer_grating=layer_grating,
-        fiber_angle=fiber_angle,
-        slab_xmin=slab_xmin,
-        slab_offset=slab_offset,
+    xs = gf.get_cross_section(cross_section)
+    wg_width = xs.width
+    layer = layer_grating or xs.layer
+    assert layer is not None
+
+    c = Component()
+    taper_ref = c << get_component(
+        taper,
+        length=length_taper,
+        width2=width_grating,
+        width1=wg_width,
         cross_section=cross_section,
     )
+
+    c.add_port(port=taper_ref.ports["o1"], name="o1")
+    x0 = length_taper
+    for i in range(n_periods):
+        xsize = gf.snap.snap_to_grid(period * fill_factor)
+        cgrating = c.add_ref(
+            get_component(
+                "rectangle",
+                size=(xsize, width_grating),
+                layer=layer,
+                port_type=None,
+            )
+        )
+        cgrating.xmin = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.y = 0
+
+    c.info["polarization"] = polarization
+    c.info["wavelength"] = wavelength
+    c.info["fiber_angle"] = fiber_angle
+
+    if layer_slab:
+        slab_xmin = length_taper - slab_offset
+        slab_xmax = length_taper + n_periods * period + slab_offset
+        slab_ysize = width_grating + 2 * slab_offset
+        yslab = slab_ysize / 2
+        c.add_polygon(
+            [
+                (slab_xmin, yslab),
+                (slab_xmax, yslab),
+                (slab_xmax, -yslab),
+                (slab_xmin, -yslab),
+            ],
+            layer_slab,
+        )
+    xs.add_bbox(c)
+    xport = np.round((x0 + cgrating.x) / 2, 3)
+    c.add_port(
+        name="o2",
+        port_type=f"vertical_{polarization}",
+        center=(xport, 0),
+        orientation=0,
+        width=width_grating,
+        layer=layer,
+    )
+    c.flatten()
+    return c

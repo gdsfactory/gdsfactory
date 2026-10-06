@@ -178,6 +178,7 @@ __all__ = [
     "generate_doe",
     "grating_coupler_array",
     "grating_coupler_dual_pol",
+    "grating_coupler_dual_pol_unit_cell",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",
     "grating_coupler_elliptical_lumerical",
