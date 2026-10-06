@@ -104,6 +104,7 @@ __all__ = [
     "coupler_asymmetric",
     "coupler_bend",
     "coupler_bent",
+    "coupler_bent_half",
     "coupler_broadband",
     "coupler_capacitive",
     "coupler_full",

@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["coupler_broadband"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -43,102 +44,16 @@ def coupler_broadband(
         cross_section: cross_section of the waveguides.
         radius: bend radius.
     """
-    c = gf.Component()
-
-    xs = gf.get_cross_section(cross_section)
-    assert xs.layer is not None
-    layer = gf.get_layer(xs.layer)
-
-    L_t = legnth_taper
-    c = Component()
-    L_2 = lenght_coupler_big_gap
-    L_1 = length_coupler_straight
-
-    y_coupler = -w_sc + xs.width / 2 + gap_pc / 2
-
-    coupler = gf.get_component(
-        coupler_straight, length=L_1, cross_section=cross_section, gap=gap_sc
+    return cf.coupler_broadband(
+        w_sc=w_sc,
+        gap_sc=gap_sc,
+        w_top=w_top,
+        gap_pc=gap_pc,
+        legnth_taper=legnth_taper,
+        bend=bend,
+        coupler_straight=coupler_straight,
+        length_coupler_straight=length_coupler_straight,
+        lenght_coupler_big_gap=lenght_coupler_big_gap,
+        cross_section=cross_section,
+        radius=radius,
     )
-    coupler1 = c << coupler
-    coupler1.xmin = -L_2 / 2 - L_t - L_1
-    coupler1.y = y_coupler
-
-    _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
-    bend_lt = c << _bend
-    bend_lb = c << _bend
-
-    bend_lb.connect("o1", coupler1.ports["o1"])
-    bend_lt.connect("o1", coupler1.ports["o2"], mirror=True)
-
-    vertices_top = [
-        (L_2 / 2 + L_t, 0),
-        (L_2 / 2 + L_t, w_sc),
-        (L_2 / 2 + L_t, w_sc),
-        (L_2 / 2, w_top),
-        (-L_2 / 2, w_top),
-        (-L_2 / 2 - L_t, w_sc),
-        (-L_2 / 2 - L_t, w_sc),
-        (-L_2 / 2 - L_t, 0),
-    ]
-
-    c.add_polygon(vertices_top, layer=layer)
-
-    # define vertices of the bottom waveguide
-    vertices_bot = [
-        (L_2 / 2 + L_t, -gap_sc - w_sc),
-        (L_2 / 2 + L_t, -gap_sc),
-        (L_2 / 2 + L_t, -gap_sc),
-        (L_2 / 2, -gap_pc),
-        (-L_2 / 2, -gap_pc),
-        (-L_2 / 2 - L_t, -gap_sc),
-        (-L_2 / 2 - L_t, -gap_sc),
-        (-L_2 / 2 - L_t, -gap_sc - w_sc),
-    ]
-    c.add_polygon(vertices_bot, layer=layer)
-
-    for section in xs.get_sections()[1:]:
-        w = section.width / 2
-        layer_ = section.layer
-        assert layer_ is not None
-        vertices_top = [
-            (L_2 / 2 + L_t, -w),
-            (L_2 / 2 + L_t, w),
-            (L_2 / 2 + L_t, w),
-            (L_2 / 2, w_top + w),
-            (-L_2 / 2, w_top + w),
-            (-L_2 / 2 - L_t, w),
-            (-L_2 / 2 - L_t, w),
-            (-L_2 / 2 - L_t, -w),
-        ]
-
-        c.add_polygon(vertices_top, layer=layer_)
-
-        # define vertices of the bottom waveguide
-        vertices_bot = [
-            (L_2 / 2 + L_t, -gap_sc - w),
-            (L_2 / 2 + L_t, -gap_sc + w),
-            (L_2 / 2 + L_t, -gap_sc + w),
-            (L_2 / 2, -gap_pc + w),
-            (-L_2 / 2, -gap_pc + w),
-            (-L_2 / 2 - L_t, -gap_sc + w),
-            (-L_2 / 2 - L_t, -gap_sc + w),
-            (-L_2 / 2 - L_t, -gap_sc - w),
-        ]
-        c.add_polygon(vertices_bot, layer=layer_)
-
-    coupler2 = c << coupler
-    coupler2.xmax = L_2 / 2 + L_t + L_1
-    coupler2.y = y_coupler
-
-    _bend = gf.get_component(bend, radius=radius, cross_section=cross_section)
-    bend_rt = c << _bend
-    bend_rb = c << _bend
-
-    bend_rb.connect("o1", coupler2.ports["o3"])
-    bend_rt.connect("o1", coupler2.ports["o4"], mirror=True)
-
-    c.add_port("o1", port=bend_lb.ports["o2"])
-    c.add_port("o2", port=bend_lt.ports["o2"])
-    c.add_port("o3", port=bend_rt.ports["o2"])
-    c.add_port("o4", port=bend_rb.ports["o2"])
-    return c

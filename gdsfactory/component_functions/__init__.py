@@ -10,6 +10,7 @@ Component functions look up sub-cells by name in the active PDK through
 
 from . import (
     bends,
+    couplers,
     detectors,
     edge_couplers,
     mems,
@@ -27,6 +28,7 @@ from . import (
 from ._alias import CellAlias
 from ._get_component import ComponentFallbackWarning, get_component
 from .bends import *
+from .couplers import *
 from .detectors import *
 from .edge_couplers import *
 from .mems import *
@@ -74,6 +76,21 @@ __all__ = [
     "circle_wave",
     "comb_drive",
     "compass",
+    "coupler",
+    "coupler90",
+    "coupler90bend",
+    "coupler_adiabatic",
+    "coupler_asymmetric",
+    "coupler_bent",
+    "coupler_bent_half",
+    "coupler_broadband",
+    "coupler_full",
+    "coupler_pulley",
+    "coupler_ring",
+    "coupler_straight",
+    "coupler_straight_asymmetric",
+    "coupler_symmetric",
+    "couplers",
     "cross",
     "crossing",
     "crossing45",

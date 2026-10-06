@@ -1,18 +1,13 @@
 from __future__ import annotations
 
-__all__ = ["coupler90", "coupler90circular"]
-
+__all__ = ["coupler90"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.component_functions import CellAlias
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-from .._schematic import coupler_schematic
 
-
-@gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["couplers"])
 def coupler90(
     gap: float = 0.2,
     radius: float | None = None,
@@ -43,15 +38,32 @@ def coupler90(
     ```
 
     """
-    return cf.coupler90(
-        gap=gap,
+    c = Component()
+    x = gf.get_cross_section(cross_section)
+    xs_bend = cross_section_bend or cross_section
+
+    bend90 = get_component(
+        bend,
         radius=radius,
-        bend=bend,
-        straight=straight,
-        cross_section=cross_section,
-        cross_section_bend=cross_section_bend,
-        length_straight=length_straight,
+        cross_section=xs_bend,
     )
+    bend_ref = c << bend90
+    bend90_ports = bend_ref.ports.filter(port_type="optical")
 
+    if length_straight is None:
+        length_straight = bend90_ports[1].center[0] - bend90_ports[0].center[0]
 
-coupler90circular = CellAlias(coupler90, bend="bend_circular")
+    straight_component = get_component(
+        straight,
+        cross_section=cross_section,
+        length=length_straight,
+    )
+    wg_ref = c << straight_component
+    width = x.width
+
+    pbw = bend90_ports[0]
+    bend_ref.movey(pbw.y + gap + width)
+    c.add_ports(wg_ref.ports, prefix="wg")
+    c.add_ports(bend_ref.ports, prefix="bend")
+    c.auto_rename_ports()
+    return c

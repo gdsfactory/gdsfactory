@@ -1,0 +1,11 @@
+info: {}
+name: coupler_bent_half_gdsfactorypcomponentspcouplerspcouple_890a2ec4
+settings:
+  cross_section: strip
+  gap: 0.2
+  length: 8.6
+  length_straight: 10
+  length_straight_exit: 18
+  radius: 26
+  width1: 0.4
+  width2: 0.4

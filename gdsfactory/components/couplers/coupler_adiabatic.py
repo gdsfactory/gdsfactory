@@ -1,15 +1,13 @@
 from __future__ import annotations
 
-from gdsfactory.cross_section.utils import with_width
-
 __all__ = ["coupler_adiabatic"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
 
 from .._schematic import coupler_schematic
-from ..bends.bend_s import bezier
 
 
 @gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["couplers"])
@@ -52,78 +50,13 @@ def coupler_adiabatic(
         cross_section: cross_section spec.
 
     """
-    # Control points for input and output S-bends
-    control_points_input_top = (
-        (0, 0),
-        (length1 / 2.0, 0),
-        (length1 / 2.0, -input_wg_sep / 2.0 + wg_sep / 2.0),
-        (length1, -input_wg_sep / 2.0 + wg_sep / 2.0),
+    return cf.coupler_adiabatic(
+        length1=length1,
+        length2=length2,
+        length3=length3,
+        wg_sep=wg_sep,
+        input_wg_sep=input_wg_sep,
+        output_wg_sep=output_wg_sep,
+        dw=dw,
+        cross_section=cross_section,
     )
-
-    control_points_input_bottom = (
-        (0, -input_wg_sep),
-        (length1 / 2.0, -input_wg_sep),
-        (length1 / 2.0, -input_wg_sep / 2.0 - wg_sep / 2.0),
-        (length1, -input_wg_sep / 2.0 - wg_sep / 2.0),
-    )
-
-    control_points_output_top = (
-        (length1 + length2, -input_wg_sep / 2.0 + wg_sep / 2.0),
-        (
-            length1 + length2 + length3 / 2.0,
-            -input_wg_sep / 2.0 + wg_sep / 2.0,
-        ),
-        (
-            length1 + length2 + length3 / 2.0,
-            -input_wg_sep / 2.0 + output_wg_sep / 2.0,
-        ),
-        (
-            length1 + length2 + length3,
-            -input_wg_sep / 2.0 + output_wg_sep / 2.0,
-        ),
-    )
-
-    c = Component()
-
-    x = gf.get_cross_section(cross_section)
-    width = float(x.width)
-    width_top = width + dw
-    width_bot = width - dw
-    x_top = with_width(x, width_top)
-    x_bot = with_width(x, width_bot)
-
-    coupler = c << gf.components.coupler_straight(length=length2, cross_section=x)
-
-    taper_top = c << gf.components.taper(
-        width1=width, width2=width_top, cross_section=cross_section
-    )
-    taper_bot = c << gf.components.taper(
-        width1=width, width2=width_bot, cross_section=cross_section
-    )
-
-    taper_bot.connect("o1", coupler.ports["o1"])
-    taper_top.connect("o1", coupler.ports["o2"])
-
-    sbend_left_top = c << bezier(
-        control_points=control_points_input_top, cross_section=x_top
-    )
-    sbend_left_bot = c << bezier(
-        control_points=control_points_input_bottom, cross_section=x_bot
-    )
-
-    sbend_left_top.connect("o2", taper_top.ports["o2"])
-    sbend_left_bot.connect("o2", taper_bot.ports["o2"])
-
-    sbend_right = bezier(control_points=control_points_output_top, cross_section=x)
-    sbend_right_top = c << sbend_right
-    sbend_right_bot = c << sbend_right
-
-    sbend_right_top.connect("o1", coupler.ports["o3"])
-    sbend_right_bot.connect("o1", coupler.ports["o4"], mirror=True)
-
-    c.add_port("o1", port=sbend_left_bot.ports["o1"])
-    c.add_port("o2", port=sbend_left_top.ports["o1"])
-    c.add_port("o3", port=sbend_right_top.ports["o2"])
-    c.add_port("o4", port=sbend_right_bot.ports["o2"])
-    c.flatten()
-    return c
