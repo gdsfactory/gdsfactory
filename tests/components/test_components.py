@@ -102,8 +102,14 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 
 def _stable_name(name: str) -> str:
-    """Drops the counter of unnamed cells, which depends on test order."""
-    return re.sub(r"^Unnamed_\d+$", "Unnamed", name)
+    """Drops the parts of a cell name that differ between runs or platforms.
+
+    The counter of unnamed cells depends on test order. kfactory names the cell
+    of a flattened all-angle instance after the cell plus the hash of the
+    instance's transformation, and that hash differs between platforms.
+    """
+    name = re.sub(r"^Unnamed_\d+$", "Unnamed", name)
+    return re.sub(r"(_[0-9a-f]{8})_[0-9a-f]{9,16}$", r"\1_<trans>", name)
 
 
 def _cell_names(component: gf.Component | gf.ComponentAllAngle) -> list[str]:
