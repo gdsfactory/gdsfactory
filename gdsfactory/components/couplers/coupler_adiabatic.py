@@ -46,7 +46,7 @@ def coupler_adiabatic(
         input_wg_sep: Separation of the two straights at the input, center-to-center.
         output_wg_sep: Separation of the two straights at the output, center-to-center.
         dw: Change in straight width.
-            In Region 1, top arm tapers to width+dw/2.0, bottom taper to width-dw/2.0.
+            In Region 1, top arm tapers to width+dw, bottom taper to width-dw.
         cross_section: cross_section spec.
 
     """
@@ -90,12 +90,12 @@ def coupler_adiabatic(
     x_top = x.copy(width=width_top)
     x_bot = x.copy(width=width_bot)
 
-    coupler = c << gf.components.coupler_straight(length=length2, cross_section=x)
+    coupler = c << gf.components.coupler_straight(length=0, cross_section=x)
 
-    taper_top = c << gf.components.taper(
+    taper_top = c << gf.components.taper(length=length2,
         width1=width, width2=width_top, cross_section=cross_section
     )
-    taper_bot = c << gf.components.taper(
+    taper_bot = c << gf.components.taper(length=length2,
         width1=width, width2=width_bot, cross_section=cross_section
     )
 
