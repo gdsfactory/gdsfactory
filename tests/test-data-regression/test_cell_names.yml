@@ -31,7 +31,7 @@ add_termination:
   children:
   - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
   - taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620
-  name: add_termination_gdsfactorypcomponentspcontainerspadd_te_c053bff2
+  name: add_termination_gdsfactorypcomponentspcontainerspadd_te_de6e74a1
 add_trenches:
   children: []
   name: add_trenches_gdsfactorypcomponentspcontainerspadd_trenc_ad7f04cc
@@ -849,6 +849,15 @@ mzi1x2_2x2:
   - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
   - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
   name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_cc98f3e2
+mzi1x2_2x2_heater:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L320_4fca7138
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1bc8609e
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL0_LY2_LXNone_Bbend_0bc772e6
 mzi2x2_2x2:
   children:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
@@ -1524,7 +1533,7 @@ switch_tree:
   - straight_gdsfactorypcomponentspwaveguidespstraight_L320_4fca7138
   - straight_gdsfactorypcomponentspwaveguidespstraight_L69__450ef387
   - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1bc8609e
-  name: splitter_tree_gdsfactorypcomponentspcontainerspsplitter_dfaf2fb9
+  name: splitter_tree_gdsfactorypcomponentspcontainerspsplitter_df94776e
 symmetric_transformer:
   children:
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
@@ -1581,6 +1590,9 @@ taper_strip_to_ridge_trenches:
 taper_strip_to_slab150:
   children: []
   name: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_22f8f008
+taper_terminator:
+  children: []
+  name: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620
 taper_w10_l100:
   children: []
   name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__d934c068

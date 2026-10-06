@@ -1,0 +1,18 @@
+info:
+  length: 10
+  width1: 0.5
+  width2: 0.1
+name: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620
+settings:
+  cross_section: strip
+  length: 10
+  port_names:
+  - o1
+  - o2
+  port_types:
+  - optical
+  - optical
+  width1: 0.5
+  width2: 0.1
+  with_bbox: true
+  with_two_ports: true
