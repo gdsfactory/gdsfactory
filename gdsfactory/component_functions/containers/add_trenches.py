@@ -1,15 +1,13 @@
 from __future__ import annotations
 
-__all__ = ["add_trenches", "add_trenches90"]
+__all__ = ["add_trenches"]
 
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
-from gdsfactory.component_functions import CellAlias
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell_with_module_name(tags=["containers"])
 def add_trenches(
     component: ComponentSpec = "coupler",
     layer_component: LayerSpec = "WG",
@@ -34,23 +32,34 @@ def add_trenches(
         right: width of the trench on the right. If None uses width_trench.
         left: width of the trench on the left. If None uses width_trench.
     """
-    return cf.add_trenches(
-        component=component,
-        layer_component=layer_component,
-        layer_trench=layer_trench,
-        width_trench=width_trench,
-        cross_section=cross_section,
+    component = get_component(component)
+    top = top if top is not None else width_trench
+    bot = bot if bot is not None else width_trench
+    right = right if right is not None else width_trench
+    left = left if left is not None else width_trench
+
+    core = component
+    clad = get_component(
+        "bbox",
+        component=core,
+        layer=layer_trench,
         top=top,
-        bot=bot,
-        right=right,
+        bottom=bot,
         left=left,
+        right=right,
+    )
+    c = gf.boolean(
+        clad,
+        core,
+        operation="not",
+        layer=layer_trench,
+        layer1=layer_trench,
+        layer2=layer_component,
     )
 
-
-add_trenches90 = CellAlias(
-    add_trenches, component="bend_euler", top=0, left=0, right=None
-)
-
-if __name__ == "__main__":
-    c = add_trenches(bot=300)
-    c.show()
+    c.add_ports(component.ports)
+    c.copy_child_info(component)
+    if cross_section is not None:
+        xs = gf.get_cross_section(cross_section)
+        xs.add_bbox(c)
+    return c

@@ -1,20 +1,61 @@
 from __future__ import annotations
 
-__all__ = ["generate_doe", "pack_doe", "pack_doe_grid"]
+__all__ = ["pack_doe", "pack_doe_grid"]
 
+import itertools as it
 from collections.abc import Mapping, Sequence
-from typing import Any
+from typing import Any, cast
 
 import kfactory as kf
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.component_functions.containers.pack_doe import generate_doe
+from gdsfactory.component_functions._get_component import get_component
+from gdsfactory.grid import grid, grid_with_text
+from gdsfactory.pack import pack
 from gdsfactory.typings import CellSpec, ComponentSpec
 
 
-@gf.cell_with_module_name(tags=["containers"])
+def generate_doe(
+    doe: ComponentSpec,
+    settings: Mapping[str, Sequence[Any]],
+    do_permutations: bool = False,
+    function: CellSpec | None = None,
+) -> tuple[list[Component], list[dict[str, Any]]]:
+    """Generates a component DOE (Design of Experiment).
+
+    which can then be packed, or used elsewhere.
+
+    Args:
+        doe: function to return Components.
+        settings: component settings.
+        do_permutations: for each setting.
+        function: for the component (add padding, grating couplers ...)
+    """
+    if do_permutations:
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
+    else:
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
+
+    if function:
+        function = gf.get_cell(function)
+        component_list = [
+            function(get_component(doe, settings=settings))
+            for settings in settings_list
+        ]
+    else:
+        component_list = [
+            get_component(doe, settings=settings) for settings in settings_list
+        ]
+
+    return component_list, settings_list
+
+
 def pack_doe(
     doe: ComponentSpec | None = None,
     settings: Mapping[str, Sequence[kf.typings.MetaData]] | None = None,
@@ -48,16 +89,26 @@ def pack_doe(
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
-    return cf.pack_doe(
-        doe=doe,
-        settings=settings,
-        do_permutations=do_permutations,
-        function=function,
-        **kwargs,
+    doe = doe or "straight"
+    settings = settings or {"length": [5.0]}
+
+    component_list, settings_list = generate_doe(
+        doe=doe, settings=settings, do_permutations=do_permutations, function=function
     )
 
+    components = pack(component_list, **kwargs)
 
-@gf.cell_with_module_name(tags=["containers"])
+    if len(components) > 1:
+        raise ValueError(
+            f"failed to pack in one Component, it created {len(components)} Components"
+        )
+
+    component = components[0]
+    component.info["doe_names"] = [component.name for component in component_list]
+    component.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
+    return component
+
+
 def pack_doe_grid(
     doe: ComponentSpec | None = None,
     settings: Mapping[str, Sequence[kf.typings.MetaData]] | None = None,
@@ -91,16 +142,36 @@ def pack_doe_grid(
         h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
-    return cf.pack_doe_grid(
-        doe=doe,
-        settings=settings,
-        do_permutations=do_permutations,
-        function=function,
-        with_text=with_text,
-        **kwargs,
-    )
+    doe = doe or "straight"
+    settings = settings or {"length": [5.0]}
 
+    if do_permutations:
+        settings_list = [
+            dict(zip(settings, t, strict=False)) for t in it.product(*settings.values())
+        ]
+    else:
+        settings_list = [
+            dict(zip(settings, t, strict=False))
+            for t in zip(*settings.values(), strict=False)
+        ]
 
-if __name__ == "__main__":
-    c = pack_doe_grid()
-    c.show()
+    if function:
+        function = gf.get_cell(function)
+        component_list = [
+            function(get_component(doe, settings=settings))
+            for settings in settings_list
+        ]
+    else:
+        component_list = [
+            get_component(doe, settings=settings) for settings in settings_list
+        ]
+
+    if with_text:
+        c = grid_with_text(component_list, **kwargs)
+
+    else:
+        c = grid(component_list, **kwargs)
+
+    c.info["doe_names"] = [component.name for component in component_list]
+    c.info["doe_settings"] = cast("kf.typings.MetaData", settings_list)
+    return c

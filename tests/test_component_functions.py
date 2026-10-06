@@ -562,3 +562,66 @@ def test_partials_of_cells_are_cell_aliases() -> None:
         if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
     )
     assert not plain
+
+
+def test_pdk_override_applies_inside_containers(restore_pdk: None) -> None:
+    straight_components: dict[str, Callable[[], gf.Component]] = {
+        "array": lambda: gf.components.array(component="straight"),
+        "array_hexagonal": lambda: gf.components.array_hexagonal(
+            component="straight", columns=2, rows=2
+        ),
+        "array_polar": lambda: gf.components.array_polar(component="straight"),
+        "extend_ports": lambda: gf.components.extend_ports(component="taper"),
+        "extend_ports_list": lambda: gf.components.extend_ports_list(
+            component_spec="taper", extension="straight"
+        ),
+        "pack_doe": gf.components.pack_doe,
+        "pack_doe_grid": gf.components.pack_doe_grid,
+        "splitter_chain": gf.components.splitter_chain,
+        "splitter_tree": gf.components.splitter_tree,
+        "switch_tree": gf.components.switch_tree,
+    }
+    components: dict[str, Callable[[], gf.Component]] = {
+        **straight_components,
+        "add_fiber_array_optical_south_electrical_north": (
+            gf.components.add_fiber_array_optical_south_electrical_north
+        ),
+        "add_termination": gf.components.add_termination,
+    }
+    for name, component in components.items():
+        assert not _has_marker(component()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # extend_ports used to call gf.components.straight directly.
+    for name, component in straight_components.items():
+        assert _has_marker(component()), name
+
+    _activate_pdk("override_bezier", {**PDK.cells, "bezier": marked_bezier})
+
+    # splitter_tree resolves its bend_s by name.
+    assert _has_marker(gf.components.splitter_tree())
+
+    _activate_pdk("override_taper", {**PDK.cells, "taper": marked_taper})
+
+    # add_termination used to default to a private alias of taper.
+    assert _has_marker(gf.components.add_termination())
+
+    _activate_pdk("override_pad", {**PDK.cells, "pad": marked_pad})
+
+    # add_fiber_array_optical_south_electrical_north used to call
+    # gf.components.array directly.
+    assert _has_marker(gf.components.add_fiber_array_optical_south_electrical_north())
+
+
+@pytest.mark.parametrize("name", ["pack_doe", "pack_doe_grid"])
+def test_doe_of_cell_with_settings_parameter(name: str) -> None:
+    """A DOE can sweep the ``settings`` parameter of its cell, e.g. pack_doe."""
+    lengths = [5.0, 7.0]
+    c = getattr(gf.components, name)(
+        doe="pack_doe",
+        settings={"settings": [{"length": [length]} for length in lengths]},
+    )
+    assert c.info["doe_names"] == [
+        gf.components.pack_doe(settings={"length": [length]}).name for length in lengths
+    ]

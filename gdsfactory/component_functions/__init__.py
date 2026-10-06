@@ -10,6 +10,7 @@ Component functions look up sub-cells by name in the active PDK through
 
 from . import (
     bends,
+    containers,
     detectors,
     edge_couplers,
     mems,
@@ -27,6 +28,7 @@ from . import (
 from ._alias import CellAlias
 from ._get_component import ComponentFallbackWarning, get_component
 from .bends import *
+from .containers import *
 from .detectors import *
 from .edge_couplers import *
 from .mems import *
@@ -46,7 +48,13 @@ __all__ = [
     "CellAlias",
     "ComponentFallbackWarning",
     "L",
+    "add_fiber_array_optical_south_electrical_north",
+    "add_termination",
+    "add_trenches",
     "anchored_flexure",
+    "array",
+    "array_hexagonal",
+    "array_polar",
     "arrow_junction",
     "bbox",
     "bend_circular",
@@ -74,6 +82,8 @@ __all__ = [
     "circle_wave",
     "comb_drive",
     "compass",
+    "containers",
+    "copy_layers",
     "cross",
     "crossing",
     "crossing45",
@@ -88,6 +98,8 @@ __all__ = [
     "edge_coupler_silicon",
     "edge_couplers",
     "ellipse",
+    "extend_ports",
+    "extend_ports_list",
     "fiducial_squares",
     "folded_spring",
     "fractal",
@@ -118,6 +130,8 @@ __all__ = [
     "optimal_90deg",
     "optimal_hairpin",
     "optimal_step",
+    "pack_doe",
+    "pack_doe_grid",
     "pad",
     "pad_array",
     "pad_gs",
@@ -137,6 +151,8 @@ __all__ = [
     "rounded_rectangle",
     "shapes",
     "snspd",
+    "splitter_chain",
+    "splitter_tree",
     "star",
     "straight",
     "straight_all_angle",
