@@ -373,7 +373,7 @@ crossing:
   name: crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5
 crossing45:
   children:
-  - bezier_gdsfactorypcomponentspbendspbend_s_CP2p828427124_a092e861_<trans>
+  - bezier_gdsfactorypcomponentspbendspbend_s_CP2p828_2p828_778c27af_<trans>
   - crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5_<trans>
   name: crossing45_gdsfactorypcomponentspwaveguidespcrossing_wa_631c2603
 crossing_arm:

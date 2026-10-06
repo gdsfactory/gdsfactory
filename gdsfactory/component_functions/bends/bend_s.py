@@ -161,7 +161,10 @@ def find_min_curv_bezier_control_points(
     res = minimize(objective_func, initial_guess, method="Nelder-Mead")
     p = res.x
     points = [start_point] + array_1d_to_cpts(p) + [end_point]
-    return tuple(points)
+    return tuple(
+        (gf.snap.snap_to_grid(float(x)), gf.snap.snap_to_grid(float(y)))
+        for x, y in points
+    )
 
 
 def bend_s(

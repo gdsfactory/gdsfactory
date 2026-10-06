@@ -104,7 +104,6 @@ def get_generic_pdk() -> Pdk:
         },
         auxiliary_port_types={
             ((1, 0), (47, 0)): "electrical",
-            ((1, 5), (1, 0)): "optical",
         },
         layers=LAYER,
         layer_stack=LAYER_STACK,
