@@ -13,6 +13,7 @@ from . import (
     containers,
     couplers,
     detectors,
+    dies,
     edge_couplers,
     filters,
     grating_couplers,
@@ -36,6 +37,7 @@ from .bends import *
 from .containers import *
 from .couplers import *
 from .detectors import *
+from .dies import *
 from .edge_couplers import *
 from .filters import *
 from .grating_couplers import *
@@ -59,8 +61,10 @@ __all__ = [
     "ComponentFallbackWarning",
     "L",
     "add_fiber_array_optical_south_electrical_north",
+    "add_frame",
     "add_termination",
     "add_trenches",
+    "align_wafer",
     "anchored_flexure",
     "array",
     "array_hexagonal",
@@ -126,6 +130,15 @@ __all__ = [
     "delay_snake2",
     "delay_snake_sbend",
     "detectors",
+    "die",
+    "die_frame",
+    "die_frame_phix",
+    "die_frame_phix_dc",
+    "die_frame_phix_rf",
+    "die_frame_rf",
+    "die_frame_with_pads",
+    "die_with_pads",
+    "dies",
     "disk",
     "disk_heater",
     "doubly_clamped_beam",
@@ -218,6 +231,8 @@ __all__ = [
     "ring_single_pn",
     "rings",
     "rounded_rectangle",
+    "seal_ring",
+    "seal_ring_segmented",
     "shapes",
     "snspd",
     "spiral",
@@ -284,6 +299,7 @@ __all__ = [
     "via_stack_corner45_extended",
     "via_stack_with_offset",
     "vias",
+    "wafer",
     "waveguides",
     "wire_corner",
     "wire_corner45",

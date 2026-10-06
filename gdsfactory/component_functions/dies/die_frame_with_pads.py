@@ -8,13 +8,11 @@ __all__ = [
 ]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.component_functions import CellAlias
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, LayerSpec, Size
 
 
-@gf.cell(tags=["dies"])
 def die_frame(
     size: Size = (11200.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
@@ -25,13 +23,11 @@ def die_frame(
         size: die frame size (width, height), in um.
         layer_floorplan: layer for the floorplan rectangle.
     """
-    return cf.die_frame(
-        size=size,
-        layer_floorplan=layer_floorplan,
+    return get_component(
+        "rectangle", size=size, layer=layer_floorplan, centered=True, port_type=None
     )
 
 
-@gf.cell(tags=["dies"])
 def die_frame_rf(
     size: Size = (10400.0, 5000.0),
     layer_floorplan: LayerSpec = "FLOORPLAN",
@@ -42,13 +38,11 @@ def die_frame_rf(
         size: die frame size (width, height), in um.
         layer_floorplan: layer for the floorplan rectangle.
     """
-    return cf.die_frame_rf(
-        size=size,
-        layer_floorplan=layer_floorplan,
+    return get_component(
+        "rectangle", size=size, layer=layer_floorplan, centered=True, port_type=None
     )
 
 
-@gf.cell_with_module_name(tags=["dies"])
 def die_frame_with_pads(
     die_frame: ComponentSpec = "die_frame",
     ngratings: int = 14,
@@ -83,22 +77,71 @@ def die_frame_with_pads(
         pad_port_name_top: name of the pad port name at the btop facing south.
         pad_port_name_bot: name of the pad port name at the bottom facing north.
     """
-    return cf.die_frame_with_pads(
-        die_frame=die_frame,
-        ngratings=ngratings,
-        npads=npads,
-        grating_pitch=grating_pitch,
-        pad_pitch=pad_pitch,
-        grating_coupler=grating_coupler,
-        cross_section=cross_section,
-        pad=pad,
-        edge_to_pad_distance=edge_to_pad_distance,
-        edge_to_grating_distance=edge_to_grating_distance,
-        with_loopback=with_loopback,
-        loopback_radius=loopback_radius,
-        pad_port_name_top=pad_port_name_top,
-        pad_port_name_bot=pad_port_name_bot,
-    )
+    c = Component()
+
+    d = get_component(die_frame)
+    fp = c << d
+    fp.x = 0
+    fp.y = 0
+    xs, ys = fp.xsize, fp.ysize
+
+    # Add optical ports
+    x0 = xs / 2 + edge_to_grating_distance
+
+    if grating_coupler:
+        gca = get_component(
+            "grating_coupler_array",
+            n=ngratings,
+            pitch=grating_pitch,
+            with_loopback=with_loopback,
+            grating_coupler=grating_coupler,
+            cross_section=cross_section,
+            radius=loopback_radius,
+        )
+        left = c << gca
+        left.rotate(-90)
+        left.xmin = -xs / 2 + edge_to_grating_distance
+        left.y = fp.y
+        c.add_ports(left.ports, prefix="W")
+
+        right = c << gca
+        right.rotate(+90)
+        right.xmax = xs / 2 - edge_to_grating_distance
+        right.y = fp.y
+        c.add_ports(right.ports, prefix="E")
+
+    # Add electrical ports
+    pad = get_component(pad)
+    x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
+
+    # north pads
+    for i in range(npads):
+        pad_ref = c << pad
+        pad_ref.xmin = x0 + i * pad_pitch
+        pad_ref.ymax = ys / 2 - edge_to_pad_distance
+        c.add_port(
+            name=f"N{i}",
+            port=pad_ref.ports[pad_port_name_top],
+        )
+
+    x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
+
+    # south pads
+    for i in range(npads):
+        pad_ref = c << pad
+        pad_ref.xmin = x0 + i * pad_pitch
+        pad_ref.ymin = -ys / 2 + edge_to_pad_distance
+        c.add_port(
+            name=f"S{i}",
+            port=pad_ref.ports[pad_port_name_bot],
+        )
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
+    c.auto_rename_ports()
+    return c
 
 
 def die_frame_phix(
@@ -187,49 +230,218 @@ def die_frame_phix(
         pad_rotation_rf: rotation for RF pads.
         with_loopback: if True, adds loopback structures.
     """
-    return cf.die_frame_phix(
-        die_frame=die_frame,
-        nfibers=nfibers,
-        npads=npads,
-        npads_rf=npads_rf,
-        fiber_pitch=fiber_pitch,
-        pad_pitch=pad_pitch,
-        pad_pitch_gsg=pad_pitch_gsg,
-        edge_coupler=edge_coupler,
-        grating_coupler=grating_coupler,
-        cross_section=cross_section,
-        pad=pad,
-        pad_gsg=pad_gsg,
-        edge_to_pad_distance=edge_to_pad_distance,
-        edge_to_pad_distance_left=edge_to_pad_distance_left,
-        pad_port_name_top=pad_port_name_top,
-        pad_port_name_bot=pad_port_name_bot,
-        pad_port_name_rf=pad_port_name_rf,
-        layer_fiducial=layer_fiducial,
-        fiducial_top_left=fiducial_top_left,
-        fiducial_top_right=fiducial_top_right,
-        fiducial_bottom_left=fiducial_bottom_left,
-        fiducial_bottom_right=fiducial_bottom_right,
-        layer_ruler=layer_ruler,
-        ruler_bbox_layers=ruler_bbox_layers,
-        ruler_bbox_offset=ruler_bbox_offset,
-        ruler_yoffset=ruler_yoffset,
-        ruler_xoffset=ruler_xoffset,
-        fiber_coupler_xoffset=fiber_coupler_xoffset,
-        with_right_fiber_coupler=with_right_fiber_coupler,
-        with_left_fiber_coupler=with_left_fiber_coupler,
-        text_offset=text_offset,
-        text=text,
-        pad_side_distance=pad_side_distance,
-        xoffset_rf_pads=xoffset_rf_pads,
-        pad_rotation_dc_north=pad_rotation_dc_north,
-        pad_rotation_dc_south=pad_rotation_dc_south,
-        pad_rotation_rf=pad_rotation_rf,
-        with_loopback=with_loopback,
+    if npads > 60:
+        raise ValueError("npads should be <= 60. Reach out to PHIX for support.")
+
+    c = Component()
+
+    d = get_component(die_frame)
+    fp = c << d
+    fp.x = 0
+    fp.y = 0
+    xs, ys = fp.xsize, fp.ysize
+
+    # Add optical ports
+    x0 = xs / 2
+
+    edge_to_pad_distance_left = edge_to_pad_distance_left or edge_to_pad_distance
+
+    if edge_coupler or grating_coupler:
+        if edge_coupler:
+            if with_loopback:
+                gca = get_component(
+                    "edge_coupler_array_with_loopback",
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    cross_section=cross_section,
+                    text_offset=text_offset,
+                    text=text,
+                    x_reflection=False,
+                )
+                gca_left = get_component(
+                    "edge_coupler_array_with_loopback",
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    cross_section=cross_section,
+                    text_offset=(-text_offset[0], text_offset[1]),
+                    text=text,
+                    x_reflection=True,
+                )
+            else:
+                gca = get_component(
+                    "edge_coupler_array",
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    text_offset=text_offset,
+                    text=text,
+                    x_reflection=False,
+                )
+                gca_left = get_component(
+                    "edge_coupler_array",
+                    n=nfibers,
+                    pitch=fiber_pitch,
+                    edge_coupler=edge_coupler,
+                    text_offset=(-text_offset[0], text_offset[1]),
+                    text=text,
+                    x_reflection=True,
+                )
+
+            if with_left_fiber_coupler:
+                left = c << gca_left
+                left.xmin = -xs / 2 - fiber_coupler_xoffset
+                left.y = fp.y
+                c.add_ports(left.ports, prefix="W")
+
+            if with_right_fiber_coupler:
+                right = c << gca
+                right.xmax = xs / 2 + fiber_coupler_xoffset
+                right.y = fp.y
+                c.add_ports(right.ports, prefix="E")
+
+        else:
+            gca = get_component(
+                "grating_coupler_array",
+                n=nfibers,
+                pitch=fiber_pitch,
+                cross_section=cross_section,
+                with_loopback=True,
+            )
+            gca_left = get_component(
+                "grating_coupler_array",
+                n=nfibers,
+                pitch=fiber_pitch,
+                cross_section=cross_section,
+                with_loopback=True,
+            )
+            fiber_coupler_xoffset -= 750
+
+            if with_left_fiber_coupler:
+                left = c << gca_left
+                left.rotate(-90)
+                left.xmin = -xs / 2 - fiber_coupler_xoffset
+                left.y = fp.y
+                c.add_ports(left.ports, prefix="W")
+
+            if with_right_fiber_coupler:
+                right = c << gca
+                right.rotate(+90)
+                right.xmax = xs / 2 + fiber_coupler_xoffset
+                right.y = fp.y
+                c.add_ports(right.ports, prefix="E")
+    ruler = get_component(
+        "ruler",
+        layer=layer_ruler,
+        bbox_layers=ruler_bbox_layers,
+        bbox_offset=ruler_bbox_offset,
     )
 
+    if with_right_fiber_coupler:
+        ruler_top_right = c << ruler
+        ruler_top_right.xmax = fp.xmax - ruler_xoffset
+        ruler_top_right.ymax = fp.ymax - 300 + ruler_yoffset
 
-@gf.cell_with_module_name(tags=["dies"])
+        ruler_bot_right = c << ruler
+        ruler_bot_right.xmax = fp.xmax - ruler_xoffset
+        ruler_bot_right.ymin = fp.ymin + 300 - ruler_yoffset
+
+    if with_left_fiber_coupler:
+        ruler_top_left = c << ruler
+        ruler_top_left.rotate(180)
+        ruler_top_left.xmin = fp.xmin + ruler_xoffset
+        ruler_top_left.ymax = fp.ymax - 300 + ruler_yoffset
+
+        ruler_bot_left = c << ruler
+        ruler_bot_left.rotate(180)
+        ruler_bot_left.xmin = fp.xmin + ruler_xoffset
+        ruler_bot_left.ymin = fp.ymin + 300 - ruler_yoffset
+
+    else:
+        # left RF pads
+        y0 = fp.ymax - 390 - pad_pitch_gsg / 2 + 50
+        for i in range(npads_rf):
+            pad_ref = c << get_component(pad_gsg)
+            pad_ref.rotate(pad_rotation_rf)
+            pad_ref.y = y0 - i * pad_pitch_gsg
+            pad_ref.xmin = fp.xmin + xoffset_rf_pads
+            c.add_port(
+                name=f"e{i}",
+                port=pad_ref.ports[pad_port_name_rf],
+            )
+
+    # Add electrical ports
+    pad = get_component(pad)
+
+    x0_pads = -xs / 2 + pad_side_distance
+    x0 = x0_pads
+
+    if fiducial_top_left:
+        top_left = c << get_component(fiducial_top_left)
+        top_left.center = (x0 - 150, +ys / 2 - edge_to_pad_distance - 50)
+    else:
+        top_left = c << get_component(
+            "cross", layer=layer_fiducial, length=150, width=20
+        )
+        top_left.xmax = x0 - 75
+        top_left.y = +ys / 2 - edge_to_pad_distance - 50
+
+    # north pads
+    for i in range(npads):
+        pad_ref = c << pad
+        pad_ref.rotate(pad_rotation_dc_north)
+        pad_ref.xmin = x0 + i * pad_pitch
+        pad_ref.ymax = ys / 2 - edge_to_pad_distance
+        c.add_port(
+            name=f"N{i}",
+            port=pad_ref.ports[pad_port_name_top],
+        )
+    if fiducial_top_right:
+        top_right = c << get_component(fiducial_top_right)
+        top_right.center = (pad_ref.xmax + 555, +ys / 2 - edge_to_pad_distance - 50)
+    else:
+        top_right = c << get_component("circle", layer=layer_fiducial, radius=75)
+        top_right.xmin = pad_ref.xmax + 480
+        top_right.y = +ys / 2 - edge_to_pad_distance - 50
+
+    if fiducial_bottom_left:
+        bot_left = c << get_component(fiducial_bottom_left)
+        bot_left.center = (x0 - 150, -ys / 2 + edge_to_pad_distance + 50)
+    else:
+        bot_left = c << get_component("circle", layer=layer_fiducial, radius=75)
+        bot_left.xmax = x0 - 75
+        bot_left.y = -ys / 2 + edge_to_pad_distance + 50
+
+    x0 = x0_pads
+
+    # south pads
+    for i in range(npads):
+        pad_ref = c << pad
+        pad_ref.rotate(pad_rotation_dc_south)
+        pad_ref.xmin = x0 + i * pad_pitch
+        pad_ref.ymin = -ys / 2 + edge_to_pad_distance
+        c.add_port(
+            name=f"S{i}",
+            port=pad_ref.ports[pad_port_name_bot],
+        )
+
+    if fiducial_bottom_right:
+        bot_right = c << get_component(fiducial_bottom_right)
+        bot_right.center = (pad_ref.xmax + 555, -ys / 2 + edge_to_pad_distance + 75)
+    else:
+        bot_right = c << get_component("circle", layer=layer_fiducial, radius=75)
+        bot_right.xmin = pad_ref.xmax + 480
+        bot_right.ymin = -ys / 2 + edge_to_pad_distance
+
+    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
+    for p in elec_ports:
+        c.create_pin(ports=[p], name=p.name)
+
+    c.auto_rename_ports()
+    return c
+
+
 def die_frame_phix_dc(
     die_frame: ComponentSpec = "die_frame",
     nfibers: int = 32,
@@ -302,7 +514,8 @@ def die_frame_phix_dc(
         pad_rotation_dc_south: rotation for DC pads.
         pad_side_distance: distance from the die frame side to the first pad, in um.
     """
-    return cf.die_frame_phix_dc(
+    return get_component(
+        "die_frame_phix",
         die_frame=die_frame,
         nfibers=nfibers,
         npads=npads,
@@ -330,16 +543,15 @@ def die_frame_phix_dc(
         ruler_xoffset=ruler_xoffset,
         with_right_fiber_coupler=with_right_fiber_coupler,
         with_left_fiber_coupler=with_left_fiber_coupler,
-        fiber_coupler_xoffset=fiber_coupler_xoffset,
         text_offset=text_offset,
         text=text,
+        fiber_coupler_xoffset=fiber_coupler_xoffset,
         pad_rotation_dc_north=pad_rotation_dc_north,
         pad_rotation_dc_south=pad_rotation_dc_south,
         pad_side_distance=pad_side_distance,
     )
 
 
-@gf.cell_with_module_name(tags=["dies"])
 def die_frame_phix_rf(
     die_frame: ComponentSpec = "die_frame_rf",
     nfibers: int = 32,
@@ -418,7 +630,8 @@ def die_frame_phix_rf(
         pad_rotation_dc_north: rotation for DC pads.
         pad_rotation_dc_south: rotation for DC pads.
     """
-    return cf.die_frame_phix_rf(
+    return get_component(
+        "die_frame_phix",
         die_frame=die_frame,
         nfibers=nfibers,
         npads=npads,
@@ -447,35 +660,12 @@ def die_frame_phix_rf(
         ruler_xoffset=ruler_xoffset,
         with_right_fiber_coupler=with_right_fiber_coupler,
         with_left_fiber_coupler=with_left_fiber_coupler,
-        fiber_coupler_xoffset=fiber_coupler_xoffset,
         text_offset=text_offset,
         text=text,
         pad_side_distance=pad_side_distance,
+        fiber_coupler_xoffset=fiber_coupler_xoffset,
         xoffset_rf_pads=xoffset_rf_pads,
-        pad_rotation_rf=pad_rotation_rf,
-        pad_rotation_dc_north=pad_rotation_dc_north,
         pad_rotation_dc_south=pad_rotation_dc_south,
+        pad_rotation_dc_north=pad_rotation_dc_north,
+        pad_rotation_rf=pad_rotation_rf,
     )
-
-
-if __name__ == "__main__":
-    # text_m3 = partial(gf.c.text_rectangular, layer="M3", size=20)
-    text_m3 = None
-    edge_coupler = CellAlias(gf.c.edge_coupler_silicon, length=200)
-    grating_coupler = "grating_coupler_te"
-
-    c = die_frame_phix_dc(edge_coupler=edge_coupler, text=text_m3)
-    c.write_gds("/Users/j/Downloads/die_frame_phix_dc.gds")
-
-    grating_coupler = "grating_coupler_te"
-    c = die_frame_phix_dc(
-        die_frame=die_frame(size=(11800, 5000)),
-        edge_coupler=None,
-        text=text_m3,
-        grating_coupler=grating_coupler,
-    )
-    c.write_gds("/Users/j/Downloads/die_frame_phix_rf_grating_coupler.gds")
-
-    # c = die_frame_phix_rf(edge_coupler=edge_coupler)
-    # c.write_gds("/Users/j/Downloads/die_frame_phix_rf.gds")
-    c.show()

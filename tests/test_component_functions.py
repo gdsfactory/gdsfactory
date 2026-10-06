@@ -312,6 +312,41 @@ def marked_coupler_symmetric(
     return c
 
 
+@gf.cell(basename="marked_rectangle", register_factory=False)
+def marked_rectangle(**kwargs: Any) -> gf.Component:
+    c = cf.rectangle(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_text", register_factory=False)
+def marked_text(**kwargs: Any) -> gf.Component:
+    c = cf.text(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_array", register_factory=False)
+def marked_array(**kwargs: Any) -> gf.Component:
+    c = cf.array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_grating_coupler_array", register_factory=False)
+def marked_grating_coupler_array(**kwargs: Any) -> gf.Component:
+    c = cf.grating_coupler_array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_die_frame_phix", register_factory=False)
+def marked_die_frame_phix(**kwargs: Any) -> gf.Component:
+    c = cf.die_frame_phix(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 def _has_marker(c: gf.Component) -> bool:
     return not c.kdb_cell.bbox(gf.get_layer(MARKER)).empty()
 
@@ -957,3 +992,84 @@ def test_pdk_override_applies_inside_couplers(restore_pdk: None) -> None:
 
     # coupler used to call coupler_symmetric directly.
     assert _has_marker(gf.components.coupler())
+
+
+@pytest.mark.filterwarnings("ignore:die_with_pads is deprecated")
+def test_pdk_override_applies_inside_dies(restore_pdk: None) -> None:
+    rectangle_names = [
+        "add_frame",
+        "align_wafer",
+        "die_frame",
+        "die_frame_phix_dc",
+        "die_frame_phix_rf",
+        "die_frame_rf",
+        "die_frame_with_pads",
+        "die_with_pads",
+    ]
+    pad_names = [
+        "die_frame_phix_dc",
+        "die_frame_phix_rf",
+        "die_frame_with_pads",
+        "die_with_pads",
+    ]
+    grating_coupler_array_names = ["die_frame_with_pads", "die_with_pads"]
+    circle_names = ["die_frame_phix_dc", "die_frame_phix_rf"]
+    text_names = ["die", "wafer"]
+    die_frame_phix_without_loopback = partial(
+        gf.components.die_frame_phix, with_loopback=False
+    )
+    all_names = {
+        *rectangle_names,
+        *pad_names,
+        *grating_coupler_array_names,
+        *circle_names,
+        *text_names,
+        "seal_ring_segmented",
+    }
+    for name in all_names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+    assert not _has_marker(die_frame_phix_without_loopback())
+
+    overrides: list[tuple[str, Callable[..., gf.Component], list[str]]] = [
+        # align_wafer, add_frame, die_with_pads and die_frame used to call
+        # gf.c.rectangle directly.
+        ("rectangle", marked_rectangle, rectangle_names),
+        ("pad", marked_pad, pad_names),
+        # die_with_pads and die_frame_with_pads used to call
+        # gf.c.grating_coupler_array directly.
+        (
+            "grating_coupler_array",
+            marked_grating_coupler_array,
+            grating_coupler_array_names,
+        ),
+        # die_frame_phix used to call gf.c.circle directly for its fiducials.
+        ("circle", marked_circle, circle_names),
+        ("text", marked_text, text_names),
+        # die_frame_phix_dc and die_frame_phix_rf used to call die_frame_phix
+        # directly.
+        ("die_frame_phix", marked_die_frame_phix, circle_names),
+    ]
+    for cell_name, marked, names in overrides:
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+        for name in names:
+            assert _has_marker(getattr(gf.components, name)()), (cell_name, name)
+
+    _activate_pdk(
+        "override_edge_coupler_array",
+        {**PDK.cells, "edge_coupler_array": marked_edge_coupler_array},
+    )
+
+    # die_frame_phix used to call gf.c.edge_coupler_array directly.
+    assert _has_marker(die_frame_phix_without_loopback())
+
+    # array is a container, so it is overridden in the PDK containers.
+    gf.clear_cache()
+    PDK.model_copy(
+        update={
+            "name": "override_array",
+            "containers": {**PDK.containers, "array": marked_array},
+        }
+    ).activate(force=True)
+
+    # seal_ring_segmented used to call gf.c.array directly.
+    assert _has_marker(gf.components.seal_ring_segmented())

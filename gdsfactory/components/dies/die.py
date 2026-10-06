@@ -4,9 +4,9 @@ from __future__ import annotations
 
 __all__ = ["die"]
 
-import numpy as np
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, Size
 
 
@@ -39,68 +39,16 @@ def die(
         text: function use for generating text. Needs to accept text, size, layer.
         draw_corners: True draws only corners. False draws a square die.
     """
-    c = gf.Component()
-    sx, sy = size[0] / 2, size[1] / 2
-
-    if layer:
-        if not draw_corners:
-            street_length = sx
-        xpts = np.array(
-            [
-                sx,
-                sx,
-                sx - street_width,
-                sx - street_width,
-                sx - street_length,
-                sx - street_length,
-            ]
-        )
-        if not draw_corners:
-            street_length = sy
-        ypts = np.array(
-            [
-                sy,
-                sy - street_length,
-                sy - street_length,
-                sy - street_width,
-                sy - street_width,
-                sy,
-            ]
-        )
-        c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
-        c.add_polygon(list(zip(-xpts, ypts, strict=False)), layer=layer)
-        c.add_polygon(list(zip(xpts, -ypts, strict=False)), layer=layer)
-        c.add_polygon(list(zip(-xpts, -ypts, strict=False)), layer=layer)
-
-    if bbox_layer:
-        c.add_polygon([(sx, sy), (sx, -sy), (-sx, -sy), (-sx, sy)], layer=bbox_layer)
-
-    if die_name:
-        text_component = gf.get_component(
-            text, text=die_name, size=text_size, layer=text_layer
-        )
-        t = c.add_ref(text_component)
-
-        d = street_width + 20
-        if isinstance(text_location, str):
-            text_location = text_location.upper()
-            if text_location == "N":
-                t.x, t.ymax = [0, sy - d]
-            elif text_location == "NE":
-                t.xmax, t.ymax = [sx - d, sy - d]
-            elif text_location == "NW":
-                t.xmin, t.ymax = [-sx + d, sy - d]
-            elif text_location == "S":
-                t.x, t.ymin = [0, -sy + d]
-            elif text_location == "SE":
-                t.xmax, t.ymin = [sx - d, -sy + d]
-            elif text_location == "SW":
-                t.xmin, t.ymin = [-sx + d, -sy + d]
-            else:
-                raise ValueError(
-                    f"Invalid text_location: {text_location} not in N, NE, NW, S, SE, SW"
-                )
-        else:
-            t.x, t.y = text_location
-
-    return c
+    return cf.die(
+        size=size,
+        street_width=street_width,
+        street_length=street_length,
+        die_name=die_name,
+        text_size=text_size,
+        text_location=text_location,
+        layer=layer,
+        bbox_layer=bbox_layer,
+        text_layer=text_layer,
+        text=text,
+        draw_corners=draw_corners,
+    )

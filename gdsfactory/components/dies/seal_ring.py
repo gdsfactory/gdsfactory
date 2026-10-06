@@ -3,7 +3,7 @@ from __future__ import annotations
 __all__ = ["seal_ring", "seal_ring_segmented"]
 
 import gdsfactory as gf
-from gdsfactory.snap import snap_to_grid
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import ComponentSpec, Float2
 
 
@@ -32,50 +32,16 @@ def seal_ring(
         with_east: includes seal.
         with_west: includes seal.
     """
-    c = gf.Component()
-
-    xmin, ymin = 0, 0
-    xmax = size[0]
-    ymax = size[1]
-    x = (xmax + xmin) / 2
-    sx = xmax - xmin
-    sy = ymax - ymin
-
-    sx = snap_to_grid(sx, grid_factor=2)
-    sy = snap_to_grid(sy, grid_factor=2)
-
-    ymin_north = snap_to_grid(ymax + padding, grid_factor=2)
-    ymax_south = snap_to_grid(ymax - sy - padding, grid_factor=2)
-
-    # north south
-    size_north_south = (sx + 2 * padding + 2 * width, width)
-    size_east_west = (width, sy + 2 * padding)
-
-    if with_north:
-        north = c << gf.get_component(
-            seal, size=size_north_south, port_orientations=None
-        )
-        north.ymin = ymin_north
-        north.x = x
-
-    if with_east:
-        east = c << gf.get_component(seal, size=size_east_west, port_orientations=None)
-        east.xmin = xmax + padding
-        east.ymax = ymin_north
-
-    if with_west:
-        west = c << gf.get_component(seal, size=size_east_west, port_orientations=None)
-        west.xmax = xmin - padding
-        west.ymax = ymin_north
-
-    if with_south:
-        south = c << gf.get_component(
-            seal, size=size_north_south, port_orientations=None
-        )
-        south.ymax = ymax_south
-        south.x = x
-
-    return c
+    return cf.seal_ring(
+        size=size,
+        seal=seal,
+        width=width,
+        padding=padding,
+        with_north=with_north,
+        with_south=with_south,
+        with_east=with_east,
+        with_west=with_west,
+    )
 
 
 @gf.cell_with_module_name(tags=["dies"])
@@ -105,90 +71,15 @@ def seal_ring_segmented(
         with_east: includes seal.
         with_west: includes seal.
     """
-    c = gf.Component()
-    corner_component = gf.get_component(corner, width=width_segment)
-
-    xmin, ymin = 0, 0
-    xmax = size[0]
-    ymax = size[1]
-
-    tl = c << corner_component
-    tr = c << corner_component
-
-    tl.xmin = xmin
-    tl.ymax = ymax
-
-    tr.dmirror()
-    tr.xmax = xmax
-    tr.ymax = ymax
-
-    bl = c << corner_component
-    br = c << corner_component
-    br.dmirror()
-    br.dmirror_y()
-    bl.dmirror_y()
-
-    bl.xmin = xmin
-    bl.ymin = ymin
-    br.xmax = xmax
-    br.ymin = ymin
-
-    pitch = length_segment + spacing_segment
-
-    # horizontal
-    dx = abs(tl.xmax - tr.xmin)
-    segment_horizontal = gf.get_component(
-        via_stack, size=(length_segment, width_segment), port_orientations=None
+    return cf.seal_ring_segmented(
+        size=size,
+        length_segment=length_segment,
+        width_segment=width_segment,
+        spacing_segment=spacing_segment,
+        corner=corner,
+        via_stack=via_stack,
+        with_north=with_north,
+        with_south=with_south,
+        with_east=with_east,
+        with_west=with_west,
     )
-    horizontal = gf.c.array(
-        component=segment_horizontal, columns=int(dx / pitch), column_pitch=pitch
-    )
-
-    if with_north:
-        top = c << horizontal
-        top.ymax = tl.ymax
-        top.xmin = tl.xmax + spacing_segment
-
-        # horizontal inner
-        topi = c << horizontal
-        topi.ymax = top.ymin - spacing_segment
-        topi.xmin = top.xmin + pitch / 2
-
-    if with_south:
-        bot = c << horizontal
-        bot.ymin = ymin
-        bot.xmin = tl.xmax + spacing_segment
-
-        boti = c << horizontal
-        boti.ymin = bot.ymax + spacing_segment
-        boti.xmin = bot.xmin + spacing_segment
-
-    # vertical
-    segment_vertical = gf.get_component(
-        via_stack, size=(width_segment, length_segment), port_orientations=None
-    )
-    dy = abs(tl.ymin - bl.ymax)
-
-    vertical = gf.c.array(
-        component=segment_vertical, rows=int(dy / pitch), columns=1, row_pitch=pitch
-    )
-
-    if with_east:
-        right = c << vertical
-        right.xmax = xmax
-        right.ymin = bl.ymax
-        righti = c << vertical
-        righti.xmax = right.xmin - spacing_segment
-        righti.ymin = right.ymin + pitch / 2
-
-    if with_west:
-        left = c << vertical
-        left.xmin = xmin
-        left.ymin = bl.ymax
-
-        # vertical inner
-        lefti = c << vertical
-        lefti.xmin = left.xmax + spacing_segment
-        lefti.ymin = left.ymin + pitch / 2
-
-    return c
