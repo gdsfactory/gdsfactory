@@ -5,12 +5,11 @@ from __future__ import annotations
 __all__ = ["loop_mirror"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_module_name(tags=["filters"])
 def loop_mirror(
     component: ComponentSpec = "mmi1x2",
     bend90: ComponentSpec = "bend_euler",
@@ -24,6 +23,17 @@ def loop_mirror(
         cross_section: cross_section settings.
 
     """
-    return cf.loop_mirror(
-        component=component, bend90=bend90, cross_section=cross_section
+    c = Component()
+    component = get_component(component)
+    bend90 = get_component(bend90)
+    cref = c.add_ref(component)
+    gf.routing.route_single(
+        c,
+        cref.ports["o3"],
+        cref.ports["o2"],
+        straight="straight",
+        bend=bend90,
+        cross_section=cross_section,
     )
+    c.add_port(name="o1", port=cref.ports["o1"])
+    return c

@@ -1,11 +1,11 @@
 info: {}
-name: awg_gdsfactorypcomponentspfilterspawg_A10_O3_FPRIFFfree_c8e43e3e
+name: awg_gdsfactorypcomponentspfilterspawg_A10_O3_FPRIFfree__ef55f40a
 settings:
   arm_spacing: 1
   arms: 10
   cross_section: strip
   fpr_spacing: 50
-  free_propagation_region_input_function: Ffree_propagation_region_Mgdsfactorypcomponentspfilterspawg_SI1
-  free_propagation_region_output_function: Ffree_propagation_region_Mgdsfactorypcomponentspfilterspawg_SI10_W10_W20
+  free_propagation_region_input_function: free_propagation_region_input
+  free_propagation_region_output_function: free_propagation_region_output
   length_increment: 0
   outputs: 3

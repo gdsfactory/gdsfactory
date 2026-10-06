@@ -3,12 +3,11 @@ from __future__ import annotations
 __all__ = ["fiber_array"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions._get_component import get_component
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell_with_module_name(tags=["filters"])
 def fiber_array(
     n: int = 8,
     pitch: float = 127.0,
@@ -38,11 +37,24 @@ def fiber_array(
           length
     ```
     """
-    return cf.fiber_array(
-        n=n,
-        pitch=pitch,
-        core_diameter=core_diameter,
-        cladding_diameter=cladding_diameter,
-        layer_core=layer_core,
-        layer_cladding=layer_cladding,
-    )
+    c = Component()
+    layer_core = gf.get_layer(layer_core)
+
+    for i in range(n):
+        core = c.add_ref(
+            get_component("circle", radius=core_diameter / 2, layer=layer_core)
+        )
+        cladding = c.add_ref(
+            get_component("circle", radius=cladding_diameter / 2, layer=layer_cladding)
+        )
+        core.movex(i * pitch)
+        cladding.movex(i * pitch)
+        c.add_port(
+            name=f"F{i}",
+            width=core_diameter,
+            orientation=0,
+            layer=layer_core,
+            center=(i * pitch, 0),
+        )
+
+    return c
