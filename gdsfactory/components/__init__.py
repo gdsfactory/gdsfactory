@@ -381,6 +381,7 @@ __all__ = [
     "texts",
     "torus",
     "torus_wave",
+    "transformer_concentric_secondary",
     "transmon",
     "transmon_circular",
     "triangle",

@@ -12,6 +12,12 @@ from numpy import log
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_functions.analog.microstrip import (
+    _G,
+    _find_microstrip_wire_width,
+    _microstrip_v_with_Lk,
+    _microstrip_Z_with_Lk,
+)
 from gdsfactory.typings import LayerSpec
 
 
@@ -46,14 +52,6 @@ def taper_hecken(
     Returns:
         Component containing a Hecken-tapered microstrip.
     """
-    # Imported here: gdsfactory.components imports gdsfactory.component_functions.
-    from gdsfactory.components.analog.microstrip import (
-        _G,
-        _find_microstrip_wire_width,
-        _microstrip_v_with_Lk,
-        _microstrip_Z_with_Lk,
-    )
-
     if width1 is not None:
         Z1 = _microstrip_Z_with_Lk(
             width1 * 1e-6, dielectric_thickness * 1e-6, eps_r, Lk_per_sq

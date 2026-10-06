@@ -4,7 +4,6 @@ from .interdigitated_electrodes import *
 from .transformers import *
 
 __all__ = [
-    "get_extended_layer_stack",
     "inductor",
     "interdigital_capacitor",
     "interdigitated_electrodes",

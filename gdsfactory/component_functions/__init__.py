@@ -9,6 +9,7 @@ Component functions look up sub-cells by name in the active PDK through
 """
 
 from . import (
+    analog,
     bends,
     containers,
     couplers,
@@ -34,6 +35,7 @@ from . import (
 )
 from ._alias import CellAlias
 from ._get_component import ComponentFallbackWarning, get_component
+from .analog import *
 from .bends import *
 from .containers import *
 from .couplers import *
@@ -67,6 +69,7 @@ __all__ = [
     "add_termination",
     "add_trenches",
     "align_wafer",
+    "analog",
     "anchored_flexure",
     "array",
     "array_hexagonal",
@@ -180,6 +183,9 @@ __all__ = [
     "grating_couplers",
     "h_junction",
     "hline",
+    "inductor",
+    "interdigital_capacitor",
+    "interdigitated_electrodes",
     "loop_mirror",
     "meander_channel",
     "mems",
@@ -260,6 +266,7 @@ __all__ = [
     "spirals",
     "splitter_chain",
     "splitter_tree",
+    "stacked_transformer",
     "star",
     "straight",
     "straight_all_angle",
@@ -274,6 +281,7 @@ __all__ = [
     "straight_pin",
     "straight_pin_slot",
     "superconductors",
+    "symmetric_transformer",
     "t_junction",
     "taper",
     "taper_adiabatic",
@@ -298,12 +306,14 @@ __all__ = [
     "texts",
     "torus",
     "torus_wave",
+    "transformer_concentric_secondary",
     "transmon",
     "transmon_circular",
     "triangle",
     "triangle2",
     "triangle4",
     "via",
+    "via3",
     "via_chain",
     "via_circular",
     "via_corner",
