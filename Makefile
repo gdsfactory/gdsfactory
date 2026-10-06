@@ -1,6 +1,4 @@
 UV_INSTALLED := $(shell command -v uv)
-# GDS reference files: a commit on the main branch of gdsfactory-test-data.
-TEST_DATA_COMMIT := eed289ceed4cae1bae272abcf9a4631a19df2f07
 
 .PHONY: \
 	uv \
@@ -50,15 +48,10 @@ install-kfactory-dev: ## Force-reinstall kfactory from GitHub
 update-pre: ## Update pre-commit hooks
 	pre-commit autoupdate
 
-test-data: ## Clone test data from GitHub (HTTPS)
-	git clone https://github.com/gdsfactory/gdsfactory-test-data.git test-data-gds
-	git -C test-data-gds checkout $(TEST_DATA_COMMIT)
+test-data: ## Check out the test data submodule at its pinned commit
+	git submodule update --init test-data-gds
 
-test-data-gds: ## Clone test data from GitHub (SSH)
-	git clone git@github.com:gdsfactory/gdsfactory-test-data.git test-data-gds
-	git -C test-data-gds checkout $(TEST_DATA_COMMIT)
-
-test: test-data-gds ## Run tests
+test: test-data ## Run tests
 	uv run pytest -s -n logical
 
 test-force: ## Run tests with force-regen
