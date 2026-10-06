@@ -1648,6 +1648,9 @@ torus:
 torus_wave:
   children: []
   name: torus_wave_gdsfactorypcomponentspshapesptorus_wave_IR5__d509e31b
+transformer_concentric_secondary:
+  children: []
+  name: transformer_concentric_secondary_W3_S3p1_D50_LMM2_LJM1_Vvia1_VS3
 transmon:
   children:
   - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a

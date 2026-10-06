@@ -312,6 +312,28 @@ def marked_coupler_symmetric(
     return c
 
 
+@gf.cell(basename="marked_via3", register_factory=False)
+def marked_via3(**kwargs: Any) -> gf.Component:
+    c = cf.via3(**kwargs)
+    # Inside the via, so the via bbox (used to place the via array) is unchanged.
+    c.add_polygon([(-0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_inductor", register_factory=False)
+def marked_inductor(**kwargs: Any) -> gf.Component:
+    c = cf.inductor(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_transformer_concentric_secondary", register_factory=False)
+def marked_transformer_concentric_secondary(**kwargs: Any) -> gf.Component:
+    c = cf.transformer_concentric_secondary(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 def _has_marker(c: gf.Component) -> bool:
     return not c.kdb_cell.bbox(gf.get_layer(MARKER)).empty()
 
@@ -957,3 +979,62 @@ def test_pdk_override_applies_inside_couplers(restore_pdk: None) -> None:
 
     # coupler used to call coupler_symmetric directly.
     assert _has_marker(gf.components.coupler())
+
+
+def test_pdk_override_applies_inside_analog(restore_pdk: None) -> None:
+    analog = gf.components.analog
+    # gf.components.spiral_inductor is the spirals cell, and symmetric_inductor
+    # and transformer_concentric are not exported from gf.components.
+    components: dict[str, Callable[[], gf.Component]] = {
+        "inductor": gf.components.inductor,
+        "spiral_inductor": analog.inductors.spiral_inductor,
+        "stacked_transformer": gf.components.stacked_transformer,
+        "symmetric_inductor": analog.inductors.symmetric_inductor,
+        "symmetric_transformer": gf.components.symmetric_transformer,
+        "transformer_concentric": analog.transformers.transformer_concentric,
+        "transformer_concentric_secondary": (
+            gf.components.transformer_concentric_secondary
+        ),
+    }
+    overrides: dict[str, tuple[Callable[..., gf.Component], list[str]]] = {
+        # inductor and transformer_concentric_secondary used to call
+        # gf.components.rectangle directly.
+        "compass": (
+            marked_compass,
+            [
+                "inductor",
+                "transformer_concentric",
+                "transformer_concentric_secondary",
+            ],
+        ),
+        # via1 and via2 are aliases of via, and via_stack places via1.
+        "via": (
+            marked_via,
+            [
+                "spiral_inductor",
+                "stacked_transformer",
+                "symmetric_inductor",
+                "symmetric_transformer",
+                "transformer_concentric",
+                "transformer_concentric_secondary",
+            ],
+        ),
+        # stacked_transformer used to default to the via3 function.
+        "via3": (marked_via3, ["stacked_transformer"]),
+        # transformer_concentric used to call inductor and the private
+        # _secondary_inductor cell directly.
+        "inductor": (marked_inductor, ["transformer_concentric"]),
+        "transformer_concentric_secondary": (
+            marked_transformer_concentric_secondary,
+            ["transformer_concentric"],
+        ),
+    }
+    for cell_name, (marked, names) in overrides.items():
+        _activate_pdk(PDK.name, dict(PDK.cells))
+        for name in names:
+            assert not _has_marker(components[name]()), name
+
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+
+        for name in names:
+            assert _has_marker(components[name]()), (cell_name, name)
