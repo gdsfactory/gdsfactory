@@ -1,14 +1,22 @@
 from __future__ import annotations
 
-__all__ = ["ring_double_pn", "ring_single_pn"]
+__all__ = [
+    "cross_section_pn",
+    "cross_section_rib",
+    "ring_double_pn",
+    "ring_single_pn",
+    "via_stack_heater_ring_pn",
+]
 
-from functools import partial
 from typing import Any
 
-import numpy as np
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component_functions import CellAlias
+from gdsfactory.component_functions.rings.ring_pn import (
+    cross_section_pn,
+    cross_section_rib,
+)
 from gdsfactory.cross_section import rib
 from gdsfactory.typings import (
     ComponentSpec,
@@ -21,20 +29,7 @@ from .._schematic import ring_double_schematic, ring_single_schematic
 from ..vias.via import via
 from ..vias.via_stack import via_stack
 
-cross_section_rib = partial(
-    gf.cross_section.strip,
-    sections=(("SLAB90", -2.425, 2.425),),
-)
-cross_section_pn = partial(
-    gf.cross_section.pn,
-    width_doping=2.425,
-    width_slab=2 * 2.425,
-    layer_via="VIAC",
-    width_via=0.5,
-    layer_metal="M1",
-    width_metal=0.5,
-)
-_heater_vias = CellAlias(
+via_stack_heater_ring_pn = CellAlias(
     via_stack,
     size=(0.5, 0.5),
     layers=("M1", "M2", "M3"),
@@ -66,7 +61,7 @@ def ring_double_pn(
     doped_heater_layer: LayerSpec = "NPP",
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 2.175,
-    heater_vias: ComponentSpec = _heater_vias,
+    heater_vias: ComponentSpec = "via_stack_heater_ring_pn",
     with_drop: bool = True,
     **kwargs: Any,
 ) -> gf.Component:
@@ -89,137 +84,22 @@ def ring_double_pn(
         kwargs: cross_section settings.
 
     """
-    add_gap = gf.snap.snap_to_grid(add_gap, grid_factor=2)
-    drop_gap = gf.snap.snap_to_grid(drop_gap, grid_factor=2)
-    c = gf.Component()
-
-    pn_cross_section_ = gf.get_cross_section(pn_cross_section, **kwargs)
-    cross_section_ = gf.get_cross_section(cross_section, **kwargs)
-
-    heater_vias = gf.get_component(heater_vias)
-    undoping_angle = 180 - doping_angle
-
-    th_waveguide_path = gf.Path()
-    th_waveguide_path.append(
-        gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
+    return cf.ring_double_pn(
+        add_gap=add_gap,
+        drop_gap=drop_gap,
+        radius=radius,
+        doping_angle=doping_angle,
+        cross_section=cross_section,
+        pn_cross_section=pn_cross_section,
+        doped_heater=doped_heater,
+        doped_heater_angle_buffer=doped_heater_angle_buffer,
+        doped_heater_layer=doped_heater_layer,
+        doped_heater_width=doped_heater_width,
+        doped_heater_waveguide_offset=doped_heater_waveguide_offset,
+        heater_vias=heater_vias,
+        with_drop=with_drop,
+        **kwargs,
     )
-    th_waveguide = c << th_waveguide_path.extrude(cross_section=cross_section_)
-    th_waveguide.x = 0
-    th_waveguide.y = (
-        -radius
-        - add_gap
-        - th_waveguide.ports["o1"].width / 2
-        - pn_cross_section_.width / 2
-    )
-
-    doped_path = gf.Path()
-    doped_path.append(gf.path.arc(radius=radius, angle=-doping_angle))
-    undoped_path = gf.Path()
-    undoped_path.append(gf.path.arc(radius=radius, angle=undoping_angle))
-
-    r = gf.ComponentAllAngle()
-    left_doped_ring_ref = r.add_ref_off_grid(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
-    )
-    right_doped_ring_ref = r.add_ref_off_grid(
-        doped_path.extrude(cross_section=pn_cross_section_, all_angle=True)
-    )
-    bottom_undoped_ring_ref = r.add_ref_off_grid(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
-    )
-    top_undoped_ring_ref = r.add_ref_off_grid(
-        undoped_path.extrude(cross_section=cross_section_, all_angle=True)
-    )
-
-    bottom_undoped_ring_ref.rotate(-undoping_angle / 2)
-    bottom_undoped_ring_ref.x = th_waveguide.x
-
-    left_doped_ring_ref.connect(
-        gf.port.core_port(left_doped_ring_ref.ports["o1"]),
-        gf.port.core_port(bottom_undoped_ring_ref.ports["o1"]),
-    )
-    right_doped_ring_ref.connect(
-        gf.port.core_port(right_doped_ring_ref.ports["o2"]),
-        gf.port.core_port(bottom_undoped_ring_ref.ports["o2"]),
-    )
-    top_undoped_ring_ref.connect(
-        gf.port.core_port(top_undoped_ring_ref.ports["o2"]),
-        gf.port.core_port(left_doped_ring_ref.ports["o2"]),
-    )
-
-    ring = c.add_ref_off_grid(r)
-    ring.center = (0, 0)
-
-    drop_waveguide_dy = (
-        radius
-        + drop_gap
-        + th_waveguide.ports["o1"].width / 2
-        + pn_cross_section_.width / 2
-    )
-
-    if doped_heater:
-        heater_radius = radius - doped_heater_waveguide_offset
-        heater_path = gf.Path()
-        heater_path.append(
-            gf.path.arc(
-                radius=heater_radius, angle=undoping_angle - doped_heater_angle_buffer
-            )
-        )
-
-        heater = heater_path.extrude(width=0.5, layer=doped_heater_layer)
-
-        bottom_heater_ref = c << heater
-        bottom_heater_ref.rotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
-        bottom_heater_ref.x = th_waveguide.x
-        bottom_heater_ref.y = th_waveguide.y + (
-            doped_heater_waveguide_offset + doped_heater_width / 2 + add_gap
-        )
-
-        bottom_l_heater_via = c << heater_vias
-        bottom_r_heater_via = c << heater_vias
-        bottom_l_heater_via.x = bottom_heater_ref.ports["e1"].x
-        bottom_l_heater_via.y = bottom_heater_ref.ports["e1"].y
-        bottom_r_heater_via.x = bottom_heater_ref.ports["e2"].x
-        bottom_r_heater_via.y = bottom_heater_ref.ports["e2"].y
-
-        top_heater_ref = c << heater
-        top_heater_ref.rotate(180 - (undoping_angle - doped_heater_angle_buffer) / 2)
-        top_heater_ref.x = th_waveguide.x
-        top_heater_ref.y = drop_waveguide_dy - (
-            doped_heater_waveguide_offset + doped_heater_width / 2 + drop_gap
-        )
-
-        top_l_heater_via = c << heater_vias
-        top_r_heater_via = c << heater_vias
-        top_l_heater_via.x = top_heater_ref.ports["e1"].x
-        top_l_heater_via.y = top_heater_ref.ports["e1"].y
-        top_r_heater_via.x = top_heater_ref.ports["e2"].x
-        top_r_heater_via.y = top_heater_ref.ports["e2"].y
-
-    c.add_port("o1", port=th_waveguide.ports["o1"])
-    c.add_port("o2", port=th_waveguide.ports["o2"])
-
-    htr_top_sig = c.add_port(name="htr_top_sig", port=top_l_heater_via["e2"])
-    htr_top_gnd = c.add_port(name="htr_top_gnd", port=top_r_heater_via["e2"])
-    htr_bot_sig = c.add_port(name="htr_bot_sig", port=bottom_l_heater_via["e2"])
-    htr_bot_gnd = c.add_port(name="htr_bot_gnd", port=bottom_r_heater_via["e2"])
-    c.create_pin(ports=[htr_top_sig], name="htr_top_sig")
-    c.create_pin(ports=[htr_top_gnd], name="htr_top_gnd")
-    c.create_pin(ports=[htr_bot_sig], name="htr_bot_sig")
-    c.create_pin(ports=[htr_bot_gnd], name="htr_bot_gnd")
-
-    if with_drop:
-        drop_waveguide_path = gf.Path()
-        drop_waveguide_path.append(
-            gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
-        )
-        drop_waveguide = c << drop_waveguide_path.extrude(cross_section=cross_section_)
-        drop_waveguide.x = 0
-        drop_waveguide.y = drop_waveguide_dy
-        c.add_port("o3", port=drop_waveguide.ports["o2"])
-        c.add_port("o4", port=drop_waveguide.ports["o1"])
-    c.flatten()
-    return c
 
 
 @gf.cell_with_module_name(schematic_function=ring_single_schematic, tags=["rings"])
@@ -234,7 +114,7 @@ def ring_single_pn(
     doped_heater_layer: LayerSpec = "NPP",
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 1.175,
-    heater_vias: ComponentSpec = _heater_vias,
+    heater_vias: ComponentSpec = "via_stack_heater_ring_pn",
     pn_vias: ComponentSpec = "via_stack_slab_m3",
     pn_vias_width: float = 3,
     slab_simplify: float = 0.05,
@@ -257,116 +137,22 @@ def ring_single_pn(
         pn_vias_width: width of pn vias.
         slab_simplify: polygon simplification tolerance for the undoped slab (um).
     """
-    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    c = gf.Component()
-
-    undoping_angle = 360 - doping_angle
-
-    pn_xs = gf.get_cross_section(pn_cross_section)
-    bus_waveguide_path = gf.Path()
-    bus_waveguide_path.append(
-        gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
+    return cf.ring_single_pn(
+        gap=gap,
+        radius=radius,
+        doping_angle=doping_angle,
+        cross_section=cross_section,
+        pn_cross_section=pn_cross_section,
+        doped_heater=doped_heater,
+        doped_heater_angle_buffer=doped_heater_angle_buffer,
+        doped_heater_layer=doped_heater_layer,
+        doped_heater_width=doped_heater_width,
+        doped_heater_waveguide_offset=doped_heater_waveguide_offset,
+        heater_vias=heater_vias,
+        pn_vias=pn_vias,
+        pn_vias_width=pn_vias_width,
+        slab_simplify=slab_simplify,
     )
-    bus_waveguide = c << bus_waveguide_path.extrude(cross_section=cross_section)
-    bus_waveguide.x = 0
-    bus_waveguide.y = (
-        -radius
-        - gap
-        - bus_waveguide.ports["o1"].width / 2
-        - pn_xs.width / 2
-        + 0.576  # adjust gap # TODO: remove this
-    )
-
-    r = gf.Component()
-    doped_path = gf.Path()
-    doped_path.append(gf.path.arc(radius=radius, angle=-doping_angle))
-    undoped_path = gf.Path()
-    undoped_path.append(gf.path.arc(radius=radius, angle=undoping_angle))
-
-    ports = {0: ("o1", "o2", "optical")}
-    for index, section in enumerate(pn_xs.get_sections()):
-        if section.layer == gf.get_layer_info("M1"):
-            side = "top" if section.section_min + section.section_max > 0 else "bot"
-            ports[index] = (f"e1_{side}", f"e2_{side}", "electrical")
-    doped_ring_ref = r << doped_path.extrude(
-        cross_section=pn_xs, all_angle=False, ports=ports
-    )
-    undoped_xs = gf.get_cross_section(cross_section)
-    undoped_ring_ref = r << undoped_path.extrude(
-        cross_section=undoped_xs,
-        all_angle=False,
-        simplify={
-            i: slab_simplify
-            for i, section in enumerate(undoped_xs.get_sections())
-            if i and section.layer == gf.get_layer_info("SLAB90")
-        },
-    )
-    undoped_ring_ref.rotate(-undoping_angle / 2)
-    undoped_ring_ref.center = (0, 0)
-    doped_ring_ref.connect(
-        gf.port.core_port(doped_ring_ref.ports["o1"]),
-        gf.port.core_port(undoped_ring_ref.ports["o1"]),
-    )
-
-    via = gf.get_component(pn_vias, size=(pn_vias_width, pn_vias_width))
-    gnd = r << via
-    gnd.x = doped_ring_ref.ports["e1_top"].x
-    gnd.y = doped_ring_ref.ports["e1_top"].y
-
-    sig = r << via
-    sig.x = doped_ring_ref.ports["e2_bot"].x
-    sig.y = doped_ring_ref.ports["e2_bot"].y
-    r.add_port("sig", port=sig["e2"])
-    r.add_port("gnd", port=gnd["e2"])
-
-    ring = c << r
-    ring.center = (0, 0)
-
-    if doped_heater:
-        heater_radius = radius - doped_heater_waveguide_offset
-        heater_path = gf.Path()
-        heater_path.append(
-            gf.path.arc(
-                radius=heater_radius, angle=undoping_angle - doped_heater_angle_buffer
-            )
-        )
-
-        bottom_heater_ref = c << heater_path.extrude(
-            width=0.5, layer=doped_heater_layer
-        )
-        bottom_heater_ref.rotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
-        bottom_heater_ref.x = bus_waveguide.x
-        bottom_heater_ref.y = (
-            bus_waveguide.y
-            + doped_heater_waveguide_offset
-            + doped_heater_width / 2
-            + gap
-            + radius / 4
-        )
-
-        heater_vias = gf.get_component(heater_vias)
-
-        bottom_l_heater_via = c << heater_vias
-        bottom_r_heater_via = c << heater_vias
-        bottom_l_heater_via.xmin = bottom_heater_ref.ports["e1"].x
-        bottom_l_heater_via.ymax = bottom_heater_ref.ports["e1"].y
-
-        bottom_r_heater_via.xmax = bottom_heater_ref.ports["e2"].x
-        bottom_r_heater_via.ymax = bottom_heater_ref.ports["e2"].y
-
-        c.add_port(name="heater_sig", port=bottom_l_heater_via["e4"])
-        c.add_port(name="heater_gnd", port=bottom_r_heater_via["e4"])
-
-    c.add_port("o1", port=bus_waveguide.ports["o1"])
-    c.add_port("o2", port=bus_waveguide.ports["o2"])
-    c.add_ports(ring.ports)
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    c.flatten()
-    return c
 
 
 if __name__ == "__main__":

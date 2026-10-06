@@ -20,6 +20,7 @@ from . import (
     mmis,
     mzis,
     pads,
+    rings,
     shapes,
     spirals,
     superconductors,
@@ -41,6 +42,7 @@ from .microfluidics import *
 from .mmis import *
 from .mzis import *
 from .pads import *
+from .rings import *
 from .shapes import *
 from .spirals import *
 from .superconductors import *
@@ -96,12 +98,14 @@ __all__ = [
     "coupler90bend",
     "coupler_adiabatic",
     "coupler_asymmetric",
+    "coupler_bend",
     "coupler_bent",
     "coupler_bent_half",
     "coupler_broadband",
     "coupler_full",
     "coupler_pulley",
     "coupler_ring",
+    "coupler_ring_bend",
     "coupler_straight",
     "coupler_straight_asymmetric",
     "coupler_symmetric",
@@ -120,6 +124,8 @@ __all__ = [
     "delay_snake2",
     "delay_snake_sbend",
     "detectors",
+    "disk",
+    "disk_heater",
     "doubly_clamped_beam",
     "edge_coupler_array",
     "edge_coupler_array_with_loopback",
@@ -183,6 +189,20 @@ __all__ = [
     "rectangle_with_slits",
     "rectangles",
     "regular_polygon",
+    "ring",
+    "ring_asymmetric",
+    "ring_crow",
+    "ring_crow_couplers",
+    "ring_double",
+    "ring_double_bend_coupler",
+    "ring_double_heater",
+    "ring_double_pn",
+    "ring_single",
+    "ring_single_array",
+    "ring_single_bend_coupler",
+    "ring_single_dut",
+    "ring_single_pn",
+    "rings",
     "rounded_rectangle",
     "shapes",
     "snspd",

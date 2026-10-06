@@ -28,7 +28,5 @@ __all__ = [
     "ring_single_array",
     "ring_single_bend_coupler",
     "ring_single_dut",
-    "ring_single_heater",
     "ring_single_pn",
-    "via_stack_heater_ring_pn",
 ]
