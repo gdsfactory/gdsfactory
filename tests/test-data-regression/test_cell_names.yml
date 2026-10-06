@@ -1119,7 +1119,7 @@ regular_polygon:
   name: regular_polygon_gdsfactorypcomponentspshapespregular_po_5e742969
 resistance_meander:
   children: []
-  name: resistance_meander_gdsfactorypcomponentsppcmspresistanc_a213d158
+  name: resistance_meander_gdsfactorypcomponentsppcmspresistanc_c0ce6264
 resistance_sheet:
   children:
   - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489
