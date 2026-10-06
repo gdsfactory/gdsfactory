@@ -562,3 +562,50 @@ def test_partials_of_cells_are_cell_aliases() -> None:
         if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
     )
     assert not plain
+
+
+def test_pdk_override_applies_inside_rings(restore_pdk: None) -> None:
+    straight_components: dict[str, Callable[[], gf.Component]] = {
+        name: getattr(gf.components, name)
+        for name in [
+            "coupler_ring_bend",
+            "disk",
+            "disk_heater",
+            "ring_asymmetric",
+            "ring_crow",
+            "ring_double",
+            "ring_double_heater",
+            "ring_single",
+            "ring_single_array",
+            "ring_single_bend_coupler",
+            "ring_single_dut",
+        ]
+    }
+    # The marker makes the half rings taller, so leave room between them.
+    straight_components["ring_double_bend_coupler"] = lambda: (
+        gf.components.ring_double_bend_coupler(length_y=4)
+    )
+    via_names = [
+        "disk_heater",
+        "ring_double_heater",
+        "ring_double_pn",
+        "ring_single_pn",
+    ]
+    for name, component in straight_components.items():
+        assert not _has_marker(component()), name
+    for name in via_names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # disk, ring_crow, ring_single_array, ring_single_dut and the bend coupler
+    # rings used to call gf.c.straight directly, ring_crow called
+    # ring_asymmetric directly and ring_single_bend_coupler called
+    # coupler_ring_bend directly.
+    for name, component in straight_components.items():
+        assert _has_marker(component()), name
+
+    _activate_pdk("override_via", {**PDK.cells, "via": marked_via})
+
+    for name in via_names:
+        assert _has_marker(getattr(gf.components, name)()), name

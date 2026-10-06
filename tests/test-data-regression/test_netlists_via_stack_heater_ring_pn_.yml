@@ -1,0 +1,131 @@
+instances:
+  compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_186f184e_0_0:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M2
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 0.5
+      - 0.5
+  compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_e3eaae5a_0_0:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: true
+      layer: M1
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: null
+      size:
+      - 0.5
+      - 0.5
+  compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766_0_0:
+    component: compass
+    info: {}
+    settings:
+      auto_rename_ports: false
+      layer: M3
+      port_inclusion: 0
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      size:
+      - 0.5
+      - 0.5
+  via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIA1_0c2a5a1c_m100_m100:
+    array:
+      column_pitch: 0.2
+      columns: 2
+      row_pitch: 0.2
+      rows: 2
+    component: via
+    info:
+      column_pitch: 0.2
+      enclosure: 0.01
+      row_pitch: 0.2
+      xsize: 0.1
+      ysize: 0.1
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 0.01
+      layer: VIA1
+      pitch: 0.2
+      row_pitch: null
+      size:
+      - 0.1
+      - 0.1
+  via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIAC_cbb103d7_m100_m100:
+    array:
+      column_pitch: 0.2
+      columns: 2
+      row_pitch: 0.2
+      rows: 2
+    component: via
+    info:
+      column_pitch: 0.2
+      enclosure: 0.01
+      row_pitch: 0.2
+      xsize: 0.1
+      ysize: 0.1
+    settings:
+      bbox_layers: null
+      bbox_offset: 0
+      bbox_offsets: null
+      column_pitch: null
+      enclosure: 0.01
+      layer: VIAC
+      pitch: 0.2
+      row_pitch: null
+      size:
+      - 0.1
+      - 0.1
+nets: []
+placements:
+  compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_186f184e_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_e3eaae5a_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766_0_0:
+    mirror: false
+    rotation: 0
+    x: 0
+    y: 0
+  via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIA1_0c2a5a1c_m100_m100:
+    mirror: false
+    rotation: 0
+    x: -0.1
+    y: -0.1
+  via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIAC_cbb103d7_m100_m100:
+    mirror: false
+    rotation: 0
+    x: -0.1
+    y: -0.1
+ports:
+  e1: compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766_0_0,e1
+  e2: compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766_0_0,e2
+  e3: compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766_0_0,e3
+  e4: compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766_0_0,e4

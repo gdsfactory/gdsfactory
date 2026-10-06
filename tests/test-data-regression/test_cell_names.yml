@@ -1215,7 +1215,7 @@ ring_single_heater:
   name: ring_double_heater_gdsfactorypcomponentspringspring_hea_e0cb8182
 ring_single_pn:
   children: []
-  name: ring_single_pn_gdsfactorypcomponentspringspring_pn_G0p3_61d7b382
+  name: ring_single_pn_gdsfactorypcomponentspringspring_pn_G0p3_8ebf82c2
 rounded_rectangle:
   children: []
   name: rounded_rectangle_gdsfactorypcomponentspshapesprounded__7f46eb42
@@ -1760,6 +1760,14 @@ via_stack_heater_mtop_mini:
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_33f305c1
+via_stack_heater_ring_pn:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_186f184e
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_e3eaae5a
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIA1_0c2a5a1c
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIAC_cbb103d7
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S0p5_0p5_b3b757c6
 via_stack_m1_m3:
   children:
   - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683

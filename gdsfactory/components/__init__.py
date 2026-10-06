@@ -400,6 +400,7 @@ __all__ = [
     "via_stack_heater_meander_doped",
     "via_stack_heater_mtop",
     "via_stack_heater_mtop_mini",
+    "via_stack_heater_ring_pn",
     "via_stack_m1_m3",
     "via_stack_m1_mtop",
     "via_stack_m2_m3",

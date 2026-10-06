@@ -17,6 +17,7 @@ from . import (
     mmis,
     mzis,
     pads,
+    rings,
     shapes,
     superconductors,
     tapers,
@@ -34,6 +35,7 @@ from .microfluidics import *
 from .mmis import *
 from .mzis import *
 from .pads import *
+from .rings import *
 from .shapes import *
 from .superconductors import *
 from .tapers import *
@@ -74,6 +76,8 @@ __all__ = [
     "circle_wave",
     "comb_drive",
     "compass",
+    "coupler_bend",
+    "coupler_ring_bend",
     "cross",
     "crossing",
     "crossing45",
@@ -82,6 +86,8 @@ __all__ = [
     "crossing_linear_taper",
     "dash",
     "detectors",
+    "disk",
+    "disk_heater",
     "doubly_clamped_beam",
     "edge_coupler_array",
     "edge_coupler_array_with_loopback",
@@ -134,6 +140,20 @@ __all__ = [
     "rectangle_with_slits",
     "rectangles",
     "regular_polygon",
+    "ring",
+    "ring_asymmetric",
+    "ring_crow",
+    "ring_crow_couplers",
+    "ring_double",
+    "ring_double_bend_coupler",
+    "ring_double_heater",
+    "ring_double_pn",
+    "ring_single",
+    "ring_single_array",
+    "ring_single_bend_coupler",
+    "ring_single_dut",
+    "ring_single_pn",
+    "rings",
     "rounded_rectangle",
     "shapes",
     "snspd",
