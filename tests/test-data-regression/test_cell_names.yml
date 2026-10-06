@@ -308,7 +308,7 @@ coupler_bend:
   children:
   - bend_circular_all_angle_R10_A90_NNone_ASNone_LNone_WNon_5720d7b7
   - bend_circular_all_angle_R10p7_A60_NNone_ASNone_LNone_WN_9f56c48a
-  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_5085889c_2ba588ae921c33e
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_5085889c_<trans>
   name: coupler_bend_gdsfactorypcomponentspringspring_single_be_33d3cd75
 coupler_bent_half:
   children: []
@@ -343,7 +343,7 @@ coupler_ring_bend:
   children:
   - bend_circular_all_angle_R10_A90_NNone_ASNone_LNone_WNon_5720d7b7
   - bend_circular_all_angle_R10p7_A45_NNone_ASNone_LNone_WN_3dcfabd4
-  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_04a6bc98_2dd4fc45546d417
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_04a6bc98_<trans>
   - coupler_bend_gdsfactorypcomponentspringspring_single_be_881e6e7a
   - straight_gdsfactorypcomponentspwaveguidespstraight_L0_N_6819b7a0
   name: coupler_ring_bend_gdsfactorypcomponentspringspring_sing_08bf6cd7
@@ -373,9 +373,8 @@ crossing:
   name: crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5
 crossing45:
   children:
-  - bezier_gdsfactorypcomponentspbendspbend_s_CP2p828427124_a092e861_68e372cff379d0
-  - bezier_gdsfactorypcomponentspbendspbend_s_CP2p828427124_a092e861_f2dd4fc45546d6ff
-  - crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5_68e372cff378ed
+  - bezier_gdsfactorypcomponentspbendspbend_s_CP2p828427124_a092e861_<trans>
+  - crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5_<trans>
   name: crossing45_gdsfactorypcomponentspwaveguidespcrossing_wa_631c2603
 crossing_arm:
   children:
