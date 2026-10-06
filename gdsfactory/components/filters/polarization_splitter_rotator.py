@@ -2,16 +2,10 @@ from __future__ import annotations
 
 __all__ = ["polarization_splitter_rotator"]
 
-from typing import Any
-
-import numpy as np
-import numpy.typing as npt
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Delta, Float2, Float3
-
-from ..bends.bend_s import bezier
 
 
 @gf.cell_with_module_name(tags=["filters"])
@@ -48,63 +42,14 @@ def polarization_splitter_rotator(
         The length of third input taper is automatically determined
         if only two lengths are in arguments.
     """
-    c = gf.Component()
-    x = gf.get_cross_section(cross_section=cross_section)
-
-    w0, w1, w2 = width_taper_in
-    w3, w4 = width_coupler
-    if len(length_taper_in) == 2:
-        l1, l2 = length_taper_in
-        l3 = l1 * (w3 - w2) / (w1 - w0)
-    else:
-        l1, l2, l3 = length_taper_in
-
-    taper_in1 = c << gf.c.taper(
-        length=l1, width1=w0, width2=w1, cross_section=cross_section
-    )
-    taper_in2 = c << gf.c.taper(
-        length=l2, width1=w1, width2=w2, cross_section=cross_section
-    )
-    taper_in3 = c << gf.c.taper(
-        length=l3, width1=w2, width2=w3, cross_section=cross_section
-    )
-
-    coupler = c << gf.c.coupler_straight_asymmetric(
-        length=length_coupler,
+    return cf.polarization_splitter_rotator(
+        width_taper_in=width_taper_in,
+        length_taper_in=length_taper_in,
+        width_coupler=width_coupler,
+        length_coupler=length_coupler,
         gap=gap,
-        width_top=w4,
-        width_bot=w3,
+        width_out=width_out,
+        length_out=length_out,
+        dy=dy,
         cross_section=cross_section,
     )
-
-    def bend_s_width(t: npt.NDArray[np.floating[Any]]) -> npt.NDArray[np.floating[Any]]:
-        return w4 + (width_out - w4) * t
-
-    bend_s_var = c << bezier(
-        control_points=(
-            (0, 0),
-            (length_out / 2, 0),
-            (length_out / 2, dy),
-            (length_out, dy),
-        ),
-        cross_section=x,
-        width_function=bend_s_width,
-    )
-
-    taper_out = c << gf.c.taper(
-        length=length_out, width1=w3, width2=width_out, cross_section=cross_section
-    )
-
-    taper_in3.connect("o2", other=coupler.ports["o1"])
-    taper_in2.connect("o2", other=taper_in3.ports["o1"])
-    taper_in1.connect("o2", other=taper_in2.ports["o1"])
-    taper_out.connect("o1", other=coupler.ports["o4"])
-    bend_s_var.connect("o1", other=coupler.ports["o3"])
-
-    c.add_port("o1", port=taper_in1.ports["o1"])
-    c.add_port("o2", port=bend_s_var.ports["o2"])
-    c.add_port("o3", port=taper_out.ports["o2"])
-
-    c.auto_rename_ports()
-    c.flatten()
-    return c

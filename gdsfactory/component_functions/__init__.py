@@ -13,6 +13,7 @@ from . import (
     couplers,
     detectors,
     edge_couplers,
+    filters,
     mems,
     microfluidics,
     mmis,
@@ -32,6 +33,7 @@ from .bends import *
 from .couplers import *
 from .detectors import *
 from .edge_couplers import *
+from .filters import *
 from .mems import *
 from .microfluidics import *
 from .mmis import *
@@ -52,6 +54,7 @@ __all__ = [
     "L",
     "anchored_flexure",
     "arrow_junction",
+    "awg",
     "bbox",
     "bend_circular",
     "bend_circular_all_angle",
@@ -100,6 +103,9 @@ __all__ = [
     "crossing_etched",
     "crossing_linear_taper",
     "dash",
+    "dbr",
+    "dbr_cell",
+    "dbr_tapered",
     "delay_snake",
     "delay_snake2",
     "delay_snake_sbend",
@@ -110,14 +116,19 @@ __all__ = [
     "edge_coupler_silicon",
     "edge_couplers",
     "ellipse",
+    "fiber",
+    "fiber_array",
     "fiducial_squares",
+    "filters",
     "folded_spring",
     "fractal",
+    "free_propagation_region",
     "ge_detector_straight_si_contacts",
     "gear",
     "get_component",
     "h_junction",
     "hline",
+    "loop_mirror",
     "meander_channel",
     "mems",
     "microfluidics",
@@ -129,6 +140,7 @@ __all__ = [
     "mmi_90degree_hybrid",
     "mmi_tapered",
     "mmis",
+    "mode_converter",
     "mzi",
     "mzi_lattice",
     "mzi_lattice_mmi",
@@ -149,6 +161,7 @@ __all__ = [
     "pads_shorted",
     "pie_arc",
     "pixel_array",
+    "polarization_splitter_rotator",
     "ramp",
     "rect_su_shape",
     "rect_taper",
@@ -198,6 +211,8 @@ __all__ = [
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
     "tapers",
+    "terminator",
+    "terminator_spiral",
     "text",
     "text_freetype",
     "text_klayout",

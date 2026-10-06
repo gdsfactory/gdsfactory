@@ -3,13 +3,10 @@ from __future__ import annotations
 __all__ = ["terminator_spiral"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
+from gdsfactory.path import extrude_transition, spiral_archimedean, transition
 from gdsfactory.typings import CrossSectionSpec
 
-from .._schematic import terminator_schematic
 
-
-@gf.cell_with_module_name(schematic_function=terminator_schematic, tags=["filters"])
 def terminator_spiral(
     separation: float = 3.0,
     width_tip: float = 0.2,
@@ -29,11 +26,30 @@ def terminator_spiral(
         min_bend_radius: minimum bend radius for the spiral.
         cross_section: input cross-section.
     """
-    return cf.terminator_spiral(
-        separation=separation,
-        width_tip=width_tip,
+    cross_section_main = gf.get_cross_section(cross_section)
+    cross_section_tip = gf.get_cross_section(cross_section, width=width_tip)
+
+    xs = transition(
+        cross_section2=cross_section_main,
+        cross_section1=cross_section_tip,
+        width_type="linear",
+    )
+
+    min_bend_radius = min_bend_radius or cross_section_main.radius_min
+    assert min_bend_radius
+
+    path = spiral_archimedean(
+        min_bend_radius=min_bend_radius,
+        separation=separation / 2,
         number_of_loops=number_of_loops,
         npoints=npoints,
-        min_bend_radius=min_bend_radius,
-        cross_section=cross_section,
     )
+    path.start_angle = 0
+    path.end_angle = 0
+
+    spiral = extrude_transition(path, transition=xs)
+    c = gf.Component()
+    ref = c << spiral
+    c.add_port("o1", port=ref["o2"])
+    c.flatten()
+    return c

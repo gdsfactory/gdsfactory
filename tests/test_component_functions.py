@@ -206,6 +206,34 @@ def marked_via(
     return c
 
 
+@gf.cell(basename="marked_free_propagation_region", register_factory=False)
+def marked_free_propagation_region(**kwargs: Any) -> gf.Component:
+    c = cf.free_propagation_region(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_dbr_cell", register_factory=False)
+def marked_dbr_cell(**kwargs: Any) -> gf.Component:
+    c = cf.dbr_cell(**kwargs)
+    c.add_polygon([(0, 0), (0.1, 0), (0.1, 0.1), (0, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_circle", register_factory=False)
+def marked_circle(**kwargs: Any) -> gf.Component:
+    c = cf.circle(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_taper_cross_section", register_factory=False)
+def marked_taper_cross_section(**kwargs: Any) -> gf.Component:
+    c = cf.taper_cross_section(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 @gf.cell(basename="marked_bend_euler", register_factory=False)
 def marked_bend_euler(
     radius: float | None = None,
@@ -626,6 +654,34 @@ def test_partials_of_cells_are_cell_aliases() -> None:
         if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
     )
     assert not plain
+
+
+def test_pdk_override_applies_inside_filters(restore_pdk: None) -> None:
+    overrides: dict[str, tuple[Callable[..., Any], list[str]]] = {
+        "straight": (
+            marked_straight,
+            ["dbr", "dbr_cell", "dbr_tapered", "loop_mirror"],
+        ),
+        "taper": (
+            marked_taper,
+            ["dbr_tapered", "mode_converter", "polarization_splitter_rotator"],
+        ),
+        "free_propagation_region": (marked_free_propagation_region, ["awg"]),
+        "dbr_cell": (marked_dbr_cell, ["dbr"]),
+        "circle": (marked_circle, ["fiber", "fiber_array"]),
+        "taper_cross_section": (marked_taper_cross_section, ["terminator"]),
+    }
+    for _, names in overrides.values():
+        for name in names:
+            assert not _has_marker(getattr(gf.components, name)()), name
+
+    # These used to call straight, taper, dbr_cell, circle and taper_cross_section
+    # directly. awg reaches free_propagation_region through the
+    # free_propagation_region_input/output aliases, now looked up by name.
+    for cell_name, (cell, names) in overrides.items():
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: cell})
+        for name in names:
+            assert _has_marker(getattr(gf.components, name)()), (cell_name, name)
 
 
 def test_pdk_override_applies_inside_spirals(restore_pdk: None) -> None:

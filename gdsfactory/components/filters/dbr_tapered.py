@@ -2,65 +2,10 @@ from __future__ import annotations
 
 __all__ = ["dbr_tapered"]
 
-from typing import cast
-
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.snap import snap_to_grid2x
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import CrossSectionSpec, Size
-
-
-def _generate_fins(
-    c: Component,
-    fin_size: Size,
-    taper_length: float,
-    length: float,
-    cross_section: CrossSectionSpec,
-) -> Component:
-    """Generates fins on the input/output straights.
-
-    Args:
-        c: Component.
-        fin_size: Specifies the x- and y-size of the `fins`.
-        taper_length: between the input/output straight and the DBR region.
-        length: Length of the DBR region.
-        cross_section: CrossSectionSpec.
-    """
-    xs = gf.get_cross_section(cross_section=cross_section)
-    num_fins = xs.width // (2 * fin_size[1])
-    x0, y0 = (
-        0,
-        -num_fins * (2 * fin_size[1]) / 2.0 + fin_size[1] / 2.0,
-    )
-    xend = 2 * taper_length + length
-    assert xs.layer is not None
-    for i in range(int(num_fins)):
-        y = y0 + i * 2 * fin_size[1]
-        rectangle = gf.components.rectangle(
-            size=(fin_size[0], fin_size[1]),
-            layer=xs.layer,
-            centered=True,
-            port_type=None,
-            port_orientations=None,
-        )
-        rectangle_input = c << rectangle
-        rectangle_input.move(
-            origin=(x0, y0),
-            destination=(
-                x0 + fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
-                y0 + y + fin_size[1] / 2.0,
-            ),
-        )
-
-        rectangle_output = c << rectangle
-        rectangle_output.move(
-            origin=(x0, y0),
-            destination=(
-                xend - fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
-                y0 + y + fin_size[1] / 2.0,
-            ),
-        )
-    return c
 
 
 @gf.cell_with_module_name(tags=["filters"])
@@ -104,54 +49,14 @@ def dbr_tapered(
                |_________
     ```
     """
-    c = gf.Component()
-
-    xs = gf.get_cross_section(cross_section=cross_section, width=w2)
-
-    input_taper = c << gf.components.taper(
-        length=taper_length,
-        width1=xs.width,
-        width2=w1,
+    return cf.dbr_tapered(
+        length=length,
+        period=period,
+        dc=dc,
+        w1=w1,
+        w2=w2,
+        taper_length=taper_length,
+        fins=fins,
+        fin_size=fin_size,
         cross_section=cross_section,
     )
-
-    straight = c << gf.components.straight(
-        length=length, cross_section=cross_section, width=w1
-    )
-    straight.x = 0
-    straight.y = 0
-
-    output_taper = c << gf.components.taper(
-        length=taper_length,
-        width1=w1,
-        width2=xs.width,
-        cross_section=cross_section,
-    )
-
-    input_taper.connect("o2", straight.ports["o1"])
-    output_taper.connect("o1", straight.ports["o2"])
-    num = (2 * taper_length + length) // period
-
-    size = cast("tuple[float, float]", tuple(snap_to_grid2x((period * dc, w2))))
-    assert xs.layer is not None
-    teeth = gf.components.rectangle(size=size, layer=xs.layer, port_type=None)
-
-    periodic_structures = c << gf.components.array(
-        component=teeth, columns=int(num), column_pitch=period
-    )
-    periodic_structures.x = 0
-    periodic_structures.y = 0
-
-    if fins:
-        _generate_fins(
-            c=c,
-            fin_size=fin_size,
-            taper_length=taper_length,
-            length=length,
-            cross_section=xs,
-        )
-
-    xs.add_bbox(c)
-    c.add_port("o1", port=input_taper.ports["o1"])
-    c.add_port("o2", port=output_taper.ports["o2"])
-    return c

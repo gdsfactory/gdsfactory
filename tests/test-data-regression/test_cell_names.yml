@@ -89,7 +89,7 @@ awg:
   - straight_gdsfactorypcomponentspwaveguidespstraight_L6_N_702d0d58
   - straight_gdsfactorypcomponentspwaveguidespstraight_L7p5_3d0cd97c
   - straight_gdsfactorypcomponentspwaveguidespstraight_L9_N_09b87fdc
-  name: awg_gdsfactorypcomponentspfilterspawg_A10_O3_FPRIFFfree_c8e43e3e
+  name: awg_gdsfactorypcomponentspfilterspawg_A10_O3_FPRIFfree__ef55f40a
 bbox:
   children: []
   name: bbox_gdsfactorypcomponentspshapespbbox_Cmmi1x2_LSLAB90__8f73da71
@@ -137,6 +137,9 @@ bend_modified_hermite_s:
 bend_s:
   children: []
   name: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c
+bend_s_mode_converter:
+  children: []
+  name: bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5
 bend_s_offset:
   children: []
   name: bend_s_offset_gdsfactorypcomponentspbendspbend_s_O40_R1_3dc2bc74
@@ -632,6 +635,12 @@ fractal:
 free_propagation_region:
   children: []
   name: free_propagation_region_gdsfactorypcomponentspfilterspa_5ff2a5ce
+free_propagation_region_input:
+  children: []
+  name: free_propagation_region_gdsfactorypcomponentspfilterspa_5ff2a5ce
+free_propagation_region_output:
+  children: []
+  name: free_propagation_region_gdsfactorypcomponentspfilterspa_8b9b232d
 ge_detector_straight_si_contacts:
   children:
   - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM1_dc701dbe
@@ -814,7 +823,7 @@ mode_converter:
   - bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5
   - coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd
   - taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b
-  name: mode_converter_gdsfactorypcomponentspfilterspmode_conve_10a30c65
+  name: mode_converter_gdsfactorypcomponentspfilterspmode_conve_67c9cfc7
 mzi:
   children:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
