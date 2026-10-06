@@ -21,6 +21,7 @@ from . import (
     mmis,
     mzis,
     pads,
+    quantum,
     rings,
     shapes,
     spirals,
@@ -44,6 +45,7 @@ from .microfluidics import *
 from .mmis import *
 from .mzis import *
 from .pads import *
+from .quantum import *
 from .rings import *
 from .shapes import *
 from .spirals import *
@@ -104,13 +106,16 @@ __all__ = [
     "coupler_bent",
     "coupler_bent_half",
     "coupler_broadband",
+    "coupler_capacitive",
     "coupler_full",
+    "coupler_interdigital",
     "coupler_pulley",
     "coupler_ring",
     "coupler_ring_bend",
     "coupler_straight",
     "coupler_straight_asymmetric",
     "coupler_symmetric",
+    "coupler_tunable",
     "couplers",
     "cross",
     "crossing",
@@ -140,6 +145,8 @@ __all__ = [
     "fiber_array",
     "fiducial_squares",
     "filters",
+    "flux_qubit",
+    "flux_qubit_asymmetric",
     "folded_spring",
     "fractal",
     "free_propagation_region",
@@ -196,6 +203,7 @@ __all__ = [
     "pie_arc",
     "pixel_array",
     "polarization_splitter_rotator",
+    "quantum",
     "ramp",
     "rect_su_shape",
     "rect_taper",
@@ -203,6 +211,9 @@ __all__ = [
     "rectangle_with_slits",
     "rectangles",
     "regular_polygon",
+    "resonator_cpw",
+    "resonator_lumped",
+    "resonator_quarter_wave",
     "ring",
     "ring_asymmetric",
     "ring_crow",
@@ -272,6 +283,8 @@ __all__ = [
     "texts",
     "torus",
     "torus_wave",
+    "transmon",
+    "transmon_circular",
     "triangle",
     "triangle2",
     "triangle4",

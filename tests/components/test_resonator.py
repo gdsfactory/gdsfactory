@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.components.quantum.resonator import _cpw_cross_section
+from gdsfactory.component_functions.quantum.resonator import _cpw_cross_section
 
 
 @pytest.mark.parametrize("factory", [gf.c.resonator_cpw, gf.c.resonator_lumped])

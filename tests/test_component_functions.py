@@ -48,9 +48,14 @@ def marked_straight(
     npoints: int = 2,
     cross_section: CrossSectionSpec = "strip",
     width: float | None = None,
+    **kwargs: Any,
 ) -> gf.Component:
     c = cf.straight(
-        length=length, npoints=npoints, cross_section=cross_section, width=width
+        length=length,
+        npoints=npoints,
+        cross_section=cross_section,
+        width=width,
+        **kwargs,
     )
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c
@@ -238,6 +243,13 @@ def marked_dbr_cell(**kwargs: Any) -> gf.Component:
 def marked_circle(**kwargs: Any) -> gf.Component:
     c = cf.circle(**kwargs)
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_rectangle", register_factory=False)
+def marked_rectangle(**kwargs: Any) -> gf.Component:
+    c = cf.rectangle(**kwargs)
+    c.add_polygon([(0, 0), (0.1, 0), (0.1, 0.1), (0, 0.1)], layer=MARKER)
     return c
 
 
@@ -957,3 +969,36 @@ def test_pdk_override_applies_inside_couplers(restore_pdk: None) -> None:
 
     # coupler used to call coupler_symmetric directly.
     assert _has_marker(gf.components.coupler())
+
+
+def test_pdk_override_applies_inside_quantum(restore_pdk: None) -> None:
+    rectangle_names = [
+        "coupler_capacitive",
+        "coupler_interdigital",
+        "coupler_tunable",
+        "flux_qubit",
+        "flux_qubit_asymmetric",
+        "resonator_quarter_wave",
+        "transmon",
+        "transmon_circular",
+    ]
+    straight_names = ["resonator_cpw", "resonator_lumped"]
+    for name in {*rectangle_names, *straight_names}:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_rectangle", {**PDK.cells, "rectangle": marked_rectangle})
+
+    # These used to call gf.components.rectangle directly.
+    for name in rectangle_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_circle", {**PDK.cells, "circle": marked_circle})
+
+    # transmon_circular used to call gf.components.circle directly.
+    assert _has_marker(gf.components.transmon_circular())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # The resonators used to call gf.components.straight directly.
+    for name in straight_names:
+        assert _has_marker(getattr(gf.components, name)()), name
