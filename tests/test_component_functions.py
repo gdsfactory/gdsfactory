@@ -235,6 +235,20 @@ def marked_bend_euler(
     return c
 
 
+@gf.cell(basename="marked_bend_circular", register_factory=False)
+def marked_bend_circular(
+    radius: float | None = None,
+    angle: float = 90.0,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+) -> gf.Component:
+    c = cf.bend_circular(
+        radius=radius, angle=angle, width=width, cross_section=cross_section
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
 @gf.cell(basename="marked_coupler_symmetric", register_factory=False)
 def marked_coupler_symmetric(
     bend: ComponentSpec = "bend_s",
@@ -612,6 +626,51 @@ def test_partials_of_cells_are_cell_aliases() -> None:
         if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
     )
     assert not plain
+
+
+def test_pdk_override_applies_inside_spirals(restore_pdk: None) -> None:
+    overrides: dict[str, tuple[Callable[..., gf.Component], list[str]]] = {
+        "straight": (
+            marked_straight,
+            [
+                "delay_snake",
+                "delay_snake2",
+                "delay_snake_sbend",
+                "spiral",
+                "spiral_racetrack",
+                "spiral_racetrack_fixed_length",
+                "spiral_racetrack_heater_doped",
+                "spiral_racetrack_heater_metal",
+            ],
+        ),
+        # delay_snake and delay_snake2 use bend_euler180, an alias of bend_euler.
+        "bend_euler": (
+            marked_bend_euler,
+            [
+                "delay_snake",
+                "delay_snake2",
+                "delay_snake_sbend",
+                "spiral",
+                "spiral_racetrack",
+                "spiral_racetrack_heater_doped",
+                "spiral_racetrack_heater_metal",
+            ],
+        ),
+        "bend_circular": (
+            marked_bend_circular,
+            ["spiral_double", "spiral_racetrack_fixed_length"],
+        ),
+    }
+    for cell_name, (marked, names) in overrides.items():
+        _activate_pdk(PDK.name, dict(PDK.cells))
+        for name in names:
+            assert not _has_marker(getattr(gf.components, name)()), name
+
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+
+        # These used to call straight and spiral_racetrack directly.
+        for name in names:
+            assert _has_marker(getattr(gf.components, name)()), (cell_name, name)
 
 
 def test_pdk_override_applies_inside_couplers(restore_pdk: None) -> None:

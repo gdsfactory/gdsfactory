@@ -3,7 +3,7 @@ from __future__ import annotations
 __all__ = ["spiral_double"]
 
 import gdsfactory as gf
-from gdsfactory.path import spiral_archimedean
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import spiral_schematic
@@ -28,34 +28,11 @@ def spiral_double(
         cross_section: cross-section to extrude the structure with.
         bend: factory for the bends in the middle of the double spiral.
     """
-    component = gf.Component()
-
-    bend = gf.get_component(
-        bend, radius=min_bend_radius / 2, angle=180, cross_section=cross_section
-    )
-    bend1 = component.add_ref(bend)
-    bend2 = component.add_ref(bend)
-    bend2.connect("o2", bend1.ports["o1"], mirror=True)
-
-    path = spiral_archimedean(
+    return cf.spiral_double(
         min_bend_radius=min_bend_radius,
         separation=separation,
         number_of_loops=number_of_loops,
         npoints=npoints,
+        cross_section=cross_section,
+        bend=bend,
     )
-    path.start_angle = 0
-    path.end_angle = 0
-
-    spiral = path.extrude(cross_section=cross_section)
-    spiral1 = component.add_ref(spiral)
-    spiral2 = component.add_ref(spiral)
-    spiral2.mirror()
-
-    spiral2.connect("o1", bend2.ports["o1"])
-    spiral1.connect("o1", bend1.ports["o2"], mirror=True)
-
-    component.add_port("o1", port=spiral1.ports["o2"])
-    component.add_port("o2", port=spiral2.ports["o2"])
-    component.info["length"] = float(path.length() + bend.info["length"]) * 2
-    component.flatten()
-    return component

@@ -3,14 +3,11 @@ from __future__ import annotations
 __all__ = ["spiral_inductor"]
 
 import gdsfactory as gf
-from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.cross_section.utils import get_port_cross_section
 from gdsfactory.typings import LayerSpec
 
-from .._schematic import spiral_schematic
 
-
-@gf.cell_with_module_name(schematic_function=spiral_schematic, tags=["spirals"])
 def spiral_inductor(
     width: float = 3.0,
     pitch: float = 3.0,
@@ -38,33 +35,20 @@ def spiral_inductor(
     Returns:
         Component: A GDSFactory component containing the spiral inductor pattern.
     """
-    return cf.spiral_inductor(
-        width=width,
-        pitch=pitch,
-        turns=turns,
-        outer_diameter=outer_diameter,
-        tail=tail,
-        layer=layer,
+    # create the outer tail
+    P = gf.path.straight(length=tail)
+    P.end_angle -= 90
+    for i in range(turns * 2):
+        P += gf.path.arc(radius=outer_diameter / 2 - (pitch + width) * i / 2, angle=180)
+
+    # create the inner tail
+    P.end_angle += 90  # "Turn" 90 deg (left)
+    P += gf.path.straight(length=tail)
+
+    # Store the path length in component info
+    cross_section = get_port_cross_section(width, layer, gf.kcl)
+    c = gf.path.extrude(
+        P, cross_section=cross_section, ports={0: ("e1", "e2", "electrical")}
     )
-
-
-if __name__ == "__main__":
-    import math
-
-    from gdsfactory.gpdk import PDK
-
-    PDK.activate()
-
-    c = spiral_inductor()
-    print(c.info["length"])
-
-    area = c.area(layer=(1, 0))
-    # area = width * length
-    # The default width is 3.0, not 0.5
-    length = area / 3.0
-    print(length)
-
-    c.show()
-    assert math.isclose(c.info["length"], length, rel_tol=1e-3), (
-        f"{c.info['length']} != {length}"
-    )
+    c.info["length"] = P.length()
+    return c
