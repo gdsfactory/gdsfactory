@@ -67,6 +67,47 @@ c.pprint_ports()
 c.plot()
 
 # %% [markdown]
+# ### Merge GDS files that share fixed cell names
+#
+# When several GDS files contain a shared library or PDK cell with the same
+# fixed name, do **not** merge them through `gf.read.from_gdsdir()` and then
+# rename the resulting `$1`, `$2`, ... cells. Those suffixes protect distinct
+# definitions that happen to share a name. Instead, choose one definition as
+# canonical and tell KLayout to keep it while loading the remaining files.
+#
+# This is appropriate only when every repeated cell name is intentionally the
+# same cell (for example, a fixed PDK library cell). `SkipNewCell` keeps the
+# definition from the first file; it does not compare geometry. If same-named
+# cells can differ, resolve that ambiguity before merging.
+#
+# Copy this example and set `canonical_gds` deliberately; its definitions win
+# when a later file has a cell with the same name.
+#
+# ```python
+# from pathlib import Path
+#
+# import klayout.db as kdb
+#
+# canonical_gds = Path("extra/canonical_library.gds")
+# gds_paths = [
+#     Path("extra/chip_a.gds"),
+#     Path("extra/chip_b.gds"),
+# ]
+#
+# merged_layout = kdb.Layout()
+# merged_layout.read(str(canonical_gds))
+#
+# load_options = kdb.LoadLayoutOptions()
+# load_options.cell_conflict_resolution = (
+#     kdb.LoadLayoutOptions.CellConflictResolution.SkipNewCell
+# )
+# for gds_path in gds_paths:
+#     merged_layout.read(str(gds_path), load_options)
+#
+# merged_layout.write("extra/merged.gds")
+# ```
+
+# %% [markdown]
 # ### Add ports from pins
 #
 # Sometimes the GDS does not have YAML metadata, therefore you need to figure out the port locations, widths and orientations.
