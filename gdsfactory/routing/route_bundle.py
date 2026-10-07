@@ -511,7 +511,6 @@ def route_bundle(
                 marker.center = (x, y)
 
     if waypoints is not None and steps and len(waypoints) < 2:
-        x, y = waypoints[-1][0], waypoints[-1][1]  # type: ignore[index]
         x1, y1 = ports1_[0].center
         port2 = ports2_[0]
         x2, y2 = port2.center
@@ -528,15 +527,11 @@ def route_bundle(
     waypoints_: list[kf.kdb.DPoint] | None
     if waypoints is None:
         waypoints_ = None
-    elif len(waypoints) == 0:
-        waypoints_ = []
-    elif not isinstance(waypoints[0], kf.kdb.DPoint):
+    else:
         waypoints_ = [
-            kf.kdb.DPoint(p[0], p[1])  # type: ignore[index]
+            p if isinstance(p, kf.kdb.DPoint) else kf.kdb.DPoint(p[0], p[1])
             for p in waypoints
         ]
-    else:
-        waypoints_ = [cast("kf.kdb.DPoint", p) for p in waypoints]
 
     if layer_marker and waypoints_ is not None:
         for p in waypoints_:

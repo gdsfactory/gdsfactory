@@ -25,7 +25,7 @@ import pathlib
 from collections.abc import Callable, Generator, Sequence
 from enum import IntEnum
 from functools import partial
-from typing import Any, Literal, ParamSpec, Protocol, TypedDict, TypeVar
+from typing import Any, ClassVar, Literal, ParamSpec, Protocol, TypedDict, TypeVar
 
 import kfactory as kf
 import klayout.db as kdb
@@ -246,6 +246,8 @@ type LayerTransitions = dict[
 class TypedArray(np.ndarray[Any, np.dtype[Any]]):
     """based on https://github.com/samuelcolvin/pydantic/issues/380."""
 
+    inner_type: ClassVar[np.dtype[Any]]
+
     @classmethod
     def __get_validators__(
         cls,
@@ -254,7 +256,7 @@ class TypedArray(np.ndarray[Any, np.dtype[Any]]):
 
     @classmethod
     def validate_type(cls, val: Any, _info: Any) -> npt.NDArray[np.float64]:
-        return np.array(val, dtype=cls.inner_type)  # type: ignore[attr-defined]
+        return np.array(val, dtype=cls.inner_type)
 
 
 class ArrayMeta(type):
