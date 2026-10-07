@@ -454,6 +454,19 @@ def test_get_cross_section_kfactory_applies_kwargs() -> None:
         gf.get_cross_section(kf_xs, radius=registered.radius)
 
 
+def test_get_cross_section_name_applies_kwargs() -> None:
+    """A persisted profile name takes the same overrides as the profile itself."""
+    xs = gf.get_cross_section("strip", width=0.7)
+    assert xs.name not in gf.get_active_pdk().cross_sections
+
+    assert gf.get_cross_section(xs.name, width=2.0) == gf.get_cross_section(
+        xs, width=2.0
+    )
+    assert gf.get_cross_section(xs.name, width=xs.width) == xs
+    with pytest.raises(ValueError, match="Only width"):
+        gf.get_cross_section(xs.name, radius=20)
+
+
 def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
     """A profile on an unnameable layer keeps its physical LayerInfo."""
     enclosure = kf.LayerEnclosure(main_layer=kf.kdb.LayerInfo(999, 999), kcl=gf.kcl)

@@ -55,7 +55,7 @@ component = gf.path.straight(10, npoints=101).extrude(
 `ports={}` suppresses all ports. Without an explicit map, the PDK's
 `layer_port_types` chooses the main port type and `auxiliary_port_types` chooses
 auxiliary layers with ports, keyed by `(main_layer, auxiliary_layer)` physical
-layer tuples. The generic PDK enables heater contacts and slot rails this way.
+layer tuples. The generic PDK enables heater contacts this way.
 Names use per-type counters (`o1`, `o2`, `e1`, `e2`, …).
 Use an explicit map for device-specific contacts. An auxiliary port carries
 only its own recentered strip, with its offset in the port transform. An odd

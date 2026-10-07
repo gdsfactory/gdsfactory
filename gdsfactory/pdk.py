@@ -552,10 +552,6 @@ class Pdk(BaseModel):
                     )
                 return with_width(cross_section, kwargs["width"])
             return cross_section
-        if kwargs:
-            raise ValueError(
-                "Cross-section overrides require a factory or factory name."
-            )
         if not isinstance(
             cross_section,
             str | kf.SymmetricalCrossSection | kf.AsymmetricalCrossSection,
@@ -565,8 +561,12 @@ class Pdk(BaseModel):
             )
         base = kf.kcl.get_base_cross_section(cross_section)
         if isinstance(base, kf.SymmetricalCrossSection):
-            return kf.DCrossSection(kcl=kf.kcl, base=base)
-        return kf.DAsymmetricCrossSection(kcl=kf.kcl, base=base)
+            return self.get_cross_section(
+                kf.DCrossSection(kcl=kf.kcl, base=base), **kwargs
+            )
+        return self.get_cross_section(
+            kf.DAsymmetricCrossSection(kcl=kf.kcl, base=base), **kwargs
+        )
 
     def get_layer(self, layer: LayerSpec | kf.kdb.LayerInfo) -> LayerEnum | int:
         """Returns layer from a layer spec."""
