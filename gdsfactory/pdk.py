@@ -543,15 +543,18 @@ class Pdk(BaseModel):
             factory = cast("CrossSectionFactory", cross_section)
             return self.get_cross_section(factory(**kwargs))
         if isinstance(cross_section, CrossSection):
-            if kwargs:
-                from gdsfactory.cross_section.utils import with_width
+            if not kwargs:
+                return cross_section
+            factory = self.cross_sections.get(cross_section.name)
+            if factory is not None and factory() == cross_section:
+                return self.get_cross_section(factory(**kwargs))
+            from gdsfactory.cross_section.utils import with_width
 
-                if set(kwargs) != {"width"}:
-                    raise ValueError(
-                        "Only width can be replaced on a profile; use a factory for other settings."
-                    )
-                return with_width(cross_section, kwargs["width"])
-            return cross_section
+            if set(kwargs) != {"width"}:
+                raise ValueError(
+                    "Only width can be replaced on a profile; use a factory for other settings."
+                )
+            return with_width(cross_section, kwargs["width"])
         if not isinstance(
             cross_section,
             str | kf.SymmetricalCrossSection | kf.AsymmetricalCrossSection,

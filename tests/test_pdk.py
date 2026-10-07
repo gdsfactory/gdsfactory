@@ -449,9 +449,34 @@ def test_get_cross_section_kfactory_applies_kwargs() -> None:
     assert gf.get_cross_section(kf_xs, width=2.0).width == 2.0
     assert gf.get_cross_section(kf_xs, width=2.0).name != registered.name
 
-    # Radius belongs to the bend/route call, not a profile override.
+    # A factory-named profile takes the same overrides as its factory name.
+    assert gf.get_cross_section(kf_xs, radius=registered.radius) == registered
+    with pytest.raises(kf.exceptions.CrossSectionNamingConflictError):
+        gf.get_cross_section(kf_xs, radius=20)
+
+
+def test_get_cross_section_named_profile_rescales_like_factory() -> None:
+    """A profile named after its factory is rebuilt by that factory."""
+    xs = gf.get_cross_section("rib")
+    wide = gf.get_cross_section(xs, width=2)
+    assert wide == gf.get_cross_section("rib", width=2)
+    _, slab = wide.get_sections()
+    assert (slab.section_min, slab.section_max) == (-4.0, 4.0)
+
+    assert gf.get_cross_section(xs, layer="WGN") == gf.get_cross_section(
+        "rib", layer="WGN"
+    )
+
+
+def test_get_cross_section_unnamed_profile_keeps_absolute_bounds() -> None:
+    """A profile without a recoverable factory falls back to with_width."""
+    xs = gf.get_cross_section("rib", width=0.7)
+    assert xs.name not in gf.get_active_pdk().cross_sections
+
+    wide = gf.get_cross_section(xs, width=2)
+    assert wide == gf.cross_section.with_width(xs, 2)
     with pytest.raises(ValueError, match="Only width"):
-        gf.get_cross_section(kf_xs, radius=registered.radius)
+        gf.get_cross_section(xs, layer="WGN")
 
 
 def test_get_cross_section_name_applies_kwargs() -> None:
