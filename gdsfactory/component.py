@@ -568,14 +568,21 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             filepath.write_text(yaml_string)
         return yaml_string
 
-    def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
-        """Returns a dictionary representation of the Component."""
+    def to_dict(
+        self, with_ports: bool = False, *, exclude_none: bool = True
+    ) -> dict[str, Any]:
+        """Returns a dictionary representation of the Component.
+
+        Args:
+            with_ports: Include port information.
+            exclude_none: Exclude settings and info fields whose value is ``None``.
+        """
         from gdsfactory.port import to_dict
 
         d = {
             "name": self.name,
-            "info": self.info.model_dump(exclude_none=True),
-            "settings": self.settings.model_dump(exclude_none=True),
+            "info": self.info.model_dump(exclude_none=exclude_none),
+            "settings": self.settings.model_dump(exclude_none=exclude_none),
         }
 
         if with_ports:
