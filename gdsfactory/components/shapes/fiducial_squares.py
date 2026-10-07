@@ -2,9 +2,9 @@ from __future__ import annotations
 
 __all__ = ["fiducial_squares"]
 
-import numpy as np
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import Float2, LayerSpecs
 
 
@@ -19,16 +19,4 @@ def fiducial_squares(
         size: size of each square in um.
         offset: space between squares in x and y.
     """
-    c = gf.Component()
-
-    dx, dy = (np.array(size) + np.array([offset, offset])) / 2
-
-    for layer in layers:
-        r = c << gf.c.rectangle(size=size, layer=layer, centered=True)
-        r.move((dx, dy))
-
-    for layer in layers:
-        r = c << gf.c.rectangle(size=size, layer=layer, centered=True)
-        r.move((-dx, -dy))
-
-    return c
+    return cf.fiducial_squares(layers=layers, size=size, offset=offset)

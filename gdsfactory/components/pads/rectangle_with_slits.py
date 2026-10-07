@@ -2,9 +2,8 @@ from __future__ import annotations
 
 __all__ = ["rectangle_with_slits"]
 
-import numpy as np
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
@@ -58,49 +57,14 @@ def rectangle_with_slits(
                         size[0]
     ```
     """
-    c = Component()
-    layer_tuple = gf.get_layer_tuple(layer)
-
-    rectangle = gf.c.rectangle(
-        size=size, layer=layer, port_type=port_type, centered=centered
+    return cf.rectangle_with_slits(
+        size=size,
+        layer=layer,
+        layer_slit=layer_slit,
+        centered=centered,
+        port_type=port_type,
+        slit_size=slit_size,
+        slit_column_pitch=slit_column_pitch,
+        slit_row_pitch=slit_row_pitch,
+        slit_enclosure=slit_enclosure,
     )
-    r = c << rectangle
-    c.add_ports(r.ports)
-    columns = int(np.floor((size[0] - 2 * slit_enclosure) / slit_column_pitch))
-    rows = int(np.floor((size[1] - 2 * slit_enclosure) / slit_row_pitch))
-
-    if layer_slit is None:
-        layer2 = (layer_tuple[0], layer_tuple[1] + 1)
-        slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer2)
-        slits = gf.c.array(
-            slit,
-            columns=columns,
-            rows=rows,
-            column_pitch=slit_column_pitch,
-            row_pitch=slit_row_pitch,
-            centered=centered,
-        )
-        slits_ref = c << slits
-        slits_ref.center = r.center
-        c = gf.boolean(
-            rectangle,
-            slits_ref,
-            operation="not",
-            layer1=layer,
-            layer2=layer2,
-            layer=layer,
-        )
-        c.add_ports(rectangle.ports)
-
-    else:
-        slit = gf.c.rectangle(size=slit_size, port_type=None, layer=layer_slit)
-        slits_ref = c << gf.c.array(
-            slit,
-            columns=columns,
-            rows=rows,
-            column_pitch=slit_column_pitch,
-            row_pitch=slit_row_pitch,
-            centered=centered,
-        )
-        slits_ref.center = r.center
-    return c

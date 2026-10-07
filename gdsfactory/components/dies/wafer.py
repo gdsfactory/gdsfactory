@@ -3,10 +3,10 @@ from __future__ import annotations
 __all__ = ["wafer"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions.dies.wafer import _cols_200mm_wafer
 from gdsfactory.typings import ComponentSpec
-
-_cols_200mm_wafer = (2, 6, 6, 8, 8, 6, 6, 2)
 
 
 @gf.cell_with_module_name(tags=["dies"])
@@ -26,19 +26,10 @@ def wafer(
         yspacing: optional spacing, defaults to reticle.ysize.
         die_name_col_row: if True, die name is row_col, otherwise is a number
     """
-    c = gf.Component()
-    die = gf.get_component(reticle)
-    xspacing = xspacing or die.xsize
-    yspacing = yspacing or die.ysize
-
-    i = 1
-    for col in range(len(cols)):
-        for row in range(cols[col]):
-            die_name = f"{col + 1}_{row + 1}" if die_name_col_row else str(i)
-            die = gf.get_component(reticle, die_name=die_name)
-            ref = c.add_ref(die)
-            ref.movex((row - cols[col] / 2) * xspacing)
-            ref.movey(col * yspacing)
-            i += 1
-
-    return c
+    return cf.wafer(
+        reticle=reticle,
+        cols=cols,
+        xspacing=xspacing,
+        yspacing=yspacing,
+        die_name_col_row=die_name_col_row,
+    )

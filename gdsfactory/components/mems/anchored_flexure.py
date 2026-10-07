@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["anchored_flexure"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -28,72 +29,14 @@ def anchored_flexure(
         layer: layer spec.
         port_type: port type for electrical ports.
     """
-    c = Component()
-
-    total_length = 2 * pad_length + hinge_length
-    x_start = -total_length / 2
-
-    # Left pad
-    c.add_polygon(
-        [
-            (x_start, -pad_width / 2),
-            (x_start + pad_length, -pad_width / 2),
-            (x_start + pad_length, pad_width / 2),
-            (x_start, pad_width / 2),
-        ],
-        layer=layer,
-    )
-
-    # Thin hinge
-    hinge_x0 = x_start + pad_length
-    c.add_polygon(
-        [
-            (hinge_x0, -hinge_width / 2),
-            (hinge_x0 + hinge_length, -hinge_width / 2),
-            (hinge_x0 + hinge_length, hinge_width / 2),
-            (hinge_x0, hinge_width / 2),
-        ],
-        layer=layer,
-    )
-
-    # Right pad
-    right_x0 = hinge_x0 + hinge_length
-    c.add_polygon(
-        [
-            (right_x0, -pad_width / 2),
-            (right_x0 + pad_length, -pad_width / 2),
-            (right_x0 + pad_length, pad_width / 2),
-            (right_x0, pad_width / 2),
-        ],
-        layer=layer,
-    )
-
-    # Port at left pad outer edge
-    c.add_port(
-        "e1",
-        center=(x_start, 0),
-        width=pad_width,
-        orientation=180,
+    return cf.anchored_flexure(
+        hinge_width=hinge_width,
+        hinge_length=hinge_length,
+        pad_width=pad_width,
+        pad_length=pad_length,
         layer=layer,
         port_type=port_type,
     )
-
-    # Port at right pad outer edge
-    c.add_port(
-        "e2",
-        center=(right_x0 + pad_length, 0),
-        width=pad_width,
-        orientation=0,
-        layer=layer,
-        port_type=port_type,
-    )
-
-    if port_type == "electrical":
-        for p in list(c.ports):
-            if p.name and p.port_type == "electrical":
-                c.create_pin(ports=[p], name=p.name)
-
-    return c
 
 
 if __name__ == "__main__":

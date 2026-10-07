@@ -3,8 +3,7 @@ from __future__ import annotations
 __all__ = ["terminator"]
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
-from gdsfactory.component import Component
+from gdsfactory import component_functions as cf
 from gdsfactory.cross_section import strip
 from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
@@ -31,23 +30,11 @@ def terminator(
         doping_layers: doping layers to superimpose on the taper. Default N++.
         doping_offset: offset of the doping layer beyond the bbox
     """
-    c = Component()
-
-    cross_section_tip = cross_section_tip or gf.get_cross_section(
-        cross_section_input, width=tapered_width
-    )
-
-    taper = c << gf.get_component(
-        gf.c.taper_cross_section,
+    return cf.terminator(
         length=length,
-        cross_section1=cross_section_input,
-        cross_section2=cross_section_tip,
+        cross_section_input=cross_section_input,
+        cross_section_tip=cross_section_tip,
+        tapered_width=tapered_width,
+        doping_layers=doping_layers,
+        doping_offset=doping_offset,
     )
-
-    points = get_padding_points(
-        taper, default=0, top=doping_offset, bottom=doping_offset
-    )
-    for layer in doping_layers:
-        c.add_polygon(points, layer=layer)
-    c.add_port(name="o1", port=taper.ports["o1"])
-    return c

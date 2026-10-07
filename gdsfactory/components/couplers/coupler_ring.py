@@ -3,12 +3,11 @@ from __future__ import annotations
 __all__ = ["coupler_ring"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import coupler_ring_schematic
-from ..couplers.coupler import coupler_straight
-from ..couplers.coupler90 import coupler90
 
 
 @gf.cell_with_module_name(schematic_function=coupler_ring_schematic, tags=["couplers"])
@@ -48,61 +47,13 @@ def coupler_ring(
                                     length_extension
     ```
     """
-    if radius is None:
-        radius = gf.get_cross_section(cross_section).radius
-        assert radius is not None, "cross_section must have a radius"
-
-    if length_extension is None:
-        length_extension = 3.0 + radius
-
-    c = Component()
-    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    cross_section_bend = cross_section_bend or cross_section
-
-    # define subcells
-    coupler90_component = gf.get_component(
-        coupler90,
+    return cf.coupler_ring(
         gap=gap,
         radius=radius,
+        length_x=length_x,
         bend=bend,
         straight=straight,
         cross_section=cross_section,
         cross_section_bend=cross_section_bend,
-        length_straight=length_extension,
+        length_extension=length_extension,
     )
-    coupler_straight_component = gf.get_component(
-        coupler_straight,
-        gap=gap,
-        length=length_x,
-        cross_section=cross_section,
-    )
-
-    # add references to subcells
-    cbl = c << coupler90_component
-    cbr = c << coupler90_component
-    cs = c << coupler_straight_component
-
-    # connect references
-    cs.connect(port="o4", other=cbr.ports["o1"])
-    cbl.connect(port="o2", other=cs.ports["o2"], mirror=True)
-
-    c.add_port("o1", port=cbl.ports["o4"])
-    c.add_port("o2", port=cbl.ports["o3"])
-    c.add_port("o3", port=cbr.ports["o3"])
-    c.add_port("o4", port=cbr.ports["o4"])
-
-    c.add_ports(
-        gf.port.select_ports_list(ports=cbl.ports, port_type="electrical"), prefix="cbl"
-    )
-    c.add_ports(
-        gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr"
-    )
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    c.auto_rename_ports()
-    c.flatten()
-    c.info["radius"] = radius
-    return c

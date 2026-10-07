@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+from collections.abc import Callable
 from functools import partial
 from typing import Any
 
@@ -60,6 +62,16 @@ default_container_arguments: dict[str, dict[str, Any]] = dict(
         cross_section_metal="metal_routing",
         pad_pitch=100,
     ),
+    resistance_meander_net=dict(
+        num_rows=25, length_row=38.96, width=1.0, res_layer="MTOP"
+    ),
+    resistance_meander_row=dict(length_row=38.96, width=1.0, res_layer="MTOP"),
+)
+
+# Arguments that are components, so they are built once the PDK is active.
+default_component_arguments: dict[str, Callable[[], dict[str, Any]]] = dict(
+    bendu_double=lambda: dict(component=gf.c.mmi2x2()),
+    straight_double=lambda: dict(component=gf.c.mmi2x2()),
 )
 
 
@@ -72,6 +84,8 @@ def get_component_with_defaults(name: str) -> gf.Component:
     """Get a component, applying default arguments if specified."""
     if name in default_container_arguments:
         return cells[name](**default_container_arguments[name])
+    if name in default_component_arguments:
+        return cells[name](**default_component_arguments[name]())
     return cells[name]()
 
 
@@ -85,3 +99,43 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     """Avoid regressions when exporting settings."""
     component = get_component_with_defaults(component_name)
     data_regression.check(clean_value_json(component.to_dict()))
+
+
+def _stable_name(name: str) -> str:
+    """Drops the parts of a cell name that differ between runs or platforms.
+
+    The counter of unnamed cells depends on test order. kfactory names the cell
+    of a flattened all-angle instance after the cell plus the hash of the
+    instance's transformation, and that hash differs between platforms.
+    """
+    name = re.sub(r"^Unnamed_\d+$", "Unnamed", name)
+    return re.sub(r"(_[0-9a-f]{8})_[0-9a-f]{9,16}$", r"\1_<trans>", name)
+
+
+def _cell_names(component: gf.Component | gf.ComponentAllAngle) -> list[str]:
+    """Returns the sorted names of all cells below component."""
+    if isinstance(component, gf.Component):
+        kcl = component.kcl
+        names = {kcl[i].name for i in component.kdb_cell.called_cells()}
+    else:
+        names = set()
+        for inst in [*component.insts, *component.vinsts]:
+            names.add(inst.cell.name)
+            names.update(_cell_names(inst.cell))
+    return sorted({_stable_name(name) for name in names})
+
+
+def test_cell_names(data_regression: DataRegressionFixture) -> None:
+    """Snapshot the name of every cell and of the cells below it.
+
+    A cell name hashes the cell's settings, so the diff of the snapshot lists
+    every cell whose name changed.
+    """
+    snapshot = {}
+    for name in sorted(cells_to_test):
+        component = get_component_with_defaults(name)
+        snapshot[name] = {
+            "name": _stable_name(component.name),
+            "children": _cell_names(component),
+        }
+    data_regression.check(snapshot)

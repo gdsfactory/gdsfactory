@@ -4,10 +4,11 @@ from __future__ import annotations
 
 __all__ = ["straight_pin", "straight_pn"]
 
-from functools import partial
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.cross_section import pin
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -47,51 +48,17 @@ def straight_pin(
         via_stack_spacing: spacing between via_stacks.
         taper: optional taper.
     """
-    c = Component()
-    if taper:
-        _taper = gf.get_component(taper)
-        length -= 2 * _taper.xsize
-
-    wg = c << gf.components.straight(
-        cross_section=cross_section,
+    return cf.straight_pin(
         length=length,
+        cross_section=cross_section,
+        via_stack=via_stack,
+        via_stack_width=via_stack_width,
+        via_stack_spacing=via_stack_spacing,
+        taper=taper,
     )
 
-    if taper:
-        t1 = c << _taper
-        t2 = c << _taper
-        t1.connect("o2", wg.ports["o1"])
-        t2.connect("o2", wg.ports["o2"])
-        c.add_port("o1", port=t1.ports["o1"])
-        c.add_port("o2", port=t2.ports["o1"])
 
-    else:
-        c.add_ports(wg.ports)
-
-    via_stack_length = length
-    _via_stack = gf.get_component(via_stack, size=(via_stack_length, via_stack_width))
-    via_stack_top = c << _via_stack
-    via_stack_bot = c << _via_stack
-    via_stack_bot.xmin = wg.xmin
-    via_stack_top.xmin = wg.xmin
-
-    via_stack_top.ymin = +via_stack_spacing / 2
-    via_stack_bot.ymax = -via_stack_spacing / 2
-
-    c.add_ports(via_stack_bot.ports, prefix="bot_")
-    c.add_ports(via_stack_top.ports, prefix="top_")
-
-    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
-    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
-    if top_ports:
-        c.create_pin(ports=top_ports, name="top")
-    if bot_ports:
-        c.create_pin(ports=bot_ports, name="bot")
-
-    return c
-
-
-straight_pn = partial(straight_pin, cross_section="pn", length=2000)
+straight_pn = CellAlias(straight_pin, cross_section="pn", length=2000)
 
 if __name__ == "__main__":
     c = straight_pin()

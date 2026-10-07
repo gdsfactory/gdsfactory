@@ -172,7 +172,7 @@ def route_bundle(
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     separation: float = 3.0,
-    bend: ComponentSpec | None = None,
+    bend: ComponentSpec | tuple[ComponentSpec, ComponentSpec] | None = None,
     sort_ports: bool = False,
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -225,7 +225,9 @@ def route_bundle(
         separation: bundle separation (center to center) in um.
         bend: function for the bend. If None, follows the type of the ports being
             routed: wire_corner for an electrical route (wire_corner_sections for a
-            multi-section one), bend_euler otherwise.
+            multi-section one), bend_euler otherwise. For asymmetric cross sections,
+            factories must accept angle=90 and angle=-90. Alternatively, pass a pair
+            of opposite-handed bend cells with the same cross section.
         sort_ports: sort port coordinates.
         start_straight_length: minimum straight length in um after the start ports.
         end_straight_length: minimum straight length in um before the end ports.
@@ -383,8 +385,6 @@ def route_bundle(
             gf.cross_section.cross_section,
             layer=cast("LayerSpec", layer),
             width=cast("float", route_width),
-            port_names=("e1", "e2") if port_type == "electrical" else ("o1", "o2"),
-            port_types=(port_type, port_type),
         )
 
     if len(ports1_) != len(ports2_):
@@ -402,14 +402,25 @@ def route_bundle(
     default_bend = get_default_bend(port_type, xs)
     if bend is None:
         bend = default_bend
-    bend90 = (
-        bend
-        if isinstance(bend, gf.Component)
-        else gf.get_component(
-            bend, cross_section=cross_section, radius=radius, width=width
+
+    def get_bend(spec: ComponentSpec, **kwargs: Any) -> gf.Component:
+        if isinstance(spec, gf.Component):
+            return spec
+        return gf.get_component(
+            spec, cross_section=cross_section, radius=radius, width=width, **kwargs
         )
-    )
-    validate_bend90(bend90, port_type, default_bend)
+
+    bend90: gf.Component | tuple[gf.Component, gf.Component]
+    if isinstance(bend, tuple):
+        bend90 = (get_bend(bend[0]), get_bend(bend[1]))
+    elif isinstance(xs, gf.AsymmetricCrossSection) and not isinstance(
+        bend, gf.Component
+    ):
+        bend90 = (get_bend(bend, angle=90), get_bend(bend, angle=-90))
+    else:
+        bend90 = get_bend(bend)
+    for bend_cell in bend90 if isinstance(bend90, tuple) else (bend90,):
+        validate_bend90(bend_cell, port_type, default_bend)
 
     taper_cell = gf.get_component(taper) if taper else None
 

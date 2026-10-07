@@ -2,15 +2,19 @@
 
 from __future__ import annotations
 
-__all__ = ["awg", "free_propagation_region"]
+__all__ = [
+    "awg",
+    "free_propagation_region",
+    "free_propagation_region_input",
+    "free_propagation_region_output",
+]
 
-from functools import partial
-
-import numpy as np
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Step
+from gdsfactory.component_functions import CellAlias
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell_with_module_name(tags=["filters"])
@@ -42,58 +46,20 @@ def free_propagation_region(
                   \ |
                    \|
     """
-    y1 = width1 / 2
-    y2 = width2 / 2
-    xs = gf.get_cross_section(cross_section)
-    layer = xs.layer
-    assert layer is not None
-
-    xpts = [0, length, length, 0]
-    ypts = [y1, y2, -y2, -y1]
-
-    c = gf.Component()
-    c.add_polygon(list(zip(xpts, ypts, strict=False)), layer=layer)
-
-    if inputs == 1:
-        c.add_port(
-            "o1",
-            center=(0, 0),
-            width=wg_width,
-            orientation=180,
-            layer=layer,
-        )
-    else:
-        y = np.linspace(-width1 / 2 + wg_width / 2, width1 / 2 - wg_width / 2, inputs)
-        y = gf.snap.snap_to_grid(y)
-        for i, yi in enumerate(y):
-            c.add_port(
-                f"W{i}",
-                center=(0, float(yi)),
-                width=wg_width,
-                orientation=180,
-                layer=layer,
-            )
-
-    y = np.linspace(-width2 / 2 + wg_width / 2, width2 / 2 - wg_width / 2, outputs)
-    y = gf.snap.snap_to_grid(y)
-    for i, yi in enumerate(y):
-        c.add_port(
-            f"E{i}",
-            center=(length, float(yi)),
-            width=wg_width,
-            orientation=0,
-            layer=layer,
-        )
-
-    c.info["length"] = length
-    c.info["width1"] = width1
-    c.info["width2"] = width2
-    return c
+    return cf.free_propagation_region(
+        width1=width1,
+        width2=width2,
+        length=length,
+        wg_width=wg_width,
+        inputs=inputs,
+        outputs=outputs,
+        cross_section=cross_section,
+    )
 
 
-free_propagation_region_input = partial(free_propagation_region, inputs=1)
+free_propagation_region_input = CellAlias(free_propagation_region, inputs=1)
 
-free_propagation_region_output = partial(
+free_propagation_region_output = CellAlias(
     free_propagation_region, inputs=10, width1=10, width2=20.0
 )
 
@@ -102,8 +68,8 @@ free_propagation_region_output = partial(
 def awg(
     arms: int = 10,
     outputs: int = 3,
-    free_propagation_region_input_function: ComponentSpec = free_propagation_region_input,
-    free_propagation_region_output_function: ComponentSpec = free_propagation_region_output,
+    free_propagation_region_input_function: ComponentSpec = "free_propagation_region_input",
+    free_propagation_region_output_function: ComponentSpec = "free_propagation_region_output",
     fpr_spacing: float = 50.0,
     arm_spacing: float = 1.0,
     length_increment: float = 0.0,
@@ -126,74 +92,16 @@ def awg(
             that makes an AWG disperse light by wavelength.
         cross_section: cross_section function.
     """
-    c = Component()
-    fpr_in = gf.get_component(
-        free_propagation_region_input_function,
-        inputs=1,
-        outputs=arms,
+    return cf.awg(
+        arms=arms,
+        outputs=outputs,
+        free_propagation_region_input_function=free_propagation_region_input_function,
+        free_propagation_region_output_function=free_propagation_region_output_function,
+        fpr_spacing=fpr_spacing,
+        arm_spacing=arm_spacing,
+        length_increment=length_increment,
         cross_section=cross_section,
     )
-    fpr_out = gf.get_component(
-        free_propagation_region_output_function,
-        inputs=outputs,
-        outputs=arms,
-        cross_section=cross_section,
-    )
-
-    fpr_in_ref = c.add_ref(fpr_in)
-    fpr_out_ref = c.add_ref(fpr_out)
-
-    if length_increment <= 0:
-        fpr_in_ref.rotate(90)
-        fpr_out_ref.rotate(90)
-        fpr_out_ref.x += fpr_spacing
-        _ = gf.routing.route_bundle(
-            c,
-            gf.port.get_ports_list(fpr_out_ref, prefix="E"),
-            gf.port.get_ports_list(fpr_in_ref, prefix="E"),
-            sort_ports=True,
-            separation=arm_spacing,
-            cross_section=cross_section,
-        )
-    else:
-        fpr_out_ref.mirror_x()
-        e0 = fpr_in_ref.ports["E0"]
-        fpr_out_ref.movex(e0.x + fpr_spacing - fpr_out_ref.ports["E0"].x)
-        fpr_out_ref.movey(e0.y - fpr_out_ref.ports["E0"].y)
-        gap = fpr_out_ref.ports["E0"].x - e0.x
-        xs = gf.get_cross_section(cross_section)
-        bend_radius = xs.radius or 10.0
-        margin = max(4.0, bend_radius)
-        max_rise = (gap - 2 * bend_radius) / 2
-        stagger = max(0.0, min(4.0, (max_rise - margin) / max(arms - 2, 1)))
-        lengths: list[float] = []
-        for i in range(arms):
-            p_in = fpr_in_ref.ports[f"E{i}"]
-            p_out = fpr_out_ref.ports[f"E{i}"]
-            rise_x = margin + (arms - 1 - i) * stagger
-            h = i * length_increment / 2.0
-            if h > 0:
-                steps: list[Step] = [
-                    {"dx": rise_x},
-                    {"dy": h},
-                    {"dx": gap - 2 * rise_x},
-                    {"dy": -h},
-                ]
-                route = gf.routing.route_single(
-                    c, p_in, p_out, cross_section=cross_section, steps=steps
-                )
-            else:
-                route = gf.routing.route_single(
-                    c, p_in, p_out, cross_section=cross_section
-                )
-            lengths.append(route.length_backbone / 1000.0)
-        c.info["arm_lengths"] = [round(x, 4) for x in lengths]
-
-    c.add_port("o1", port=fpr_in_ref.ports["o1"])
-    for i, port in enumerate(gf.port.get_ports_list(fpr_out_ref, prefix="W")):
-        c.add_port(f"E{i}", port=port)
-
-    return c
 
 
 if __name__ == "__main__":

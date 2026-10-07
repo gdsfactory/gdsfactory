@@ -34,9 +34,9 @@ from gdsfactory.port import Port
 from gdsfactory.typings import Pin
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import (
-    ComponentAlongPath,
     CrossSection,
-    Section,
+    SymmetricCrossSection,
+    AsymmetricCrossSection,
     xsection,
     get_cross_sections,
 )
@@ -46,6 +46,7 @@ from gdsfactory.boolean import boolean
 from gdsfactory import config
 from gdsfactory import cross_section
 from gdsfactory import port
+from gdsfactory import component_functions
 from gdsfactory import components
 from gdsfactory import containers
 from gdsfactory import labels
@@ -101,9 +102,9 @@ if sys.version_info[:2] == (3, 10):
 __all__ = (
     "CONF",
     "PATH",
+    "AsymmetricCrossSection",
     "Component",
     "ComponentAllAngle",
-    "ComponentAlongPath",
     "ComponentBase",
     "ComponentReference",
     "Constants",
@@ -120,7 +121,7 @@ __all__ = (
     "ProtoPin",
     "Region",
     "Schematic",
-    "Section",
+    "SymmetricCrossSection",
     "__version__",
     "add_padding",
     "add_padding_container",
@@ -132,6 +133,7 @@ __all__ = (
     "cell",
     "cell_with_module_name",
     "clear_cache",
+    "component_functions",
     "components",
     "compose",
     "config",

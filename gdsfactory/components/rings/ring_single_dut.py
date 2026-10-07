@@ -5,8 +5,8 @@ __all__ = ["ring_single_dut"]
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.snap import assert_on_2x_grid
 from gdsfactory.typings import ComponentSpec
 
 from .._schematic import ring_single_schematic
@@ -55,38 +55,16 @@ def ring_single_dut(
 
           length_x
     """
-    component = gf.get_component(component)
-    assert_on_2x_grid(gap)
-
-    coupler = gf.get_component(
-        coupler,
+    return cf.ring_single_dut(
+        component=component,
         gap=gap,
         length_x=length_x,
+        length_y=length_y,
         radius=radius,
+        coupler=coupler,
+        bend=bend,
+        with_component=with_component,
+        port_name=port_name,
         length_extension=length_extension,
         **kwargs,
     )
-
-    component_xsize = component.xsize
-    straight_side = gf.c.straight(length=length_y + component_xsize, **kwargs)
-    straight_top = gf.c.straight(length=length_x, **kwargs)
-    bend = gf.get_component(bend, radius=radius, **kwargs)
-
-    c = Component()
-    cb = c << coupler
-    wl = c << straight_side
-    dut = c << component if with_component else c << straight_side
-    bl = c << bend
-    br = c << bend
-    wt = c << straight_top
-
-    wl.connect(port="o2", other=cb.ports["o2"])
-    bl.connect(port="o2", other=wl.ports["o1"])
-
-    wt.connect(port="o1", other=bl.ports["o1"])
-    br.connect(port="o2", other=wt.ports["o2"])
-    dut.connect(port=port_name, other=br.ports["o1"])
-
-    c.add_port("o2", port=cb.ports["o4"])
-    c.add_port("o1", port=cb.ports["o1"])
-    return c

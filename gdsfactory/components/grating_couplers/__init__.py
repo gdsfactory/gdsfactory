@@ -1,3 +1,4 @@
+from . import functions  # noqa: F401
 from .grating_coupler_array import *
 from .grating_coupler_dual_pol import *
 from .grating_coupler_elliptical import *
@@ -12,6 +13,7 @@ from .grating_coupler_tree import *
 __all__ = [
     "grating_coupler_array",
     "grating_coupler_dual_pol",
+    "grating_coupler_dual_pol_unit_cell",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",
     "grating_coupler_elliptical_lumerical",

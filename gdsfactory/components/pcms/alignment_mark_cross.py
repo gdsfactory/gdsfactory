@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["alignment_mark_cross"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -27,57 +28,12 @@ def alignment_mark_cross(
         port_type: Optional port type. If provided, ports are added at the
             four arm tips.
     """
-    c = Component()
-
-    hw = arm_width / 2
-
-    # Horizontal arm
-    c.add_polygon(
-        [(-arm_length, -hw), (arm_length, -hw), (arm_length, hw), (-arm_length, hw)],
+    return cf.alignment_mark_cross(
+        arm_width=arm_width,
+        arm_length=arm_length,
         layer=layer,
+        port_type=port_type,
     )
-
-    # Vertical arm
-    c.add_polygon(
-        [(-hw, -arm_length), (hw, -arm_length), (hw, arm_length), (-hw, arm_length)],
-        layer=layer,
-    )
-
-    if port_type is not None:
-        c.add_port(
-            name="o1",
-            center=(-arm_length, 0),
-            width=arm_width,
-            orientation=180,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.add_port(
-            name="o2",
-            center=(arm_length, 0),
-            width=arm_width,
-            orientation=0,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.add_port(
-            name="o3",
-            center=(0, -arm_length),
-            width=arm_width,
-            orientation=270,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.add_port(
-            name="o4",
-            center=(0, arm_length),
-            width=arm_width,
-            orientation=90,
-            layer=layer,
-            port_type=port_type,
-        )
-
-    return c
 
 
 if __name__ == "__main__":

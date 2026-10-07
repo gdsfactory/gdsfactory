@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["C"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
@@ -34,33 +35,4 @@ def C(
         |______ o2
     ```
     """
-    layer = gf.get_layer(layer)
-    c = Component()
-    w = width / 2
-    s1, s2 = size
-    points = [
-        (-w, -w),
-        (s1, -w),
-        (s1, w),
-        (w, w),
-        (w, s2 - w),
-        (s1, s2 - w),
-        (s1, s2 + w),
-        (-w, s2 + w),
-        (-w, -w),
-    ]
-    c.add_polygon(points, layer=layer)
-
-    for name, center in (("o1", (s1, s2)), ("o2", (s1, 0))):
-        c.add_port(
-            name=name,
-            center=center,
-            width=width,
-            orientation=0,
-            layer=layer,
-            port_type=port_type,
-        )
-    if port_type == "electrical":
-        for port in c.ports:
-            c.create_pin(ports=[port], name=port.name)
-    return c
+    return cf.C(width=width, size=size, layer=layer, port_type=port_type)

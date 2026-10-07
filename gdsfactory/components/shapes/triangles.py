@@ -9,11 +9,12 @@ __all__ = [
     "triangle_thin",
 ]
 
-from functools import partial
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import LayerSpec
 
 
@@ -47,10 +48,7 @@ def triangle(
               x
     ```
     """
-    c = Component()
-    points = [(0, 0), (x, 0), (x, ybot), (xtop, y), (0, y)]
-    c.add_polygon(points, layer=layer)
-    return c
+    return cf.triangle(x=x, xtop=xtop, y=y, ybot=ybot, layer=layer)
 
 
 @gf.cell_with_module_name(tags=["shapes"])
@@ -85,14 +83,7 @@ def triangle2(spacing: float = 3, **kwargs: Any) -> Component:
          |_/
 
     """
-    c = Component()
-    t = triangle(**kwargs)
-    tt = c << t
-    tb = c << t
-    tb.dmirror()
-    tb.rotate(180)
-    tb.ymax = tt.ymin - spacing
-    return c
+    return cf.triangle2(spacing=spacing, **kwargs)
 
 
 @gf.cell_with_module_name(tags=["shapes"])
@@ -125,15 +116,9 @@ def triangle4(**kwargs: Any) -> Component:
                  \  |_/
 
     """
-    c = Component()
-    t = triangle2(**kwargs)
-    t1 = c << t
-    t2 = c << t
-    t2.dmirror()
-    t2.xmax = t1.xmin
-    return c
+    return cf.triangle4(**kwargs)
 
 
-triangle_thin = partial(triangle, xtop=0.2, x=2, y=5)
-triangle2_thin = partial(triangle2, xtop=0.2, x=2, y=5)
-triangle4_thin = partial(triangle4, xtop=0.2, x=2, y=5)
+triangle_thin = CellAlias(triangle, xtop=0.2, x=2, y=5)
+triangle2_thin = CellAlias(triangle2, xtop=0.2, x=2, y=5)
+triangle4_thin = CellAlias(triangle4, xtop=0.2, x=2, y=5)

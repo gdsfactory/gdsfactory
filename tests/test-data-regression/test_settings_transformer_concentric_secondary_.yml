@@ -1,0 +1,11 @@
+info:
+  length: 168.954
+name: transformer_concentric_secondary_W3_S3p1_D50_LMM2_LJM1_Vvia1_VS3
+settings:
+  diameter: 50
+  layer_jumper: M1
+  layer_metal: M2
+  space: 3.1
+  via: via1
+  via_size: 3
+  width: 3

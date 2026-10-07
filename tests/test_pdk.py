@@ -18,7 +18,7 @@ def test_get_cross_section() -> None:
     )
     cross_section = {"cross_section": "strip", "settings": {"width": 1}}
     xs = gf.get_cross_section(cross_section)
-    assert xs.sections[0].width == 1
+    assert xs.width == 1
 
 
 def test_get_layer() -> None:
@@ -434,7 +434,8 @@ def test_get_cross_section_dict_applies_kwargs() -> None:
     spec = {"cross_section": "strip", "settings": {"width": 1}}
     assert gf.get_cross_section(spec).width == 1
     assert gf.get_cross_section(spec, width=3.0).width == 3.0
-    assert gf.get_cross_section(spec, radius=20).radius == 20
+    with pytest.raises(kf.exceptions.CrossSectionNamingConflictError):
+        gf.get_cross_section(spec, radius=20)
     # the override does not write back into spec["settings"]
     assert spec == {"cross_section": "strip", "settings": {"width": 1}}
 
@@ -448,12 +449,51 @@ def test_get_cross_section_kfactory_applies_kwargs() -> None:
     assert gf.get_cross_section(kf_xs, width=2.0).width == 2.0
     assert gf.get_cross_section(kf_xs, width=2.0).name != registered.name
 
-    # an override that changes nothing leaves the name alone
-    assert gf.get_cross_section(kf_xs, radius=registered.radius).name == registered.name
+    # A factory-named profile takes the same overrides as its factory name.
+    assert gf.get_cross_section(kf_xs, radius=registered.radius) == registered
+    with pytest.raises(kf.exceptions.CrossSectionNamingConflictError):
+        gf.get_cross_section(kf_xs, radius=20)
+
+
+def test_get_cross_section_named_profile_rescales_like_factory() -> None:
+    """A profile named after its factory is rebuilt by that factory."""
+    xs = gf.get_cross_section("rib")
+    wide = gf.get_cross_section(xs, width=2)
+    assert wide == gf.get_cross_section("rib", width=2)
+    _, slab = wide.get_sections()
+    assert (slab.section_min, slab.section_max) == (-4.0, 4.0)
+
+    assert gf.get_cross_section(xs, layer="WGN") == gf.get_cross_section(
+        "rib", layer="WGN"
+    )
+
+
+def test_get_cross_section_unnamed_profile_keeps_absolute_bounds() -> None:
+    """A profile without a recoverable factory falls back to with_width."""
+    xs = gf.get_cross_section("rib", width=0.7)
+    assert xs.name not in gf.get_active_pdk().cross_sections
+
+    wide = gf.get_cross_section(xs, width=2)
+    assert wide == gf.cross_section.with_width(xs, 2)
+    with pytest.raises(ValueError, match="Only width"):
+        gf.get_cross_section(xs, layer="WGN")
+
+
+def test_get_cross_section_name_applies_kwargs() -> None:
+    """A persisted profile name takes the same overrides as the profile itself."""
+    xs = gf.get_cross_section("strip", width=0.7)
+    assert xs.name not in gf.get_active_pdk().cross_sections
+
+    assert gf.get_cross_section(xs.name, width=2.0) == gf.get_cross_section(
+        xs, width=2.0
+    )
+    assert gf.get_cross_section(xs.name, width=xs.width) == xs
+    with pytest.raises(ValueError, match="Only width"):
+        gf.get_cross_section(xs.name, radius=20)
 
 
 def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
-    """A SymmetricalCrossSection on an unnameable layer keeps the raw layer index."""
+    """A profile on an unnameable layer keeps its physical LayerInfo."""
     enclosure = kf.LayerEnclosure(main_layer=kf.kdb.LayerInfo(999, 999), kcl=gf.kcl)
     sxs = kf.SymmetricalCrossSection(
         width=1000, enclosure=enclosure, name="unnamed_layer_xs"
@@ -462,7 +502,7 @@ def test_get_cross_section_kfactory_unknown_layer_keeps_index() -> None:
     xs = gf.get_cross_section(sxs)
     assert xs.name == "unnamed_layer_xs"
     assert xs.width == 1.0
-    assert xs.layer == gf.get_layer((999, 999))
+    assert xs.layer == kf.kdb.LayerInfo(999, 999)
 
 
 def test_get_cross_section_invalid_spec_raises() -> None:

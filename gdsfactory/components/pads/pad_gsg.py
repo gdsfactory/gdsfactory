@@ -4,12 +4,10 @@ from __future__ import annotations
 
 __all__ = ["pad_gs", "pad_gsg", "pad_gsg_open", "pad_gsg_short"]
 
-from functools import partial
-from typing import cast
-
-import kfactory as kf
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
 from .._schematic import pad_schematic
@@ -36,45 +34,18 @@ def pad_gsg_short(
         pad_pitch: in um.
         route_xsize: in um.
     """
-    c = gf.Component()
-    via = gf.c.rectangle(size=size, layer=layer_metal)
-    gnd_top = c << via
-
-    if short:
-        _ = c << via
-    gnd_bot = c << via
-
-    gnd_bot.ymax = via.ymin
-    gnd_top.ymin = via.ymax
-
-    gnd_top.movex(-metal_spacing)
-    gnd_bot.movex(-metal_spacing)
-
-    pads = c << gf.components.array(
-        pad, columns=1, rows=3, column_pitch=0, row_pitch=pad_pitch, centered=True
+    return cf.pad_gsg_short(
+        size=size,
+        layer_metal=layer_metal,
+        metal_spacing=metal_spacing,
+        short=short,
+        pad=pad,
+        pad_pitch=pad_pitch,
+        route_xsize=route_xsize,
     )
-    pads.xmin = via.xmax + route_xsize
-    pads.y = 0
-
-    gf.routing.route_quad(
-        c, gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal
-    )
-    gf.routing.route_quad(
-        c,
-        cast("kf.DPort", gnd_top.ports["e2"]),  # type: ignore[redundant-cast]
-        cast("kf.DPort", pads.ports["e1_3_1"]),  # type: ignore[redundant-cast]
-        layer=layer_metal,
-    )
-    gf.routing.route_quad(
-        c,
-        cast("kf.DPort", via.ports["e3"]),  # type: ignore[redundant-cast]
-        cast("kf.DPort", pads.ports["e1_2_1"]),  # type: ignore[redundant-cast]
-        layer=layer_metal,
-    )
-    return c
 
 
-pad_gsg_open = partial(pad_gsg_short, short=False)
+pad_gsg_open = CellAlias(pad_gsg_short, short=False)
 
 
 @gf.cell_with_module_name(schematic_function=pad_schematic, tags=["pads"])
@@ -85,11 +56,10 @@ def pad_gsg(length: float = 100, cross_section: str = "gsg") -> gf.Component:
         length: length of the GSG transmission line, in um.
         cross_section: GSG cross_section spec.
     """
-    c = gf.c.straight(cross_section=cross_section, length=length)
-    for port in c.ports:
-        if port.port_type == "electrical":
-            c.create_pin(ports=[port], name=port.name)
-    return c
+    return cf.pad_gsg(
+        length=length,
+        cross_section=cross_section,
+    )
 
 
 @gf.cell_with_module_name(tags=["pads"])
@@ -100,7 +70,10 @@ def pad_gs(length: float = 100, cross_section: str = "gs") -> gf.Component:
         length: length of the GS transmission line, in um.
         cross_section: GS cross_section spec.
     """
-    return gf.c.straight(cross_section=cross_section, length=length)
+    return cf.pad_gs(
+        length=length,
+        cross_section=cross_section,
+    )
 
 
 if __name__ == "__main__":

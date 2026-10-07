@@ -5,6 +5,7 @@ from __future__ import annotations
 __all__ = ["ge_detector_straight_si_contacts"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -43,41 +44,14 @@ def ge_detector_straight_si_contacts(
         taper_width: width of the taper.
         taper_cros_section: cross_section of the taper.
     """
-    c = Component()
-    xs = gf.get_cross_section(taper_cros_section)
-
-    taper = gf.c.taper(
-        width1=xs.width,
-        width2=taper_width,
-        length=taper_length,
-        cross_section=taper_cros_section,
-    )
-
-    via_stack = gf.get_component(
-        via_stack,
-        size=(length, via_stack_width),
-    )
-
-    wg = c << gf.components.straight(
-        cross_section=cross_section,
+    return cf.ge_detector_straight_si_contacts(
         length=length,
+        cross_section=cross_section,
+        via_stack=via_stack,
+        via_stack_width=via_stack_width,
+        via_stack_spacing=via_stack_spacing,
+        via_stack_offset=via_stack_offset,
+        taper_length=taper_length,
+        taper_width=taper_width,
+        taper_cros_section=taper_cros_section,
     )
-
-    t1 = c << taper
-    t1.connect("o2", wg["o1"], allow_width_mismatch=True)
-    c.add_port("o1", port=t1["o1"])
-
-    via_stack_top = c << via_stack
-    via_stack_bot = c << via_stack
-
-    via_stack_bot.xmin = wg.xmin
-    via_stack_top.xmin = wg.xmin
-
-    via_stack_top.ymin = +via_stack_spacing / 2 + via_stack_offset
-    via_stack_bot.ymax = -via_stack_spacing / 2 + via_stack_offset
-
-    bot_port = c.add_port(port=via_stack_bot.ports["e3"], name="bot")
-    top_port = c.add_port(port=via_stack_top.ports["e3"], name="top")
-    c.create_pin(ports=[bot_port], name="bot")
-    c.create_pin(ports=[top_port], name="top")
-    return c

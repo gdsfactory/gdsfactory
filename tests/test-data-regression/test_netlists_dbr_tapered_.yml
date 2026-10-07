@@ -17,10 +17,10 @@ instances:
     component: straight
     info:
       length: 10
+      route_info_028523d7_400_length: 10
       route_info_length: 10
-      route_info_type: xs_ff979da3
+      route_info_type: 028523d7_400
       route_info_weight: 10
-      route_info_xs_ff979da3_length: 10
       width: 0.4
     settings:
       cross_section: strip

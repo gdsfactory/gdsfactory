@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["coupler", "coupler_straight", "coupler_symmetric"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta
 
@@ -42,39 +43,14 @@ def coupler_symmetric(
     ```
 
     """
-    c = Component()
-    x = gf.get_cross_section(cross_section)
-    width = x.width
-    dy = (dy - gap - width) / 2
-
-    bend_component = gf.get_component(
-        bend,
-        size=(dx, dy),
+    return cf.coupler_symmetric(
+        bend=bend,
+        gap=gap,
+        dy=dy,
+        dx=dx,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
     )
-    top_bend = c << bend_component
-    bot_bend = c << bend_component
-    bend_ports = top_bend.ports.filter(port_type="optical")
-    bend_port1_name = bend_ports[0].name
-    bend_port2_name = bend_ports[1].name
-
-    w = bend_component[bend_port1_name].width
-    y = w + gap
-    y /= 2
-
-    bot_bend.dmirror_y()
-    top_bend.movey(+y)
-    bot_bend.movey(-y)
-
-    c.add_port("o1", port=bot_bend[bend_port1_name])
-    c.add_port("o2", port=top_bend[bend_port1_name])
-    c.add_port("o3", port=top_bend[bend_port2_name])
-    c.add_port("o4", port=bot_bend[bend_port2_name])
-
-    c.info["length"] = bend_component.info["length"]
-    c.info["min_bend_radius"] = bend_component.info["min_bend_radius"]
-    return c
 
 
 @gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["couplers"])
@@ -96,25 +72,11 @@ def coupler_straight(
         o1──────▼─────────o4
     ```
     """
-    c = Component()
-    x = gf.get_cross_section(cross_section)
-    _straight = gf.c.straight(length=length, cross_section=cross_section)
-
-    top = c << _straight
-    bot = c << _straight
-
-    w = x.width
-    y = w + gap
-
-    top.movey(+y)
-
-    if bot.ports and top.ports:
-        c.add_port("o1", port=bot.ports[0])
-        c.add_port("o2", port=top.ports[0])
-        c.add_port("o3", port=bot.ports[1])
-        c.add_port("o4", port=top.ports[1])
-        c.auto_rename_ports()
-    return c
+    return cf.coupler_straight(
+        length=length,
+        gap=gap,
+        cross_section=cross_section,
+    )
 
 
 @gf.cell_with_module_name(schematic_function=coupler_schematic, tags=["couplers"])
@@ -152,35 +114,12 @@ def coupler(
 
                         coupler_straight  coupler_symmetric
     """
-    c = Component()
-    sbend = coupler_symmetric(
+    return cf.coupler(
         gap=gap,
+        length=length,
         dy=dy,
         dx=dx,
         cross_section=cross_section,
-        bend=bend,
         allow_min_radius_violation=allow_min_radius_violation,
+        bend=bend,
     )
-
-    sr = c << sbend
-    sl = c << sbend
-    cs = c << coupler_straight(length=length, gap=gap, cross_section=cross_section)
-    sl.connect("o2", other=cs.ports["o1"])
-    sr.connect("o1", other=cs.ports["o4"])
-
-    c.add_port("o1", port=sl.ports["o3"])
-    c.add_port("o2", port=sl.ports["o4"])
-    c.add_port("o3", port=sr.ports["o3"])
-    c.add_port("o4", port=sr.ports["o4"])
-
-    c.info["path_length"] = 2 * sbend.info["length"] + length
-    c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
-    c.auto_rename_ports()
-
-    x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
-    c.flatten()
-    assert x.radius is not None
-    if not allow_min_radius_violation:
-        x.validate_radius(x.radius)
-    return c

@@ -26,6 +26,16 @@ def cutback_phase(
     wg_heater = gf.components.straight_pin(length=10.0, taper=None)
     taper = taper_strip_to_ridge()
 
+    # These abrupt interfaces intentionally connect only the silicon core;
+    # the doped transverse profiles do not continue through the passive bends.
+    def core_interfaces(component: Component) -> Component:
+        result = component.copy()
+        result.ports = [gf.port.core_port(port) for port in component.ports]
+        return result
+
+    pm_wg = core_interfaces(pm_wg)
+    wg_heater = core_interfaces(wg_heater)
+
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "I": (taper, "o1", "o2"),

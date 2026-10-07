@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["vernier_scale"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -36,37 +37,16 @@ def vernier_scale(
         layer_main: Layer specification for the main scale marks.
         layer_vernier: Layer specification for the vernier scale marks.
     """
-    c = Component()
-
-    hw = mark_width / 2
-
-    # Main scale marks (below y=0)
-    for i in range(-n_divisions, n_divisions + 1):
-        x = i * pitch_main
-        c.add_polygon(
-            [
-                (x - hw, 0),
-                (x + hw, 0),
-                (x + hw, -mark_height_main),
-                (x - hw, -mark_height_main),
-            ],
-            layer=layer_main,
-        )
-
-    # Vernier scale marks (above y=0)
-    for i in range(-n_divisions, n_divisions + 1):
-        x = i * pitch_vernier
-        c.add_polygon(
-            [
-                (x - hw, 0),
-                (x + hw, 0),
-                (x + hw, mark_height_vernier),
-                (x - hw, mark_height_vernier),
-            ],
-            layer=layer_vernier,
-        )
-
-    return c
+    return cf.vernier_scale(
+        n_divisions=n_divisions,
+        pitch_main=pitch_main,
+        pitch_vernier=pitch_vernier,
+        mark_width=mark_width,
+        mark_height_main=mark_height_main,
+        mark_height_vernier=mark_height_vernier,
+        layer_main=layer_main,
+        layer_vernier=layer_vernier,
+    )
 
 
 if __name__ == "__main__":

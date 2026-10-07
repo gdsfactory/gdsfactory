@@ -3,10 +3,9 @@ from __future__ import annotations
 __all__ = ["fiber"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
-
-from ..shapes.circle import circle
 
 
 @gf.cell_with_module_name(tags=["filters"])
@@ -24,13 +23,9 @@ def fiber(
         layer_core: layer spec for fiber core.
         layer_cladding: layer spec for fiber cladding.
     """
-    c = Component()
-
-    c.add_ref(circle(radius=core_diameter / 2, layer=layer_core))
-    c.add_ref(circle(radius=cladding_diameter / 2, layer=layer_cladding))
-
-    layer_core = gf.get_layer(layer_core)
-    c.add_port(
-        name="F0", width=core_diameter, orientation=0, center=(0, 0), layer=layer_core
+    return cf.fiber(
+        core_diameter=core_diameter,
+        cladding_diameter=cladding_diameter,
+        layer_core=layer_core,
+        layer_cladding=layer_cladding,
     )
-    return c

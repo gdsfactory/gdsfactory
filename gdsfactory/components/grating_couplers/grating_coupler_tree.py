@@ -5,6 +5,7 @@ __all__ = ["grating_coupler_tree"]
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -34,17 +35,13 @@ def grating_coupler_tree(
         cross_section: cross_section function.
         kwargs: additional arguments.
     """
-    c = gf.c.straight_array(
+    return cf.grating_coupler_tree(
         n=n,
-        spacing=straight_spacing,
-    )
-
-    return gf.routing.add_fiber_array(
-        component=c,
-        with_loopback=with_loopback,
+        straight_spacing=straight_spacing,
         grating_coupler=grating_coupler,
-        fanout_length=fanout_length,
+        with_loopback=with_loopback,
         bend=bend,
+        fanout_length=fanout_length,
         cross_section=cross_section,
         **kwargs,
     )

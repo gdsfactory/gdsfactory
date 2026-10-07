@@ -3,11 +3,11 @@ from __future__ import annotations
 __all__ = ["mmi_90degree_hybrid"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import ckt_schematic
-from ..tapers.taper import taper as taper_function
 
 
 @gf.cell_with_module_name(schematic_function=ckt_schematic, tags=["mmis"])
@@ -69,85 +69,13 @@ def mmi_90degree_hybrid(
                  <->
             length_taper
     """
-    c = gf.Component()
-
-    gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
-    w_mmi = width_mmi
-    w_taper = width_taper
-
-    taper = taper_function(
-        length=length_taper,
-        width1=width,
-        width2=w_taper,
+    return cf.mmi_90degree_hybrid(
+        width=width,
+        width_taper=width_taper,
+        length_taper=length_taper,
+        length_mmi=length_mmi,
+        width_mmi=width_mmi,
+        gap_mmi=gap_mmi,
+        straight=straight,
         cross_section=cross_section,
     )
-
-    x = gf.get_cross_section(cross_section)
-
-    _ = c << gf.get_component(
-        straight,
-        length=length_mmi,
-        width=w_mmi,
-        cross_section=cross_section,
-    )
-
-    y_signal_in = gap_mmi * 3 / 2 + width_taper * 3 / 2
-    y_lo_in = -gap_mmi / 2 - width_taper / 2
-
-    temp_component = Component()
-
-    ports = [
-        # Inputs
-        temp_component.add_port(
-            name="signal_in",
-            orientation=180,
-            center=(0, y_signal_in),
-            width=w_taper,
-            cross_section=x,
-        ),
-        temp_component.add_port(
-            name="LO_in",
-            orientation=180,
-            center=(0, y_lo_in),
-            width=w_taper,
-            cross_section=x,
-        ),
-        # Outputs
-        temp_component.add_port(
-            name="I_out1",
-            orientation=0,
-            center=(length_mmi, y_signal_in),
-            width=w_taper,
-            cross_section=x,
-        ),
-        temp_component.add_port(
-            name="Q_out1",
-            orientation=0,
-            center=(length_mmi, y_signal_in - gap_mmi - w_taper),
-            width=w_taper,
-            cross_section=x,
-        ),
-        temp_component.add_port(
-            name="Q_out2",
-            orientation=0,
-            center=(length_mmi, y_lo_in),
-            width=w_taper,
-            cross_section=x,
-        ),
-        temp_component.add_port(
-            name="I_out2",
-            orientation=0,
-            center=(length_mmi, y_lo_in - gap_mmi - w_taper),
-            width=w_taper,
-            cross_section=x,
-        ),
-    ]
-
-    for port in ports:
-        taper_ref = c << taper
-        taper_ref.connect(port="o2", other=port)
-        c.add_port(name=port.name, port=taper_ref.ports["o1"])
-
-    c.flatten()
-    x.add_bbox(c)
-    return c

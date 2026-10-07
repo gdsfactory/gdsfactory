@@ -5,6 +5,7 @@ __all__ = ["copy_layers"]
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, LayerSpecs
 
@@ -24,14 +25,9 @@ def copy_layers(
         flatten: flatten the result.
         kwargs: keyword arguments passed to the component.
     """
-    c = Component()
-
-    ci = None
-    for layer in layers:
-        c << (ci := gf.get_component(factory, layer=layer, **kwargs))
-    if ci is not None:
-        c.copy_child_info(ci)
-
-    if flatten:
-        c.flatten()
-    return c
+    return cf.copy_layers(
+        factory=factory,
+        layers=layers,
+        flatten=flatten,
+        **kwargs,
+    )

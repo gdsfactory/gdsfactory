@@ -5,10 +5,10 @@ from __future__ import annotations
 __all__ = ["cdsem_bend180"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions.pcms.cdsem_bend180 import LINE_LENGTH
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
-
-LINE_LENGTH = 420.0
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -34,40 +34,13 @@ def cdsem_bend180(
         text: spec.
         text_size: um.
     """
-    c = Component()
-    r = radius
-
-    if wg_length is None:
-        wg_length = 2 * r
-
-    bend90 = gf.get_component(
-        bend90,
-        cross_section=cross_section,
-        radius=r,
+    return cf.cdsem_bend180(
         width=width,
-        allow_min_radius_violation=True,
+        radius=radius,
+        wg_length=wg_length,
+        straight=straight,
+        bend90=bend90,
+        cross_section=cross_section,
+        text=text,
+        text_size=text_size,
     )
-    wg = gf.get_component(
-        straight, cross_section=cross_section, length=wg_length, width=width
-    )
-
-    # Add the U-turn on straight layer
-    b1 = c.add_ref(bend90)
-    b2 = c.add_ref(bend90)
-    b2.connect("o2", b1.ports["o1"])
-
-    wg1 = c.add_ref(wg)
-    wg1.connect("o1", b1.ports["o2"])
-
-    wg2 = c.add_ref(wg)
-    wg2.connect("o1", b2.ports["o1"])
-
-    label = c << gf.get_component(text, text=str(int(width * 1e3)), size=text_size)
-    label.ymax = b2.ymin - 5
-    label.x = 0
-
-    c2 = gf.Component()
-    ref = c2 << c
-    ref.rotate(90)
-    c2.flatten()
-    return c2

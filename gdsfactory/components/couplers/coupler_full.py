@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["coupler_full"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec, Delta
 
@@ -46,60 +47,12 @@ def coupler_full(
         width: width of the waveguide. If None, it will use the width of the cross_section.
 
     """
-    c = gf.Component()
-
-    if width:
-        x = gf.get_cross_section(cross_section=cross_section, width=width)
-    else:
-        x = gf.get_cross_section(cross_section=cross_section)
-    x_top = x.copy(width=x.width + dw)
-    x_bottom = x.copy(width=x.width - dw)
-
-    taper_top = c << gf.components.taper(
-        length=coupling_length,
-        width1=x_top.width,
-        width2=x_bottom.width,
+    return cf.coupler_full(
+        coupling_length=coupling_length,
+        dx=dx,
+        dy=dy,
+        gap=gap,
+        dw=dw,
         cross_section=cross_section,
+        width=width,
     )
-
-    taper_bottom = c << gf.components.taper(
-        length=coupling_length,
-        width1=x_bottom.width,
-        width2=x_top.width,
-        cross_section=cross_section,
-    )
-
-    bend_input_top = c << gf.c.bend_s(
-        size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_top
-    )
-    bend_input_top.movey((x_top.width + gap) / 2.0)
-
-    bend_input_bottom = c << gf.c.bend_s(
-        size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_bottom
-    )
-    bend_input_bottom.movey(-(x_bottom.width + gap) / 2.0)
-
-    taper_top.connect("o1", bend_input_top.ports["o1"])
-    taper_bottom.connect("o1", bend_input_bottom.ports["o1"])
-
-    bend_output_top = c << gf.c.bend_s(
-        size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_bottom
-    )
-
-    bend_output_bottom = c << gf.c.bend_s(
-        size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_top
-    )
-
-    bend_output_top.connect("o2", taper_top.ports["o2"], mirror=True)
-    bend_output_bottom.connect("o2", taper_bottom.ports["o2"], mirror=True)
-
-    x.add_bbox(c)
-
-    c.add_port("o1", port=bend_input_bottom.ports["o2"])
-    c.add_port("o2", port=bend_input_top.ports["o2"])
-    c.add_port("o3", port=bend_output_top.ports["o1"])
-    c.add_port("o4", port=bend_output_bottom.ports["o1"])
-    c.auto_rename_ports()
-
-    c.flatten()
-    return c

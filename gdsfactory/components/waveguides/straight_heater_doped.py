@@ -3,8 +3,8 @@ from __future__ import annotations
 __all__ = ["straight_heater_doped_rib", "straight_heater_doped_strip"]
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
-from gdsfactory.snap import snap_to_grid
+from gdsfactory import component_functions as cf
+from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Size
 
 from .._schematic import straight_schematic
@@ -91,106 +91,23 @@ def straight_heater_doped_rib(
                                        slab_width
     ```
     """
-    c = Component()
-    cross_section_heater = gf.get_cross_section(
-        cross_section_heater,
+    return cf.straight_heater_doped_rib(
+        length=length,
+        nsections=nsections,
+        cross_section=cross_section,
+        cross_section_heater=cross_section_heater,
+        via_stack=via_stack,
+        via_stack_metal=via_stack_metal,
+        via_stack_metal_size=via_stack_metal_size,
+        via_stack_size=via_stack_size,
+        taper=taper,
         heater_width=heater_width,
         heater_gap=heater_gap,
+        via_stack_gap=via_stack_gap,
         width=width,
+        xoffset_tip1=xoffset_tip1,
+        xoffset_tip2=xoffset_tip2,
     )
-    taper_component: Component | None = None
-    if taper:
-        taper_component = gf.get_component(
-            taper, cross_section1=cross_section, cross_section2=cross_section_heater
-        )
-        length -= taper_component.xsize * 2
-
-    wg = c << gf.c.straight(
-        cross_section=cross_section_heater,
-        length=snap_to_grid(length),
-    )
-
-    if taper_component:
-        taper1 = c << taper_component
-        taper1.connect("o2", wg.ports["o1"])
-        c.add_port("o1", port=taper1.ports["o1"])
-        taper2 = c << taper_component
-        taper2.dmirror()
-        taper2.connect("o2", wg.ports["o2"])
-        c.add_port("o2", port=taper2.ports["o1"])
-
-    else:
-        c.add_port("o2", port=wg.ports["o2"])
-        c.add_port("o1", port=wg.ports["o1"])
-
-    via_stack_section: Component | None = None
-    if via_stack_metal:
-        via_stack_section = gf.get_component(via_stack_metal, size=via_stack_metal_size)
-
-    via_stacks: list[ComponentReference] = []
-    length_via_stack = snap_to_grid(via_stack_size[1])
-    length_section = snap_to_grid((length - length_via_stack) / nsections)
-    x0 = via_stack_size[0] / 2 - xoffset_tip1
-
-    via_stack_top: ComponentReference | None = None
-    via_stack_bot: ComponentReference | None = None
-
-    for i in range(nsections + 1):
-        xi = x0 + length_section * i
-
-        if via_stack_metal and via_stack and via_stack_section:
-            via_stack_center = c.add_ref(via_stack_section)
-            via_stack_center.x = xi
-            via_stack_ref = c << via_stack_section
-            via_stack_ref.x = xi
-            via_stack_ref.y = (
-                +via_stack_metal_size[1] if i % 2 == 0 else -via_stack_metal_size[1]
-            )
-            via_stacks.append(via_stack_ref)
-
-        if via_stack:
-            via_stack_component = gf.get_component(via_stack, size=via_stack_size)
-            via_stack_top = c << via_stack_component
-            via_stack_top.x = xi
-            via_stack_top.ymin = +(heater_gap + width / 2 + via_stack_gap)
-
-            via_stack_bot = c << via_stack_component
-            via_stack_bot.x = xi
-            via_stack_bot.ymax = -(heater_gap + width / 2 + via_stack_gap)
-
-    if via_stack and via_stack_top and via_stack_bot:
-        via_stack_top.movex(xoffset_tip2)
-        via_stack_bot.movex(xoffset_tip2)
-
-    if via_stack_metal and via_stack and via_stack_section:
-        via_stack_length = length + via_stack_metal_size[0]
-        via_stack_top_component = c << gf.get_component(
-            via_stack_metal,
-            size=(via_stack_length, via_stack_metal_size[0]),
-        )
-        via_stack_bot_component = c << gf.get_component(
-            via_stack_metal,
-            size=(via_stack_length, via_stack_metal_size[0]),
-        )
-
-        via_stack_bot_component.xmin = via_stacks[0].xmin
-        via_stack_top_component.xmin = via_stacks[0].xmin
-
-        via_stack_top_component.ymin = via_stacks[0].ymax
-        via_stack_bot_component.ymax = via_stacks[1].ymin
-
-        c.add_ports(via_stack_top_component.ports, prefix="top_")
-        c.add_ports(via_stack_bot_component.ports, prefix="bot_")
-
-    top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
-    bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
-    if top_ports:
-        c.create_pin(ports=top_ports, name="top")
-    if bot_ports:
-        c.create_pin(ports=bot_ports, name="bot")
-
-    c.flatten()
-    return c
 
 
 @gf.cell_with_module_name(schematic_function=straight_schematic, tags=["waveguides"])
@@ -261,7 +178,7 @@ def straight_heater_doped_strip(
                                                         heater_gap     heater_width
     ```
     """
-    return straight_heater_doped_rib(
+    return cf.straight_heater_doped_strip(
         length=length,
         nsections=nsections,
         cross_section=cross_section,
@@ -277,4 +194,4 @@ def straight_heater_doped_strip(
         width=width,
         xoffset_tip1=xoffset_tip1,
         xoffset_tip2=xoffset_tip2,
-    ).copy()
+    )

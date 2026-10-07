@@ -11,12 +11,11 @@ __all__ = [
     "pad_small",
 ]
 
-from functools import partial
-from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.config import valid_port_orientations
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
@@ -53,59 +52,20 @@ def pad(
         port_orientations: list of port_orientations to add. None does not add ports.
         port_type: port type for pad port.
     """
-    c = Component()
-    layer = gf.get_layer(layer)
-    size_ = gf.get_constant(size)
-    rect = gf.c.compass(
-        size=size_,
+    return cf.pad(
+        size=size,
         layer=layer,
+        bbox_layers=bbox_layers,
+        bbox_offsets=bbox_offsets,
         port_inclusion=port_inclusion,
-        port_type="electrical",
+        port_orientation=port_orientation,
         port_orientations=port_orientations,
+        port_type=port_type,
     )
-    c_ref = c.add_ref(rect)
-    c.add_ports(c_ref.ports)
-    c.info["size"] = size_
-    c.info["xsize"] = size_[0]
-    c.info["ysize"] = size_[1]
-
-    if port_orientation is not None and port_orientation not in valid_port_orientations:
-        raise ValueError(f"{port_orientation=} must be in {valid_port_orientations}")
-
-    width = size_[1] if port_orientation in {0, 180} else size_[0]
-
-    if port_orientation is not None:
-        c.add_port(
-            name="pad",
-            port_type=port_type,
-            layer=layer,
-            center=(0, 0),
-            orientation=port_orientation,
-            width=width,
-        )
-
-    if bbox_layers and bbox_offsets:
-        sizes: list[Size] = []
-        for cladding_offset in bbox_offsets:
-            size_new = (size_[0] + 2 * cladding_offset, size_[1] + 2 * cladding_offset)
-            sizes.append(size_new)
-
-        for layer, size_new in zip(bbox_layers, sizes, strict=False):
-            c.add_ref(
-                gf.c.compass(
-                    size=size_new,
-                    layer=layer,
-                )
-            )
-    c.flatten()
-    elec = [p for p in c.ports if p.port_type in {"electrical", "pad"}]
-    if elec:
-        c.create_pin(ports=elec, name="pad")
-    return c
 
 
-pad_rectangular = partial(pad, size="pad_size")
-pad_small = partial(pad, size=(80, 80))
+pad_rectangular = CellAlias(pad, size="pad_size")
+pad_small = CellAlias(pad, size=(80, 80))
 
 
 @gf.cell_with_module_name(schematic_function=pad_schematic, tags=["pads"])
@@ -135,67 +95,22 @@ def pad_array(
         centered_ports: True add ports to center. False add ports to the edge.
         auto_rename_ports: True to auto rename ports.
     """
-    c = Component()
-
-    pad_kwargs: dict[str, Any] = {}
-    if layer is not None:
-        pad_kwargs["layer"] = layer
-    if size is not None:
-        pad_kwargs["size"] = size
-    pad_component = gf.get_component(
-        pad,
-        port_orientation=port_orientation,
-        port_orientations=(port_orientation,) if not centered_ports else None,
-        **pad_kwargs,
-    )
-
-    pad_size: Float2 = size or pad_component.info["size"]
-    pad_layer: LayerSpec = layer or pad_component.ports[0].layer
-
-    c.add_ref(
-        pad_component,
+    return cf.pad_array(
+        pad=pad,
         columns=columns,
         rows=rows,
         column_pitch=column_pitch,
         row_pitch=row_pitch,
+        port_orientation=port_orientation,
+        size=size,
+        layer=layer,
+        centered_ports=centered_ports,
+        auto_rename_ports=auto_rename_ports,
     )
-    width = pad_size[0] if int(port_orientation) in {90, 270} else pad_size[1]
-
-    for col in range(columns):
-        for row in range(rows):
-            center = (col * column_pitch, row * row_pitch)
-            port_orientation = int(port_orientation)
-            center_list = [center[0], center[1]]
-
-            if not centered_ports:
-                if port_orientation == 0:
-                    center_list[0] += pad_size[0] / 2
-                elif port_orientation == 90:
-                    center_list[1] += pad_size[1] / 2
-                elif port_orientation == 180:
-                    center_list[0] -= pad_size[0] / 2
-                elif port_orientation == 270:
-                    center_list[1] -= pad_size[1] / 2
-
-            center = (center_list[0], center_list[1])
-            c.add_port(
-                name=f"e{row + 1}{col + 1}",
-                center=center,
-                width=width,
-                orientation=port_orientation,
-                port_type="electrical",
-                layer=pad_layer,
-            )
-    if auto_rename_ports:
-        c.auto_rename_ports()
-    for port in c.ports:
-        if port.port_type == "electrical":
-            c.create_pin(ports=[port], name=f"pad_{port.name}")
-    return c
 
 
-pad_array90 = partial(pad_array, port_orientation=90)
-pad_array270 = partial(pad_array, port_orientation=270)
+pad_array90 = CellAlias(pad_array, port_orientation=90)
+pad_array270 = CellAlias(pad_array, port_orientation=270)
 
-pad_array0 = partial(pad_array, port_orientation=0, columns=1, rows=3)
-pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
+pad_array0 = CellAlias(pad_array, port_orientation=0, columns=1, rows=3)
+pad_array180 = CellAlias(pad_array, port_orientation=180, columns=1, rows=3)

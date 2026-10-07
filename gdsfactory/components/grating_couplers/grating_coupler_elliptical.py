@@ -6,20 +6,14 @@ __all__ = [
     "grating_coupler_elliptical_tm",
 ]
 
-from functools import partial
-
-import numpy as np
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.functions import DEG2RAD
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 from .._schematic import grating_coupler_schematic
-from ..grating_couplers.functions import (
-    grating_taper_points,
-    grating_tooth_points,
-)
 
 
 @gf.cell_with_module_name(
@@ -73,116 +67,26 @@ def grating_coupler_elliptical(
     ```
 
     """
-    xs = gf.get_cross_section(cross_section)
-
-    wg_width = xs.width
-    layer = xs.layer
-    assert layer is not None
-
-    # Compute some ellipse parameters
-    sthc = np.sin(fiber_angle * DEG2RAD)
-    d = neff**2 - nclad**2 * sthc**2
-    a1 = wavelength * neff / d
-    b1 = wavelength / np.sqrt(d)
-    x1 = wavelength * nclad * sthc / d
-
-    a1 = float(round(a1, 3))
-    b1 = float(round(b1, 3))
-    x1 = float(round(x1, 3))
-
-    period = a1 + x1
-
-    c = gf.Component()
-    c.info["polarization"] = polarization
-    c.info["wavelength"] = wavelength
-
-    # Make the taper
-    p = taper_length / period
-    a_taper = a1 * p
-    b_taper = b1 * p
-    x_taper = x1 * p
-
-    x_output = a_taper + x_taper - taper_length
-    pts = grating_taper_points(
-        a=a_taper,
-        b=b_taper,
-        x0=x_output,
-        taper_length=x_taper,
+    return cf.grating_coupler_elliptical(
+        polarization=polarization,
+        taper_length=taper_length,
         taper_angle=taper_angle,
-        wg_width=wg_width,
-    )
-    c.add_polygon(pts, layer)
-
-    width = gf.snap.snap_to_grid(grating_line_width)
-    gap = gf.snap.snap_to_grid(period - grating_line_width)
-
-    xi = taper_length
-    for p in range(n_periods):
-        xi += gap + width / 2
-        p = xi / period
-        pts = grating_tooth_points(
-            p * a1, p * b1, p * x1, width, taper_angle, spiked=spiked
-        )
-        c.add_polygon(pts, layer)
-        xi += width / 2
-
-    w = 1.0
-    total_length = (
-        period * n_periods
-        + taper_length
-        + grating_line_width / 2
-        + period
-        - grating_line_width
-        + w / 2
+        wavelength=wavelength,
+        fiber_angle=fiber_angle,
+        grating_line_width=grating_line_width,
+        neff=neff,
+        nclad=nclad,
+        n_periods=n_periods,
+        big_last_tooth=big_last_tooth,
+        layer_slab=layer_slab,
+        slab_xmin=slab_xmin,
+        slab_offset=slab_offset,
+        spiked=spiked,
+        cross_section=cross_section,
     )
 
-    if big_last_tooth:
-        # Add last "large tooth" after the standard grating teeth
-        a = total_length / (1 + x1 / a1)
-        b = b1 / a1 * a
-        x = x1 / a1 * a
 
-        pts = grating_tooth_points(a, b, x, w, taper_angle, spiked=False)
-        c.add_polygon(pts, layer)
-
-    x = np.round(taper_length + x_output, 3)
-
-    c.add_port(
-        name="o1",
-        center=(x_output, 0),
-        width=wg_width,
-        orientation=180,
-        layer=layer,
-        port_type="optical",
-    )
-
-    if layer_slab:
-        slab_xmin += x_output + taper_length
-        slab_length = total_length + slab_offset
-        slab_width = (c.ysize + 2 * slab_offset) / 2
-        c.add_polygon(
-            [
-                (slab_xmin, slab_width),
-                (slab_length, slab_width),
-                (slab_length, -slab_width),
-                (slab_xmin, -slab_width),
-            ],
-            layer_slab,
-        )
-
-    xs.add_bbox(c)
-    c.add_port(
-        name="o2",
-        center=(x, 0),
-        width=10,
-        orientation=0,
-        layer=layer,
-        port_type=f"vertical_{polarization}",
-    )
-    return c
-
-
-grating_coupler_elliptical_tm = partial(
+grating_coupler_elliptical_tm = CellAlias(
     grating_coupler_elliptical,
     grating_line_width=0.707,
     polarization="tm",

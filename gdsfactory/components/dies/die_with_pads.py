@@ -1,8 +1,7 @@
 __all__ = ["die_with_pads"]
 
-import warnings
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec, Size
 
@@ -44,70 +43,20 @@ def die_with_pads(
         pad_port_name_top: name of the pad port name at the btop facing south.
         pad_port_name_bot: name of the pad port name at the bottom facing north.
     """
-    warnings.warn(
-        "die_with_pads is deprecated and will be removed soon. Please use die_frame_with_pads instead",
-        stacklevel=2,
+    return cf.die_with_pads(
+        size=size,
+        ngratings=ngratings,
+        npads=npads,
+        grating_pitch=grating_pitch,
+        pad_pitch=pad_pitch,
+        grating_coupler=grating_coupler,
+        cross_section=cross_section,
+        pad=pad,
+        layer_floorplan=layer_floorplan,
+        edge_to_pad_distance=edge_to_pad_distance,
+        edge_to_grating_distance=edge_to_grating_distance,
+        with_loopback=with_loopback,
+        loopback_radius=loopback_radius,
+        pad_port_name_top=pad_port_name_top,
+        pad_port_name_bot=pad_port_name_bot,
     )
-
-    c = Component()
-    fp = c << gf.c.rectangle(
-        size=size, layer=layer_floorplan, centered=True, port_type=None
-    )
-    xs, ys = size
-
-    # Add optical ports
-    x0 = xs / 2 + edge_to_grating_distance
-
-    if grating_coupler:
-        gca = gf.c.grating_coupler_array(
-            n=ngratings,
-            pitch=grating_pitch,
-            with_loopback=with_loopback,
-            grating_coupler=grating_coupler,
-            cross_section=cross_section,
-            radius=loopback_radius,
-        )
-        left = c << gca
-        left.rotate(-90)
-        left.xmin = -xs / 2 + edge_to_grating_distance
-        left.y = fp.y
-        c.add_ports(left.ports, prefix="W")
-
-        right = c << gca
-        right.rotate(+90)
-        right.xmax = xs / 2 - edge_to_grating_distance
-        right.y = fp.y
-        c.add_ports(right.ports, prefix="E")
-
-    # Add electrical ports
-    pad = gf.get_component(pad)
-    x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
-
-    # north pads
-    for i in range(npads):
-        pad_ref = c << pad
-        pad_ref.xmin = x0 + i * pad_pitch
-        pad_ref.ymax = ys / 2 - edge_to_pad_distance
-        c.add_port(
-            name=f"N{i}",
-            port=pad_ref.ports[pad_port_name_top],
-        )
-
-    x0 = -npads * pad_pitch / 2 + edge_to_pad_distance
-
-    # south pads
-    for i in range(npads):
-        pad_ref = c << pad
-        pad_ref.xmin = x0 + i * pad_pitch
-        pad_ref.ymin = -ys / 2 + edge_to_pad_distance
-        c.add_port(
-            name=f"S{i}",
-            port=pad_ref.ports[pad_port_name_bot],
-        )
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    c.auto_rename_ports()
-    return c

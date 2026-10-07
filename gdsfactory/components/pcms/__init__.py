@@ -24,6 +24,7 @@ from .version_stamp import *
 
 __all__ = [
     "alignment_mark_cross",
+    "bendu_double",
     "cavity",
     "cdsem_all",
     "cdsem_bend180",
@@ -53,10 +54,13 @@ __all__ = [
     "pixel",
     "qrcode",
     "resistance_meander",
+    "resistance_meander_net",
+    "resistance_meander_row",
     "resistance_sheet",
     "resolution_test_pattern",
     "ruler",
     "staircase",
+    "straight_double",
     "vernier_scale",
     "verniers",
     "version_stamp",

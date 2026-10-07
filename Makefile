@@ -48,13 +48,10 @@ install-kfactory-dev: ## Force-reinstall kfactory from GitHub
 update-pre: ## Update pre-commit hooks
 	pre-commit autoupdate
 
-test-data: ## Clone test data from GitHub (HTTPS)
-	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
+test-data: ## Check out the test data submodule at its pinned commit
+	git submodule update --init test-data-gds
 
-test-data-gds: ## Clone test data from GitHub (SSH)
-	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
-
-test: test-data-gds ## Run tests
+test: test-data ## Run tests
 	uv run pytest -s -n logical
 
 test-force: ## Run tests with force-regen
@@ -106,7 +103,6 @@ nbdocs: ## Convert Jupytext Python notebooks to markdown
 			--ExecutePreprocessor.timeout=600 \
 			--ExecutePreprocessor.allow_errors=True \
 			{} --output-dir docs/notebooks
-	rm -f docs/notebooks/*.ipynb
 	uv run python docs/hooks.py docs/notebooks/*.md
 
 docs: nbdocs ## Build documentation

@@ -21,9 +21,17 @@ def strip3(
     **kwargs: Any,
 ) -> CrossSection:
     sections = (
-        gf.Section(layer=layer_sides, width=width_sides, offset=offset_sides),
-        gf.Section(layer=layer_sides, width=width_sides, offset=-offset_sides),
-        gf.Section(layer=layer_cover, width=width_cover, offset=0),
+        (
+            layer_sides,
+            offset_sides - width_sides / 2,
+            offset_sides + width_sides / 2,
+        ),
+        (
+            layer_sides,
+            -offset_sides - width_sides / 2,
+            -offset_sides + width_sides / 2,
+        ),
+        (layer_cover, -(width_cover / 2), width_cover / 2),
     )
 
     return cross_section(

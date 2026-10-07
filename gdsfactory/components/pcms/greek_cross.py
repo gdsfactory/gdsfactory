@@ -3,6 +3,7 @@
 __all__ = ["greek_cross", "greek_cross_with_pads"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.cross_section import metal1
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs
 
@@ -53,42 +54,14 @@ def greek_cross(
     - <https://download.tek.com/document/S530_VanDerPauwSheetRstnce.pdf>
 
     """
-    c = gf.Component()
-
-    if len(layers) != len(widths):
-        raise ValueError("len(layers) must equal len(widths).")
-
-    offsets = offsets or (0.0,) * len(layers)
-
-    for index, (layer, width, offset) in enumerate(
-        zip(layers, widths, offsets, strict=False)
-    ):
-        ref = c << gf.c.cross(
-            length=length + 2 * offset,
-            width=width,
-            layer=layer,
-            port_type="electrical",
-        )
-        if index == layer_index:
-            cross_ref = ref
-
-    # Add via
-    for port in cross_ref.ports:
-        via_stack_ref = c << gf.get_component(via_stack)
-        via_stack_ref.connect(
-            "e1",
-            port,
-            allow_layer_mismatch=True,
-            allow_width_mismatch=True,
-        )
-        c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
-
-    c.flatten()
-    c.auto_rename_ports()
-    for port in c.ports:
-        if port.port_type == "electrical":
-            c.create_pin(ports=[port], name=port.name)
-    return c
+    return cf.greek_cross(
+        length=length,
+        layers=layers,
+        widths=widths,
+        offsets=offsets,
+        via_stack=via_stack,
+        layer_index=layer_index,
+    )
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -110,56 +83,11 @@ def greek_cross_with_pads(
         cross_section: cross-section for cross via to pad via wiring.
         pad_port_name: name of the port to connect to the greek cross.
     """
-    c = gf.Component()
-
-    # Cross
-    cross_ref = c << gf.get_component(greek_cross_component)
-    cross_ref.x = (
-        2 * pad_pitch - (pad_pitch - gf.get_component(pad).info["size"][0]) / 2
+    return cf.greek_cross_with_pads(
+        pad=pad,
+        pad_pitch=pad_pitch,
+        greek_cross_component=greek_cross_component,
+        pad_via=pad_via,
+        cross_section=cross_section,
+        pad_port_name=pad_port_name,
     )
-
-    cross_pad_via_port_pairs = {
-        0: ("e1", "e2"),
-        1: ("e4", "e2"),
-        2: ("e2", "e4"),
-        3: ("e3", "e4"),
-    }
-
-    # Vias to pads
-    for index in range(4):
-        pad_ref = c << gf.get_component(pad)
-        pad_ref.x = index * pad_pitch + pad_ref.xsize / 2
-        via_ref = c << gf.get_component(pad_via)
-        if index < 2:
-            via_ref.connect(
-                "e2",
-                other=pad_ref.ports["e4"],
-                allow_layer_mismatch=True,
-                allow_width_mismatch=True,
-            )
-        else:
-            via_ref.connect(
-                "e4",
-                other=pad_ref.ports["e2"],
-                allow_layer_mismatch=True,
-                allow_width_mismatch=True,
-            )
-
-        gf.routing.route_single_electrical(
-            c,
-            cross_ref[cross_pad_via_port_pairs[index][0]],
-            via_ref[cross_pad_via_port_pairs[index][1]],
-            cross_section=cross_section,
-            start_straight_length=5,
-            end_straight_length=5,
-        )
-        c.add_port(
-            name=f"e{index + 1}",
-            port=pad_ref.ports[pad_port_name],
-        )
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    return c

@@ -1,0 +1,4 @@
+[submodule "test-data-gds"]
+	path = test-data-gds
+	url = https://github.com/gdsfactory/gdsfactory-test-data.git
+	branch = main

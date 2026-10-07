@@ -6,7 +6,8 @@ from collections.abc import Sequence
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory import component_functions as cf
+from gdsfactory.component import Component
 
 from .._schematic import mzi_2x2_schematic
 
@@ -54,77 +55,14 @@ def mzi_lattice(
     ```
 
     """
-    if len(coupler_lengths) != len(coupler_gaps):
-        raise ValueError(
-            f"Got {len(coupler_lengths)} coupler_lengths and "
-            f"{len(coupler_gaps)} coupler_gaps"
-        )
-    if len(coupler_lengths) != len(delta_lengths) + 1:
-        raise ValueError(
-            f"Got {len(coupler_lengths)} coupler_lengths and "
-            f"{len(delta_lengths)} delta_lengths. "
-            "You need one more coupler_length than delta_lengths "
-        )
-
-    c = Component()
-
-    cp1 = splitter1 = gf.get_component(
-        splitter, gap=coupler_gaps[0], length=coupler_lengths[0]
-    )
-    combiner1 = gf.get_component(
-        splitter, gap=coupler_gaps[1], length=coupler_lengths[1]
-    )
-
-    sprevious = c << gf.get_component(
-        mzi,
-        splitter=splitter1,
-        combiner=combiner1,
-        with_splitter=True,
-        delta_length=delta_lengths[0],
+    return cf.mzi_lattice(
+        coupler_lengths=coupler_lengths,
+        coupler_gaps=coupler_gaps,
+        delta_lengths=delta_lengths,
+        mzi=mzi,
+        splitter=splitter,
         **kwargs,
     )
-    c.add_ports(sprevious.ports.filter(port_type="electrical"))
-
-    stages: list[ComponentReference] = []
-
-    for length, gap, delta_length in zip(
-        coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:], strict=False
-    ):
-        splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
-        combiner_settings = dict(length=length, gap=gap)
-        splitter1 = gf.get_component(splitter, settings=None, **splitter_settings)
-        combiner1 = gf.get_component(splitter, settings=None, **combiner_settings)
-
-        stage = c << gf.get_component(
-            mzi,
-            splitter=splitter1,
-            combiner=combiner1,
-            with_splitter=False,
-            delta_length=delta_length,
-            **kwargs,
-        )
-        splitter_settings = combiner_settings
-
-        stages.append(stage)
-        c.add_ports(stage.ports.filter(port_type="electrical"))
-
-    for stage in stages:
-        stage.connect("o1", sprevious.ports["o4"])
-        # stage.connect('o2', sprevious.ports['o1'])
-        sprevious = stage
-
-    for port in cp1.ports.filter(orientation=180, port_type="optical"):
-        c.add_port(port.name, port=port)
-
-    for port in sprevious.ports.filter(orientation=0, port_type="optical"):
-        c.add_port(f"o_{port.name}", port=port)
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    c.auto_rename_ports()
-    return c
 
 
 @gf.cell_with_module_name(schematic_function=mzi_2x2_schematic, tags=["mzis"])
@@ -202,144 +140,18 @@ def mzi_lattice_mmi(
     ```
 
     """
-    length = len(coupler_widths)
-    if all(
-        len(lst) != length
-        for lst in [
-            coupler_widths_tapers,
-            coupler_lengths_tapers,
-            coupler_lengths_mmis,
-            coupler_widths_mmis,
-            coupler_gaps_mmis,
-            taper_functions_mmis,
-            straight_functions_mmis,
-            cross_sections_mmis,
-        ]
-    ):
-        raise ValueError("All MMI-related argument lists must be the same length.")
-    if len(coupler_widths) != len(delta_lengths) + 1:
-        raise ValueError(
-            f"Got {len(coupler_widths)} coupler_widths and "
-            f"{len(delta_lengths)} delta_lengths. "
-            "You need one more coupler_width than delta_lengths "
-        )
-
-    c = Component()
-
-    splitter_settings = dict(
-        width=coupler_widths[0],
-        width_taper=coupler_widths_tapers[0],
-        length_taper=coupler_lengths_tapers[0],
-        length_mmi=coupler_lengths_mmis[0],
-        width_mmi=coupler_widths_mmis[0],
-        gap_mmi=coupler_gaps_mmis[0],
-        taper=taper_functions_mmis[0],
-        straight=straight_functions_mmis[0],
-        cross_section=cross_sections_mmis[0],
-    )
-    combiner_settings = dict(
-        width=coupler_widths[1],
-        width_taper=coupler_widths_tapers[1],
-        length_taper=coupler_lengths_tapers[1],
-        length_mmi=coupler_lengths_mmis[1],
-        width_mmi=coupler_widths_mmis[1],
-        gap_mmi=coupler_gaps_mmis[1],
-        taper=taper_functions_mmis[1],
-        straight=straight_functions_mmis[1],
-        cross_section=cross_sections_mmis[1],
-    )
-
-    cp1 = splitter1 = gf.get_component(splitter, settings=None, **splitter_settings)
-    combiner1 = gf.get_component(splitter, settings=None, **combiner_settings)
-
-    sprevious = c << gf.get_component(
-        mzi,
-        splitter=splitter1,
-        combiner=combiner1,
-        with_splitter=True,
-        delta_length=delta_lengths[0],
+    return cf.mzi_lattice_mmi(
+        coupler_widths=coupler_widths,
+        coupler_widths_tapers=coupler_widths_tapers,
+        coupler_lengths_tapers=coupler_lengths_tapers,
+        coupler_lengths_mmis=coupler_lengths_mmis,
+        coupler_widths_mmis=coupler_widths_mmis,
+        coupler_gaps_mmis=coupler_gaps_mmis,
+        taper_functions_mmis=taper_functions_mmis,
+        straight_functions_mmis=straight_functions_mmis,
+        cross_sections_mmis=cross_sections_mmis,
+        delta_lengths=delta_lengths,
+        mzi=mzi,
+        splitter=splitter,
         **kwargs,
     )
-    c.add_ports(sprevious.ports.filter(port_type="electrical"))
-
-    stages: list[ComponentReference] = []
-
-    for (
-        coupler_width,
-        coupler_width_taper,
-        coupler_length_taper,
-        coupler_length_mmi,
-        coupler_width_mmi,
-        coupler_gap_mmi,
-        taper,
-        straight,
-        cross_section,
-        delta_length,
-    ) in zip(
-        coupler_widths[2:],
-        coupler_widths_tapers[2:],
-        coupler_lengths_tapers[2:],
-        coupler_lengths_mmis[2:],
-        coupler_widths_mmis[2:],
-        coupler_gaps_mmis[2:],
-        taper_functions_mmis[2:],
-        straight_functions_mmis[2:],
-        cross_sections_mmis[2:],
-        delta_lengths[1:],
-        strict=False,
-    ):
-        splitter_settings = dict(
-            width=coupler_widths[1],
-            width_taper=coupler_widths_tapers[1],
-            length_taper=coupler_lengths_tapers[1],
-            length_mmi=coupler_lengths_mmis[1],
-            width_mmi=coupler_widths_mmis[1],
-            gap_mmi=coupler_gaps_mmis[1],
-            taper=taper_functions_mmis[1],
-            straight=straight_functions_mmis[1],
-            cross_section=cross_sections_mmis[1],
-        )
-        combiner_settings = dict(
-            width=coupler_width,
-            width_taper=coupler_width_taper,
-            length_taper=coupler_length_taper,
-            length_mmi=coupler_length_mmi,
-            width_mmi=coupler_width_mmi,
-            gap_mmi=coupler_gap_mmi,
-            taper=taper,
-            straight=straight,
-            cross_section=cross_section,
-        )
-        splitter1 = gf.get_component(splitter, settings=None, **splitter_settings)
-        combiner1 = gf.get_component(splitter, settings=None, **combiner_settings)
-
-        stage = c << gf.get_component(
-            mzi,
-            splitter=splitter1,
-            combiner=combiner1,
-            with_splitter=False,
-            delta_length=delta_length,
-            **kwargs,
-        )
-        splitter_settings = combiner_settings
-
-        stages.append(stage)
-        c.add_ports(stage.ports.filter(port_type="electrical"))
-
-    for stage in stages:
-        stage.connect("o1", sprevious.ports["o4"])
-        # stage.connect('o2', sprevious.ports['o1'])
-        sprevious = stage
-
-    for port in cp1.ports.filter(orientation=180, port_type="optical"):
-        c.add_port(port.name, port=port)
-
-    for port in sprevious.ports.filter(orientation=0, port_type="optical"):
-        c.add_port(f"o_{port.name}", port=port)
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    c.auto_rename_ports()
-    return c
