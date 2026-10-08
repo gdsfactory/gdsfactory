@@ -3,7 +3,8 @@ from typing import Any
 
 import pytest
 
-from gdsfactory.difftest import DiffResult, diff
+import gdsfactory as gf
+from gdsfactory.difftest import DiffResult, diff, difftest
 
 
 def assert_xor_fails(
@@ -141,5 +142,34 @@ def test_diff_missing_layer(tmp_path: Path) -> None:
     assert layer.ref_area > 0
     assert layer.polygon_count_run == 0
     assert layer.polygon_count_ref == 1
+
+    gf.clear_cache()
+
+
+def test_difftest_does_not_modify_cached_components(tmp_path: Path) -> None:
+    """A geometry comparison does not copy reference cells into the active layout."""
+
+    def comparison_cell(length: float) -> gf.Component:
+        c = gf.Component(name="comparison_cell")
+        straight = c << gf.components.straight(length=length)
+        c.add_port(port=straight.ports["o1"])
+        return c
+
+    comparison_cell(length=10).write_gds(tmp_path / "comparison_cell.gds")
+    gf.clear_cache()
+
+    component = comparison_cell(length=10.002)
+    cells_before = gf.kcl.cells()
+
+    difftest(
+        component=component,
+        test_name="comparison_cell",
+        dirpath=tmp_path,
+        dirpath_run=tmp_path / "run",
+        ignore_sliver_differences=True,
+    )
+
+    assert gf.kcl.cells() == cells_before
+    assert gf.components.straight().ports["o1"].name == "o1"
 
     gf.clear_cache()
