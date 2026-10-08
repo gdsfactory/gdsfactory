@@ -181,3 +181,7 @@ Classes and functions for construction and manipulation of geometric objects.
 ## Netlist
 
 ::: gdsfactory.get_netlist.get_netlist
+
+## Diffing
+
+::: gdsfactory.difftest
