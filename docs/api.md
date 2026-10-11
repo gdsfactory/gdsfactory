@@ -189,3 +189,7 @@ extrusion options.
 ## Netlist
 
 ::: gdsfactory.get_netlist.get_netlist
+
+## Diffing
+
+::: gdsfactory.difftest
