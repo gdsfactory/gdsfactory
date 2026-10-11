@@ -26,9 +26,8 @@ def test_route_bundle(
             Port(
                 name=f"top_{i}",
                 center=(xs_top[i], 0),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -37,9 +36,8 @@ def test_route_bundle(
             Port(
                 name=f"bot_{i}",
                 center=(xs_bottom[i], -400),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -74,9 +72,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TR_{i}",
                 center=(d, a / 2 + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -85,9 +82,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TL_{i}",
                 center=(-d, a / 2 + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -96,9 +92,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BR_{i}",
                 center=(d, -a / 2 - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -107,9 +102,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BL_{i}",
                 center=(-d, -a / 2 - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -120,9 +114,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TR_{i}",
                 center=(a / 2 + i * sep, d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -131,9 +124,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TL_{i}",
                 center=(-a / 2 - i * sep, d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -142,9 +134,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BR_{i}",
                 center=(a / 2 + i * sep, -d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -153,9 +144,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BL_{i}",
                 center=(-a / 2 - i * sep, -d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -168,9 +158,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TR_{i}",
                 center=(a, d + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -179,9 +168,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TL_{i}",
                 center=(-a, d + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -190,9 +178,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BR_{i}",
                 center=(a, -d - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -201,9 +188,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BL_{i}",
                 center=(-a, -d - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -214,9 +200,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TR_{i}",
                 center=(d + i * sep, a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -225,9 +210,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TL_{i}",
                 center=(-d - i * sep, a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -236,9 +220,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BR_{i}",
                 center=(d + i * sep, -a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -247,9 +230,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BL_{i}",
                 center=(-d - i * sep, -a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -295,9 +277,8 @@ def test_route_bundle_udirect(
             Port(
                 name=f"top_{i}",
                 center=(0, xs1[i]),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=angle,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -305,9 +286,8 @@ def test_route_bundle_udirect(
             Port(
                 name=f"bot_{i}",
                 center=(dy, xs2[i]),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=angle,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -317,9 +297,8 @@ def test_route_bundle_udirect(
             Port(
                 name=f"top_{i}",
                 center=(xs1[i], 0),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=angle,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -327,9 +306,8 @@ def test_route_bundle_udirect(
             Port(
                 name=f"bot_{i}",
                 center=(xs2[i], dy),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=angle,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -375,9 +353,8 @@ def test_route_bundle_u_indirect(
             Port(
                 name=f"top_{i}",
                 center=(0, xs1[i]),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=a1,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -385,9 +362,8 @@ def test_route_bundle_u_indirect(
             Port(
                 name=f"bot_{i}",
                 center=(dy, xs2[i]),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=a2,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -397,9 +373,8 @@ def test_route_bundle_u_indirect(
             Port(
                 name=f"top_{i}",
                 center=(xs1[i], 0),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=a1,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -407,9 +382,8 @@ def test_route_bundle_u_indirect(
             Port(
                 name=f"bot_{i}",
                 center=(xs2[i], dy),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=a2,
-                layer=layer,
             )
             for i in range(N)
         ]
@@ -449,7 +423,10 @@ def test_facing_ports(
 
     ports1 = [
         Port(
-            name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=layer
+            name=f"top_{i}",
+            center=(xs1[i], +0),
+            cross_section=gf.cross_section.strip(width=0.5, layer=layer),
+            orientation=a1,
         )
         for i in range(N)
     ]
@@ -457,9 +434,8 @@ def test_facing_ports(
         Port(
             name=f"bot_{i}",
             center=(xs2[i], 200),
-            width=0.5,
+            cross_section=gf.cross_section.strip(width=0.5, layer=layer),
             orientation=a2,
-            layer=layer,
         )
         for i in range(N)
     ]

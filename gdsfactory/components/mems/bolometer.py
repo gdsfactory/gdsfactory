@@ -2,9 +2,8 @@ from __future__ import annotations
 
 __all__ = ["bolometer"]
 
-import numpy as np
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -37,156 +36,17 @@ def bolometer(
         layer: layer spec.
         port_type: port type for electrical ports.
     """
-    c = Component()
-
-    ahw = absorber_width / 2
-    ahl = absorber_length / 2
-
-    # Central absorber rectangle centered at origin
-    c.add_polygon(
-        [
-            (-ahl, -ahw),
-            (ahl, -ahw),
-            (ahl, ahw),
-            (-ahl, ahw),
-        ],
+    return cf.bolometer(
+        absorber_width=absorber_width,
+        absorber_length=absorber_length,
+        leg_width=leg_width,
+        leg_length=leg_length,
+        n_legs=n_legs,
+        pad_width=pad_width,
+        pad_length=pad_length,
         layer=layer,
+        port_type=port_type,
     )
-
-    # Distribute legs around the absorber perimeter
-    # Place legs at evenly spaced angles
-    lhw = leg_width / 2
-
-    for i in range(n_legs):
-        angle = 2 * np.pi * i / n_legs
-        cos_a = np.cos(angle)
-        sin_a = np.sin(angle)
-
-        # Determine attachment point on absorber edge
-        # Find which edge the ray from center at this angle hits first
-        if abs(cos_a) < 1e-10:
-            # Vertical ray
-            attach_x = 0.0
-            attach_y = ahw * np.sign(sin_a)
-        elif abs(sin_a) < 1e-10:
-            # Horizontal ray
-            attach_x = ahl * np.sign(cos_a)
-            attach_y = 0.0
-        else:
-            # Check intersection with vertical edges (x = +/-ahl)
-            tx = ahl / abs(cos_a)
-            # Check intersection with horizontal edges (y = +/-ahw)
-            ty = ahw / abs(sin_a)
-            if tx < ty:
-                attach_x = ahl * np.sign(cos_a)
-                attach_y = tx * sin_a
-            else:
-                attach_x = ty * cos_a
-                attach_y = ahw * np.sign(sin_a)
-
-        # L-shaped leg: first segment goes outward radially, second goes
-        # along the tangential direction. For simplicity, use straight legs
-        # going outward from attachment point.
-
-        # Determine primary direction (outward from center)
-        # Use the dominant axis for the leg direction
-        if abs(cos_a) >= abs(sin_a):
-            # Horizontal leg
-            sign_x = np.sign(cos_a)
-            leg_end_x = attach_x + sign_x * leg_length
-            leg_end_y = attach_y
-
-            # Horizontal leg segment
-            x0 = attach_x
-            x1 = leg_end_x
-            if x0 > x1:
-                x0, x1 = x1, x0
-
-            c.add_polygon(
-                [
-                    (x0, attach_y - lhw),
-                    (x1, attach_y - lhw),
-                    (x1, attach_y + lhw),
-                    (x0, attach_y + lhw),
-                ],
-                layer=layer,
-            )
-
-            # Pad at end of leg
-            pad_cx = leg_end_x + sign_x * pad_length / 2
-            pad_cy = leg_end_y
-            c.add_polygon(
-                [
-                    (pad_cx - pad_length / 2, pad_cy - pad_width / 2),
-                    (pad_cx + pad_length / 2, pad_cy - pad_width / 2),
-                    (pad_cx + pad_length / 2, pad_cy + pad_width / 2),
-                    (pad_cx - pad_length / 2, pad_cy + pad_width / 2),
-                ],
-                layer=layer,
-            )
-
-            # Port at outer edge of pad
-            port_x = pad_cx + sign_x * pad_length / 2
-            c.add_port(
-                f"e{i + 1}",
-                center=(port_x, pad_cy),
-                width=pad_width,
-                orientation=0 if sign_x > 0 else 180,
-                layer=layer,
-                port_type=port_type,
-            )
-        else:
-            # Vertical leg
-            sign_y = np.sign(sin_a)
-            leg_end_x = attach_x
-            leg_end_y = attach_y + sign_y * leg_length
-
-            # Vertical leg segment
-            y0 = attach_y
-            y1 = leg_end_y
-            if y0 > y1:
-                y0, y1 = y1, y0
-
-            c.add_polygon(
-                [
-                    (attach_x - lhw, y0),
-                    (attach_x + lhw, y0),
-                    (attach_x + lhw, y1),
-                    (attach_x - lhw, y1),
-                ],
-                layer=layer,
-            )
-
-            # Pad at end of leg
-            pad_cx = leg_end_x
-            pad_cy = leg_end_y + sign_y * pad_width / 2
-            c.add_polygon(
-                [
-                    (pad_cx - pad_length / 2, pad_cy - pad_width / 2),
-                    (pad_cx + pad_length / 2, pad_cy - pad_width / 2),
-                    (pad_cx + pad_length / 2, pad_cy + pad_width / 2),
-                    (pad_cx - pad_length / 2, pad_cy + pad_width / 2),
-                ],
-                layer=layer,
-            )
-
-            # Port at outer edge of pad
-            port_y = pad_cy + sign_y * pad_width / 2
-            c.add_port(
-                f"e{i + 1}",
-                center=(pad_cx, port_y),
-                width=pad_length,
-                orientation=90 if sign_y > 0 else 270,
-                layer=layer,
-                port_type=port_type,
-            )
-
-    if port_type == "electrical":
-        for p in list(c.ports):
-            if p.name and p.port_type == "electrical":
-                c.create_pin(ports=[p], name=p.name)
-
-    return c
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 info: {}
-name: verniers_gdsfactorypcomponentsppcmspverniers_W0p1_0p2_0_2d122654
+name: verniers_gdsfactorypcomponentsppcmspverniers_W0p1_0p2_0_34c27bd8
 settings:
-  cross_section: strip_no_ports
+  cross_section: strip
   gap: 0.1
   layer_label: TEXT
   straight: straight

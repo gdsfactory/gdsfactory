@@ -1,27 +1,26 @@
 from __future__ import annotations
 
-__all__ = ["grating_coupler_dual_pol"]
-
-import numpy as np
+__all__ = ["grating_coupler_dual_pol", "grating_coupler_dual_pol_unit_cell"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 from .._schematic import grating_coupler_schematic
+from ..shapes.rectangle import rectangle
 
-
-def _unit_cell() -> gf.Component:
-    return gf.components.rectangle(
-        size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None
-    )
+grating_coupler_dual_pol_unit_cell = CellAlias(
+    rectangle, size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None
+)
 
 
 @gf.cell_with_module_name(
     schematic_function=grating_coupler_schematic, tags=["grating_couplers"]
 )
 def grating_coupler_dual_pol(
-    unit_cell: ComponentSpec = _unit_cell,
+    unit_cell: ComponentSpec = "grating_coupler_dual_pol_unit_cell",
     period_x: float = 0.58,
     period_y: float = 0.58,
     x_span: float = 11,
@@ -86,62 +85,17 @@ def grating_coupler_dual_pol(
     ```
 
     """
-    xs = gf.get_cross_section(cross_section)
-    wg_width = xs.width
-    layer = xs.layer
-
-    c = Component()
-
-    _ = c << gf.c.rectangle(
-        size=(x_span, y_span), layer=base_layer, centered=True, port_type=None
-    )
-
-    # Photonic crystal
-    num_x = int(np.floor(x_span / period_x))
-    num_y = int(np.floor(y_span / period_y))
-    x_start = -(num_x * period_x) / 2
-    y_start = -(num_y * period_y) / 2
-
-    unit_cell_grating = gf.get_component(unit_cell)
-    g = c.add_ref(
-        unit_cell_grating,
-        columns=num_x,
-        rows=num_y,
-        column_pitch=period_x,
-        row_pitch=period_y,
-    )
-    g.xmin = x_start
-    g.ymin = y_start
-
-    port_type = f"vertical_{polarization.lower()}"
-    c.add_port(
-        name=port_type,
-        port_type=port_type,
-        center=(0, 0),
-        orientation=0,
-        width=x_span,
-        layer=layer,
-    )
-    c.info["polarization"] = polarization
-    c.info["wavelength"] = wavelength
-    taper = gf.get_component(
-        taper,
-        length=length_taper,
-        width2=width_taper,
-        width1=wg_width,
+    return cf.grating_coupler_dual_pol(
+        unit_cell=unit_cell,
+        period_x=period_x,
+        period_y=period_y,
+        x_span=x_span,
+        y_span=y_span,
+        length_taper=length_taper,
+        width_taper=width_taper,
+        polarization=polarization,
+        wavelength=wavelength,
+        taper=taper,
+        base_layer=base_layer,
         cross_section=cross_section,
     )
-
-    taper1 = c << taper
-    taper1.xmax = -x_span / 2
-    taper1.y = 0
-    c.add_port(port=taper1.ports["o1"], name="o1")
-
-    taper2 = c << taper
-    taper2.rotate(90)
-    taper2.x = 0
-    taper2.ymax = -y_span / 2
-    c.add_port(port=taper2.ports["o1"], name="o2")
-
-    xs.add_bbox(c)
-    return c

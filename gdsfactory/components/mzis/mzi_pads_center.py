@@ -5,6 +5,7 @@ __all__ = ["mzi_pads_center"]
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import ckt_schematic
@@ -59,79 +60,25 @@ def mzi_pads_center(
         auto_taper: add taper if cross_section width is different between mzi and pad.
         kwargs: routing settings.
     """
-    c = gf.Component()
-
-    pad_pitch = gf.get_constant(pad_pitch)
-
-    assert isinstance(pad_pitch, float)
-
-    mzi_ps = gf.get_component(
-        mzi,
+    return cf.mzi_pads_center(
+        ps_top=ps_top,
+        ps_bot=ps_bot,
+        mzi=mzi,
+        pad=pad,
         length_x=length_x,
-        straight_x_top=ps_top,
-        straight_x_bot=ps_bot,
         length_y=length_y,
+        mzi_sig_top=mzi_sig_top,
+        mzi_gnd_top=mzi_gnd_top,
+        mzi_sig_bot=mzi_sig_bot,
+        mzi_gnd_bot=mzi_gnd_bot,
+        pad_sig_bot=pad_sig_bot,
+        pad_sig_top=pad_sig_top,
+        pad_gnd_bot=pad_gnd_bot,
+        pad_gnd_top=pad_gnd_top,
         delta_length=delta_length,
         cross_section=cross_section,
-        auto_rename_ports=False,
+        cross_section_metal=cross_section_metal,
+        pad_pitch=pad_pitch,
+        auto_taper=auto_taper,
+        **kwargs,
     )
-
-    port_names = [p.name for p in mzi_ps.ports]
-    for port_name in [mzi_sig_top, mzi_gnd_top, mzi_sig_bot, mzi_gnd_bot]:
-        if port_name and port_name not in port_names:
-            raise ValueError(f"port {port_name!r} not in {port_names}")
-
-    m = c << mzi_ps
-    pads = c << gf.components.array(
-        component=pad, columns=3, rows=1, column_pitch=pad_pitch
-    )
-    pads.x = m.x
-    pads.y = m.y
-
-    if mzi_sig_top is not None:
-        gf.routing.route_bundle_electrical(
-            c,
-            m.ports[mzi_sig_bot],
-            pads.ports[pad_sig_bot],
-            cross_section=cross_section_metal,
-            auto_taper=auto_taper,
-            **kwargs,
-        )
-
-    if mzi_gnd_bot:
-        gf.routing.route_bundle_electrical(
-            c,
-            m.ports[mzi_gnd_bot],
-            pads.ports[pad_gnd_bot],
-            cross_section=cross_section_metal,
-            auto_taper=auto_taper,
-            **kwargs,
-        )
-
-    if mzi_gnd_top:
-        gf.routing.route_bundle_electrical(
-            c,
-            m.ports[mzi_gnd_top],
-            pads.ports[pad_gnd_top],
-            cross_section=cross_section_metal,
-            auto_taper=auto_taper,
-            **kwargs,
-        )
-
-    if mzi_sig_top:
-        gf.routing.route_bundle_electrical(
-            c,
-            m.ports[mzi_sig_top],
-            pads.ports[pad_sig_top],
-            cross_section=cross_section_metal,
-            auto_taper=auto_taper,
-            **kwargs,
-        )
-
-    c.add_ports(m.ports)
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    return c

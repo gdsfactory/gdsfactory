@@ -2,26 +2,13 @@ from __future__ import annotations
 
 __all__ = ["delay_snake2"]
 
-import warnings
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import spiral_schematic
-from ..containers.component_sequence import component_sequence
-
-diagram = """
-       | length0 | length1 |
-
-                 >---------|
-                           | bend180.length
-       |-------------------|
-       |
-       |------------------->------- |
-                            length2
-       |   delta_length    |        |
-"""
 
 
 @gf.cell_with_module_name(schematic_function=spiral_schematic, tags=["spirals"])
@@ -59,42 +46,12 @@ def delay_snake2(
        |   delta_length    |        |
     ```
     """
-    if n % 2:
-        warnings.warn(f"rounding {n} to {n // 2 * 2}", stacklevel=3)
-        n = n // 2 * 2
-
-    bend180 = gf.get_component(bend180, cross_section=cross_section, width=width)
-
-    delta_length = (length - length0 - length2 - n * bend180.info["length"]) / (n + 1)
-    length1 = delta_length - length0
-    if length1 < 0:
-        raise ValueError(
-            "Snake is too short: either reduce length0, length2, "
-            f"increase the total length, or decrease the number of loops (n = {n}). "
-            f"length1 = {int(length1)}, delta_length = {int(delta_length)}\n" + diagram
-        )
-
-    s1 = gf.components.straight(
-        length=length1, cross_section=cross_section, width=width
+    return cf.delay_snake2(
+        length=length,
+        length0=length0,
+        length2=length2,
+        n=n,
+        bend180=bend180,
+        cross_section=cross_section,
+        width=width,
     )
-    s2 = gf.components.straight(
-        length=length2, cross_section=cross_section, width=width
-    )
-    sd = gf.components.straight(
-        cross_section=cross_section, length=delta_length, width=width
-    )
-
-    symbol_to_component = {
-        "_": (s1, "o1", "o2"),
-        "-": (sd, "o1", "o2"),
-        ")": (bend180, "o2", "o1"),
-        "(": (bend180, "o1", "o2"),
-        ".": (s2, "o1", "o2"),
-    }
-
-    sequence = "_)" + n // 2 * "-(-)"
-    sequence = sequence[:-1]
-    sequence += "."
-    c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
-    c.info["length"] = length
-    return c

@@ -1,7 +1,7 @@
 info: {}
-name: mode_converter_gdsfactorypcomponentspfilterspmode_conve_10a30c65
+name: mode_converter_gdsfactorypcomponentspfilterspmode_conve_67c9cfc7
 settings:
-  bend: Fbend_s_Mgdsfactorypcomponentspbendspbend_s_SS25_3
+  bend: bend_s_mode_converter
   coupler_straight_asymmetric: coupler_straight_asymmetric
   cross_section: strip
   gap: 0.3

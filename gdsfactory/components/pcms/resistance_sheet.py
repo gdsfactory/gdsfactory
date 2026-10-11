@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["resistance_sheet"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Size
 
@@ -32,42 +33,13 @@ def resistance_sheet(
         ohms_per_square: optional sheet resistance to compute info.resistance.
         pad_port_name: port name for the pad.
     """
-    c = Component()
-
-    pad = gf.get_component(pad, size=pad_size)
-    length = pad_pitch - pad_size[0]
-
-    pad1 = c << pad
-    pad2 = c << pad
-    r0 = c << gf.c.compass(
-        size=(length + layer_offsets[0], width + layer_offsets[0]), layer=layers[0]
+    return cf.resistance_sheet(
+        width=width,
+        layers=layers,
+        layer_offsets=layer_offsets,
+        pad=pad,
+        pad_size=pad_size,
+        pad_pitch=pad_pitch,
+        ohms_per_square=ohms_per_square,
+        pad_port_name=pad_port_name,
     )
-
-    for layer, offset in zip(layers[1:], layer_offsets[1:], strict=False):
-        _ = c << gf.c.compass(
-            size=(length + 2 * offset, width + 2 * offset), layer=layer
-        )
-
-    pad1.connect(
-        "e3", r0.ports["e1"], allow_width_mismatch=True, allow_layer_mismatch=True
-    )
-    pad2.connect(
-        "e1", r0.ports["e3"], allow_width_mismatch=True, allow_layer_mismatch=True
-    )
-
-    c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0
-    c.info["length"] = length
-    c.info["width"] = width
-    p1 = c.add_port(
-        name="pad1",
-        port=pad1.ports[pad_port_name],
-    )
-    p2 = c.add_port(
-        name="pad2",
-        port=pad2.ports[pad_port_name],
-    )
-    if p1.port_type == "electrical":
-        c.create_pin(ports=[p1], name="pad1")
-    if p2.port_type == "electrical":
-        c.create_pin(ports=[p2], name="pad2")
-    return c

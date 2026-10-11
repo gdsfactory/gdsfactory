@@ -3,8 +3,8 @@ from __future__ import annotations
 __all__ = ["bend_circular_heater"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.path import arc
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 from .._schematic import bend_schematic
@@ -33,35 +33,13 @@ def bend_circular_heater(
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
-    x = gf.get_cross_section(cross_section)
-    radius = radius or x.radius
-    assert radius is not None
-    width = x.width
-
-    offset = heater_to_wg_distance + width / 2
-    s1 = gf.Section(
-        width=heater_width,
-        offset=+offset,
-        layer=layer_heater,
+    return cf.bend_circular_heater(
+        radius=radius,
+        angle=angle,
+        npoints=npoints,
+        heater_to_wg_distance=heater_to_wg_distance,
+        heater_width=heater_width,
+        layer_heater=layer_heater,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
     )
-    s2 = gf.Section(
-        width=heater_width,
-        offset=-offset,
-        layer=layer_heater,
-    )
-    sections = list(x.sections) + [s1, s2]
-
-    xs = x.copy(sections=tuple(sections))
-    p = arc(radius=radius, angle=angle, npoints=npoints)
-
-    c = Component()
-    path = p.extrude(xs)
-    ref = c << path
-    c.add_ports(ref.ports)
-    c.info["length"] = p.length()
-    c.info["dx"] = float(abs(p.points[0][0] - p.points[-1][0]))
-    c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
-    if not allow_min_radius_violation:
-        x.validate_radius(radius)
-    c.flatten()
-    return c

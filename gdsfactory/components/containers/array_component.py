@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["array"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, PostProcesses, Size
 
@@ -58,43 +59,15 @@ def array(
         |___|      |___|     |___|      |___|
     ```
     """
-    if size:
-        columns = int(size[0] / column_pitch)
-        rows = int(size[1] / row_pitch)
-
-    if rows > 1 and row_pitch == 0:
-        raise ValueError(f"rows = {rows} > 1 require {row_pitch=} > 0")
-
-    if columns > 1 and column_pitch == 0:
-        raise ValueError(f"columns = {columns} > 1 require {column_pitch} > 0")
-
-    c = Component()
-    component = gf.get_component(component)
-    ref = c.add_ref(
-        component,
+    return cf.array(
+        component=component,
         columns=columns,
         rows=rows,
         column_pitch=column_pitch,
         row_pitch=row_pitch,
+        add_ports=add_ports,
+        size=size,
+        centered=centered,
+        post_process=post_process,
+        auto_rename_ports=auto_rename_ports,
     )
-    if centered:
-        ref.center = (0, 0)
-
-    if add_ports and component.ports:
-        for ix in range(ref.na or 1):
-            for iy in range(ref.nb or 1):
-                for port in component.ports:
-                    port = port.copy(ref.trans * gf.kdb.Trans(ix * ref.a + iy * ref.b))
-                    name = f"{port.name}_{iy + 1}_{ix + 1}"
-                    c.add_port(name, port=port)
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    if post_process:
-        for f in post_process:
-            f(c)
-    if auto_rename_ports:
-        c.auto_rename_ports()
-    return c

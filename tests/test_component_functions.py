@@ -1,0 +1,1352 @@
+"""Tests for gf.component_functions and the gf.components cells that wrap them."""
+
+from __future__ import annotations
+
+import contextlib
+import inspect
+from collections.abc import Callable, Iterator
+from functools import partial
+from typing import Any
+
+import pytest
+
+import gdsfactory as gf
+from gdsfactory import component_functions as cf
+from gdsfactory.gpdk import PDK
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, Ints, LayerSpec
+
+MARKER = "DRC_MARKER"
+
+# Parameters a gf.components cell fixes instead of passing through, by cell name.
+FIXED_PARAMETERS: dict[str, set[str]] = {}
+
+component_function_names = sorted(
+    name
+    for name in cf.__all__
+    if inspect.isfunction(getattr(cf, name)) and name != "get_component"
+)
+
+
+@pytest.fixture
+def restore_pdk() -> Iterator[None]:
+    gf.clear_cache()
+    try:
+        yield
+    finally:
+        gf.clear_cache()
+        PDK.activate(force=True)
+
+
+def _activate_pdk(name: str, cells: dict[str, Callable[..., Any]]) -> None:
+    gf.clear_cache()
+    PDK.model_copy(update={"name": name, "cells": cells}).activate(force=True)
+
+
+@gf.cell(basename="marked_straight", register_factory=False)
+def marked_straight(
+    length: float = 10.0,
+    npoints: int = 2,
+    cross_section: CrossSectionSpec = "strip",
+    width: float | None = None,
+    **kwargs: Any,
+) -> gf.Component:
+    c = cf.straight(
+        length=length,
+        npoints=npoints,
+        cross_section=cross_section,
+        width=width,
+        **kwargs,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_taper", register_factory=False)
+def marked_taper(
+    length: float = 10.0,
+    width1: float = 0.5,
+    width2: float | None = None,
+    with_two_ports: bool = True,
+    cross_section: CrossSectionSpec = "strip",
+    port_names: tuple[str, str] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
+) -> gf.Component:
+    c = cf.taper(
+        length=length,
+        width1=width1,
+        width2=width2,
+        with_two_ports=with_two_ports,
+        cross_section=cross_section,
+        port_names=port_names,
+        port_types=port_types,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_edge_coupler_array", register_factory=False)
+def marked_edge_coupler_array(**kwargs: Any) -> gf.Component:
+    c = cf.edge_coupler_array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_bezier", register_factory=False)
+def marked_bezier(
+    control_points: tuple[tuple[float, float], ...] = (
+        (0.0, 0.0),
+        (5.0, 0.0),
+        (5.0, 1.8),
+        (10.0, 1.8),
+    ),
+    npoints: int = 201,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+    width: float | None = None,
+) -> gf.Component:
+    c = cf.bezier(
+        control_points=control_points,
+        npoints=npoints,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+        width=width,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_optimal_hairpin", register_factory=False)
+def marked_optimal_hairpin(
+    width: float = 0.2,
+    pitch: float = 0.6,
+    length: float = 10,
+    turn_ratio: float = 4,
+    num_pts: int = 50,
+    layer: LayerSpec = (1, 0),
+) -> gf.Component:
+    c = cf.optimal_hairpin(
+        width=width,
+        pitch=pitch,
+        length=length,
+        turn_ratio=turn_ratio,
+        num_pts=num_pts,
+        layer=layer,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_pad", register_factory=False)
+def marked_pad(
+    size: tuple[float, float] = (100.0, 100.0),
+    layer: str = "MTOP",
+    port_orientation: float | None = 0,
+    port_orientations: tuple[int, ...] | None = (180, 90, 0, -90),
+) -> gf.Component:
+    c = cf.pad(
+        size=size,
+        layer=layer,
+        port_orientation=port_orientation,
+        port_orientations=port_orientations,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_pixel_array", register_factory=False)
+def marked_pixel_array(
+    pixels: str = gf.components.character_a,
+    pixel_size: float = 10.0,
+    layer: LayerSpec = "M1",
+) -> gf.Component:
+    c = cf.pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_compass", register_factory=False)
+def marked_compass(
+    size: tuple[float, float] = (4.0, 2.0),
+    layer: LayerSpec = "WG",
+    port_type: str | None = "electrical",
+    port_inclusion: float = 0.0,
+    port_orientations: Ints | None = (180, 90, 0, -90),
+    auto_rename_ports: bool = True,
+) -> gf.Component:
+    c = cf.compass(
+        size=size,
+        layer=layer,
+        port_type=port_type,
+        port_inclusion=port_inclusion,
+        port_orientations=port_orientations,
+        auto_rename_ports=auto_rename_ports,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_triangle", register_factory=False)
+def marked_triangle(
+    x: float = 10,
+    xtop: float = 0,
+    y: float = 20,
+    ybot: float = 0,
+    layer: LayerSpec = "WG",
+) -> gf.Component:
+    c = cf.triangle(x=x, xtop=xtop, y=y, ybot=ybot, layer=layer)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_via", register_factory=False)
+def marked_via(
+    size: tuple[float, float] = (0.7, 0.7),
+    enclosure: float = 1.0,
+    layer: LayerSpec = "VIAC",
+    pitch: float = 2,
+) -> gf.Component:
+    c = cf.via(size=size, enclosure=enclosure, layer=layer, pitch=pitch)
+    # Inside the via, so the via bbox (used to place the via array) is unchanged.
+    c.add_polygon([(-0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_grating_coupler_elliptical_arbitrary", register_factory=False)
+def marked_grating_coupler_elliptical_arbitrary(**kwargs: Any) -> gf.Component:
+    c = cf.grating_coupler_elliptical_arbitrary(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_straight_array", register_factory=False)
+def marked_straight_array(**kwargs: Any) -> gf.Component:
+    c = cf.straight_array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_free_propagation_region", register_factory=False)
+def marked_free_propagation_region(**kwargs: Any) -> gf.Component:
+    c = cf.free_propagation_region(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_dbr_cell", register_factory=False)
+def marked_dbr_cell(**kwargs: Any) -> gf.Component:
+    c = cf.dbr_cell(**kwargs)
+    c.add_polygon([(0, 0), (0.1, 0), (0.1, 0.1), (0, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_circle", register_factory=False)
+def marked_circle(**kwargs: Any) -> gf.Component:
+    c = cf.circle(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_rectangle", register_factory=False)
+def marked_rectangle(**kwargs: Any) -> gf.Component:
+    c = cf.rectangle(**kwargs)
+    c.add_polygon([(0, 0), (0.1, 0), (0.1, 0.1), (0, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_text", register_factory=False)
+def marked_text(**kwargs: Any) -> gf.Component:
+    c = cf.text(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_array", register_factory=False)
+def marked_array(**kwargs: Any) -> gf.Component:
+    c = cf.array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_grating_coupler_array", register_factory=False)
+def marked_grating_coupler_array(**kwargs: Any) -> gf.Component:
+    c = cf.grating_coupler_array(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_die_frame_phix", register_factory=False)
+def marked_die_frame_phix(**kwargs: Any) -> gf.Component:
+    c = cf.die_frame_phix(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_taper_cross_section", register_factory=False)
+def marked_taper_cross_section(**kwargs: Any) -> gf.Component:
+    c = cf.taper_cross_section(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_bend_euler", register_factory=False)
+def marked_bend_euler(
+    radius: float | None = None,
+    angle: float = 90.0,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int | None = None,
+    angular_step: float | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+) -> gf.Component:
+    c = cf.bend_euler(
+        radius=radius,
+        angle=angle,
+        p=p,
+        with_arc_floorplan=with_arc_floorplan,
+        npoints=npoints,
+        angular_step=angular_step,
+        layer=layer,
+        width=width,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_bend_circular", register_factory=False)
+def marked_bend_circular(
+    radius: float | None = None,
+    angle: float = 90.0,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+) -> gf.Component:
+    c = cf.bend_circular(
+        radius=radius,
+        angle=angle,
+        width=width,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_coupler_symmetric", register_factory=False)
+def marked_coupler_symmetric(
+    bend: ComponentSpec = "bend_s",
+    gap: float = 0.234,
+    dy: Delta = 4.0,
+    dx: Delta = 10.0,
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
+) -> gf.Component:
+    c = cf.coupler_symmetric(
+        bend=bend,
+        gap=gap,
+        dy=dy,
+        dx=dx,
+        cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
+    )
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_pixel", register_factory=False)
+def marked_pixel(size: int = 1, layer: LayerSpec = "WG") -> gf.Component:
+    c = cf.pixel(size=size, layer=layer)
+    c.add_polygon([(0, 0), (0.1, 0), (0.1, 0.1), (0, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_via3", register_factory=False)
+def marked_via3(**kwargs: Any) -> gf.Component:
+    c = cf.via3(**kwargs)
+    # Inside the via, so the via bbox (used to place the via array) is unchanged.
+    c.add_polygon([(-0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, 0.1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_inductor", register_factory=False)
+def marked_inductor(**kwargs: Any) -> gf.Component:
+    c = cf.inductor(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+@gf.cell(basename="marked_transformer_concentric_secondary", register_factory=False)
+def marked_transformer_concentric_secondary(**kwargs: Any) -> gf.Component:
+    c = cf.transformer_concentric_secondary(**kwargs)
+    c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
+    return c
+
+
+def _has_marker(c: gf.Component) -> bool:
+    return not c.kdb_cell.bbox(gf.get_layer(MARKER)).empty()
+
+
+@pytest.mark.parametrize("name", component_function_names)
+def test_cell_matches_component_function(name: str) -> None:
+    """Each gf.components cell re-exposes its component function's arguments."""
+    function = getattr(cf, name)
+    cell = getattr(gf.components, name)
+    fixed = FIXED_PARAMETERS.get(name, set())
+
+    function_signature = inspect.signature(function)
+    cell_signature = inspect.signature(cell)
+    expected = [
+        p for p in function_signature.parameters.values() if p.name not in fixed
+    ]
+    assert list(cell_signature.parameters.values()) == expected
+    assert cell_signature.return_annotation == function_signature.return_annotation
+    if not fixed:
+        assert inspect.getdoc(cell) == inspect.getdoc(function)
+
+
+def test_component_functions_are_not_cached() -> None:
+    assert cf.straight() is not cf.straight()
+    assert gf.components.straight() is gf.components.straight()
+
+
+def test_component_functions_not_registered_as_pdk_cells() -> None:
+    functions = {getattr(cf, name) for name in component_function_names}
+    assert functions.isdisjoint(gf.get_active_pdk().cells.values())
+
+
+def test_pdk_override_applies_inside_components(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.mmi1x2())
+    assert not _has_marker(gf.components.mzi())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # mmi1x2 used to default to gf.components.straight, bypassing the PDK.
+    assert _has_marker(gf.components.mmi1x2())
+    assert _has_marker(gf.components.mzi())
+    assert _has_marker(gf.components.straight_array())
+
+
+def test_fallback_to_gf_components_warns(restore_pdk: None) -> None:
+    _activate_pdk("missing_taper", {k: v for k, v in PDK.cells.items() if k != "taper"})
+
+    with pytest.warns(cf.ComponentFallbackWarning, match="'taper' is not in PDK"):
+        c = gf.components.mmi1x2()
+    assert {p.name for p in c.ports} == {"o1", "o2", "o3"}
+
+    with pytest.warns(cf.ComponentFallbackWarning):
+        taper = cf.get_component(
+            {"component": "taper", "settings": {"length": 5}}, width2=2
+        )
+    assert taper.info["length"] == 5
+    assert taper.info["width2"] == 2
+
+
+def test_get_component_takes_component_setting() -> None:
+    """Containers can get their own ``component`` setting as a keyword."""
+    c = cf.get_component("array", component="straight", columns=2)
+    assert c.settings["component"] == "straight"
+    assert c.settings["columns"] == 2
+
+
+@pytest.mark.parametrize("fallback", [False, True])
+def test_get_component_settings_precedence(restore_pdk: None, fallback: bool) -> None:
+    """Spec settings, then kwargs, then settings, with or without fallback."""
+    if fallback:
+        _activate_pdk(
+            "missing_taper", {k: v for k, v in PDK.cells.items() if k != "taper"}
+        )
+        warns = pytest.warns(cf.ComponentFallbackWarning)
+    else:
+        warns = contextlib.nullcontext()
+    spec = {"component": "taper", "settings": {"length": 5, "width2": 2}}
+
+    with warns:
+        taper = cf.get_component(spec, length=7)
+    assert taper.info["length"] == 7
+    assert taper.info["width2"] == 2
+
+    with warns:
+        taper = cf.get_component(spec, settings={"length": 9}, length=7)
+    assert taper.info["length"] == 9
+
+
+def test_unknown_component_raises() -> None:
+    with pytest.raises(ValueError, match="not in PDK"):
+        cf.get_component("does_not_exist")
+
+
+def test_pdk_override_applies_inside_mzis(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.mzi_lattice())
+    assert not _has_marker(gf.components.mzi_lattice_mmi())
+    assert not _has_marker(gf.components.mzi_pads_center())
+    assert not _has_marker(gf.components.mzit())
+    assert not _has_marker(gf.components.mzit_lattice())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    assert _has_marker(gf.components.mzi_lattice())
+    assert _has_marker(gf.components.mzi_lattice_mmi())
+    assert _has_marker(gf.components.mzi_pads_center())
+    assert _has_marker(gf.components.mzit())
+    assert _has_marker(gf.components.mzit_lattice())
+
+
+def test_pdk_override_applies_inside_mmis(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.mmi())
+    assert not _has_marker(gf.components.mmi1x2_with_sbend())
+    assert not _has_marker(gf.components.mmi2x2())
+    assert not _has_marker(gf.components.mmi_90degree_hybrid())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # mmi2x2 used to default to gf.components.straight and mmi1x2_with_sbend
+    # called it directly, bypassing the PDK.
+    assert _has_marker(gf.components.mmi())
+    assert _has_marker(gf.components.mmi1x2_with_sbend())
+    assert _has_marker(gf.components.mmi2x2())
+    assert _has_marker(gf.components.mmi_90degree_hybrid())
+
+
+def test_pdk_override_applies_inside_bends(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.bend_s())
+    assert not _has_marker(gf.components.bend_s(size=(10, 0)))
+
+    _activate_pdk(
+        "override_bends",
+        {**PDK.cells, "bezier": marked_bezier, "straight": marked_straight},
+    )
+
+    # bend_s used to call bezier and gf.components.straight directly.
+    assert _has_marker(gf.components.bend_s())
+    assert _has_marker(gf.components.bend_s(size=(10, 0)))
+
+
+def test_pdk_override_applies_inside_tapers(restore_pdk: None) -> None:
+    assert not _has_marker(
+        gf.components.taper_cross_section(
+            cross_section1="strip", cross_section2="strip"
+        )
+    )
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # taper_cross_section used to call gf.components.straight directly.
+    assert _has_marker(
+        gf.components.taper_cross_section(
+            cross_section1="strip", cross_section2="strip"
+        )
+    )
+
+
+def test_pdk_override_applies_inside_waveguides(restore_pdk: None) -> None:
+    names = [
+        "straight_heater_doped_rib",
+        "straight_heater_meander",
+        "straight_heater_meander_doped",
+        "straight_heater_metal",
+        "straight_heater_metal_simple",
+        "straight_pin",
+        "straight_pin_slot",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_cached_component_sequence_is_not_modified(restore_pdk: None) -> None:
+    """straight_heater_metal_undercut works when a PDK caches its sequence."""
+    cached = gf.cell(
+        gf.components.component_sequence,
+        basename="cached_component_sequence",
+        register_factory=False,
+    )
+    _activate_pdk("cached_sequence", {**PDK.cells, "component_sequence": cached})
+
+    c = gf.components.straight_heater_metal_undercut()
+    assert {"l_e1", "r_e1"} <= {p.name for p in c.ports}
+
+
+def test_pdk_override_applies_inside_detectors(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.ge_detector_straight_si_contacts())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # ge_detector_straight_si_contacts used to call gf.components.straight
+    # directly.
+    assert _has_marker(gf.components.ge_detector_straight_si_contacts())
+
+
+def test_pdk_override_applies_inside_edge_couplers(restore_pdk: None) -> None:
+    names = [
+        "edge_coupler_silicon",
+        "edge_coupler_array",
+        "edge_coupler_array_with_loopback",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_taper", {**PDK.cells, "taper": marked_taper})
+
+    # edge_coupler_silicon used to call gf.components.taper directly.
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_edge_coupler_array",
+        {**PDK.cells, "edge_coupler_array": marked_edge_coupler_array},
+    )
+
+    # edge_coupler_array_with_loopback used to call edge_coupler_array directly.
+    assert _has_marker(gf.components.edge_coupler_array_with_loopback())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    assert _has_marker(gf.components.edge_coupler_array_with_loopback())
+
+
+def test_pdk_override_applies_inside_superconductors(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.snspd())
+
+    _activate_pdk(
+        "override_optimal_hairpin",
+        {**PDK.cells, "optimal_hairpin": marked_optimal_hairpin},
+    )
+
+    # snspd used to call optimal_hairpin and gf.c.compass directly.
+    assert _has_marker(gf.components.snspd())
+
+
+def test_pdk_override_applies_inside_pads(restore_pdk: None) -> None:
+    pad_names = ["pad_array", "pad_gsg_short", "pads_shorted"]
+    straight_names = ["pad_gs", "pad_gsg"]
+    for name in pad_names + straight_names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_pads",
+        {**PDK.cells, "pad": marked_pad, "straight": marked_straight},
+    )
+
+    # pad_gs and pad_gsg used to call gf.c.straight directly.
+    for name in pad_names + straight_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_pdk_override_applies_inside_texts(restore_pdk: None) -> None:
+    names = ["text_lines", "text_rectangular", "text_rectangular_multi_layer"]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_pixel_array", {**PDK.cells, "pixel_array": marked_pixel_array}
+    )
+
+    # text_rectangular used to call pixel_array directly and text_lines
+    # called gf.c.text_rectangular.
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_pdk_override_applies_inside_shapes(restore_pdk: None) -> None:
+    components: dict[str, Callable[[], gf.Component]] = {
+        "rectangle": gf.components.rectangle,
+        "rectangles": gf.components.rectangles,
+        "cross": gf.components.cross,
+        "fiducial_squares": gf.components.fiducial_squares,
+        "nxn": gf.components.nxn,
+        "rect_su_shape": lambda: gf.components.rect_su_shape(L1=-10),
+        "triangle2": gf.components.triangle2,
+        "triangle4": gf.components.triangle4,
+    }
+    for name, component in components.items():
+        assert not _has_marker(component()), name
+
+    _activate_pdk(
+        "override_shapes",
+        {**PDK.cells, "compass": marked_compass, "triangle": marked_triangle},
+    )
+
+    # These used to call rectangle, compass and triangle directly.
+    for name, component in components.items():
+        assert _has_marker(component()), name
+
+
+def test_pdk_override_applies_inside_vias(restore_pdk: None) -> None:
+    names = [
+        "via_chain",
+        "via_corner",
+        "via_stack",
+        "via_stack_corner45",
+        "via_stack_corner45_extended",
+        "via_stack_with_offset",
+    ]
+    for name in names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    # via1, via2 and viac are aliases of via, so overriding via reaches them.
+    _activate_pdk("override_via", {**PDK.cells, "via": marked_via})
+
+    for name in names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_cell_alias_matches_partial() -> None:
+    """A CellAlias serializes, names its cells and shows its signature like a partial."""
+    from gdsfactory.serialization import clean_value_json
+
+    alias = cf.CellAlias(gf.components.via, layer="VIA1")
+    plain = partial(gf.components.via, layer="VIA1")
+
+    assert inspect.signature(alias) == inspect.signature(plain)
+    assert clean_value_json(alias) == clean_value_json(plain)
+    assert alias() is plain()
+
+
+def test_cell_alias_of_alias_is_flattened() -> None:
+    alias = cf.CellAlias(gf.components.via1, size=(1, 1))
+    assert alias.func is gf.components.via
+    assert alias.keywords == {**gf.components.via1.keywords, "size": (1, 1)}
+
+
+def test_cell_alias_takes_keywords_only() -> None:
+    with pytest.raises(TypeError):
+        cf.CellAlias(gf.components.via, (1, 1))
+    with pytest.raises(TypeError):
+        gf.components.via1((1, 1))
+
+
+def test_cell_alias_resolves_base_cell_by_name(restore_pdk: None) -> None:
+    assert not _has_marker(gf.components.via1())
+
+    _activate_pdk("override_via", {**PDK.cells, "via": marked_via})
+
+    assert _has_marker(gf.components.via1())
+    assert _has_marker(gf.components.via_stack_m2_m3())
+    assert gf.components.via1().settings["layer"] == "VIA1"
+
+
+def test_partials_of_cells_are_cell_aliases() -> None:
+    """Every partial of a cell in gf.components is a CellAlias."""
+    cells = gf.get_active_pdk().cells
+    plain = sorted(
+        name
+        for name, cell in cells.items()
+        if isinstance(cell, partial) and not isinstance(cell, cf.CellAlias)
+    )
+    assert not plain
+
+
+def test_pdk_override_applies_inside_grating_couplers(restore_pdk: None) -> None:
+    taper_names = [
+        "grating_coupler_dual_pol",
+        "grating_coupler_elliptical_trenches",
+        "grating_coupler_rectangular",
+        "grating_coupler_rectangular_arbitrary",
+    ]
+    compass_names = ["grating_coupler_dual_pol", "grating_coupler_rectangular"]
+    arbitrary_names = [
+        "grating_coupler_elliptical_lumerical",
+        "grating_coupler_elliptical_uniform",
+    ]
+    for name in {*taper_names, *compass_names, *arbitrary_names}:
+        assert not _has_marker(getattr(gf.components, name)()), name
+    assert not _has_marker(gf.components.grating_coupler_tree())
+
+    _activate_pdk("override_taper", {**PDK.cells, "taper": marked_taper})
+
+    # grating_coupler_rectangular_arbitrary used to call taper directly.
+    for name in taper_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_compass", {**PDK.cells, "compass": marked_compass})
+
+    # grating_coupler_dual_pol and grating_coupler_rectangular used to call
+    # gf.c.rectangle directly.
+    for name in compass_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_grating_coupler_elliptical_arbitrary",
+        {
+            **PDK.cells,
+            "grating_coupler_elliptical_arbitrary": (
+                marked_grating_coupler_elliptical_arbitrary
+            ),
+        },
+    )
+
+    # These used to call grating_coupler_elliptical_arbitrary directly.
+    for name in arbitrary_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_straight_array",
+        {**PDK.cells, "straight_array": marked_straight_array},
+    )
+
+    # grating_coupler_tree used to call gf.c.straight_array directly.
+    assert _has_marker(gf.components.grating_coupler_tree())
+
+
+def test_pdk_override_applies_inside_rings(restore_pdk: None) -> None:
+    straight_components: dict[str, Callable[[], gf.Component]] = {
+        name: getattr(gf.components, name)
+        for name in [
+            "coupler_ring_bend",
+            "disk",
+            "disk_heater",
+            "ring_asymmetric",
+            "ring_crow",
+            "ring_double",
+            "ring_double_heater",
+            "ring_single",
+            "ring_single_array",
+            "ring_single_bend_coupler",
+            "ring_single_dut",
+        ]
+    }
+    # The marker makes the half rings taller, so leave room between them.
+    straight_components["ring_double_bend_coupler"] = lambda: (
+        gf.components.ring_double_bend_coupler(length_y=4)
+    )
+    via_names = [
+        "disk_heater",
+        "ring_double_heater",
+        "ring_double_pn",
+        "ring_single_pn",
+    ]
+    for name, component in straight_components.items():
+        assert not _has_marker(component()), name
+    for name in via_names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # disk, ring_crow, ring_single_array, ring_single_dut and the bend coupler
+    # rings used to call gf.c.straight directly, ring_crow called
+    # ring_asymmetric directly and ring_single_bend_coupler called
+    # coupler_ring_bend directly.
+    for name, component in straight_components.items():
+        assert _has_marker(component()), name
+
+    _activate_pdk("override_via", {**PDK.cells, "via": marked_via})
+
+    for name in via_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+
+def test_pdk_override_applies_inside_containers(restore_pdk: None) -> None:
+    straight_components: dict[str, Callable[[], gf.Component]] = {
+        "array": lambda: gf.components.array(component="straight"),
+        "array_hexagonal": lambda: gf.components.array_hexagonal(
+            component="straight", columns=2, rows=2
+        ),
+        "array_polar": lambda: gf.components.array_polar(component="straight"),
+        "extend_ports": lambda: gf.components.extend_ports(component="taper"),
+        "extend_ports_list": lambda: gf.components.extend_ports_list(
+            component_spec="taper", extension="straight"
+        ),
+        "pack_doe": gf.components.pack_doe,
+        "pack_doe_grid": gf.components.pack_doe_grid,
+        "splitter_chain": gf.components.splitter_chain,
+        "splitter_tree": gf.components.splitter_tree,
+        "switch_tree": gf.components.switch_tree,
+    }
+    components: dict[str, Callable[[], gf.Component]] = {
+        **straight_components,
+        "add_fiber_array_optical_south_electrical_north": (
+            gf.components.add_fiber_array_optical_south_electrical_north
+        ),
+        "add_termination": gf.components.add_termination,
+    }
+    for name, component in components.items():
+        assert not _has_marker(component()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # extend_ports used to call gf.components.straight directly.
+    for name, component in straight_components.items():
+        assert _has_marker(component()), name
+
+    _activate_pdk("override_bezier", {**PDK.cells, "bezier": marked_bezier})
+
+    # splitter_tree resolves its bend_s by name.
+    assert _has_marker(gf.components.splitter_tree())
+
+    _activate_pdk("override_taper", {**PDK.cells, "taper": marked_taper})
+
+    # add_termination used to default to a private alias of taper.
+    assert _has_marker(gf.components.add_termination())
+
+    _activate_pdk("override_pad", {**PDK.cells, "pad": marked_pad})
+
+    # add_fiber_array_optical_south_electrical_north used to call
+    # gf.components.array directly.
+    assert _has_marker(gf.components.add_fiber_array_optical_south_electrical_north())
+
+
+@pytest.mark.parametrize("name", ["pack_doe", "pack_doe_grid"])
+def test_doe_of_cell_with_settings_parameter(name: str) -> None:
+    """A DOE can sweep the ``settings`` parameter of its cell, e.g. pack_doe."""
+    lengths = [5.0, 7.0]
+    c = getattr(gf.components, name)(
+        doe="pack_doe",
+        settings={"settings": [{"length": [length]} for length in lengths]},
+    )
+    assert c.info["doe_names"] == [
+        gf.components.pack_doe(settings={"length": [length]}).name for length in lengths
+    ]
+
+
+def test_pdk_override_applies_inside_filters(restore_pdk: None) -> None:
+    overrides: dict[str, tuple[Callable[..., Any], list[str]]] = {
+        "straight": (
+            marked_straight,
+            ["dbr", "dbr_cell", "dbr_tapered", "loop_mirror"],
+        ),
+        "taper": (
+            marked_taper,
+            ["dbr_tapered", "mode_converter", "polarization_splitter_rotator"],
+        ),
+        "free_propagation_region": (marked_free_propagation_region, ["awg"]),
+        "dbr_cell": (marked_dbr_cell, ["dbr"]),
+        "circle": (marked_circle, ["fiber", "fiber_array"]),
+        "taper_cross_section": (marked_taper_cross_section, ["terminator"]),
+    }
+    for _, names in overrides.values():
+        for name in names:
+            assert not _has_marker(getattr(gf.components, name)()), name
+
+    # These used to call straight, taper, dbr_cell, circle and taper_cross_section
+    # directly. awg reaches free_propagation_region through the
+    # free_propagation_region_input/output aliases, now looked up by name.
+    for cell_name, (cell, names) in overrides.items():
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: cell})
+        for name in names:
+            assert _has_marker(getattr(gf.components, name)()), (cell_name, name)
+
+
+def test_pdk_override_applies_inside_spirals(restore_pdk: None) -> None:
+    overrides: dict[str, tuple[Callable[..., gf.Component], list[str]]] = {
+        "straight": (
+            marked_straight,
+            [
+                "delay_snake",
+                "delay_snake2",
+                "delay_snake_sbend",
+                "spiral",
+                "spiral_racetrack",
+                "spiral_racetrack_fixed_length",
+                "spiral_racetrack_heater_doped",
+                "spiral_racetrack_heater_metal",
+            ],
+        ),
+        # delay_snake and delay_snake2 use bend_euler180, an alias of bend_euler.
+        "bend_euler": (
+            marked_bend_euler,
+            [
+                "delay_snake",
+                "delay_snake2",
+                "delay_snake_sbend",
+                "spiral",
+                "spiral_racetrack",
+                "spiral_racetrack_heater_doped",
+                "spiral_racetrack_heater_metal",
+            ],
+        ),
+        "bend_circular": (
+            marked_bend_circular,
+            ["spiral_double", "spiral_racetrack_fixed_length"],
+        ),
+    }
+    for cell_name, (marked, names) in overrides.items():
+        _activate_pdk(PDK.name, dict(PDK.cells))
+        for name in names:
+            assert not _has_marker(getattr(gf.components, name)()), name
+
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+
+        # These used to call straight and spiral_racetrack directly.
+        for name in names:
+            assert _has_marker(getattr(gf.components, name)()), (cell_name, name)
+
+
+def test_pdk_override_applies_inside_couplers(restore_pdk: None) -> None:
+    straight_names = [
+        "coupler90",
+        "coupler_adiabatic",
+        "coupler_asymmetric",
+        "coupler_broadband",
+        "coupler_ring",
+        "coupler_straight",
+        "coupler_straight_asymmetric",
+    ]
+    bend_euler_names = [
+        "coupler90",
+        "coupler90bend",
+        "coupler_broadband",
+        "coupler_ring",
+    ]
+    bezier_names = [
+        "coupler",
+        "coupler_adiabatic",
+        "coupler_asymmetric",
+        "coupler_full",
+        "coupler_symmetric",
+    ]
+    for name in {*straight_names, *bend_euler_names, *bezier_names}:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # coupler_straight, coupler_asymmetric and coupler_straight_asymmetric used
+    # to call gf.c.straight directly, and coupler_ring called coupler90 and
+    # coupler_straight directly.
+    for name in straight_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_bend_euler", {**PDK.cells, "bend_euler": marked_bend_euler})
+
+    for name in bend_euler_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_bezier", {**PDK.cells, "bezier": marked_bezier})
+
+    # coupler_adiabatic used to call bezier directly.
+    for name in bezier_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk(
+        "override_coupler_symmetric",
+        {**PDK.cells, "coupler_symmetric": marked_coupler_symmetric},
+    )
+
+    # coupler used to call coupler_symmetric directly.
+    assert _has_marker(gf.components.coupler())
+
+
+def test_pdk_override_applies_inside_pcms(restore_pdk: None) -> None:
+    components: dict[str, Callable[[], gf.Component]] = {
+        name: getattr(gf.components, name)
+        for name in [
+            "cavity",
+            "cdsem_all",
+            "cdsem_bend180",
+            "cdsem_coupler",
+            "cdsem_straight",
+            "cdsem_straight_density",
+            "cutback_2x2",
+            "cutback_bend",
+            "cutback_bend90",
+            "cutback_bend90circular",
+            "cutback_bend180",
+            "cutback_bend180circular",
+            "cutback_component",
+            "cutback_splitter",
+            "greek_cross",
+            "greek_cross_with_pads",
+            "litho_calipers",
+            "litho_ruler",
+            "litho_steps",
+            "qrcode",
+            "resistance_meander",
+            "resistance_sheet",
+            "ruler",
+            "staircase",
+            "verniers",
+        ]
+    }
+    components.update(
+        {
+            "bendu_double": lambda: gf.components.bendu_double(
+                component=gf.components.mmi2x2()
+            ),
+            "straight_double": lambda: gf.components.straight_double(
+                component=gf.components.mmi2x2()
+            ),
+            "resistance_meander_row": lambda: gf.components.resistance_meander_row(
+                length_row=10, width=1, res_layer="MTOP"
+            ),
+            "resistance_meander_net": lambda: gf.components.resistance_meander_net(
+                num_rows=3, length_row=10, width=1, res_layer="MTOP"
+            ),
+            "version_stamp": lambda: gf.components.version_stamp(with_qr_code=True),
+        }
+    )
+    overrides: dict[str, tuple[Callable[..., gf.Component], list[str]]] = {
+        "straight": (
+            marked_straight,
+            [
+                "cavity",
+                "cdsem_all",
+                "cdsem_bend180",
+                "cdsem_coupler",
+                "cdsem_straight",
+                "cdsem_straight_density",
+                "cutback_2x2",
+                "cutback_bend",
+                "cutback_bend90",
+                "cutback_bend90circular",
+                "cutback_bend180",
+                "cutback_bend180circular",
+                "cutback_component",
+                "cutback_splitter",
+                "staircase",
+                "straight_double",
+                "verniers",
+            ],
+        ),
+        # bend_euler180 is an alias of bend_euler.
+        "bend_euler": (
+            marked_bend_euler,
+            [
+                "cutback_bend",
+                "cutback_bend90",
+                "cutback_bend180",
+                "cutback_component",
+                "cutback_splitter",
+                "staircase",
+            ],
+        ),
+        # bend_circular180 is an alias of bend_circular.
+        "bend_circular": (
+            marked_bend_circular,
+            [
+                "bendu_double",
+                "cdsem_all",
+                "cdsem_bend180",
+                "cutback_2x2",
+                "cutback_bend90circular",
+                "cutback_bend180circular",
+            ],
+        ),
+        # rectangle, cross and via_stack are built from compass.
+        "compass": (
+            marked_compass,
+            [
+                "greek_cross",
+                "greek_cross_with_pads",
+                "litho_calipers",
+                "litho_ruler",
+                "litho_steps",
+                "resistance_meander",
+                "resistance_meander_net",
+                "resistance_meander_row",
+                "resistance_sheet",
+                "ruler",
+            ],
+        ),
+        "via": (
+            marked_via,
+            ["greek_cross", "greek_cross_with_pads", "resistance_sheet"],
+        ),
+        # text_rectangular is built from pixel_array.
+        "pixel_array": (
+            marked_pixel_array,
+            [
+                "cdsem_all",
+                "cdsem_bend180",
+                "cdsem_coupler",
+                "cdsem_straight",
+                "cdsem_straight_density",
+                "ruler",
+            ],
+        ),
+        "pixel": (marked_pixel, ["qrcode", "version_stamp"]),
+        "text": (marked_text, ["litho_steps", "version_stamp"]),
+        # cavity builds its coupler from coupler_symmetric and its dbr from dbr_cell.
+        "coupler_symmetric": (marked_coupler_symmetric, ["cavity"]),
+        "dbr_cell": (marked_dbr_cell, ["cavity"]),
+    }
+    for cell_name, (marked, names) in overrides.items():
+        _activate_pdk(PDK.name, dict(PDK.cells))
+        for name in names:
+            assert not _has_marker(components[name]()), name
+
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+
+        # cdsem_*, cutback_2x2, greek_cross, litho_*, qrcode, resistance_*,
+        # ruler and version_stamp used to call their sub-cells directly.
+        for name in names:
+            assert _has_marker(components[name]()), (cell_name, name)
+
+
+def test_pdk_override_applies_inside_analog(restore_pdk: None) -> None:
+    analog = gf.components.analog
+    # gf.components.spiral_inductor is the spirals cell, and symmetric_inductor
+    # and transformer_concentric are not exported from gf.components.
+    components: dict[str, Callable[[], gf.Component]] = {
+        "inductor": gf.components.inductor,
+        "spiral_inductor": analog.inductors.spiral_inductor,
+        "stacked_transformer": gf.components.stacked_transformer,
+        "symmetric_inductor": analog.inductors.symmetric_inductor,
+        "symmetric_transformer": gf.components.symmetric_transformer,
+        "transformer_concentric": analog.transformers.transformer_concentric,
+        "transformer_concentric_secondary": (
+            gf.components.transformer_concentric_secondary
+        ),
+    }
+    overrides: dict[str, tuple[Callable[..., gf.Component], list[str]]] = {
+        # inductor and transformer_concentric_secondary used to call
+        # gf.components.rectangle directly.
+        "compass": (
+            marked_compass,
+            [
+                "inductor",
+                "transformer_concentric",
+                "transformer_concentric_secondary",
+            ],
+        ),
+        # via1 and via2 are aliases of via, and via_stack places via1.
+        "via": (
+            marked_via,
+            [
+                "spiral_inductor",
+                "stacked_transformer",
+                "symmetric_inductor",
+                "symmetric_transformer",
+                "transformer_concentric",
+                "transformer_concentric_secondary",
+            ],
+        ),
+        # stacked_transformer used to default to the via3 function.
+        "via3": (marked_via3, ["stacked_transformer"]),
+        # transformer_concentric used to call inductor and the private
+        # _secondary_inductor cell directly.
+        "inductor": (marked_inductor, ["transformer_concentric"]),
+        "transformer_concentric_secondary": (
+            marked_transformer_concentric_secondary,
+            ["transformer_concentric"],
+        ),
+    }
+    for cell_name, (marked, names) in overrides.items():
+        _activate_pdk(PDK.name, dict(PDK.cells))
+        for name in names:
+            assert not _has_marker(components[name]()), name
+
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+
+        for name in names:
+            assert _has_marker(components[name]()), (cell_name, name)
+
+
+@pytest.mark.filterwarnings("ignore:die_with_pads is deprecated")
+def test_pdk_override_applies_inside_dies(restore_pdk: None) -> None:
+    rectangle_names = [
+        "add_frame",
+        "align_wafer",
+        "die_frame",
+        "die_frame_phix_dc",
+        "die_frame_phix_rf",
+        "die_frame_rf",
+        "die_frame_with_pads",
+        "die_with_pads",
+    ]
+    pad_names = [
+        "die_frame_phix_dc",
+        "die_frame_phix_rf",
+        "die_frame_with_pads",
+        "die_with_pads",
+    ]
+    grating_coupler_array_names = ["die_frame_with_pads", "die_with_pads"]
+    circle_names = ["die_frame_phix_dc", "die_frame_phix_rf"]
+    text_names = ["die", "wafer"]
+    die_frame_phix_without_loopback = partial(
+        gf.components.die_frame_phix, with_loopback=False
+    )
+    all_names = {
+        *rectangle_names,
+        *pad_names,
+        *grating_coupler_array_names,
+        *circle_names,
+        *text_names,
+        "seal_ring_segmented",
+    }
+    for name in all_names:
+        assert not _has_marker(getattr(gf.components, name)()), name
+    assert not _has_marker(die_frame_phix_without_loopback())
+
+    overrides: list[tuple[str, Callable[..., gf.Component], list[str]]] = [
+        # align_wafer, add_frame, die_with_pads and die_frame used to call
+        # gf.c.rectangle directly.
+        ("rectangle", marked_rectangle, rectangle_names),
+        ("pad", marked_pad, pad_names),
+        # die_with_pads and die_frame_with_pads used to call
+        # gf.c.grating_coupler_array directly.
+        (
+            "grating_coupler_array",
+            marked_grating_coupler_array,
+            grating_coupler_array_names,
+        ),
+        # die_frame_phix used to call gf.c.circle directly for its fiducials.
+        ("circle", marked_circle, circle_names),
+        ("text", marked_text, text_names),
+        # die_frame_phix_dc and die_frame_phix_rf used to call die_frame_phix
+        # directly.
+        ("die_frame_phix", marked_die_frame_phix, circle_names),
+    ]
+    for cell_name, marked, names in overrides:
+        _activate_pdk(f"override_{cell_name}", {**PDK.cells, cell_name: marked})
+        for name in names:
+            assert _has_marker(getattr(gf.components, name)()), (cell_name, name)
+
+    _activate_pdk(
+        "override_edge_coupler_array",
+        {**PDK.cells, "edge_coupler_array": marked_edge_coupler_array},
+    )
+
+    # die_frame_phix used to call gf.c.edge_coupler_array directly.
+    assert _has_marker(die_frame_phix_without_loopback())
+
+    # array is a container, so it is overridden in the PDK containers.
+    gf.clear_cache()
+    PDK.model_copy(
+        update={
+            "name": "override_array",
+            "containers": {**PDK.containers, "array": marked_array},
+        }
+    ).activate(force=True)
+
+    # seal_ring_segmented used to call gf.c.array directly.
+    assert _has_marker(gf.components.seal_ring_segmented())
+
+
+def test_pdk_override_applies_inside_quantum(restore_pdk: None) -> None:
+    rectangle_names = [
+        "coupler_capacitive",
+        "coupler_interdigital",
+        "coupler_tunable",
+        "flux_qubit",
+        "flux_qubit_asymmetric",
+        "resonator_quarter_wave",
+        "transmon",
+        "transmon_circular",
+    ]
+    straight_names = ["resonator_cpw", "resonator_lumped"]
+    for name in {*rectangle_names, *straight_names}:
+        assert not _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_rectangle", {**PDK.cells, "rectangle": marked_rectangle})
+
+    # These used to call gf.components.rectangle directly.
+    for name in rectangle_names:
+        assert _has_marker(getattr(gf.components, name)()), name
+
+    _activate_pdk("override_circle", {**PDK.cells, "circle": marked_circle})
+
+    # transmon_circular used to call gf.components.circle directly.
+    assert _has_marker(gf.components.transmon_circular())
+
+    _activate_pdk("override_straight", {**PDK.cells, "straight": marked_straight})
+
+    # The resonators used to call gf.components.straight directly.
+    for name in straight_names:
+        assert _has_marker(getattr(gf.components, name)()), name

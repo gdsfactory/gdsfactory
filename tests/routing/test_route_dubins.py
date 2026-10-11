@@ -1,3 +1,4 @@
+import pytest
 from kfactory.conf import CheckInstances
 
 import gdsfactory as gf
@@ -22,7 +23,8 @@ def sample_route_dubins_basic() -> gf.Component:
         c,
         port1=wg1.ports["o2"],
         port2=wg2.ports["o1"],
-        cross_section=gf.cross_section.strip(width=3.2, radius=100),
+        cross_section=gf.cross_section.strip(width=3.2),
+        radius=100,
     )
     return c
 
@@ -52,9 +54,8 @@ def sample_route_dubins_array() -> gf.Component:
             c,
             port1=comp1.ports[port1_name],
             port2=comp2.ports[port2_name],
-            cross_section=gf.cross_section.strip(
-                width=3.2, layer=(30, 0), radius=100 + i * 10
-            ),
+            cross_section=comp1.ports[port1_name].cross_section,
+            radius=100 + i * 10,
         )
     return c
 
@@ -65,3 +66,22 @@ def test_route_dubins_basic() -> None:
 
 def test_route_dubins_array() -> None:
     sample_route_dubins_array()
+
+
+@pytest.mark.parametrize("radius", [20.0, 50.0])
+def test_radius_override_reaches_the_target(radius: float) -> None:
+    xs = gf.cross_section.strip()
+    c = gf.Component()
+    start = c.add_port("start", center=(0, 0), orientation=0, cross_section=xs)
+    end = c.add_port("end", center=(150, 80), orientation=210, cross_section=xs)
+    route = gf.routing.route_dubins(c, start, end, xs, radius=radius)
+    last = route.instances[-1].ports["o2"]
+    assert last.center == pytest.approx(end.center, abs=0.002)
+    assert last.orientation == pytest.approx((end.orientation + 180) % 360)
+    for instance in route.instances:
+        if "radius" in instance.cell.info:
+            assert instance.cell.info["radius"] == radius
+    assert route.length == pytest.approx(
+        sum(instance.cell.info["length"] for instance in route.instances), abs=0.002
+    )
+    assert xs.radius == 10

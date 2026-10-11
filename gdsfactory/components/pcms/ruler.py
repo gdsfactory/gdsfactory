@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["ruler"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import LayerSpec
 
 
@@ -59,28 +60,16 @@ def ruler(
         long_marks: Marks that are long.
         text_size: Size of the text in um.
     """
-    ymin = 0.0
-    c = gf.Component()
-    for i, mark in enumerate(marks):
-        h = height_numbered if mark else height_short
-        h = height_long if mark in long_marks else h
-
-        if mark in long_marks:
-            ymin = 0.0
-        else:
-            ymin += height_short
-
-        ref = c << gf.components.rectangle(size=(width, h), layer=layer, port_type=None)
-        ref.xmin = i * spacing
-        ref.ymin = ymin
-
-        if mark is not None:
-            t = c << gf.c.text_rectangular(
-                text=str(mark), size=text_size / 5, layer=layer
-            )
-            t.rotate(90)
-            t.ymin = ref.ymin + 1
-            t.xmax = ref.xmin - 1
-    if bbox_layers:
-        gf.add_padding(c, layers=bbox_layers, default=bbox_offset)
-    return c
+    return cf.ruler(
+        height_long=height_long,
+        height_short=height_short,
+        height_numbered=height_numbered,
+        width=width,
+        spacing=spacing,
+        marks=marks,
+        layer=layer,
+        bbox_layers=bbox_layers,
+        bbox_offset=bbox_offset,
+        long_marks=long_marks,
+        text_size=text_size,
+    )

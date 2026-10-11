@@ -3,15 +3,14 @@ from __future__ import annotations
 __all__ = ["DEG2RAD", "extend_ports", "line", "move_polar_rad_copy"]
 
 import math
-import warnings
-from typing import Any, cast
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, PortNames
 
@@ -131,105 +130,18 @@ def extend_ports(
         port_type: optical, electrical, ....
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
     """
-    c = gf.Component()
-    component = gf.get_component(component)
-
-    cref = c << component
-    if centered:
-        cref.x = 0
-        cref.y = 0
-
-    ports_all = cref.ports
-    ports_all_names = [p.name for p in ports_all if p.name is not None]
-
-    ports_to_extend = gf.port.get_ports_list(ports_all, port_type=port_type, **kwargs)
-    ports_to_extend_names = [p.name for p in ports_to_extend if p.name is not None]
-    ports_to_extend_names = cast("list[str]", port_names or ports_to_extend_names)
-
-    ports_to_connect: dict[str, Port] = {}
-    for port_name_to_extend in ports_to_extend_names:
-        if port_name_to_extend in ports_all_names:
-            ports_to_connect[port_name_to_extend] = ports_all[port_name_to_extend]
-        else:
-            warnings.warn(
-                f"Port Name {port_name_to_extend!r} not in {ports_all_names}",
-                stacklevel=3,
-                category=UserWarning,
-            )
-
-    if auto_taper and cross_section:
-        from gdsfactory.routing.auto_taper import add_auto_tapers
-
-        tapered = add_auto_tapers(
-            component=c,
-            ports=list(ports_to_connect.values()),
-            cross_section=cross_section,
-        )
-        ports_to_connect = dict(zip(ports_to_connect, tapered, strict=True))
-
-    for port in ports_all:
-        port_name = port.name
-
-        if port_name in ports_to_connect:
-            if extension:
-                extension_component = gf.get_component(extension)
-            else:
-                if cross_section:
-                    cross_section_extension = cross_section
-                else:
-                    pdk = gf.get_active_pdk()
-                    cross_section_names = list(pdk.cross_sections)
-                    port_xs_name = port.info.get("cross_section", None)
-                    port_xs_settings = port.info.get("cross_section_settings", None)
-
-                    if port_xs_name and port_xs_name in cross_section_names:
-                        cross_section_extension = gf.get_cross_section(
-                            port.info["cross_section"]
-                        )
-                    elif isinstance(port_xs_settings, dict):
-                        from pydantic import ValidationError
-
-                        try:
-                            cross_section_extension = gf.CrossSection.model_validate(
-                                port_xs_settings
-                            )
-                        except ValidationError:
-                            cross_section_extension = cross_section_function(
-                                layer=gf.get_layer_tuple(port.layer),
-                                width=port.width,
-                                port_types=(port_type, port_type),
-                            )
-                    else:
-                        cross_section_extension = cross_section_function(
-                            layer=gf.get_layer_tuple(port.layer),
-                            width=port.width,
-                            port_types=(port_type, port_type),
-                        )
-
-                extension_component = gf.components.straight(
-                    length=length,
-                    cross_section=cross_section_extension,
-                )
-            port_labels = [p.name for p in extension_component.ports]
-            port1 = port1 or port_labels[0]
-            port2 = port2 or port_labels[-1]
-
-            assert port1 is not None
-
-            extension_ref = c << extension_component
-            extension_ref.connect(
-                port1,
-                ports_to_connect[port_name],
-                allow_width_mismatch=allow_width_mismatch,
-            )
-            c.add_port(port_name, port=extension_ref.ports[port2])
-            extension_port_names = extension_port_names or []
-            [
-                c.add_port(name, port=extension_ref.ports[name])
-                for name in extension_port_names
-            ]
-        else:
-            c.add_port(port_name, port=port)
-
-    c.copy_child_info(component)
-    return c
+    return cf.extend_ports(
+        component=component,
+        port_names=port_names,
+        length=length,
+        extension=extension,
+        port1=port1,
+        port2=port2,
+        port_type=port_type,
+        centered=centered,
+        cross_section=cross_section,
+        extension_port_names=extension_port_names,
+        allow_width_mismatch=allow_width_mismatch,
+        auto_taper=auto_taper,
+        **kwargs,
+    )

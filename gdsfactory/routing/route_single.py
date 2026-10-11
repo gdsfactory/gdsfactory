@@ -166,15 +166,17 @@ def route_single(
         p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
 
     def straight_(width: float, length: float, **kwargs: Any) -> gf.Component:
-        xs = kwargs.pop("cross_section", cross_section)
-        return gf.get_component(straight, length=length, cross_section=xs, **kwargs)
+        straight_xs = kwargs.pop("cross_section", xs)
+        return gf.get_component(
+            straight, length=length, cross_section=straight_xs, **kwargs
+        )
 
     def straight_dbu(width: int, length: int, **kwargs: Any) -> gf.Component:
-        xs = kwargs.pop("cross_section", cross_section)
+        straight_xs = kwargs.pop("cross_section", xs)
         return straight_(
             c.kcl.to_um(width),
             c.kcl.to_um(length),
-            cross_section=xs,
+            cross_section=straight_xs,
             **kwargs,
         )
 
@@ -220,10 +222,10 @@ def route_single(
         if not isinstance(waypoints_list[0], kf.kdb.DPoint):
             w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p1.center)))
             for p in waypoints_list:
-                if isinstance(p, tuple):
-                    w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
-                else:
+                if isinstance(p, kf.kdb.DPoint):
                     w.append(p.to_itype(c.kcl.dbu))
+                else:
+                    w.append(c.kcl.to_dbu(kf.kdb.DPoint(p[0], p[1])))
             w.append(c.kcl.to_dbu(kf.kdb.DPoint(*p2.center)))
         else:
             w = [

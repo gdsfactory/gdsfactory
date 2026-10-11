@@ -18,6 +18,9 @@ from gdsfactory.components.bends.bend_modified_hermite import (
 )
 from gdsfactory.components.bends.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.bends.bend_topic import bend_topic, bend_topic_all_angle
+from gdsfactory.cross_section.utils import cross_section
+
+# Alternate processes use dedicated layers, not the generic PDK's slab layers.
 
 
 def test_bend_circular_heater_min_radius() -> None:
@@ -65,12 +68,12 @@ def test_bend_circular_negative_standard_angle_does_not_warn(angle: float) -> No
 
 
 def test_bend_circular_layer_width() -> None:
-    c1 = bend_circular(radius=10, layer=(2, 0), width=0.6)
+    c1 = bend_circular(radius=10, layer=(902, 0), width=0.6)
     assert c1.info["width"] == 0.6
-    assert (2, 0) in c1.layers
+    assert (902, 0) in c1.layers
 
-    c2 = bend_circular(radius=10, layer=(3, 0))
-    assert (3, 0) in c2.layers
+    c2 = bend_circular(radius=10, layer=(903, 0))
+    assert (903, 0) in c2.layers
 
     c3 = bend_circular(radius=10, width=0.8)
     assert c3.info["width"] == 0.8
@@ -101,14 +104,14 @@ def test_bend_euler() -> None:
     c2 = bend_euler_all_angle(radius=10, angle=90)
     assert isinstance(c2, gf.ComponentAllAngle)
 
-    c3 = bend_euler(radius=10, layer=(2, 0), width=0.5)
+    c3 = bend_euler(radius=10, layer=(902, 0), width=0.5)
     assert isinstance(c3, gf.Component)
     assert c3.info["width"] == 0.5
-    assert (2, 0) in c3.layers
+    assert (902, 0) in c3.layers
 
-    c4 = bend_euler(radius=10, layer=(3, 0))
+    c4 = bend_euler(radius=10, layer=(903, 0))
     assert isinstance(c4, gf.Component)
-    assert (3, 0) in c4.layers
+    assert (903, 0) in c4.layers
 
     c5 = bend_euler(radius=10, width=0.8)
     assert isinstance(c5, gf.Component)
@@ -128,14 +131,14 @@ def test_bend_topic() -> None:
     c2 = bend_topic_all_angle(radius=10, angle=90)
     assert isinstance(c2, gf.ComponentAllAngle)
 
-    c3 = bend_topic(radius=10, layer=(2, 0), width=0.5)
+    c3 = bend_topic(radius=10, layer=(902, 0), width=0.5)
     assert isinstance(c3, gf.Component)
     assert c3.info["width"] == 0.5
-    assert (2, 0) in c3.layers
+    assert (902, 0) in c3.layers
 
-    c4 = bend_topic(radius=10, layer=(3, 0))
+    c4 = bend_topic(radius=10, layer=(903, 0))
     assert isinstance(c4, gf.Component)
-    assert (3, 0) in c4.layers
+    assert (903, 0) in c4.layers
 
     c5 = bend_topic(radius=10, width=0.8)
     assert isinstance(c5, gf.Component)
@@ -240,7 +243,7 @@ def test_bend_s() -> None:
 
 
 def test_bend_s_width_overrides_cross_section_width() -> None:
-    cross_section = gf.cross_section.cross_section(width=0.5, layer=(2, 0))
+    cross_section = gf.cross_section.strip(width=0.5, layer=(902, 0))
 
     component = bend_s(
         size=(50, 10),
@@ -250,7 +253,7 @@ def test_bend_s_width_overrides_cross_section_width() -> None:
         width=0.8,
     )
 
-    assert (2, 0) in component.layers
+    assert (902, 0) in component.layers
     assert all(port.dwidth == 0.8 for port in component.ports)
 
 
@@ -267,9 +270,7 @@ def test_get_min_sbend_size() -> None:
     assert isinstance(size, float)
     assert size > 0
 
-    from gdsfactory.cross_section import CrossSection
-
-    custom_cross_section = CrossSection(radius=None)
+    custom_cross_section = cross_section(width=0.6, layer=(901, 0), radius=None)
 
     with pytest.raises(ValueError):
         get_min_sbend_size(size=(10.0, None), cross_section=custom_cross_section)
@@ -325,8 +326,8 @@ def test_bend_modified_hermite() -> None:
     c2 = bend_modified_hermite_all_angle(radius=20, angle=50)
     assert isinstance(c2, gf.ComponentAllAngle)
 
-    c3 = bend_modified_hermite(layer=(2, 0))
-    assert (2, 0) in c3.layers
+    c3 = bend_modified_hermite(layer=(902, 0))
+    assert (902, 0) in c3.layers
 
     c4 = bend_modified_hermite(width1=0.5, width2=0.7)
     assert np.isclose(c4["o1"].width, 0.5)

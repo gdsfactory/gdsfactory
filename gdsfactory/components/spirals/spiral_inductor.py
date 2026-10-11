@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["spiral_inductor"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -37,26 +38,14 @@ def spiral_inductor(
     Returns:
         Component: A GDSFactory component containing the spiral inductor pattern.
     """
-    # create the outer tail
-    P = gf.path.straight(length=tail)
-    P.end_angle -= 90
-    for i in range(turns * 2):
-        P += gf.path.arc(radius=outer_diameter / 2 - (pitch + width) * i / 2, angle=180)
-
-    # create the inner tail
-    P.end_angle += 90  # "Turn" 90 deg (left)
-    P += gf.path.straight(length=tail)
-
-    # Store the path length in component info
-    cross_section = gf.cross_section.cross_section(
+    return cf.spiral_inductor(
         width=width,
+        pitch=pitch,
+        turns=turns,
+        outer_diameter=outer_diameter,
+        tail=tail,
         layer=layer,
-        port_names=("e1", "e2"),
-        port_types=("electrical", "electrical"),
     )
-    c = gf.path.extrude(P, cross_section=cross_section)
-    c.info["length"] = P.length()
-    return c
 
 
 if __name__ == "__main__":

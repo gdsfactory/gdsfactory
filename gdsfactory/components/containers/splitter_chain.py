@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["splitter_chain"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
@@ -34,25 +35,8 @@ def splitter_chain(
           |__o3
     ```
     """
-    c = gf.Component()
-    splitter_component = gf.get_component(splitter)
-    cref = c.add_ref(splitter_component)
-
-    splitter_ports_east = list(cref.ports.filter(port_type="optical", orientation=0))
-    e1_port_name = splitter_ports_east[0].name
-    e0_port_name = splitter_ports_east[1].name
-
-    bend = gf.get_component(bend)
-    c.add_port(name="o1", port=cref.ports["o1"])
-    c.add_port(name="o2", port=cref.ports[e0_port_name])
-
-    for i in range(1, columns):
-        bref = c.add_ref(bend)
-        bref.connect(port="o1", other=cref.ports[e1_port_name])
-        cref = c.add_ref(splitter_component)
-        cref.connect(port="o1", other=bref.ports["o2"])
-        c.add_port(name=f"o{i + 2}", port=cref.ports[e0_port_name])
-
-    c.add_port(name=f"o{i + 3}", port=cref.ports[e1_port_name])
-    c.copy_child_info(splitter_component)
-    return c
+    return cf.splitter_chain(
+        splitter=splitter,
+        columns=columns,
+        bend=bend,
+    )

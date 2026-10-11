@@ -18,6 +18,7 @@ __all__ = [
     "coupler_adiabatic",
     "coupler_asymmetric",
     "coupler_bent",
+    "coupler_bent_half",
     "coupler_broadband",
     "coupler_full",
     "coupler_pulley",

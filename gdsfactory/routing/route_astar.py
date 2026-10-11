@@ -28,7 +28,7 @@ from gdsfactory.typings import (
     Route,
 )
 
-ROUTE_BUNDLE_KWARGS = {"raise_on_error", "port_type"}
+ROUTE_BUNDLE_KWARGS = {"raise_on_error", "port_type", "radius"}
 
 
 def get_route_bend_count(route: Route) -> int:
@@ -390,8 +390,8 @@ def route_astar_single(
         end_node: Approximate (i, j) index of the end grid cell.
         blocked_grid: Precomputed grid with blocked obstacle cells.
         **kwargs: Additional arguments passed into the cross-section or route_bundle.
-            ``raise_on_error`` and ``port_type`` go to route_bundle, the rest to the
-            cross-section.
+            ``raise_on_error``, ``port_type`` and ``radius`` go to route_bundle, the
+            rest to the cross-section.
 
     Returns:
         A single `Route` object created from the computed A* path.
@@ -471,8 +471,8 @@ def route_astar(
             (``wire_corner_sections`` for a multi-section one),
             ``bend_euler`` otherwise.
         **kwargs: Additional keyword arguments forwarded to the cross-section or route_bundle.
-            ``raise_on_error`` and ``port_type`` go to route_bundle, the rest to the
-            cross-section.
+            ``raise_on_error``, ``port_type`` and ``radius`` go to route_bundle, the
+            rest to the cross-section.
 
     Returns:
         Route: The route generated using the start/end node pairing
@@ -492,7 +492,8 @@ def route_astar(
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
     blocked_grid = grid == 1
 
-    distance_from_node_to_port = 3 * (cross_section.radius or 3)  # in um
+    radius = route_bundle_kwargs.get("radius", cross_section.radius)
+    distance_from_node_to_port = 3 * (radius or 3)  # in um
 
     if port1.orientation in [0, 180]:
         start_node_coordinates = [
@@ -623,7 +624,7 @@ def route_astar(
                 waypoints=waypoints,
                 cross_section=cross_section,
                 bend=bend,
-                **{**route_bundle_kwargs, "raise_on_error": True},
+                **{**route_bundle_kwargs, "raise_on_error": True, "radius": radius},
             )
         except BendPortTypeError:
             raise  # Fails every candidate the same way

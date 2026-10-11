@@ -23,7 +23,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(d, a / 2 + i * sep),
                 width=0.5,
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -33,7 +33,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-d, a / 2 + i * sep),
                 width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -43,7 +43,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -53,7 +53,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -65,7 +65,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(a / 2 + i * sep, d),
                 width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -75,7 +75,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-a / 2 - i * sep, d),
                 width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -85,7 +85,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(a / 2 + i * sep, -d),
                 width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -95,7 +95,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-a / 2 - i * sep, -d),
                 width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -109,7 +109,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(a, d + i * sep),
                 width=0.5,
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -119,7 +119,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-a, d + i * sep),
                 width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -129,7 +129,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(a, -d - i * sep),
                 width=0.5,
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -139,7 +139,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-a, -d - i * sep),
                 width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -151,7 +151,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(d + i * sep, a),
                 width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -161,7 +161,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-d - i * sep, a),
                 width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -171,7 +171,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(d + i * sep, -a),
                 width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -181,7 +181,7 @@ def test_connect_corner(N: int = 6, config: str = "A") -> gf.Component:
                 center=(-d - i * sep, -a),
                 width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]

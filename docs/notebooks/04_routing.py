@@ -24,11 +24,24 @@ gf.gpdk.PDK.activate()
 # To route groups of ports avoiding routing collisions between each route, use `route_bundle` which uses a river/bundle/bus router.
 #
 # ⚠️ Route bundle requires all destination ports to have the same orientation.
+#
+# Pass the process cross section to ports as well as the router. This keeps their
+# complete profiles and establishes radius defaults at creation, instead of
+# creating a bare width/layer profile first.
 
 # %%
-ys_right = [0, 10, 20, 40, 50, 80] # This line creates a list of six explicit y-coordinates for the right-side ports.
-pitch = 127.0 # Defines the constant vertical distance for the left side ports.
-N = len(ys_right) # This defines the total number of ports in each column (N, which is 6).
+ys_right = [
+    0,
+    10,
+    20,
+    40,
+    50,
+    80,
+]  # This line creates a list of six explicit y-coordinates for the right-side ports.
+pitch = 127.0  # Defines the constant vertical distance for the left side ports.
+N = len(
+    ys_right
+)  # This defines the total number of ports in each column (N, which is 6).
 
 # This line uses a list comprehension to calculate six y-coordinates for the left-side ports.
 # The formula (i - N / 2) * pitch ensures that the ports are evenly spaced by 127.0 µm and are centered vertically around y=0.
@@ -36,11 +49,21 @@ ys_left = [(i - N / 2) * pitch for i in range(N)]
 layer = (1, 0)
 
 right_ports = [
-    gf.Port(f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=gf.get_layer(layer))
+    gf.Port(
+        f"R_{i}",
+        center=(0, ys_right[i]),
+        orientation=180,
+        cross_section=gf.get_cross_section("strip", layer=layer),
+    )
     for i in range(N)
 ]
 left_ports = [
-    gf.Port(f"L_{i}", center=(-200, ys_left[i]), width=0.5, orientation=0, layer=gf.get_layer(layer))
+    gf.Port(
+        f"L_{i}",
+        center=(-200, ys_left[i]),
+        orientation=0,
+        cross_section=gf.get_cross_section("strip", layer=layer),
+    )
     for i in range(N)
 ]
 
@@ -68,7 +91,12 @@ xs_bottom = [(i - N / 2) * pitch for i in range(N)]
 layer = (1, 0)
 
 top_ports = [
-    gf.Port(f"top_{i}", center=(xs_top[i], 0), width=0.5, orientation=270, layer=gf.get_layer(layer))
+    gf.Port(
+        f"top_{i}",
+        center=(xs_top[i], 0),
+        orientation=270,
+        cross_section=gf.get_cross_section("strip", layer=layer),
+    )
     for i in range(N)
 ]
 
@@ -76,9 +104,8 @@ bot_ports = [
     gf.Port(
         f"bot_{i}",
         center=(xs_bottom[i], -300),
-        width=0.5,
         orientation=90,
-        layer=gf.get_layer(layer),
+        cross_section=gf.get_cross_section("strip", layer=layer),
     )
     for i in range(N)
 ]
@@ -100,6 +127,7 @@ c
 
 # %%
 
+
 # The ports are grouped by quadrant: Top-Right (TR), Top-Left (TL), Bottom-Right (BR), and Bottom-Left (BL).
 # Ports_A: These are groups of N ports arranged in vertical lines on the left and right sides of the component.
 # Their orientation is either 0 (facing right) or 180 (facing left).
@@ -117,10 +145,12 @@ def test_connect_corner(N=6, config="A"):
         ports_A_TR = [
             Port(
                 f"A_TR_{i}",
-                center=(d, a / 2 + i * sep), # d, sep: Geometric values defining the distance and separation between ports.
-                width=0.5,
+                center=(
+                    d,
+                    a / 2 + i * sep,
+                ),  # d, sep: Geometric values defining the distance and separation between ports.
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -129,9 +159,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"A_TL_{i}",
                 center=(-d, a / 2 + i * sep),
-                width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -140,9 +169,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"A_BR_{i}",
                 center=(d, -a / 2 - i * sep),
-                width=0.5,
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -151,9 +179,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"A_BL_{i}",
                 center=(-d, -a / 2 - i * sep),
-                width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -164,9 +191,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_TR_{i}",
                 center=(a / 2 + i * sep, d),
-                width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -175,9 +201,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_TL_{i}",
                 center=(-a / 2 - i * sep, d),
-                width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -186,9 +211,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_BR_{i}",
                 center=(a / 2 + i * sep, -d),
-                width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -197,9 +221,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_BL_{i}",
                 center=(-a / 2 - i * sep, -d),
-                width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -212,9 +235,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"A_TR_{i}",
                 center=(a, d + i * sep),
-                width=0.5,
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -223,9 +245,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"A_TL_{i}",
                 center=(-a, d + i * sep),
-                width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -234,9 +255,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"A_BR_{i}",
                 center=(a, -d - i * sep),
-                width=0.5,
                 orientation=0,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -245,9 +265,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"A_BL_{i}",
                 center=(-a, -d - i * sep),
-                width=0.5,
                 orientation=180,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -258,9 +277,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_TR_{i}",
                 center=(d + i * sep, a),
-                width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -269,9 +287,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_TL_{i}",
                 center=(-d - i * sep, a),
-                width=0.5,
                 orientation=90,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -280,9 +297,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_BR_{i}",
                 center=(d + i * sep, -a),
-                width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -291,9 +307,8 @@ def test_connect_corner(N=6, config="A"):
             Port(
                 f"B_BL_{i}",
                 center=(-d - i * sep, -a),
-                width=0.5,
                 orientation=270,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -327,6 +342,7 @@ c
 
 # %%
 
+
 @gf.cell(cache={})
 def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
@@ -346,9 +362,8 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
             Port(
                 f"top_{i}",
                 center=(0, xs1[i]),
-                width=0.5,
                 orientation=orientation,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -357,9 +372,8 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
             Port(
                 f"bottom_{i}",
                 center=(dy, xs2[i]),
-                width=0.5,
                 orientation=orientation,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -369,9 +383,8 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
             Port(
                 f"top_{i}",
                 center=(xs1[i], 0),
-                width=0.5,
                 orientation=orientation,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -380,9 +393,8 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
             Port(
                 f"bottom_{i}",
                 center=(xs2[i], dy),
-                width=0.5,
                 orientation=orientation,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -412,7 +424,12 @@ def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
 
     if axis == "X":
         ports1 = [
-            Port(f"top_{i}", center=(0, xs1[i]), width=0.5, orientation=a1, layer=gf.get_layer(layer))
+            Port(
+                f"top_{i}",
+                center=(0, xs1[i]),
+                orientation=a1,
+                cross_section=gf.get_cross_section("strip", layer=layer),
+            )
             for i in range(N)
         ]
 
@@ -420,16 +437,20 @@ def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
             Port(
                 f"bot_{i}",
                 center=(dy, xs2[i]),
-                width=0.5,
                 orientation=a2,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
 
     else:
         ports1 = [
-            Port(f"top_{i}", center=(xs1[i], 0), width=0.5, orientation=a1, layer=gf.get_layer(layer))
+            Port(
+                f"top_{i}",
+                center=(xs1[i], 0),
+                orientation=a1,
+                cross_section=gf.get_cross_section("strip", layer=layer),
+            )
             for i in range(N)
         ]
 
@@ -437,9 +458,8 @@ def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
             Port(
                 f"bot_{i}",
                 center=(xs2[i], dy),
-                width=0.5,
                 orientation=a2,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -476,12 +496,22 @@ def test_north_to_south(layer=(1, 0)):
     a2 = a1 + 180
 
     ports1 = [
-        gf.Port(f"top_{i}", center=(xs1[i], 0), width=0.5, orientation=a1, layer=gf.get_layer(layer))
+        gf.Port(
+            f"top_{i}",
+            center=(xs1[i], 0),
+            orientation=a1,
+            cross_section=gf.get_cross_section("strip", layer=layer),
+        )
         for i in range(N)
     ]
 
     ports2 = [
-        gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=gf.get_layer(layer))
+        gf.Port(
+            f"bot_{i}",
+            center=(xs2[i], dy),
+            orientation=a2,
+            cross_section=gf.get_cross_section("strip", layer=layer),
+        )
         for i in range(N)
     ]
 
@@ -589,11 +619,21 @@ ys_right = [(i - N / 2) * pitch for i in range(N)]
 layer = (1, 0)
 
 right_ports = [
-    gf.Port(f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=gf.get_layer(layer))
+    gf.Port(
+        f"R_{i}",
+        center=(0, ys_right[i]),
+        orientation=180,
+        cross_section=gf.get_cross_section("strip", layer=layer),
+    )
     for i in range(N)
 ]
 left_ports = [
-    gf.Port(f"L_{i}", center=(-50, ys_left[i]), width=0.5, orientation=0, layer=gf.get_layer(layer))
+    gf.Port(
+        f"L_{i}",
+        center=(-50, ys_left[i]),
+        orientation=0,
+        cross_section=gf.get_cross_section("strip", layer=layer),
+    )
     for i in range(N)
 ]
 
@@ -603,7 +643,7 @@ left_ports = [
 # By setting it to None, the router will simply ignore any collisions.
 left_ports.reverse()
 routes = gf.routing.route_bundle(
-    c, right_ports, left_ports, radius=5, on_collision='warning', cross_section="strip"
+    c, right_ports, left_ports, radius=5, on_collision="warning", cross_section="strip"
 )
 
 c
@@ -622,8 +662,8 @@ routes = gf.routing.route_bundle(
     c,
     c1.ports.filter(orientation=0),
     c2.ports.filter(orientation=180),
-    sbend='bend_s',
-    cross_section='strip',
+    sbend="bend_s",
+    cross_section="strip",
 )
 c
 
@@ -675,7 +715,7 @@ routes = gf.routing.route_bundle(
         {"dy": 30, "dx": 50},
         {"dx": 100},
     ],
-    layer_marker=(41, 0), # Mark the steps with a layer
+    layer_marker=(41, 0),  # Mark the steps with a layer
 )
 c
 
@@ -705,7 +745,7 @@ routes = gf.routing.route_bundle(
         {"dy": 30, "dx": 50},
         {"dx": 90},
     ],
-    layer_marker=(41, 0), # Mark the steps with a layer
+    layer_marker=(41, 0),  # Mark the steps with a layer
 )
 c
 
@@ -737,11 +777,11 @@ routes = gf.routing.route_bundle(
     [port2],
     cross_section="strip",
     steps=[
-        {"x": 30, 'y': 20},
-        {"x": 120, 'y': 20},
-        {"x": 120, 'y': 60},
+        {"x": 30, "y": 20},
+        {"x": 120, "y": 20},
+        {"x": 120, "y": 60},
     ],
-    layer_marker=(41, 0), # Mark the steps with a layer
+    layer_marker=(41, 0),  # Mark the steps with a layer
 )
 c
 
@@ -780,10 +820,10 @@ routes = gf.routing.route_bundle(
     # ],
     steps=[
         {"dx": 30, "dy": 20},
-        {"dx": 90, 'dy': 0},
-        {"dx": 0, 'dy': 40},
+        {"dx": 90, "dy": 0},
+        {"dx": 0, "dy": 40},
     ],
-    layer_marker=(41, 0), # Mark the steps with a layer
+    layer_marker=(41, 0),  # Mark the steps with a layer
 )
 c
 
@@ -803,6 +843,7 @@ c
 # %%
 from IPython.display import Markdown, display
 import inspect
+
 
 def show_code(func):
     code = inspect.getsource(func)
@@ -825,17 +866,20 @@ xs = gf.get_cross_section("strip")
 start_ports = [
     gf.Port(
         name=f"in{i}",
-        center=(i * 200,-i * 150),
-        orientation = 90,
-        layer=gf.get_layer(xs.sections[0].layer),width=.5,
+        center=(i * 200, -i * 150),
+        orientation=90,
+        cross_section=xs,
     )
     for i in range(3)
 ]
 end_ports = [
     gf.Port(
-        name=f"out{i}",center=(x,500),orientation=270,layer=gf.get_layer(xs.sections[0].layer), width=0.5,
+        name=f"out{i}",
+        center=(x, 500),
+        orientation=270,
+        cross_section=xs,
     )
-    for i,x in enumerate([230, 400, 500])
+    for i, x in enumerate([230, 400, 500])
 ]
 
 c = gf.Component()
@@ -845,13 +889,20 @@ routes = gf.routing.route_bundle(
     end_ports,
     start_straight_length=300,
     cross_section="strip",
-    path_length_matching_config={"element": 0, "loop_side":gf.routing.LoopSide.left, "loops": 2, "loop_position": gf.routing.LoopPosition.start}
+    path_length_matching_config={
+        "element": 0,
+        "loop_side": gf.routing.LoopSide.left,
+        "loops": 2,
+        "loop_position": gf.routing.LoopPosition.start,
+    },
 )
 
 # print the length of the path (area/width in dbu which works for non-tapered routes reasonably well)
 # and the backbone length (in dbu and this is the length of the manhattan path)
 for start_port, end_port, route in zip(start_ports, end_ports, routes, strict=True):
-    print(f"{start_port.name} - {end_port.name} length backbone: {route.length_backbone} length: {route.length:.3f}")
+    print(
+        f"{start_port.name} - {end_port.name} length backbone: {route.length_backbone} length: {route.length:.3f}"
+    )
 
 c
 
@@ -862,17 +913,20 @@ xs = gf.get_cross_section("strip")
 start_ports = [
     gf.Port(
         name=f"in{i}",
-        center=(i * 300,-i * 150),
-        orientation = 90,
-        layer=gf.get_layer(xs.sections[0].layer),width=.5,
+        center=(i * 300, -i * 150),
+        orientation=90,
+        cross_section=xs,
     )
     for i in range(3)
 ]
 end_ports = [
     gf.Port(
-        name=f"out{i}",center=(x,500),orientation=270,layer=gf.get_layer(xs.sections[0].layer), width=0.5,
+        name=f"out{i}",
+        center=(x, 500),
+        orientation=270,
+        cross_section=xs,
     )
-    for i,x in enumerate([230, 700, 1000])
+    for i, x in enumerate([230, 700, 1000])
 ]
 
 c = gf.Component()
@@ -882,7 +936,12 @@ gf.routing.route_bundle(
     end_ports,
     start_straight_length=300,
     cross_section="strip",
-    path_length_matching_config={"element": 1, "loop_side":gf.routing.LoopSide.center, "loops": 2, "loop_position": gf.routing.LoopPosition.center}
+    path_length_matching_config={
+        "element": 1,
+        "loop_side": gf.routing.LoopSide.center,
+        "loops": 2,
+        "loop_position": gf.routing.LoopPosition.center,
+    },
 )
 
 c
@@ -894,17 +953,20 @@ xs = gf.get_cross_section("strip")
 start_ports = [
     gf.Port(
         name=f"in{i}",
-        center=(i * 300,-i * 150),
-        orientation = 90,
-        layer=gf.get_layer(xs.sections[0].layer),width=.5,
+        center=(i * 300, -i * 150),
+        orientation=90,
+        cross_section=xs,
     )
     for i in range(3)
 ]
 end_ports = [
     gf.Port(
-        name=f"out{i}",center=(x,500),orientation=270,layer=gf.get_layer(xs.sections[0].layer), width=0.5,
+        name=f"out{i}",
+        center=(x, 500),
+        orientation=270,
+        cross_section=xs,
     )
-    for i,x in enumerate([230, 700, 1000])
+    for i, x in enumerate([230, 700, 1000])
 ]
 
 c = gf.Component()
@@ -914,7 +976,12 @@ gf.routing.route_bundle(
     end_ports,
     start_straight_length=300,
     cross_section="strip",
-    path_length_matching_config={"element": -1, "loop_side":gf.routing.LoopSide.center, "loops": 2, "loop_position": gf.routing.LoopPosition.end}
+    path_length_matching_config={
+        "element": -1,
+        "loop_side": gf.routing.LoopSide.center,
+        "loops": 2,
+        "loop_position": gf.routing.LoopPosition.end,
+    },
 )
 
 c
@@ -1020,7 +1087,7 @@ routes = gf.routing.route_bundle_electrical(
     separation=20,
     cross_section="metal_routing",
     bboxes=[
-        obstacle.bbox().enlarge(10), # Otherwise you need to enlarge the bbox by 10 um.
+        obstacle.bbox().enlarge(10),  # Otherwise you need to enlarge the bbox by 10 um.
         pbot.bbox(),
         ptop.bbox(),
     ],
@@ -1106,7 +1173,8 @@ route = gf.routing.route_dubins(
     c,
     port1=wg1.ports["o2"],
     port2=wg2.ports["o1"],
-    cross_section=gf.cross_section.strip(width=3.2, radius=100),
+    cross_section=gf.cross_section.strip(width=3.2),
+    radius=100,
 )
 c
 
@@ -1123,13 +1191,14 @@ comp2.move((500, -100))
 
 # Route between corresponding ports.
 for i in range(10):
-    port1_name = f"o{10-i}"  # Inverted port id for port1.
-    port2_name = f"o{i+1}"  # Adjusted to match available ports.
+    port1_name = f"o{10 - i}"  # Inverted port id for port1.
+    port2_name = f"o{i + 1}"  # Adjusted to match available ports.
     gf.routing.route_dubins(
         c,
         port1=comp1.ports[port1_name],
         port2=comp2.ports[port2_name],
-        cross_section=gf.cross_section.strip(width=3.2, radius=100 + i * 10),
+        cross_section=gf.cross_section.strip(width=3.2),
+        radius=100 + i * 10,
     )
 c
 
@@ -1232,7 +1301,12 @@ s1 = c << gf.components.straight(width=4)
 s2 = c << gf.components.straight(width=4)
 s2.move((100, 50))
 route = gf.routing.route_bundle(
-    c, [s1.ports["o2"]], [s2.ports["o1"]], auto_taper=True, cross_section="strip", auto_taper_taper=gf.components.taper(width1=4, width2=0.5, length=30)
+    c,
+    [s1.ports["o2"]],
+    [s2.ports["o1"]],
+    auto_taper=True,
+    cross_section="strip",
+    auto_taper_taper=gf.components.taper(width1=4, width2=0.5, length=30),
 )
 c
 
@@ -1247,6 +1321,11 @@ mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
 mmi2.move((100, 50))
 route = gf.routing.route_bundle(
-    c, [mmi1.ports["o2"]], [mmi2.ports["o1"]], taper=gf.components.taper(width1=0.5, width2=2), cross_section="strip", min_straight_taper=20,
+    c,
+    [mmi1.ports["o2"]],
+    [mmi2.ports["o1"]],
+    taper=gf.components.taper(width1=0.5, width2=2),
+    cross_section="strip",
+    min_straight_taper=20,
 )
 c

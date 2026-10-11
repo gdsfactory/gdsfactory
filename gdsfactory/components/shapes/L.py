@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["L"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -24,28 +25,4 @@ def L(
         layer: spec.
         port_type: for port.
     """
-    D = Component()
-    w = width / 2
-    s1, s2 = size
-    points = [(-w, -w), (s1, -w), (s1, w), (w, w), (w, s2), (-w, s2), (-w, -w)]
-    D.add_polygon(points, layer=layer)
-    D.add_port(
-        name="e1",
-        center=(0, s2),
-        width=width,
-        orientation=90,
-        port_type=port_type,
-        layer=layer,
-    )
-    D.add_port(
-        name="e2",
-        center=(s1, 0),
-        width=width,
-        orientation=0,
-        port_type=port_type,
-        layer=layer,
-    )
-    if port_type == "electrical":
-        for port in D.ports:
-            D.create_pin(ports=[port], name=port.name)
-    return D
+    return cf.L(width=width, size=size, layer=layer, port_type=port_type)

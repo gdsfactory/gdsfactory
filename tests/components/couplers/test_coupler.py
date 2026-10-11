@@ -4,7 +4,7 @@ import gdsfactory as gf
 
 
 def test_coupler_min_radius() -> None:
-    cross_section = gf.cross_section.strip(radius=1)
+    cross_section = gf.cross_section.strip(layer=(904, 0), radius=1)
 
     with pytest.raises(ValueError, match="min_bend_radius 1"):
         gf.components.coupler(

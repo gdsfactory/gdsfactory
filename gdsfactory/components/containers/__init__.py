@@ -32,10 +32,12 @@ __all__ = [
     "generate_doe",
     "line",
     "move_polar_rad_copy",
+    "mzi1x2_2x2_heater",
     "pack_doe",
     "pack_doe_grid",
     "parse_component_name",
     "splitter_chain",
     "splitter_tree",
     "switch_tree",
+    "taper_terminator",
 ]

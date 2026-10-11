@@ -1,0 +1,8 @@
+info: {}
+name: straight_double_gdsfactorypcomponentsppcmspcutback_2x2__8707a764
+settings:
+  component: mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  cross_section: strip
+  port1: o1
+  port2: o2
+  straight: straight

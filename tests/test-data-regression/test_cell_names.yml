@@ -1,0 +1,2026 @@
+C:
+  children: []
+  name: C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical
+L:
+  children: []
+  name: L_gdsfactorypcomponentspshapespL_W1_S10_20_LMTOP_PTelectrical
+add_fiber_array_optical_south_electrical_north:
+  children:
+  - Unnamed
+  - array_gdsfactorypcomponentspcontainersparray_component__5a3bc366
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L110_6636e554
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L12p_78373eae
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L321_5398430b
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L34p_ddbab9a4
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L45p_f72e6f6a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L91p_2d414d4e
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L98p_0fd4726e
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1bc8609e
+  - taper_gdsfactorypcomponentsptapersptaper_L10_W100_W10_L_e6a63921
+  - taper_gdsfactorypcomponentsptapersptaper_L10_W11_W10_LN_30da7aae
+  - wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f
+  name: add_fiber_array_optical_south_electrical_north_gdsfacto_fc183c6d
+add_frame:
+  children: []
+  name: add_frame_gdsfactorypcomponentspdiespalign_Crectangle_W_aab7fa7f
+add_termination:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620
+  name: add_termination_gdsfactorypcomponentspcontainerspadd_te_de6e74a1
+add_trenches:
+  children: []
+  name: add_trenches_gdsfactorypcomponentspcontainerspadd_trenc_ad7f04cc
+add_trenches90:
+  children: []
+  name: add_trenches_gdsfactorypcomponentspcontainerspadd_trenc_184ea384
+align_wafer:
+  children:
+  - cross_gdsfactorypcomponentspshapespcross_L80_W10_LWG_PTNone
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S10_11_8c71183d
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S120_1_a2e4ff37
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S25_25_e325686b
+  name: align_wafer_gdsfactorypcomponentspdiespalign_W10_S10_CL_f057b528
+alignment_mark_cross:
+  children: []
+  name: alignment_mark_cross_gdsfactorypcomponentsppcmspalignme_9fc72f39
+anchored_flexure:
+  children: []
+  name: anchored_flexure_gdsfactorypcomponentspmemspanchored_fl_9d3850d2
+array:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  name: array_gdsfactorypcomponentspcontainersparray_component__b1820754
+array_hexagonal:
+  children:
+  - circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG
+  name: array_hexagonal_gdsfactorypcomponentspcontainersparray__3fb4a643
+array_polar:
+  children:
+  - C_gdsfactorypcomponentspshapespC_W1_S10_20_LWG_PTelectrical
+  name: array_polar_gdsfactorypcomponentspcontainersparray_pola_983b73dc
+arrow_junction:
+  children: []
+  name: arrow_junction_gdsfactorypcomponentspmicrofluidicsparro_d026df34
+awg:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - free_propagation_region_gdsfactorypcomponentspfilterspa_5ff2a5ce
+  - free_propagation_region_gdsfactorypcomponentspfilterspa_e953b677
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10p_da623fc9
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L12__f3e780f9
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L13p_5d7bad5d
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L14p_193ce81f
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L19p_1504ef4a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L1p5_27783c1e
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L23p_827597b2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L27p_9630dc72
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L32p_807addbc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L36p_da8cfc5e
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_76e47883
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L40p_67f97490
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L45p_bdf181a4
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L49p_83262ea0
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L4p5_99671446
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L6_N_702d0d58
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7p5_3d0cd97c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L9_N_09b87fdc
+  name: awg_gdsfactorypcomponentspfilterspawg_A10_O3_FPRIFfree__ef55f40a
+bbox:
+  children: []
+  name: bbox_gdsfactorypcomponentspshapespbbox_Cmmi1x2_LSLAB90__8f73da71
+bend_circular:
+  children: []
+  name: bend_circular_gdsfactorypcomponentspbendspbend_circular_949aafe9
+bend_circular180:
+  children: []
+  name: bend_circular_gdsfactorypcomponentspbendspbend_circular_89f01867
+bend_circular_all_angle:
+  children: []
+  name: bend_circular_all_angle_RNone_A90_NNone_ASNone_LNone_WN_18c02085
+bend_circular_heater:
+  children: []
+  name: bend_circular_heater_gdsfactorypcomponentspbendspbend_c_a7034330
+bend_euler:
+  children: []
+  name: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+bend_euler180:
+  children: []
+  name: bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
+bend_euler_all_angle:
+  children: []
+  name: bend_euler_all_angle_RNone_A90_P0p5_WAFTrue_NNone_ASNon_3742562a
+bend_euler_angular_resolution:
+  children: []
+  name: bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_232dea27
+bend_euler_s:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  name: bend_euler_s_gdsfactorypcomponentspbendspbend_euler_RNo_e13e5513
+bend_modified_hermite:
+  children: []
+  name: bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc
+bend_modified_hermite180:
+  children: []
+  name: bend_modified_hermite_gdsfactorypcomponentspbendspbend__5ca2cae4
+bend_modified_hermite_all_angle:
+  children: []
+  name: bend_modified_hermite_all_angle_R15_A90_ITM26p5_OTM30_N_b7257a5f
+bend_modified_hermite_s:
+  children:
+  - bend_modified_hermite_gdsfactorypcomponentspbendspbend__ce5447dc
+  name: bend_modified_hermite_s_gdsfactorypcomponentspbendspben_266af160
+bend_s:
+  children: []
+  name: bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c
+bend_s_mode_converter:
+  children: []
+  name: bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5
+bend_s_offset:
+  children: []
+  name: bend_s_offset_gdsfactorypcomponentspbendspbend_s_O40_R1_3dc2bc74
+bend_topic:
+  children: []
+  name: bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d
+bend_topic180:
+  children: []
+  name: bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_d8584646
+bend_topic_all_angle:
+  children: []
+  name: bend_topic_all_angle_RNone_A90_P0p1_N100_CSstrip_AMRVFa_ce511a65
+bend_topic_s:
+  children:
+  - bend_topic_gdsfactorypcomponentspbendspbend_topic_RNone_e2ac2f1d
+  name: bend_topic_s_gdsfactorypcomponentspbendspbend_topic_RNo_d06a41da
+bendu_double:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_7db8d848
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_89f01867
+  name: bendu_double_gdsfactorypcomponentsppcmspcutback_2x2_Cmm_6ad902cb
+bent_beam:
+  children: []
+  name: bent_beam_gdsfactorypcomponentspmemspbent_beam_BW1_BL40_44b4b5c5
+bezier:
+  children: []
+  name: bezier_gdsfactorypcomponentspbendspbend_s_CP0_0_5_0_5_1_8b2c3308
+bolometer:
+  children: []
+  name: bolometer_gdsfactorypcomponentspmemspbolometer_AW20_AL2_71b28977
+bump_pad:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - regular_polygon_gdsfactorypcomponentspshapespregular_po_f7d137c5
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  name: bump_pad_gdsfactorypcomponentsppadspbump_pad_S36p244_LM_a4046926
+bump_pad_grid:
+  children:
+  - bump_pad_gdsfactorypcomponentsppadspbump_pad_S36p244_LM_a4046926
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - regular_polygon_gdsfactorypcomponentspshapespregular_po_f7d137c5
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  name: bump_pad_grid_gdsfactorypcomponentsppadspbump_pad_C6_R6_29b7f74f
+cantilever:
+  children: []
+  name: cantilever_gdsfactorypcomponentspmemspcantilever_BW2_BL_1a3e9bbf
+cavity:
+  children:
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p2_L0p_38bb639b
+  - dbr_cell_gdsfactorypcomponentspfilterspdbr_W0p45_W0p55__d3a2b7a1
+  - dbr_gdsfactorypcomponentspfilterspdbr_W0p45_W0p55_L0p15_b5754d70
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40
+  name: cavity_gdsfactorypcomponentsppcmspcavity_Cdbr_Ccoupler_L0p1_G0p2
+cdsem_all:
+  children:
+  - cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__16eb1146
+  - cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__27cf2646
+  - cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__2e87fec0
+  - cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__2f1531ac
+  - cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__b0ff722e
+  - cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__c44baead
+  - cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_56840864
+  - cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_eb82bc30
+  - cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_f208e042
+  - cdsem_straight_gdsfactorypcomponentsppcmspcdsem_straigh_fe63fb62
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_2f983540
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_30074c71
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_35921d60
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_4232a948
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_47ac5efd
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_88964b47
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_aedf6e18
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_dac17611
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_11855cc4
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_19140e03
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_658e2e39
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_969c6630
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_b5863166
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_d9f4216b
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_e6f6754a
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_e9d3e611
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_ebfeacf5
+  name: cdsem_all_gdsfactorypcomponentsppcmspcdsem_all_W0p4_0p4_a9617a4f
+cdsem_bend180:
+  children: []
+  name: cdsem_bend180_gdsfactorypcomponentsppcmspcdsem_bend180__16eb1146
+cdsem_coupler:
+  children:
+  - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_67ed8952
+  - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_69869ec8
+  - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_fe42d8a7
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_27bdbd98
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_2496a904
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_5c334aca
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_c5574207
+  name: cdsem_coupler_gdsfactorypcomponentsppcmspcdsem_coupler__cdfe8cba
+cdsem_straight:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_2f983540
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_4232a948
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_47ac5efd
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_88964b47
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_aedf6e18
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_dac17611
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_658e2e39
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_969c6630
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_b5863166
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_e6f6754a
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_e9d3e611
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_ebfeacf5
+  name: cdsem_straight_gdsfactorypcomponentsppcmspcdsem_straigh_fe63fb62
+cdsem_straight_density:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L420_e827a2b0
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_0379e2de
+  name: cdsem_straight_density_gdsfactorypcomponentsppcmspcdsem_f6b28930
+circle:
+  children: []
+  name: circle_gdsfactorypcomponentspshapespcircle_R10_AR2p5_LWG
+circle_wave:
+  children: []
+  name: circle_wave_gdsfactorypcomponentspshapespcircle_wave_R1_3128bd8a
+comb_drive:
+  children: []
+  name: comb_drive_gdsfactorypcomponentspmemspcomb_drive_FW0p5__260a9c6a
+compass:
+  children: []
+  name: compass_gdsfactorypcomponentspshapespcompass_S4_2_LWG_P_f0e3e03f
+copy_layers:
+  children:
+  - cross_gdsfactorypcomponentspshapespcross_L10_W3_L1_0_PTNone
+  - cross_gdsfactorypcomponentspshapespcross_L10_W3_L2_0_PTNone
+  name: copy_layers_gdsfactorypcomponentspcontainerspcopy_layer_eb05f809
+coupler:
+  children: []
+  name: coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a
+coupler90:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  name: coupler90_gdsfactorypcomponentspcouplerspcoupler90_G0p2_9253bfe3
+coupler90bend:
+  children: []
+  name: coupler90bend_gdsfactorypcomponentspcouplerspcoupler90b_a5a28ce7
+coupler90circular:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_949aafe9
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  name: coupler90_gdsfactorypcomponentspcouplerspcoupler90_G0p2_393cec8e
+coupler_adiabatic:
+  children: []
+  name: coupler_adiabatic_gdsfactorypcomponentspcouplerspcouple_0af6ad81
+coupler_asymmetric:
+  children: []
+  name: coupler_asymmetric_gdsfactorypcomponentspcouplerspcoupl_f4854d7b
+coupler_bend:
+  children:
+  - bend_circular_all_angle_R10_A90_NNone_ASNone_LNone_WNon_5720d7b7
+  - bend_circular_all_angle_R10p7_A60_NNone_ASNone_LNone_WN_9f56c48a
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_5085889c_<trans>
+  name: coupler_bend_gdsfactorypcomponentspringspring_single_be_33d3cd75
+coupler_bent_half:
+  children: []
+  name: coupler_bent_half_gdsfactorypcomponentspcouplerspcouple_890a2ec4
+coupler_broadband:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407
+  - coupler_straight_gdsfactorypcomponentspcouplerspcoupler_18868fc8
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L12p_ad93d72a
+  name: coupler_broadband_gdsfactorypcomponentspcouplerspcouple_ee79a992
+coupler_capacitive:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S20_50_8bc7a35a
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1
+  name: coupler_capacitive_gdsfactorypcomponentspquantumpcouple_c7c01997
+coupler_full:
+  children: []
+  name: coupler_full_gdsfactorypcomponentspcouplerspcoupler_ful_fe2f4d83
+coupler_interdigital:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_22__4f6a35e3
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S30_2__e4ad78e2
+  name: coupler_interdigital_gdsfactorypcomponentspquantumpcoup_326b4c50
+coupler_pulley:
+  children: []
+  name: coupler_pulley_gdsfactorypcomponentspcouplerspcoupler_p_c4eb3372
+coupler_ring:
+  children: []
+  name: coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6
+coupler_ring_bend:
+  children:
+  - bend_circular_all_angle_R10_A90_NNone_ASNone_LNone_WNon_5720d7b7
+  - bend_circular_all_angle_R10p7_A45_NNone_ASNone_LNone_WN_3dcfabd4
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_04a6bc98_<trans>
+  - coupler_bend_gdsfactorypcomponentspringspring_single_be_881e6e7a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0_N_6819b7a0
+  name: coupler_ring_bend_gdsfactorypcomponentspringspring_sing_08bf6cd7
+coupler_straight:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  name: coupler_straight_gdsfactorypcomponentspcouplerspcoupler_a4c69b54
+coupler_straight_asymmetric:
+  children: []
+  name: coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_c35c2431
+coupler_symmetric:
+  children:
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S10_1p633_N99_77ca5fd8
+  name: coupler_symmetric_gdsfactorypcomponentspcouplerspcouple_7357aaee
+coupler_tunable:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S10_30_421ff531
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S15_20_3fd3374e
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S30_10_8e0991d1
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S30_40_bc503d72
+  name: coupler_tunable_gdsfactorypcomponentspquantumpcoupler_c_ab73fca4
+cross:
+  children: []
+  name: cross_gdsfactorypcomponentspshapespcross_L10_W3_LWG_PTNone
+crossing:
+  children: []
+  name: crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5
+crossing45:
+  children:
+  - bezier_gdsfactorypcomponentspbendspbend_s_CP2p828_2p828_778c27af_<trans>
+  - crossing_gdsfactorypcomponentspwaveguidespcrossing_wave_e9b41af5_<trans>
+  name: crossing45_gdsfactorypcomponentspwaveguidespcrossing_wa_631c2603
+crossing_arm:
+  children:
+  - ellipse_gdsfactorypcomponentspshapespellipse_R3_1p1_AR2_646aa358
+  name: crossing_arm_gdsfactorypcomponentspwaveguidespcrossing__931e4e94
+crossing_etched:
+  children: []
+  name: crossing_etched_gdsfactorypcomponentspwaveguidespcrossi_8fec5ed3
+crossing_linear_taper:
+  children: []
+  name: crossing_linear_taper_gdsfactorypcomponentspwaveguidesp_720cf0b8
+cutback_2x2:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_7db8d848
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_89f01867
+  - bendu_double_gdsfactorypcomponentsppcmspcutback_2x2_Cmm_6ad902cb
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - straight_double_gdsfactorypcomponentsppcmspcutback_2x2__8707a764
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: cutback_2x2_gdsfactorypcomponentsppcmspcutback_2x2_Cmmi_2b86b30c
+cutback_bend:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5
+  name: cutback_bend_gdsfactorypcomponentsppcmspcutback_bend_Cb_73a3f7dd
+cutback_bend180:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L40p_f632f63e
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5
+  name: cutback_bend180_gdsfactorypcomponentsppcmspcutback_bend_1e933a35
+cutback_bend180circular:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_89f01867
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L28p_b6ae3113
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5
+  name: cutback_bend180_gdsfactorypcomponentsppcmspcutback_bend_31b2d334
+cutback_bend90:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L30__a17b4e39
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5
+  name: cutback_bend90_gdsfactorypcomponentsppcmspcutback_bend__2e65ed36
+cutback_bend90circular:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_949aafe9
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L30__a17b4e39
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5
+  name: cutback_bend90_gdsfactorypcomponentsppcmspcutback_bend__3a512cfc
+cutback_component:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  - taper_from_csv_gdsfactorypcomponentsptapersptaper_from__5420305a
+  name: cutback_component_gdsfactorypcomponentsppcmspcutback_co_01308d66
+cutback_component_mirror:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  - taper_from_csv_gdsfactorypcomponentsptapersptaper_from__5420305a
+  name: cutback_component_gdsfactorypcomponentsppcmspcutback_co_b3fe1d45
+cutback_splitter:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: cutback_splitter_gdsfactorypcomponentsppcmspcutback_spl_81980618
+dash:
+  children: []
+  name: dash_gdsfactorypcomponentspshapespdash_W10_WE1_L20_TL5__f5197166
+dbr:
+  children:
+  - dbr_cell_gdsfactorypcomponentspfilterspdbr_W0p45_W0p55__d3a2b7a1
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40
+  name: dbr_gdsfactorypcomponentspfilterspdbr_W0p45_W0p55_L0p15_b5754d70
+dbr_cell:
+  children: []
+  name: dbr_cell_gdsfactorypcomponentspfilterspdbr_W0p45_W0p55__d3a2b7a1
+delay_snake:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0_N_6819b7a0
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L757_f26f2f14
+  name: delay_snake_gdsfactorypcomponentspspiralspdelay_snake_L_1875abed
+delay_snake2:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_4bc9c422
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0_N_6819b7a0
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L504_0e5195ea
+  name: delay_snake2_gdsfactorypcomponentspspiralspdelay_snake2_ef000488
+delay_snake_sbend:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A1_2e206d34
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S100_5_N99_CS_980b37fc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L78p_10462cc5
+  name: delay_snake_sbend_gdsfactorypcomponentspspiralspdelay_s_7f61a21a
+die:
+  children:
+  - text_gdsfactorypcomponentsptextsptext_Tchip99_S100_P0_0_0f73e94a
+  name: die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_8923d116
+die_frame:
+  children: []
+  name: die_frame_S11200_5000_LFFLOORPLAN
+die_frame_phix_dc:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - circle_gdsfactorypcomponentspshapespcircle_R75_AR2p5_LM3
+  - cross_gdsfactorypcomponentspshapespcross_L150_W20_LM3_PTNone
+  - die_frame_S11200_5000_LFFLOORPLAN
+  - edge_coupler_array_gdsfactorypcomponentspedge_couplersp_c59d004f
+  - edge_coupler_array_gdsfactorypcomponentspedge_couplersp_d82ae0d4
+  - edge_coupler_array_with_loopback_gdsfactorypcomponentsp_14887b34
+  - edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da
+  - edge_coupler_silicon_gdsfactorypcomponentspedge_coupler_5718d84a
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c
+  - ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_40d3f053
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_56f2a38e
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_82b729c7
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_85be75db
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_88c477eb
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_9f522111
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_a3e8ccb3
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_ac81e609
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_bbd156c9
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_bff22fae
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_d0df6711
+  name: die_frame_phix_dc_gdsfactorypcomponentspdiespdie_frame__81e259b1
+die_frame_phix_rf:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - circle_gdsfactorypcomponentspshapespcircle_R75_AR2p5_LM3
+  - cross_gdsfactorypcomponentspshapespcross_L150_W20_LM3_PTNone
+  - die_frame_rf_S10400_5000_LFFLOORPLAN
+  - edge_coupler_array_gdsfactorypcomponentspedge_couplersp_d82ae0d4
+  - edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da
+  - edge_coupler_silicon_gdsfactorypcomponentspedge_coupler_5718d84a
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c
+  - ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_40d3f053
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_56f2a38e
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_82b729c7
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_85be75db
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_88c477eb
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_9f522111
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_a3e8ccb3
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_ac81e609
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_bbd156c9
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_bff22fae
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_d0df6711
+  name: die_frame_phix_rf_gdsfactorypcomponentspdiespdie_frame__f6e22b50
+die_frame_rf:
+  children: []
+  name: die_frame_rf_S10400_5000_LFFLOORPLAN
+die_frame_with_pads:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - die_frame_S11200_5000_LFFLOORPLAN
+  - grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92
+  - grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L327_0e3d83ca
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L50p_cc1d2840
+  name: die_frame_with_pads_gdsfactorypcomponentspdiespdie_fram_928ce23b
+die_with_pads:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92
+  - grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S11470_1fc93ee1
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L327_0e3d83ca
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L50p_cc1d2840
+  name: die_with_pads_gdsfactorypcomponentspdiespdie_with_pads__650efb91
+disk:
+  children: []
+  name: disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip
+disk_heater:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LHE_2bb49300
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_ef1a02c5
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM3_2fa2b33f
+  - disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436
+  name: disk_heater_gdsfactorypcomponentspringspdisk_R10_G0p2_W_9f50c453
+doubly_clamped_beam:
+  children: []
+  name: doubly_clamped_beam_gdsfactorypcomponentspmemspdoubly_c_51407d87
+edge_coupler_array:
+  children:
+  - edge_coupler_silicon_gdsfactorypcomponentspedge_coupler_5718d84a
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_2c507e43
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_4290a35d
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_83d1342a
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_86ca6ae5
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_8c12df02
+  name: edge_coupler_array_gdsfactorypcomponentspedge_couplersp_00badbf2
+edge_coupler_array_with_loopback:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - edge_coupler_array_gdsfactorypcomponentspedge_couplersp_24e6908e
+  - edge_coupler_silicon_gdsfactorypcomponentspedge_coupler_5718d84a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L107_95448b36
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_2c507e43
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_38f8fbb4
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_4290a35d
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_83d1342a
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_86ca6ae5
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_8c12df02
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_8f6fbd2f
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_e6759826
+  name: edge_coupler_array_with_loopback_gdsfactorypcomponentsp_e95db816
+edge_coupler_silicon:
+  children: []
+  name: edge_coupler_silicon_gdsfactorypcomponentspedge_coupler_5718d84a
+ellipse:
+  children: []
+  name: ellipse_gdsfactorypcomponentspshapespellipse_R10_5_AR2p5_LWG
+extend_ports:
+  children:
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5
+  name: extend_ports_gdsfactorypcomponentspcontainerspextension_2c372e90
+fiber:
+  children:
+  - circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_LWG
+  - circle_gdsfactorypcomponentspshapespcircle_R62p5_AR2p5_LWGCLAD
+  name: fiber_gdsfactorypcomponentspfilterspfiber_CD10_CD125_LC_5fa599ce
+fiber_array:
+  children:
+  - circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_LWG
+  - circle_gdsfactorypcomponentspshapespcircle_R62p5_AR2p5_LWGCLAD
+  name: fiber_array_gdsfactorypcomponentspfilterspfiber_array_N_891458d4
+fiducial_squares:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S5_5_L_68f9f59d
+  name: fiducial_squares_gdsfactorypcomponentspshapespfiducial__9aab5a27
+flux_qubit:
+  children: []
+  name: flux_qubit_gdsfactorypcomponentspquantumpflux_qubit_LW5_806ac625
+flux_qubit_asymmetric:
+  children: []
+  name: flux_qubit_asymmetric_gdsfactorypcomponentspquantumpflu_71db343b
+folded_spring:
+  children: []
+  name: folded_spring_gdsfactorypcomponentspmemspfolded_spring__14469cb8
+fractal:
+  children: []
+  name: fractal_gdsfactorypcomponentspshapespfractal_FTsierpins_7a4a976f
+free_propagation_region:
+  children: []
+  name: free_propagation_region_gdsfactorypcomponentspfilterspa_5ff2a5ce
+free_propagation_region_input:
+  children: []
+  name: free_propagation_region_gdsfactorypcomponentspfilterspa_5ff2a5ce
+free_propagation_region_output:
+  children: []
+  name: free_propagation_region_gdsfactorypcomponentspfilterspa_8b9b232d
+ge_detector_straight_si_contacts:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM1_dc701dbe
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM2_fafd2bda
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM3_8bd7278e
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LSL_1ad8fd33
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L40__e75c9e9b
+  - taper_gdsfactorypcomponentsptapersptaper_L20_W0p5_W0p8__54ea6115
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S40_10_L_67a2fd6a
+  name: ge_detector_straight_si_contacts_gdsfactorypcomponentsp_ca4976dc
+gear:
+  children: []
+  name: gear_gdsfactorypcomponentspmemspgear_NT20_MS2_PA20_HRNo_909de404
+grating_coupler_array:
+  children:
+  - grating_coupler_elliptical_gdsfactorypcomponentspgratin_2f9b04be
+  name: grating_coupler_array_gdsfactorypcomponentspgrating_cou_1c646557
+grating_coupler_dual_pol:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S0p3_0_d85f7637
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S11_11_c82d519f
+  - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W10__0368f7eb
+  name: grating_coupler_dual_pol_gdsfactorypcomponentspgrating__9b341bf7
+grating_coupler_dual_pol_unit_cell:
+  children: []
+  name: rectangle_gdsfactorypcomponentspshapesprectangle_S0p3_0_d85f7637
+grating_coupler_elliptical:
+  children: []
+  name: grating_coupler_elliptical_gdsfactorypcomponentspgratin_2f9b04be
+grating_coupler_elliptical_arbitrary:
+  children: []
+  name: grating_coupler_elliptical_arbitrary_gdsfactorypcompone_98bf2b47
+grating_coupler_elliptical_lumerical:
+  children: []
+  name: grating_coupler_elliptical_lumerical_gdsfactorypcompone_e9be38bc
+grating_coupler_elliptical_te:
+  children: []
+  name: grating_coupler_elliptical_gdsfactorypcomponentspgratin_2f9b04be
+grating_coupler_elliptical_tm:
+  children: []
+  name: grating_coupler_elliptical_gdsfactorypcomponentspgratin_8f3b04a7
+grating_coupler_elliptical_trenches:
+  children: []
+  name: grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af
+grating_coupler_elliptical_uniform:
+  children: []
+  name: grating_coupler_elliptical_uniform_gdsfactorypcomponent_e3c238de
+grating_coupler_loss:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - grating_coupler_elliptical_trenches_gdsfactorypcomponen_6c1e46af
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L234_3811858c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L40__6a25f6ed
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L488_8d954f2b
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L742_3759fe2c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L996_97cfd13e
+  name: grating_coupler_loss_gdsfactorypcomponentspgrating_coup_e0b001ca
+grating_coupler_rectangular:
+  children: []
+  name: grating_coupler_rectangular_gdsfactorypcomponentspgrati_0ad53516
+grating_coupler_rectangular_arbitrary:
+  children:
+  - taper_gdsfactorypcomponentsptapersptaper_L150_W0p5_W11__e38806f8
+  name: grating_coupler_rectangular_arbitrary_gdsfactorypcompon_9511b500
+grating_coupler_te:
+  children: []
+  name: grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
+grating_coupler_tm:
+  children: []
+  name: grating_coupler_elliptical_trenches_gdsfactorypcomponen_783aaa30
+grating_coupler_tree:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - grating_coupler_elliptical_gdsfactorypcomponentspgratin_2f9b04be
+  - straight_array_gdsfactorypcomponentspwaveguidespstraigh_4d2a5b84
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L175_32999c45
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L302_91443128
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L429_3f34bc4c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L48p_dbb2297b
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L59p_5a080edd
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L64__1d439041
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L68p_aaf4282c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L73__7e7d1e79
+  name: grating_coupler_tree_gdsfactorypcomponentspgrating_coup_ef3cc62e
+greek_cross:
+  children: []
+  name: greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3
+greek_cross_with_pads:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  name: greek_cross_with_pads_gdsfactorypcomponentsppcmspgreek__3aa1f2b4
+h_junction:
+  children: []
+  name: h_junction_gdsfactorypcomponentspmicrofluidicsph_juncti_df1d5b7c
+hexagon:
+  children: []
+  name: regular_polygon_gdsfactorypcomponentspshapespregular_po_5e742969
+hline:
+  children: []
+  name: hline_gdsfactorypcomponentspsuperconductorsphline_L10_W_814dab96
+inductor:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_3_e7e1313e
+  name: inductor_gdsfactorypcomponentspanalogpinductors_W2_S2p1_080a6fa6
+interdigital_capacitor:
+  children: []
+  name: interdigital_capacitor_gdsfactorypcomponentspanalogpint_db9e85de
+interdigitated_electrodes:
+  children: []
+  name: interdigitated_electrodes_gdsfactorypcomponentspanalogp_f23a132c
+litho_calipers:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_21fd3779
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c
+  name: litho_calipers_gdsfactorypcomponentsppcmsplitho_caliper_a176e64f
+litho_ruler:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S0p5_2_04850913
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S0p5_4_b315d65e
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S0p5_6_c88bb9ce
+  name: litho_ruler_gdsfactorypcomponentsppcmsplitho_ruler_H2_W_498cf36f
+litho_steps:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S10_50_186a707b
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S16_50_91819f0b
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S1_50__439ee0ed
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_50__504d1381
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S4_50__437902f0
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S8_50__08d62a52
+  - text_gdsfactorypcomponentsptextsptext_T16p0_S50_P0_0_Jcenter_LWG
+  name: litho_steps_gdsfactorypcomponentsppcmsplitho_steps_LW1__28bdcaf2
+loop_mirror:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L1p2_b215014a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: loop_mirror_gdsfactorypcomponentspfiltersploop_mirror_C_2fff599b
+marker_te:
+  children: []
+  name: rectangle_gdsfactorypcomponentspshapesprectangle_S10p4__49471f7e
+marker_tm:
+  children: []
+  name: rectangle_gdsfactorypcomponentspshapesprectangle_S10p4__e36ed134
+meander_channel:
+  children: []
+  name: meander_channel_gdsfactorypcomponentspmicrofluidicspmea_2548e348
+mmi:
+  children: []
+  name: mmi_gdsfactorypcomponentspmmispmmi_I1_O4_WNone_WT1_LT10_71888a21
+mmi1x2:
+  children: []
+  name: mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+mmi1x2_with_sbend:
+  children: []
+  name: mmi1x2_with_sbend_gdsfactorypcomponentspmmispmmi1x2_wit_d743ed22
+mmi2x2:
+  children: []
+  name: mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+mmi2x2_with_sbend:
+  children: []
+  name: mmi2x2_with_sbend_gdsfactorypcomponentspmmispmmi2x2_wit_7cbfdef7
+mmi_90degree_hybrid:
+  children: []
+  name: mmi_90degree_hybrid_gdsfactorypcomponentspmmispmmi_90de_b7c14c3a
+mmi_tapered:
+  children: []
+  name: mmi_tapered_gdsfactorypcomponentspmmispmmi_tapered_I1_O_60dbfe94
+mode_converter:
+  children:
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S25_3_N99_CSs_0eac67c5
+  - coupler_straight_asymmetric_gdsfactorypcomponentspcoupl_fd8c78fd
+  - taper_gdsfactorypcomponentsptapersptaper_L25_W1_W1p2_LN_97c68b0b
+  name: mode_converter_gdsfactorypcomponentspfilterspmode_conve_67c9cfc7
+mzi:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p1_2d7d3dfa
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_7527f8b6
+mzi1x2:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p1_2d7d3dfa
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_afb45bea
+mzi1x2_2x2:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p1_2d7d3dfa
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX0p1_Bbend_cc98f3e2
+mzi1x2_2x2_heater:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L320_4fca7138
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1bc8609e
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL0_LY2_LXNone_Bbend_0bc772e6
+mzi2x2_2x2:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_1fe38360
+mzi2x2_2x2_phase_shifter:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L200_df487717
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1d53e79c
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX200_Bbend_54f5ce64
+mzi_coupler:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_8e103e72
+mzi_lattice:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p2_L10_64d8ecb8
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p3_L20_ab86c00a
+  - mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_5b65d3b9
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  name: mzi_lattice_gdsfactorypcomponentspmzispmzi_lattice_CL10_ffe6cf26
+mzi_lattice_mmi:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LXNone_Bben_916c66b9
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  name: mzi_lattice_mmi_gdsfactorypcomponentspmzispmzi_lattice__4fc84500
+mzi_pads_center:
+  children:
+  - array_gdsfactorypcomponentspcontainersparray_component__8765215d
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - mzi_gdsfactorypcomponentspmzispmzi_DL40_LY40_LX500_Bben_adfee0be
+  - pad_gdsfactorypcomponentsppadsppad_S80_80_LMTOP_BLNone__ea0497a0
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L102_dfa17972
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L115_34de836d
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L12p_d78678dc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L250_22123871
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L39p_60ed2fdd
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_0a3fab0b
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L40__92237c63
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L60__19f0af99
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L60p_beecede7
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L74p_6e2e4462
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_8c5b1d68
+  - wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_24e9560f
+  name: mzi_pads_center_gdsfactorypcomponentspmzispmzi_pads_cen_0cb9c201
+mzi_phase_shifter:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L200_df487717
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1d53e79c
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX200_Bbend_764be269
+mzi_phase_shifter_top_heater_metal:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L200_df487717
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1d53e79c
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX200_Bbend_764be269
+mzi_pin:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM1_8a55a1f4
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM2_11dd617a
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM3_3799dbca
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LSL_c8934731
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L100_fb22af26
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L80__dc82c60b
+  - straight_pin_gdsfactorypcomponentspwaveguidespstraight__0ad6f6a7
+  - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S80_10_L_c608bbcb
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL0_LY2_LX100_Bbend__0b693139
+mzit:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_ca983cd9
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_d127dd23
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p2_L5__7de5f5a9
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p3_L10_de55e7a7
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L1_N_5fbfa602
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L1_N_8f87aff2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_7ef1834c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_82fcb63a
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p45_W0p55_0c13ccff
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p45_W0p5__c017326a
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p55_W0p45_5c6a2317
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p55_W0p5__e1c8a87b
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p5_W0p45__69eccf19
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p5_W0p55__7fca8cd1
+  name: mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_b62f1593
+mzit_lattice:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_ca983cd9
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_d127dd23
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p2_L10_daa28717
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p3_L20_ef80439e
+  - mzit_gdsfactorypcomponentspmzispmzit_W0p5_W0p45_W0p55_D_e032093e
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L1_N_5fbfa602
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L1_N_8f87aff2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_7ef1834c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_82fcb63a
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p45_W0p55_0c13ccff
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p45_W0p5__c017326a
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p55_W0p45_5c6a2317
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p55_W0p5__e1c8a87b
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p5_W0p45__69eccf19
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W0p5_W0p55__7fca8cd1
+  name: mzit_lattice_gdsfactorypcomponentspmzispmzit_CL10_20_CG_33537b6f
+mzm:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_4e0af846
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_d431091e
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_ffb56291
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LS_ac7757bf
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L180_c6573083
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L7_N_ecd9aecc
+  - straight_pin_gdsfactorypcomponentspwaveguidespstraight__77e81821
+  - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S180_10__fe00a7d9
+  name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX200_Bbend_821601cf
+nxn:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S8_8_L_4a426c49
+  name: nxn_gdsfactorypcomponentspshapespnxn_W1_E4_N0_S0_X8_Y8__a6d1a1bf
+octagon:
+  children: []
+  name: regular_polygon_gdsfactorypcomponentspshapespregular_po_2dfc6ff4
+optimal_90deg:
+  children: []
+  name: optimal_90deg_gdsfactorypcomponentspsuperconductorspopt_17ade196
+optimal_hairpin:
+  children: []
+  name: optimal_hairpin_gdsfactorypcomponentspsuperconductorspo_154c7002
+optimal_step:
+  children: []
+  name: optimal_step_gdsfactorypcomponentspsuperconductorspopti_6b745aac
+pack_doe:
+  children:
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_970bc9eb
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_e7347a11
+  name: pack_doe_gdsfactorypcomponentspcontainersppack_doe_Dmmi_1c0df6f4
+pack_doe_grid:
+  children:
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_970bc9eb
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_e7347a11
+  name: pack_doe_grid_gdsfactorypcomponentspcontainersppack_doe_2a414c56
+pad:
+  children: []
+  name: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+pad_array:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_2f7d9e34
+  name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_7cada612
+pad_array0:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_2f7d9e34
+  name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C1_R3_CP1_70dcc787
+pad_array180:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_943ed586
+  name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C1_R3_CP1_dc726c53
+pad_array270:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_af5ddc87
+  name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_4ce3fbcf
+pad_array90:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_82713a36
+  name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_c1dae302
+pad_array_layer:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LM1_BLNone__ea24abb1
+  name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_66bf5d0b
+pad_array_size:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LM1_BLNone__ea24abb1
+  name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_e956078a
+pad_gs:
+  children: []
+  name: pad_gs_gdsfactorypcomponentsppadsppad_gsg_L100_CSgs
+pad_gsg:
+  children: []
+  name: pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg
+pad_gsg_open:
+  children:
+  - array_gdsfactorypcomponentspcontainersparray_component__febecbc6
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d
+  name: pad_gsg_short_gdsfactorypcomponentsppadsppad_gsg_S22_7__04867846
+pad_gsg_short:
+  children:
+  - array_gdsfactorypcomponentspcontainersparray_component__febecbc6
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d
+  name: pad_gsg_short_gdsfactorypcomponentsppadsppad_gsg_S22_7__a1db99a4
+pad_rectangular:
+  children: []
+  name: pad_gdsfactorypcomponentsppadsppad_Spad_size_LMTOP_BLNo_e43d6fec
+pad_small:
+  children: []
+  name: pad_gdsfactorypcomponentsppadsppad_S80_80_LMTOP_BLNone__ea0497a0
+pads_shorted:
+  children:
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661
+  name: pads_shorted_gdsfactorypcomponentsppadsppads_shorted_Pp_ed8f83ce
+pie_arc:
+  children: []
+  name: pie_arc_gdsfactorypcomponentspshapesppie_arc_R10_RYNone_e6c90137
+pixel:
+  children: []
+  name: pixel_gdsfactorypcomponentsppcmspversion_stamp_S1_LWG
+pixel_array:
+  children: []
+  name: pixel_array_gdsfactorypcomponentsptextsptext_rectangula_61fdfbfc
+polarization_splitter_rotator:
+  children: []
+  name: polarization_splitter_rotator_gdsfactorypcomponentspfil_b1581fa6
+qrcode:
+  children: []
+  name: qrcode_gdsfactorypcomponentsppcmspversion_stamp_Dmask01_P1_LWG
+ramp:
+  children: []
+  name: ramp_gdsfactorypcomponentsptaperspramp_L10_W5_W8_LWG
+rect_su_shape:
+  children: []
+  name: rect_su_shape_gdsfactorypcomponentspshapesprect_su_shap_2fd3f589
+rect_taper:
+  children: []
+  name: rect_taper_gdsfactorypcomponentspshapesprect_taper_RW1__d72d1854
+rectangle:
+  children: []
+  name: rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_951d36bb
+rectangle_with_slits:
+  children: []
+  name: rectangle_with_slits_gdsfactorypcomponentsppadsprectang_f03dfc73
+rectangles:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f70ae5a1
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S4_2_L_f967813b
+  name: rectangles_gdsfactorypcomponentspshapesprectangle_S4_2__6806a983
+regular_polygon:
+  children: []
+  name: regular_polygon_gdsfactorypcomponentspshapespregular_po_5e742969
+resistance_meander:
+  children: []
+  name: resistance_meander_gdsfactorypcomponentsppcmspresistanc_c0ce6264
+resistance_meander_net:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S1_1_L_eeafcd24
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S38p96_92bf575a
+  - resistance_meander_row_LR38p96_W1_RLMTOP
+  name: resistance_meander_net_NR25_LR38p96_W1_RLMTOP
+resistance_meander_row:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S1_1_L_eeafcd24
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S38p96_92bf575a
+  name: resistance_meander_row_LR38p96_W1_RLMTOP
+resistance_sheet:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489
+  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LHE_0d3d3f5d
+  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LM2_1a56224f
+  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LM3_7e9c54cf
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6
+  name: resistance_sheet_gdsfactorypcomponentsppcmspresistance__cb73a501
+resolution_test_pattern:
+  children: []
+  name: resolution_test_pattern_gdsfactorypcomponentsppcmspreso_d98c0c98
+resonator_cpw:
+  children: []
+  name: resonator_cpw_gdsfactorypcomponentspquantumpresonator_L_cafe5f4c
+resonator_lumped:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_49c60930
+  - interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_cb8f1b92
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65
+  name: resonator_lumped_gdsfactorypcomponentspquantumpresonato_db34893e
+resonator_quarter_wave:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S100_5_f6348b13
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2500__18df45d1
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2562__0173133b
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S50_22_08c84d8d
+  name: resonator_quarter_wave_gdsfactorypcomponentspquantumpre_f5b2b734
+ring:
+  children: []
+  name: ring_gdsfactorypcomponentspringspring_R10_W0p5_AR2p5_LW_5fead3f6
+ring_asymmetric:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_35685adf
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_a6eac62c
+  name: ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_9ac0ce2c
+ring_crow:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_35685adf
+  - ring_asymmetric_gdsfactorypcomponentspringspring_crow_R_df3911fe
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0_N_6819b7a0
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: ring_crow_gdsfactorypcomponentspringspring_crow_G0p2_0p_d55005d8
+ring_crow_couplers:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_35685adf
+  - coupler_gdsfactorypcomponentspcouplerspcoupler_G0p236_L_75dd060a
+  name: ring_crow_couplers_gdsfactorypcomponentspringspring_cro_cb10ddba
+ring_double:
+  children:
+  - coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_dd30faef
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p0_05377f40
+  name: ring_double_gdsfactorypcomponentspringspring_double_G0p_fee0c62d
+ring_double_bend_coupler:
+  children: []
+  name: ring_double_bend_coupler_gdsfactorypcomponentspringspri_3a4eb08f
+ring_double_heater:
+  children: []
+  name: ring_double_heater_gdsfactorypcomponentspringspring_hea_57023e4d
+ring_single:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_a6eac62c
+  name: ring_single_gdsfactorypcomponentspringspring_single_G0p_87a10a39
+ring_single_array:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_a86bc407
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R5_A9_90a35c7e
+  - coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_8af517f8
+  - coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9e373c82
+  - ring_single_gdsfactorypcomponentspringspring_single_G0p_914c3c45
+  - ring_single_gdsfactorypcomponentspringspring_single_G0p_c8ab51a3
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L0p6_058e2168
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L15__aa481ca5
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: ring_single_array_gdsfactorypcomponentspringspring_sing_54fe30c4
+ring_single_bend_coupler:
+  children: []
+  name: ring_single_bend_coupler_gdsfactorypcomponentspringspri_5722bcdd
+ring_single_dut:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - coupler_ring_gdsfactorypcomponentspcouplerspcoupler_rin_9cdfdde6
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L4_N_a6eac62c
+  name: ring_single_dut_gdsfactorypcomponentspringspring_single_3cf05ffd
+ring_single_heater:
+  children: []
+  name: ring_double_heater_gdsfactorypcomponentspringspring_hea_e0cb8182
+ring_single_pn:
+  children: []
+  name: ring_single_pn_gdsfactorypcomponentspringspring_pn_G0p3_8ebf82c2
+rounded_rectangle:
+  children: []
+  name: rounded_rectangle_gdsfactorypcomponentspshapesprounded__7f46eb42
+ruler:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_40d3f053
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_56f2a38e
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_82b729c7
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_85be75db
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_88c477eb
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_9f522111
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_a3e8ccb3
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_ac81e609
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_bbd156c9
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_bff22fae
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_d0df6711
+  name: ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807
+seal_ring:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_15799d1c
+  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_a7aebc4d
+  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_fda5b6d9
+  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_6e7a4f50
+  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_9b57ab23
+  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_c66ab089
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b
+  name: seal_ring_gdsfactorypcomponentspdiespseal_ring_S500_500_540c1ebf
+seal_ring_segmented:
+  children:
+  - array_gdsfactorypcomponentspcontainersparray_component__3f2b27f6
+  - array_gdsfactorypcomponentspcontainersparray_component__efc300f8
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__ab6f8ee7
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__e4be3564
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__688ed018
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__7649253a
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__10d12c87
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__c8759e0d
+  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM1__156c71c1
+  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM2__a79a191b
+  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM3__360bd08e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_corner45_extended_gdsfactorypcomponentspviasp_a2f90c7d
+  - via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_d5217c9f
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S3_10_LM_a1105390
+  name: seal_ring_segmented_gdsfactorypcomponentspdiespseal_rin_a6a20ffc
+snspd:
+  children: []
+  name: snspd_gdsfactorypcomponentspsuperconductorspsnspd_WW0p2_720d3387
+spiral:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L100_fb22af26
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L123_3b9879fb
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L129_108538c4
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L135_9923e88f
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L141_aa881f7c
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L147_c48384bc
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L153_c7ad8543
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L159_2c2dd962
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L15__aa481ca5
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L21__0a862ebf
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L27__d13ab42d
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L33__c5d9c8f9
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L39__feefbca7
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L3_N_b797802a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L9_N_40e20b84
+  name: spiral_gdsfactorypcomponentspspiralspspiral_L100_Bbend__8868a9e3
+spiral_archimedes:
+  children: []
+  name: spiral_archimedes_gdsfactorypcomponentspspiralspspiral__acc8103c
+spiral_double:
+  children: []
+  name: spiral_double_gdsfactorypcomponentspspiralspspiral_doub_2988a5f7
+spiral_fermat:
+  children: []
+  name: spiral_fermat_gdsfactorypcomponentspspiralspspiral_ferm_877ac219
+spiral_inductor:
+  children: []
+  name: spiral_inductor_gdsfactorypcomponentspspiralspspiral_in_2442ed4f
+spiral_logarithmic:
+  children: []
+  name: spiral_logarithmic_gdsfactorypcomponentspspiralspspiral_f5d74fd2
+spiral_racetrack:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_1eac9e25
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R12_A_25572104
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R14_A_e64b8990
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R17_A_87d606ce
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R20_A_a8ec6996
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R22_A_bfdc8201
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S20_m18_N99_C_c4005b58
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_8b5fa3a7
+spiral_racetrack_fixed_length:
+  children:
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_275ea23c
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_4b1750de
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_5281f12a
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_7d8e4b82
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_9561282e
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_b5e3dba6
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S48p891797915_7344c48e
+  - spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_f4cee431
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L15__872c1d86
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L25p_cd3c7cb2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L48p_bc2b550e
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L61p_390dc621
+  name: spiral_racetrack_fixed_length_gdsfactorypcomponentspspi_bd9333ad
+spiral_racetrack_heater_doped:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_1eac9e25
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R12_A_25572104
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R14_A_e64b8990
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R16_A_886625e9
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R18_A_66ef1155
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R21_A_5efb3c37
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R24_A_7d40b3c7
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R26_A_8ce204ad
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S30_m18_N99_C_290427a1
+  - spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_7ac50a2e
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L30__a17b4e39
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L30__e3a8c66a
+  name: spiral_racetrack_heater_doped_gdsfactorypcomponentspspi_fbc193ed
+spiral_racetrack_heater_metal:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_1eac9e25
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R12_A_25572104
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R14_A_e64b8990
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R16_A_886625e9
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R18_A_66ef1155
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R20_A_4fd769f3
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R20_A_a8ec6996
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R22_A_bfdc8201
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R24_A_7d40b3c7
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S30_m18_N99_C_290427a1
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_4be1007a
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L30__78cfbfa8
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L30__a17b4e39
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+  name: spiral_racetrack_heater_metal_gdsfactorypcomponentspspi_4edb23b1
+spiral_rectangular:
+  children: []
+  name: spiral_rectangular_gdsfactorypcomponentspspiralspspiral_b2bde2b8
+splitter_chain:
+  children:
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S11_1p8_N99_C_42908c8c
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  name: splitter_chain_gdsfactorypcomponentspcontainerspsplitte_b35759ef
+splitter_tree:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S90_11p875_N9_bd3e5121
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L44p_ec613ee3
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L4p3_d26c6f77
+  name: splitter_tree_gdsfactorypcomponentspcontainerspsplitter_b6d59c93
+stacked_transformer:
+  children:
+  - via3_S0p7_0p7_E1_P2
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  name: stacked_transformer_gdsfactorypcomponentspanalogptransf_5c77bf46
+staircase:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_32b584f5
+  name: staircase_gdsfactorypcomponentsppcmspcutback_bend_Cbend_02142e80
+star:
+  children: []
+  name: star_gdsfactorypcomponentspshapespstar_IR5_OR10_NP5_LWG
+straight:
+  children: []
+  name: straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+straight_all_angle:
+  children: []
+  name: straight_all_angle_L10_N2_CSstrip_WNone
+straight_array:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L10__f2286423
+  name: straight_array_gdsfactorypcomponentspwaveguidespstraigh_4d2a5b84
+straight_double:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L20__31a8c163
+  name: straight_double_gdsfactorypcomponentsppcmspcutback_2x2__8707a764
+straight_heater_doped_rib:
+  children: []
+  name: straight_heater_doped_rib_gdsfactorypcomponentspwavegui_6db4eef8
+straight_heater_meander:
+  children: []
+  name: straight_heater_meander_gdsfactorypcomponentspwaveguide_a14bb5f1
+straight_heater_meander_doped:
+  children: []
+  name: straight_heater_meander_doped_gdsfactorypcomponentspwav_b1b421e4
+straight_heater_metal:
+  children: []
+  name: straight_heater_metal_undercut_gdsfactorypcomponentspwa_1bc8609e
+straight_heater_metal_90_90:
+  children: []
+  name: straight_heater_metal_undercut_gdsfactorypcomponentspwa_e3a9a262
+straight_heater_metal_simple:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L320_7770fef3
+  - taper_gdsfactorypcomponentsptapersptaper_L5_W11_W2p5_LN_4ddd9be8
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+  name: straight_heater_metal_simple_gdsfactorypcomponentspwave_f2bcc892
+straight_heater_metal_undercut:
+  children: []
+  name: straight_heater_metal_undercut_gdsfactorypcomponentspwa_8e89b36f
+straight_heater_metal_undercut_90_90:
+  children: []
+  name: straight_heater_metal_undercut_gdsfactorypcomponentspwa_579ee9a5
+straight_pin:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_6577179f
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_9d45dd62
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_bf63c414
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_703b2ed8
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L480_0775fb2d
+  - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b3282c8d
+  name: straight_pin_gdsfactorypcomponentspwaveguidespstraight__765c8da7
+straight_pin_slot:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_6577179f
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_9d45dd62
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_bf63c414
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_fea1a3d5
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_703b2ed8
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L480_0775fb2d
+  - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_3429f099
+  - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_cdf8dd60
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e
+  name: straight_pin_slot_gdsfactorypcomponentspwaveguidespstra_779980e0
+straight_pn:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_042db089
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_539384fd
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_a6397880
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_b37f95d4
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L198_4b710248
+  - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c
+  name: straight_pin_gdsfactorypcomponentspwaveguidespstraight__fb9888db
+straight_pn_slot:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_6577179f
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_9d45dd62
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_bf63c414
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_fea1a3d5
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_703b2ed8
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L480_9b7ec76b
+  - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_3429f099
+  - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_cdf8dd60
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e
+  name: straight_pin_slot_gdsfactorypcomponentspwaveguidespstra_36f9c569
+switch_tree:
+  children:
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
+  - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
+  - bend_s_gdsfactorypcomponentspbendspbend_s_S500_24p375_N_23c8b359
+  - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
+  - mmi2x2_gdsfactorypcomponentspmmispmmi2x2_WNone_WT1_LT10_d84946bc
+  - mzi_gdsfactorypcomponentspmzispmzi_DL0_LY2_LXNone_Bbend_0bc772e6
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L29p_d5b7e51f
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L320_4fca7138
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L69__450ef387
+  - straight_heater_metal_undercut_gdsfactorypcomponentspwa_1bc8609e
+  name: splitter_tree_gdsfactorypcomponentspcontainerspsplitter_df94776e
+symmetric_transformer:
+  children:
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: symmetric_transformer_gdsfactorypcomponentspanalogptran_55361279
+t_junction:
+  children: []
+  name: t_junction_gdsfactorypcomponentspmicrofluidicspt_juncti_2c5b0983
+taper:
+  children: []
+  name: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_WNone_00f8e284
+taper_0p5_to_3_l36:
+  children: []
+  name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__5420305a
+taper_adiabatic:
+  children: []
+  name: taper_adiabatic_gdsfactorypcomponentsptapersptaper_adia_5a9367ac
+taper_cross_section:
+  children: []
+  name: taper_cross_section_gdsfactorypcomponentsptapersptaper__aaaeb4e9
+taper_cross_section_linear:
+  children: []
+  name: taper_cross_section_gdsfactorypcomponentsptapersptaper__a8929b2f
+taper_cross_section_parabolic:
+  children: []
+  name: taper_cross_section_gdsfactorypcomponentsptapersptaper__7af4fcd8
+taper_cross_section_sine:
+  children: []
+  name: taper_cross_section_gdsfactorypcomponentsptapersptaper__66194c71
+taper_electrical:
+  children: []
+  name: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_WNone_b49e6ea0
+taper_from_csv:
+  children: []
+  name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__5420305a
+taper_meander:
+  children:
+  - taper_section_XS1_XE1001_NP50_LWG
+  name: taper_meander_gdsfactorypcomponentsptapersptaper_meande_6dc0c113
+taper_nc_sc:
+  children: []
+  name: taper_nc_sc_gdsfactorypcomponentsptapersptaper_W1_W0p5__e4a7bb2c
+taper_parabolic:
+  children: []
+  name: taper_parabolic_gdsfactorypcomponentsptapersptaper_para_eab4e7ad
+taper_sc_nc:
+  children: []
+  name: taper_sc_nc_gdsfactorypcomponentsptapersptaper_W0p5_W1__5bac8726
+taper_strip_to_ridge:
+  children: []
+  name: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
+taper_strip_to_ridge_trenches:
+  children: []
+  name: taper_strip_to_ridge_trenches_gdsfactorypcomponentsptap_51df7c8b
+taper_strip_to_slab150:
+  children: []
+  name: taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_22f8f008
+taper_terminator:
+  children: []
+  name: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_W0p1__ca999620
+taper_w10_l100:
+  children: []
+  name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__d934c068
+taper_w10_l150:
+  children: []
+  name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__44d26793
+taper_w10_l200:
+  children: []
+  name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__20388a64
+taper_w11_l200:
+  children: []
+  name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__fdbd7c47
+taper_w12_l200:
+  children: []
+  name: taper_from_csv_gdsfactorypcomponentsptapersptaper_from__b70911a2
+taper_with_trenches:
+  children: []
+  name: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_WNone_d39817d5
+terminator:
+  children:
+  - taper_cross_section_gdsfactorypcomponentsptapersptaper__9c35aa56
+  name: terminator_gdsfactorypcomponentspfilterspterminator_L50_a505b160
+terminator_spiral:
+  children: []
+  name: terminator_spiral_gdsfactorypcomponentspfiltersptermina_ea632972
+text:
+  children: []
+  name: text_gdsfactorypcomponentsptextsptext_Tabcd_S10_P0_0_Jleft_LWG
+text_klayout:
+  children: []
+  name: text_klayout_gdsfactorypcomponentsptextsptext_Ta_LWG_LN_858e65c0
+text_lines:
+  children:
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_02ace194
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_5b614243
+  name: text_lines_gdsfactorypcomponentsptextsptext_TChip_01_S0p4_LWG
+text_rectangular:
+  children: []
+  name: text_rectangular_gdsfactorypcomponentsptextsptext_recta_91ffd302
+text_rectangular_multi_layer:
+  children:
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_91ffd302
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_93ab1193
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_dfbef80b
+  - text_rectangular_gdsfactorypcomponentsptextsptext_recta_e089aeed
+  name: text_rectangular_multi_layer_gdsfactorypcomponentsptext_9efe36c2
+torus:
+  children: []
+  name: torus_gdsfactorypcomponentspshapesptorus_IR5_OR10_SA0_E_a45d5d86
+torus_wave:
+  children: []
+  name: torus_wave_gdsfactorypcomponentspshapesptorus_wave_IR5__d509e31b
+transformer_concentric_secondary:
+  children: []
+  name: transformer_concentric_secondary_W3_S3p1_D50_LMM2_LJM1_Vvia1_VS3
+transmon:
+  children:
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S10_4__20e6fee0
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S200_1_73612198
+  name: transmon_gdsfactorypcomponentspquantumptransmon_PW200_P_b8f72fdf
+transmon_circular:
+  children:
+  - circle_gdsfactorypcomponentspshapespcircle_R100_AR2p5_L1_0
+  - circle_gdsfactorypcomponentspshapespcircle_R5_AR2p5_L1_0
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S0p15__aa94d32a
+  name: transmon_circular_gdsfactorypcomponentspquantumptransmo_29140297
+triangle:
+  children: []
+  name: triangle_gdsfactorypcomponentspshapesptriangles_X10_X0__336fc7f4
+triangle2:
+  children:
+  - triangle_gdsfactorypcomponentspshapesptriangles_X10_X0__336fc7f4
+  name: triangle2_gdsfactorypcomponentspshapesptriangles_S3
+triangle2_thin:
+  children:
+  - triangle_gdsfactorypcomponentspshapesptriangles_X2_X0p2_c0ce9f96
+  name: triangle2_gdsfactorypcomponentspshapesptriangles_S3_X0p2_X2_Y5
+triangle4:
+  children:
+  - triangle2_gdsfactorypcomponentspshapesptriangles_S3
+  - triangle_gdsfactorypcomponentspshapesptriangles_X10_X0__336fc7f4
+  name: triangle4_gdsfactorypcomponentspshapesptriangles
+triangle4_thin:
+  children:
+  - triangle2_gdsfactorypcomponentspshapesptriangles_S3_X0p2_X2_Y5
+  - triangle_gdsfactorypcomponentspshapesptriangles_X2_X0p2_c0ce9f96
+  name: triangle4_gdsfactorypcomponentspshapesptriangles_X0p2_X2_Y5
+triangle_thin:
+  children: []
+  name: triangle_gdsfactorypcomponentspshapesptriangles_X2_X0p2_c0ce9f96
+vernier_scale:
+  children: []
+  name: vernier_scale_gdsfactorypcomponentsppcmspvernier_scale__f7568b09
+verniers:
+  children:
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L100_15bcd940
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L100_9799794b
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L100_9e1acc0f
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L100_d6863c55
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L100_fec7fb98
+  name: verniers_gdsfactorypcomponentsppcmspverniers_W0p1_0p2_0_34c27bd8
+via:
+  children: []
+  name: via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+via1:
+  children: []
+  name: via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+via2:
+  children: []
+  name: via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+via3:
+  children: []
+  name: via3_S0p7_0p7_E1_P2
+via_chain:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S2p7_6_ddce550a
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S6p4_2_788ba5af
+  - rectangle_gdsfactorypcomponentspshapesprectangle_S6p4_2_cc7211d3
+  - rectangles_gdsfactorypcomponentspshapesprectangle_S6p4__6566a68c
+  - rectangles_gdsfactorypcomponentspshapesprectangle_S6p4__e4261359
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd
+  name: via_chain_gdsfactorypcomponentspviaspvia_chain_NV100_C1_b1f2c27f
+via_circular:
+  children: []
+  name: via_circular_gdsfactorypcomponentspviaspvia_R0p35_E1_LV_4f29b34c
+via_corner:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_75e6e113
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM3_bb4c80ed
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  name: via_corner_gdsfactorypcomponentspviaspvia_corner_CSmeta_aeaeec6c
+via_stack:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+via_stack_corner45:
+  children: []
+  name: via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_d5a13d6a
+via_stack_corner45_extended:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__e4be3564
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__7649253a
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__10d12c87
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483
+  name: via_stack_corner45_extended_gdsfactorypcomponentspviasp_a2f90c7d
+via_stack_heater_m2:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_0e403e34
+via_stack_heater_m3:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+via_stack_heater_meander_doped:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_13dabab2
+  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_d235db8a
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p1_LVIA1__33ecaa95
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p1_LVIAC__38b3c27c
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S1p5_1p5_48d3aa2b
+via_stack_heater_mtop:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+via_stack_heater_mtop_mini:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_eae1a523
+  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LM2_P_c706cd7e
+  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_33f305c1
+via_stack_heater_ring_pn:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_186f184e
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_e3eaae5a
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIA1_0c2a5a1c
+  - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIAC_cbb103d7
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S0p5_0p5_b3b757c6
+via_stack_m1_m3:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+via_stack_m1_mtop:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+via_stack_m2_m3:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd
+via_stack_npp_m1:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_b5d41ec0
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LWG_449bc0ec
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_0a3e89d4
+via_stack_slab_m1:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_ebcbc2f3
+via_stack_slab_m1_horizontal:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_3d274afd
+  - via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_b26d0493
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_f3c703ff
+via_stack_slab_m2:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_eacb926a
+via_stack_slab_m3:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_7d5dfd8f
+via_stack_slab_npp_m3:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_b5d41ec0
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_e7917b41
+via_stack_with_offset:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_02253188
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_45e92a15
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_f97a3a88
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_c3d1d693
+via_stack_with_offset_m1_m3:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_5fd368c5
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_76817f2c
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_ef1a02c5
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_509e5c58
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
+  name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_aa50dc00
+via_stack_with_offset_ppp_m1:
+  children:
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_02253188
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_45e92a15
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_f97a3a88
+  - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+  name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_c3d1d693
+viac:
+  children: []
+  name: via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
+wafer:
+  children:
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_0cf54b9f
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_106f6999
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_11dbe92c
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_15e2ec87
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_1c001243
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_22f8d57e
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2940af6f
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_2f039a91
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_386e5f89
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_39095f50
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_3a59d7be
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5429d601
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_546ca18f
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_5e52cc64
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_60de95b1
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_62d0e6dc
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_63d0d316
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_693e9e41
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6b495545
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_6cea4a8e
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_70e6743b
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_72102e9c
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_752ebacf
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_7879bffa
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_988a0c07
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_9e1d55ac
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a4a10205
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_a97b8684
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_aa7af830
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b1827954
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b1dc729d
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b37de06b
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_b9987078
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_bf8a412a
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c0b47aad
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c304b743
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c4968a1e
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_c5fc72fa
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_d7123d1f
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_eae4051a
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_ecfaf4c3
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f4700ab2
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f4c80554
+  - die_gdsfactorypcomponentspdiespdie_S10000_10000_SW100_S_f54f85a6
+  - text_gdsfactorypcomponentsptextsptext_T10_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T11_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T12_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T13_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T14_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T15_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T16_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T17_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T18_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T19_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T1_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T20_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T21_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T22_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T23_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T24_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T25_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T26_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T27_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T28_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T29_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T2_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T30_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T31_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T32_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T33_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T34_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T35_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T36_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T37_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T38_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T39_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T3_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T40_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T41_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T42_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T43_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T44_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T4_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T5_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T6_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T7_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T8_S100_P0_0_Jleft_LWG
+  - text_gdsfactorypcomponentsptextsptext_T9_S100_P0_0_Jleft_LWG
+  name: wafer_gdsfactorypcomponentspdiespwafer_Rdie_C2_6_6_8_8__ddb8201b
+wire_corner:
+  children: []
+  name: wire_corner_gdsfactorypcomponentspwaveguidespwire_CSmet_4db3826e
+wire_corner45:
+  children: []
+  name: wire_corner45_gdsfactorypcomponentspwaveguidespwire_CSm_98c336c7
+wire_corner45_straight:
+  children: []
+  name: wire_corner45_straight_WNone_RNone_CSmetal_routing
+wire_corner_sections:
+  children: []
+  name: wire_corner_sections_gdsfactorypcomponentspwaveguidespw_e46bef83
+wire_straight:
+  children: []
+  name: wire_straight_gdsfactorypcomponentspwaveguidespstraight_2896ba69
+ytron_round:
+  children: []
+  name: ytron_round_gdsfactorypcomponentspsuperconductorspytron_1247eaa2

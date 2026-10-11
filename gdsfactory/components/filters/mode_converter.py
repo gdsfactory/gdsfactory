@@ -1,15 +1,18 @@
 from __future__ import annotations
 
-__all__ = ["mode_converter"]
+__all__ = ["bend_s_mode_converter", "mode_converter"]
 
-from functools import partial
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import ckt_schematic
 from ..bends.bend_s import bend_s
+
+bend_s_mode_converter = CellAlias(bend_s, size=(25, 3))
 
 
 @gf.cell_with_module_name(schematic_function=ckt_schematic, tags=["filters"])
@@ -17,7 +20,7 @@ def mode_converter(
     gap: float = 0.3,
     length: float = 10,
     coupler_straight_asymmetric: ComponentSpec = "coupler_straight_asymmetric",
-    bend: ComponentSpec = partial(bend_s, size=(25, 3)),
+    bend: ComponentSpec = "bend_s_mode_converter",
     taper: ComponentSpec = "taper",
     mm_width: float = 1.2,
     mc_mm_width: float = 1,
@@ -56,47 +59,15 @@ def mode_converter(
         = : multimode width
         - : singlemode width
     """
-    c = Component()
-
-    coupler = gf.get_component(
-        coupler_straight_asymmetric,
-        length=length,
+    return cf.mode_converter(
         gap=gap,
-        width_bot=mc_mm_width,
-        width_top=sm_width,
+        length=length,
+        coupler_straight_asymmetric=coupler_straight_asymmetric,
+        bend=bend,
+        taper=taper,
+        mm_width=mm_width,
+        mc_mm_width=mc_mm_width,
+        sm_width=sm_width,
+        taper_length=taper_length,
         cross_section=cross_section,
     )
-
-    bend = gf.get_component(bend, cross_section=cross_section)
-
-    bot_taper = gf.get_component(
-        taper,
-        width1=mc_mm_width,
-        width2=mm_width,
-        length=taper_length,
-        cross_section=cross_section,
-    )
-
-    # directional coupler
-    dc = c << coupler
-
-    # straight waveguides at the bottom
-    l_bot_straight = c << bot_taper
-    r_bot_straight = c << bot_taper
-
-    l_bot_straight.connect("o1", dc.ports["o1"])
-    r_bot_straight.connect("o1", dc.ports["o4"])
-
-    # top right bend with termination
-    r_bend = c << bend
-    l_bend = c << bend
-
-    l_bend.connect("o1", dc.ports["o2"], mirror=True)
-    r_bend.connect("o1", dc.ports["o3"])
-
-    # define ports of mode converter
-    c.add_port("o1", port=l_bot_straight.ports["o2"])
-    c.add_port("o3", port=r_bot_straight.ports["o2"])
-    c.add_port("o2", port=l_bend.ports["o2"])
-    c.add_port("o4", port=r_bend.ports["o2"])
-    return c

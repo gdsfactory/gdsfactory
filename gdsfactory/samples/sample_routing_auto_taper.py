@@ -39,6 +39,7 @@ def sample_routing_auto_taper_trenches() -> gf.Component:
         c1.ports["o2"],
         c2.ports["o1"],
         cross_section="rib_with_trenches",
+        radius=10,
     )
     return c
 
