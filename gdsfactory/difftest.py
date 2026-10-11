@@ -363,12 +363,13 @@ def diff(
         equivalent = False
 
     if not equal:
-        c = DKCell(name=f"{test_name}_difftest")
         ref = old
         run = new
+        comparison_kcl = ref.kcl
+        c = DKCell(name=f"{test_name}_difftest", kcl=comparison_kcl)
 
-        old = DKCell(name=f"{test_name}_old")
-        new = DKCell(name=f"{test_name}_new")
+        old = DKCell(name=f"{test_name}_old", kcl=comparison_kcl)
+        new = DKCell(name=f"{test_name}_new", kcl=comparison_kcl)
 
         old.copy_tree(ref.kdb_cell)
         new.copy_tree(run.kdb_cell)
@@ -384,7 +385,7 @@ def diff(
             old_ref.movey(+old.ysize + dy)
             new_ref.movey(-old.ysize - dy)
 
-        layer_label = kf.kcl.layout.layer(1, 0)
+        layer_label = comparison_kcl.layout.layer(1, 0)
         c.shapes(layer_label).insert(kf.kdb.DText("old", old_ref.dtrans))
         c.shapes(layer_label).insert(kf.kdb.DText("new", new_ref.dtrans))
         if xor:
@@ -398,7 +399,7 @@ def diff(
         if xor:
             print("Running XOR on differences...")
             # assume equivalence until we find XOR differences, determined significant by the settings
-            diff = DKCell(name=f"{test_name}_xor")
+            diff = DKCell(name=f"{test_name}_xor", kcl=comparison_kcl)
 
             for layer in c.kcl.layer_infos():
                 # exists in both
