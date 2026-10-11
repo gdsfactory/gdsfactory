@@ -9,7 +9,6 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory import typings
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.path import Path, transition
 from gdsfactory.routing.route_quad import _get_rotated_basis
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
@@ -371,18 +370,10 @@ def route_sharp(
         d = p.extrude(cross_section=cross_section)
     elif width is None:
         layer = layer or port1.layer
-        s1 = Section(
-            width=port1.width,
-            port_names=port_names,
-            layer=layer,
-        )
-        s2 = Section(
-            width=port2.width,
-            port_names=port_names,
-            layer=layer,
-        )
-        x1 = CrossSection(sections=(s1,))
-        x2 = CrossSection(sections=(s2,))
+        s1 = (layer, -(port1.width / 2), port1.width / 2)
+        s2 = (layer, -(port2.width / 2), port2.width / 2)
+        x1 = gf.cross_section.cross_section(width=None, sections=(s1,))
+        x2 = gf.cross_section.cross_section(width=None, sections=(s2,))
         trans = transition(cross_section1=x1, cross_section2=x2, width_type="linear")
         d = p.extrude_transition(transition=trans)
     else:

@@ -13,10 +13,11 @@ __all__ = [
     "mzm",
 ]
 
-from functools import partial
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import mzi_2x2_schematic
@@ -99,200 +100,38 @@ def mzi(
                           Lx
     ```
     """
-    if auto_detect_port_names:
-        splitter_instance = gf.get_component(splitter)
-        combiner_instance = gf.get_component(combiner or splitter)
-        splitter_ports = splitter_instance.get_ports_list(
-            port_type="optical", orientation=0
-        )
-        combiner_ports = combiner_instance.get_ports_list(
-            port_type="optical", orientation=0
-        )
-        _name1 = splitter_ports[0].name
-        _name2 = splitter_ports[1].name
-        _name3 = combiner_ports[0].name
-        _name4 = combiner_ports[1].name
-        assert _name1 is not None, "splitter port 1 must have a name"
-        assert _name2 is not None, "splitter port 2 must have a name"
-        assert _name3 is not None, "combiner port 1 must have a name"
-        assert _name4 is not None, "combiner port 2 must have a name"
-        port_e1_splitter = _name1
-        port_e0_splitter = _name2
-        port_e1_combiner = _name3
-        port_e0_combiner = _name4
-
-    combiner = combiner or splitter
-
-    straight_x_top = straight_x_top or straight
-    straight_x_bot = straight_x_bot or straight
-    straight_y = straight_y or straight
-
-    cross_section_x_bot = cross_section_x_bot or cross_section
-    cross_section_x_top = cross_section_x_top or cross_section
-    bend = gf.get_component(bend, cross_section=cross_section)
-
-    c = Component()
-    cp1 = gf.get_component(splitter)
-    cp2 = gf.get_component(combiner) if combiner else cp1
-
-    if with_splitter:
-        cp1 = c << cp1  # type: ignore[assignment]
-        cp1.name = "cp1"
-
-    cp2_reference = c << cp2
-    b5 = c << bend
-    b5.connect(port1, cp1.ports[port_e0_splitter], mirror=True)
-    b5.name = "b5"
-
-    gap_ports_splitter = cp1.ports[port_e0_splitter].y - cp1.ports[port_e1_splitter].y
-    gap_ports_combiner = (
-        cp2_reference.ports[port_e0_combiner].y
-        - cp2_reference.ports[port_e1_combiner].y
-    )
-    delta_gap_ports = gap_ports_splitter - gap_ports_combiner
-
-    # Offset applied only to the right-side vertical sections so that
-    # b4/b8 end at the combiner port y-positions (not the splitter ones).
-    combiner_offset = -delta_gap_ports / 2
-
-    # Use sign of ``delta_length`` to determine which arm to lengthen
-    short_arm_length = length_y
-    if short_arm_length + combiner_offset < 0:
-        raise ValueError(
-            "Computed arm length is negative, which would result in a negative "
-            "straight section length. This usually happens when `length_y` is too "
-            "small relative to the splitter/combiner port gaps. "
-            f"Got length_y={length_y}, gap_ports_combiner={gap_ports_combiner}, "
-            f"gap_ports_splitter={gap_ports_splitter}, delta_gap_ports={delta_gap_ports}, "
-            f"combiner_offset={combiner_offset}."
-        )
-    long_arm_length = abs(delta_length) / 2 + short_arm_length
-
-    # Keep to the previous convention of the bottom arm being longer
-    # for positive ``delta_length``
-    if delta_length > 0:
-        # Make bottom arm longer
-        bot_arm_length = long_arm_length
-        top_arm_length = short_arm_length
-    else:
-        # Make top arm longer
-        bot_arm_length = short_arm_length
-        top_arm_length = long_arm_length
-
-    syl = c << gf.get_component(
-        straight_y, length=bot_arm_length, cross_section=cross_section
-    )
-    syl.connect(port1, b5.ports[port2])
-    b6 = c << bend
-    b6.connect(port1, syl.ports[port2])
-    b6.name = "b6"
-
-    straight_x_top = (
-        gf.get_component(
-            straight_x_top, length=length_x, cross_section=cross_section_x_top
-        )
-        if length_x
-        else gf.get_component(straight_x_top, cross_section=cross_section_x_top)
-    )
-    sxt = c << straight_x_top
-
-    length_x = length_x or abs(sxt.ports[port1].x - sxt.ports[port2].x)
-
-    straight_x_bot = (
-        gf.get_component(
-            straight_x_bot, length=length_x, cross_section=cross_section_x_bot
-        )
-        if length_x
-        else gf.get_component(straight_x_bot, cross_section=cross_section_x_bot)
-    )
-    sxb = c << straight_x_bot
-    sxb.connect(port1, b6.ports[port2], mirror=mirror_bot)
-
-    b1 = c << bend
-    b1.connect(port1, cp1.ports[port_e1_splitter])
-    b1.name = "b1"
-
-    sytl = c << gf.get_component(
-        straight_y, length=top_arm_length, cross_section=cross_section
-    )
-    sytl.connect(port1, b1.ports[port2])
-
-    b2 = c << bend
-    b2.connect(port2, sytl.ports[port2])
-    b2.name = "b2"
-
-    sxt.connect(port1, b2.ports[port1])
-    cp2_reference.mirror_x()
-    cp2_reference.xmin = (
-        sxt.ports[port2].x + bend.info["radius"] * nbends + 2 * min_length
-    )
-
-    # Top arm
-    b3 = c << bend
-    b3.connect(port2, sxt.ports[port2])
-    b3.name = "b3"
-
-    sytr = c << gf.get_component(
-        straight_y, length=top_arm_length + combiner_offset, cross_section=cross_section
-    )
-    sytr.connect(port2, b3.ports[port1])
-    b4 = c << bend
-    b4.connect(port1, sytr.ports[port1])
-    b4.name = "b4"
-
-    # Bot arm
-    b7 = c << bend
-    b7.connect(port1, sxb.ports[port2])
-    b7.name = "b7"
-
-    sybr = c << gf.get_component(
-        straight_y,
-        length=bot_arm_length + combiner_offset,
+    return cf.mzi(
+        delta_length=delta_length,
+        length_y=length_y,
+        length_x=length_x,
+        bend=bend,
+        straight=straight,
+        straight_y=straight_y,
+        straight_x_top=straight_x_top,
+        straight_x_bot=straight_x_bot,
+        splitter=splitter,
+        combiner=combiner,
+        with_splitter=with_splitter,
+        port_e1_splitter=port_e1_splitter,
+        port_e0_splitter=port_e0_splitter,
+        port_e1_combiner=port_e1_combiner,
+        port_e0_combiner=port_e0_combiner,
+        port1=port1,
+        port2=port2,
+        nbends=nbends,
         cross_section=cross_section,
+        cross_section_x_top=cross_section_x_top,
+        cross_section_x_bot=cross_section_x_bot,
+        mirror_bot=mirror_bot,
+        add_optical_ports_arms=add_optical_ports_arms,
+        min_length=min_length,
+        auto_rename_ports=auto_rename_ports,
+        auto_detect_port_names=auto_detect_port_names,
     )
-    sybr.connect(port1, b7.ports[port2])
-    b8 = c << bend
-    b8.connect(port2, sybr.ports[port2])
-    b8.name = "b8"
-
-    cp2_reference.connect(port_e1_combiner, b4.ports[port2])
-
-    sytl.name = "sytl"
-    syl.name = "syl"
-    sxt.name = "sxt"
-    sxb.name = "sxb"
-    cp2_reference.name = "cp2"
-
-    sytr.name = "sytr"
-    sybr.name = "sybr"
-
-    if with_splitter:
-        c.add_ports(cp1.ports.filter(orientation=180), prefix="in_")
-    else:
-        c.add_port(port1, port=b1.ports[port1])
-        c.add_port(port2, port=b5.ports[port1])
-
-    c.add_ports(cp2_reference.ports.filter(orientation=0), prefix="ou_")
-    c.add_ports(sxt.ports.filter(port_type="electrical"), prefix="top_")
-    c.add_ports(sxb.ports.filter(port_type="electrical"), prefix="bot_")
-    c.add_ports(sxt.ports.filter(port_type="placement"), prefix="top_")
-    c.add_ports(sxb.ports.filter(port_type="placement"), prefix="bot_")
-
-    if add_optical_ports_arms:
-        c.add_ports(sxt.ports.filter(port_type="optical"), prefix="top_")
-        c.add_ports(sxb.ports.filter(port_type="optical"), prefix="bot_")
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    if auto_rename_ports:
-        c.auto_rename_ports()
-    return c
 
 
-mzi1x2 = partial(mzi, splitter="mmi1x2", combiner="mmi1x2")
-mzi2x2_2x2 = partial(
+mzi1x2 = CellAlias(mzi, splitter="mmi1x2", combiner="mmi1x2")
+mzi2x2_2x2 = CellAlias(
     mzi,
     splitter="mmi2x2",
     combiner="mmi2x2",
@@ -303,20 +142,20 @@ mzi2x2_2x2 = partial(
     length_x=None,
 )
 
-mzi1x2_2x2 = partial(
+mzi1x2_2x2 = CellAlias(
     mzi,
     combiner="mmi2x2",
     port_e1_combiner="o3",
     port_e0_combiner="o4",
 )
 
-mzi_coupler = partial(
+mzi_coupler = CellAlias(
     mzi2x2_2x2,
     splitter="coupler",
     combiner="coupler",
 )
 
-mzi_pin = partial(
+mzi_pin = CellAlias(
     mzi,
     straight_x_top="straight_pin",
     cross_section_x_top="pin",
@@ -324,16 +163,16 @@ mzi_pin = partial(
     length_x=100,
 )
 
-mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
+mzi_phase_shifter = CellAlias(mzi, straight_x_top="straight_heater_metal", length_x=200)
 
-mzi2x2_2x2_phase_shifter = partial(
+mzi2x2_2x2_phase_shifter = CellAlias(
     mzi2x2_2x2, straight_x_top="straight_heater_metal", length_x=200
 )
 
-mzi_phase_shifter_top_heater_metal = partial(
+mzi_phase_shifter_top_heater_metal = CellAlias(
     mzi_phase_shifter, straight_x_top="straight_heater_metal"
 )
 
-mzm = partial(
+mzm = CellAlias(
     mzi_phase_shifter, straight_x_top="straight_pin", straight_x_bot="straight_pin"
 )

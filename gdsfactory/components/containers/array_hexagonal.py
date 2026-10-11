@@ -2,9 +2,9 @@ from __future__ import annotations
 
 __all__ = ["array_hexagonal"]
 
-import numpy as np
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
 
@@ -31,27 +31,14 @@ def array_hexagonal(
         centered: center the array around the origin.
         add_ports: add ports from each element.
     """
-    c = Component()
-    comp = gf.get_component(component)
-    row_spacing = pitch * np.sqrt(3) / 2
-
-    for row in range(rows):
-        x_offset = pitch / 2 if row % 2 else 0.0
-        for col in range(columns):
-            ref = c.add_ref(comp)
-            x = col * pitch + x_offset
-            y = row * row_spacing
-            ref.move((x, y))
-
-            if add_ports and comp.ports:
-                for port in comp.ports:
-                    name = f"{port.name}_{row + 1}_{col + 1}"
-                    c.add_port(name, port=port.copy(ref.trans))
-
-    if centered:
-        c.center = (0, 0)
-
-    return c
+    return cf.array_hexagonal(
+        component=component,
+        columns=columns,
+        rows=rows,
+        pitch=pitch,
+        centered=centered,
+        add_ports=add_ports,
+    )
 
 
 if __name__ == "__main__":

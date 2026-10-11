@@ -2,9 +2,8 @@ from __future__ import annotations
 
 __all__ = ["t_junction"]
 
-import numpy as np
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -36,76 +35,16 @@ def t_junction(
         layer: layer spec.
         port_type: None, optical, or electrical.
     """
-    c = Component()
-    mhw = main_width / 2
-    bhw = branch_width / 2
-    half_main = main_length / 2
-
-    # Main horizontal channel centered at origin
-    c.add_polygon(
-        [
-            (-half_main, -mhw),
-            (half_main, -mhw),
-            (half_main, mhw),
-            (-half_main, mhw),
-        ],
+    return cf.t_junction(
+        main_width=main_width,
+        branch_width=branch_width,
+        main_length=main_length,
+        branch_length=branch_length,
+        reservoir_radius=reservoir_radius,
+        n_reservoir_points=n_reservoir_points,
         layer=layer,
+        port_type=port_type,
     )
-
-    # Vertical branch going up from center
-    c.add_polygon(
-        [
-            (-bhw, mhw),
-            (bhw, mhw),
-            (bhw, mhw + branch_length),
-            (-bhw, mhw + branch_length),
-        ],
-        layer=layer,
-    )
-
-    # Reservoir circles at endpoints
-    if reservoir_radius > 0:
-        angles = np.linspace(0, 2 * np.pi, n_reservoir_points, endpoint=False)
-        for cx, cy in [
-            (-half_main, 0),
-            (half_main, 0),
-            (0, mhw + branch_length),
-        ]:
-            pts = [
-                (cx + reservoir_radius * np.cos(a), cy + reservoir_radius * np.sin(a))
-                for a in angles
-            ]
-            c.add_polygon(pts, layer=layer)
-
-    if port_type:
-        prefix = "o" if port_type == "optical" else "e"
-        c.add_port(
-            f"{prefix}1",
-            center=(-half_main, 0),
-            width=main_width,
-            orientation=180,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.add_port(
-            f"{prefix}2",
-            center=(half_main, 0),
-            width=main_width,
-            orientation=0,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.add_port(
-            f"{prefix}3",
-            center=(0, mhw + branch_length),
-            width=branch_width,
-            orientation=90,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.auto_rename_ports()
-
-    return c
 
 
 if __name__ == "__main__":

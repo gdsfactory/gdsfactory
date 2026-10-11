@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import warnings
 from collections.abc import Callable
 from pathlib import Path
 
@@ -137,9 +136,8 @@ def test_import_gds_cross_section_naming_conflict(tmp_path: Path) -> None:
     """Import a GDS whose port cross-section matches an existing one under a different name.
 
     Ports are serialized by cross-section name, so an older GDS may reference a
-    structurally-identical cross-section under a legacy name. On import that name
-    must resolve to the already-registered (canonical) cross-section instead of
-    raising ``CrossSectionNamingConflictError``/``KeyError``.
+    structurally-identical cross-section under a legacy name. A second explicit
+    name must raise instead of inserting an alias into kfactory's registry.
     """
     gf.gpdk.PDK.activate()
 
@@ -188,16 +186,9 @@ def test_import_gds_cross_section_naming_conflict(tmp_path: Path) -> None:
             )
         )
 
-        with warnings.catch_warnings(record=True) as caught:
-            warnings.simplefilter("always")
-            c = import_gds(gdspath)
-            messages = [str(w.message) for w in caught]
-
-        assert len(c.ports) == 1
-        # The imported port resolves to the canonical cross-section, not the
-        # legacy name it was written with.
-        assert c.ports[0].info["cross_section"] == canonical_name
-        assert any(legacy_name in m and canonical_name in m for m in messages), messages
+        with pytest.raises(kf.exceptions.CrossSectionNamingConflictError):
+            import_gds(gdspath)
+        assert legacy_name not in registry
     finally:
         for key in set(registry) - keys_before:
             del registry[key]

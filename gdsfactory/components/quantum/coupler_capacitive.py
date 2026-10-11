@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["coupler_capacitive", "coupler_interdigital", "coupler_tunable"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -44,72 +45,15 @@ def coupler_capacitive(
     Returns:
         Component: A gdsfactory component with the capacitive coupler geometry.
     """
-    c = Component()
-
-    # Create left coupling pad
-    left_pad = gf.components.rectangle(
-        size=(pad_width, pad_height),
-        layer=layer_metal,
-    )
-    left_pad_ref = c.add_ref(left_pad)
-    left_pad_ref.move((-pad_width - gap / 2, -pad_height / 2))
-
-    # Create right coupling pad
-    right_pad = gf.components.rectangle(
-        size=(pad_width, pad_height),
-        layer=layer_metal,
-    )
-    right_pad_ref = c.add_ref(right_pad)
-    right_pad_ref.move((gap / 2, -pad_height / 2))
-
-    # Create left feed line
-    left_feed = gf.components.rectangle(
-        size=(feed_length, feed_width),
-        layer=layer_metal,
-    )
-    left_feed_ref = c.add_ref(left_feed)
-    left_feed_ref.move((-pad_width - gap / 2 - feed_length, -feed_width / 2))
-
-    # Create right feed line
-    right_feed = gf.components.rectangle(
-        size=(feed_length, feed_width),
-        layer=layer_metal,
-    )
-    right_feed_ref = c.add_ref(right_feed)
-    right_feed_ref.move((gap / 2 + pad_width, -feed_width / 2))
-
-    # Add ports
-    c.add_port(
-        name="left",
-        center=(-pad_width - gap / 2 - feed_length, 0),
-        width=feed_width,
-        orientation=180,
-        layer=layer_metal,
+    return cf.coupler_capacitive(
+        pad_width=pad_width,
+        pad_height=pad_height,
+        gap=gap,
+        feed_width=feed_width,
+        feed_length=feed_length,
+        layer_metal=layer_metal,
         port_type=port_type,
     )
-
-    c.add_port(
-        name="right",
-        center=(gap / 2 + pad_width + feed_length, 0),
-        width=feed_width,
-        orientation=0,
-        layer=layer_metal,
-        port_type=port_type,
-    )
-
-    # Add metadata
-    c.info["coupler_type"] = "capacitive"
-    c.info["pad_width"] = pad_width
-    c.info["pad_height"] = pad_height
-    c.info["gap"] = gap
-    c.info["coupling_area"] = pad_width * pad_height
-
-    if port_type == "electrical":
-        for p in list(c.ports):
-            if p.name and p.port_type == "electrical":
-                c.create_pin(ports=[p], name=p.name)
-
-    return c
 
 
 @gf.cell_with_module_name(tags=["quantum"])
@@ -164,91 +108,17 @@ def coupler_interdigital(
     ```
 
     """
-    c = Component()
-
-    # Calculate total dimensions
-    total_width = finger_length + finger_gap_horizontal
-    total_height = fingers * finger_width + (fingers - 1) * finger_gap_vertical
-
-    # Create left side base column
-    left_base = gf.components.rectangle(
-        size=(finger_width, total_height),
-        layer=layer_metal,
-    )
-    left_base_ref = c.add_ref(left_base)
-    left_base_ref.move((-total_width / 2 - finger_width, -total_height / 2))
-
-    # Create right side base column
-    right_base = gf.components.rectangle(
-        size=(finger_width, total_height),
-        layer=layer_metal,
-    )
-    right_base_ref = c.add_ref(right_base)
-    right_base_ref.move((total_width / 2, -total_height / 2))
-
-    # Create interdigital fingers
-    for i in range(fingers):
-        left_finger = gf.components.rectangle(
-            size=(finger_length, finger_width),
-            layer=layer_metal,
-        )
-        left_finger_ref = c.add_ref(left_finger)
-
-        # We start from a left finger
-        x_pos = -finger_length / 2 + (-1) ** (i + 1) * finger_gap_horizontal / 2
-        y_pos = (
-            total_height / 2 - finger_width - i * (finger_width + finger_gap_vertical)
-        )
-        left_finger_ref.move((x_pos, y_pos))
-
-    # Create feed lines
-    left_feed = gf.components.rectangle(
-        size=(feed_length, feed_width),
-        layer=layer_metal,
-    )
-    left_feed_ref = c.add_ref(left_feed)
-    left_feed_ref.move((-total_width / 2 - finger_width - feed_length, -feed_width / 2))
-
-    right_feed = gf.components.rectangle(
-        size=(feed_length, feed_width),
-        layer=layer_metal,
-    )
-    right_feed_ref = c.add_ref(right_feed)
-    right_feed_ref.move((total_width / 2 + finger_width, -feed_width / 2))
-
-    # Add ports
-    c.add_port(
-        name="left",
-        center=(-total_width / 2 - finger_width - feed_length, 0),
-        width=feed_width,
-        orientation=180,
-        layer=layer_metal,
+    return cf.coupler_interdigital(
+        fingers=fingers,
+        finger_length=finger_length,
+        finger_width=finger_width,
+        finger_gap_vertical=finger_gap_vertical,
+        finger_gap_horizontal=finger_gap_horizontal,
+        feed_width=feed_width,
+        feed_length=feed_length,
+        layer_metal=layer_metal,
         port_type=port_type,
     )
-
-    c.add_port(
-        name="right",
-        center=(total_width / 2 + finger_width + feed_length, 0),
-        width=feed_width,
-        orientation=0,
-        layer=layer_metal,
-        port_type=port_type,
-    )
-
-    # Add metadata
-    c.info["coupler_type"] = "interdigital"
-    c.info["fingers"] = fingers
-    c.info["finger_length"] = finger_length
-    c.info["finger_width"] = finger_width
-    c.info["finger_gap_horizontal"] = finger_gap_horizontal
-    c.info["finger_gap_vertical"] = finger_gap_vertical
-
-    if port_type == "electrical":
-        for p in list(c.ports):
-            if p.name and p.port_type == "electrical":
-                c.create_pin(ports=[p], name=p.name)
-
-    return c
 
 
 @gf.cell_with_module_name(tags=["quantum"])
@@ -311,126 +181,16 @@ def coupler_tunable(
                     (connected to feed)
     ```
     """
-    c = Component()
-
-    # Create main coupling pads
-    left_pad = gf.components.rectangle(
-        size=(pad_width, pad_height),
-        layer=layer_metal,
-    )
-    left_pad_ref = c.add_ref(left_pad)
-    left_pad_ref.move((-pad_width - gap / 2, -pad_height / 2))
-
-    right_pad = gf.components.rectangle(
-        size=(pad_width, pad_height),
-        layer=layer_metal,
-    )
-    right_pad_ref = c.add_ref(right_pad)
-    right_pad_ref.move((gap / 2, -pad_height / 2))
-
-    # Create tuning pads above and below
-    top_tuning_pad = gf.components.rectangle(
-        size=(tuning_pad_width, tuning_pad_height),
-        layer=layer_tuning,
-    )
-    top_tuning_ref = c.add_ref(top_tuning_pad)
-    top_tuning_ref.move((-tuning_pad_width / 2, pad_height / 2 + tuning_gap))
-
-    bottom_tuning_pad = gf.components.rectangle(
-        size=(tuning_pad_width, tuning_pad_height),
-        layer=layer_tuning,
-    )
-    bottom_tuning_ref = c.add_ref(bottom_tuning_pad)
-    bottom_tuning_ref.move(
-        (-tuning_pad_width / 2, -pad_height / 2 - tuning_gap - tuning_pad_height)
-    )
-
-    # Create feed lines for main pads
-    left_feed = gf.components.rectangle(
-        size=(feed_length, feed_width),
-        layer=layer_metal,
-    )
-    left_feed_ref = c.add_ref(left_feed)
-    left_feed_ref.move((-pad_width - gap / 2 - feed_length, -feed_width / 2))
-
-    right_feed = gf.components.rectangle(
-        size=(feed_length, feed_width),
-        layer=layer_metal,
-    )
-    right_feed_ref = c.add_ref(right_feed)
-    right_feed_ref.move((gap / 2 + pad_width, -feed_width / 2))
-
-    # Create tuning feed lines
-    top_tuning_feed = gf.components.rectangle(
-        size=(feed_width, feed_length),
-        layer=layer_tuning,
-    )
-    top_tuning_feed_ref = c.add_ref(top_tuning_feed)
-    top_tuning_feed_ref.move(
-        (-feed_width / 2, pad_height / 2 + tuning_gap + tuning_pad_height)
-    )
-
-    bottom_tuning_feed = gf.components.rectangle(
-        size=(feed_width, feed_length),
-        layer=layer_tuning,
-    )
-    bottom_tuning_feed_ref = c.add_ref(bottom_tuning_feed)
-    bottom_tuning_feed_ref.move(
-        (
-            -feed_width / 2,
-            -pad_height / 2 - tuning_gap - tuning_pad_height - feed_length,
-        )
-    )
-
-    # Add ports
-    c.add_port(
-        name="left",
-        center=(-pad_width - gap / 2 - feed_length, 0),
-        width=feed_width,
-        orientation=180,
-        layer=layer_metal,
+    return cf.coupler_tunable(
+        pad_width=pad_width,
+        pad_height=pad_height,
+        gap=gap,
+        tuning_pad_width=tuning_pad_width,
+        tuning_pad_height=tuning_pad_height,
+        tuning_gap=tuning_gap,
+        feed_width=feed_width,
+        feed_length=feed_length,
+        layer_metal=layer_metal,
+        layer_tuning=layer_tuning,
         port_type=port_type,
     )
-
-    c.add_port(
-        name="right",
-        center=(gap / 2 + pad_width + feed_length, 0),
-        width=feed_width,
-        orientation=0,
-        layer=layer_metal,
-        port_type=port_type,
-    )
-
-    c.add_port(
-        name="tuning_top",
-        center=(0, pad_height / 2 + tuning_gap + tuning_pad_height + feed_length),
-        width=feed_width,
-        orientation=90,
-        layer=layer_tuning,
-        port_type=port_type,
-    )
-
-    c.add_port(
-        name="tuning_bottom",
-        center=(0, -pad_height / 2 - tuning_gap - tuning_pad_height - feed_length),
-        width=feed_width,
-        orientation=270,
-        layer=layer_tuning,
-        port_type=port_type,
-    )
-
-    # Add metadata
-    c.info["coupler_type"] = "tunable"
-    c.info["pad_width"] = pad_width
-    c.info["pad_height"] = pad_height
-    c.info["gap"] = gap
-    c.info["tuning_pad_width"] = tuning_pad_width
-    c.info["tuning_pad_height"] = tuning_pad_height
-    c.info["tuning_gap"] = tuning_gap
-
-    if port_type == "electrical":
-        for p in list(c.ports):
-            if p.name and p.port_type == "electrical":
-                c.create_pin(ports=[p], name=p.name)
-
-    return c

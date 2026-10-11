@@ -21,14 +21,14 @@ Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsf
 The following lines will:
 
 - clone your gdsfactory fork (make sure you change `YourUserName` with your GitHub user name)
-- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test_klayout)
+- download the GDS reference files for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data). It is the `test-data-gds` git submodule, pinned to a commit on its `main` branch
 - install gdsfactory on your computer in `-e` edit mode.
 - install pre-commit hooks for making sure your code syntax and style matches some basic rules.
 
 ```
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
-git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
+make test-data
 uv venv --python 3.12
 uv sync --extra docs --extra dev
 uv run pre-commit install

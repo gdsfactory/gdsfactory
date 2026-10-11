@@ -56,6 +56,12 @@ STEP_DIRECTIVES_ALL_ANGLE = {
 }
 
 
+class ExtrusionPorts(TypedDict, total=False):
+    """Optional main-port type override for straight and circular-bend cells."""
+
+    port_type: str
+
+
 class Step(TypedDict, total=False):
     """Manhattan Step.
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["cross"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -22,52 +23,4 @@ def cross(
         layer: layer for geometry.
         port_type: None, optical, electrical.
     """
-    layer = gf.get_layer(layer)
-    c = gf.Component()
-    R = gf.components.rectangle(size=(width, length), layer=layer)
-    r1 = c.add_ref(R).rotate(90)
-    r2 = c.add_ref(R)
-    r1.center = (0, 0)
-    r2.center = (0, 0)
-    c.flatten()
-
-    if port_type:
-        prefix = "o" if port_type == "optical" else "e"
-        c.add_port(
-            f"{prefix}1",
-            width=width,
-            layer=layer,
-            orientation=0,
-            center=(+length / 2, 0),
-            port_type=port_type,
-        )
-        c.add_port(
-            f"{prefix}2",
-            width=width,
-            layer=layer,
-            orientation=180,
-            center=(-length / 2, 0),
-            port_type=port_type,
-        )
-        c.add_port(
-            f"{prefix}3",
-            width=width,
-            layer=layer,
-            orientation=90,
-            center=(0, length / 2),
-            port_type=port_type,
-        )
-        c.add_port(
-            f"{prefix}4",
-            width=width,
-            layer=layer,
-            orientation=270,
-            center=(0, -length / 2),
-            port_type=port_type,
-        )
-        c.auto_rename_ports()
-    if port_type == "electrical":
-        elec = [p for p in c.ports if p.port_type == "electrical"]
-        if elec:
-            c.create_pin(ports=elec, name="pad")
-    return c
+    return cf.cross(length=length, width=width, layer=layer, port_type=port_type)

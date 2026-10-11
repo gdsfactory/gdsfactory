@@ -2,12 +2,9 @@ from __future__ import annotations
 
 __all__ = ["text", "text_klayout", "text_lines"]
 
-import kfactory as kf
-import numpy as np
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
 
 
@@ -28,46 +25,13 @@ def text(
         justify: left, right, center.
         layer: for the text.
     """
-    scaling = size / 1000
-    xoffset = position[0]
-    yoffset = position[1]
-    t = gf.Component()
-
-    for line in text.split("\n"):
-        label = gf.Component()
-        for c in line:
-            ascii_val = ord(c)
-            if c == " ":
-                xoffset += 500 * scaling
-            elif 33 <= ascii_val <= 126:
-                for poly in _glyph[ascii_val]:
-                    xpts = np.array(poly)[:, 0] * scaling
-                    ypts = np.array(poly)[:, 1] * scaling
-                    label.add_polygon(
-                        list(zip(xpts + xoffset, ypts + yoffset, strict=False)),
-                        layer=layer,
-                    )
-                xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
-            else:
-                raise ValueError(f"No character with ascii value {ascii_val!r}")
-        t.add_ref(label)
-        yoffset -= 1500 * scaling
-        xoffset = position[0]
-    justify = justify.lower()
-    for instance in t.insts:
-        if justify == "left":
-            instance.xmin = position[0]
-        elif justify == "right":
-            instance.xmax = position[0]
-        elif justify == "center":
-            xmin = position[0] - instance.xsize / 2
-            instance.xmin = xmin
-        else:
-            raise ValueError(
-                f"justify = {justify!r} not in ('center', 'right', 'left')"
-            )
-    t.flatten()
-    return t
+    return cf.text(
+        text=text,
+        size=size,
+        position=position,
+        justify=justify,
+        layer=layer,
+    )
 
 
 @gf.cell_with_module_name(tags=["texts"])
@@ -83,13 +47,7 @@ def text_lines(
         size: text size.
         layer: text layer.
     """
-    c = gf.Component()
-
-    for i, texti in enumerate(text):
-        t = gf.c.text_rectangular(text=texti, size=size, layer=layer)
-        tref = c.add_ref(t)
-        tref.movey(-6 * size * (i + 1))
-    return c
+    return cf.text_lines(text=text, size=size, layer=layer)
 
 
 @gf.cell_with_module_name(tags=["texts"])
@@ -107,15 +65,9 @@ def text_klayout(
         layers: layers for the text.
         bbox_layers: layers for the text bounding box.
     """
-    c = gf.Component()
-    gen = kf.kdb.TextGenerator.default_generator()
-    reg = gen.text(text, kf.kcl.dbu)
-
-    layers = layers or [layer]
-
-    for text_layer in layers:
-        c.shapes(gf.get_layer(text_layer)).insert(reg)
-
-    for bbox_layer in bbox_layers or []:
-        c.shapes(gf.get_layer(bbox_layer)).insert(reg.bbox())
-    return c
+    return cf.text_klayout(
+        text=text,
+        layer=layer,
+        layers=layers,
+        bbox_layers=bbox_layers,
+    )

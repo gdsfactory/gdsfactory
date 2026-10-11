@@ -3,7 +3,7 @@ from __future__ import annotations
 __all__ = ["litho_steps"]
 
 import gdsfactory as gf
-from gdsfactory import components as pc
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -26,27 +26,9 @@ def litho_steps(
         height: in um.
         layer: Specific layer to put the ruler geometry on.
     """
-    D = gf.Component()
-
-    height /= 2
-    T1 = pc.text(
-        text=f"{line_widths[-1]!s}", size=height, justify="center", layer=layer
+    return cf.litho_steps(
+        line_widths=line_widths,
+        line_spacing=line_spacing,
+        height=height,
+        layer=layer,
     )
-
-    ref = D.add_ref(T1)
-    ref.rotate(90)
-    ref.movex(-height / 10)
-
-    R1 = pc.rectangle(size=(line_spacing, height), layer=layer)
-    D.add_ref(R1).movey(-height)
-    count = 0.0
-    for i in reversed(line_widths):
-        count += line_spacing + i
-        R2 = pc.rectangle(size=(i, height), layer=layer)
-        r = D.add_ref(R1)
-        r.movex(count)
-        r.movey(-height)
-        r = D.add_ref(R2)
-        r.movex(count - i)
-
-    return D

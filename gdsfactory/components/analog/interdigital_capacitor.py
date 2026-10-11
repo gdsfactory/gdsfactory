@@ -2,10 +2,8 @@ from __future__ import annotations
 
 __all__ = ["interdigital_capacitor"]
 
-from itertools import chain
-from math import ceil, floor
-
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -46,82 +44,10 @@ def interdigital_capacitor(
         Component: A gdsfactory component with the interdigital capacitor geometry
         and two electrical ports ('e1' and 'e2') on opposing sides.
     """
-    c = Component()
-
-    assert fingers >= 1, "Must have at least 1 finger"
-
-    width = 2 * thickness + finger_length + finger_gap  # total length
-    height = fingers * thickness + (fingers - 1) * finger_gap  # total height
-    points_1 = [
-        (0, 0),
-        (0, height),
-        (thickness + finger_length, height),
-        (thickness + finger_length, height - thickness),
-        (thickness, height - thickness),
-        *chain.from_iterable(
-            (
-                (thickness, height - (2 * i) * (thickness + finger_gap)),
-                (
-                    thickness + finger_length,
-                    height - (2 * i) * (thickness + finger_gap),
-                ),
-                (
-                    thickness + finger_length,
-                    height - (2 * i) * (thickness + finger_gap) - thickness,
-                ),
-                (thickness, height - (2 * i) * (thickness + finger_gap) - thickness),
-            )
-            for i in range(ceil(fingers / 2))
-        ),
-        (thickness, 0),
-        (0, 0),
-    ]
-
-    points_2 = [
-        (width, 0),
-        (width, height),
-        (width - thickness, height),
-        *chain.from_iterable(
-            (
-                (
-                    width - thickness,
-                    height - (1 + 2 * i) * thickness - (1 + 2 * i) * finger_gap,
-                ),
-                (
-                    width - (thickness + finger_length),
-                    height - (1 + 2 * i) * thickness - (1 + 2 * i) * finger_gap,
-                ),
-                (
-                    width - (thickness + finger_length),
-                    height - (2 + 2 * i) * thickness - (1 + 2 * i) * finger_gap,
-                ),
-                (
-                    width - thickness,
-                    height - (2 + 2 * i) * thickness - (1 + 2 * i) * finger_gap,
-                ),
-            )
-            for i in range(floor(fingers / 2))
-        ),
-        (width - thickness, 0),
-        (width, 0),
-    ]
-
-    c.add_polygon(points_1, layer=layer)
-    c.add_polygon(points_2, layer=layer)
-    c.add_port(
-        name="e1",
-        center=(0, height / 2),
-        width=thickness,
-        orientation=180,
+    return cf.interdigital_capacitor(
+        fingers=fingers,
+        finger_length=finger_length,
+        finger_gap=finger_gap,
+        thickness=thickness,
         layer=layer,
-        port_type="electrical",
     )
-    c.add_port(
-        name="e2",
-        center=(width, height / 2),
-        width=thickness,
-        orientation=0,
-        layer=layer,
-        port_type="electrical",
-    )
-    return c

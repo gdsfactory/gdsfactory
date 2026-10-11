@@ -1,8 +1,8 @@
 info:
   length: 1600
-name: delay_snake_gdsfactorypcomponentspspiralspdelay_snake_L_c0ddbee1
+name: delay_snake_gdsfactorypcomponentspspiralspdelay_snake_L_1875abed
 settings:
-  bend180: Fbend_euler_Mgdsfactorypcomponentspbendspbend_euler_SA180
+  bend180: bend_euler180
   cross_section: strip
   length: 1600
   length0: 0

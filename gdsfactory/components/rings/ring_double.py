@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["ring_double"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -65,53 +66,17 @@ def ring_double(
                                 length_extension
     ```
     """
-    gap_top = gap_top or gap
-    gap_bot = gap_bot or gap
-    coupler_component_bot = gf.get_component(
-        coupler_ring,
-        gap=gap_bot,
+    return cf.ring_double(
+        gap=gap,
+        gap_top=gap_top,
+        gap_bot=gap_bot,
         radius=radius,
         length_x=length_x,
-        cross_section=cross_section,
-        straight=straight,
+        length_y=length_y,
         bend=bend,
+        straight=straight,
+        coupler_ring=coupler_ring,
+        coupler_ring_top=coupler_ring_top,
+        cross_section=cross_section,
         length_extension=length_extension,
     )
-    coupler_component_top = gf.get_component(
-        coupler_ring_top or coupler_ring,
-        gap=gap_top,
-        radius=radius,
-        length_x=length_x,
-        cross_section=cross_section,
-        straight=straight,
-        bend=bend,
-        length_extension=length_extension,
-    )
-
-    c = Component()
-    cb = c.add_ref(coupler_component_bot)
-    ct = c.add_ref(coupler_component_top)
-
-    if length_y > 0:
-        # Add vertical straights when length_y > 0
-        straight_component = gf.get_component(
-            straight,
-            length=length_y,
-            cross_section=cross_section,
-        )
-        sl = c << straight_component
-        sr = c << straight_component
-
-        sl.connect(port="o1", other=cb.ports["o2"])
-        sr.connect(port="o2", other=cb.ports["o3"])
-        ct.connect(port="o3", other=sl.ports["o2"])
-    else:
-        # When length_y=0, connect couplers directly
-        ct.connect(port="o3", other=cb.ports["o2"])
-
-    c.add_port("o1", port=cb.ports["o1"])
-    c.add_port("o2", port=cb.ports["o4"])
-    c.add_port("o3", port=ct.ports["o4"])
-    c.add_port("o4", port=ct.ports["o1"])
-    c.info["radius"] = coupler_component_bot.info["radius"]
-    return c

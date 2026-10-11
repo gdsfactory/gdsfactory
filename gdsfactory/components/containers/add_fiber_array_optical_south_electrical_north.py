@@ -3,6 +3,7 @@ from typing import Any
 __all__ = ["add_fiber_array_optical_south_electrical_north"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec
 
@@ -80,58 +81,19 @@ def add_fiber_array_optical_south_electrical_north(
         input_port_indexes: to connect.
 
     """
-    c = Component()
-    component = gf.get_component(component)
-    r = c << gf.routing.add_fiber_array(
+    return cf.add_fiber_array_optical_south_electrical_north(
         component=component,
+        pad=pad,
         grating_coupler=grating_coupler,
+        cross_section_metal=cross_section_metal,
         with_loopback=with_loopback,
+        pad_pitch=pad_pitch,
         pitch=pitch,
+        pad_gc_spacing=pad_gc_spacing,
+        electrical_port_names=electrical_port_names,
+        electrical_port_orientation=electrical_port_orientation,
+        npads=npads,
+        port_types_grating_couplers=port_types_grating_couplers,
+        auto_taper_pads=auto_taper_pads,
         **kwargs,
     )
-    port_types_grating_couplers = (
-        port_types_grating_couplers or gf.CONF.port_types_grating_couplers
-    )
-    optical_ports = [
-        port for port in r.ports if port.port_type in port_types_grating_couplers
-    ]
-    c.add_ports(optical_ports)
-
-    electrical_ports = r.ports.filter(
-        port_type="electrical", orientation=electrical_port_orientation
-    )
-    electrical_port_names_list = electrical_port_names or [
-        p.name for p in electrical_ports if p.name is not None
-    ]
-
-    npads = npads or len(electrical_port_names_list)
-    pads = c << gf.components.array(
-        component=pad,
-        columns=npads,
-        column_pitch=pad_pitch,
-    )
-    pads.x = r.x
-    pads.ymin = r.ymin + pad_gc_spacing
-
-    electrical_ports = [r[por_name] for por_name in electrical_port_names_list]
-    nroutes = min(len(electrical_ports), npads)
-
-    ports1 = electrical_ports[:nroutes]
-    ports2 = list(pads.ports.filter(orientation=270))[:nroutes]
-
-    gf.routing.route_bundle_electrical(
-        c,
-        ports1=ports1,
-        ports2=ports2,
-        cross_section=cross_section_metal,
-        sort_ports=True,
-        auto_taper=auto_taper_pads,
-    )
-
-    c.add_ports(ports2)
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    return c

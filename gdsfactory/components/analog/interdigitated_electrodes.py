@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["interdigitated_electrodes"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -36,122 +37,16 @@ def interdigitated_electrodes(
         layer: Layer specification for all geometry.
         port_type: Port type for electrical ports at bus bar ends.
     """
-    c = Component()
-
-    finger_pitch = finger_width + finger_gap
-    total_finger_span = n_fingers * finger_width + (n_fingers - 1) * finger_gap
-
-    if bus_length is None:
-        bus_length = total_finger_span + 2 * finger_gap
-
-    # Vertical extent:
-    #   bottom bus: y in [-bus_width - finger_length - finger_gap/2, -finger_length - finger_gap/2]
-    #   bottom fingers extend up from bottom bus
-    #   top fingers extend down from top bus
-    #   top bus: y in [finger_length + finger_gap/2, finger_length + finger_gap/2 + bus_width]
-
-    gap_half = finger_gap / 2  # gap between finger tip and opposite bus
-    top_bus_bottom = finger_length + gap_half
-    top_bus_top = top_bus_bottom + bus_width
-    bottom_bus_top = -(finger_length + gap_half)
-    bottom_bus_bottom = bottom_bus_top - bus_width
-
-    # Bottom bus bar
-    c.add_polygon(
-        [
-            (-bus_length / 2, bottom_bus_bottom),
-            (bus_length / 2, bottom_bus_bottom),
-            (bus_length / 2, bottom_bus_top),
-            (-bus_length / 2, bottom_bus_top),
-        ],
-        layer=layer,
-    )
-
-    # Top bus bar
-    c.add_polygon(
-        [
-            (-bus_length / 2, top_bus_bottom),
-            (bus_length / 2, top_bus_bottom),
-            (bus_length / 2, top_bus_top),
-            (-bus_length / 2, top_bus_top),
-        ],
-        layer=layer,
-    )
-
-    # Fingers: center the finger array horizontally
-    x_start = -total_finger_span / 2 + finger_width / 2
-
-    for i in range(n_fingers):
-        x_center = x_start + i * finger_pitch
-        x_left = x_center - finger_width / 2
-        x_right = x_center + finger_width / 2
-
-        if i % 2 == 0:
-            # Bottom bus finger: extends upward from bottom bus top
-            c.add_polygon(
-                [
-                    (x_left, bottom_bus_top),
-                    (x_right, bottom_bus_top),
-                    (x_right, bottom_bus_top + finger_length),
-                    (x_left, bottom_bus_top + finger_length),
-                ],
-                layer=layer,
-            )
-        else:
-            # Top bus finger: extends downward from top bus bottom
-            c.add_polygon(
-                [
-                    (x_left, top_bus_bottom),
-                    (x_right, top_bus_bottom),
-                    (x_right, top_bus_bottom - finger_length),
-                    (x_left, top_bus_bottom - finger_length),
-                ],
-                layer=layer,
-            )
-
-    # Electrical ports at bus bar ends
-    c.add_port(
-        name="bot_left",
-        center=(-bus_length / 2, (bottom_bus_bottom + bottom_bus_top) / 2),
-        width=bus_width,
-        orientation=180,
+    return cf.interdigitated_electrodes(
+        n_fingers=n_fingers,
+        finger_width=finger_width,
+        finger_length=finger_length,
+        finger_gap=finger_gap,
+        bus_width=bus_width,
+        bus_length=bus_length,
         layer=layer,
         port_type=port_type,
     )
-    c.add_port(
-        name="bot_right",
-        center=(bus_length / 2, (bottom_bus_bottom + bottom_bus_top) / 2),
-        width=bus_width,
-        orientation=0,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.add_port(
-        name="top_left",
-        center=(-bus_length / 2, (top_bus_bottom + top_bus_top) / 2),
-        width=bus_width,
-        orientation=180,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.add_port(
-        name="top_right",
-        center=(bus_length / 2, (top_bus_bottom + top_bus_top) / 2),
-        width=bus_width,
-        orientation=0,
-        layer=layer,
-        port_type=port_type,
-    )
-
-    if port_type == "electrical":
-        bot_ports = [p for p in c.ports if p.name and p.name.startswith("bot_")]
-        top_ports = [p for p in c.ports if p.name and p.name.startswith("top_")]
-        if bot_ports:
-            c.create_pin(ports=bot_ports, name="bot")
-        if top_ports:
-            c.create_pin(ports=top_ports, name="top")
-
-    return c
 
 
 if __name__ == "__main__":

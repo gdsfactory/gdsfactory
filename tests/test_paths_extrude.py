@@ -5,7 +5,6 @@ import pytest
 from scipy.integrate import quad
 
 import gdsfactory as gf
-from gdsfactory import Section
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.gpdk import LAYER
 from gdsfactory.typings import LayerSpec
@@ -19,17 +18,13 @@ def test_path_near_collinear() -> None:
 
 def test_path_port_types() -> None:
     """Test path with different port types."""
-    s0 = gf.Section(width=0.5, offset=0, layer=LAYER.SLAB90, port_names=("o1", "o2"))
-    s1 = gf.Section(
-        width=2.0,
-        offset=-4,
-        layer=LAYER.HEATER,
-        port_names=("e1", "e2"),
-        port_types=("electrical", "electrical"),
-    )
-    X = gf.CrossSection(sections=(s0, s1))
+    s0 = (LAYER.SLAB90, -0.25, 0.25)
+    s1 = (LAYER.HEATER, -5.0, -3.0)
+    X = gf.cross_section.strip(width=None, sections=(s0, s1))
     P = gf.path.straight(npoints=100, length=10)
-    c = gf.path.extrude(P, X)
+    c = gf.path.extrude(
+        P, X, ports={0: ("o1", "o2", "optical"), 1: ("e1", "e2", "electrical")}
+    )
     assert c.ports["e1"].port_type == "electrical"
     assert c.ports["e2"].port_type == "electrical"
     assert c.ports["o1"].port_type == "optical"
@@ -130,10 +125,10 @@ def dummy_cladded_wg_cs(
     clad_width: float,
 ) -> CrossSection:
     sections = (
-        Section(width=core_width, offset=0, layer=core_layer, name="core"),
-        Section(width=clad_width, offset=0, layer=clad_layer, name="clad"),
+        (core_layer, -(core_width / 2), core_width / 2),
+        (clad_layer, -(clad_width / 2), clad_width / 2),
     )
-    return gf.cross_section.cross_section(
+    return gf.cross_section.strip(
         width=core_width, sections=sections, layer=intent_layer
     )
 
@@ -247,10 +242,12 @@ def test_transition_asymmetric_cross_section_different_layers() -> None:
 def test_extrude_port_centers() -> None:
     """Tests whether the ports created from CrossSections with multiple Sections are offset properly. Does not test the shear angle case."""
     s1_offset = 1
-    s0 = gf.Section(layer="WG", width=0.5, offset=0, port_names=("o1", "o2"))
-    s1 = gf.Section(layer="M1", width=0.5, offset=s1_offset, port_names=("e1", "e2"))
-    xs = gf.CrossSection(sections=(s0, s1))
-    s = gf.components.straight(cross_section=xs)
+    s0 = ("WG", -0.25, 0.25)
+    s1 = ("M1", s1_offset - 0.25, s1_offset + 0.25)
+    xs = gf.cross_section.strip(width=None, sections=(s0, s1))
+    s = gf.path.straight().extrude(
+        xs, ports={0: ("o1", "o2", "optical"), 1: ("e1", "e2", "electrical")}
+    )
 
     assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
     assert s.ports["e1"].center[1] == s.ports["o1"].center[1] - s1_offset, s.ports[
@@ -267,14 +264,13 @@ def test_extrude_component_along_path() -> None:
     p += gf.path.straight()
 
     # Define a cross-section with a via
-    via = gf.cross_section.ComponentAlongPath(
-        component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
-    )
-    s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
+    via = gf.c.rectangle(size=(1, 1), centered=True)
+    s = ((1, 0), -0.25, 0.25)
+    x = gf.cross_section.strip(width=None, sections=(s,))
 
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
+    c << gf.path.along_path(p=p, component=via, spacing=5, padding=2)
     assert c
 
 
@@ -284,17 +280,18 @@ def test_extrude_component_along_path_deterministic_name() -> None:
     # ``Unnamed_N`` one, otherwise the GDS and netlist output is
     # nondeterministic (it depends on what was built earlier in the session).
     # See https://github.com/gdsfactory/gdsfactory/issues/4598
-    via = gf.cross_section.ComponentAlongPath(
-        component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
-    )
-    s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
-    x = gf.CrossSection(sections=(s,), components_along_path=(via,))
+    via = gf.c.rectangle(size=(1, 1), centered=True)
+    s = ((1, 0), -0.25, 0.25)
+    x = gf.cross_section.strip(width=None, sections=(s,))
 
     # build some unrelated cells first so the global "Unnamed" counter advances
     for length in (1.0, 2.0, 3.0):
         gf.components.straight(length=length)
 
     c = gf.path.extrude(gf.path.straight(length=20), cross_section=x)
+    c << gf.path.along_path(
+        p=gf.path.straight(length=20), component=via, spacing=5, padding=2
+    )
     instance_cell_names = [inst.cell.name for inst in c.insts]
 
     assert instance_cell_names, "expected a components-along-path container instance"
@@ -304,8 +301,8 @@ def test_extrude_component_along_path_deterministic_name() -> None:
 
 
 def test_extrude_cross_section_list_of_sections() -> None:
-    s = gf.Section(width=0.5, offset=0.5, layer="WG")
-    xs = gf.CrossSection(sections=(s,))
+    s = ("WG", 0.25, 0.75)
+    xs = gf.cross_section.strip(width=None, sections=(s,))
     c = gf.c.straight(cross_section=xs)
     assert c
 

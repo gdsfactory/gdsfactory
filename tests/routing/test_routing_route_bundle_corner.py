@@ -25,9 +25,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TR_{i}",
                 center=(d, a / 2 + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -36,9 +35,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TL_{i}",
                 center=(-d, a / 2 + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -47,9 +45,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BR_{i}",
                 center=(d, -a / 2 - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -58,9 +55,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BL_{i}",
                 center=(-d, -a / 2 - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -71,9 +67,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TR_{i}",
                 center=(a / 2 + i * sep, d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -82,9 +77,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TL_{i}",
                 center=(-a / 2 - i * sep, d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -93,9 +87,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BR_{i}",
                 center=(a / 2 + i * sep, -d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -104,9 +97,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BL_{i}",
                 center=(-a / 2 - i * sep, -d),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -119,9 +111,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TR_{i}",
                 center=(a, d + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -130,9 +121,8 @@ def test_connect_corner(
             Port(
                 name=f"A_TL_{i}",
                 center=(-a, d + i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -141,9 +131,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BR_{i}",
                 center=(a, -d - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=0,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -152,9 +141,8 @@ def test_connect_corner(
             Port(
                 name=f"A_BL_{i}",
                 center=(-a, -d - i * sep),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=180,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -165,9 +153,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TR_{i}",
                 center=(d + i * sep, a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -176,9 +163,8 @@ def test_connect_corner(
             Port(
                 name=f"B_TL_{i}",
                 center=(-d - i * sep, a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=90,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -187,9 +173,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BR_{i}",
                 center=(d + i * sep, -a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]
@@ -198,9 +183,8 @@ def test_connect_corner(
             Port(
                 name=f"B_BL_{i}",
                 center=(-d - i * sep, -a),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=270,
-                layer=layer,
             )
             for i in range(n)
         ]

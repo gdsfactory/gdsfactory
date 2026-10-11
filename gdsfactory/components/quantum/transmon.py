@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["transmon", "transmon_circular"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -42,89 +43,19 @@ def transmon(
     Returns:
         Component: A gdsfactory component with the transmon geometry.
     """
-    c = Component()
-
-    # Create left capacitor pad
-    left_pad = gf.components.rectangle(
-        size=(pad_width, pad_height),
-        layer=layer_metal,
+    return cf.transmon(
+        pad_width=pad_width,
+        pad_height=pad_height,
+        pad_gap=pad_gap,
+        junction_width=junction_width,
+        junction_height=junction_height,
+        island_width=island_width,
+        island_height=island_height,
+        layer_metal=layer_metal,
+        layer_junction=layer_junction,
+        layer_island=layer_island,
         port_type=port_type,
     )
-    left_pad_ref = c.add_ref(left_pad)
-    left_pad_ref.move((-pad_width - pad_gap / 2, -pad_height / 2))
-
-    # Create right capacitor pad
-    right_pad = gf.components.rectangle(
-        size=(pad_width, pad_height),
-        layer=layer_metal,
-        port_type=port_type,
-    )
-    right_pad_ref = c.add_ref(right_pad)
-    right_pad_ref.move((pad_gap / 2, -pad_height / 2))
-
-    # Create central island
-    island = gf.components.rectangle(
-        size=(island_width, island_height),
-        layer=layer_island,
-    )
-    island_ref = c.add_ref(island)
-    island_ref.move((-island_width / 2, -island_height / 2))
-
-    # Create Josephson junction
-    junction = gf.components.rectangle(
-        size=(junction_width, junction_height),
-        layer=layer_junction,
-    )
-    junction_ref = c.add_ref(junction)
-    junction_ref.move((-junction_width / 2, -junction_height / 2))
-
-    # Add connection lines from pads to island
-    # Only add connections if there is a gap between island and pads
-    connection_width = abs(pad_gap / 2 - island_width / 2)
-    if pad_gap / 2 > island_width / 2:
-        left_connection = gf.components.rectangle(
-            size=(connection_width, junction_height / 2),
-            layer=layer_metal,
-        )
-        left_conn_ref = c.add_ref(left_connection)
-        left_conn_ref.move((-pad_gap / 2, -junction_height / 4))
-
-        right_connection = gf.components.rectangle(
-            size=(connection_width, junction_height / 2),
-            layer=layer_metal,
-        )
-        right_conn_ref = c.add_ref(right_connection)
-        right_conn_ref.move((island_width / 2, -junction_height / 4))
-
-    # Add ports for connections
-    c.add_port(
-        name="left_pad",
-        center=(-pad_width - pad_gap / 2, 0),
-        width=pad_height,
-        orientation=180,
-        layer=layer_metal,
-    )
-
-    c.add_port(
-        name="right_pad",
-        center=(pad_width + pad_gap / 2, 0),
-        width=pad_height,
-        orientation=0,
-        layer=layer_metal,
-    )
-
-    # Add metadata
-    c.info["qubit_type"] = "transmon"
-    c.info["pad_width"] = pad_width
-    c.info["pad_height"] = pad_height
-    c.info["pad_gap"] = pad_gap
-    c.info["junction_area"] = junction_width * junction_height
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    return c
 
 
 @gf.cell_with_module_name(tags=["quantum"])
@@ -157,82 +88,14 @@ def transmon_circular(
     Returns:
         Component: A gdsfactory component with the circular transmon geometry.
     """
-    c = Component()
-
-    # Create left circular pad
-    left_pad = gf.components.circle(
-        radius=pad_radius,
-        layer=layer_metal,
+    return cf.transmon_circular(
+        pad_radius=pad_radius,
+        pad_gap=pad_gap,
+        junction_width=junction_width,
+        junction_height=junction_height,
+        island_radius=island_radius,
+        layer_metal=layer_metal,
+        layer_junction=layer_junction,
+        layer_island=layer_island,
+        port_type=port_type,
     )
-    left_pad_ref = c.add_ref(left_pad)
-    left_pad_ref.move((-pad_radius - pad_gap / 2, 0))
-
-    # Create right circular pad
-    right_pad = gf.components.circle(
-        radius=pad_radius,
-        layer=layer_metal,
-    )
-    right_pad_ref = c.add_ref(right_pad)
-    right_pad_ref.move((pad_radius + pad_gap / 2, 0))
-
-    # Create central circular island
-    island = gf.components.circle(
-        radius=island_radius,
-        layer=layer_island,
-    )
-    c.add_ref(island)
-
-    # Create Josephson junction
-    junction = gf.components.rectangle(
-        size=(junction_width, junction_height),
-        layer=layer_junction,
-    )
-    junction_ref = c.add_ref(junction)
-    junction_ref.move((-junction_width / 2, -junction_height / 2))
-
-    # Add connection lines from pads to island
-    # Only add connections if there is a gap between island and pads
-    connection_width = abs(pad_gap / 2 - island_radius)
-    if pad_gap / 2 > island_radius:
-        left_connection = gf.components.rectangle(
-            size=(connection_width, junction_height / 2),
-            layer=layer_metal,
-        )
-        left_conn_ref = c.add_ref(left_connection)
-        left_conn_ref.move((-pad_gap / 2, -junction_height / 4))
-
-        right_connection = gf.components.rectangle(
-            size=(connection_width, junction_height / 2),
-            layer=layer_metal,
-        )
-        right_conn_ref = c.add_ref(right_connection)
-        right_conn_ref.move((island_radius, -junction_height / 4))
-
-    # Add ports for connections
-    c.add_port(
-        name="left_pad",
-        center=(-2 * pad_radius - pad_gap / 2, 0),
-        width=2 * pad_radius,
-        orientation=180,
-        layer=layer_metal,
-    )
-
-    c.add_port(
-        name="right_pad",
-        center=(2 * pad_radius + pad_gap / 2, 0),
-        width=2 * pad_radius,
-        orientation=0,
-        layer=layer_metal,
-    )
-
-    # Add metadata
-    c.info["qubit_type"] = "transmon_circular"
-    c.info["pad_radius"] = pad_radius
-    c.info["pad_gap"] = pad_gap
-    c.info["junction_area"] = junction_width * junction_height
-
-    elec_ports = [p for p in c.ports if p.name and p.port_type == "electrical"]
-    for p in elec_ports:
-        c.create_pin(ports=[p], name=p.name)
-
-    return c

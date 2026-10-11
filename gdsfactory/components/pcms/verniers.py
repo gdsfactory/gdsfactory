@@ -5,6 +5,7 @@ __all__ = ["verniers"]
 from typing import Any
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
@@ -16,7 +17,7 @@ def verniers(
     xsize: float = 100.0,
     layer_label: LayerSpec = "TEXT",
     straight: ComponentSpec = "straight",
-    cross_section: CrossSectionSpec = "strip_no_ports",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs: Any,
 ) -> Component:
     """Returns a component with verniers.
@@ -30,16 +31,12 @@ def verniers(
         cross_section: cross_section spec.
         kwargs: straight settings.
     """
-    c = gf.Component()
-    y = 0.0
-
-    for width in widths:
-        w = c << gf.get_component(
-            straight, width=width, length=xsize, cross_section=cross_section, **kwargs
-        )
-        y += width / 2
-        w.y = y
-        c.add_label(text=str(int(width * 1e3)), position=(0, y), layer=layer_label)
-        y += width / 2 + gap
-
-    return c
+    return cf.verniers(
+        widths=widths,
+        gap=gap,
+        xsize=xsize,
+        layer_label=layer_label,
+        straight=straight,
+        cross_section=cross_section,
+        **kwargs,
+    )

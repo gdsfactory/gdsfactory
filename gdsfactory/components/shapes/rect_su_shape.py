@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["rect_su_shape"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 
@@ -30,82 +31,9 @@ def rect_su_shape(
         layer: layer spec.
         port_type: None, optical, or electrical.
     """
-    c = Component()
-    w = width / 2
-
-    # Build as three connected rectangles
-    # Segment 1: vertical from (0,0) going up by L1
-    # Segment 2: horizontal at top of seg1, going right by L2
-    # Segment 3: vertical from end of seg2, going up by L3
-    # The overall shape is an S/U polygon
-
-    if L1 >= 0 and L2 >= 0 and L3 >= 0:
-        points = [
-            (-w, 0),
-            (w, 0),
-            (w, L1),
-            (L2 + w, L1),
-            (L2 + w, L1 + L3),
-            (L2 - w, L1 + L3),
-            (L2 - w, L1 + width),
-            (-w, L1 + width),
-            (-w, 0),
-        ]
-    else:
-        # General case: compose three rectangles
-        r1 = gf.components.rectangle(size=(width, abs(L1)), layer=layer)
-        r2 = gf.components.rectangle(size=(abs(L2), width), layer=layer)
-        r3 = gf.components.rectangle(size=(width, abs(L3)), layer=layer)
-
-        ref1 = c.add_ref(r1)
-        ref1.center = (0, 0)
-
-        ref2 = c.add_ref(r2)
-        if L1 >= 0:
-            ref2.xmin = -w
-            ref2.ymin = abs(L1) / 2 - w
-        else:
-            ref2.xmin = -w
-            ref2.ymax = -abs(L1) / 2 + w
-
-        ref3 = c.add_ref(r3)
-        if L2 >= 0:
-            ref3.xmin = abs(L2) - w
-        else:
-            ref3.xmax = -abs(L2) + w
-        if L3 >= 0:
-            ref3.ymin = ref2.ymin
-        else:
-            ref3.ymax = ref2.ymax
-
-        c.flatten()
-        return c
-
-    c.add_polygon(points, layer=layer)
-
-    if port_type:
-        prefix = "o" if port_type == "optical" else "e"
-        c.add_port(
-            f"{prefix}1",
-            center=(0, 0),
-            width=width,
-            orientation=270,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.add_port(
-            f"{prefix}2",
-            center=(L2, L1 + L3),
-            width=width,
-            orientation=90,
-            layer=layer,
-            port_type=port_type,
-        )
-        c.auto_rename_ports()
-    if port_type == "electrical":
-        for port in c.ports:
-            c.create_pin(ports=[port], name=port.name)
-    return c
+    return cf.rect_su_shape(
+        L1=L1, L2=L2, L3=L3, width=width, layer=layer, port_type=port_type
+    )
 
 
 if __name__ == "__main__":

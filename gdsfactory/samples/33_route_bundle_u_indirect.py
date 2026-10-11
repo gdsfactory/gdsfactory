@@ -28,7 +28,7 @@ def test_connect_bundle_u_indirect(
                 center=(0, xs1[i]),
                 width=0.5,
                 orientation=a1,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -38,7 +38,7 @@ def test_connect_bundle_u_indirect(
                 center=(dy, xs2[i]),
                 width=0.5,
                 orientation=a2,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -49,7 +49,7 @@ def test_connect_bundle_u_indirect(
                 center=(xs1[i], 0),
                 width=0.5,
                 orientation=a1,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]
@@ -59,7 +59,7 @@ def test_connect_bundle_u_indirect(
                 center=(xs2[i], dy),
                 width=0.5,
                 orientation=a2,
-                layer=gf.get_layer(layer),
+                cross_section=gf.get_cross_section("strip", layer=layer),
             )
             for i in range(N)
         ]

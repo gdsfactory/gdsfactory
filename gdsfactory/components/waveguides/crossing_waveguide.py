@@ -2,20 +2,22 @@
 
 from __future__ import annotations
 
-__all__ = ["crossing", "crossing45", "crossing_etched", "crossing_linear_taper"]
+__all__ = [
+    "crossing",
+    "crossing45",
+    "crossing_arm",
+    "crossing_etched",
+    "crossing_linear_taper",
+]
 
-import numpy as np
 from kfactory.conf import CheckInstances
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Delta, LayerSpec
 
 from .._schematic import crossing_schematic
-from ..bends.bend_s import (
-    bezier,
-    find_min_curv_bezier_control_points,
-)
 
 
 @gf.cell_with_module_name(tags=["waveguides"])
@@ -37,70 +39,21 @@ def crossing_arm(
         layer_slab: for the shallow etch.
         cross_section: spec.
     """
-    c = Component()
-
-    layer_slab = gf.get_layer(layer_slab)
-    c << gf.c.ellipse(radii=(r1, r2), layer=layer_slab)
-
-    xs = gf.get_cross_section(cross_section)
-    width = xs.width
-    assert xs.layer is not None
-    layer_wg = gf.get_layer(xs.layer)
-
-    a = np.round(L + w / 2, 3)
-    h = width / 2
-
-    taper_pts = [
-        (-a, h),
-        (-w / 2, w / 2),
-        (w / 2, w / 2),
-        (a, h),
-        (a, -h),
-        (w / 2, -w / 2),
-        (-w / 2, -w / 2),
-        (-a, -h),
-    ]
-
-    c.add_polygon(taper_pts, layer=layer_wg)
-    c.add_port(
-        name="o1",
-        center=(-a, 0),
-        orientation=180,
-        width=width,
-        layer=layer_wg,
-        cross_section=xs,
+    return cf.crossing_arm(
+        r1=r1, r2=r2, w=w, L=L, layer_slab=layer_slab, cross_section=cross_section
     )
-
-    c.add_port(
-        name="o2",
-        center=(a, 0),
-        orientation=0,
-        width=width,
-        layer=layer_wg,
-        cross_section=xs,
-    )
-
-    return c
 
 
 @gf.cell_with_module_name(schematic_function=crossing_schematic, tags=["waveguides"])
 def crossing(
-    arm: ComponentSpec = crossing_arm,
+    arm: ComponentSpec = "crossing_arm",
 ) -> gf.Component:
     """Waveguide crossing.
 
     Args:
         arm: arm spec.
     """
-    c = gf.Component()
-    arm = gf.get_component(arm)
-    for rotation in [0, 90, 180, 270]:
-        ref = c << arm
-        ref.rotate(rotation)
-        c.add_port(port=ref["o2"])
-    c.auto_rename_ports()
-    c.flatten()
-    return c
+    return cf.crossing(arm=arm)
 
 
 @gf.cell_with_module_name(schematic_function=crossing_schematic, tags=["waveguides"])
@@ -122,10 +75,13 @@ def crossing_linear_taper(
         cross_section: cross_section spec.
         taper: taper spec.
     """
-    arm = gf.get_component(
-        taper, width1=width1, width2=width2, length=length, cross_section=cross_section
+    return cf.crossing_linear_taper(
+        width1=width1,
+        width2=width2,
+        length=length,
+        cross_section=cross_section,
+        taper=taper,
     )
-    return crossing(arm=arm)
 
 
 @gf.cell_with_module_name(schematic_function=crossing_schematic, tags=["waveguides"])
@@ -152,54 +108,9 @@ def crossing_etched(
         layer_wg: waveguide layer.
         layer_slab: shallow etch layer.
     """
-    layer_wg = gf.get_layer(layer_wg)
-    _ = gf.get_layer(layer_slab)
-
-    # Draw the ellipses
-    c = Component()
-    _ = c << gf.c.ellipse(radii=(r1, r2), layer=layer_wg)
-    _ = c << gf.c.ellipse(radii=(r2, r1), layer=layer_wg)
-
-    a = L + w / 2
-    h = width / 2
-
-    taper_cross_pts = [
-        (-a, h),
-        (-w / 2, w / 2),
-        (-h, a),
-        (h, a),
-        (w / 2, w / 2),
-        (a, h),
-        (a, -h),
-        (w / 2, -w / 2),
-        (h, -a),
-        (-h, -a),
-        (-w / 2, -w / 2),
-        (-a, -h),
-    ]
-
-    c.add_polygon(taper_cross_pts, layer=layer_wg)
-
-    # tapers_poly = c.add_polygon(taper_cross_pts, layer=layer_wg)
-    # b = a - 0.1  # To make sure we get 4 distinct polygons when doing bool ops
-    # tmp_polygon = [(-b, b), (b, b), (b, -b), (-b, -b)]
-    # polys_etch = gdstk.fast_boolean([tmp_polygon], tapers_poly, "not", layer=layer_slab)
-    # c.add(polys_etch)
-
-    positions = [(a, 0), (0, a), (-a, 0), (0, -a)]
-    angles = [0, 90, 180, 270]
-
-    for i, (p, angle) in enumerate(zip(positions, angles, strict=False)):
-        c.add_port(
-            name=str(i),
-            center=p,
-            orientation=angle,
-            width=width,
-            layer=layer_wg,
-        )
-    c.auto_rename_ports()
-    c.flatten()
-    return c
+    return cf.crossing_etched(
+        width=width, r1=r1, r2=r2, w=w, L=L, layer_wg=layer_wg, layer_slab=layer_slab
+    )
 
 
 @gf.cell(
@@ -209,7 +120,7 @@ def crossing_etched(
     tags=["waveguides"],
 )
 def crossing45(
-    crossing: ComponentSpec = crossing,
+    crossing: ComponentSpec = "crossing",
     port_spacing: float = 40.0,
     dx: Delta | None = None,
     alpha: float = 0.08,
@@ -242,67 +153,21 @@ def crossing45(
     ```
 
     """
-    crossing = gf.get_component(crossing)
-
-    c = Component()
-    x = c.add_ref_off_grid(crossing)
-    x.rotate(45)
-
-    p_e = x.ports["o3"].center
-    dx = dx or port_spacing
-    dy = port_spacing / 2
-
-    start_angle = 45
-    end_angle = 0
-    cpts = find_min_curv_bezier_control_points(
-        start_point=p_e,
-        end_point=(dx, dy),
-        start_angle=start_angle,
-        end_angle=end_angle,
-        npoints=npoints,
+    return cf.crossing45(
+        crossing=crossing,
+        port_spacing=port_spacing,
+        dx=dx,
         alpha=alpha,
-    )
-
-    bend = bezier(
-        control_points=cpts,
-        start_angle=start_angle,
-        end_angle=end_angle,
         npoints=npoints,
-        cross_section=cross_section_bends,
+        cross_section=cross_section,
+        cross_section_bends=cross_section_bends,
     )
-
-    tol = 1e-2
-    assert abs(bend.info["start_angle"] - start_angle) < tol, (
-        f"{bend.info['start_angle']} differs from {start_angle}"
-    )
-    assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
-
-    b_tr = c.add_ref_off_grid(bend)
-    b_tl = c.add_ref_off_grid(bend)
-    b_bl = c.add_ref_off_grid(bend)
-    b_br = c.add_ref_off_grid(bend)
-
-    b_tr.connect("o2", x.ports["o3"], mirror=True)
-    b_tl.connect("o2", x.ports["o1"], mirror=True)
-    b_bl.connect("o2", x.ports["o4"])
-    b_br.connect("o2", x.ports["o2"])
-
-    c.info["bezier_length"] = bend.info["length"]
-    c.info["min_bend_radius"] = bend.info["min_bend_radius"]
-
-    c.add_port("o1", port=b_bl.ports["o1"])
-    c.add_port("o2", port=b_tl.ports["o1"])
-    c.add_port("o3", port=b_tr.ports["o1"])
-    c.add_port("o4", port=b_br.ports["o1"])
-
-    xs = gf.get_cross_section(cross_section)
-    xs.add_bbox(c)
-    return c
 
 
 __all__ = [
     "crossing",
     "crossing45",
+    "crossing_arm",
     "crossing_etched",
     "crossing_linear_taper",
 ]

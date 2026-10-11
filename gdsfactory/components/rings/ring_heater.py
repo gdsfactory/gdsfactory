@@ -2,10 +2,11 @@ from __future__ import annotations
 
 __all__ = ["ring_double_heater", "ring_single_heater"]
 
-from functools import partial
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
+from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import AngleInDegrees, ComponentSpec, CrossSectionSpec, Float2
 
 from .._schematic import ring_double_schematic
@@ -84,126 +85,29 @@ def ring_double_heater(
              o1──────▼─────────o4
     ```
     """
-    gap_top = gap_top or gap
-    gap_bot = gap_bot or gap
-
-    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    gap_top = gf.snap.snap_to_grid(gap_top, grid_factor=2)
-    gap_bot = gf.snap.snap_to_grid(gap_bot, grid_factor=2)
-
-    coupler_ring_top = coupler_ring_top or coupler_ring
-
-    if length_extension_bot is None:
-        length_extension_bot = length_extension
-
-    if length_extension_top is None:
-        length_extension_top = length_extension
-
-    coupler_component = gf.get_component(
-        coupler_ring,
-        gap=gap_bot,
+    return cf.ring_double_heater(
+        gap=gap,
+        gap_top=gap_top,
+        gap_bot=gap_bot,
         radius=radius,
         length_x=length_x,
+        length_y=length_y,
+        coupler_ring=coupler_ring,
+        coupler_ring_top=coupler_ring_top,
+        straight=straight,
         bend=bend,
+        cross_section_heater=cross_section_heater,
+        cross_section_waveguide_heater=cross_section_waveguide_heater,
         cross_section=cross_section,
-        cross_section_bend=cross_section_waveguide_heater,
-        length_extension=length_extension_bot,
-    )
-    coupler_component_top = gf.get_component(
-        coupler_ring_top,
-        gap=gap_top,
-        radius=radius,
-        length_x=length_x,
-        bend=bend,
-        cross_section=cross_section,
-        cross_section_bend=cross_section_waveguide_heater,
-        length_extension=length_extension_top,
-    )
-    straight_component = gf.get_component(
-        straight,
-        length=length_y,
-        cross_section=cross_section_waveguide_heater,
+        via_stack=via_stack,
+        port_orientation=port_orientation,
+        via_stack_offset=via_stack_offset,
+        via_stack_size=via_stack_size,
+        with_drop=with_drop,
+        length_extension=length_extension,
+        length_extension_top=length_extension_top,
+        length_extension_bot=length_extension_bot,
     )
 
-    c = Component()
 
-    cb = c.add_ref(coupler_component)
-    sl = c.add_ref(straight_component)
-    sr = c.add_ref(straight_component)
-    c.add_port("o1", port=cb.ports["o1"])
-    c.add_port("o2", port=cb.ports["o4"])
-
-    if with_drop:
-        ct = c.add_ref(coupler_component_top)
-        sl.connect(port="o1", other=cb.ports["o2"])
-        ct.connect(port="o3", other=sl.ports["o2"])
-        sr.connect(port="o2", other=ct.ports["o2"])
-        c.add_port("o3", port=ct.ports["o4"])
-        c.add_port("o4", port=ct.ports["o1"])
-        heater_top = c << gf.get_component(
-            straight,
-            length=length_x,
-            cross_section=cross_section_heater,
-        )
-        heater_top.connect("e1", ct["e1"])
-
-    else:
-        straight_top = gf.get_component(
-            straight,
-            length=length_x,
-            cross_section=cross_section_waveguide_heater,
-        )
-        bend = gf.get_component(
-            bend,
-            radius=radius,
-            cross_section=cross_section_waveguide_heater,
-        )
-        bl = c << bend
-        br = c << bend
-        st = c << straight_top
-
-        sl.connect(port="o1", other=cb.ports["o2"])
-        bl.connect(port="o2", other=sl.ports["o2"])
-
-        st.connect(port="o2", other=bl.ports["o1"])
-        br.connect(port="o2", other=st.ports["o1"])
-        sr.connect(port="o1", other=br.ports["o1"])
-        sr.connect(port="o2", other=cb.ports["o3"])
-
-    if via_stack_size:
-        via = gf.get_component(via_stack, size=via_stack_size)
-
-    else:
-        via = gf.get_component(via_stack)
-
-    c1 = c << via
-    c2 = c << via
-    c1.xmax = -length_x / 2 + cb.x - via_stack_offset[0]
-    c2.xmin = +length_x / 2 + cb.x + via_stack_offset[0]
-    c1.movey(via_stack_offset[1])
-    c2.movey(via_stack_offset[1])
-
-    p1 = c1.ports.filter(orientation=port_orientation)
-    p2 = c2.ports.filter(orientation=port_orientation)
-    valid_orientations = {p.orientation for p in via.ports}
-
-    if not p1:
-        raise ValueError(
-            f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
-        )
-
-    c.flatten()
-    c.add_ports(p1, prefix="l_")
-    c.add_ports(p2, prefix="r_")
-
-    l_ports = [p for p in c.ports if p.name and p.name.startswith("l_")]
-    r_ports = [p for p in c.ports if p.name and p.name.startswith("r_")]
-    if l_ports:
-        c.create_pin(ports=l_ports, name="l")
-    if r_ports:
-        c.create_pin(ports=r_ports, name="r")
-
-    return c
-
-
-ring_single_heater = partial(ring_double_heater, with_drop=False)
+ring_single_heater = CellAlias(ring_double_heater, with_drop=False)

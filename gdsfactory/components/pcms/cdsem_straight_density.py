@@ -5,11 +5,10 @@ from __future__ import annotations
 __all__ = ["cdsem_straight_density", "gaps", "widths"]
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory import component_functions as cf
+from gdsfactory.component import Component
+from gdsfactory.component_functions.pcms.cdsem_straight_density import gaps, widths
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats
-
-widths = 10 * (0.3,)
-gaps = 10 * (0.3,)
 
 
 @gf.cell_with_module_name(tags=["pcms"])
@@ -18,7 +17,7 @@ def cdsem_straight_density(
     gaps: Floats = gaps,
     length: float = 420.0,
     label: str = "",
-    cross_section: CrossSectionSpec = "strip_no_ports",
+    cross_section: CrossSectionSpec = "strip",
     text: ComponentSpec | None = "text_rectangular",
     text_size: float = 1.0,
 ) -> Component:
@@ -33,19 +32,12 @@ def cdsem_straight_density(
         text: optional function for text.
         text_size: size of the text.
     """
-    c = Component()
-    label = label or f"{int(widths[0] * 1e3)} {int(gaps[0] * 1e3)}"
-
-    ymin = 0.0
-    tooth_ref: ComponentReference | None = None
-    for width, gap in zip(widths, gaps, strict=False):
-        tooth_ref = c << gf.c.straight(
-            length=length, cross_section=cross_section, width=width
-        )
-        tooth_ref.ymin = ymin
-        ymin += width + gap
-
-    if text and tooth_ref is not None:
-        marker_label = c << gf.get_component(text, text=f"{label}", size=text_size)
-        marker_label.xmin = tooth_ref.xmax + 5
-    return c
+    return cf.cdsem_straight_density(
+        widths=widths,
+        gaps=gaps,
+        length=length,
+        label=label,
+        cross_section=cross_section,
+        text=text,
+        text_size=text_size,
+    )

@@ -59,9 +59,8 @@ def test_route_connect_bundle_udirect(
             Port(
                 name=f"top_{i}",
                 center=(0, xs1[i]),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=orientation,
-                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
@@ -70,9 +69,8 @@ def test_route_connect_bundle_udirect(
             Port(
                 name=f"bottom_{i}",
                 center=(dy, xs2[i]),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=orientation,
-                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
@@ -82,9 +80,8 @@ def test_route_connect_bundle_udirect(
             Port(
                 name=f"top_{i}",
                 center=(xs1[i], 0),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=orientation,
-                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]
@@ -93,9 +90,8 @@ def test_route_connect_bundle_udirect(
             Port(
                 name=f"bottom_{i}",
                 center=(xs2[i], dy),
-                width=0.5,
+                cross_section=gf.cross_section.strip(width=0.5, layer=layer),
                 orientation=orientation,
-                layer=gf.kcl.layout.layer(*layer),
             )
             for i in range(N)
         ]

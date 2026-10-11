@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["ring_single"]
 
 import gdsfactory as gf
+from gdsfactory import component_functions as cf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 from .._schematic import ring_single_schematic
@@ -75,76 +76,14 @@ def ring_single(
                                      length_extension
     ```
     """
-    if length_y < 0:
-        raise ValueError(f"length_y={length_y} must be >= 0")
-
-    if length_x < 0:
-        raise ValueError(f"length_x={length_x} must be >= 0")
-
-    # Create main component
-    c = gf.Component()
-
-    settings = dict(
+    return cf.ring_single(
         gap=gap,
         radius=radius,
         length_x=length_x,
-        cross_section=cross_section,
+        length_y=length_y,
         bend=bend,
         straight=straight,
+        coupler_ring=coupler_ring,
+        cross_section=cross_section,
+        length_extension=length_extension,
     )
-
-    if length_extension is not None:
-        settings["length_extension"] = length_extension
-
-    # Create and place the coupler
-    coupler = gf.get_component(coupler_ring, settings=settings)
-    cb = c << coupler
-
-    # Create waveguide components
-    b = gf.get_component(bend, cross_section=cross_section, radius=radius)
-
-    # Place waveguide components
-    bl = c << b  # Left bend
-    br = c << b  # Right bend
-
-    if length_y > 0 and length_x > 0:
-        sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
-        sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
-        st = c << sx
-        sl = c << sy
-        sr = c << sy
-
-        sl.connect(port="o1", other=cb.ports["o2"])
-        bl.connect(port="o2", other=sl.ports["o2"])
-        st.connect(port="o2", other=bl.ports["o1"])
-        br.connect(port="o2", other=st.ports["o1"])
-        sr.connect(port="o1", other=br.ports["o1"])
-        sr.connect(port="o2", other=cb.ports["o3"])
-    elif length_y > 0:
-        sy = gf.get_component(straight, length=length_y, cross_section=cross_section)
-        sl = c << sy
-        sr = c << sy
-
-        sl.connect(port="o1", other=cb.ports["o2"])
-        bl.connect(port="o2", other=sl.ports["o2"])
-        br.connect(port="o2", other=bl.ports["o1"])
-        sr.connect(port="o1", other=br.ports["o1"])
-        sr.connect(port="o2", other=cb.ports["o3"])
-    elif length_x > 0:
-        sx = gf.get_component(straight, length=length_x, cross_section=cross_section)
-        st = c << sx
-
-        bl.connect(port="o2", other=cb.ports["o2"])
-        st.connect(port="o2", other=bl.ports["o1"])
-        br.connect(port="o2", other=st.ports["o1"])
-        br.connect(port="o1", other=cb.ports["o3"])
-    else:
-        bl.connect(port="o2", other=cb.ports["o2"])
-        br.connect(port="o2", other=bl.ports["o1"])
-        br.connect(port="o1", other=cb.ports["o3"])
-
-    # Add ports
-    c.add_port("o2", port=cb.ports["o4"])
-    c.add_port("o1", port=cb.ports["o1"])
-    c.info["radius"] = coupler.info["radius"]
-    return c

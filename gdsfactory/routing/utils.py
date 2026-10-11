@@ -36,7 +36,7 @@ def get_default_bend(port_type: str, cross_section: CrossSection) -> ComponentSp
     """
     if port_type != "electrical":
         return "bend_euler"
-    return "wire_corner" if len(cross_section.sections) == 1 else "wire_corner_sections"
+    return "wire_corner_sections" if cross_section.sections else "wire_corner"
 
 
 def validate_bend90(
