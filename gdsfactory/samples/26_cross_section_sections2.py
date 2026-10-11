@@ -8,8 +8,9 @@ if __name__ == "__main__":
     gf.gpdk.PDK.activate()
     c = gf.Component()
 
-    c1 = c << gf.c.taper_strip_to_ridge()
-    # c1 = c << gf.c.taper_cross_section(cross_section2="rib2")
+    c1 = c << gf.c.taper_strip_to_ridge()  # works
+    # c1 = c << gf.c.taper_strip_to_ridge_trenches() # works
+    # c1 = c << gf.c.taper_cross_section(cross_section2="rib2") # works
 
     xs_in = c1["o1"].cross_section
     xs_out = c1["o2"].cross_section

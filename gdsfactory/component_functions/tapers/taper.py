@@ -11,6 +11,7 @@ __all__ = [
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.component_functions._get_component import get_component
+from gdsfactory.cross_section.utils import get_port_cross_section
 from gdsfactory.port import Port
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
@@ -138,6 +139,8 @@ def taper_strip_to_ridge(
 ) -> Component:
     r"""Linear taper from strip to rib.
 
+    Ports carry both waveguide and slab sections for geometry-matched extensions.
+
     Args:
         length: taper length (um).
         width1: in um.
@@ -187,22 +190,43 @@ def taper_strip_to_ridge(
     taper_ref_slab = c << taper_slab
 
     c.info["length"] = length
-    c.add_port(name="o1", port=taper_ref_wg.ports["o1"])
-
+    xs1 = taper_ref_wg.ports["o1"].cross_section
     if slab_port_layer:
-        port = taper_ref_wg.ports["o2"]
-        c.add_port(
-            name="o2",
-            width=port.width,
-            orientation=port.orientation,
-            layer=slab_port_layer,
-            center=port.center,
+        xs2 = get_port_cross_section(width2, slab_port_layer, c.kcl)
+    elif use_slab_port:
+        xs2 = taper_ref_slab.ports["o2"].cross_section
+    else:
+        xs2 = taper_ref_wg.ports["o2"].cross_section
+
+    # Build the complete endpoint profiles before creating their ports.
+    for name, profile, core_width, slab_width, x, angle, mirror in (
+        ("o1", xs1, width1, w_slab1, 0, 180, True),
+        ("o2", xs2, width2, w_slab2, length, 0, False),
+    ):
+        endpoint = gf.cross_section.cross_section(
+            width=profile.width,
+            layer=profile.layer,
+            sections=(
+                *profile.get_sections()[1:],
+                *(
+                    (layer, -width / 2, width / 2)
+                    for layer, width in (
+                        (layer_wg, core_width),
+                        (layer_slab, slab_width),
+                    )
+                    if gf.get_layer_info(layer) != profile.layer
+                    or width != profile.width
+                ),
+            ),
+            bbox_layers=list(profile.bbox_sections),
+            bbox_offsets=list(profile.bbox_sections.values()),
+            radius=profile.radius,
+            radius_min=profile.radius_min,
         )
 
-    if use_slab_port:
-        c.add_port(name="o2", port=taper_ref_slab.ports["o2"])
-    else:
-        c.add_port(name="o2", port=taper_ref_wg.ports["o2"])
+        c.add_port(
+            name=name, center=(x, 0), orientation=angle, cross_section=endpoint
+        ).mirror = mirror
 
     if length:
         xs.add_bbox(c)
@@ -220,6 +244,8 @@ def taper_strip_to_ridge_trenches(
     trench_offset: float = 0.1,
 ) -> gf.Component:
     """Defines taper using trenches to define the etch.
+
+    Ports carry the core, surrounding waveguide, and both trench sections.
 
     Args:
         length: in um.
@@ -250,10 +276,27 @@ def taper_strip_to_ridge_trenches(
     c.add_polygon(list(zip(x, ytt, strict=False)), layer=trench_layer)
     c.add_polygon(list(zip(x, ytb, strict=False)), layer=trench_layer)
 
-    c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer_wg)
-    c.add_port(
-        name="o2", center=(length, 0), width=width, orientation=0, layer=layer_wg
-    )
+    profile = get_port_cross_section(width, layer_wg, c.kcl)
+    # The optical core stays narrow; endpoint profiles also include the
+    # surrounding waveguide polygon and both etch trenches.
+    for name, wg_half_width, trench_outer, x, angle, mirror in (
+        ("o1", y0, ymax0, 0, 180, True),
+        ("o2", yL, ymaxL, length, 0, False),
+    ):
+        endpoint = gf.cross_section.cross_section(
+            width=width,
+            layer=layer_wg,
+            sections=(
+                (layer_wg, -wg_half_width, wg_half_width),
+                (trench_layer, width / 2, trench_outer),
+                (trench_layer, -trench_outer, -width / 2),
+            ),
+            radius=profile.radius,
+            radius_min=profile.radius_min,
+        )
+        c.add_port(
+            name=name, center=(x, 0), orientation=angle, cross_section=endpoint
+        ).mirror = mirror
     return c
 
 

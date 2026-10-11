@@ -78,6 +78,8 @@ def taper_strip_to_ridge(
 ) -> Component:
     r"""Linear taper from strip to rib.
 
+    Ports carry both waveguide and slab sections for geometry-matched extensions.
+
     Args:
         length: taper length (um).
         width1: in um.
@@ -127,6 +129,8 @@ def taper_strip_to_ridge_trenches(
     trench_offset: float = 0.1,
 ) -> gf.Component:
     """Defines taper using trenches to define the etch.
+
+    Ports carry the core, surrounding waveguide, and both trench sections.
 
     Args:
         length: in um.
