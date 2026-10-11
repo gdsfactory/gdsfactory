@@ -203,6 +203,24 @@ def taper_strip_to_ridge(
         ("o1", xs1, width1, w_slab1, 0, 180, True),
         ("o2", xs2, width2, w_slab2, length, 0, False),
     ):
+        # Adding a slab changes the profile's bend constraints. Use the same
+        # defaults as the corresponding preset, not those of the strip core.
+        radius_profile = profile
+        if profile.layer == gf.get_layer_info(layer_wg):
+            if slab_width < core_width:
+                radius_profile = gf.cross_section.strip_rib_tip(
+                    width=core_width,
+                    width_tip=slab_width,
+                    layer=layer_wg,
+                    layer_slab=layer_slab,
+                )
+            else:
+                radius_profile = gf.cross_section.rib2(
+                    width=core_width,
+                    width_slab=slab_width,
+                    layer=layer_wg,
+                    layer_slab=layer_slab,
+                )
         endpoint = gf.cross_section.cross_section(
             width=profile.width,
             layer=profile.layer,
@@ -220,8 +238,8 @@ def taper_strip_to_ridge(
             ),
             bbox_layers=list(profile.bbox_sections),
             bbox_offsets=list(profile.bbox_sections.values()),
-            radius=profile.radius,
-            radius_min=profile.radius_min,
+            radius=radius_profile.radius,
+            radius_min=radius_profile.radius_min,
         )
 
         c.add_port(

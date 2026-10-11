@@ -89,3 +89,25 @@ def test_taper_endpoint_frames(component: str) -> None:
     assert taper["o2"].center == (13, 0)
     assert taper["o2"].orientation == 0
     assert not taper["o2"].mirror
+
+
+@pytest.mark.parametrize("preset_first", [False, True])
+@pytest.mark.parametrize("slab_width", [0.2, 6.0])
+def test_ridge_profiles_share_preset_radii(
+    preset_first: bool, slab_width: float
+) -> None:
+    from gdsfactory._kcl import temporary_kcl
+
+    with temporary_kcl(f"ridge_radii_{preset_first}_{slab_width}"):
+        factory = (
+            gf.cross_section.strip_rib_tip
+            if slab_width == 0.2
+            else gf.cross_section.rib2
+        )
+        if preset_first:
+            factory()
+        taper = gf.c.taper_strip_to_ridge(w_slab1=slab_width, w_slab2=slab_width)
+        expected = factory()
+        for port in taper.ports:
+            assert port.cross_section.radius == expected.radius
+            assert port.cross_section.radius_min == expected.radius_min
