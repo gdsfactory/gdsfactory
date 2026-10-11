@@ -88,9 +88,9 @@ def _make_schematic(
     ports: list[dict[str, str]],
 ) -> DSchematic:
     s = DSchematic()
-    s.info["tags"] = tags  # type: ignore[assignment]
+    s.info["tags"] = tags
     s.info["symbol"] = symbol
-    s.info["ports"] = ports  # type: ignore[assignment]
+    s.info["ports"] = ports
 
     side_to_xy = {
         "left": (-1, 0, 180),

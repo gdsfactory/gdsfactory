@@ -61,14 +61,14 @@ def pad_gsg_short(
     )
     gf.routing.route_quad(
         c,
-        cast("kf.DPort", gnd_top.ports["e2"]),  # type: ignore[redundant-cast]
-        cast("kf.DPort", pads.ports["e1_3_1"]),  # type: ignore[redundant-cast]
+        gnd_top.ports["e2"],
+        pads.ports["e1_3_1"],
         layer=layer_metal,
     )
     gf.routing.route_quad(
         c,
         cast("kf.DPort", via.ports["e3"]),  # type: ignore[redundant-cast]
-        cast("kf.DPort", pads.ports["e1_2_1"]),  # type: ignore[redundant-cast]
+        pads.ports["e1_2_1"],
         layer=layer_metal,
     )
     return c

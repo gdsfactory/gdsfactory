@@ -270,7 +270,7 @@ class Path(UMGeometricObject):
             (np.asarray(path, dtype=object).ndim == 2)
             and not isinstance(path[0], Path)
             and np.issubdtype(np.array(path).dtype, np.number)
-            and (np.shape(path)[1] == 2)  # type: ignore[arg-type]
+            and (np.asarray(path).shape[1] == 2)
         ):
             points = np.asarray(path, dtype=np.float64)
             start_angle, end_angle = 0, 0
@@ -337,7 +337,7 @@ class Path(UMGeometricObject):
         else:
             points = self.centerpoint_offset_curve(
                 self.points,
-                offset_distance=cast(float, offset),  # type: ignore[redundant-cast]
+                offset_distance=offset,
                 start_angle=self.start_angle,
                 end_angle=self.end_angle,
             )

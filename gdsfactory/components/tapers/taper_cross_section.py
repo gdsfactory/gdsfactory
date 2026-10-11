@@ -11,7 +11,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import CrossSectionSpec, LayerSpec, LayerSpecs, WidthTypes
 
 from .._schematic import transition_schematic
 
@@ -23,7 +23,7 @@ def taper_cross_section(
     length: float = 10,
     npoints: int = 100,
     linear: bool = False,
-    width_type: str = "sine",
+    width_type: WidthTypes = "sine",
     exclude_layers: LayerSpecs | None = None,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.
@@ -80,8 +80,8 @@ def taper_cross_section(
     transition = gf.path.transition(
         cross_section1=x1,
         cross_section2=x2,
-        width_type="linear" if linear else width_type,  # type: ignore
-        offset_type="linear" if linear else width_type,  # type: ignore
+        width_type="linear" if linear else width_type,
+        offset_type="linear" if linear else width_type,
     )
     taper_path = gf.path.straight(length=length, npoints=npoints)
 

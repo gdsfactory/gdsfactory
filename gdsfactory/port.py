@@ -185,7 +185,7 @@ def port_array(
                 orientation=orientation,
                 cross_section=cast(Any, sym_xs),
                 **kwargs,
-            )  # type: ignore[call-overload]
+            )
             for i in range(n)
         ]
     return [
@@ -198,7 +198,7 @@ def port_array(
             orientation=orientation,
             width=width,
             **kwargs,
-        )  # type: ignore[call-overload]
+        )
         for i in range(n)
     ]
 
@@ -726,21 +726,23 @@ def map_ports_layer_to_orientation(
     for layer in layers:
         direction_ports: PortsDict = {x: [] for x in ["E", "N", "W", "S"]}
         ports_on_layer = [p.copy() for p in selected_ports if p.layer == layer]
+        names_original = [p.name for p in ports_on_layer]
 
         for p in ports_on_layer:
-            p.name_original = p.name  # type: ignore[attr-defined]
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
-                direction_ports["E"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
+                direction_ports["E"].append(p)
             elif angle <= 135 and angle >= 45:
-                direction_ports["N"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
+                direction_ports["N"].append(p)
             elif angle <= 225 and angle >= 135:
-                direction_ports["W"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
+                direction_ports["W"].append(p)
             else:
-                direction_ports["S"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]
+                direction_ports["S"].append(p)
         layer_tuple = layer if isinstance(layer, kf.LayerEnum) else (layer, 0)
         function(direction_ports, prefix=f"{layer_tuple[0]}_{layer_tuple[1]}_")
-        m |= {p.name: p.name_original for p in ports_on_layer}  # type: ignore[attr-defined,misc]
+        m |= {
+            p.name: name for p, name in zip(ports_on_layer, names_original, strict=True)
+        }
     return m
 
 
@@ -769,9 +771,9 @@ def map_ports_to_orientation_cw(
 
     selected_ports = select_ports(list(ports.values()), **kwargs)
     ports_on_layer = [p.copy() for p in selected_ports]
+    names_original = [p.name for p in ports_on_layer]
 
     for p in ports_on_layer:
-        p.name_original = p.name  # type: ignore[attr-defined]
         angle = p.orientation % 360
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
@@ -782,7 +784,9 @@ def map_ports_to_orientation_cw(
         else:
             direction_ports["S"].append(p)
     function(direction_ports)
-    return {p.name: p.name_original for p in ports_on_layer}  # type: ignore[attr-defined,misc]
+    return {
+        p.name: name for p, name in zip(ports_on_layer, names_original, strict=True)
+    }
 
 
 map_ports_to_orientation_ccw = partial(
@@ -816,7 +820,6 @@ def auto_rename_ports_layer_orientation(
         ports_on_layer = [p for p in ports if p.layer == layer]
 
         for p in ports_on_layer:
-            p.name_original = p.name  # type: ignore[attr-defined]
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
                 direction_ports["E"].append(cast(kf.DPort, p))  # type: ignore[redundant-cast]

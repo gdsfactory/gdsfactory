@@ -660,7 +660,8 @@ class LayerStack(BaseModel):
                 assert isinstance(level.layer, LogicalLayer)
                 layer = level.layer
 
-            layer_tuple = get_layer_tuple(layer.layer)  # type: ignore[union-attr]
+            assert layer is not None
+            layer_tuple = get_layer_tuple(layer.layer)
 
             name = f"{layer_name}: {level.material} {layer_tuple[0]}/{layer_tuple[1]}"
             txt = f"z({layer_name}, zstart: {zmin}, zstop: {zmax}, name: '{name}'"
