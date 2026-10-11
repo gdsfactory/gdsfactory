@@ -84,7 +84,7 @@ docs = [
   "zensical>=0.0.46,<0.1.0"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d]>=1.1,<3.0",
+  "gplugins[devsim,femwell,meow,sax,schematic,tidy3d]>=1.1,<3.0",
   "scikit-rf",
   "omegaconf",
   "autograd"

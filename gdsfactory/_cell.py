@@ -151,7 +151,7 @@ def cell(
         ports=ports,
         schematic_function=schematic_function,
     )
-    c: Any = _cell(_func, **cell_kwargs)  # type: ignore[arg-type]
+    c: Any = _cell(**cell_kwargs) if _func is None else _cell(_func, **cell_kwargs)
 
     if _func is not None:
         c.is_gf_cell = True
@@ -247,7 +247,7 @@ def vcell[**ComponentParams](
         lvs_equivalent_ports=lvs_equivalent_ports,
         tags=tags,
     )
-    vc: Any = _vcell(_func, **vcell_kwargs)  # type: ignore[arg-type]
+    vc: Any = _vcell(**vcell_kwargs) if _func is None else _vcell(_func, **vcell_kwargs)
 
     if _func is not None:
         vc.is_gf_vcell = True

@@ -389,11 +389,10 @@ class Pdk(BaseModel):
                     raise ValueError(
                         f"Invalid setting {key!r} not in {component_settings}"
                     )
-            cell_dict = cast("dict[str, Any]", cell)  # type: ignore[redundant-cast]
-            settings = dict(cell_dict.get("settings", {}))
+            settings = dict(cell.get("settings", {}))
             settings.update(kwargs)
 
-            cell_name = cell_dict.get("function")
+            cell_name = cell.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
                 matching_cells = [
                     c
@@ -507,12 +506,11 @@ class Pdk(BaseModel):
                     raise ValueError(
                         f"Invalid setting {key!r} not in {component_settings}"
                     )
-            component_dict = cast("dict[str, Any]", component)  # type: ignore[redundant-cast]
-            settings = dict(component_dict.get("settings", {}))
+            settings = dict(component.get("settings", {}))
             settings.update(kwargs)
 
-            cell_name = component_dict.get("component", None)
-            cell_name = cell_name or component_dict.get("function")
+            cell_name = component.get("component", None)
+            cell_name = cell_name or component.get("function")
             cell_name = str(cell_name).split(".")[-1]
 
             if cell_name not in cells:
@@ -755,12 +753,14 @@ def get_active_pdk(name: str | None = None) -> Pdk:
 
 
 def get_material_index(material: MaterialSpec, *args: Any, **kwargs: Any) -> Component:
-    active_pdk = get_active_pdk()
-    if not hasattr(active_pdk, "get_material_index"):
+    material_index: Callable[..., Component] | None = getattr(
+        get_active_pdk(), "get_material_index", None
+    )
+    if material_index is None:
         raise NotImplementedError(
             "The active PDK does not implement 'get_material_index'"
         )
-    return active_pdk.get_material_index(material, *args, **kwargs)  # type: ignore[no-any-return]
+    return material_index(material, *args, **kwargs)
 
 
 def get_component(

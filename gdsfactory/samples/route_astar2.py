@@ -14,7 +14,7 @@ def demo_route_astar_electrical() -> gf.Component:
     w = gf.components.straight(cross_section=cross_section)
     left = c << w
     right = c << w
-    right.rotate(90)  # Type: ignore[arg-type]
+    right.rotate(90)
     right.move((168, 63))
 
     obstacle = gf.components.rectangle(size=(250, 3), layer="M3")
@@ -22,12 +22,12 @@ def demo_route_astar_electrical() -> gf.Component:
     obstacle2 = c << obstacle
     obstacle3 = c << obstacle
     obstacle4 = c << obstacle
-    obstacle4.rotate(90)  # Type: ignore[arg-type]
+    obstacle4.rotate(90)
     obstacle1.ymin = 50
     obstacle1.xmin = -10
     obstacle2.xmin = 35
     obstacle3.ymin = 42
-    obstacle3.xmin = 72.23  # Type: ignore
+    obstacle3.xmin = 72.23
     obstacle4.xmin = 200
     obstacle4.ymin = 55
     port1 = left.ports[f"{port_prefix}1"]

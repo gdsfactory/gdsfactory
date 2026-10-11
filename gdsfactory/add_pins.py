@@ -490,7 +490,7 @@ def add_electrical_pins(
             for pin_name, port_names in port_pin_mapping.items()
         }
     else:
-        by_name: dict[str, list] = defaultdict(list)
+        by_name = defaultdict(list)
         [
             by_name[port.name].append(port)
             for port in component.ports
