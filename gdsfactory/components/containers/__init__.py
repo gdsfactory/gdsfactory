@@ -5,6 +5,7 @@ from .add_trenches import *
 from .array_component import *
 from .array_hexagonal import *
 from .array_polar import *
+from .blackbox import *
 from .component_sequence import *
 from .copy_layers import *
 from .extend_ports_list import *
@@ -24,6 +25,7 @@ __all__ = [
     "array_component",
     "array_hexagonal",
     "array_polar",
+    "blackbox",
     "component_sequence",
     "copy_layers",
     "extend_ports",
