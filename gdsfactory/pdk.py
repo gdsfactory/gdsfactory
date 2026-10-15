@@ -808,6 +808,12 @@ def get_layer_info(layer: LayerSpec | kf.kdb.LayerInfo) -> kf.kdb.LayerInfo:
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
 
 
+def get_layer_port_type(layer: LayerSpec | kf.kdb.LayerInfo) -> str:
+    """Returns the active PDK's port type for a layer, defaulting to optical."""
+    info = get_layer_info(layer)
+    return get_active_pdk().layer_port_types.get((info.layer, info.datatype), "optical")
+
+
 def get_layer_views() -> LayerViews:
     return get_active_pdk().get_layer_views()
 
