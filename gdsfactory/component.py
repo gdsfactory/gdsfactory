@@ -255,12 +255,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         if self.locked:
             raise LockedError(self)
 
-        from gdsfactory.pdk import (
-            get_active_pdk,
-            get_cross_section,
-            get_layer,
-            get_layer_info,
-        )
+        from gdsfactory.pdk import get_cross_section, get_layer, get_layer_port_type
 
         # Resolve initial values and determine if we need to override the transformation
         override_transformation = False
@@ -306,12 +301,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         # Apply defaults if None
         if port_type is None:
-            port_type = "optical"
-            if layer is not None:
-                layer_info = get_layer_info(layer)
-                port_type = get_active_pdk().layer_port_types.get(
-                    (layer_info.layer, layer_info.datatype), port_type
-                )
+            port_type = "optical" if layer is None else get_layer_port_type(layer)
         if orientation is None:
             orientation = 0
 
