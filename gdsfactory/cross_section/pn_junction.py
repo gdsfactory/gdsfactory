@@ -7,10 +7,12 @@ from typing import Any
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
     CrossSection,
+    Section,
     Sections,
     SectionSpec,
     cladding_layers_optical,
     cladding_offsets_optical,
+    port_types_electrical,
 )
 from gdsfactory.cross_section.presets import strip
 from gdsfactory.cross_section.utils import cross_section, xsection
@@ -144,6 +146,7 @@ def pn(
     sections: Sections | None = None,
     cladding_layers: typings.LayerSpecs | None = None,
     cladding_offsets: typings.Floats | None = None,
+    slab_inset: float | None = None,
     **kwargs: Any,
 ) -> CrossSection:
     """Rib PN doped cross_section.
@@ -171,6 +174,7 @@ def pn(
         sections: optional list of sections.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
+        slab_inset: inset of the slab at both path ends in um.
         kwargs: cross_section settings.
 
                               offset_low_doping
@@ -201,7 +205,12 @@ def pn(
         c.plot()
         ```
     """
-    slab = (layer_slab, -(width_slab / 2), width_slab / 2)
+    slab = Section(
+        layer_slab,
+        -(width_slab / 2),
+        width_slab / 2,
+        insets=(slab_inset, slab_inset) if slab_inset else None,
+    )
 
     section_list: list[SectionSpec] = list(sections or [])
     section_list += [slab]
@@ -275,15 +284,19 @@ def pn(
 
     if layer_metal is not None:
         offset = width_high_doping + gap_high_doping - width_metal / 2
-        metal_top = (
+        metal_top = Section(
             layer_metal,
             offset - width_via / 2,
             offset + width_via / 2,
+            port_names=("e1_top", "e2_top"),
+            port_types=port_types_electrical,
         )
-        metal_bot = (
+        metal_bot = Section(
             layer_metal,
             -offset - width_via / 2,
             -offset + width_via / 2,
+            port_names=("e1_bot", "e2_bot"),
+            port_types=port_types_electrical,
         )
         section_list.append(metal_top)
         section_list.append(metal_bot)
@@ -492,15 +505,19 @@ def pn_with_trenches(
         and gap_high_doping is not None
     ):
         offset = width_high_doping + gap_high_doping - width_metal / 2
-        metal_top = (
+        metal_top = Section(
             layer_metal,
             offset - width_via / 2,
             offset + width_via / 2,
+            port_names=("e1_top", "e2_top"),
+            port_types=port_types_electrical,
         )
-        metal_bot = (
+        metal_bot = Section(
             layer_metal,
             -offset - width_via / 2,
             -offset + width_via / 2,
+            port_names=("e1_bot", "e2_bot"),
+            port_types=port_types_electrical,
         )
         section_list.append(metal_top)
         section_list.append(metal_bot)
@@ -734,15 +751,19 @@ def pn_with_trenches_asymmetric(
     ):
         offset_top = width_npp + gap_high_doping_list[1] - width_metal / 2
         offset_bot = width_ppp + gap_high_doping_list[0] - width_metal / 2
-        metal_top = (
+        metal_top = Section(
             layer_metal,
             offset_top - width_via / 2,
             offset_top + width_via / 2,
+            port_names=("e1_top", "e2_top"),
+            port_types=port_types_electrical,
         )
-        metal_bot = (
+        metal_bot = Section(
             layer_metal,
             -offset_bot - width_via / 2,
             -offset_bot + width_via / 2,
+            port_names=("e1_bot", "e2_bot"),
+            port_types=port_types_electrical,
         )
         section_list.append(metal_top)
         section_list.append(metal_bot)
@@ -925,7 +946,13 @@ def l_wg_doped_with_trenches(
         and width_high_doping is not None
     ):
         offset = offset_high_doping - width_high_doping / 2 + width_metal / 2
-        metal = (layer_metal, offset - width_via / 2, offset + width_via / 2)
+        metal = Section(
+            layer_metal,
+            offset - width_via / 2,
+            offset + width_via / 2,
+            port_names=("e1_top", "e2_top"),
+            port_types=port_types_electrical,
+        )
         section_list.append(metal)
 
     return cross_section(
@@ -1045,7 +1072,7 @@ def pn_ge_detector_si_contacts(
         -offset_low_doping + width_low_doping / 2,
     )
 
-    section_list = [s, n, p]
+    section_list: list[SectionSpec] = [s, n, p]
 
     cladding_layers = cladding_layers or ()
     cladding_offsets = cladding_offsets or ()
@@ -1088,15 +1115,19 @@ def pn_ge_detector_si_contacts(
         section_list.extend((via_top, via_bot))
     if layer_metal is not None:
         offset = width_high_doping / 2 + gap_high_doping
-        metal_top = (
+        metal_top = Section(
             layer_metal,
             offset - width_via / 2,
             offset + width_via / 2,
+            port_names=("e1_top", "e2_top"),
+            port_types=port_types_electrical,
         )
-        metal_bot = (
+        metal_bot = Section(
             layer_metal,
             -offset - width_via / 2,
             -offset + width_via / 2,
+            port_names=("e1_bot", "e2_bot"),
+            port_types=port_types_electrical,
         )
         section_list.extend((metal_top, metal_bot))
 

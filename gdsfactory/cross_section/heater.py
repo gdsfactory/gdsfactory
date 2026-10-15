@@ -7,8 +7,11 @@ from typing import Any
 from gdsfactory import typings
 from gdsfactory.cross_section.base import (
     CrossSection,
+    Section,
     Sections,
     SectionSpec,
+    port_names_electrical,
+    port_types_electrical,
 )
 from gdsfactory.cross_section.presets import strip
 from gdsfactory.cross_section.utils import xsection
@@ -72,7 +75,13 @@ def strip_heater_metal_undercut(
     trench_offset = trench_gap + trench_width / 2 + width / 2
     section_list: list[SectionSpec] = list(sections or [])
     section_list += [
-        (layer_heater, -(heater_width / 2), heater_width / 2),
+        Section(
+            layer_heater,
+            -(heater_width / 2),
+            heater_width / 2,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+        ),
         (
             layer_trench,
             trench_offset - trench_width / 2,
@@ -100,6 +109,7 @@ def strip_heater_metal(
     heater_width: float = 2.5,
     layer_heater: typings.LayerSpec = "HEATER",
     sections: Sections | None = None,
+    insets: tuple[float, float] | None = None,
     **kwargs: Any,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
@@ -112,6 +122,7 @@ def strip_heater_metal(
         heater_width: of metal heater.
         layer_heater: for the metal.
         sections: cross_section sections.
+        insets: (start, end) insets of the heater (um).
         kwargs: cross_section settings.
 
     Example:
@@ -125,7 +136,16 @@ def strip_heater_metal(
         ```
     """
     section_list: list[SectionSpec] = list(sections or [])
-    section_list += [(layer_heater, -(heater_width / 2), heater_width / 2)]
+    section_list += [
+        Section(
+            layer_heater,
+            -(heater_width / 2),
+            heater_width / 2,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+            insets=insets,
+        )
+    ]
 
     return strip(
         width=width,

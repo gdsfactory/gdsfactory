@@ -4,7 +4,8 @@ You can define a path as list of points.
 To create a component you need to extrude the path with a cross-section.
 
 Factories return kfactory DCrossSection or DAsymmetricCrossSection objects.
-Extrusion settings belong to path.extrude(), not to the transverse profile.
+Default extrusion settings (ports, insets, hidden strips, simplification) are
+stored once per profile geometry; path.extrude() can override them.
 """
 
 # Re-export everything from submodules for backward compatibility
@@ -16,6 +17,7 @@ from gdsfactory.cross_section.base import (
     CrossSection,
     CrossSectionFactory,
     CrossSectionSpec,
+    Section,
     Sections,
     SectionSpec,
     SymmetricCrossSection,
@@ -24,6 +26,8 @@ from gdsfactory.cross_section.base import (
     cladding_layers_optical,
     cladding_offsets_optical,
     nm,
+    port_names_electrical,
+    port_types_electrical,
 )
 
 # --- heater cross-section factories ---
@@ -75,9 +79,11 @@ from gdsfactory.cross_section.utils import (
     P,
     cross_section,
     cross_sections,
+    default_extrude_ports,
     get_cross_sections,
     is_cross_section,
     section_cross_section,
+    set_extrude_config,
     validate_radius,
     with_width,
     xsection,
@@ -92,6 +98,7 @@ __all__ = [
     "CrossSectionFactory",
     "CrossSectionSpec",
     "P",
+    "Section",
     "SectionSpec",
     "Sections",
     "SymmetricCrossSection",
@@ -101,6 +108,7 @@ __all__ = [
     "cladding_offsets_optical",
     "cross_section",
     "cross_sections",
+    "default_extrude_ports",
     "get_cross_sections",
     "gs",
     "gsg",
@@ -120,6 +128,8 @@ __all__ = [
     "pn_ge_detector_si_contacts",
     "pn_with_trenches",
     "pn_with_trenches_asymmetric",
+    "port_names_electrical",
+    "port_types_electrical",
     "radius_nitride",
     "radius_rib",
     "rib",
@@ -129,6 +139,7 @@ __all__ = [
     "rib_heater_doped_via_stack",
     "rib_with_trenches",
     "section_cross_section",
+    "set_extrude_config",
     "slot",
     "strip",
     "strip_heater_doped",
