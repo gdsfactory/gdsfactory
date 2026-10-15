@@ -71,8 +71,9 @@ Dynamic-width and offset extrusions attach the realized endpoint profile,
 including auxiliary strips, to each main port. A taper may end at zero width
 when that endpoint has no port: use a `None` endpoint name or `ports={}`.
 Copying an asymmetric port
-preserves its mirror state by default; connections between identical asymmetric
-profiles use `mirror=True, use_mirror=True`.
+preserves its mirror state by default. `connect()` takes the moving port's
+mirror state into account, so connecting the start port of an asymmetric
+extrusion to the end port of another needs no `mirror` flag.
 
 ## Regression changes
 

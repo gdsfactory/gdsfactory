@@ -682,8 +682,8 @@ wg1ref = c << wg1
 wgtref = c << straight_transition
 wg2ref = c << wg2
 
-wgtref.connect("o1", wg1ref.ports["o2"], mirror=True)
-wg2ref.connect("o1", wgtref.ports["o2"], mirror=True)
+wgtref.connect("o1", wg1ref.ports["o2"])
+wg2ref.connect("o1", wgtref.ports["o2"])
 
 c.plot()
 
@@ -700,8 +700,8 @@ wg1_ref = c << wg1  # First cross-section component.
 wg2_ref = c << wg2
 wgt_ref = c << wg_trans
 
-wgt_ref.connect("o1", wg1_ref.ports["o2"], mirror=True)
-wg2_ref.connect("o1", wgt_ref.ports["o2"], mirror=True)
+wgt_ref.connect("o1", wg1_ref.ports["o2"])
+wg2_ref.connect("o1", wgt_ref.ports["o2"])
 
 c.plot()
 

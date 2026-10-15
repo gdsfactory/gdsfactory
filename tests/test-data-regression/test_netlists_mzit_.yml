@@ -6,11 +6,11 @@ instances:
       length: 16.637
       min_bend_radius: 7.061
       radius: 10
-      route_info_028523d7_450_length: 16.637
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: 028523d7_450
+      route_info_sym_028523d7_450_length: 16.637
+      route_info_type: sym_028523d7_450
       route_info_weight: 16.637
       width: 0.45
     settings:
@@ -31,11 +31,11 @@ instances:
       length: 16.637
       min_bend_radius: 7.061
       radius: 10
-      route_info_028523d7_450_length: 16.637
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: 028523d7_450
+      route_info_sym_028523d7_450_length: 16.637
+      route_info_type: sym_028523d7_450
       route_info_weight: 16.637
       width: 0.45
     settings:
@@ -56,11 +56,11 @@ instances:
       length: 16.637
       min_bend_radius: 7.061
       radius: 10
-      route_info_028523d7_550_length: 16.637
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: 028523d7_550
+      route_info_sym_028523d7_550_length: 16.637
+      route_info_type: sym_028523d7_550
       route_info_weight: 16.637
       width: 0.55
     settings:
@@ -81,11 +81,11 @@ instances:
       length: 16.637
       min_bend_radius: 7.061
       radius: 10
-      route_info_028523d7_550_length: 16.637
       route_info_length: 16.637
       route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1
-      route_info_type: 028523d7_550
+      route_info_sym_028523d7_550_length: 16.637
+      route_info_type: sym_028523d7_550
       route_info_weight: 16.637
       width: 0.55
     settings:
@@ -129,9 +129,9 @@ instances:
     component: straight
     info:
       length: 1
-      route_info_028523d7_550_length: 1
       route_info_length: 1
-      route_info_type: 028523d7_550
+      route_info_sym_028523d7_550_length: 1
+      route_info_type: sym_028523d7_550
       route_info_weight: 1
       width: 0.55
     settings:
@@ -143,9 +143,9 @@ instances:
     component: straight
     info:
       length: 1
-      route_info_028523d7_450_length: 1
       route_info_length: 1
-      route_info_type: 028523d7_450
+      route_info_sym_028523d7_450_length: 1
+      route_info_type: sym_028523d7_450
       route_info_weight: 1
       width: 0.45
     settings:
@@ -157,9 +157,9 @@ instances:
     component: straight
     info:
       length: 3
-      route_info_028523d7_550_length: 3
       route_info_length: 3
-      route_info_type: 028523d7_550
+      route_info_sym_028523d7_550_length: 3
+      route_info_type: sym_028523d7_550
       route_info_weight: 3
       width: 0.55
     settings:
@@ -171,9 +171,9 @@ instances:
     component: straight
     info:
       length: 3
-      route_info_028523d7_550_length: 3
       route_info_length: 3
-      route_info_type: 028523d7_550
+      route_info_sym_028523d7_550_length: 3
+      route_info_type: sym_028523d7_550
       route_info_weight: 3
       width: 0.55
     settings:
@@ -185,9 +185,9 @@ instances:
     component: straight
     info:
       length: 4
-      route_info_028523d7_550_length: 4
       route_info_length: 4
-      route_info_type: 028523d7_550
+      route_info_sym_028523d7_550_length: 4
+      route_info_type: sym_028523d7_550
       route_info_weight: 4
       width: 0.55
     settings:

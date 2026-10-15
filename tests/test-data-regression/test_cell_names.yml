@@ -1174,11 +1174,11 @@ resonator_cpw:
   name: resonator_cpw_gdsfactorypcomponentspquantumpresonator_L_cafe5f4c
 resonator_lumped:
   children:
-  - bend_circular_gdsfactorypcomponentspbendspbend_circular_48b4492b
-  - bend_circular_gdsfactorypcomponentspbendspbend_circular_49c60930
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_1ee178c2
+  - bend_circular_gdsfactorypcomponentspbendspbend_circular_2c700090
   - interdigital_capacitor_gdsfactorypcomponentspanalogpint_412debcc
-  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_cb8f1b92
-  - straight_gdsfactorypcomponentspwaveguidespstraight_L60__3e853a65
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L5_N_b0269090
+  - straight_gdsfactorypcomponentspwaveguidespstraight_L60__5bc9f748
   name: resonator_lumped_gdsfactorypcomponentspquantumpresonato_db34893e
 resonator_quarter_wave:
   children:
@@ -1635,7 +1635,7 @@ taper_with_trenches:
   name: taper_gdsfactorypcomponentsptapersptaper_L10_W0p5_WNone_d39817d5
 terminator:
   children:
-  - taper_cross_section_gdsfactorypcomponentsptapersptaper__9c35aa56
+  - taper_cross_section_gdsfactorypcomponentsptapersptaper__18bca297
   name: terminator_gdsfactorypcomponentspfilterspterminator_L50_a505b160
 terminator_spiral:
   children: []
