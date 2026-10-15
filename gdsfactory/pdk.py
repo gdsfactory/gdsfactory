@@ -138,7 +138,8 @@ class Pdk(BaseModel):
         port_cross_sections: factories for width/layer-only and auxiliary ports,
             keyed by physical layer tuple. Factories accept width, layer, offset and kcl
             and define radius metadata when a profile is first created.
-        layer_port_types: main extrusion port types, keyed by physical layer tuple.
+        layer_port_types: port types of main extrusion strips and of ports
+            added without an explicit type, keyed by physical layer.
         auxiliary_port_types: auxiliary extrusion port types, keyed by main and
             auxiliary physical layer tuples.
         constants: dict of constants for the PDK.
