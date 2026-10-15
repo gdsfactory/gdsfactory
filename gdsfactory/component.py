@@ -735,10 +735,13 @@ class Component(ComponentBase, kf.DKCell):
         set_meta_data: bool = True,
         autoformat_from_file_extension: bool = True,
         deduplicate_cell_names: bool = True,
+        clear_existing_meta: bool = True,
     ) -> None:
         """Write component to GDS, fixing pin metadata for kfactory compat."""
         if set_meta_data:
             self.insert_vinsts()
+            if clear_existing_meta:
+                self.kcl.layout.clear_meta_info()
             self.kcl.set_meta_data()
             for ci in self.called_cells():
                 kcell = self.kcl[ci]

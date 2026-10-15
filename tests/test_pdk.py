@@ -562,3 +562,31 @@ def test_get_component_dict_applies_kwargs() -> None:
     # neither "component" nor "function" is given
     with pytest.raises(ValueError, match=r"'None'.*not in cells"):
         gf.get_component({"settings": {"length": 1}})
+
+
+def test_pdk_switch_resets_cross_sections(
+    restore_kcl_state: None, tmp_path: Path
+) -> None:
+    """Cross sections and their extrusion settings don't leak into another PDK."""
+    from gdsfactory.gpdk import PDK
+
+    PDK.activate(force=True)
+    xs = gf.cross_section.cross_section(width=0.516, port_names=("in", "out"))
+    assert gf.kcl.get_extrude_config(xs) is not None
+    gf.Component().write(tmp_path / "before.gds")
+
+    other = gf.Pdk(
+        name="pdk_switch_cross_sections",
+        layers=LAYER,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    other.activate()
+    assert xs.base.auto_name() not in gf.kcl.cross_sections.cross_sections
+    assert gf.kcl.extrude_configs == {}
+
+    gf.Component().write(tmp_path / "after.gds")
+    layout = kf.kdb.Layout()
+    layout.read(str(tmp_path / "after.gds"))
+    assert f"kfactory:cross_section:{xs.name}" not in {
+        m.name for m in layout.each_meta_info()
+    }
