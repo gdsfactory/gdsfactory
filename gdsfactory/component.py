@@ -248,14 +248,19 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             width: width of the port.
             orientation: orientation of the port. If None and port is provided, preserves the original port's orientation. If None and port is not provided, defaults to 0.
             layer: layer spec to add port on.
-            port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
+            port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to the active PDK's `layer_port_types` entry for the port layer, or "optical".
             keep_mirror: preserves the port mirror; defaults to preserving asymmetric profiles.
             cross_section: cross_section of the port.
         """
         if self.locked:
             raise LockedError(self)
 
-        from gdsfactory.pdk import get_cross_section, get_layer
+        from gdsfactory.pdk import (
+            get_active_pdk,
+            get_cross_section,
+            get_layer,
+            get_layer_info,
+        )
 
         # Resolve initial values and determine if we need to override the transformation
         override_transformation = False
@@ -302,6 +307,11 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         # Apply defaults if None
         if port_type is None:
             port_type = "optical"
+            if layer is not None:
+                layer_info = get_layer_info(layer)
+                port_type = get_active_pdk().layer_port_types.get(
+                    (layer_info.layer, layer_info.datatype), port_type
+                )
         if orientation is None:
             orientation = 0
 
