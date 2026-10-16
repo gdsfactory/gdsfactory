@@ -1221,7 +1221,7 @@ requires-dist = [
     { name = "jupyter", marker = "extra == 'docs'" },
     { name = "jupyterlab", marker = "extra == 'dev'" },
     { name = "jupytext", marker = "extra == 'docs'" },
-    { name = "kfactory", extras = ["ipy"], specifier = ">=3.4.0,<4" },
+    { name = "kfactory", extras = ["ipy"], specifier = ">=3.5.0,<4" },
     { name = "kweb", marker = "extra == 'cad'", specifier = ">=1.1.9,<2.1" },
     { name = "loguru", specifier = "<1" },
     { name = "mapbox-earcut" },
@@ -2135,7 +2135,7 @@ wheels = [
 
 [[package]]
 name = "kfactory"
-version = "3.4.0"
+version = "3.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aenum" },
@@ -2157,9 +2157,9 @@ dependencies = [
     { name = "toolz" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/67/e0/654554973673ec4c68939a1995c2d53088d7150f5b51c07d854b36678f13/kfactory-3.4.0.tar.gz", hash = "sha256:586c3e66a53399bb780704a9ced9fd86ab3d4f24dcbae84ed5b7f5c75125c0e7", size = 1726029, upload-time = "2026-10-15T19:00:13.367Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/76/0d/cba0e3bf5ccb086138ff178160d601d001faf0675e2908a42d1209aaa117/kfactory-3.5.0.tar.gz", hash = "sha256:007a3124dc96aa1b7ae3db64381d113131e408e15d136f4cec435cf831d1118d", size = 1729745, upload-time = "2026-10-16T04:30:08.462Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/53/80/c6f7819d5a27c43785fbae0b0699f0d6ec134480f7925e4ccdcb5e159b2f/kfactory-3.4.0-py3-none-any.whl", hash = "sha256:c669a74bc674209708d4cea628226e3e8a075058a140a0da622bb25c9797adc9", size = 301005, upload-time = "2026-10-15T19:00:11.603Z" },
+    { url = "https://files.pythonhosted.org/packages/fc/aa/ce279a7f04ae3174f5afffb28c86566499f3688daab6b8062a40e6072671/kfactory-3.5.0-py3-none-any.whl", hash = "sha256:f11d5d0456fd566ed185ccf5af8f31cac519efaf8a15e29fe5949756a95b5684", size = 302285, upload-time = "2026-10-16T04:30:06.717Z" },
 ]
 
 [package.optional-dependencies]
