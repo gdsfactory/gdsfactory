@@ -9,6 +9,14 @@ class LayerMap(gf.LayerEnum):
 
     layout = gf.constant(gf.kcl.layout)
 
+    def __init__(self, layer: int, datatype: int) -> None:
+        """Name the layer in the layout, unless it is already named.
+
+        Defining a LayerMap must not rename the active PDK's layers.
+        """
+        if not self.layout.get_info(self).name:
+            super().__init__(layer, datatype)
+
 
 def lyp_to_dataclass(
     lyp_filepath: str | pathlib.Path,
