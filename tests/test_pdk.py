@@ -522,6 +522,25 @@ def test_activate_pdk_keeps_layout_layers_method(restore_kcl_state: None) -> Non
     assert isinstance(gf.kcl.layout.layers(), int)
 
 
+def test_define_layer_map_keeps_active_pdk_layer_names(
+    restore_kcl_state: None,
+) -> None:
+    """Defining a LayerMap does not rename the layers of the active PDK.
+
+    Its other layers are still named.
+    """
+    gf.gpdk.PDK.activate(force=True)
+
+    class OtherFabLayers(LayerMap):
+        OTHER_WG = (1, 0)
+        OTHER_ONLY = (1234, 5)
+
+    layout = gf.kcl.layout
+    assert layout.get_info(LAYER.WG).name == "WG"
+    assert gf.kcl.find_layer(1, 0) == LAYER.WG
+    assert layout.get_info(OtherFabLayers.OTHER_ONLY).name == "OTHER_ONLY"
+
+
 def test_get_layer_name_exception_chaining() -> None:
     pdk = _make_pdk()
     with pytest.raises(ValueError) as exc_info:
