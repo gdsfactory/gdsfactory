@@ -28,6 +28,7 @@ def straight_heater_meander(
     straight_widths: Floats | None = None,
     taper_length: float = 10.0,
     n: int | None = 3,
+    cross_section_heater: CrossSectionSpec | None = "heater_metal",
 ) -> Component:
     """Returns a meander based heater.
 
@@ -51,6 +52,8 @@ def straight_heater_meander(
         straight_widths: widths of the straight sections.
         taper_length: from the cross_section.
         n: number of straight sections.
+        cross_section_heater: profile of the heater, resized to each heater width.
+            Not used if it's on a different layer than `layer_heater`.
     """
     if n and straight_widths:
         raise ValueError("n and straight_widths are mutually exclusive")
@@ -184,12 +187,19 @@ def straight_heater_meander(
     heater_cross_section: CrossSectionSpec | None = None
 
     if layer_heater:
-        heater_cross_section = partial(
-            get_port_cross_section,
-            width=heater_width,
-            layer=layer_heater,
-            kcl=c.kcl,
-        )
+        if cross_section_heater is not None and gf.get_layer(
+            gf.get_cross_section(cross_section_heater).layer
+        ) == gf.get_layer(layer_heater):
+            heater_cross_section = partial(
+                gf.get_cross_section, cross_section_heater, width=heater_width
+            )
+        else:
+            heater_cross_section = partial(
+                get_port_cross_section,
+                width=heater_width,
+                layer=layer_heater,
+                kcl=c.kcl,
+            )
 
         heater = c << get_component(
             "straight",

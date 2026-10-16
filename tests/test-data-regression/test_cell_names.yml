@@ -10,7 +10,7 @@ add_fiber_array_optical_south_electrical_north:
   - array_gdsfactorypcomponentspcontainersparray_component__5a3bc366
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
   - grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - straight_gdsfactorypcomponentspwaveguidespstraight_L110_6636e554
   - straight_gdsfactorypcomponentspwaveguidespstraight_L12p_78373eae
   - straight_gdsfactorypcomponentspwaveguidespstraight_L321_5398430b
@@ -53,7 +53,7 @@ anchored_flexure:
   name: anchored_flexure_gdsfactorypcomponentspmemspanchored_fl_9d3850d2
 array:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   name: array_gdsfactorypcomponentspcontainersparray_component__b1820754
 array_hexagonal:
   children:
@@ -172,24 +172,24 @@ bolometer:
   name: bolometer_gdsfactorypcomponentspmemspbolometer_AW20_AL2_71b28977
 bump_pad:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - regular_polygon_gdsfactorypcomponentspshapespregular_po_f7d137c5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7
   name: bump_pad_gdsfactorypcomponentsppadspbump_pad_S36p244_LM_a4046926
 bump_pad_grid:
   children:
   - bump_pad_gdsfactorypcomponentsppadspbump_pad_S36p244_LM_a4046926
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - regular_polygon_gdsfactorypcomponentspshapespregular_po_f7d137c5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7
   name: bump_pad_grid_gdsfactorypcomponentsppadspbump_pad_C6_R6_29b7f74f
 cantilever:
   children: []
@@ -276,7 +276,7 @@ comb_drive:
   name: comb_drive_gdsfactorypcomponentspmemspcomb_drive_FW0p5__260a9c6a
 compass:
   children: []
-  name: compass_gdsfactorypcomponentspshapespcompass_S4_2_LWG_P_f0e3e03f
+  name: compass_gdsfactorypcomponentspshapespcompass_S4_2_LWG_P_9635dcd9
 copy_layers:
   children:
   - cross_gdsfactorypcomponentspshapespcross_L10_W3_L1_0_PTNone
@@ -489,7 +489,7 @@ die_frame_phix_dc:
   - edge_coupler_array_with_loopback_gdsfactorypcomponentsp_14887b34
   - edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da
   - edge_coupler_silicon_gdsfactorypcomponentspedge_coupler_5718d84a
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7
   - rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8
   - rectangle_gdsfactorypcomponentspshapesprectangle_S2_5_L_5c01a10c
@@ -516,7 +516,7 @@ die_frame_phix_rf:
   - edge_coupler_array_gdsfactorypcomponentspedge_couplersp_d82ae0d4
   - edge_coupler_array_with_loopback_gdsfactorypcomponentsp_6386b7da
   - edge_coupler_silicon_gdsfactorypcomponentspedge_coupler_5718d84a
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - pad_gsg_gdsfactorypcomponentsppadsppad_gsg_L100_CSgsg
   - rectangle_gdsfactorypcomponentspshapesprectangle_S2_10__a8c996f7
   - rectangle_gdsfactorypcomponentspshapesprectangle_S2_55__2922dfc8
@@ -544,7 +544,7 @@ die_frame_with_pads:
   - die_frame_S11200_5000_LFFLOORPLAN
   - grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92
   - grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - straight_gdsfactorypcomponentspwaveguidespstraight_L327_0e3d83ca
   - straight_gdsfactorypcomponentspwaveguidespstraight_L50p_cc1d2840
   name: die_frame_with_pads_gdsfactorypcomponentspdiespdie_fram_928ce23b
@@ -553,7 +553,7 @@ die_with_pads:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_R10_A_335c8724
   - grating_coupler_array_gdsfactorypcomponentspgrating_cou_cdc53b92
   - grating_coupler_elliptical_trenches_gdsfactorypcomponen_c91c3207
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - rectangle_gdsfactorypcomponentspshapesprectangle_S11470_1fc93ee1
   - straight_gdsfactorypcomponentspwaveguidespstraight_L327_0e3d83ca
   - straight_gdsfactorypcomponentspwaveguidespstraight_L50p_cc1d2840
@@ -563,14 +563,14 @@ disk:
   name: disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip
 disk_heater:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LHE_2bb49300
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_ef1a02c5
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM3_2fa2b33f
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LHE_306ec4f6
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_feb906e6
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM3_3717d1bc
   - disk_gdsfactorypcomponentspringspdisk_R10_G0p2_WAD180_P1_CSstrip
   - rectangle_gdsfactorypcomponentspshapesprectangle_S45p80_ae271b9b
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_b518b436
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_10_L_840c649a
   name: disk_heater_gdsfactorypcomponentspringspdisk_R10_G0p2_W_9f50c453
 doubly_clamped_beam:
   children: []
@@ -647,16 +647,16 @@ free_propagation_region_output:
   name: free_propagation_region_gdsfactorypcomponentspfilterspa_8b9b232d
 ge_detector_straight_si_contacts:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM1_dc701dbe
-  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM2_fafd2bda
-  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM3_8bd7278e
-  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LSL_1ad8fd33
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM1_5466daba
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM2_65332689
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LM3_2b3366b3
+  - compass_gdsfactorypcomponentspshapespcompass_S40_10_LSL_8319ae6b
   - straight_gdsfactorypcomponentspwaveguidespstraight_L40__e75c9e9b
   - taper_gdsfactorypcomponentsptapersptaper_L20_W0p5_W0p8__54ea6115
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S40_10_L_67a2fd6a
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S40_10_L_b3489578
   name: ge_detector_straight_si_contacts_gdsfactorypcomponentsp_ca4976dc
 gear:
   children: []
@@ -738,14 +738,14 @@ greek_cross:
   name: greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3
 greek_cross_with_pads:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - greek_cross_gdsfactorypcomponentsppcmspgreek_cross_L30__65b5a1f3
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7
   name: greek_cross_with_pads_gdsfactorypcomponentsppcmspgreek__3aa1f2b4
 h_junction:
   children: []
@@ -915,7 +915,7 @@ mzi_pads_center:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
   - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
   - mzi_gdsfactorypcomponentspmzispmzi_DL40_LY40_LX500_Bben_adfee0be
-  - pad_gdsfactorypcomponentsppadsppad_S80_80_LMTOP_BLNone__ea0497a0
+  - pad_gdsfactorypcomponentsppadsppad_S80_80_LNone_BLNone__b446dfbd
   - straight_gdsfactorypcomponentspwaveguidespstraight_L102_dfa17972
   - straight_gdsfactorypcomponentspwaveguidespstraight_L115_34de836d
   - straight_gdsfactorypcomponentspwaveguidespstraight_L12p_d78678dc
@@ -950,10 +950,10 @@ mzi_phase_shifter_top_heater_metal:
 mzi_pin:
   children:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
-  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM1_8a55a1f4
-  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM2_11dd617a
-  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM3_3799dbca
-  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LSL_c8934731
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM1_9694689e
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM2_cf60878b
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LM3_834bb5ac
+  - compass_gdsfactorypcomponentspshapespcompass_S80_10_LSL_b1500785
   - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
   - straight_gdsfactorypcomponentspwaveguidespstraight_L100_fb22af26
   - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
@@ -963,7 +963,7 @@ mzi_pin:
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S80_10_L_c608bbcb
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S80_10_L_746813d7
   name: mzi_gdsfactorypcomponentspmzispmzi_DL0_LY2_LX100_Bbend__0b693139
 mzit:
   children:
@@ -1003,10 +1003,10 @@ mzit_lattice:
 mzm:
   children:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_RNone_387600b2
-  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_4e0af846
-  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_d431091e
-  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_ffb56291
-  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LS_ac7757bf
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_143157c0
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_3083b4e8
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LM_cdd3f196
+  - compass_gdsfactorypcomponentspshapespcompass_S180_10_LS_11a73bd5
   - mmi1x2_gdsfactorypcomponentspmmispmmi1x2_WNone_WT1_LT10_1f097353
   - straight_gdsfactorypcomponentspwaveguidespstraight_L180_c6573083
   - straight_gdsfactorypcomponentspwaveguidespstraight_L2_N_815d3d03
@@ -1016,7 +1016,7 @@ mzm:
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S180_10__fe00a7d9
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S180_10__81f39dbf
   name: mzi_gdsfactorypcomponentspmzispmzi_DL10_LY2_LX200_Bbend_821601cf
 nxn:
   children:
@@ -1046,34 +1046,34 @@ pack_doe_grid:
   name: pack_doe_grid_gdsfactorypcomponentspcontainersppack_doe_2a414c56
 pad:
   children: []
-  name: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  name: pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
 pad_array:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_2f7d9e34
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_3ee4bc09
   name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_7cada612
 pad_array0:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_2f7d9e34
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_3ee4bc09
   name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C1_R3_CP1_70dcc787
 pad_array180:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_943ed586
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_c6290303
   name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C1_R3_CP1_dc726c53
 pad_array270:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_af5ddc87
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_c31c111b
   name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_4ce3fbcf
 pad_array90:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_82713a36
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_414febae
   name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_c1dae302
 pad_array_layer:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LM1_BLNone__ea24abb1
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LM1_BLNone__22310799
   name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_66bf5d0b
 pad_array_size:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LM1_BLNone__ea24abb1
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LM1_BLNone__22310799
   name: pad_array_gdsfactorypcomponentsppadsppad_Ppad_C6_R1_CP1_e956078a
 pad_gs:
   children: []
@@ -1084,24 +1084,24 @@ pad_gsg:
 pad_gsg_open:
   children:
   - array_gdsfactorypcomponentspcontainersparray_component__febecbc6
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d
   name: pad_gsg_short_gdsfactorypcomponentsppadsppad_gsg_S22_7__04867846
 pad_gsg_short:
   children:
   - array_gdsfactorypcomponentspcontainersparray_component__febecbc6
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - rectangle_gdsfactorypcomponentspshapesprectangle_S22_7__3bd5087d
   name: pad_gsg_short_gdsfactorypcomponentsppadsppad_gsg_S22_7__a1db99a4
 pad_rectangular:
   children: []
-  name: pad_gdsfactorypcomponentsppadsppad_Spad_size_LMTOP_BLNo_e43d6fec
+  name: pad_gdsfactorypcomponentsppadsppad_Spad_size_LNone_BLNo_c109172f
 pad_small:
   children: []
-  name: pad_gdsfactorypcomponentsppadsppad_S80_80_LMTOP_BLNone__ea0497a0
+  name: pad_gdsfactorypcomponentsppadsppad_S80_80_LNone_BLNone__b446dfbd
 pads_shorted:
   children:
-  - pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+  - pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
   - rectangle_gdsfactorypcomponentspshapesprectangle_S1050__0d3b0661
   name: pads_shorted_gdsfactorypcomponentsppadsppads_shorted_Pp_ed8f83ce
 pie_arc:
@@ -1158,13 +1158,13 @@ resistance_meander_row:
   name: resistance_meander_row_LR38p96_W1_RLMTOP
 resistance_sheet:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489
-  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LHE_0d3d3f5d
-  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LM2_1a56224f
-  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LM3_7e9c54cf
+  - compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3927ea51
+  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LHE_59b160d2
+  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LM2_b4ae3fe4
+  - compass_gdsfactorypcomponentspshapespcompass_S50_50_LM3_7058e397
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_fb54d920
   name: resistance_sheet_gdsfactorypcomponentsppcmspresistance__cb73a501
 resolution_test_pattern:
   children: []
@@ -1277,37 +1277,37 @@ ruler:
   name: ruler_gdsfactorypcomponentsppcmspruler_HL55_HS5_HN10_W2_fdc92807
 seal_ring:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_15799d1c
-  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_a7aebc4d
-  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_fda5b6d9
-  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_6e7a4f50
-  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_9b57ab23
-  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_c66ab089
+  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_aed760eb
+  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_d44cbbe1
+  - compass_gdsfactorypcomponentspshapespcompass_S10_520_LM_fc379c39
+  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_845b8399
+  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_96b01261
+  - compass_gdsfactorypcomponentspshapespcompass_S540_10_LM_e62d371f
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e0b757eb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__91c9810b
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_520__e05295d3
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S540_10__37343ab3
   name: seal_ring_gdsfactorypcomponentspdiespseal_ring_S500_500_540c1ebf
 seal_ring_segmented:
   children:
-  - array_gdsfactorypcomponentspcontainersparray_component__3f2b27f6
-  - array_gdsfactorypcomponentspcontainersparray_component__efc300f8
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__ab6f8ee7
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__e4be3564
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__688ed018
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__7649253a
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__10d12c87
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__c8759e0d
-  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM1__156c71c1
-  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM2__a79a191b
-  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM3__360bd08e
+  - array_gdsfactorypcomponentspcontainersparray_component__2b84f1b9
+  - array_gdsfactorypcomponentspcontainersparray_component__5af85ed0
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__1e1940d8
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__45d00ddd
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__d2acaf68
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__f6c99b30
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__79b5f534
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__bc8f9aed
+  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM1__e48aea59
+  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM2__addd6e05
+  - compass_gdsfactorypcomponentspshapespcompass_S3_10_LM3__d0d21f7e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_stack_corner45_extended_gdsfactorypcomponentspviasp_a2f90c7d
   - via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_d5217c9f
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S3_10_LM_a1105390
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_12f0a9a4
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_54ee6d66
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S3_10_LM_f4244c99
   name: seal_ring_segmented_gdsfactorypcomponentspdiespseal_rin_a6a20ffc
 snspd:
   children: []
@@ -1399,15 +1399,15 @@ spiral_racetrack_heater_metal:
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_R22_A_bfdc8201
   - bend_euler_gdsfactorypcomponentspbendspbend_euler_R24_A_7d40b3c7
   - bend_s_gdsfactorypcomponentspbendspbend_s_S30_m18_N99_C_290427a1
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_fa924286
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - spiral_racetrack_gdsfactorypcomponentspspiralspspiral_h_4be1007a
   - straight_gdsfactorypcomponentspwaveguidespstraight_L30__78cfbfa8
   - straight_gdsfactorypcomponentspwaveguidespstraight_L30__a17b4e39
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_b8382108
   name: spiral_racetrack_heater_metal_gdsfactorypcomponentspspi_4edb23b1
 spiral_rectangular:
   children: []
@@ -1457,7 +1457,7 @@ straight_heater_doped_rib:
   name: straight_heater_doped_rib_gdsfactorypcomponentspwavegui_6db4eef8
 straight_heater_meander:
   children: []
-  name: straight_heater_meander_gdsfactorypcomponentspwaveguide_a14bb5f1
+  name: straight_heater_meander_gdsfactorypcomponentspwaveguide_6a9c8b6f
 straight_heater_meander_doped:
   children: []
   name: straight_heater_meander_doped_gdsfactorypcomponentspwav_b1b421e4
@@ -1469,14 +1469,14 @@ straight_heater_metal_90_90:
   name: straight_heater_metal_undercut_gdsfactorypcomponentspwa_e3a9a262
 straight_heater_metal_simple:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_fa924286
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - straight_gdsfactorypcomponentspwaveguidespstraight_L320_7770fef3
   - taper_gdsfactorypcomponentsptapersptaper_L5_W11_W2p5_LN_4ddd9be8
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_b8382108
   name: straight_heater_metal_simple_gdsfactorypcomponentspwave_f2bcc892
 straight_heater_metal_undercut:
   children: []
@@ -1486,61 +1486,61 @@ straight_heater_metal_undercut_90_90:
   name: straight_heater_metal_undercut_gdsfactorypcomponentspwa_579ee9a5
 straight_pin:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_6577179f
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_9d45dd62
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_bf63c414
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_703b2ed8
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_89d8c554
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_e517cffe
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_fd73d52a
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_bf830005
   - straight_gdsfactorypcomponentspwaveguidespstraight_L480_0775fb2d
   - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b3282c8d
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__6c662dc8
   name: straight_pin_gdsfactorypcomponentspwaveguidespstraight__765c8da7
 straight_pin_slot:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_6577179f
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_9d45dd62
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_bf63c414
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_fea1a3d5
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_703b2ed8
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_89d8c554
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_b79a1b0e
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_e517cffe
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_fd73d52a
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_bf830005
   - straight_gdsfactorypcomponentspwaveguidespstraight_L480_0775fb2d
   - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_3429f099
   - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_cdf8dd60
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__1a0efcb6
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__ec84add5
   name: straight_pin_slot_gdsfactorypcomponentspwaveguidespstra_779980e0
 straight_pn:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_042db089
-  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_539384fd
-  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_a6397880
-  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_b37f95d4
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_08287b2e
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_1cfd3835
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_7b45bc7d
+  - compass_gdsfactorypcomponentspshapespcompass_S1980_10_L_f903bf6f
   - straight_gdsfactorypcomponentspwaveguidespstraight_L198_4b710248
   - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_a6392e1c
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S1980_10_252cdec8
   name: straight_pin_gdsfactorypcomponentspwaveguidespstraight__fb9888db
 straight_pn_slot:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_6577179f
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_9d45dd62
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_bf63c414
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_fea1a3d5
-  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_703b2ed8
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_89d8c554
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_b79a1b0e
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_e517cffe
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LM_fd73d52a
+  - compass_gdsfactorypcomponentspshapespcompass_S480_10_LS_bf830005
   - straight_gdsfactorypcomponentspwaveguidespstraight_L480_9b7ec76b
   - taper_strip_to_ridge_gdsfactorypcomponentsptapersptaper_eb2ac5f7
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_3429f099
   - via_gdsfactorypcomponentspviaspvia_S478_0p7000000000000_cdf8dd60
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__8559fc9a
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__b0079b0e
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__1a0efcb6
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S480_10__ec84add5
   name: straight_pin_slot_gdsfactorypcomponentspwaveguidespstra_36f9c569
 switch_tree:
   children:
@@ -1731,8 +1731,8 @@ via3:
   name: via3_S0p7_0p7_E1_P2
 via_chain:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - rectangle_gdsfactorypcomponentspshapesprectangle_S2p7_6_ddce550a
   - rectangle_gdsfactorypcomponentspshapesprectangle_S6p4_2_788ba5af
   - rectangle_gdsfactorypcomponentspshapesprectangle_S6p4_2_cc7211d3
@@ -1740,176 +1740,176 @@ via_chain:
   - rectangles_gdsfactorypcomponentspshapesprectangle_S6p4__e4261359
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_a7de8f7e
   name: via_chain_gdsfactorypcomponentspviaspvia_chain_NV100_C1_b1f2c27f
 via_circular:
   children: []
   name: via_circular_gdsfactorypcomponentspviaspvia_R0p35_E1_LV_4f29b34c
 via_corner:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_75e6e113
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM3_bb4c80ed
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_364720f4
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM3_331d4778
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   name: via_corner_gdsfactorypcomponentspviaspvia_corner_CSmeta_aeaeec6c
 via_stack:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7
 via_stack_corner45:
   children: []
   name: via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_d5a13d6a
 via_stack_corner45_extended:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__e4be3564
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__7649253a
-  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__10d12c87
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM1__45d00ddd
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM2__f6c99b30
+  - compass_gdsfactorypcomponentspshapespcompass_S10_3_LM3__bc8f9aed
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_stack_corner45_gdsfactorypcomponentspviaspvia_stack_61191643
-  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_f5ab8483
+  - via_stack_gdsfactorypcomponentspviaspvia_stack_S10_3_LM_12f0a9a4
   name: via_stack_corner45_extended_gdsfactorypcomponentspviasp_a2f90c7d
 via_stack_heater_m2:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_fa924286
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_15d95149
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_0e403e34
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_3f4263ba
 via_stack_heater_m3:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_fa924286
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_b8382108
 via_stack_heater_meander_doped:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_13dabab2
-  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_d235db8a
+  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_66d0022b
+  - compass_gdsfactorypcomponentspshapespcompass_S1p5_1p5_L_94faecbf
   - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p1_LVIA1__33ecaa95
   - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p1_LVIAC__38b3c27c
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S1p5_1p5_48d3aa2b
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S1p5_1p5_6fd175f2
 via_stack_heater_mtop:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_3406ca65
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LHE_fa924286
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_1d420169
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_b8382108
 via_stack_heater_mtop_mini:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_eae1a523
-  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LM2_P_c706cd7e
-  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820
+  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_f798e6a8
+  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LM2_P_0801dba1
+  - compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_10d85fb7
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_33f305c1
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_11ed4f72
 via_stack_heater_ring_pn:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_186f184e
-  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_e3eaae5a
-  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f210d766
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_5bd71d1b
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_e0c9afb5
+  - compass_gdsfactorypcomponentspshapespcompass_S0p5_0p5_L_f6d4075c
   - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIA1_0c2a5a1c
   - via_gdsfactorypcomponentspviaspvia_S0p1_0p1_E0p01_LVIAC_cbb103d7
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S0p5_0p5_b3b757c6
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S0p5_0p5_7e0d3ef9
 via_stack_m1_m3:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7
 via_stack_m1_mtop:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7
 via_stack_m2_m3:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_5955c8fd
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_a7de8f7e
 via_stack_npp_m1:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_b5d41ec0
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LWG_449bc0ec
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_81f0363d
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LWG_41f98ba1
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_0a3e89d4
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_4b3606b2
 via_stack_slab_m1:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_e3416e15
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_ebcbc2f3
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_30780891
 via_stack_slab_m1_horizontal:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_e3416e15
   - via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_3d274afd
   - via_gdsfactorypcomponentspviaspvia_S9_0p700000000000000_b26d0493
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_f3c703ff
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_dd33f21b
 via_stack_slab_m2:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_e1084b17
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_15d95149
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_e3416e15
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_eacb926a
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_9d3860f6
 via_stack_slab_m3:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_4b943683
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_786eb8ce
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_4637d102
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_ef82dad6
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM2_fb408f00
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM3_a1fabcc5
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_e3416e15
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_7d5dfd8f
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_073e8e4a
 via_stack_slab_npp_m3:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_b5d41ec0
-  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LNP_81f0363d
+  - compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_e3416e15
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
-  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_e7917b41
+  name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_c1e3b460
 via_stack_with_offset:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_02253188
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_45e92a15
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_f97a3a88
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_cca8e3be
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_f1d0bc73
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_8c0dc329
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_ecf17887
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
   name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_c3d1d693
 via_stack_with_offset_m1_m3:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_5fd368c5
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_76817f2c
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_ef1a02c5
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_509e5c58
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_aa7c9a8d
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_19486100
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_f1d0bc73
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_37876e2f
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM2_feb906e6
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_5392823b
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LMT_fc0e07cc
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA1_BL_0068d91e
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIA2_BL_c51b5ebb
   name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_aa50dc00
 via_stack_with_offset_ppp_m1:
   children:
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_02253188
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_bbd90e5e
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_45e92a15
-  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_f97a3a88
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_cca8e3be
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LM1_f1d0bc73
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_8c0dc329
+  - compass_gdsfactorypcomponentspshapespcompass_S10_10_LPP_ecf17887
   - via_gdsfactorypcomponentspviaspvia_S0p7_0p7_E1_LVIAC_BL_572539c8
   name: via_stack_with_offset_gdsfactorypcomponentspviaspvia_st_c3d1d693
 viac:

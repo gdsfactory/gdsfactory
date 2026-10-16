@@ -172,6 +172,7 @@ def marked_compass(
     port_inclusion: float = 0.0,
     port_orientations: Ints | None = (180, 90, 0, -90),
     auto_rename_ports: bool = True,
+    cross_section: CrossSectionSpec | None = None,
 ) -> gf.Component:
     c = cf.compass(
         size=size,
@@ -180,6 +181,7 @@ def marked_compass(
         port_inclusion=port_inclusion,
         port_orientations=port_orientations,
         auto_rename_ports=auto_rename_ports,
+        cross_section=cross_section,
     )
     c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=MARKER)
     return c

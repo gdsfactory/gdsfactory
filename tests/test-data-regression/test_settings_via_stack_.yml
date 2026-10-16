@@ -1,9 +1,10 @@
 info:
   xsize: 11
   ysize: 11
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7
 settings:
   correct_size: false
+  cross_section: metal_routing
   layers:
   - M1
   - M2
