@@ -1,9 +1,10 @@
 info:
   xsize: 11
   ysize: 11
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_0e403e34
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_3f4263ba
 settings:
   correct_size: false
+  cross_section: metal_routing
   layers:
   - HEATER
   - M2

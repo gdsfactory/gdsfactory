@@ -271,10 +271,11 @@ class Pdk(BaseModel):
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active).
 
-        Activating a different Pdk instance than the active one resets the layout
-        and the cell factory caches, because cell names and cache keys serialize
+        Activating a different Pdk instance than the active one resets the layout,
+        the cell factory caches and the registered cross sections, enclosures and
+        extrude configs, because cell names and cache keys serialize
         cross-sections and layers to their name and are therefore ambiguous across
-        PDKs. Two Pdk objects that share a name are still different PDKs: the name
+        PDKs, and cross sections carry PDK-specific radii and extrusion settings. Two Pdk objects that share a name are still different PDKs: the name
         says nothing about the cross-sections, layers or cells they carry.
 
         Args:
@@ -836,6 +837,11 @@ def _set_active_pdk(pdk: Pdk) -> None:
                 stacklevel=3,
             )
         clear_cache()
+        # Cross sections carry PDK-specific names, radii and extrusion settings
+        # (whose default ports follow the PDK's port conventions).
+        kf.kcl.cross_sections.cross_sections.clear()
+        kf.kcl.layer_enclosures.root.clear()
+        kf.kcl.extrude_configs.clear()
 
     if pdk.dbu != kf.kcl.dbu and len(kf.kcl.kcells) > 0:
         raise ValueError(

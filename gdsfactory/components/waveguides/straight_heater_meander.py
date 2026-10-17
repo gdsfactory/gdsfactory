@@ -27,6 +27,7 @@ def straight_heater_meander(
     straight_widths: Floats | None = None,
     taper_length: float = 10.0,
     n: int | None = 3,
+    cross_section_heater: CrossSectionSpec | None = "heater_metal",
 ) -> Component:
     """Returns a meander based heater.
 
@@ -50,6 +51,8 @@ def straight_heater_meander(
         straight_widths: widths of the straight sections.
         taper_length: from the cross_section.
         n: number of straight sections.
+        cross_section_heater: profile of the heater, resized to each heater width.
+            Not used if it's on a different layer than `layer_heater`.
     """
     return cf.straight_heater_meander(
         length=length,
@@ -66,6 +69,7 @@ def straight_heater_meander(
         straight_widths=straight_widths,
         taper_length=taper_length,
         n=n,
+        cross_section_heater=cross_section_heater,
     )
 
 

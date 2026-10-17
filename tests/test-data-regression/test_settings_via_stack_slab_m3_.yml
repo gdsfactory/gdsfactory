@@ -1,9 +1,10 @@
 info:
   xsize: 11
   ysize: 11
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_7d5dfd8f
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_073e8e4a
 settings:
   correct_size: false
+  cross_section: metal_routing
   layers:
   - SLAB90
   - M1

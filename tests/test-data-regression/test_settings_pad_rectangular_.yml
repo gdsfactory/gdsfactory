@@ -4,9 +4,9 @@ info:
   - 80
   xsize: 80
   ysize: 80
-name: pad_gdsfactorypcomponentsppadsppad_Spad_size_LMTOP_BLNo_e43d6fec
+name: pad_gdsfactorypcomponentsppadsppad_Spad_size_LNone_BLNo_c109172f
 settings:
-  layer: MTOP
+  cross_section: metal_routing
   port_inclusion: 0
   port_orientation: 0
   port_orientations:

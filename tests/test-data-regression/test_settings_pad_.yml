@@ -4,9 +4,9 @@ info:
   - 100
   xsize: 100
   ysize: 100
-name: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c
+name: pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636
 settings:
-  layer: MTOP
+  cross_section: metal_routing
   port_inclusion: 0
   port_orientation: 0
   port_orientations:

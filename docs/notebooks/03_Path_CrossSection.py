@@ -682,8 +682,8 @@ wg1ref = c << wg1
 wgtref = c << straight_transition
 wg2ref = c << wg2
 
-wgtref.connect("o1", wg1ref.ports["o2"], mirror=True)
-wg2ref.connect("o1", wgtref.ports["o2"], mirror=True)
+wgtref.connect("o1", wg1ref.ports["o2"])
+wg2ref.connect("o1", wgtref.ports["o2"])
 
 c.plot()
 
@@ -700,8 +700,8 @@ wg1_ref = c << wg1  # First cross-section component.
 wg2_ref = c << wg2
 wgt_ref = c << wg_trans
 
-wgt_ref.connect("o1", wg1_ref.ports["o2"], mirror=True)
-wg2_ref.connect("o1", wgt_ref.ports["o2"], mirror=True)
+wgt_ref.connect("o1", wg1_ref.ports["o2"])
+wg2_ref.connect("o1", wgt_ref.ports["o2"])
 
 c.plot()
 
@@ -1183,7 +1183,7 @@ with tempfile.TemporaryDirectory() as directory:
 # %% [markdown]
 # ## Insets
 #
-# Pass `insets={section_index: (start, end)}` to `extrude()` to trim individual strips along the path. Ports follow the trimmed endpoints. Insets and port choices are not stored in the profile.
+# Pass `insets={section_index: (start, end)}` to `extrude()` to trim individual strips along the path. Ports follow the trimmed endpoints.
 
 # %%
 xs = gf.cross_section.cross_section(
@@ -1203,4 +1203,26 @@ c = gf.path.straight(10).extrude(
     insets={1: (1, 2)},
     ports={0: ("o1", "o2", "optical"), 1: ("e1", "e2", "electrical")},
 )
+c.plot()
+
+# %% [markdown]
+# To use the same insets and ports in every extrusion of a cross section, set them when creating it. A `Section` gives an auxiliary strip its own extrusion settings, and `port_names`/`port_types` set the main strip's ports. They are stored once per cross-section geometry, and `extrude()` arguments still override them.
+
+# %%
+xs = gf.cross_section.cross_section(
+    layer="WG",
+    width=0.5,
+    port_names=("o1", "o2"),
+    sections=[
+        gf.cross_section.Section(
+            "HEATER",
+            -0.5,
+            0.5,
+            insets=(1, 2),
+            port_names=("e1", "e2"),
+            port_types="electrical",
+        )
+    ],
+)
+c = gf.path.straight(10).extrude(xs)
 c.plot()

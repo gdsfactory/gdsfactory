@@ -13,10 +13,81 @@ from pydantic import BaseModel, field_serializer
 
 from gdsfactory import typings
 
+
+class Section(BaseModel, frozen=True, arbitrary_types_allowed=True):
+    """A strip of a cross section together with its extrusion settings.
+
+    Use it in ``cross_section(sections=...)`` instead of a ``(layer, min, max)``
+    tuple to give a strip its own ports, insets, visibility or simplification.
+    The settings are stored once per cross-section geometry and apply to every
+    extrusion of it, unless ``extrude()`` overrides them.
+
+    Attributes:
+        layer: strip layer.
+        section_min: lower edge of the strip (um).
+        section_max: upper edge of the strip (um).
+        port_names: (start, end) port names. A None name creates no port.
+        port_types: port type, or (start, end) port types, which must match.
+        insets: (start, end) distances by which the strip is shortened at the
+            path ends (um).
+        hidden: whether the strip is left out of the extrusion.
+        simplify: polygon simplification tolerance of the strip (um).
+    """
+
+    layer: typings.LayerSpec | kf.kdb.LayerInfo
+    section_min: float
+    section_max: float
+    port_names: tuple[str | None, str | None] | None = None
+    port_types: str | tuple[str, str] | None = None
+    insets: tuple[float, float] | None = None
+    hidden: bool = False
+    simplify: float | None = None
+
+    def __init__(
+        self,
+        layer: typings.LayerSpec | kf.kdb.LayerInfo,
+        section_min: float,
+        section_max: float,
+        **kwargs: Any,
+    ) -> None:
+        """Create a strip from its layer and bounds, plus extrusion settings."""
+        super().__init__(
+            layer=layer, section_min=section_min, section_max=section_max, **kwargs
+        )
+
+    @property
+    def port_type(self) -> str | None:
+        """The single port type of both ends."""
+        if not isinstance(self.port_types, tuple):
+            return self.port_types
+        start, end = self.port_types
+        if start != end:
+            raise ValueError(
+                f"Both ports of a strip must have the same type, got {self.port_types}"
+            )
+        return start
+
+    def extrude_settings(self) -> tuple[Any, ...]:
+        """The extrusion settings, without the geometry."""
+        return (
+            self.port_names,
+            self.port_type,
+            self.insets,
+            self.hidden,
+            self.simplify,
+        )
+
+    def has_extrude_settings(self) -> bool:
+        """Whether any extrusion setting differs from the default."""
+        return self.extrude_settings() != (None, None, None, False, None)
+
+
 # Keep the runtime union usable with isinstance(), unlike a TypeAliasType.
 CrossSection: TypeAlias = SymmetricCrossSection | AsymmetricCrossSection  # noqa: UP040
 type SectionSpec = (
-    DCrossSectionLayer | tuple[typings.LayerSpec | kf.kdb.LayerInfo, float, float]
+    Section
+    | DCrossSectionLayer
+    | tuple[typings.LayerSpec | kf.kdb.LayerInfo, float, float]
 )
 type Sections = Sequence[SectionSpec]
 type CrossSectionFactory = Callable[..., CrossSection]
@@ -31,6 +102,8 @@ type CrossSectionSpec = (
 nm = 1e-3
 cladding_layers_optical = None
 cladding_offsets_optical = None
+port_names_electrical: typings.IOPorts = ("e1", "e2")
+port_types_electrical: typings.IOPorts = ("electrical", "electrical")
 
 
 class Transition(BaseModel, arbitrary_types_allowed=True):
