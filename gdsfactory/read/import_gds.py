@@ -57,14 +57,18 @@ def import_gds(
             for cross_section in temp_kcl.cross_sections.cross_sections.values():
                 kf.kcl.get_base_cross_section(cross_section)
 
-        c = kcell_to_component(kcell)
+        c = kcell_to_component(kcell, rename_duplicated_cells=rename_duplicated_cells)
         for pp in post_process or []:
             pp(c)
 
         return c
 
 
-def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
+def kcell_to_component(
+    kcell: kf.kcell.ProtoTKCell[Any],
+    *,
+    rename_duplicated_cells: bool = False,
+) -> Component:
     kcell.set_meta_data()
     _fix_pin_metadata(kcell)
 
@@ -72,8 +76,11 @@ def kcell_to_component(kcell: kf.kcell.ProtoTKCell[Any]) -> Component:
         kcell.kcl[ci].set_meta_data()
         _fix_pin_metadata(kcell.kcl[ci])
 
-    c = Component()
-    c.name = kcell.name
+    if rename_duplicated_cells:
+        c = Component(kdb_cell=kf.kcl.create_cell(kcell.name, allow_duplicate=True))
+    else:
+        c = Component()
+        c.name = kcell.name
     c.kdb_cell.copy_tree(kcell.kdb_cell)
     c.copy_meta_info(kcell.kdb_cell)
     c.get_meta_data()
@@ -161,7 +168,8 @@ def import_gds_multiple_top_cells(
 
         for kcell in kcells:
             components[kcell.name] = kcell_to_component(
-                temp_kcl[kcell.name]
+                temp_kcl[kcell.name],
+                rename_duplicated_cells=rename_duplicated_cells,
             )  # Convert each kcell to Component class and store in dictionary using its name as the key
 
         for pp in post_process or []:
