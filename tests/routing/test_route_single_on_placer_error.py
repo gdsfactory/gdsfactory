@@ -6,6 +6,7 @@ import pytest
 from kfactory.routing.generic import PlacerError
 
 import gdsfactory as gf
+from gdsfactory.config import CONF
 
 
 def _make_failing_route_args() -> tuple[gf.Component, gf.Port, gf.Port, list[dict]]:
@@ -144,3 +145,37 @@ def test_route_single_raise_on_error_ignore() -> None:
             raise_on_error=True,
         )
     assert route is not None
+
+
+def _make_colliding_route_args() -> tuple[gf.Component, gf.Port, gf.Port]:
+    """Return (component, port1, port2) whose auto-route (no steps) collides."""
+    c = gf.Component()
+    s1 = c << gf.components.straight(length=5, cross_section="strip")
+    s2 = c << gf.components.straight(length=5, cross_section="strip")
+    s2.dmove((6, 1))
+    return c, s1.ports["o2"], s2.ports["o1"]
+
+
+def test_route_single_raise_on_error_without_steps() -> None:
+    """raise_on_error=True raises when auto-routing fails with 'warning'."""
+    c, p1, p2 = _make_colliding_route_args()
+    with pytest.raises(RuntimeError, match="Routing collision"):
+        gf.routing.route_single(
+            c,
+            p1,
+            p2,
+            cross_section="strip",
+            on_collision="warning",
+            on_placer_error="warning",
+            raise_on_error=True,
+        )
+
+
+def test_route_single_raise_on_error_defaults_to_conf(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """raise_on_error=None defers to CONF.raise_on_error."""
+    monkeypatch.setattr(CONF, "raise_on_error", True)
+    c, p1, p2 = _make_colliding_route_args()
+    with pytest.raises(RuntimeError, match="Routing collision"):
+        gf.routing.route_single(c, p1, p2, cross_section="strip")
