@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from gdsfactory.routing.route_bundle import route_bundle
+from gdsfactory.routing.route_bundle import route_bundle, route_bundle_electrical
 from gdsfactory.typings import AngleInDegrees, Delta
 
 
@@ -575,6 +575,48 @@ def test_route_bundle_default_bend_multi_section() -> None:
     assert corners
     # wire_corner draws no M3 at all, as it only draws the main M3_ABSTRACT section.
     assert all(corner.area(layer="M3") > 0 for corner in corners)
+
+
+def test_route_bundle_electrical_default_bend() -> None:
+    c, port1, port2 = _two_straights("metal_routing")
+    route_bundle_electrical(c, [port1], [port2], cross_section="metal_routing")
+    bends = _bends(c)
+    assert bends
+    assert all(name.startswith("wire_corner") for name in bends)
+    assert not any(name.startswith("wire_corner_sections") for name in bends)
+
+
+def test_route_bundle_electrical_default_bend_multi_section() -> None:
+    c = gf.Component()
+    straight = gf.components.straight(cross_section="gs")
+    left = c << straight
+    right = c << straight
+    right.move((600, 600))
+    route_bundle_electrical(
+        c, [left.ports[1]], [right.ports[0]], cross_section="gs", raise_on_error=True
+    )
+    corners = [
+        gf.Component(base=inst.cell.base)
+        for inst in c.insts
+        if inst.cell.name.startswith("wire_corner_sections")
+    ]
+    assert corners
+    assert all(corner.area(layer="M3") > 0 for corner in corners)
+
+
+def test_route_bundle_electrical_explicit_bend() -> None:
+    c, port1, port2 = _two_straights("metal_routing")
+    route_bundle_electrical(
+        c,
+        [port1],
+        [port2],
+        cross_section="metal_routing",
+        bend="bend_euler",
+        raise_on_error=True,
+    )
+    bends = _bends(c)
+    assert bends
+    assert all(name.startswith("bend_euler") for name in bends)
 
 
 def test_route_bundle_incompatible_bend_leaves_component_unchanged() -> None:
