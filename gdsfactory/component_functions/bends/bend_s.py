@@ -351,11 +351,13 @@ def get_min_sbend_size(
         raise ValueError("The min radius for the specified layer is not known!")
 
     min_size = np.inf
+    previous_size = None
 
     assert known_s is not None
 
-    # Guess sizes, iterate over them until we cannot achieve the min radius
-    # the max size corresponds to an ellipsoid
+    # Guess sizes, from a loose bend toward a tight one. The max size
+    # corresponds to an ellipsoid. The first sample below min_radius is
+    # already illegal, so the minimum compliant length is the sample before it.
     max_size = float(np.sqrt(np.abs(min_radius * known_s)) * 2.5)
     sizes = np.linspace(max_size, 0.1 * max_size, num_points)
 
@@ -371,7 +373,8 @@ def get_min_sbend_size(
         curv = curvature(path_points, t)
         min_bend_radius = 1 / max(np.abs(curv))
         if min_bend_radius < min_radius:
-            min_size = s
+            min_size = s if previous_size is None else previous_size
             break
+        previous_size = s
 
     return min_size
