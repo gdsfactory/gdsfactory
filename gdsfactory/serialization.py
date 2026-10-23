@@ -94,6 +94,32 @@ def clean_value_json(
         serialize_function_as_dict: serialize function as dict. False serializes as string.
         serialization_max_digits: maximum number of digits for float serialization.
     """
+    value_type = type(value)
+    if value_type is int or value_type is bool or value is None:
+        return value
+    if value_type is str and value.isascii():
+        return value
+    if value_type is dict:
+        if not value:
+            return {}
+        return clean_dict(
+            value.copy(), serialization_max_digits=serialization_max_digits
+        )
+    if value_type is list or value_type is tuple:
+        if not value:
+            return ()
+        return tuple(
+            [
+                clean_value_json(i, serialization_max_digits=serialization_max_digits)
+                for i in value
+            ]
+        )
+
+    if value_type is float:
+        if value == round(value):
+            return int(value)
+        return float(np.round(value, serialization_max_digits))
+
     from gdsfactory.cross_section import CrossSection
     from gdsfactory.path import Path
 
