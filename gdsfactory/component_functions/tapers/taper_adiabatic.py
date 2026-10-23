@@ -97,17 +97,16 @@ def taper_adiabatic(
 
     w_opt_interp = interpolate.interp1d(x_opt, w_opt)
 
+    optimal_length = x_opt[-1]
     if not length:
-        length = x_opt[-1]
-    x = np.linspace(0, length, npoints)
+        length = optimal_length
+    x = np.linspace(0, optimal_length, npoints)
     w: npt.NDArray[np.floating[Any]] = w_opt_interp(x)
 
     assert isinstance(w, np.ndarray)
 
     # Stretch/compress x
-    x_array: npt.NDArray[np.float64] = np.linspace(0, length, npoints) * (
-        1 + length - x_opt[-1]
-    )
+    x_array: npt.NDArray[np.float64] = x * (length / optimal_length)
     assert isinstance(x_array, np.ndarray)
     y_array = w / 2
 
