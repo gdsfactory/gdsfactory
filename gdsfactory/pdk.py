@@ -138,7 +138,8 @@ class Pdk(BaseModel):
         port_cross_sections: factories for width/layer-only and auxiliary ports,
             keyed by physical layer tuple. Factories accept width, layer, offset and kcl
             and define radius metadata when a profile is first created.
-        layer_port_types: main extrusion port types, keyed by physical layer tuple.
+        layer_port_types: port types of main extrusion strips and of ports
+            added without an explicit type, keyed by physical layer.
         auxiliary_port_types: auxiliary extrusion port types, keyed by main and
             auxiliary physical layer tuples.
         constants: dict of constants for the PDK.
@@ -805,6 +806,12 @@ def get_layer_info(layer: LayerSpec | kf.kdb.LayerInfo) -> kf.kdb.LayerInfo:
     """Returns layer info from a layer spec."""
     layer_index = get_layer(layer)
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
+
+
+def get_layer_port_type(layer: LayerSpec | kf.kdb.LayerInfo) -> str:
+    """Returns the active PDK's port type for a layer, defaulting to optical."""
+    info = get_layer_info(layer)
+    return get_active_pdk().layer_port_types.get((info.layer, info.datatype), "optical")
 
 
 def get_layer_views() -> LayerViews:

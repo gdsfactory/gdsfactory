@@ -85,4 +85,6 @@ placements:
     rotation: 0
     x: -3.15
     y: 0
-ports: {}
+ports:
+  P1: rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_m3150_0,e2
+  P2: rectangle_gdsfactorypcomponentspshapesprectangle_S2p1_2_6cdef846_1050_0,e2
