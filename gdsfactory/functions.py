@@ -172,9 +172,10 @@ def get_polygons(
         if isinstance(component_or_instance, gf.Component):
             r = gf.kdb.Region(c.begin_shapes_rec(layer_index))
         else:
-            r = kf.kdb.Region(c.cell.begin_shapes_rec(layer_index)).transformed(
-                c.cplx_trans
-            )
+            cell_region = kf.kdb.Region(c.cell.begin_shapes_rec(layer_index))
+            r = kf.kdb.Region()
+            for trans in c.cell_inst.each_cplx_trans():
+                r += cell_region.transformed(trans)
         if layer_key not in polygons:
             polygons[layer_key] = []
         if smooth:
