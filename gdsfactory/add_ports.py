@@ -299,6 +299,7 @@ def add_ports_from_markers_square(
                 width=width,
                 orientation=orientation,
                 layer=layer,
+                port_type=port_type,
             )
     return component
 

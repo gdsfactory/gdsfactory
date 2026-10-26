@@ -590,3 +590,16 @@ def test_pdk_switch_resets_cross_sections(
     assert f"kfactory:cross_section:{xs.name}" not in {
         m.name for m in layout.each_meta_info()
     }
+
+
+def test_add_port_defaults_to_layer_port_type() -> None:
+    """Ports without an explicit type follow the active PDK's layer port types."""
+    c = gf.Component()
+    add_port = partial(c.add_port, center=(0, 0), width=1, orientation=0)
+
+    assert add_port("e1", layer="M1").port_type == "electrical"
+    assert add_port("o1", layer="WG").port_type == "optical"
+    assert add_port("o2", layer="DEVREC").port_type == "optical"
+    assert add_port("o3", layer="M1", port_type="optical").port_type == "optical"
+    port = c.add_port("e2", center=(0, 0), orientation=0, cross_section="metal1")
+    assert port.port_type == "electrical"
