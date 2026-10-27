@@ -378,33 +378,50 @@ def test_activate_custom_pdk_preserves_error_layer(
     assert (1, 0) not in _registered_layers()  # but generic layers still pruned
 
 
-def test_reactivate_pdk_moves_wrong_index_layer_with_geometry(
-    restore_kcl_state: None,
+@pytest.mark.parametrize("occupied", [False, True], ids=["free", "foreign"])
+def test_reactivate_pdk_restores_layer_at_enum_index(
+    restore_kcl_state: None, occupied: bool
 ) -> None:
     """Re-activating a PDK moves wrongly registered geometry back to enum indexes.
 
     Registering WG away from its LayerEnum index is what happens after building
     under a PDK that does not declare it; here it is set up directly, because
-    switching PDK now empties the layout before the layers are restored.
+    switching PDK now empties the layout before the layers are restored. A foreign
+    layer at the enum index is moved aside, keeping its shapes.
     """
     gf.gpdk.PDK.activate(force=True)
 
     layout = gf.kcl.layout
-    info = kf.kdb.LayerInfo(1, 0)
-    layout.delete_layer(layout.find_layer(info))
+    target_index = int(LAYER.WG)
+    layout.delete_layer(target_index)
+    if occupied:
+        layout.insert_layer_at(target_index, kf.kdb.LayerInfo(999, 0))
     wrong_index = max(layout.layer_indexes()) + 1  # free, and not WG's index
-    assert not layout.is_valid_layer(wrong_index)
-    layout.insert_layer_at(wrong_index, info)
-    assert layout.find_layer(info) == wrong_index != int(LAYER.WG)
+    layout.insert_layer_at(wrong_index, kf.kdb.LayerInfo(1, 0))
 
     c = gf.Component()
     c.add_polygon([(0, 0), (5, 0), (5, 5), (0, 5)], layer=(1, 0))
-    assert not c.shapes(wrong_index).is_empty()
+    c.add_polygon([(0, 0), (3, 0), (3, 3), (0, 3)], layer=(999, 0))
 
     gf.gpdk.PDK.activate(force=True)  # same PDK, so the layout is not cleared
 
-    assert layout.find_layer(info) == int(LAYER.WG)
-    assert not c.shapes(int(LAYER.WG)).is_empty()
+    assert layout.find_layer(1, 0) == target_index
+    assert int(gf.kcl.layers.WG) == target_index
+    assert gf.get_layer_info("WG").name == "WG"
+    assert not c.shapes(target_index).is_empty()
+    foreign_index = layout.find_layer(999, 0)
+    assert foreign_index != target_index
+    assert not c.shapes(foreign_index).is_empty()
+
+
+def test_activate_pdk_keeps_layout_layers_method(restore_kcl_state: None) -> None:
+    """Activation must not shadow `kdb.Layout.layers()` with a LayerEnum."""
+    gf.gpdk.PDK.activate(force=True)
+    assert isinstance(gf.kcl.layout.layers(), int)
+    assert int(gf.kcl.layers.WG) == int(LAYER.WG)
+
+    gf.Pdk(name="no_layers").activate()
+    assert isinstance(gf.kcl.layout.layers(), int)
 
 
 def test_get_layer_name_exception_chaining() -> None:

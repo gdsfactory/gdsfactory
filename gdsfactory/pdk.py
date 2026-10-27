@@ -859,76 +859,56 @@ def _set_active_pdk(pdk: Pdk) -> None:
 
     _ACTIVE_PDK = pdk
 
+    # Setting `kcl.infos` rebuilds `kcl.layers`, whose members reuse each layer's
+    # existing index in the layout, so put the PDK layers at their enum indexes first.
     if pdk.layers is not None:
-        kf.kcl.layers = pdk.layers
-        # LayerInfos registers missing physical layers, so restore enum indexes first.
+        _prune_foreign_layers(pdk)
         _ensure_pdk_layers_registered(pdk)
         kf.kcl.infos = kf.LayerInfos(
             **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in pdk.layers},  # type: ignore[attr-defined]
         )
-        _prune_foreign_layers(pdk)
-        _ensure_pdk_layers_registered(pdk)
     else:
         kf.kcl.infos = kf.LayerInfos()
-        kf.kcl.layers = kf.kcl.layerenum_from_dict(layers=kf.kcl.infos)
 
     if pdk.dbu != kf.kcl.dbu:
         kf.kcl.layout.dbu = pdk.dbu
 
 
 def _ensure_pdk_layers_registered(pdk: Pdk) -> None:
-    """Restore active PDK physical layers at their LayerEnum indexes."""
+    """Restore active PDK physical layers at their LayerEnum indexes.
+
+    A foreign layer occupying a target index is moved, with its shapes, to a fresh
+    index; misplaced or duplicate registrations are merged into the target.
+    """
     if pdk.layers is None:
         return
     layout = kf.kcl.layout
     for layer in pdk.layers:  # type: ignore[attr-defined]
         target_index = int(layer)
-        info = kf.kdb.LayerInfo(layer.layer, layer.datatype)
-        existing_index = layout.find_layer(info)
-        if existing_index == target_index:
-            continue
-        if existing_index is not None:
+        key = (layer.layer, layer.datatype)
+        info = kf.kdb.LayerInfo(*key)
+        misplaced_indexes = [
+            index
+            for index in layout.layer_indexes()
+            if index != target_index
+            and (layout.get_info(index).layer, layout.get_info(index).datatype) == key
+        ]
+        try:
             if not layout.is_valid_layer(target_index):
                 layout.insert_layer_at(target_index, info)
             else:
                 existing_info = layout.get_info(target_index)
-                if (existing_info.layer, existing_info.datatype) != (
-                    info.layer,
-                    info.datatype,
-                ):
-                    logger.warning(
-                        "Layer index {} is already occupied by {}; cannot restore {}",
-                        target_index,
-                        existing_info,
-                        info,
-                    )
-                    continue
-            try:
-                layout.move_layer(existing_index, target_index)
-                layout.delete_layer(existing_index)
-            except RuntimeError:
-                logger.opt(exception=True).warning(
-                    "Could not move layer {} from index {} to {}",
-                    info,
-                    existing_index,
-                    target_index,
-                )
-            continue
-        if layout.is_valid_layer(target_index):
-            existing_info = layout.get_info(target_index)
-            if (existing_info.layer, existing_info.datatype) == (
-                info.layer,
-                info.datatype,
-            ):
-                continue
-            logger.warning(
-                "Layer index {} is already occupied by {}; cannot restore {}",
-                target_index,
-                existing_info,
-                info,
+                if (existing_info.layer, existing_info.datatype) != key:
+                    layout.move_layer(target_index, layout.insert_layer(existing_info))
+                    layout.set_info(target_index, info)
+            # Merge the misplaced (or duplicate) registrations into the target.
+            for index in misplaced_indexes:
+                layout.move_layer(index, target_index)
+                layout.delete_layer(index)
+        except RuntimeError:
+            logger.opt(exception=True).warning(
+                "Could not restore layer {} at index {}", info, target_index
             )
-            continue
-        layout.insert_layer_at(target_index, info)
 
 
 def _prune_foreign_layers(pdk: Pdk) -> None:
@@ -939,9 +919,9 @@ def _prune_foreign_layers(pdk: Pdk) -> None:
     generic layermap registered when ``gdsfactory`` is imported persists after a
     custom PDK is activated and keeps being written out and shown even though it is
     no longer active (https://github.com/gdsfactory/gdsfactory/issues/4595).
-    Reassigning ``kf.kcl.layers``/``infos`` only updates the name bookkeeping, not
-    the layout's physical layer slots, so drop any registered layer that is not
-    part of the active PDK. Empty layers are removed; layers that already hold
+    Setting ``kf.kcl.infos`` only updates the name bookkeeping, not the layout's
+    physical layer slots, so drop any registered layer that is not part of the
+    active PDK. Empty layers are removed; layers that already hold
     geometry are kept so pruning never orphans shapes (and the on-demand error
     layer is always kept).
     """
