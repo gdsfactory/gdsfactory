@@ -97,7 +97,7 @@ def clean_value_json(
     value_type = type(value)
     if value_type is int or value_type is bool or value is None:
         return value
-    if value_type is str and value.isascii():
+    if value_type is str:
         return value
     if value_type is dict:
         if not value:
@@ -136,9 +136,6 @@ def clean_value_json(
 
     if hasattr(value, "get_component_spec"):
         return value.get_component_spec()
-
-    if isinstance(value, bool):
-        return value
 
     if isinstance(value, Enum):
         return str(value)
