@@ -414,6 +414,104 @@ def test_reactivate_pdk_restores_layer_at_enum_index(
     assert not c.shapes(foreign_index).is_empty()
 
 
+@pytest.mark.parametrize("occupied", [False, True], ids=["free", "foreign"])
+def test_reactivate_pdk_registers_missing_layer_at_enum_index(
+    restore_kcl_state: None, occupied: bool
+) -> None:
+    """A PDK layer missing from the layout is registered at its enum index.
+
+    A foreign layer holding shapes at that index is moved aside, keeping them.
+    """
+    gf.gpdk.PDK.activate(force=True)
+
+    layout = gf.kcl.layout
+    target_index = int(LAYER.WG)
+    layout.delete_layer(target_index)
+    assert layout.find_layer(1, 0) is None
+    c = gf.Component()
+    if occupied:
+        layout.insert_layer_at(target_index, kf.kdb.LayerInfo(999, 0))
+        c.add_polygon([(0, 0), (3, 0), (3, 3), (0, 3)], layer=(999, 0))
+
+    gf.gpdk.PDK.activate(force=True)  # same PDK, so the layout is not cleared
+
+    assert layout.find_layer(1, 0) == target_index
+    assert int(gf.kcl.layers.WG) == target_index
+    if occupied:
+        foreign_index = layout.find_layer(999, 0)
+        assert foreign_index not in (None, target_index)
+        assert not c.shapes(foreign_index).is_empty()
+        assert c.shapes(target_index).is_empty()
+
+
+def test_reactivate_pdk_restores_swapped_layers(restore_kcl_state: None) -> None:
+    """Two PDK layers registered at each other's enum index are both restored."""
+    gf.gpdk.PDK.activate(force=True)
+
+    layout = gf.kcl.layout
+    wg_index, slab_index = int(LAYER.WG), int(LAYER.SLAB90)
+    layout.delete_layer(wg_index)
+    layout.delete_layer(slab_index)
+    layout.insert_layer_at(wg_index, kf.kdb.LayerInfo(3, 0))
+    layout.insert_layer_at(slab_index, kf.kdb.LayerInfo(1, 0))
+
+    c = gf.Component()
+    wg_box, slab_box = kf.kdb.Box(0, 0, 5, 5), kf.kdb.Box(0, 0, 3, 3)
+    c.shapes(slab_index).insert(wg_box)  # currently holds (1, 0)
+    c.shapes(wg_index).insert(slab_box)  # currently holds (3, 0)
+
+    gf.gpdk.PDK.activate(force=True)  # same PDK, so the layout is not cleared
+
+    assert layout.find_layer(1, 0) == wg_index
+    assert layout.find_layer(3, 0) == slab_index
+    assert int(gf.kcl.layers.WG) == wg_index
+    assert int(gf.kcl.layers.SLAB90) == slab_index
+    assert [s.box for s in c.shapes(wg_index).each()] == [wg_box]
+    assert [s.box for s in c.shapes(slab_index).each()] == [slab_box]
+    registered = [
+        (layout.get_info(i).layer, layout.get_info(i).datatype)
+        for i in layout.layer_indexes()
+    ]
+    assert registered.count((1, 0)) == 1
+    assert registered.count((3, 0)) == 1
+
+
+@pytest.mark.parametrize(
+    "duplicate_first", [True, False], ids=["duplicate_first", "target_first"]
+)
+def test_reactivate_pdk_merges_duplicate_layer_registration(
+    restore_kcl_state: None, duplicate_first: bool
+) -> None:
+    """A duplicate registration of a PDK layer is merged into its enum index.
+
+    `find_layer` resolves to whichever registration came first, so both orders
+    are checked.
+    """
+    gf.gpdk.PDK.activate(force=True)
+
+    layout = gf.kcl.layout
+    target_index = int(LAYER.WG)
+    duplicate_index = max(layout.layer_indexes()) + 1
+    if duplicate_first:
+        layout.delete_layer(target_index)
+        layout.insert_layer_at(duplicate_index, kf.kdb.LayerInfo(1, 0))
+        layout.insert_layer_at(target_index, kf.kdb.LayerInfo(1, 0))
+    else:
+        layout.insert_layer_at(duplicate_index, kf.kdb.LayerInfo(1, 0))
+    expected_found = duplicate_index if duplicate_first else target_index
+    assert layout.find_layer(1, 0) == expected_found
+
+    c = gf.Component()
+    c.shapes(target_index).insert(kf.kdb.Box(0, 0, 5, 5))
+    c.shapes(duplicate_index).insert(kf.kdb.Box(10, 10, 13, 13))
+
+    gf.gpdk.PDK.activate(force=True)  # same PDK, so the layout is not cleared
+
+    assert not layout.is_valid_layer(duplicate_index)
+    assert layout.find_layer(1, 0) == target_index
+    assert c.shapes(target_index).size() == 2
+
+
 def test_activate_pdk_keeps_layout_layers_method(restore_kcl_state: None) -> None:
     """Activation must not shadow `kdb.Layout.layers()` with a LayerEnum."""
     gf.gpdk.PDK.activate(force=True)
