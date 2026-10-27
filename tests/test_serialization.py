@@ -72,6 +72,35 @@ def test_clean_value_json() -> None:
     assert clean_value_json(AttrsSettings(width=2.5)) == {"width": 2.5}
 
 
+class DictSubclass(dict[str, object]):
+    pass
+
+
+class ListSubclass(list[object]):
+    pass
+
+
+def test_clean_value_json_subclasses_and_numpy_scalars() -> None:
+    assert clean_value_json(DictSubclass(a=1.23456, b=[1, 2])) == {
+        "a": 1.235,
+        "b": (1, 2),
+    }
+    assert clean_value_json(ListSubclass([1.23456, {"a": 2.0}])) == (
+        1.235,
+        {"a": 2},
+    )
+    assert clean_value_json("grating_é") == "grating_é"
+    assert clean_value_json({}) == {}
+    assert clean_value_json([]) == ()
+    result = clean_value_json(np.int64(5))
+    assert result == 5
+    assert type(result) is int
+    result = clean_value_json(np.float64(1.23456))
+    assert result == 1.235
+    assert type(result) is float
+    assert clean_value_json(np.float64(2.0)) == 2
+
+
 def test_clean_value_json_compose_and_callable() -> None:
     composed = toolz.compose(str, abs)
     assert clean_value_json(composed) == [
