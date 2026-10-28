@@ -40,6 +40,8 @@ from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
+    OffsetFunction,
+    WidthFunction,
     WidthTypes,
 )
 
@@ -1109,8 +1111,8 @@ def extrude(
     *,
     add_bbox: bool | None = None,
     ports: dict[int, tuple[str | None, str | None, str]] | None = None,
-    width_function: Callable | dict[int, Callable] | None = None,
-    offset_function: Callable | dict[int, Callable] | None = None,
+    width_function: WidthFunction | dict[int, WidthFunction] | None = None,
+    offset_function: OffsetFunction | dict[int, OffsetFunction] | None = None,
     insets: dict[int, tuple[float, float]] | None = None,
     hidden: Collection[int] | None = None,
 ) -> AnyComponent:
