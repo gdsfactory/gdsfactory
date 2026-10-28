@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
+import pytest
+
 import gdsfactory as gf
 
 
@@ -93,3 +97,46 @@ def test_taper_cross_section_round_tripped_layer_spec() -> None:
 
     t2 = gf.components.taper_cross_section(xs1_rt, xs2, length=10, linear=True)
     assert any(t2.get_polygons(merge=False).values())
+
+
+def _swapped_stacks() -> tuple[gf.CrossSection, gf.CrossSection]:
+    """A WG core in SLAB90, then a SLAB90 core in WG: the main strips cross layers."""
+
+    def stack(*names: str) -> gf.CrossSection:
+        return gf.cross_section.strip(
+            width=None, sections=[(n, -0.5 - i, 0.5 + i) for i, n in enumerate(names)]
+        )
+
+    return stack("WG", "SLAB90"), stack("SLAB90", "WG")
+
+
+@pytest.mark.parametrize("section_pairs", [None, [(0, 0)], []])
+def test_transition_that_draws_nothing_raises(
+    section_pairs: list[tuple[int, int]] | None,
+) -> None:
+    """Main strips on different layers are not paired with auxiliary strips by default."""
+    a, b = _swapped_stacks()
+
+    with pytest.raises(ValueError, match="nothing to draw"):
+        gf.path.extrude_transition(
+            gf.path.straight(10),
+            gf.path.transition(a, b),
+            section_pairs=section_pairs,
+        )
+
+
+@pytest.mark.parametrize("omit", [{"hidden": {1}}, {"skip_transition": [1]}])
+def test_transition_omitting_its_only_drawable_strip_raises(
+    omit: dict[str, Any],
+) -> None:
+    """A WG core in SLAB90 to a SLAB90 core: only the slab can be drawn."""
+    a, _ = _swapped_stacks()
+    slab = gf.cross_section.strip(width=None, sections=[("SLAB90", -0.5, 0.5)])
+
+    with pytest.raises(ValueError, match="nothing to draw"):
+        gf.path.extrude_transition(
+            gf.path.straight(10),
+            gf.path.transition(a, slab),
+            section_pairs=[(1, 0)],
+            **omit,
+        )
