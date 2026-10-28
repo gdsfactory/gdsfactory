@@ -1269,9 +1269,10 @@ def extrude_transition(
 
     Multiple strips on a layer pair in signed-bound order. ``section_pairs``
     makes other pairings explicit. Unpaired and skipped strips are omitted.
-    ``ports``, ``hidden`` and ``simplify`` default to the extrusion settings of
-    the first cross section, keyed by its strip indices. Raises ``ValueError``
-    if no pair would be drawn.
+    Main ports span the main strips whenever either is paired, other ports come
+    from auxiliary pairs. ``ports``, ``hidden`` and ``simplify`` default to the
+    extrusion settings of the first cross section, keyed by its strip indices.
+    Raises ``ValueError`` if no pair would be drawn.
     """
     if not isinstance(transition, Transition | TransitionAsymmetric):
         raise TypeError("Expected Transition or TransitionAsymmetric")
@@ -1326,6 +1327,8 @@ def extrude_transition(
             "or skipped, so the transition has nothing to draw. Pair strips on "
             "the same layer with section_pairs."
         )
+    if (0, 0) not in pairs and any(0 in pair for pair in pairs):
+        pairs.append((0, 0))  # main ports only
     c = ComponentAllAngle() if all_angle else Component()
     for i, j in pairs:
         if i in skip_transition:
@@ -1358,7 +1361,7 @@ def extrude_transition(
                 else points2
             )
             c.add_polygon(np.concatenate((u, lower_points[::-1])), layer=a.layer)
-        if i in selected_ports:
+        if i in selected_ports and (i == 0) == (j == 0):
             start, end, port_type = selected_ports[i]
             _add_section_port(
                 c,
