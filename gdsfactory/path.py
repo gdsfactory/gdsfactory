@@ -1156,6 +1156,7 @@ def extrude(
     dynamic_main_ports = bool(widths or offsets) and 0 in selected_ports
     endpoint_sections = [[], []]
     port_geometry = []
+    bbox = kdb.Box()
     for i, section in enumerate(xs.get_sections()):
         tolerance = simplify.get(i) if isinstance(simplify, dict) else simplify
         path = _path_with_insets(p, insets[i]) if i in insets else p
@@ -1195,7 +1196,11 @@ def extrude(
                 if tolerance is not None
                 else points2
             )
-            c.add_polygon(np.concatenate((upper, lower[::-1])), layer=section.layer)
+            shape = c.add_polygon(
+                np.concatenate((upper, lower[::-1])), layer=section.layer
+            )
+            if not all_angle:
+                bbox += shape.bbox()
         if i in selected_ports:
             port_geometry.append((i, path, points1, points2))
     profiles = (
@@ -1241,7 +1246,10 @@ def extrude(
             path.end_angle,
         )
     if add_bbox:
-        xs.add_bbox(c)
+        if all_angle:
+            xs.add_bbox(c)
+        else:
+            xs.add_bbox(c, bbox)
     c.info["length"] = p.length()
     return c
 

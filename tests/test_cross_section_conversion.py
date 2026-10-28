@@ -66,7 +66,13 @@ def test_extrude_calls_kfactory_add_bbox(offset: float, all_angle: bool) -> None
         path.extrude(xs, all_angle=all_angle)
         draw.assert_not_called()
         c = path.extrude(xs, all_angle=all_angle, add_bbox=True)
-        draw.assert_called_once_with(xs, c)
+        if all_angle:
+            draw.assert_called_once_with(xs, c)
+        else:
+            bbox = kf.kdb.Box()
+            for section in xs.get_sections():
+                bbox += c.kdb_cell.bbox(c.kcl.layer(section.layer))
+            draw.assert_called_once_with(xs, c, bbox)
 
 
 @pytest.mark.parametrize("offset", [0.0, 0.125])
