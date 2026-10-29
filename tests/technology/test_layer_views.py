@@ -1,7 +1,9 @@
+import json
 import pathlib
 import xml.etree.ElementTree as ET
 
 import pytest
+import yaml
 from pydantic_extra_types.color import Color
 
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
@@ -273,3 +275,32 @@ def test_nested_layerview_explicit_group_members_preserved() -> None:
     # Explicit group_members should be preserved, not overwritten
     assert "EXPLICIT" in group_view.group_members
     assert group_view.group_members["EXPLICIT"].fill_color == Color("#FFFFFF")
+
+
+def test_layer_views_yaml_schema_is_up_to_date() -> None:
+    from gdsfactory.technology.layer_views import (
+        LAYER_VIEWS_SCHEMA_PATH,
+        get_layer_views_yaml_schema,
+    )
+
+    committed = json.loads(LAYER_VIEWS_SCHEMA_PATH.read_text())
+    assert committed == get_layer_views_yaml_schema(), (
+        "Run gdsfactory.technology.layer_views.write_layer_views_yaml_schema()"
+    )
+
+
+def test_layer_views_yaml_schema_validates(tmp_path: pathlib.Path) -> None:
+    jsonschema = pytest.importorskip("jsonschema")
+    from gdsfactory.config import PATH
+    from gdsfactory.technology.layer_views import get_layer_views_yaml_schema
+
+    validator = jsonschema.Draft202012Validator(get_layer_views_yaml_schema())
+    validator.check_schema(validator.schema)
+    validator.validate(yaml.safe_load(PATH.klayout_yaml.read_text()))
+
+    yaml_path = tmp_path / "layers.yaml"
+    LayerViews(PATH.klayout_lyp).to_yaml(yaml_path)
+    validator.validate(yaml.safe_load(yaml_path.read_text()))
+
+    typo = {"LayerViews": {"WG": {"layr": [1, 0]}}}
+    assert not validator.is_valid(typo)

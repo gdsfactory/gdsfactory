@@ -1,0 +1,372 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/gdsfactory/technology/layer_views.schema.json",
+  "title": "gdsfactory LayerViews YAML",
+  "description": "Layer display properties read by gdsfactory.technology.LayerViews.from_yaml.",
+  "type": "object",
+  "properties": {
+    "LayerViews": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/LayerView"
+      }
+    },
+    "CustomDitherPatterns": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/HatchPattern"
+      }
+    },
+    "CustomLineStyles": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/LineStyle"
+      }
+    }
+  },
+  "required": [
+    "LayerViews"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "HatchPattern": {
+      "description": "Custom dither pattern. See KLayout documentation for more info.",
+      "properties": {
+        "order": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Order",
+          "description": "Order of pattern."
+        },
+        "custom_pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Custom Pattern",
+          "description": "Pattern defining custom shape."
+        }
+      },
+      "title": "HatchPattern",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "LayerView": {
+      "description": "KLayout layer properties.\n\nDocstrings adapted from KLayout documentation:\nhttps://www.klayout.de/lyp_format.html",
+      "properties": {
+        "info": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Info",
+          "description": "Extra info to include in the LayerView."
+        },
+        "layer": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Layer",
+          "description": "GDSII layer."
+        },
+        "layer_in_name": {
+          "default": false,
+          "title": "Layer In Name",
+          "type": "boolean",
+          "description": "Whether to display the name as 'name layer/datatype' rather than just the layer."
+        },
+        "frame_color": {
+          "anyOf": [
+            {
+              "format": "color",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Frame Color",
+          "description": "Display color of the layer frame. Accepts Pydantic Color types. See: https://docs.pydantic.dev/usage/types/#color-type for more info."
+        },
+        "fill_color": {
+          "anyOf": [
+            {
+              "format": "color",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fill Color",
+          "description": "Display color of the layer fill."
+        },
+        "frame_brightness": {
+          "default": 0,
+          "title": "Frame Brightness",
+          "type": "integer",
+          "description": "Brightness of the frame."
+        },
+        "fill_brightness": {
+          "default": 0,
+          "title": "Fill Brightness",
+          "type": "integer",
+          "description": "Brightness of the fill."
+        },
+        "hatch_pattern": {
+          "anyOf": [
+            {
+              "enum": [
+                "solid",
+                "hollow",
+                "dotted",
+                "coarsely dotted",
+                "left-hatched",
+                "lightly left-hatched",
+                "strongly left-hatched dense",
+                "strongly left-hatched sparse",
+                "right-hatched",
+                "lightly right-hatched",
+                "strongly right-hatched dense",
+                "strongly right-hatched sparse",
+                "cross-hatched",
+                "lightly cross-hatched",
+                "checkerboard 2px",
+                "strongly cross-hatched sparse",
+                "heavy checkerboard",
+                "hollow bubbles",
+                "solid bubbles",
+                "pyramids",
+                "turned pyramids",
+                "plus",
+                "minus",
+                "22.5 degree down",
+                "22.5 degree up",
+                "67.5 degree down",
+                "67.5 degree up",
+                "22.5 degree cross hatched",
+                "zig zag",
+                "sine",
+                "heavy unordered",
+                "light unordered",
+                "vertical dense",
+                "vertical",
+                "vertical thick",
+                "vertical sparse",
+                "vertical sparse, thick",
+                "horizontal dense",
+                "horizontal",
+                "horizontal thick",
+                "horizontal sparse",
+                "horizontal sparse, thick",
+                "grid dense",
+                "grid",
+                "grid thick",
+                "grid sparse",
+                "grid sparse, thick"
+              ]
+            },
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/HatchPattern"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hatch Pattern",
+          "description": "This is the number of the dither pattern used to fill the shapes. The values are \"Ix\" for one of the built-in pattern where \"I0\" is \"solid\" and \"I1\" is \"clear\"."
+        },
+        "line_style": {
+          "anyOf": [
+            {
+              "enum": [
+                "solid",
+                "dotted",
+                "dashed",
+                "dash-dotted",
+                "short dashed",
+                "short dash-dotted",
+                "long dashed",
+                "dash-double-dotted"
+              ]
+            },
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LineStyle"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line Style",
+          "description": "This is the number of the line style used to draw the shape boundaries. An empty string is \"solid line\". The values are \"Ix\" for one of the built-in styles where \"I0\" is \"solid\", \"I1\" is \"dotted\" etc."
+        },
+        "valid": {
+          "default": true,
+          "title": "Valid",
+          "type": "boolean",
+          "description": "Whether the entry is valid. Invalid layers are drawn but you can't select shapes on those layers. (Only applies to KLayout layer properties)"
+        },
+        "visible": {
+          "default": true,
+          "title": "Visible",
+          "type": "boolean",
+          "description": "Whether the entry is visible."
+        },
+        "transparent": {
+          "default": false,
+          "title": "Transparent",
+          "type": "boolean",
+          "description": "Whether the entry is transparent."
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width",
+          "description": "This is the line width of the frame in pixels (or empty for the default which is 1)."
+        },
+        "marked": {
+          "default": false,
+          "title": "Marked",
+          "type": "boolean",
+          "description": "Whether the entry is marked (drawn with small crosses). (Only applies to KLayout layer properties)"
+        },
+        "xfill": {
+          "default": false,
+          "title": "Xfill",
+          "type": "boolean",
+          "description": "Whether boxes are drawn with a diagonal cross. (Only applies to KLayout layer properties)"
+        },
+        "animation": {
+          "default": 0,
+          "title": "Animation",
+          "type": "integer",
+          "description": "This is a value indicating the animation mode. 0 is \"none\", 1 is \"scrolling\", 2 is \"blinking\" and 3 is \"inverse blinking\". (Only applies to KLayout layer properties)"
+        },
+        "group_members": {
+          "additionalProperties": {
+            "$ref": "#/$defs/LayerView"
+          },
+          "title": "Group Members",
+          "type": "object",
+          "description": "Add a list of group members to the LayerView."
+        },
+        "color": {
+          "anyOf": [
+            {
+              "format": "color",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color",
+          "description": "Sets both fill_color and frame_color."
+        },
+        "brightness": {
+          "type": "integer",
+          "title": "Brightness",
+          "description": "Sets both fill_brightness and frame_brightness."
+        },
+        "gds_layer": {
+          "type": "integer",
+          "title": "Gds layer",
+          "description": "Alternative to 'layer'; give both gds_layer and gds_datatype."
+        },
+        "gds_datatype": {
+          "type": "integer",
+          "title": "Gds datatype",
+          "description": "Alternative to 'layer'; give both gds_layer and gds_datatype."
+        }
+      },
+      "title": "LayerView",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "LineStyle": {
+      "description": "Custom line style. See KLayout documentation for more info.",
+      "properties": {
+        "order": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Order",
+          "description": "Order of line style."
+        },
+        "custom_style": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Custom Style",
+          "description": "Line style to use."
+        }
+      },
+      "title": "LineStyle",
+      "type": "object",
+      "additionalProperties": false
+    }
+  }
+}

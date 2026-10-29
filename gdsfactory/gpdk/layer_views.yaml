@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/gdsfactory/technology/layer_views.schema.json
 LayerViews:
   Waveguide:
     layer: [1, 0]
