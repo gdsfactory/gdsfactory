@@ -4,7 +4,7 @@ from typing import Any
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.difftest import DiffResult, diff, difftest
+from gdsfactory.difftest import DiffResult, GeometryDifference, diff, difftest
 
 
 def assert_xor_fails(
@@ -171,5 +171,43 @@ def test_difftest_does_not_modify_cached_components(tmp_path: Path) -> None:
 
     assert gf.kcl.cells() == cells_before
     assert gf.components.straight().ports["o1"].name == "o1"
+
+    gf.clear_cache()
+
+
+def test_difftest_oasis(tmp_path: Path) -> None:
+    """Difftest stores and compares OASIS references when file_format="oas"."""
+    component = gf.components.straight(length=10)
+    dirpath_run = tmp_path / "run"
+
+    with pytest.raises(AssertionError, match="not found"):
+        difftest(
+            component,
+            test_name="straight",
+            dirpath=tmp_path,
+            dirpath_run=dirpath_run,
+            file_format="oas",
+        )
+
+    ref_file = tmp_path / "straight.oas"
+    assert ref_file.read_bytes().startswith(b"%SEMI-OASIS\r\n")
+    assert not (tmp_path / "straight.gds").exists()
+
+    difftest(
+        component,
+        test_name="straight",
+        dirpath=tmp_path,
+        dirpath_run=dirpath_run,
+        file_format="oas",
+    )
+
+    with pytest.raises(GeometryDifference):
+        difftest(
+            gf.components.straight(length=20),
+            test_name="straight",
+            dirpath=tmp_path,
+            dirpath_run=dirpath_run,
+            file_format="oas",
+        )
 
     gf.clear_cache()
