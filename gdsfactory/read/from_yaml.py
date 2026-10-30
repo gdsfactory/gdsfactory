@@ -63,7 +63,7 @@ import yaml
 
 from gdsfactory import typings
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.component import Component, ComponentAllAngle, ComponentReference
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.schematic import (
     Bundle,
     GridArray,
@@ -903,7 +903,14 @@ def _get_references(
                 ),
             )
         else:
-            if inst.virtual or isinstance(comp, ComponentAllAngle):
+            if isinstance(comp, kf.VKCell) and inst.virtual is False:
+                # Same real instance as the one `insert_vinsts` makes on grid
+                ref = ComponentReference(
+                    kcl=c.kcl,
+                    instance=kf.VInstance(comp).insert_into(c).instance,
+                )
+                ref.name = name
+            elif isinstance(comp, kf.VKCell) or inst.virtual:
                 ref = c.add_ref_off_grid(comp)
                 ref.name = name
             else:
