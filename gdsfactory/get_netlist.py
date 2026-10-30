@@ -478,7 +478,7 @@ def _insert_netlist(
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = _get_array_config(inst)
-            virtual = False
+            virtual = None
             transform = inst.dcplx_trans
             _all_ports.update(
                 {
@@ -492,7 +492,7 @@ def _insert_netlist(
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = None
-            virtual = False
+            virtual = False if inst_cell.virtual else None
             transform = inst.dcplx_trans
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
 
@@ -650,7 +650,7 @@ def _dump_instance(
         if (
             k in instance_exclude
             or (k == "array" and v is None)
-            or (k == "virtual" and v is False)
+            or (k == "virtual" and v is None)
         ):
             continue
         if hasattr(v, "model_dump"):

@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
 from gdsfactory.difftest import difftest
 from gdsfactory.read.from_yaml import from_yaml, sample_all_angle, sample_mmis
 
@@ -88,6 +89,39 @@ def test_all_angle_instance_is_virtual_and_connected() -> None:
         {"p1": "b1,o1", "p2": "s0,o2"},
         {"p1": "b1,o2", "p2": "s1,o1"},
     )
+
+
+def test_all_angle_real_instance_round_trip() -> None:
+    c = gf.Component()
+    s = c << gf.components.straight(length=5)
+    b = c.add_ref_off_grid(gf.components.bend_euler_all_angle(angle=90))
+    b.connect("o1", s.ports["o2"])
+    c.insert_vinsts()
+
+    netlist = c.get_netlist(on_dangling_port="ignore")
+    assert netlist["instances"]["bend_euler_all_angle"]["virtual"] is False
+    assert "virtual" not in netlist["instances"]["straight"]
+
+    c2 = from_yaml(netlist)
+    assert len(c2.insts) == 2
+    assert len(c2.vinsts) == 0
+    assert c2.get_netlist(on_dangling_port="ignore") == netlist
+
+
+def test_all_angle_explicit_real_instance() -> None:
+    c = from_yaml(
+        """
+instances:
+    b:
+      component: bend_euler_all_angle
+      settings:
+        angle: 30
+      virtual: false
+"""
+    )
+    assert len(c.vinsts) == 0
+    assert [i.name for i in c.insts] == ["b"]
+    assert c.insts[0].cell.virtual
 
 
 sample_2x2_connections = """
