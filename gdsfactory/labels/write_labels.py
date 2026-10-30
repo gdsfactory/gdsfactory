@@ -34,28 +34,48 @@ def find_labels(
         y: y position (um).
         angle: in degrees.
     """
-    # Load the layout
     gdspath = str(gdspath)
-    layout = pya.Layout()
-    layout.read(gdspath)
-
-    # Get the top cell and the units, and find out the index of the layer
+    layout = pya.Layout(False)
+    read_layer = layer_label
+    if type(layer_label) is str:
+        try:
+            read_layer = gf.get_layer_tuple(layer_label)
+        except Exception:
+            # Preserve read errors before reporting an invalid layer.
+            pass
+    # Select known numeric layers before loading geometry.
+    if (
+        type(read_layer) is tuple
+        and len(read_layer) == 2
+        and all(type(value) is int and 0 <= value <= 65535 for value in read_layer)
+    ):
+        options = pya.LoadLayoutOptions()
+        options.properties_enabled = False
+        layer_map = pya.LayerMap()
+        layer_map.map(pya.LayerInfo(*read_layer), 0)
+        options.set_layer_map(layer_map, False)
+        layout.read(gdspath, options)
+    else:
+        layout.read(gdspath)
     topcell = layout.top_cell()
-
     layer_label = gf.get_layer_tuple(layer_label)
-
-    # Extract locations
     iterator = topcell.begin_shapes_rec(layout.layer(*layer_label))
+    iterator.shape_flags = pya.Shapes.STexts
 
-    while not (iterator.at_end()):
-        shape, trans = iterator.shape(), iterator.dtrans()
-        iterator.next()
-        if shape.is_text():
-            text = shape.dtext
-            for prefix in prefixes:
-                if text.string.startswith(prefix):
+    # each() advances the same recursive iterator in place.
+    shape = iterator.shape
+    dtrans = iterator.dtrans
+    for _ in iterator.each():
+        text = shape().dtext
+        string = text.string
+        result = None
+        for prefix in prefixes:
+            if string.startswith(prefix):
+                if result is None:
+                    trans = dtrans()
                     transformed = text.transformed(trans)
-                    yield text.string, transformed.x, transformed.y, trans.angle
+                    result = string, transformed.x, transformed.y, trans.angle
+                yield result
 
 
 def write_labels(
