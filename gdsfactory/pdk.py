@@ -34,6 +34,7 @@ from gdsfactory.typings import (
     ConnectivitySpec,
     CrossSectionFactory,
     CrossSectionSpec,
+    Layer,
     LayerSpec,
     LayerTransitions,
     MaterialSpec,
@@ -44,6 +45,13 @@ from gdsfactory.typings import (
 _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
+
+
+def _layer_key(layer: Layer | LayerEnum) -> Layer:
+    """Return the layer tuple of a layer enum or tuple."""
+    if isinstance(layer, LayerEnum):
+        return (layer.layer, layer.datatype)
+    return layer
 
 
 class GenericConstants(Constants):
@@ -136,12 +144,13 @@ class Pdk(BaseModel):
         layer_views: includes layer name to color, opacity and pattern.
         layer_transitions: transitions between different cross_sections.
         port_cross_sections: factories for width/layer-only and auxiliary ports,
-            keyed by physical layer tuple. Factories accept width, layer, offset and kcl
-            and define radius metadata when a profile is first created.
+            keyed by physical layer (a layer enum or tuple, stored as a tuple).
+            Factories accept width, layer, offset and kcl and define radius
+            metadata when a profile is first created.
         layer_port_types: port types of main extrusion strips and of ports
             added without an explicit type, keyed by physical layer.
         auxiliary_port_types: auxiliary extrusion port types, keyed by main and
-            auxiliary physical layer tuples.
+            auxiliary physical layers.
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
             string: material name.
@@ -158,12 +167,12 @@ class Pdk(BaseModel):
 
     name: str
     version: str = ""
-    port_cross_sections: dict[tuple[int, int], CrossSectionFactory] = Field(
+    port_cross_sections: dict[Layer | LayerEnum, CrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
-    layer_port_types: dict[tuple[int, int], str] = Field(default_factory=dict)
-    auxiliary_port_types: dict[tuple[tuple[int, int], tuple[int, int]], str] = Field(
-        default_factory=dict
+    layer_port_types: dict[Layer | LayerEnum, str] = Field(default_factory=dict)
+    auxiliary_port_types: dict[tuple[Layer | LayerEnum, Layer | LayerEnum], str] = (
+        Field(default_factory=dict)
     )
 
     cross_sections: dict[str, CrossSectionFactory] = Field(
@@ -246,9 +255,13 @@ class Pdk(BaseModel):
             "auxiliary_port_types",
         ):
             conventions = {}
-            for pdk in self.base_pdks:
-                conventions.update(getattr(pdk, field))
-            conventions.update(getattr(self, field))
+            for pdk in (*self.base_pdks, self):
+                for key, value in getattr(pdk, field).items():
+                    if field == "auxiliary_port_types":
+                        key = tuple(map(_layer_key, key))
+                    else:
+                        key = _layer_key(key)
+                    conventions[key] = value
             setattr(self, field, conventions)
 
     def xsection[**P](self, func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
