@@ -453,21 +453,17 @@ def _insert_netlist(
         inst = cast(Instance, _inst)
         inst_cell = _instcell(inst)
         inst_name = instance_namer(inst)
+        if _is_array_inst(inst) and (
+            _is_pure_vinst(inst) or getattr(inst.cell, "virtual", False)
+        ):
+            msg = "Cannot export netlist: virtual array instances are not supported."
+            raise ValueError(msg)
         if _is_pure_vinst(inst):
-            if _is_array_inst(inst):
-                msg = (
-                    "Cannot export netlist: virtual array instances are not supported."
-                )
-                raise ValueError(msg)
             array = None
             virtual = True
             transform = inst.dcplx_trans
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_flattened_vinst(inst):
-            if _is_array_inst(inst):
-                msg = (
-                    "Cannot export netlist: virtual array instances are not supported."
-                )
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = None
