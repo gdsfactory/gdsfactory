@@ -433,6 +433,26 @@ def route_bundle(
 
     bboxes = list(bboxes or [])
 
+    if steps and waypoints:
+        raise ValueError("Provide only one of steps or waypoints")
+
+    for d in steps or []:
+        if not isinstance(d, dict):
+            raise ValueError(
+                f"Invalid step {d!r}. Each step must be a dict with keys (x, y, dx, dy)."
+            )
+        if not STEP_DIRECTIVES.issuperset(d):
+            raise ValueError(
+                f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
+                f"Valid directives are {list(STEP_DIRECTIVES)}"
+            )
+
+    if path_length_matching_config is not None and constraints is not None:
+        raise ValueError(
+            "path_length_matching_config and constraints are mutually exclusive. "
+            "Pass a kf.schematic.PathLengthMatch constraint via constraints instead."
+        )
+
     if auto_taper and auto_taper_taper:
         warn(
             "Use of `auto_taper_taper` is deprecated. Please use `layer_transitions` instead.",
@@ -478,12 +498,13 @@ def route_bundle(
         for port in ports2_:
             bbox2 += port.dcplx_trans.disp.to_p()
 
-        ports1_ = add_auto_tapers(
-            component, ports1_, cross_section=xs, layer_transitions=layer_transitions
+        tapered = add_auto_tapers(
+            component,
+            ports1_ + ports2_,
+            cross_section=xs,
+            layer_transitions=layer_transitions,
         )
-        ports2_ = add_auto_tapers(
-            component, ports2_, cross_section=xs, layer_transitions=layer_transitions
-        )
+        ports1_, ports2_ = tapered[: len(ports1_)], tapered[len(ports1_) :]
 
         for port in ports1_:
             bbox1 += port.dcplx_trans.disp.to_p()
@@ -495,25 +516,12 @@ def route_bundle(
         bboxes.append(bbox2)
         # component.shapes(component.kcl.layer(1,0)).insert(bbox)
 
-    if steps and waypoints:
-        raise ValueError("Provide only one of steps or waypoints")
-
     if steps:
         waypoints = []
         x, y = ports1_[0].center
         for d in steps:
-            if isinstance(d, dict):
-                if not STEP_DIRECTIVES.issuperset(d):
-                    raise ValueError(
-                        f"Invalid step directives: {list(d.keys() - STEP_DIRECTIVES)}."
-                        f"Valid directives are {list(STEP_DIRECTIVES)}"
-                    )
-                x = d.get("x", x) + d.get("dx", 0)
-                y = d.get("y", y) + d.get("dy", 0)
-            else:
-                raise ValueError(
-                    f"Invalid step {d!r}. Each step must be a dict with keys (x, y, dx, dy)."
-                )
+            x = d.get("x", x) + d.get("dx", 0)
+            y = d.get("y", y) + d.get("dy", 0)
             waypoints += [(x, y)]  # type: ignore[arg-type]
             if layer_marker:
                 marker = component << gf.components.rectangle(
@@ -572,12 +580,6 @@ def route_bundle(
             )
             sb_ref = component << sb
             return gf.kf.DInstanceGroup(insts=[sb_ref], ports=list(sb_ref.ports))
-
-    if path_length_matching_config is not None and constraints is not None:
-        raise ValueError(
-            "path_length_matching_config and constraints are mutually exclusive. "
-            "Pass a kf.schematic.PathLengthMatch constraint via constraints instead."
-        )
 
     if path_length_matching_config is not None:
         route_constraints: list[Constraint] = [

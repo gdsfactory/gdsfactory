@@ -510,9 +510,11 @@ def test_route_bundle_layer_label_in_um() -> None:
     assert np.allclose(labels, lengths_um), labels
 
 
-def _two_straights(cross_section: str) -> tuple[Component, Port, Port]:
+def _two_straights(
+    cross_section: str, width: float | None = None
+) -> tuple[Component, Port, Port]:
     c = gf.Component()
-    straight = gf.components.straight(cross_section=cross_section)
+    straight = gf.components.straight(cross_section=cross_section, width=width)
     left = c << straight
     right = c << straight
     right.move((300, 200))
@@ -634,6 +636,32 @@ def test_route_bundle_incompatible_bend_leaves_component_unchanged() -> None:
             bend="wire_corner",
             steps=[{"dx": 50}, {"dy": 200}],
             layer_marker=(2, 0),
+        )
+    # Neither the auto-tapers nor the step markers were placed.
+    assert len(c.insts) == 2
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"steps": [{"dx": 50}], "waypoints": [(0, 0), (50, 0)]},
+        {"steps": [{"dz": 50}]},
+        {"steps": [{"dx": 50}, (1, 2)]},
+        {"path_length_matching_config": {"loops": 1}, "constraints": []},
+    ],
+)
+def test_route_bundle_invalid_arguments_leave_component_unchanged(
+    kwargs: dict[str, object],
+) -> None:
+    c, port1, port2 = _two_straights("strip", width=0.8)
+    with pytest.raises(ValueError):
+        route_bundle(
+            c,
+            [port1],
+            [port2],
+            cross_section="strip",
+            layer_marker=(2, 0),
+            **kwargs,  # type: ignore[arg-type]
         )
     # Neither the auto-tapers nor the step markers were placed.
     assert len(c.insts) == 2

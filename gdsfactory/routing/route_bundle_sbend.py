@@ -73,18 +73,14 @@ def route_bundle_sbend(
 
     if auto_taper and cross_section is not None:
         xs_ = gf.get_cross_section(cross_section)
-        ports1 = add_auto_tapers(
+        ports1, ports2 = list(ports1), list(ports2)
+        tapered = add_auto_tapers(
             component,
-            list(ports1),
+            ports1 + ports2,
             cross_section=xs_,
             layer_transitions=layer_transitions,
         )
-        ports2 = add_auto_tapers(
-            component,
-            list(ports2),
-            cross_section=xs_,
-            layer_transitions=layer_transitions,
-        )
+        ports1, ports2 = tapered[: len(ports1)], tapered[len(ports1) :]
 
     routes = []
 
