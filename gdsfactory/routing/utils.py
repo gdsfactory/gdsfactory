@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 from gdsfactory.typings import ComponentSpec, Port
 
@@ -16,6 +16,17 @@ class RouteWarning(UserWarning):
 
 class BendPortTypeError(ValueError):
     """Raised when a bend has no two ports of the port type being routed."""
+
+
+def to_kf_error_action(
+    action: Literal["error", "show_error", "warning", "ignore"] | None,
+) -> Literal["error", "show_error"] | None:
+    """Maps a gdsfactory error action to the one kfactory understands."""
+    if action == "warning":
+        return "error"
+    if action == "ignore":
+        return None
+    return action
 
 
 def get_default_bend(port_type: str, cross_section: CrossSection) -> ComponentSpec:
