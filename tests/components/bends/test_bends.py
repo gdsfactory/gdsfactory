@@ -16,9 +16,10 @@ from gdsfactory.components.bends.bend_modified_hermite import (
     bend_modified_hermite_all_angle,
     bend_modified_hermite_s,
 )
-from gdsfactory.components.bends.bend_s import bend_s, get_min_sbend_size
+from gdsfactory.components.bends.bend_s import bend_s, bezier_curve, get_min_sbend_size
 from gdsfactory.components.bends.bend_topic import bend_topic, bend_topic_all_angle
 from gdsfactory.cross_section.utils import cross_section
+from gdsfactory.functions import curvature
 
 # Alternate processes use dedicated layers, not the generic PDK's slab layers.
 
@@ -282,6 +283,30 @@ def test_get_min_sbend_size() -> None:
         size=(40.0, None), cross_section="rib_heater_doped_via_stack", num_points=50
     )
     assert size == np.inf
+
+
+def _bezier_sbend_radius(dx: float, dy: float) -> float:
+    control_points = ((0.0, 0.0), (dx / 2, 0.0), (dx / 2, dy), (dx, dy))
+    t = np.linspace(0, 1, 201)
+    curv = curvature(bezier_curve(t, control_points), t)
+    return float(1 / np.max(np.abs(curv)))
+
+
+def test_get_min_sbend_size_meets_cross_section_radius() -> None:
+    """The returned length is the shortest scanned length that still complies."""
+    min_radius = gf.get_cross_section("strip").radius
+    assert min_radius is not None
+    num_points = 100
+    for dy in (2.0, 5.0, 10.0):
+        dx = float(get_min_sbend_size(size=(None, dy), num_points=num_points))
+        assert np.isfinite(dx)
+        assert _bezier_sbend_radius(dx, dy) >= min_radius
+        max_size = float(np.sqrt(abs(min_radius * dy)) * 2.5)
+        sizes = np.linspace(max_size, 0.1 * max_size, num_points)
+        index = int(np.argmin(np.abs(sizes - dx)))
+        assert index < len(sizes) - 1
+        smaller = float(sizes[index + 1])
+        assert _bezier_sbend_radius(smaller, dy) < min_radius
 
 
 def test_bezier_bend() -> None:
