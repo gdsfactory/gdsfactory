@@ -453,21 +453,17 @@ def _insert_netlist(
         inst = cast(Instance, _inst)
         inst_cell = _instcell(inst)
         inst_name = instance_namer(inst)
+        if _is_array_inst(inst) and (
+            _is_pure_vinst(inst) or getattr(inst.cell, "virtual", False)
+        ):
+            msg = "Cannot export netlist: virtual array instances are not supported."
+            raise ValueError(msg)
         if _is_pure_vinst(inst):
-            if _is_array_inst(inst):
-                msg = (
-                    "Cannot export netlist: virtual array instances are not supported."
-                )
-                raise ValueError(msg)
             array = None
             virtual = True
             transform = inst.dcplx_trans
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
         elif _is_flattened_vinst(inst):
-            if _is_array_inst(inst):
-                msg = (
-                    "Cannot export netlist: virtual array instances are not supported."
-                )
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = None
@@ -478,7 +474,7 @@ def _insert_netlist(
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = _get_array_config(inst)
-            virtual = False
+            virtual = None
             transform = inst.dcplx_trans
             _all_ports.update(
                 {
@@ -492,7 +488,7 @@ def _insert_netlist(
             if hasattr(inst, "to_dtype"):  # always True - just making mypy happy
                 inst = inst.to_dtype()
             array = None
-            virtual = False
+            virtual = False if inst_cell.virtual else None
             transform = inst.dcplx_trans
             _all_ports.update({f"{inst_name},{p.name}": p for p in inst.ports})
 
@@ -650,7 +646,7 @@ def _dump_instance(
         if (
             k in instance_exclude
             or (k == "array" and v is None)
-            or (k == "virtual" and v is False)
+            or (k == "virtual" and v is None)
         ):
             continue
         if hasattr(v, "model_dump"):
