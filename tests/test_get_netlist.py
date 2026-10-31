@@ -407,3 +407,41 @@ def test_get_netlist_array_roundtrip(rotation: int, mirror: bool) -> None:
         f"  Before: {pl1}\n"
         f"  After:  {pl2}"
     )
+
+
+@pytest.mark.parametrize(("count_a", "count_b"), [(2, 2), (3, 2)])
+@pytest.mark.parametrize("reversed_axes", [False, True])
+@pytest.mark.parametrize("rotation", [0, 90, 180, 270])
+@pytest.mark.parametrize("mirror", [False, True])
+def test_get_netlist_array_element_ports_roundtrip(
+    count_a: int, count_b: int, reversed_axes: bool, rotation: int, mirror: bool
+) -> None:
+    """Array port and connection indices keep their physical element identity."""
+    c = gf.Component()
+    a, b = gf.kdb.DVector(20, 0), gf.kdb.DVector(0, 30)
+    if reversed_axes:
+        a, b = b, a
+    ref = c.create_inst(
+        gf.components.straight(length=10), a=a, b=b, na=count_a, nb=count_b
+    )
+    ref.name = "array"
+    if mirror:
+        ref.dmirror()
+    ref.rotate(rotation)
+    for i in range(count_a):
+        c.add_port(f"tap_{i}", port=ref.ports["o1", i, 0])
+    taper = c.add_ref(gf.components.taper(), name="taper")
+    taper.connect("o1", ref.ports["o2", count_a - 1, count_b - 1])
+    c.add_port("out", port=taper.ports["o2"])
+
+    netlist = c.get_netlist(on_dangling_port="ignore")
+    rebuilt = gf.read.from_yaml(netlist)
+
+    for port in c.ports:
+        assert rebuilt.ports[port.name].center == pytest.approx(port.center)
+        assert rebuilt.ports[port.name].orientation == port.orientation
+    layer = gf.get_layer("WG")
+    assert (
+        gf.kdb.Region(c.begin_shapes_rec(layer))
+        ^ gf.kdb.Region(rebuilt.begin_shapes_rec(layer))
+    ).is_empty()
