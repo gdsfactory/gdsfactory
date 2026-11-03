@@ -52,7 +52,7 @@ def bend_circular(
     )
 
 
-@gf.vcell
+@gf.vcell(tags=["bends"])
 def bend_circular_all_angle(
     radius: float | None = None,
     angle: float = 90.0,

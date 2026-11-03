@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec, Size
 
 
-@gf.cell
+@gf.cell(tags=["pcms"])
 def resistance_meander_row(
     length_row: float, width: float, res_layer: LayerSpec
 ) -> Component:
@@ -27,7 +27,7 @@ def resistance_meander_row(
     )
 
 
-@gf.cell
+@gf.cell(tags=["pcms"])
 def resistance_meander_net(
     num_rows: int, length_row: float, width: float, res_layer: LayerSpec
 ) -> Component:

@@ -130,7 +130,7 @@ def symmetric_transformer(
 # ---------------------------------------------------------------------------
 
 
-@gf.cell
+@gf.cell(tags=["analog"])
 def via3(
     size: tuple[float, float] = (0.7, 0.7),
     enclosure: float = 1.0,
@@ -288,7 +288,7 @@ def stacked_transformer(
 # Concentric (single-turn, coplanar) 1:1 transformer
 
 
-@gf.cell
+@gf.cell(tags=["analog"])
 def transformer_concentric_secondary(
     width: float = 3.0,
     space: float = 3.1,

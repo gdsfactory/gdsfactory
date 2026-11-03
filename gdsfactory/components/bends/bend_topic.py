@@ -54,7 +54,7 @@ def bend_topic(
     )
 
 
-@gf.vcell
+@gf.vcell(tags=["bends"])
 def bend_topic_all_angle(
     radius: float | None = None,
     angle: float = 90.0,
