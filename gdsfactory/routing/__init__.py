@@ -12,11 +12,13 @@ from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.routing.add_pads import add_pads_bot, add_pads_top
 from gdsfactory.routing.fanout2x2 import fanout2x2
+from gdsfactory.routing.place_manhattan_with_bends import place_manhattan_with_bends
 from gdsfactory.routing.resolve_pins import resolve_pin_pair, resolve_pins
 from gdsfactory.routing.route_astar import route_astar
 from gdsfactory.routing.route_bundle import route_bundle, route_bundle_electrical
 from gdsfactory.routing.route_bundle_all_angle import route_bundle_all_angle
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
+from gdsfactory.routing.route_bundle_with_bends import route_bundle_with_bends
 from gdsfactory.routing.route_dubins import route_dubins as route_dubins
 from gdsfactory.routing.route_ports_to_side import (
     route_ports_to_side,
@@ -41,6 +43,7 @@ __all__ = [
     "add_pads_bot",
     "add_pads_top",
     "fanout2x2",
+    "place_manhattan_with_bends",
     "resolve_pin_pair",
     "resolve_pins",
     "route_astar",
@@ -48,6 +51,7 @@ __all__ = [
     "route_bundle_all_angle",
     "route_bundle_electrical",
     "route_bundle_sbend",
+    "route_bundle_with_bends",
     "route_dubins",
     "route_ports_to_side",
     "route_ports_to_x",
