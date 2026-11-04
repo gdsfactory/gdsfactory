@@ -34,6 +34,7 @@ from gdsfactory.typings import (
     ConnectivitySpec,
     CrossSectionFactory,
     CrossSectionSpec,
+    Layer,
     LayerSpec,
     LayerTransitions,
     MaterialSpec,
@@ -44,6 +45,13 @@ from gdsfactory.typings import (
 _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
+
+
+def _layer_key(layer: Layer | LayerEnum) -> Layer:
+    """Return the layer tuple of a layer enum or tuple."""
+    if isinstance(layer, LayerEnum):
+        return (layer.layer, layer.datatype)
+    return layer
 
 
 class GenericConstants(Constants):
@@ -136,11 +144,13 @@ class Pdk(BaseModel):
         layer_views: includes layer name to color, opacity and pattern.
         layer_transitions: transitions between different cross_sections.
         port_cross_sections: factories for width/layer-only and auxiliary ports,
-            keyed by physical layer tuple. Factories accept width, layer, offset and kcl
-            and define radius metadata when a profile is first created.
-        layer_port_types: main extrusion port types, keyed by physical layer tuple.
+            keyed by physical layer (a layer enum or tuple, stored as a tuple).
+            Factories accept width, layer, offset and kcl and define radius
+            metadata when a profile is first created.
+        layer_port_types: port types of main extrusion strips and of ports
+            added without an explicit type, keyed by physical layer.
         auxiliary_port_types: auxiliary extrusion port types, keyed by main and
-            auxiliary physical layer tuples.
+            auxiliary physical layers.
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
             string: material name.
@@ -157,12 +167,12 @@ class Pdk(BaseModel):
 
     name: str
     version: str = ""
-    port_cross_sections: dict[tuple[int, int], CrossSectionFactory] = Field(
+    port_cross_sections: dict[Layer | LayerEnum, CrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
-    layer_port_types: dict[tuple[int, int], str] = Field(default_factory=dict)
-    auxiliary_port_types: dict[tuple[tuple[int, int], tuple[int, int]], str] = Field(
-        default_factory=dict
+    layer_port_types: dict[Layer | LayerEnum, str] = Field(default_factory=dict)
+    auxiliary_port_types: dict[tuple[Layer | LayerEnum, Layer | LayerEnum], str] = (
+        Field(default_factory=dict)
     )
 
     cross_sections: dict[str, CrossSectionFactory] = Field(
@@ -245,9 +255,13 @@ class Pdk(BaseModel):
             "auxiliary_port_types",
         ):
             conventions = {}
-            for pdk in self.base_pdks:
-                conventions.update(getattr(pdk, field))
-            conventions.update(getattr(self, field))
+            for pdk in (*self.base_pdks, self):
+                for key, value in getattr(pdk, field).items():
+                    if field == "auxiliary_port_types":
+                        key = tuple(map(_layer_key, key))
+                    else:
+                        key = _layer_key(key)
+                    conventions[key] = value
             setattr(self, field, conventions)
 
     def xsection[**P](self, func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
@@ -271,10 +285,11 @@ class Pdk(BaseModel):
     def activate(self, force: bool = False) -> None:
         """Set current pdk to the active pdk (if not already active).
 
-        Activating a different Pdk instance than the active one resets the layout
-        and the cell factory caches, because cell names and cache keys serialize
+        Activating a different Pdk instance than the active one resets the layout,
+        the cell factory caches and the registered cross sections, enclosures and
+        extrude configs, because cell names and cache keys serialize
         cross-sections and layers to their name and are therefore ambiguous across
-        PDKs. Two Pdk objects that share a name are still different PDKs: the name
+        PDKs, and cross sections carry PDK-specific radii and extrusion settings. Two Pdk objects that share a name are still different PDKs: the name
         says nothing about the cross-sections, layers or cells they carry.
 
         Args:
@@ -806,6 +821,12 @@ def get_layer_info(layer: LayerSpec | kf.kdb.LayerInfo) -> kf.kdb.LayerInfo:
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
 
 
+def get_layer_port_type(layer: LayerSpec | kf.kdb.LayerInfo) -> str:
+    """Returns the active PDK's port type for a layer, defaulting to optical."""
+    info = get_layer_info(layer)
+    return get_active_pdk().layer_port_types.get((info.layer, info.datatype), "optical")
+
+
 def get_layer_views() -> LayerViews:
     return get_active_pdk().get_layer_views()
 
@@ -836,6 +857,11 @@ def _set_active_pdk(pdk: Pdk) -> None:
                 stacklevel=3,
             )
         clear_cache()
+        # Cross sections carry PDK-specific names, radii and extrusion settings
+        # (whose default ports follow the PDK's port conventions).
+        kf.kcl.cross_sections.cross_sections.clear()
+        kf.kcl.layer_enclosures.root.clear()
+        kf.kcl.extrude_configs.clear()
 
     if pdk.dbu != kf.kcl.dbu and len(kf.kcl.kcells) > 0:
         raise ValueError(

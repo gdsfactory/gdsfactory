@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import valid_port_orientations
 from gdsfactory.snap import snap_to_grid2x
-from gdsfactory.typings import Ints, LayerSpec, Size
+from gdsfactory.typings import CrossSectionSpec, Ints, LayerSpec, Size
 
 
 def compass(
@@ -16,6 +16,7 @@ def compass(
     port_inclusion: float = 0.0,
     port_orientations: Ints | None = (180, 90, 0, -90),
     auto_rename_ports: bool = True,
+    cross_section: CrossSectionSpec | None = None,
 ) -> Component:
     """Rectangle with ports on each edge (north, south, east, and west).
 
@@ -26,6 +27,8 @@ def compass(
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None does not add ports.
         auto_rename_ports: auto rename ports.
+        cross_section: profile of the edge ports, resized to each edge's length.
+            Must be on `layer`. None gives the ports a profile from layer and width.
     """
     c = gf.Component()
     _temp = snap_to_grid2x(size)
@@ -45,6 +48,18 @@ def compass(
 
     c.add_polygon(points, layer=layer)
 
+    if cross_section is not None:
+        xs_layer = gf.get_layer(gf.get_cross_section(cross_section).layer)
+        if xs_layer != gf.get_layer(layer):
+            raise ValueError(
+                f"cross_section layer {xs_layer!r} differs from compass layer {layer!r}"
+            )
+
+    def port_profile(width: float) -> dict[str, object]:
+        if cross_section is None:
+            return {"width": width, "layer": layer}
+        return {"cross_section": gf.get_cross_section(cross_section, width=width)}
+
     if port_type:
         for port_orientation in port_orientations_list:
             if port_orientation not in valid_port_orientations:
@@ -56,36 +71,32 @@ def compass(
             c.add_port(
                 name="e1",
                 center=(-dx / 2 + port_inclusion, 0),
-                width=dy,
+                **port_profile(dy),
                 orientation=180,
-                layer=layer,
                 port_type=port_type,
             )
         if 90 in port_orientations_list:
             c.add_port(
                 name="e2",
                 center=(0, dy / 2 - port_inclusion),
-                width=dx,
+                **port_profile(dx),
                 orientation=90,
-                layer=layer,
                 port_type=port_type,
             )
         if 0 in port_orientations_list:
             c.add_port(
                 name="e3",
                 center=(dx / 2 - port_inclusion, 0),
-                width=dy,
+                **port_profile(dy),
                 orientation=0,
-                layer=layer,
                 port_type=port_type,
             )
         if -90 in port_orientations_list or 270 in port_orientations_list:
             c.add_port(
                 name="e4",
                 center=(0, -dy / 2 + port_inclusion),
-                width=dx,
+                **port_profile(dx),
                 orientation=-90,
-                layer=layer,
                 port_type=port_type,
             )
 

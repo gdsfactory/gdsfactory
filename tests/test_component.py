@@ -430,6 +430,27 @@ def test_component_all_angle_add_port() -> None:
         )
 
 
+def test_add_port_mirror() -> None:
+    start = gf.c.straight(length=5, cross_section="l_with_trenches")["o1"]
+    assert start.mirror
+    assert not start.is_symmetric()
+
+    # asymmetric ports always keep their mirror
+    c = gf.Component()
+    assert c.add_port("o1", port=start).mirror
+    assert c.add_port("o2", port=start, center=(1, 0)).mirror
+    assert c.add_port("o3", port=start, keep_mirror=False).mirror
+
+    # symmetric ports drop their mirror unless keep_mirror is set
+    symmetric = c.add_port("o4", center=(0, 0), cross_section="strip")
+    assert not symmetric.mirror
+    symmetric.mirror = True
+    assert not c.add_port("o5", port=symmetric).mirror
+    assert not c.add_port("o6", port=symmetric, center=(1, 0)).mirror
+    assert c.add_port("o7", port=symmetric, keep_mirror=True).mirror
+    assert c.add_port("o8", port=symmetric, center=(1, 0), keep_mirror=True).mirror
+
+
 def test_component_all_angle_add_polygon() -> None:
     c = gf.ComponentAllAngle()
 

@@ -5,7 +5,7 @@ __all__ = ["compass"]
 import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
-from gdsfactory.typings import Ints, LayerSpec, Size
+from gdsfactory.typings import CrossSectionSpec, Ints, LayerSpec, Size
 
 
 @gf.cell_with_module_name(tags=["shapes"])
@@ -16,6 +16,7 @@ def compass(
     port_inclusion: float = 0.0,
     port_orientations: Ints | None = (180, 90, 0, -90),
     auto_rename_ports: bool = True,
+    cross_section: CrossSectionSpec | None = None,
 ) -> Component:
     """Rectangle with ports on each edge (north, south, east, and west).
 
@@ -26,6 +27,8 @@ def compass(
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None does not add ports.
         auto_rename_ports: auto rename ports.
+        cross_section: profile of the edge ports, resized to each edge's length.
+            Must be on `layer`. None gives the ports a profile from layer and width.
     """
     return cf.compass(
         size=size,
@@ -34,4 +37,5 @@ def compass(
         port_inclusion=port_inclusion,
         port_orientations=port_orientations,
         auto_rename_ports=auto_rename_ports,
+        cross_section=cross_section,
     )

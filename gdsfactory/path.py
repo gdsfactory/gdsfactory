@@ -11,8 +11,8 @@ from __future__ import annotations
 import hashlib
 import math
 import warnings
-from collections.abc import Callable, Sequence
-from typing import Any, Literal, TypeVar, cast, overload
+from collections.abc import Callable, Collection, Sequence
+from typing import Any, Literal, NamedTuple, TypeVar, cast, overload
 
 import kfactory as kf
 import klayout.db as kdb
@@ -532,7 +532,7 @@ class Path(UMGeometricObject):
         simplify: float | dict[int, float] | None = None,
         all_angle: Literal[False] = False,
         *,
-        add_bbox: bool = False,
+        add_bbox: bool | None = None,
         **kwargs: Any,
     ) -> Component: ...
 
@@ -545,7 +545,7 @@ class Path(UMGeometricObject):
         simplify: float | dict[int, float] | None = None,
         all_angle: Literal[True] = True,
         *,
-        add_bbox: bool = False,
+        add_bbox: bool | None = None,
         **kwargs: Any,
     ) -> ComponentAllAngle: ...
 
@@ -558,7 +558,7 @@ class Path(UMGeometricObject):
         simplify: float | dict[int, float] | None = None,
         all_angle: bool = True,
         *,
-        add_bbox: bool = False,
+        add_bbox: bool | None = None,
         **kwargs: Any,
     ) -> AnyComponent: ...
 
@@ -570,7 +570,7 @@ class Path(UMGeometricObject):
         simplify: float | dict[int, float] | None = None,
         all_angle: bool = False,
         *,
-        add_bbox: bool = False,
+        add_bbox: bool | None = None,
         **kwargs: Any,
     ) -> AnyComponent:
         """Returns Component by extruding a Path with a CrossSection.
@@ -584,11 +584,12 @@ class Path(UMGeometricObject):
             width: optional width in um.
             simplify: Tolerance value for the simplification algorithm. \
                     All points that can be removed without changing the resulting polygon\
-                    by more than the value listed here will be removed.
+                    by more than the value listed here will be removed. \
+                    Defaults to the cross section's setting.
 
             all_angle: if True, the bend is drawn with a single euler curve.
             add_bbox: draw the cross section's bbox layers around the extruded
-                geometry. Defaults to False.
+                geometry. Defaults to the cross section's setting, else False.
             **kwargs: extrusion controls such as ports, width functions, and insets.
 
         Example:
@@ -1009,33 +1010,47 @@ def _path_with_insets(p: Path, insets: tuple[float, float]) -> Path:
     )
 
 
-def _section_ports(
-    xs: CrossSection, ports: dict[int, tuple[str | None, str | None, str]] | None
-) -> dict[int, tuple[str | None, str | None, str]]:
-    """Choose extrusion ports; explicit section-index maps override the convention."""
-    if ports is not None:
-        return ports
-    from gdsfactory.pdk import get_active_pdk
+class _ExtrudeSettings(NamedTuple):
+    ports: dict[int, tuple[str | None, str | None, str]]
+    insets: dict[int, tuple[float, float]]
+    simplify: float | dict[int, float] | None
+    hidden: Collection[int]
+    add_bbox: bool
 
-    pdk = get_active_pdk()
-    result = {}
-    counters = {}
-    sections = xs.get_sections()
-    main_layer = (xs.layer.layer, xs.layer.datatype)
-    for i, s in enumerate(sections):
-        layer = (s.layer.layer, s.layer.datatype)
-        port_type = (
-            pdk.layer_port_types.get(layer, "optical")
-            if i == 0
-            else pdk.auxiliary_port_types.get((main_layer, layer))
+
+def _extrude_settings(
+    xs: CrossSection,
+    ports: dict[int, tuple[str | None, str | None, str]] | None,
+    insets: dict[int, tuple[float, float]] | None,
+    simplify: float | dict[int, float] | None,
+    hidden: Collection[int] | None,
+    add_bbox: bool | None,
+) -> _ExtrudeSettings:
+    """Fill unset extrusion settings from the profile's config, then defaults.
+
+    Ports without a setting follow the PDK's port conventions.
+    """
+    from gdsfactory.cross_section.utils import default_extrude_ports
+
+    config = xs.kcl.get_extrude_config(xs) or kf.ExtrudeConfig()
+    to_um = xs.kcl.to_um
+    if ports is None:
+        ports = config.ports if config.ports is not None else default_extrude_ports(xs)
+    if insets is None:
+        insets = {i: (to_um(a), to_um(b)) for i, (a, b) in config.insets.items()}
+    if simplify is None and config.simplify is not None:
+        simplify = (
+            {i: to_um(t) for i, t in config.simplify.items()}
+            if isinstance(config.simplify, dict)
+            else to_um(config.simplify)
         )
-        if port_type is None:
-            continue
-        prefix = "e" if port_type == "electrical" else "o"
-        n = counters.get(prefix, 0) + 1
-        result[i] = (f"{prefix}{n}", f"{prefix}{n + 1}", port_type)
-        counters[prefix] = n + 1
-    return result
+    return _ExtrudeSettings(
+        ports=ports,
+        insets=insets,
+        simplify=simplify,
+        hidden=config.hidden if hidden is None else hidden,
+        add_bbox=config.add_bbox if add_bbox is None else add_bbox,
+    )
 
 
 def _add_section_port(
@@ -1092,20 +1107,24 @@ def extrude(
     simplify: float | dict[int, float] | None = None,
     all_angle: bool = False,
     *,
-    add_bbox: bool = False,
+    add_bbox: bool | None = None,
     ports: dict[int, tuple[str | None, str | None, str]] | None = None,
     width_function: Callable | dict[int, Callable] | None = None,
     offset_function: Callable | dict[int, Callable] | None = None,
     insets: dict[int, tuple[float, float]] | None = None,
-    hidden: Sequence[int] = (),
+    hidden: Collection[int] | None = None,
 ) -> AnyComponent:
     """Extrude a transverse profile along a path.
 
     Options keyed by section index refer to get_sections() (main strip first).
     A single width/offset function applies to the main strip; a mapping selects
     individual strips. ``ports={}`` suppresses ports; other maps specify
-    ``index: (start_name, end_name, port_type)``. Insets and hidden strips affect
-    only this extrusion and do not change the cross section.
+    ``index: (start_name, end_name, port_type)``.
+
+    ``ports``, ``insets``, ``simplify``, ``hidden`` and ``add_bbox`` default to
+    the cross section's extrusion settings (see ``cross_section()``). A setting
+    passed here replaces the cross section's setting as a whole for this
+    extrusion. Ports without a setting follow the PDK's port conventions.
 
     ``add_bbox=True`` draws ``xs.bbox_sections`` around the bounding box of all
     emitted geometry, after insets, hidden strips, and width/offset functions.
@@ -1127,7 +1146,9 @@ def extrude(
     if width is not None:
         xs = with_width(xs, width)
     c = ComponentAllAngle() if all_angle else Component()
-    selected_ports = _section_ports(xs, ports)
+    selected_ports, insets, simplify, hidden, add_bbox = _extrude_settings(
+        xs, ports, insets, simplify, hidden, add_bbox
+    )
     widths = {0: width_function} if callable(width_function) else width_function or {}
     offsets = (
         {0: offset_function} if callable(offset_function) else offset_function or {}
@@ -1137,7 +1158,7 @@ def extrude(
     port_geometry = []
     for i, section in enumerate(xs.get_sections()):
         tolerance = simplify.get(i) if isinstance(simplify, dict) else simplify
-        path = _path_with_insets(p, insets[i]) if insets and i in insets else p
+        path = _path_with_insets(p, insets[i]) if i in insets else p
         lengths = np.concatenate(
             ([0.0], np.cumsum(np.linalg.norm(np.diff(path.points, axis=0), axis=1)))
         )
@@ -1233,13 +1254,15 @@ def extrude_transition(
     ports: dict[int, tuple[str | None, str | None, str]] | None = None,
     section_pairs: Sequence[tuple[int, int]] | None = None,
     skip_transition: Sequence[int] = (),
-    hidden: Sequence[int] = (),
+    hidden: Collection[int] | None = None,
     simplify: float | dict[int, float] | None = None,
 ) -> AnyComponent:
     """Extrude paired strips, matching the main strips and auxiliary strips by layer.
 
     Multiple strips on a layer pair in signed-bound order. ``section_pairs``
     makes other pairings explicit. Unpaired and skipped strips are omitted.
+    ``ports``, ``hidden`` and ``simplify`` default to the extrusion settings of
+    the first cross section, keyed by its strip indices.
     """
     if not isinstance(transition, Transition | TransitionAsymmetric):
         raise TypeError("Expected Transition or TransitionAsymmetric")
@@ -1282,7 +1305,9 @@ def extrude_transition(
             "parabolic": _parabolic_transition,
         }[kind](a, b)(t)
 
-    selected_ports = _section_ports(x1, ports)
+    selected_ports, _, simplify, hidden, _ = _extrude_settings(
+        x1, ports, None, simplify, hidden, None
+    )
     c = ComponentAllAngle() if all_angle else Component()
     for i, j in pairs:
         if i in skip_transition:

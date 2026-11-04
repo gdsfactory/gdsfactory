@@ -696,6 +696,6 @@ def route_bundle(
 
 route_bundle_electrical = partial(
     route_bundle,
-    bend="wire_corner",
+    port_type="electrical",
     allow_width_mismatch=True,
 )

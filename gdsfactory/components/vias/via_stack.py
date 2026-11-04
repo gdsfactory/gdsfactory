@@ -25,7 +25,15 @@ import gdsfactory as gf
 from gdsfactory import component_functions as cf
 from gdsfactory.component import Component
 from gdsfactory.component_functions import CellAlias
-from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    Floats,
+    Ints,
+    LayerSpec,
+    LayerSpecs,
+    Size,
+)
 
 
 @gf.cell_with_module_name(tags=["vias"])
@@ -39,6 +47,7 @@ def via_stack(
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
     port_orientations: Ints | None = (180, 90, 0, -90),
+    cross_section: CrossSectionSpec | None = "metal_routing",
 ) -> Component:
     """Rectangular via array stack.
 
@@ -61,6 +70,8 @@ def via_stack(
         slot_horizontal: if True, then vias are horizontal.
         slot_vertical: if True, then vias are vertical.
         port_orientations: list of port_orientations to add. None does not add ports.
+        cross_section: profile of the ports, resized to each port's width. Only
+            used for port layers on the cross section's layer.
     """
     return cf.via_stack(
         size=size,
@@ -72,6 +83,7 @@ def via_stack(
         slot_horizontal=slot_horizontal,
         slot_vertical=slot_vertical,
         port_orientations=port_orientations,
+        cross_section=cross_section,
     )
 
 

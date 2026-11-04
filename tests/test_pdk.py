@@ -7,7 +7,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory import partial
 from gdsfactory.config import CONF
-from gdsfactory.gpdk import LAYER
+from gdsfactory.gpdk import LAYER, get_generic_pdk
 from gdsfactory.technology import LayerMap
 
 
@@ -562,3 +562,64 @@ def test_get_component_dict_applies_kwargs() -> None:
     # neither "component" nor "function" is given
     with pytest.raises(ValueError, match=r"'None'.*not in cells"):
         gf.get_component({"settings": {"length": 1}})
+
+
+def test_pdk_switch_resets_cross_sections(
+    restore_kcl_state: None, tmp_path: Path
+) -> None:
+    """Cross sections and their extrusion settings don't leak into another PDK."""
+    from gdsfactory.gpdk import PDK
+
+    PDK.activate(force=True)
+    xs = gf.cross_section.cross_section(width=0.516, port_names=("in", "out"))
+    assert gf.kcl.get_extrude_config(xs) is not None
+    gf.Component().write(tmp_path / "before.gds")
+
+    other = gf.Pdk(
+        name="pdk_switch_cross_sections",
+        layers=LAYER,
+        cross_sections={"strip": gf.cross_section.strip},
+    )
+    other.activate()
+    assert xs.base.auto_name() not in gf.kcl.cross_sections.cross_sections
+    assert gf.kcl.extrude_configs == {}
+
+    gf.Component().write(tmp_path / "after.gds")
+    layout = kf.kdb.Layout()
+    layout.read(str(tmp_path / "after.gds"))
+    assert f"kfactory:cross_section:{xs.name}" not in {
+        m.name for m in layout.each_meta_info()
+    }
+
+
+def test_add_port_defaults_to_layer_port_type() -> None:
+    """Ports without an explicit type follow the active PDK's layer port types."""
+    c = gf.Component()
+    add_port = partial(c.add_port, center=(0, 0), width=1, orientation=0)
+
+    assert add_port("e1", layer="M1").port_type == "electrical"
+    assert add_port("o1", layer="WG").port_type == "optical"
+    assert add_port("o2", layer="DEVREC").port_type == "optical"
+    assert add_port("o3", layer="M1", port_type="optical").port_type == "optical"
+    port = c.add_port("e2", center=(0, 0), orientation=0, cross_section="metal1")
+    assert port.port_type == "electrical"
+
+
+def test_port_conventions_accept_layer_enum_keys() -> None:
+    """Layer enum keys are stored as tuples and override base PDK tuple keys."""
+    pdk = gf.Pdk(
+        name="test",
+        base_pdks=[get_generic_pdk()],
+        port_cross_sections={LAYER.M1: gf.cross_section.metal2},
+        layer_port_types={LAYER.WG: "electrical"},
+        auxiliary_port_types={(LAYER.WG, LAYER.M1): "electrical"},
+    )
+
+    assert pdk.port_cross_sections[(41, 0)] is gf.cross_section.metal2
+    assert pdk.layer_port_types[(1, 0)] == "electrical"
+    assert pdk.auxiliary_port_types[((1, 0), (41, 0))] == "electrical"
+    assert all(type(key) is tuple for key in pdk.port_cross_sections)
+    assert all(type(key) is tuple for key in pdk.layer_port_types)
+    assert all(
+        type(layer) is tuple for key in pdk.auxiliary_port_types for layer in key
+    )

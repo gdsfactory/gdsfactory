@@ -13,6 +13,8 @@ from gdsfactory.cross_section.base import (
     CrossSection,
     Sections,
     SectionSpec,
+    port_names_electrical,
+    port_types_electrical,
 )
 from gdsfactory.cross_section.utils import cross_section, xsection
 
@@ -321,7 +323,7 @@ def rib_with_trenches(
         width_slab = width + 2 * width_trench + 2 * slab_offset
 
     trench_offset = width / 2 + width_trench / 2
-    section_list: list[SectionSpec] = list(sections or ())
+    section_list: list[SectionSpec] = list(sections or [])
     assert width_slab is not None
     section_list.append((layer, -(width_slab / 2), width_slab / 2))
     section_list += [
@@ -393,7 +395,7 @@ def l_with_trenches(
     """
     mult = 1 if mirror else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
-    section_list: list[SectionSpec] = list(sections or ())
+    section_list: list[SectionSpec] = list(sections or [])
     section_list += [
         (
             layer_slab,
@@ -422,6 +424,8 @@ def metal1(
     width: float = 10,
     layer: typings.LayerSpec = "M1",
     radius: float | None = None,
+    port_names: tuple[str | None, str | None] | None = port_names_electrical,
+    port_types: str | tuple[str, str] | None = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -430,6 +434,8 @@ def metal1(
         width=width,
         layer=layer,
         radius=radius,
+        port_names=port_names,
+        port_types=port_types,
         **kwargs,
     )
 
@@ -439,6 +445,8 @@ def metal2(
     width: float = 10,
     layer: typings.LayerSpec = "M2",
     radius: float | None = None,
+    port_names: tuple[str | None, str | None] | None = port_names_electrical,
+    port_types: str | tuple[str, str] | None = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -447,6 +455,8 @@ def metal2(
         width=width,
         layer=layer,
         radius=radius,
+        port_names=port_names,
+        port_types=port_types,
         **kwargs,
     )
 
@@ -456,6 +466,8 @@ def metal3(
     width: float = 10,
     layer: typings.LayerSpec = "M3",
     radius: float | None = None,
+    port_names: tuple[str | None, str | None] | None = port_names_electrical,
+    port_types: str | tuple[str, str] | None = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -464,6 +476,8 @@ def metal3(
         width=width,
         layer=layer,
         radius=radius,
+        port_names=port_names,
+        port_types=port_types,
         **kwargs,
     )
 
@@ -541,6 +555,8 @@ def heater_metal(
     width: float = 2.5,
     layer: typings.LayerSpec = "HEATER",
     radius: float | None = None,
+    port_names: tuple[str | None, str | None] | None = port_names_electrical,
+    port_types: str | tuple[str, str] | None = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Metal Strip cross_section."""
@@ -549,6 +565,8 @@ def heater_metal(
         width=width,
         layer=layer,
         radius=radius,
+        port_names=port_names,
+        port_types=port_types,
         **kwargs,
     )
 
@@ -558,6 +576,8 @@ def npp(
     width: float = 0.5,
     layer: typings.LayerSpec = "NPP",
     radius: float | None = None,
+    port_names: tuple[str | None, str | None] | None = port_names_electrical,
+    port_types: str | tuple[str, str] | None = port_types_electrical,
     **kwargs: Any,
 ) -> CrossSection:
     """Return Doped NPP cross_section."""
@@ -565,5 +585,7 @@ def npp(
         width=width,
         layer=layer,
         radius=radius,
+        port_names=port_names,
+        port_types=port_types,
         **kwargs,
     )

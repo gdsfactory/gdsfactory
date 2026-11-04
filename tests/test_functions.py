@@ -19,6 +19,26 @@ def test_get_polygons() -> None:
     assert key == "WG"
 
 
+def test_get_polygons_instance_array() -> None:
+    c = gf.Component()
+    ref = c.add_ref(
+        gf.c.rectangle(size=(1, 1)),
+        columns=3,
+        rows=2,
+        column_pitch=10,
+        row_pitch=20,
+    )
+    ref.move((100, 0))
+
+    polygons = gf.functions.get_polygons(ref, layers=("WG",), by="name")["WG"]
+    assert len(polygons) == 6
+    assert sorted((p.bbox().left, p.bbox().bottom) for p in polygons) == sorted(
+        (c.kcl.to_dbu(100 + 10 * i), c.kcl.to_dbu(20 * j))
+        for i in range(3)
+        for j in range(2)
+    )
+
+
 def test_trim() -> None:
     layer = (1, 0)
     c1 = gf.c.rectangle(size=(11, 11), centered=True, layer=layer).dup()

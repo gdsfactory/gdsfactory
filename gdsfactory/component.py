@@ -236,7 +236,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
         orientation: AngleInDegrees | None = None,
         layer: LayerSpec | kdb.LayerInfo | None = None,
         port_type: str | None = None,
-        keep_mirror: bool | None = None,
+        keep_mirror: bool = False,
         cross_section: CrossSectionSpec | None = None,
     ) -> DPort:
         """Adds a Port to the Component.
@@ -248,14 +248,14 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
             width: width of the port.
             orientation: orientation of the port. If None and port is provided, preserves the original port's orientation. If None and port is not provided, defaults to 0.
             layer: layer spec to add port on.
-            port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to "optical".
-            keep_mirror: preserves the port mirror; defaults to preserving asymmetric profiles.
+            port_type: port type (optical, electrical, …). If None and port is provided, preserves the original port's type. If None and port is not provided, defaults to the active PDK's `layer_port_types` entry for the port layer, or "optical".
+            keep_mirror: keep the mirror flag of the provided port if True, else clear it for symmetric ports. Ports with an asymmetric cross section always keep their mirror flag, as it determines which side of the port the cross section lies on.
             cross_section: cross_section of the port.
         """
         if self.locked:
             raise LockedError(self)
 
-        from gdsfactory.pdk import get_cross_section, get_layer
+        from gdsfactory.pdk import get_cross_section, get_layer, get_layer_port_type
 
         # Resolve initial values and determine if we need to override the transformation
         override_transformation = False
@@ -301,7 +301,7 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         # Apply defaults if None
         if port_type is None:
-            port_type = "optical"
+            port_type = "optical" if layer is None else get_layer_port_type(layer)
         if orientation is None:
             orientation = 0
 
@@ -326,34 +326,32 @@ class ComponentBase(ProtoKCell[float, BaseKCell], ABC):
 
         # Prefer port.dcplx_trans if port is provided and no overriding parameters are given
         # Otherwise, construct a new transformation based on the provided or inherited parameters
+        mirror = port is not None and port.mirror
         if not port or override_transformation:
             if isinstance(center, kdb.DPoint):
-                trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
+                trans = kdb.DCplxTrans(1, orientation, mirror, center.to_v())
             else:
                 x, y = float(center[0]), float(center[1])
-                trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
+                trans = kdb.DCplxTrans(1, float(orientation), mirror, x, y)
         else:
             trans = port.dcplx_trans
-            if keep_mirror is False or (
-                keep_mirror is None and port.base.is_symmetric()
-            ):
-                trans.mirror = False
 
-        layer = get_layer(layer)
-
-        # preserve metadata from the source port (a resolved cross_section
-        # below takes precedence over any inherited one); deep copy so list/
-        # dict info values aren't shared with the source port.
-        info = (
-            port.info.model_copy(deep=True).model_dump() if port is not None else None
-        )
-
-        _port = DPorts(kcl=self.kcl, bases=self.ports.bases).create_port(
+        new_port = DPort(
             name=name,
             cross_section=xs,
             port_type=port_type,
             dcplx_trans=trans,
-            info=info,
+            kcl=self.kcl,
+        )
+        # preserve metadata from the source port (a resolved cross_section
+        # below takes precedence over any inherited one); deep copy so list/
+        # dict info values aren't shared with the source port.
+        if port is not None:
+            new_port.info = port.info.model_copy(deep=True)
+
+        # kfactory clears the mirror of symmetric ports unless keep_mirror is set
+        _port = DPorts(kcl=self.kcl, bases=self.ports.bases).add_port(
+            port=new_port, keep_mirror=keep_mirror
         )
 
         if xs_name:
@@ -735,10 +733,13 @@ class Component(ComponentBase, kf.DKCell):
         set_meta_data: bool = True,
         autoformat_from_file_extension: bool = True,
         deduplicate_cell_names: bool = True,
+        clear_existing_meta: bool = True,
     ) -> None:
         """Write component to GDS, fixing pin metadata for kfactory compat."""
         if set_meta_data:
             self.insert_vinsts()
+            if clear_existing_meta:
+                self.kcl.layout.clear_meta_info()
             self.kcl.set_meta_data()
             for ci in self.called_cells():
                 kcell = self.kcl[ci]

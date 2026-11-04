@@ -1,9 +1,10 @@
 info:
   xsize: 4
   ysize: 4
-name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_33f305c1
+name: via_stack_gdsfactorypcomponentspviaspvia_stack_S4_4_LHE_11ed4f72
 settings:
   correct_size: false
+  cross_section: metal_routing
   layers:
   - HEATER
   - M2

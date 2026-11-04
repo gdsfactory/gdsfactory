@@ -3,9 +3,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -17,9 +17,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -31,9 +31,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -45,9 +45,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -59,9 +59,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -73,9 +73,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -87,9 +87,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -101,9 +101,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -115,9 +115,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:
@@ -129,9 +129,9 @@ instances:
     component: straight
     info:
       length: 420
-      route_info_028523d7_300_length: 420
       route_info_length: 420
-      route_info_type: 028523d7_300
+      route_info_sym_028523d7_300_length: 420
+      route_info_type: sym_028523d7_300
       route_info_weight: 420
       width: 0.3
     settings:

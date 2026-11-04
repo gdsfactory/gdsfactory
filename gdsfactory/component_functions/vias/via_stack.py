@@ -10,7 +10,15 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_functions._get_component import get_component
-from gdsfactory.typings import ComponentSpec, Floats, Ints, LayerSpec, LayerSpecs, Size
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    Floats,
+    Ints,
+    LayerSpec,
+    LayerSpecs,
+    Size,
+)
 
 
 def via_stack(
@@ -23,6 +31,7 @@ def via_stack(
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
     port_orientations: Ints | None = (180, 90, 0, -90),
+    cross_section: CrossSectionSpec | None = "metal_routing",
 ) -> Component:
     """Rectangular via array stack.
 
@@ -45,6 +54,8 @@ def via_stack(
         slot_horizontal: if True, then vias are horizontal.
         slot_vertical: if True, then vias are vertical.
         port_orientations: list of port_orientations to add. None does not add ports.
+        cross_section: profile of the ports, resized to each port's width. Only
+            used for port layers on the cross section's layer.
     """
     width_m, height_m = size
 
@@ -124,6 +135,11 @@ def via_stack(
     c.info["xsize"], c.info["ysize"] = (width_m, height_m)
 
     multiple_port_layers = len(resolved_port_orientations) > 1
+    xs_layer = (
+        gf.get_layer(gf.get_cross_section(cross_section).layer)
+        if cross_section is not None
+        else None
+    )
 
     # Draw metal layers with corrected size
     for layer_index, offset in zip(layer_indices, layer_offsets, strict=False):
@@ -143,6 +159,11 @@ def via_stack(
                 port_type="electrical",
                 port_orientations=resolved_port_orientations[layer_index],
                 auto_rename_ports=False,
+                **(
+                    {"cross_section": cross_section}
+                    if xs_layer is not None and xs_layer == layer_index
+                    else {}
+                ),
             )
             if multiple_port_layers:
                 if hasattr(layer_index, "name"):

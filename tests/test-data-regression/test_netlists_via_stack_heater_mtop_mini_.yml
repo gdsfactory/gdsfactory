@@ -1,9 +1,10 @@
 instances:
-  compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_eae1a523_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_f798e6a8_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: true
+      cross_section: null
       layer: HEATER
       port_inclusion: 0
       port_orientations:
@@ -15,11 +16,12 @@ instances:
       size:
       - 4
       - 4
-  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM2_P_c706cd7e_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM2_P_0801dba1_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: true
+      cross_section: null
       layer: M2
       port_inclusion: 0
       port_orientations:
@@ -31,11 +33,12 @@ instances:
       size:
       - 4
       - 4
-  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_10d85fb7_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: false
+      cross_section: metal_routing
       layer: M3
       port_inclusion: 0
       port_orientations:
@@ -89,17 +92,17 @@ instances:
       - 0.7
 nets: []
 placements:
-  compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_eae1a523_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S4_4_LHEAT_f798e6a8_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM2_P_c706cd7e_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM2_P_0801dba1_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_10d85fb7_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -115,7 +118,7 @@ placements:
     x: 0
     y: 0
 ports:
-  e1: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820_0_0,e1
-  e2: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820_0_0,e2
-  e3: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820_0_0,e3
-  e4: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_883c4820_0_0,e4
+  e1: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_10d85fb7_0_0,e1
+  e2: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_10d85fb7_0_0,e2
+  e3: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_10d85fb7_0_0,e3
+  e4: compass_gdsfactorypcomponentspshapespcompass_S4_4_LM3_P_10d85fb7_0_0,e4

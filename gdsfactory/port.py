@@ -170,7 +170,7 @@ def port_array(
 
     """
     from gdsfactory.cross_section.utils import get_port_cross_section, with_width
-    from gdsfactory.pdk import get_cross_section
+    from gdsfactory.pdk import get_cross_section, get_layer_port_type
 
     pitch_array = np.array(pitch)
     if "cross_section" in kwargs:
@@ -179,6 +179,7 @@ def port_array(
         kwargs.pop("layer", None)
     else:
         xs = get_port_cross_section(width, kwargs.pop("layer"), kf.kcl)
+    port_type = kwargs.get("port_type") or get_layer_port_type(xs.layer)
     info = dict(kwargs.get("info", {}))
     info["cross_section"] = xs.name
     return [
@@ -190,7 +191,7 @@ def port_array(
             ),
             orientation=orientation,
             cross_section=xs,
-            port_type=kwargs.get("port_type", "optical"),
+            port_type=port_type,
             info=info,
         )
         for i in range(n)

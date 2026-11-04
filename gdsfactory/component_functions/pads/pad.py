@@ -11,6 +11,7 @@ from gdsfactory.config import valid_port_orientations
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
+    CrossSectionSpec,
     Float2,
     Ints,
     LayerSpec,
@@ -20,13 +21,14 @@ from gdsfactory.typings import (
 
 def pad(
     size: Size | str = (100.0, 100.0),
-    layer: LayerSpec = "MTOP",
+    layer: LayerSpec | None = None,
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
     port_orientation: AngleInDegrees | None = 0,
     port_orientations: Ints | None = (180, 90, 0, -90),
     port_type: str = "pad",
+    cross_section: CrossSectionSpec | None = "metal_routing",
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -40,8 +42,19 @@ def pad(
         port_orientation: in degrees for the center port.
         port_orientations: list of port_orientations to add. None does not add ports.
         port_type: port type for pad port.
+        cross_section: profile of the pad ports, resized to each port's width.
+            Also gives the default layer. Not used for the ports if `layer` is a
+            different layer, as no profile of this cross section fits the pad.
     """
     c = Component()
+    if cross_section is not None:
+        xs_layer = gf.get_layer(gf.get_cross_section(cross_section).layer)
+        if layer is None:
+            layer = xs_layer
+        elif gf.get_layer(layer) != xs_layer:
+            cross_section = None
+    if layer is None:
+        raise ValueError("pad needs a layer or a cross_section")
     layer = gf.get_layer(layer)
     size_ = gf.get_constant(size)
     rect = get_component(
@@ -51,6 +64,7 @@ def pad(
         port_inclusion=port_inclusion,
         port_type="electrical",
         port_orientations=port_orientations,
+        **({"cross_section": cross_section} if cross_section is not None else {}),
     )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
@@ -64,13 +78,17 @@ def pad(
     width = size_[1] if port_orientation in {0, 180} else size_[0]
 
     if port_orientation is not None:
+        profile: dict[str, Any] = (
+            {"width": width, "layer": layer}
+            if cross_section is None
+            else {"cross_section": gf.get_cross_section(cross_section, width=width)}
+        )
         c.add_port(
             name="pad",
             port_type=port_type,
-            layer=layer,
             center=(0, 0),
             orientation=port_orientation,
-            width=width,
+            **profile,
         )
 
     if bbox_layers and bbox_offsets:
@@ -145,6 +163,14 @@ def pad_array(
         row_pitch=row_pitch,
     )
     width = pad_size[0] if int(port_orientation) in {90, 270} else pad_size[1]
+    pad_port = next((p for p in pad_component.ports if p.name == "pad"), None)
+    profile: dict[str, Any] = (
+        {"cross_section": pad_port.cross_section}
+        if pad_port is not None
+        and pad_port.width == width
+        and gf.get_layer(pad_port.layer) == gf.get_layer(pad_layer)
+        else {"width": width, "layer": pad_layer}
+    )
 
     for col in range(columns):
         for row in range(rows):
@@ -166,10 +192,9 @@ def pad_array(
             c.add_port(
                 name=f"e{row + 1}{col + 1}",
                 center=center,
-                width=width,
                 orientation=port_orientation,
                 port_type="electrical",
-                layer=pad_layer,
+                **profile,
             )
     if auto_rename_ports:
         c.auto_rename_ports()

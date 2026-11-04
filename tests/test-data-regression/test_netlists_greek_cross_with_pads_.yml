@@ -13,7 +13,7 @@ instances:
       widths:
       - 2
       - 3
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_200000_0:
     component: pad
     info:
       size:
@@ -24,7 +24,8 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
-      layer: MTOP
+      cross_section: metal_routing
+      layer: null
       port_inclusion: 0
       port_orientation: 0
       port_orientations:
@@ -36,7 +37,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_350000_0:
     component: pad
     info:
       size:
@@ -47,7 +48,8 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
-      layer: MTOP
+      cross_section: metal_routing
+      layer: null
       port_inclusion: 0
       port_orientation: 0
       port_orientations:
@@ -59,7 +61,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_500000_0:
     component: pad
     info:
       size:
@@ -70,7 +72,8 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
-      layer: MTOP
+      cross_section: metal_routing
+      layer: null
       port_inclusion: 0
       port_orientation: 0
       port_orientations:
@@ -82,7 +85,7 @@ instances:
       size:
       - 100
       - 100
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_50000_0:
     component: pad
     info:
       size:
@@ -93,7 +96,8 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
-      layer: MTOP
+      cross_section: metal_routing
+      layer: null
       port_inclusion: 0
       port_orientation: 0
       port_orientations:
@@ -105,13 +109,14 @@ instances:
       size:
       - 100
       - 100
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_200000_m55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: false
+      cross_section: metal_routing
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -132,13 +137,14 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_350000_55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: false
+      cross_section: metal_routing
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -159,13 +165,14 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_500000_55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: false
+      cross_section: metal_routing
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -186,13 +193,14 @@ instances:
       - via1
       - via2
       - null
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_50000_m55500:
     component: via_stack
     info:
       xsize: 11
       ysize: 11
     settings:
       correct_size: false
+      cross_section: metal_routing
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -220,48 +228,48 @@ placements:
     rotation: 0
     x: 275
     y: 0
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_200000_0:
     mirror: false
     rotation: 0
     x: 200
     y: 0
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_350000_0:
     mirror: false
     rotation: 0
     x: 350
     y: 0
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_500000_0:
     mirror: false
     rotation: 0
     x: 500
     y: 0
-  pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0:
+  pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_200000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_200000_m55500:
     mirror: false
     rotation: 0
     x: 200
     y: -55.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_350000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_350000_55500:
     mirror: false
     rotation: 0
     x: 350
     y: 55.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_500000_55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_500000_55500:
     mirror: false
     rotation: 0
     x: 500
     y: 55.5
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_11859c3a_50000_m55500:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S11_11_L_bc4df1c7_50000_m55500:
     mirror: false
     rotation: 0
     x: 50
     y: -55.5
 ports:
-  e1: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_50000_0,e4
-  e2: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_200000_0,e4
-  e3: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_350000_0,e4
-  e4: pad_gdsfactorypcomponentsppadsppad_S100_100_LMTOP_BLNon_457de54c_500000_0,e4
+  e1: pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_50000_0,e4
+  e2: pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_200000_0,e4
+  e3: pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_350000_0,e4
+  e4: pad_gdsfactorypcomponentsppadsppad_S100_100_LNone_BLNon_1b4ef636_500000_0,e4

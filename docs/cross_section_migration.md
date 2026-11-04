@@ -38,9 +38,39 @@ produce two strips; touching strips merge; fully shrunken bands disappear.
 `gf.cross_section.with_width(xs, width)` explicitly preserves the auxiliary
 strips' absolute bounds while replacing the main width.
 
-Port names, port types, variable widths and offsets, simplification, insets,
-and hidden strips belong to extrusion, not to a profile. Dictionaries below
-select indices in `get_sections()`:
+Port names, port types, simplification, insets and hidden strips can be set
+when creating a profile: `cross_section()` takes `port_names`, `port_types` and
+`cladding_simplify`, and `gf.cross_section.Section(layer, min, max, ...)` gives
+an auxiliary strip its own `port_names`, `port_types`, `insets`, `hidden` and
+`simplify`:
+
+```python
+from gdsfactory.cross_section import Section
+
+xs = gf.cross_section.cross_section(
+    width=0.5,
+    layer="WG",
+    port_names=("in", "out"),
+    sections=[
+        Section(
+            "HEATER", -1.25, 1.25,
+            port_names=("e1", "e2"), port_types="electrical", insets=(5, 5),
+        ),
+    ],
+)
+```
+
+These settings are stored once per profile geometry, in kfactory's
+`KCLayout.extrude_configs`, and apply to every extrusion of that geometry,
+whether it is referenced by name or by structure. Cross sections without such
+settings use the stored ones of their geometry, if any. Creating the same
+geometry with different settings raises an `ExtrudeConfigConflictError`.
+`with_width()` carries the settings over to the resized geometry.
+
+Variable widths and offsets belong to extrusion only. `extrude()` can also
+override the stored settings for a single extrusion; each setting passed
+replaces the stored one as a whole. Dictionaries below select indices in
+`get_sections()`:
 
 ```python
 component = gf.path.straight(10, npoints=101).extrude(
@@ -52,7 +82,7 @@ component = gf.path.straight(10, npoints=101).extrude(
 )
 ```
 
-`ports={}` suppresses all ports. Without an explicit map, the PDK's
+`ports={}` suppresses all ports. Without an explicit or stored map, the PDK's
 `layer_port_types` chooses the main port type and `auxiliary_port_types` chooses
 auxiliary layers with ports, keyed by `(main_layer, auxiliary_layer)` physical
 layer tuples. The generic PDK enables heater contacts this way.
@@ -71,8 +101,9 @@ Dynamic-width and offset extrusions attach the realized endpoint profile,
 including auxiliary strips, to each main port. A taper may end at zero width
 when that endpoint has no port: use a `None` endpoint name or `ports={}`.
 Copying an asymmetric port
-preserves its mirror state by default; connections between identical asymmetric
-profiles use `mirror=True, use_mirror=True`.
+preserves its mirror state by default. `connect()` takes the moving port's
+mirror state into account, so connecting the start port of an asymmetric
+extrusion to the end port of another needs no `mirror` flag.
 
 ## Regression changes
 

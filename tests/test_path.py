@@ -146,10 +146,10 @@ def transition() -> Component:
 
     wg1_ref = c << wg1
     wgt_ref = c << wg_trans
-    wgt_ref.connect("in1", wg1_ref.ports["out1"], mirror=True)
+    wgt_ref.connect("in1", wg1_ref.ports["out1"])
 
     wg2_ref = c << wg2
-    wg2_ref.connect("in1", wgt_ref.ports["out1"], mirror=True)
+    wg2_ref.connect("in1", wgt_ref.ports["out1"])
     return c
 
 

@@ -19,6 +19,7 @@ from gdsfactory.component_functions import CellAlias
 from gdsfactory.typings import (
     AngleInDegrees,
     ComponentSpec,
+    CrossSectionSpec,
     Float2,
     Ints,
     LayerSpec,
@@ -31,13 +32,14 @@ from .._schematic import pad_schematic
 @gf.cell_with_module_name(schematic_function=pad_schematic, tags=["pads"])
 def pad(
     size: Size | str = (100.0, 100.0),
-    layer: LayerSpec = "MTOP",
+    layer: LayerSpec | None = None,
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
     port_orientation: AngleInDegrees | None = 0,
     port_orientations: Ints | None = (180, 90, 0, -90),
     port_type: str = "pad",
+    cross_section: CrossSectionSpec | None = "metal_routing",
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -51,6 +53,9 @@ def pad(
         port_orientation: in degrees for the center port.
         port_orientations: list of port_orientations to add. None does not add ports.
         port_type: port type for pad port.
+        cross_section: profile of the pad ports, resized to each port's width.
+            Also gives the default layer. Not used for the ports if `layer` is a
+            different layer, as no profile of this cross section fits the pad.
     """
     return cf.pad(
         size=size,
@@ -61,6 +66,7 @@ def pad(
         port_orientation=port_orientation,
         port_orientations=port_orientations,
         port_type=port_type,
+        cross_section=cross_section,
     )
 
 

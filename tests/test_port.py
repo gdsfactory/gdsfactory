@@ -152,3 +152,27 @@ def test_add_port_preserves_info() -> None:
     # mutable info values are deep-copied, not shared with the source port
     promoted.info["tags"].append("c")
     assert child.ports["signal"].info["tags"] == ["a", "b"]
+
+
+@pytest.mark.parametrize(
+    ("layer", "port_type"),
+    [((1, 0), "optical"), ((41, 0), "electrical"), ((2, 0), "optical")],
+)
+def test_port_array_infers_port_type_from_layer(
+    layer: tuple[int, int], port_type: str
+) -> None:
+    ports = gf.port.port_array(layer=gf.get_layer(layer), n=3)
+
+    assert [port.port_type for port in ports] == [port_type] * 3
+
+
+def test_port_array_infers_port_type_from_cross_section() -> None:
+    ports = gf.port.port_array(cross_section="metal1", width=10)
+
+    assert [port.port_type for port in ports] == ["electrical"] * 2
+
+
+def test_port_array_explicit_port_type_overrides_layer() -> None:
+    ports = gf.port.port_array(layer=gf.get_layer((41, 0)), port_type="placement", n=2)
+
+    assert [port.port_type for port in ports] == ["placement"] * 2

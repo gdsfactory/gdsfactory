@@ -1,9 +1,10 @@
 instances:
-  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: false
+      cross_section: null
       layer: M1
       port_inclusion: 0
       port_orientations:
@@ -15,11 +16,12 @@ instances:
       size:
       - 11
       - 11
-  compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_e3416e15_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: true
+      cross_section: null
       layer: SLAB90
       port_inclusion: 0
       port_orientations:
@@ -83,12 +85,12 @@ instances:
       - 0.7
 nets: []
 placements:
-  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_b4ad9d31_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S11_11_LSL_e3416e15_0_0:
     mirror: false
     rotation: 0
     x: 0
@@ -104,7 +106,7 @@ placements:
     x: -4
     y: -4
 ports:
-  e1: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e1
-  e2: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e2
-  e3: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e3
-  e4: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_5f83f55d_0_0,e4
+  e1: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4_0_0,e1
+  e2: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4_0_0,e2
+  e3: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4_0_0,e3
+  e4: compass_gdsfactorypcomponentspshapespcompass_S11_11_LM1_fcccfca4_0_0,e4

@@ -1,9 +1,10 @@
 instances:
-  compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3927ea51_0_0:
     component: compass
     info: {}
     settings:
       auto_rename_ports: true
+      cross_section: null
       layer: HEATER
       port_inclusion: 0
       port_orientations:
@@ -15,13 +16,14 @@ instances:
       size:
       - 50
       - 10
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_fb54d920_50000_0:
     component: via_stack
     info:
       xsize: 50
       ysize: 50
     settings:
       correct_size: false
+      cross_section: metal_routing
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -42,13 +44,14 @@ instances:
       - null
       - via1
       - via2
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_fb54d920_m50000_0:
     component: via_stack
     info:
       xsize: 50
       ysize: 50
     settings:
       correct_size: false
+      cross_section: metal_routing
       layer_offsets: null
       layer_to_port_orientations: null
       layers:
@@ -71,21 +74,21 @@ instances:
       - via2
 nets: []
 placements:
-  compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3ed28489_0_0:
+  compass_gdsfactorypcomponentspshapespcompass_S50_10_LHE_3927ea51_0_0:
     mirror: false
     rotation: 0
     x: 0
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_fb54d920_50000_0:
     mirror: false
     rotation: 0
     x: 50
     y: 0
-  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0:
+  via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_fb54d920_m50000_0:
     mirror: false
     rotation: 0
     x: -50
     y: 0
 ports:
-  pad1: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_m50000_0,e4
-  pad2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_9a4138d6_50000_0,e4
+  pad1: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_fb54d920_m50000_0,e4
+  pad2: via_stack_gdsfactorypcomponentspviaspvia_stack_S50_50_L_fb54d920_50000_0,e4
