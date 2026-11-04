@@ -471,13 +471,10 @@ class LayerView(BaseModel):
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
 
         Args:
-            mode: The mode in which `to_python` should run.
-                If mode is 'json', the dictionary will only contain JSON serializable types.
-                If mode is 'python', the dictionary may contain any Python objects.
             include: A list of fields to include in the output.
             exclude: A list of fields to exclude from the output.
             by_alias: Whether to use the field's alias in the dictionary key if defined.
-            exclude_unset: Whether to exclude fields that are unset or None from the output.
+            exclude_unset: Whether to exclude fields that have not been explicitly set.
             exclude_defaults: Whether to exclude fields that are set to their default value from the output.
             exclude_none: Whether to exclude fields that have a value of `None` from the output.
             simplify: Whether to consolidate fill and frame color/brightness if they are the same.

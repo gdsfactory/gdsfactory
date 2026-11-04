@@ -630,7 +630,6 @@ def cell_from_yaml(
         routing_strategies: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        kwargs: function settings for creating YAML PCells.
 
         valid variables:
 

@@ -1178,7 +1178,6 @@ class Component(ComponentBase, kf.DKCell):
         """Return Component 3D trimesh Scene.
 
         Args:
-            component: to extrude in 3D.
             layer_views: layer colors from Klayout Layer Properties file.
                 Defaults to active PDK.layer_views.
             layer_stack: contains thickness and zmin for each layer.

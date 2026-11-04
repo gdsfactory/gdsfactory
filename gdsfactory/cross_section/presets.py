@@ -533,7 +533,6 @@ def gsg(
         trace_width: in um.
         layer: metal layer.
         gap: between metal lines in um.
-        layer_port: port layer.
         radius: bend radius. Optional, defaults to 3*width+2*gap.
     """
     width = trace_width
