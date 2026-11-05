@@ -444,8 +444,15 @@ def test_reactivate_pdk_registers_missing_layer_at_enum_index(
         assert c.shapes(target_index).is_empty()
 
 
-def test_reactivate_pdk_restores_swapped_layers(restore_kcl_state: None) -> None:
-    """Two PDK layers registered at each other's enum index are both restored."""
+@pytest.mark.parametrize("locked", [False, True], ids=["unlocked", "locked"])
+def test_reactivate_pdk_restores_swapped_layers(
+    restore_kcl_state: None, locked: bool
+) -> None:
+    """Two PDK layers registered at each other's enum index are both restored.
+
+    KLayout refuses to move layers while any cell is locked (as cached cells are),
+    so this must also work with a locked cell.
+    """
     gf.gpdk.PDK.activate(force=True)
 
     layout = gf.kcl.layout
@@ -459,6 +466,8 @@ def test_reactivate_pdk_restores_swapped_layers(restore_kcl_state: None) -> None
     wg_box, slab_box = kf.kdb.Box(0, 0, 5, 5), kf.kdb.Box(0, 0, 3, 3)
     c.shapes(slab_index).insert(wg_box)  # currently holds (1, 0)
     c.shapes(wg_index).insert(slab_box)  # currently holds (3, 0)
+    if locked:
+        c.lock()
 
     gf.gpdk.PDK.activate(force=True)  # same PDK, so the layout is not cleared
 
@@ -474,6 +483,7 @@ def test_reactivate_pdk_restores_swapped_layers(restore_kcl_state: None) -> None
     ]
     assert registered.count((1, 0)) == 1
     assert registered.count((3, 0)) == 1
+    assert c.locked is locked
 
 
 @pytest.mark.parametrize(

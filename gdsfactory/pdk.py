@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import pathlib
 import warnings
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from functools import cached_property, partial
 from typing import Any, cast, overload
 
@@ -875,8 +876,9 @@ def _set_active_pdk(pdk: Pdk) -> None:
     # Setting `kcl.infos` rebuilds `kcl.layers`, whose members reuse each layer's
     # existing index in the layout, so put the PDK layers at their enum indexes first.
     if pdk.layers is not None:
-        _prune_foreign_layers(pdk)
-        _ensure_pdk_layers_registered(pdk)
+        with _cells_unlocked(kf.kcl.layout):
+            _prune_foreign_layers(pdk)
+            _ensure_pdk_layers_registered(pdk)
         kf.kcl.infos = kf.LayerInfos(
             **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in pdk.layers},  # type: ignore[attr-defined]
         )
@@ -960,6 +962,19 @@ def _prune_foreign_layers(pdk: Pdk) -> None:
             logger.opt(exception=True).debug(
                 "Could not delete empty inactive layer {}", info
             )
+
+
+@contextlib.contextmanager
+def _cells_unlocked(layout: kf.kdb.Layout) -> Iterator[None]:
+    """Temporarily unlock every locked cell of a layout, relocking them on exit."""
+    locked = [cell for cell in layout.each_cell() if cell.locked]
+    try:
+        for cell in locked:
+            cell.locked = False
+        yield
+    finally:
+        for cell in locked:
+            cell.locked = True
 
 
 def get_routing_strategies() -> RoutingStrategies:
