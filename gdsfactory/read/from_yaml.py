@@ -902,6 +902,7 @@ def _get_references(
                     inst.array.pitch_b[1],
                 ),
             )
+            ref.name = name
         else:
             if inst.virtual or isinstance(comp, ComponentAllAngle):
                 ref = c.add_ref_off_grid(comp)

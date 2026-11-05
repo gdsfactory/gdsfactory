@@ -445,3 +445,21 @@ def test_get_netlist_array_element_ports_roundtrip(
         gf.kdb.Region(c.begin_shapes_rec(layer))
         ^ gf.kdb.Region(rebuilt.begin_shapes_rec(layer))
     ).is_empty()
+
+
+@pytest.mark.parametrize("reversed_axes", [False, True])
+def test_get_netlist_array_name_roundtrip(reversed_axes: bool) -> None:
+    """Array instance names survive a netlist/YAML round trip."""
+    c = gf.Component()
+    a, b = gf.kdb.DVector(20, 0), gf.kdb.DVector(0, 30)
+    if reversed_axes:
+        a, b = b, a
+    ref = c.create_inst(gf.components.straight(length=10), a=a, b=b, na=3, nb=2)
+    ref.name = "array"
+
+    netlist = c.get_netlist(on_dangling_port="ignore")
+    rebuilt = gf.read.from_yaml(netlist)
+
+    assert rebuilt.insts["array"].name == "array"
+    rebuilt_netlist = rebuilt.get_netlist(on_dangling_port="ignore")
+    assert list(rebuilt_netlist["instances"]) == list(netlist["instances"])
