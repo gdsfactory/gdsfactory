@@ -1290,6 +1290,110 @@ class LayerViews(BaseModel):
         )
 
 
+LAYER_VIEWS_SCHEMA_URL = "https://raw.githubusercontent.com/gdsfactory/gdsfactory/main/gdsfactory/technology/layer_views.schema.json"
+LAYER_VIEWS_SCHEMA_PATH = pathlib.Path(__file__).parent / "layer_views.schema.json"
+
+
+def _split_docstring(doc: str) -> tuple[str, builtins.dict[str, str]]:
+    """Split a Google-style docstring into its summary and its Attributes."""
+    import inspect
+
+    summary, _, attributes = inspect.cleandoc(doc).partition("Attributes:")
+    descriptions: builtins.dict[str, str] = {}
+    name = None
+    for line in attributes.splitlines():
+        match = re.match(r"^\s{4}(\w+): (.*)", line)
+        if match:
+            name, text = match.groups()
+            descriptions[name] = text
+        elif name and line.strip():
+            descriptions[name] += " " + line.strip()
+    return summary.strip(), descriptions
+
+
+def get_layer_views_yaml_schema() -> builtins.dict[str, Any]:
+    """Return the JSON Schema of the YAML file read by `LayerViews.from_yaml`.
+
+    The schema is derived from the `LayerView`, `HatchPattern` and `LineStyle`
+    models, plus the shorthand keyword arguments accepted by `LayerView`
+    (`color`, `brightness`, `gds_layer`, `gds_datatype`).
+    Use it from a YAML file with a modeline such as::
+
+        # yaml-language-server: $schema=<LAYER_VIEWS_SCHEMA_URL>
+    """
+    defs: builtins.dict[str, Any] = {}
+    for model in (LayerView, HatchPattern, LineStyle):
+        schema = model.model_json_schema(ref_template="#/$defs/{model}")
+        defs.update(schema.pop("$defs", {}))
+        if "$ref" in schema:  # recursive models are emitted as a reference
+            schema = defs[model.__name__]
+        schema["properties"].pop("name", None)
+        schema["description"], descriptions = _split_docstring(model.__doc__ or "")
+        for field, description in descriptions.items():
+            if field in schema["properties"]:
+                schema["properties"][field]["description"] = description
+        schema["additionalProperties"] = False
+        defs[model.__name__] = schema
+
+    properties = defs["LayerView"]["properties"]
+    properties["color"] = {
+        **properties["fill_color"],
+        "title": "Color",
+        "description": "Sets both fill_color and frame_color.",
+    }
+    properties["brightness"] = {
+        "type": "integer",
+        "title": "Brightness",
+        "description": "Sets both fill_brightness and frame_brightness.",
+    }
+    for name in ("gds_layer", "gds_datatype"):
+        properties[name] = {
+            "type": "integer",
+            "title": name.replace("_", " ").capitalize(),
+            "description": "Alternative to 'layer'; give both gds_layer and gds_datatype.",
+        }
+    properties["hatch_pattern"]["anyOf"].insert(
+        0, {"enum": list(_klayout_dither_patterns)}
+    )
+    properties["line_style"]["anyOf"].insert(0, {"enum": list(_klayout_line_styles)})
+
+    return {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": LAYER_VIEWS_SCHEMA_URL,
+        "title": "gdsfactory LayerViews YAML",
+        "description": "Layer display properties read by gdsfactory.technology.LayerViews.from_yaml.",
+        "type": "object",
+        "properties": {
+            "LayerViews": {
+                "type": "object",
+                "additionalProperties": {"$ref": "#/$defs/LayerView"},
+            },
+            "CustomDitherPatterns": {
+                "type": "object",
+                "additionalProperties": {"$ref": "#/$defs/HatchPattern"},
+            },
+            "CustomLineStyles": {
+                "type": "object",
+                "additionalProperties": {"$ref": "#/$defs/LineStyle"},
+            },
+        },
+        "required": ["LayerViews"],
+        "additionalProperties": False,
+        "$defs": defs,
+    }
+
+
+def write_layer_views_yaml_schema(
+    filepath: PathLike = LAYER_VIEWS_SCHEMA_PATH,
+) -> None:
+    """Write the LayerViews YAML JSON Schema to filepath."""
+    import json
+
+    pathlib.Path(filepath).write_text(
+        json.dumps(get_layer_views_yaml_schema(), indent=2) + "\n"
+    )
+
+
 def test_load_lyp() -> None:
     """Test loading a KLayout layer properties."""
     from gdsfactory.config import PATH
