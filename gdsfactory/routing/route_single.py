@@ -244,9 +244,6 @@ def route_single(
                 for p in cast("Sequence[gf.kdb.DPoint]", waypoints_list)
             ]
 
-        kf_on_placer_error = (
-            "error" if on_placer_error == "warning" else on_placer_error
-        )
         try:
             return place_manhattan(
                 component.to_itype(),
@@ -323,10 +320,8 @@ def route_single(
             )
 
     else:
-        kf_on_collision = to_kf_error_action(on_collision)
-        kf_on_placer_error = to_kf_error_action(on_placer_error)
         try:
-            return kf.routing.optical.route_bundle(
+            routes = kf.routing.optical.route_bundle(
                 c=component,
                 start_ports=[p1],
                 end_ports=[p2],
@@ -338,9 +333,9 @@ def route_single(
                 place_port_type=port_type,
                 allow_width_mismatch=allow_width_mismatch,
                 route_width=route_width,
-                on_collision=kf_on_collision,
-                on_placer_error=kf_on_placer_error,
-            )[0]
+                on_collision=to_kf_error_action(on_collision),
+                on_placer_error=to_kf_error_action(on_placer_error),
+            )
         except Exception as e:
             if raise_on_error or on_placer_error == "error" or on_collision == "error":
                 raise
@@ -351,21 +346,25 @@ def route_single(
             if on_placer_error == "warning" or on_collision == "warning":
                 gf.logger.error(f"Error in route_single: {e}")
                 warnings.warn(f"Routing failed: {e}", stacklevel=2)
+        else:
+            # No routes returned if placement fails with on_placer_error="ignore"
+            if routes:
+                return routes[0]
 
-            layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
-            route = kf.routing.electrical.route_bundle(
-                component,
-                [p1],
-                [p2],
-                separation=0,
-                starts=start_straight_length,
-                ends=end_straight_length,
-                on_collision=None,
-                on_placer_error=None,
-                route_width=width,
-                place_layer=layer_error_path,
-            )
-            return route[0]
+        layer_error_path = gf.get_layer_info(gf.CONF.layer_error_path)
+        route = kf.routing.electrical.route_bundle(
+            component,
+            [p1],
+            [p2],
+            separation=0,
+            starts=start_straight_length,
+            ends=end_straight_length,
+            on_collision=None,
+            on_placer_error=None,
+            route_width=width,
+            place_layer=layer_error_path,
+        )
+        return route[0]
 
 
 def route_single_electrical(

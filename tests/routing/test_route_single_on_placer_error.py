@@ -7,6 +7,7 @@ from kfactory.routing.generic import PlacerError
 
 import gdsfactory as gf
 from gdsfactory.config import CONF
+from gdsfactory.typings import Step
 
 
 def _make_failing_route_args() -> tuple[gf.Component, gf.Port, gf.Port, list[dict]]:
@@ -39,22 +40,6 @@ def test_route_single_on_placer_error_none() -> None:
             cross_section="strip",
             steps=steps,
             on_placer_error=None,
-        )
-    assert route is not None
-
-
-def test_route_single_on_placer_error_ignore() -> None:
-    """on_placer_error='ignore' silently falls back to error markers."""
-    c, p1, p2, steps = _make_failing_route_args()
-    with warnings.catch_warnings():
-        warnings.simplefilter("error")
-        route = gf.routing.route_single(
-            c,
-            p1,
-            p2,
-            cross_section="strip",
-            steps=steps,
-            on_placer_error="ignore",
         )
     assert route is not None
 
@@ -130,23 +115,6 @@ def test_route_single_raise_on_error() -> None:
         )
 
 
-def test_route_single_raise_on_error_ignore() -> None:
-    """raise_on_error=True does not override on_placer_error='ignore'."""
-    c, p1, p2, steps = _make_failing_route_args()
-    with warnings.catch_warnings():
-        warnings.simplefilter("error")
-        route = gf.routing.route_single(
-            c,
-            p1,
-            p2,
-            cross_section="strip",
-            steps=steps,
-            on_placer_error="ignore",
-            raise_on_error=True,
-        )
-    assert route is not None
-
-
 def _make_colliding_route_args() -> tuple[gf.Component, gf.Port, gf.Port]:
     """Return (component, port1, port2) whose auto-route (no steps) collides."""
     c = gf.Component()
@@ -179,3 +147,34 @@ def test_route_single_raise_on_error_defaults_to_conf(
     c, p1, p2 = _make_colliding_route_args()
     with pytest.raises(RuntimeError, match="Routing collision"):
         gf.routing.route_single(c, p1, p2, cross_section="strip")
+
+
+def _failing_straight(**kwargs: object) -> gf.Component:
+    raise ValueError("straight cannot be placed")
+
+
+@pytest.mark.parametrize("raise_on_error", [False, True])
+@pytest.mark.parametrize("steps", [None, [{"dx": 20}]])
+def test_route_single_on_placer_error_ignore(
+    steps: list[Step] | None, raise_on_error: bool
+) -> None:
+    """on_placer_error='ignore' silently falls back to error markers."""
+    c = gf.Component()
+    s1 = c << gf.components.straight(length=5, cross_section="strip")
+    s2 = c << gf.components.straight(length=5, cross_section="strip")
+    s2.dmove((50, 0))
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        route = gf.routing.route_single(
+            c,
+            s1.ports["o2"],
+            s2.ports["o1"],
+            cross_section="strip",
+            straight=_failing_straight,
+            steps=steps,
+            on_placer_error="ignore",
+            raise_on_error=raise_on_error,
+        )
+    assert route is not None
+    layer_error = c.kcl.layer(*gf.CONF.layer_error_path)
+    assert not c.shapes(layer_error).is_empty()
