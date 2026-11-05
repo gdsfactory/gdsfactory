@@ -7,6 +7,7 @@ from gdsfactory.routing.utils import (
     direction_ports_from_list_ports,
     get_default_bend,
     get_list_ports_angle,
+    to_kf_error_action,
     validate_bend90,
 )
 from gdsfactory.typings import Port
@@ -246,3 +247,17 @@ def test_validate_bend90_default_is_not_suggested() -> None:
     with pytest.raises(BendPortTypeError, match="0 'optical' ports") as excinfo:
         validate_bend90(bend, "optical", "bend_euler")
     assert "Use bend=" not in str(excinfo.value)
+
+
+@pytest.mark.parametrize(
+    ("action", "expected"),
+    [
+        ("error", "error"),
+        ("show_error", "show_error"),
+        ("warning", "error"),
+        ("ignore", None),
+        (None, None),
+    ],
+)
+def test_to_kf_error_action(action: str | None, expected: str | None) -> None:
+    assert to_kf_error_action(action) == expected  # type: ignore[arg-type]
