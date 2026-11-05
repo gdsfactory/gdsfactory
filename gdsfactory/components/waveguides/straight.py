@@ -46,7 +46,7 @@ def straight(
     )
 
 
-@gf.vcell
+@gf.vcell(tags=["waveguides"])
 def straight_all_angle(
     length: float = 10.0,
     npoints: int = 2,

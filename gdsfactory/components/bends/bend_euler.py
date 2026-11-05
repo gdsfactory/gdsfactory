@@ -111,7 +111,7 @@ def bend_euler(
     )
 
 
-@gf.vcell
+@gf.vcell(tags=["bends"])
 def bend_euler_all_angle(
     radius: float | None = None,
     angle: float = 90.0,
