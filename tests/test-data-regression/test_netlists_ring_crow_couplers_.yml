@@ -135,7 +135,7 @@ instances:
     component: coupler
     info:
       min_bend_radius: 11.857
-      path_length: 40.372
+      path_length: 40.373
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -148,7 +148,7 @@ instances:
     component: coupler
     info:
       min_bend_radius: 11.857
-      path_length: 40.372
+      path_length: 40.373
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -161,7 +161,7 @@ instances:
     component: coupler
     info:
       min_bend_radius: 11.857
-      path_length: 40.372
+      path_length: 40.373
     settings:
       allow_min_radius_violation: false
       bend: bend_s
@@ -174,7 +174,7 @@ instances:
     component: coupler
     info:
       min_bend_radius: 11.857
-      path_length: 40.372
+      path_length: 40.373
     settings:
       allow_min_radius_violation: false
       bend: bend_s
