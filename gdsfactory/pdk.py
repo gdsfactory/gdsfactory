@@ -13,6 +13,7 @@ import kfactory as kf
 import yaml
 from kfactory.layer import LayerEnum
 from kfactory.layout import Constants
+from pdk_schema import MaterialCard
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
 from gdsfactory import logger
@@ -157,6 +158,8 @@ class Pdk(BaseModel):
             float: refractive index.
             float, float: refractive index real and imaginary part.
             function: function of wavelength.
+        material_cards: canonical material names to pdk-schema MaterialCards.
+        material_aliases: legacy names to canonical material names.
         routing_strategies: functions enabled to route.
         bend_points_distance: default points distance for bends in um.
         connectivity: defines connectivity between layers through vias.
@@ -196,6 +199,8 @@ class Pdk(BaseModel):
     layer_transitions: LayerTransitions = Field(default_factory=dict)
     constants: Constants = Field(default_factory=Constants)
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
+    material_cards: dict[str, MaterialCard] = Field(default_factory=dict)
+    material_aliases: dict[str, str] = Field(default_factory=dict)
     routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
     connectivity: Sequence[ConnectivitySpec] | None = None
@@ -249,6 +254,19 @@ class Pdk(BaseModel):
         self.cross_sections = cross_sections
         self.cells = cells
         self.containers = containers
+        for field in ("material_cards", "material_aliases"):
+            inherited = {}
+            for pdk in (*self.base_pdks, self):
+                inherited.update(getattr(pdk, field))
+            setattr(self, field, inherited)
+        self.material_cards = {
+            name: card
+            if isinstance(card, MaterialCard)
+            else MaterialCard.model_validate(card)
+            for name, card in self.material_cards.items()
+        }
+        for alias in self.material_aliases:
+            self.get_material_card(alias)
         for field in (
             "port_cross_sections",
             "layer_port_types",
@@ -263,6 +281,24 @@ class Pdk(BaseModel):
                         key = _layer_key(key)
                     conventions[key] = value
             setattr(self, field, conventions)
+
+    def get_material_card(self, name: str) -> MaterialCard:
+        """Return a canonical card, resolving explicitly declared aliases.
+
+        Material names remain case sensitive. Aliases must terminate at a card;
+        cycles and missing targets are rejected during PDK construction.
+        """
+        seen: set[str] = set()
+        while name in self.material_aliases:
+            if name in seen:
+                raise ValueError(f"Material alias cycle at {name!r}")
+            seen.add(name)
+            name = self.material_aliases[name]
+        if name not in self.material_cards:
+            raise ValueError(
+                f"Material card {name!r} is missing from PDK {self.name!r}"
+            )
+        return self.material_cards[name]
 
     def xsection[**P](self, func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
         """Decorator to register a cross section function.

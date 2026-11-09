@@ -22,6 +22,7 @@ dependencies = [
   "pydantic>=2",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
+  "pdk-schema>=0.3,<0.4",
   "pyyaml",
   "qrcode",
   "rectpack<1",
