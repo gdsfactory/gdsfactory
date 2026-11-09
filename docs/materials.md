@@ -17,7 +17,8 @@ index = get_refractive_index("Si", 1.55)  # wavelength in µm; returns n + i*k
 `Pdk.material_cards` maps canonical names to `MaterialCard` instances.
 `Pdk.material_aliases` maps compatibility names to those canonical names.
 Both registries are inherited from base PDKs; derived PDK entries take precedence.
-Use `get_material_card(name)` to resolve an alias. Aliases remain case sensitive;
+Use `get_material_card(name)` to resolve an alias. Exact cards take precedence
+over inherited aliases. Aliases remain case sensitive;
 the generic PDK retains `si`, `sio2`, `sin`, `ge`, `air`, `silicon`, and `Oxide`.
 Existing Si, SiO2 and SiN `materials_index` callables and their numerical values
 are unchanged. Canonical names are also available in `materials_index`.

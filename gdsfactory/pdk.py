@@ -285,11 +285,12 @@ class Pdk(BaseModel):
     def get_material_card(self, name: str) -> MaterialCard:
         """Return a canonical card, resolving explicitly declared aliases.
 
-        Material names remain case sensitive. Aliases must terminate at a card;
+        Material names remain case sensitive; exact cards take precedence over
+        aliases. Aliases must terminate at a card;
         cycles and missing targets are rejected during PDK construction.
         """
         seen: set[str] = set()
-        while name in self.material_aliases:
+        while name not in self.material_cards and name in self.material_aliases:
             if name in seen:
                 raise ValueError(f"Material alias cycle at {name!r}")
             seen.add(name)

@@ -106,6 +106,21 @@ def test_material_alias_cycles_and_missing_targets_are_rejected() -> None:
         gf.Pdk(name="missing", material_aliases={"a": "missing"})
 
 
+def test_exact_card_overrides_an_inherited_alias() -> None:
+    base = gf.Pdk(
+        name="alias-base",
+        material_cards={"Air": MATERIAL_CARDS["Air"]},
+        material_aliases={"air": "Air", "ambient": "air"},
+    )
+    custom = MATERIAL_CARDS["Air"].model_copy(
+        update={"name": "air", "info": {"distinct": True}}
+    )
+    child = gf.Pdk(name="alias-child", base_pdks=[base], material_cards={"air": custom})
+    assert child.get_material_card("air") is custom
+    assert child.get_material_card("ambient") is custom
+    assert child.get_material_card("Air") is MATERIAL_CARDS["Air"]
+
+
 @pytest.mark.parametrize(
     ("filename", "checksum"),
     [
