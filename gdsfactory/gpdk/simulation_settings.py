@@ -79,7 +79,6 @@ SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()
 materials_index: dict[str, MaterialSpec] = {
     name: partial(get_refractive_index, name) for name in MATERIAL_CARDS
 }
-materials_index.update({"Si": si, "SiO2": sio2, "SiN": sin})
 materials_index.update(
     {alias: materials_index[name] for alias, name in MATERIAL_ALIASES.items()}
 )

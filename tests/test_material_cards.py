@@ -5,7 +5,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from pdk_schema import Index, MaterialCard
+from pdk_schema import Index, MaterialCard, Permittivity, Sellmeier
 
 import gdsfactory as gf
 from gdsfactory.gpdk.material_cards import (
@@ -41,25 +41,25 @@ def test_legacy_material_names_resolve_to_the_canonical_card(name: str) -> None:
 
 
 @pytest.mark.parametrize(("name", "legacy"), [("Si", si), ("SiO2", sio2), ("SiN", sin)])
-def test_existing_material_indices_are_preserved(name: str, legacy: object) -> None:
-    wavelengths = np.array([0.6, 1.0, 1.31, 1.55, 2.0])
-    expected = legacy(wavelengths)  # type: ignore[operator]
-    actual = get_refractive_index(name, wavelengths)
-    np.testing.assert_allclose(actual.real, expected, rtol=0, atol=1e-12)
-    np.testing.assert_array_equal(actual.imag, np.zeros(wavelengths.shape))
+def test_legacy_helpers_remain_available(name: str, legacy: object) -> None:
+    expected = {"Si": 3.475209925, "SiO2": 1.457742845, "SiN": 1.99836337}
+    assert legacy(1.55) == pytest.approx(expected[name])  # type: ignore[operator]
 
 
 @pytest.mark.parametrize(
     ("name", "expected"),
     [
-        ("Ge", 4.25 + 0.02519j),
-        ("Aluminum", 1.5785092140921408 + 15.658109304426379j),
-        ("TiN", 2.171641930835735 + 8.003816829971182j),
+        ("Si", 3.475687046286856 + 0j),
+        ("SiO2", 1.4440236217032607 + 0j),
+        ("SiN", 1.9962797317138814 + 0j),
+        ("Ge", 4.273992922541563 + 0.034421802663521725j),
+        ("Aluminum", 1.5355447156902056 + 15.330400044680754j),
+        ("TiN", 2.247078930025222 + 8.040529194916765j),
         ("Air", 1 + 0j),
     ],
 )
 def test_published_reference_indices_at_1550_nm(name: str, expected: complex) -> None:
-    """Check independent anchors from the cited reference tables, including loss."""
+    """Keep the public reference evaluations stable, including optical loss."""
     assert get_refractive_index(name, 1.55) == pytest.approx(expected, rel=1e-12)
 
 
@@ -68,7 +68,7 @@ def test_material_tables_refuse_extrapolation(name: str) -> None:
     card = MATERIAL_CARDS[name]
     assert card.optical is not None
     model = card.optical.permittivity
-    assert isinstance(model, Index)
+    assert isinstance(model, (Index, Permittivity, Sellmeier))
     assert model.validity is not None and model.validity.over is not None
     band = model.validity.over["wavelength"]
     for wavelength in (band.min / 2, band.max * 2):
@@ -121,28 +121,117 @@ def test_exact_card_overrides_an_inherited_alias() -> None:
     assert child.get_material_card("Air") is MATERIAL_CARDS["Air"]
 
 
+def test_primary_germanium_extract_is_preserved() -> None:
+    path = Path(gf.__file__).parent / "gpdk/material_data/ge_emminger_300k.csv"
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == (
+        "cdb91c62c28d9b81552b05a0528e22e0a035ef88858650f8d94c165bf90d1fc1"
+    )
+
+
 @pytest.mark.parametrize(
-    ("filename", "checksum"),
+    ("energy_ev", "real", "imaginary"),
     [
-        (
-            "ge_nunley.yml",
-            "66dccd2ba3b1ad91abbc6322766086a1d60039f927fcd6816213bf13df7d5997",
-        ),
-        (
-            "aluminum_rakic.yml",
-            "e93b31fe821551836e5b000949c67c633b8a1ca1f2c5549f4db0f1c03b24844d",
-        ),
-        (
-            "tin_beliaev.yml",
-            "6829a77084160e17d9351de8d7456f1bf8178bd83ad5cc61c2e3bffd44c425fb",
-        ),
+        (0.5, 16.8101094, 3.64715557e-7),
+        (0.8, 18.2663541, 0.29571374),
+        (1.0, 18.8456859, 0.83963444),
+        (2.0, 31.2538827, 11.6236605),
     ],
 )
-def test_reference_data_is_preserved_verbatim(filename: str, checksum: str) -> None:
-    import gdsfactory.gpdk.material_cards as module
+def test_germanium_matches_author_corrected_permittivity(
+    energy_ev: float,
+    real: float,
+    imaginary: float,
+) -> None:
+    """Independent anchors in Emminger's original workbook, Fit / 300 sheet."""
+    from scipy.constants import c, electron_volt, h
 
-    path = Path(module.__file__).with_name("material_data") / filename
-    assert hashlib.sha256(path.read_bytes()).hexdigest() == checksum
+    wavelength = h * c / electron_volt * 1e6 / energy_ev
+    assert get_refractive_index("Ge", wavelength) ** 2 == pytest.approx(
+        complex(real, imaginary),
+        rel=3e-8,
+    )
+
+
+@pytest.mark.parametrize(
+    ("temperature", "expected"),
+    [(100, 3.4467), (293, 3.4757), (750, 3.5767)],
+)
+def test_silicon_matches_li_recommended_indices(
+    temperature: float, expected: float
+) -> None:
+    """Li (1980) Table 1 at 1.55 um, rounded to the table's printed precision."""
+    model = MATERIAL_CARDS["Si"].optical.permittivity
+    table = model.n.data
+    shape = (
+        len(table.coords["wavelength"].values),
+        len(table.coords["temperature"].values),
+    )
+    values = np.asarray(table.values).reshape(shape)
+    index = values[
+        table.coords["wavelength"].values.index(1.55),
+        table.coords["temperature"].values.index(temperature),
+    ]
+    assert index == pytest.approx(expected, abs=5e-5)
+
+
+@pytest.mark.parametrize("name", ["Aluminum", "TiN"])
+def test_metal_table_interpolation_matches_published_equations(name: str) -> None:
+    from gdsfactory.gpdk.material_models import aluminum_index, tin_index
+
+    model = aluminum_index if name == "Aluminum" else tin_index
+    wavelengths = np.linspace(0.301, 1.599, 607)
+    np.testing.assert_allclose(
+        get_refractive_index(name, wavelengths), model(wavelengths), rtol=2e-5
+    )
+
+
+def test_metal_passivity_and_primary_coefficient_conversion() -> None:
+    """Re-express the paper's complex oscillator equation as independent real parts."""
+    from scipy.constants import c, electron_volt, h
+
+    wavelength = 1.31
+    energy = h * c / electron_volt * 1e6 / wavelength
+    parameters = {
+        "Aluminum": (
+            1,
+            14.98**2 * 0.523,
+            0.047,
+            [
+                (0.227 * 14.98**2, 0.162, 0.333),
+                (0.05 * 14.98**2, 1.544, 0.312),
+                (0.166 * 14.98**2, 1.808, 1.351),
+                (0.03 * 14.98**2, 3.473, 3.382),
+            ],
+        ),
+        "TiN": (
+            3.558,
+            7.44**2,
+            0.416,
+            [(3.819 * 4.802**2, 4.802, 2.4), (0.997 * 2.024**2, 2.024, 1.617)],
+        ),
+    }
+    for name, (offset, plasma_squared, damping, terms) in parameters.items():
+        real = offset - plasma_squared / (energy**2 + damping**2)
+        imaginary = plasma_squared * damping / (energy * (energy**2 + damping**2))
+        for strength, resonance, width in terms:
+            difference = resonance**2 - energy**2
+            denominator = difference**2 + (width * energy) ** 2
+            real += strength * difference / denominator
+            imaginary += strength * width * energy / denominator
+        index = get_refractive_index(name, wavelength)
+        assert index.real > 0 and index.imag > 0
+        assert index**2 == pytest.approx(complex(real, imaginary), rel=2e-5)
+
+
+def test_cards_have_primary_provenance_and_strict_validity() -> None:
+    for name, card in MATERIAL_CARDS.items():
+        assert card.rf is None
+        assert card.optical is not None
+        if name != "Air":
+            assert card.optical.provenance is not None
+            assert card.optical.provenance.source == "literature"
+            assert card.optical.provenance.citations
+            assert card.optical.permittivity.validity.on_out_of_range == "raise"
 
 
 def test_lumerical_canonical_names_retain_existing_catalog_mapping() -> None:

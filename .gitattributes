@@ -1,5 +1,5 @@
 *.gds binary
 *.oas binary
 
-# Reference-table checksums must be identical on every platform.
-gdsfactory/gpdk/material_data/*.yml text eol=lf
+# Primary-data extracts must be identical on every platform.
+gdsfactory/gpdk/material_data/*.csv text eol=lf

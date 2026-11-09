@@ -1230,7 +1230,7 @@ requires-dist = [
     { name = "omegaconf", marker = "extra == 'full'" },
     { name = "orjson", specifier = "<4" },
     { name = "pandas" },
-    { name = "pdk-schema", specifier = ">=0.3,<0.4" },
+    { name = "pdk-schema" },
     { name = "plotly", marker = "extra == 'docs'" },
     { name = "pre-commit", marker = "extra == 'dev'" },
     { name = "pydantic", specifier = ">=2" },
