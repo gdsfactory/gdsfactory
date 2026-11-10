@@ -94,7 +94,7 @@ def test_all_angle_instance_is_virtual_and_connected() -> None:
 def test_all_angle_real_instance_round_trip() -> None:
     c = gf.Component()
     s = c << gf.components.straight(length=5)
-    b = c.add_ref_off_grid(gf.components.bend_euler_all_angle(angle=90))
+    b = c.add_ref_off_grid(gf.components.bend_euler_all_angle(radius=20))
     b.connect("o1", s.ports["o2"])
     c.insert_vinsts()
 
