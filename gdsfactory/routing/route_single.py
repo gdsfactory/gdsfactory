@@ -162,8 +162,7 @@ def route_single(
     bend90 = gf.get_component(bend, cross_section=xs, radius=radius, width=width)
     validate_bend90(bend90, port_type, default_bend)
     if auto_taper:
-        p1 = add_auto_tapers(component, [p1], xs, layer_transitions)[0]
-        p2 = add_auto_tapers(component, [p2], xs, layer_transitions)[0]
+        p1, p2 = add_auto_tapers(component, [p1, p2], xs, layer_transitions)
 
     def straight_(width: float, length: float, **kwargs: Any) -> gf.Component:
         straight_xs = kwargs.pop("cross_section", xs)
