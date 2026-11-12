@@ -159,7 +159,7 @@ def test_transition_omitting_its_only_drawable_strip_raises(
 ) -> None:
     """A WG core in SLAB90 to a SLAB90 core: only the slab can be drawn."""
     a, _ = _swapped_stacks()
-    slab = gf.cross_section.strip(width=None, sections=[("SLAB90", -0.5, 0.5)])
+    slab = gf.cross_section.cross_section(width=None, sections=[("SLAB90", -0.5, 0.5)])
 
     with pytest.raises(ValueError, match="nothing to draw"):
         gf.path.extrude_transition(
