@@ -193,3 +193,7 @@ extrusion options.
 ## Diffing
 
 ::: gdsfactory.difftest
+
+## Material cards
+
+The generic PDK supplies typed optical models and compatibility aliases. See [Generic PDK materials](materials.md).

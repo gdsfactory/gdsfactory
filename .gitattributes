@@ -1,2 +1,5 @@
 *.gds binary
 *.oas binary
+
+# Primary-data extracts must be identical on every platform.
+gdsfactory/gpdk/material_data/*.csv text eol=lf
