@@ -286,7 +286,7 @@ def test_path_append_list() -> None:
     # Repeat the S-turn 3 times by nesting our S-turn list 3x times in another list
     triple_s_turn = [s_turn, s_turn, s_turn]
     p.append(triple_s_turn)
-    assert p.length() == 56.545, p.length()
+    assert p.length() == pytest.approx(56.545, abs=1e-3), p.length()
 
 
 def test_path_init() -> None:

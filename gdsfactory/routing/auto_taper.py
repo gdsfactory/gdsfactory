@@ -55,7 +55,9 @@ def add_auto_tapers(
         layer_transitions = pdk.layer_transitions
     layer_transitions = _normalize_layer_transitions(layer_transitions)
 
-    result: list[Port] = []
+    # (port, None) for ports kept as-is
+    # (port, (taper, p0, p1)) for ports to taper
+    plan: list[tuple[Port, None | tuple[Component, str, str]]] = []
 
     for p in ports:
         port_layer = gf.get_layer(p.layer)
@@ -81,10 +83,10 @@ def add_auto_tapers(
                     f"No registered width taper for layer {port_layer}. Skipping.",
                     stacklevel=4,
                 )
-                result.append(p)
+                plan.append((p, None))
                 continue
         else:
-            result.append(p)
+            plan.append((p, None))
             continue
 
         if reverse:
@@ -115,10 +117,19 @@ def add_auto_tapers(
             raise ValueError(
                 f"Taper component ports do not match the port's layer and width!\nTaper name: {taper_component.name}\nPorts: {taper_ports}\nCross-section: {layer=}, {width=}"
             )
-        taper_ref = component.add_ref(taper_component)
         assert p0.name is not None
-        taper_ref.connect(p0.name, p)
-        port_new = taper_ref.ports[p1.name].copy()
+        assert p1.name is not None
+        plan.append((p, (taper_component, p0.name, p1.name)))
+
+    result: list[Port] = []
+    for p, taper_plan in plan:
+        if taper_plan is None:
+            result.append(p)
+            continue
+        taper_component, p0_name, p1_name = taper_plan
+        taper_ref = component.add_ref(taper_component)
+        taper_ref.connect(p0_name, p)
+        port_new = taper_ref.ports[p1_name].copy()
         port_new.name = p.name
         result.append(port_new)
     return result

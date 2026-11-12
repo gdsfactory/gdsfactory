@@ -25,11 +25,14 @@ def test_route_from_steps() -> None:
         port1=p1,
         port2=p2,
         steps=[
+            {"x": 15},
             {"x": 20},
             {"y": 20},
-            {"x": 120},
+            {"x": 130},
             {"y": 80},
+            {"x": 120},
         ],
+        raise_on_error=True,
     )
 
 
@@ -40,17 +43,17 @@ def test_route_waypoints() -> None:
     left = c << w
     right = c << w
     right.dmove((100, 80))
-    obstacle = gf.components.rectangle(size=(100, 10))
+    obstacle = gf.components.rectangle(size=(100, 10), layer="M3")
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
     obstacle1.dymin = 40
-    obstacle2.dxmin = 25
+    obstacle2.dxmin = 40
 
     p0 = left.ports["e2"]
     p1 = right.ports["e2"]
     p0x, p0y = left.ports["e2"].center
     p1x, p1y = right.ports["e2"].center
-    o = 10  # vertical offset to overcome bottom obstacle
+    o = 20  # horizontal offset of the vertical segments, leaving room for corners
     ytop = 20
 
     gf.routing.route_bundle(
@@ -60,11 +63,14 @@ def test_route_waypoints() -> None:
         cross_section="metal_routing",
         bend="wire_corner",
         waypoints=[
+            (p0x + 10, p0y),
             (p0x + o, p0y),
             (p0x + o, ytop),
             (p1x + o, ytop),
             (p1x + o, p1y),
+            (p1x + 10, p1y),
         ],
+        raise_on_error=True,
     )
 
 
@@ -75,17 +81,17 @@ def test_route_waypoints_numpy() -> None:
     left = c << w
     right = c << w
     right.dmove((100, 80))
-    obstacle = gf.components.rectangle(size=(100, 10))
+    obstacle = gf.components.rectangle(size=(100, 10), layer="M3")
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
     obstacle1.dymin = 40
-    obstacle2.dxmin = 25
+    obstacle2.dxmin = 40
 
     p0 = left.ports["e2"]
     p1 = right.ports["e2"]
     p0x, p0y = left.ports["e2"].center
     p1x, p1y = right.ports["e2"].center
-    o = 10  # vertical offset to overcome bottom obstacle
+    o = 20  # horizontal offset of the vertical segments, leaving room for corners
     ytop = 20
 
     gf.routing.route_bundle(
@@ -95,11 +101,14 @@ def test_route_waypoints_numpy() -> None:
         bend="wire_corner",
         cross_section="metal_routing",
         waypoints=[
+            (p0x + 10, p0y),
             (p0x + o, p0y),
             (p0x + o, ytop),
             (p1x + o, ytop),
             (p1x + o, p1y),
+            (p1x + 10, p1y),
         ],
+        raise_on_error=True,
     )
 
 
@@ -131,7 +140,13 @@ def _bends(c: gf.Component) -> list[str]:
 )
 def test_route_single_default_bend(cross_section: str, bend: str) -> None:
     c, port1, port2 = _two_straights(cross_section)
-    gf.routing.route_single(c, port1, port2, cross_section=cross_section)
+    gf.routing.route_single(
+        c,
+        port1,
+        port2,
+        cross_section=cross_section,
+        raise_on_error=True,
+    )
     bends = _bends(c)
     assert bends
     assert all(name.startswith(bend) for name in bends)
@@ -151,4 +166,5 @@ def test_route_single_incompatible_bend(with_waypoints: bool) -> None:
             cross_section="strip",
             bend="wire_corner",
             waypoints=waypoints,
+            raise_on_error=True,
         )

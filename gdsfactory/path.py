@@ -411,7 +411,7 @@ class Path(UMGeometricObject):
         y = self.points[:, 1]
         dx: npt.NDArray[np.floating[Any]] = np.diff(x)
         dy: npt.NDArray[np.floating[Any]] = np.diff(y)
-        return float(np.round(np.sum(np.sqrt((dx) ** 2 + (dy) ** 2)), 3))
+        return float(np.sum(np.hypot(dx, dy)))
 
     def curvature(
         self,
