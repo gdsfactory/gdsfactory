@@ -58,14 +58,16 @@ class Instance(BaseModel):
         settings: input variables.
         info: information (polarization, wavelength ...).
         array: array config to make create an array reference for this instance
-        virtual: if True, creates a virtual instance without actual geometry
+        virtual: if True, creates a virtual instance without actual geometry.
+            If False, creates a real instance, even of an all-angle component.
+            If None, creates a virtual instance only for all-angle components.
     """
 
     component: str
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
     array: Array | None = None
-    virtual: bool = False
+    virtual: bool | None = None
 
     model_config = ConfigDict(extra="forbid")
 
