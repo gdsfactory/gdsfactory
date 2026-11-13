@@ -116,7 +116,7 @@ instances:
     component: coupler
     info:
       min_bend_radius: 30.486
-      path_length: 30.052
+      path_length: 30.051
     settings:
       allow_min_radius_violation: false
       bend: bend_s

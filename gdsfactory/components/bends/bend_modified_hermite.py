@@ -66,7 +66,7 @@ def bend_modified_hermite(
     )
 
 
-@gf.vcell
+@gf.vcell(tags=["bends"])
 def bend_modified_hermite_all_angle(
     radius: float = 15,
     angle: float = 90.0,

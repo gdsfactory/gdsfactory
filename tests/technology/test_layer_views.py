@@ -1,59 +1,13 @@
+import json
 import pathlib
 import xml.etree.ElementTree as ET
 
 import pytest
+import yaml
 from pydantic_extra_types.color import Color
 
-from gdsfactory.technology import LayerStack, LayerView, LayerViews
-from gdsfactory.technology.layer_map import LayerMap
-from gdsfactory.technology.layer_stack import LayerLevel
+from gdsfactory.technology import LayerView, LayerViews
 from gdsfactory.technology.layer_views import HatchPattern, LineStyle
-from gdsfactory.typings import Layer
-
-nm = 1e-3
-
-
-class LayerMapFabA(LayerMap):
-    WG: Layer = (34, 0)
-    SLAB150: Layer = (2, 0)
-    DEVREC: Layer = (68, 0)
-    PORT: Layer = (1, 10)
-    PORTE: Layer = (1, 11)
-    TEXT: Layer = (66, 0)
-
-
-LAYER = LayerMapFabA
-
-
-class FabALayerViews(LayerViews):
-    WG: LayerView = LayerView(color="gold")
-    SLAB150: LayerView = LayerView(color="red")
-    TE: LayerView = LayerView(color="green")
-
-
-LAYER_VIEWS = FabALayerViews(layers=LAYER)
-
-
-def get_layer_stack_faba(
-    thickness_wg: float = 500 * nm, thickness_slab: float = 150 * nm
-) -> LayerStack:
-    """Returns fabA LayerStack."""
-    return LayerStack(
-        layers=dict(
-            strip=LayerLevel(
-                layer=LAYER.WG,
-                thickness=thickness_wg,
-                zmin=0.0,
-                material="si",
-            ),
-            strip2=LayerLevel(
-                layer=LAYER.SLAB150,
-                thickness=thickness_slab,
-                zmin=0.0,
-                material="si",
-            ),
-        )
-    )
 
 
 def test_preview_layerset() -> None:
@@ -273,3 +227,32 @@ def test_nested_layerview_explicit_group_members_preserved() -> None:
     # Explicit group_members should be preserved, not overwritten
     assert "EXPLICIT" in group_view.group_members
     assert group_view.group_members["EXPLICIT"].fill_color == Color("#FFFFFF")
+
+
+def test_layer_views_yaml_schema_is_up_to_date() -> None:
+    from gdsfactory.technology.layer_views import (
+        LAYER_VIEWS_SCHEMA_PATH,
+        get_layer_views_yaml_schema,
+    )
+
+    committed = json.loads(LAYER_VIEWS_SCHEMA_PATH.read_text())
+    assert committed == get_layer_views_yaml_schema(), (
+        "Run gdsfactory.technology.layer_views.write_layer_views_yaml_schema()"
+    )
+
+
+def test_layer_views_yaml_schema_validates(tmp_path: pathlib.Path) -> None:
+    jsonschema = pytest.importorskip("jsonschema")
+    from gdsfactory.config import PATH
+    from gdsfactory.technology.layer_views import get_layer_views_yaml_schema
+
+    validator = jsonschema.Draft202012Validator(get_layer_views_yaml_schema())
+    validator.check_schema(validator.schema)
+    validator.validate(yaml.safe_load(PATH.klayout_yaml.read_text()))
+
+    yaml_path = tmp_path / "layers.yaml"
+    LayerViews(PATH.klayout_lyp).to_yaml(yaml_path)
+    validator.validate(yaml.safe_load(yaml_path.read_text()))
+
+    typo = {"LayerViews": {"WG": {"layr": [1, 0]}}}
+    assert not validator.is_valid(typo)

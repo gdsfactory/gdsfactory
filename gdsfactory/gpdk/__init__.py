@@ -6,6 +6,7 @@ from functools import cache, partial
 from gdsfactory.config import PATH
 from gdsfactory.gpdk.layer_map import LAYER
 from gdsfactory.gpdk.layer_stack import LAYER_STACK
+from gdsfactory.gpdk.material_cards import MATERIAL_ALIASES, MATERIAL_CARDS
 from gdsfactory.typings import RoutingStrategy
 
 if typing.TYPE_CHECKING:
@@ -13,7 +14,13 @@ if typing.TYPE_CHECKING:
 
     PDK: Pdk
 
-__all__ = ["LAYER", "LAYER_STACK", "get_generic_pdk"]
+__all__ = [
+    "LAYER",
+    "LAYER_STACK",
+    "MATERIAL_ALIASES",
+    "MATERIAL_CARDS",
+    "get_generic_pdk",
+]
 
 
 PORT_MARKER_LAYER_TO_TYPE = {
@@ -110,6 +117,8 @@ def get_generic_pdk() -> Pdk:
         layer_views=PATH.klayout_yaml,
         layer_transitions=layer_transitions,
         materials_index=materials_index,
+        material_cards=MATERIAL_CARDS,
+        material_aliases=MATERIAL_ALIASES,
         constants=GenericConstants(),
         connectivity=LAYER_CONNECTIVITY,
         routing_strategies=routing_strategies,

@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from gdsfactory.routing.route_bundle import route_bundle
+from gdsfactory.routing.route_bundle import route_bundle, route_bundle_electrical
 from gdsfactory.typings import AngleInDegrees, Delta
 
 
@@ -510,9 +510,11 @@ def test_route_bundle_layer_label_in_um() -> None:
     assert np.allclose(labels, lengths_um), labels
 
 
-def _two_straights(cross_section: str) -> tuple[Component, Port, Port]:
+def _two_straights(
+    cross_section: str, width: float | None = None
+) -> tuple[Component, Port, Port]:
     c = gf.Component()
-    straight = gf.components.straight(cross_section=cross_section)
+    straight = gf.components.straight(cross_section=cross_section, width=width)
     left = c << straight
     right = c << straight
     right.move((300, 200))
@@ -577,6 +579,48 @@ def test_route_bundle_default_bend_multi_section() -> None:
     assert all(corner.area(layer="M3") > 0 for corner in corners)
 
 
+def test_route_bundle_electrical_default_bend() -> None:
+    c, port1, port2 = _two_straights("metal_routing")
+    route_bundle_electrical(c, [port1], [port2], cross_section="metal_routing")
+    bends = _bends(c)
+    assert bends
+    assert all(name.startswith("wire_corner") for name in bends)
+    assert not any(name.startswith("wire_corner_sections") for name in bends)
+
+
+def test_route_bundle_electrical_default_bend_multi_section() -> None:
+    c = gf.Component()
+    straight = gf.components.straight(cross_section="gs")
+    left = c << straight
+    right = c << straight
+    right.move((600, 600))
+    route_bundle_electrical(
+        c, [left.ports[1]], [right.ports[0]], cross_section="gs", raise_on_error=True
+    )
+    corners = [
+        gf.Component(base=inst.cell.base)
+        for inst in c.insts
+        if inst.cell.name.startswith("wire_corner_sections")
+    ]
+    assert corners
+    assert all(corner.area(layer="M3") > 0 for corner in corners)
+
+
+def test_route_bundle_electrical_explicit_bend() -> None:
+    c, port1, port2 = _two_straights("metal_routing")
+    route_bundle_electrical(
+        c,
+        [port1],
+        [port2],
+        cross_section="metal_routing",
+        bend="bend_euler",
+        raise_on_error=True,
+    )
+    bends = _bends(c)
+    assert bends
+    assert all(name.startswith("bend_euler") for name in bends)
+
+
 def test_route_bundle_incompatible_bend_leaves_component_unchanged() -> None:
     c = gf.Component()
     straight = gf.components.straight(cross_section="strip", width=0.8)
@@ -592,6 +636,32 @@ def test_route_bundle_incompatible_bend_leaves_component_unchanged() -> None:
             bend="wire_corner",
             steps=[{"dx": 50}, {"dy": 200}],
             layer_marker=(2, 0),
+        )
+    # Neither the auto-tapers nor the step markers were placed.
+    assert len(c.insts) == 2
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"steps": [{"dx": 50}], "waypoints": [(0, 0), (50, 0)]},
+        {"steps": [{"dz": 50}]},
+        {"steps": [{"dx": 50}, (1, 2)]},
+        {"path_length_matching_config": {"loops": 1}, "constraints": []},
+    ],
+)
+def test_route_bundle_invalid_arguments_leave_component_unchanged(
+    kwargs: dict[str, object],
+) -> None:
+    c, port1, port2 = _two_straights("strip", width=0.8)
+    with pytest.raises(ValueError):
+        route_bundle(
+            c,
+            [port1],
+            [port2],
+            cross_section="strip",
+            layer_marker=(2, 0),
+            **kwargs,  # type: ignore[arg-type]
         )
     # Neither the auto-tapers nor the step markers were placed.
     assert len(c.insts) == 2

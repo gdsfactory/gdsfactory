@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import pathlib
 import warnings
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from functools import cached_property, partial
 from typing import Any, cast, overload
 
@@ -13,6 +14,7 @@ import kfactory as kf
 import yaml
 from kfactory.layer import LayerEnum
 from kfactory.layout import Constants
+from pdk_schema import MaterialCard
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
 from gdsfactory import logger
@@ -34,6 +36,7 @@ from gdsfactory.typings import (
     ConnectivitySpec,
     CrossSectionFactory,
     CrossSectionSpec,
+    Layer,
     LayerSpec,
     LayerTransitions,
     MaterialSpec,
@@ -44,6 +47,13 @@ from gdsfactory.typings import (
 _ACTIVE_PDK: Pdk | None = None
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
+
+
+def _layer_key(layer: Layer | LayerEnum) -> Layer:
+    """Return the layer tuple of a layer enum or tuple."""
+    if isinstance(layer, LayerEnum):
+        return (layer.layer, layer.datatype)
+    return layer
 
 
 class GenericConstants(Constants):
@@ -136,17 +146,21 @@ class Pdk(BaseModel):
         layer_views: includes layer name to color, opacity and pattern.
         layer_transitions: transitions between different cross_sections.
         port_cross_sections: factories for width/layer-only and auxiliary ports,
-            keyed by physical layer tuple. Factories accept width, layer, offset and kcl
-            and define radius metadata when a profile is first created.
-        layer_port_types: main extrusion port types, keyed by physical layer tuple.
+            keyed by physical layer (a layer enum or tuple, stored as a tuple).
+            Factories accept width, layer, offset and kcl and define radius
+            metadata when a profile is first created.
+        layer_port_types: port types of main extrusion strips and of ports
+            added without an explicit type, keyed by physical layer.
         auxiliary_port_types: auxiliary extrusion port types, keyed by main and
-            auxiliary physical layer tuples.
+            auxiliary physical layers.
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
             string: material name.
             float: refractive index.
             float, float: refractive index real and imaginary part.
             function: function of wavelength.
+        material_cards: canonical material names to pdk-schema MaterialCards.
+        material_aliases: legacy names to canonical material names.
         routing_strategies: functions enabled to route.
         bend_points_distance: default points distance for bends in um.
         connectivity: defines connectivity between layers through vias.
@@ -157,12 +171,12 @@ class Pdk(BaseModel):
 
     name: str
     version: str = ""
-    port_cross_sections: dict[tuple[int, int], CrossSectionFactory] = Field(
+    port_cross_sections: dict[Layer | LayerEnum, CrossSectionFactory] = Field(
         default_factory=dict, exclude=True
     )
-    layer_port_types: dict[tuple[int, int], str] = Field(default_factory=dict)
-    auxiliary_port_types: dict[tuple[tuple[int, int], tuple[int, int]], str] = Field(
-        default_factory=dict
+    layer_port_types: dict[Layer | LayerEnum, str] = Field(default_factory=dict)
+    auxiliary_port_types: dict[tuple[Layer | LayerEnum, Layer | LayerEnum], str] = (
+        Field(default_factory=dict)
     )
 
     cross_sections: dict[str, CrossSectionFactory] = Field(
@@ -186,6 +200,8 @@ class Pdk(BaseModel):
     layer_transitions: LayerTransitions = Field(default_factory=dict)
     constants: Constants = Field(default_factory=Constants)
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
+    material_cards: dict[str, MaterialCard] = Field(default_factory=dict)
+    material_aliases: dict[str, str] = Field(default_factory=dict)
     routing_strategies: RoutingStrategies | None = None
     bend_points_distance: float = 20 * nm
     connectivity: Sequence[ConnectivitySpec] | None = None
@@ -239,16 +255,52 @@ class Pdk(BaseModel):
         self.cross_sections = cross_sections
         self.cells = cells
         self.containers = containers
+        for field in ("material_cards", "material_aliases"):
+            inherited = {}
+            for pdk in (*self.base_pdks, self):
+                inherited.update(getattr(pdk, field))
+            setattr(self, field, inherited)
+        self.material_cards = {
+            name: card
+            if isinstance(card, MaterialCard)
+            else MaterialCard.model_validate(card)
+            for name, card in self.material_cards.items()
+        }
+        for alias in self.material_aliases:
+            self.get_material_card(alias)
         for field in (
             "port_cross_sections",
             "layer_port_types",
             "auxiliary_port_types",
         ):
             conventions = {}
-            for pdk in self.base_pdks:
-                conventions.update(getattr(pdk, field))
-            conventions.update(getattr(self, field))
+            for pdk in (*self.base_pdks, self):
+                for key, value in getattr(pdk, field).items():
+                    if field == "auxiliary_port_types":
+                        key = tuple(map(_layer_key, key))
+                    else:
+                        key = _layer_key(key)
+                    conventions[key] = value
             setattr(self, field, conventions)
+
+    def get_material_card(self, name: str) -> MaterialCard:
+        """Return a canonical card, resolving explicitly declared aliases.
+
+        Material names remain case sensitive; exact cards take precedence over
+        aliases. Aliases must terminate at a card;
+        cycles and missing targets are rejected during PDK construction.
+        """
+        seen: set[str] = set()
+        while name not in self.material_cards and name in self.material_aliases:
+            if name in seen:
+                raise ValueError(f"Material alias cycle at {name!r}")
+            seen.add(name)
+            name = self.material_aliases[name]
+        if name not in self.material_cards:
+            raise ValueError(
+                f"Material card {name!r} is missing from PDK {self.name!r}"
+            )
+        return self.material_cards[name]
 
     def xsection[**P](self, func: CrossSectionCallable[P]) -> CrossSectionCallable[P]:
         """Decorator to register a cross section function.
@@ -807,6 +859,12 @@ def get_layer_info(layer: LayerSpec | kf.kdb.LayerInfo) -> kf.kdb.LayerInfo:
     return kf.kcl.get_info(layer_index)  # type: ignore[no-any-return]
 
 
+def get_layer_port_type(layer: LayerSpec | kf.kdb.LayerInfo) -> str:
+    """Returns the active PDK's port type for a layer, defaulting to optical."""
+    info = get_layer_info(layer)
+    return get_active_pdk().layer_port_types.get((info.layer, info.datatype), "optical")
+
+
 def get_layer_views() -> LayerViews:
     return get_active_pdk().get_layer_views()
 
@@ -852,76 +910,57 @@ def _set_active_pdk(pdk: Pdk) -> None:
 
     _ACTIVE_PDK = pdk
 
+    # Setting `kcl.infos` rebuilds `kcl.layers`, whose members reuse each layer's
+    # existing index in the layout, so put the PDK layers at their enum indexes first.
     if pdk.layers is not None:
-        kf.kcl.layers = pdk.layers
-        # LayerInfos registers missing physical layers, so restore enum indexes first.
-        _ensure_pdk_layers_registered(pdk)
+        with _cells_unlocked(kf.kcl.layout):
+            _prune_foreign_layers(pdk)
+            _ensure_pdk_layers_registered(pdk)
         kf.kcl.infos = kf.LayerInfos(
             **{v.name: kf.kdb.LayerInfo(v.layer, v.datatype) for v in pdk.layers},  # type: ignore[attr-defined]
         )
-        _prune_foreign_layers(pdk)
-        _ensure_pdk_layers_registered(pdk)
     else:
         kf.kcl.infos = kf.LayerInfos()
-        kf.kcl.layers = kf.kcl.layerenum_from_dict(layers=kf.kcl.infos)
 
     if pdk.dbu != kf.kcl.dbu:
         kf.kcl.layout.dbu = pdk.dbu
 
 
 def _ensure_pdk_layers_registered(pdk: Pdk) -> None:
-    """Restore active PDK physical layers at their LayerEnum indexes."""
+    """Restore active PDK physical layers at their LayerEnum indexes.
+
+    A foreign layer occupying a target index is moved, with its shapes, to a fresh
+    index; misplaced or duplicate registrations are merged into the target.
+    """
     if pdk.layers is None:
         return
     layout = kf.kcl.layout
     for layer in pdk.layers:  # type: ignore[attr-defined]
         target_index = int(layer)
-        info = kf.kdb.LayerInfo(layer.layer, layer.datatype)
-        existing_index = layout.find_layer(info)
-        if existing_index == target_index:
-            continue
-        if existing_index is not None:
+        key = (layer.layer, layer.datatype)
+        info = kf.kdb.LayerInfo(*key)
+        misplaced_indexes = [
+            index
+            for index in layout.layer_indexes()
+            if index != target_index
+            and (layout.get_info(index).layer, layout.get_info(index).datatype) == key
+        ]
+        try:
             if not layout.is_valid_layer(target_index):
                 layout.insert_layer_at(target_index, info)
             else:
                 existing_info = layout.get_info(target_index)
-                if (existing_info.layer, existing_info.datatype) != (
-                    info.layer,
-                    info.datatype,
-                ):
-                    logger.warning(
-                        "Layer index {} is already occupied by {}; cannot restore {}",
-                        target_index,
-                        existing_info,
-                        info,
-                    )
-                    continue
-            try:
-                layout.move_layer(existing_index, target_index)
-                layout.delete_layer(existing_index)
-            except RuntimeError:
-                logger.opt(exception=True).warning(
-                    "Could not move layer {} from index {} to {}",
-                    info,
-                    existing_index,
-                    target_index,
-                )
-            continue
-        if layout.is_valid_layer(target_index):
-            existing_info = layout.get_info(target_index)
-            if (existing_info.layer, existing_info.datatype) == (
-                info.layer,
-                info.datatype,
-            ):
-                continue
-            logger.warning(
-                "Layer index {} is already occupied by {}; cannot restore {}",
-                target_index,
-                existing_info,
-                info,
+                if (existing_info.layer, existing_info.datatype) != key:
+                    layout.move_layer(target_index, layout.insert_layer(existing_info))
+                    layout.set_info(target_index, info)
+            # Merge the misplaced (or duplicate) registrations into the target.
+            for index in misplaced_indexes:
+                layout.move_layer(index, target_index)
+                layout.delete_layer(index)
+        except RuntimeError:
+            logger.opt(exception=True).warning(
+                "Could not restore layer {} at index {}", info, target_index
             )
-            continue
-        layout.insert_layer_at(target_index, info)
 
 
 def _prune_foreign_layers(pdk: Pdk) -> None:
@@ -932,9 +971,9 @@ def _prune_foreign_layers(pdk: Pdk) -> None:
     generic layermap registered when ``gdsfactory`` is imported persists after a
     custom PDK is activated and keeps being written out and shown even though it is
     no longer active (https://github.com/gdsfactory/gdsfactory/issues/4595).
-    Reassigning ``kf.kcl.layers``/``infos`` only updates the name bookkeeping, not
-    the layout's physical layer slots, so drop any registered layer that is not
-    part of the active PDK. Empty layers are removed; layers that already hold
+    Setting ``kf.kcl.infos`` only updates the name bookkeeping, not the layout's
+    physical layer slots, so drop any registered layer that is not part of the
+    active PDK. Empty layers are removed; layers that already hold
     geometry are kept so pruning never orphans shapes (and the on-demand error
     layer is always kept).
     """
@@ -960,6 +999,19 @@ def _prune_foreign_layers(pdk: Pdk) -> None:
             logger.opt(exception=True).debug(
                 "Could not delete empty inactive layer {}", info
             )
+
+
+@contextlib.contextmanager
+def _cells_unlocked(layout: kf.kdb.Layout) -> Iterator[None]:
+    """Temporarily unlock every locked cell of a layout, relocking them on exit."""
+    locked = [cell for cell in layout.each_cell() if cell.locked]
+    try:
+        for cell in locked:
+            cell.locked = False
+        yield
+    finally:
+        for cell in locked:
+            cell.locked = True
 
 
 def get_routing_strategies() -> RoutingStrategies:

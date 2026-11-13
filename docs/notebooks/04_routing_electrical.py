@@ -12,10 +12,10 @@
 # ### route_bundle_electrical
 #
 #
-# `route_bundle_electrical` has `bend = wire_corner` with a 90deg bend corner.
+# `route_bundle_electrical` routes electrical ports with `wire_corner`, a 90deg bend corner.
 #
 # `route_bundle` and `route_single` pick `wire_corner` too when they route electrical ports and you don't pass a `bend`.
-# For a multi-section cross-section (GS, GSG) they pick `wire_corner_sections`, which draws every section.
+# For a multi-section cross-section (GS, GSG) they all pick `wire_corner_sections`, which draws every section.
 
 # %%
 import gdsfactory as gf
