@@ -544,6 +544,7 @@ def difftest(
     dirpath_run: pathlib.Path = PATH.gds_run,
     ignore_sliver_differences: bool | None = None,
     sliver_tolerance: int = 1,
+    file_format: Literal["gds", "oas"] = "gds",
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
 
@@ -562,6 +563,11 @@ def difftest(
         ignore_sliver_differences: if True, ignores any sliver differences in the XOR result.
             If None (default), defers to the value set in CONF.difftest_ignore_sliver_differences
         sliver_tolerance: tolerance in database units for sliver detection. Default is 1.
+        file_format: "gds" (GDSII) or "oas" (OASIS) for the reference and run files.
+            OASIS references are several times smaller and also smaller in git
+            history. They are written without CBLOCK compression, because
+            deflate-compressed blocks prevent git from delta-compressing
+            successive versions of a reference.
     """
     test_name = test_name or (
         f"{component.function_name}_{component.name}"
@@ -576,11 +582,14 @@ def difftest(
 
     filename = get_name_short(clean_name(test_name))
 
-    ref_file = dirpath_ref / f"{filename}.gds"
-    run_file = dirpath_run / f"{filename}.gds"
+    ref_file = dirpath_ref / f"{filename}.{file_format}"
+    run_file = dirpath_run / f"{filename}.{file_format}"
 
     component = gf.get_component(component)
-    run_file = component.write_gds(gdspath=run_file)
+    save_options = None
+    if file_format == "oas":
+        save_options = oasis_save_options()
+    run_file = component.write_gds(gdspath=run_file, save_options=save_options)
 
     if not ref_file.exists():
         shutil.copy(run_file, ref_file)
@@ -613,6 +622,16 @@ def difftest(
                 f"{filename!r} changed from reference {str(ref_file)!r}. "
                 "Run `pytest -s` to step and check differences in klayout GUI."
             ) from exc
+
+
+def oasis_save_options() -> kdb.SaveLayoutOptions:
+    """Returns save options for compact, deterministic OASIS reference files."""
+    save_options = kf.save_layout_options()
+    save_options.format = "OASIS"
+    save_options.oasis_compression_level = 10
+    save_options.oasis_strict_mode = True
+    save_options.oasis_write_cblocks = False
+    return save_options
 
 
 def overwrite(ref_file: pathlib.Path, run_file: pathlib.Path) -> None:
