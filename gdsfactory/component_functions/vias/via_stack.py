@@ -69,6 +69,10 @@ def via_stack(
         gf.get_layer(k): v for k, v in layer_to_port_orientations_dict.items()
     }
 
+    # One via per gap between layers is a complete stack; the top layer has no via.
+    if len(vias) == len(layers) - 1:
+        vias = (*vias, None)
+
     elements = {len(layers), len(layer_offsets), len(vias)}
     if len(elements) > 1:
         warnings.warn(
