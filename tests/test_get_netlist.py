@@ -372,6 +372,21 @@ def test_get_netlist_virtual_cell() -> None:
     )
 
 
+@pytest.mark.parametrize("pure", [False, True])
+@pytest.mark.parametrize("rotation", [0, 30])
+def test_get_netlist_virtual_array_raises(pure: bool, rotation: int) -> None:
+    """Virtual arrays are rejected, also once inserted as real arrays."""
+    c = gf.Component()
+    vi = c.create_vinst(
+        gf.components.bend_euler_all_angle(angle=90), na=2, a=kf.kdb.DVector(20, 0)
+    )
+    vi.rotate(rotation)
+    if not pure:
+        c.insert_vinsts()
+    with pytest.raises(ValueError, match="virtual array instances"):
+        c.get_netlist(on_dangling_port="ignore")
+
+
 @pytest.mark.parametrize("rotation", [0, 90, 180, 270])
 @pytest.mark.parametrize("mirror", [False, True])
 def test_get_netlist_array_roundtrip(rotation: int, mirror: bool) -> None:
