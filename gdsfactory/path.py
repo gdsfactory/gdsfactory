@@ -828,13 +828,26 @@ def transition_adiabatic(
     # Solve ODE
     x = np.linspace(0, max_length, num_points_ODE)
 
-    sol = odeint(dWdx, wmin, x, args=(neff_w, wavelength, alpha))
+    sol = odeint(dWdx, wmin, x, args=(neff_w, wavelength, alpha))[:, 0]
 
     # Extract optimal curve
-    xs = x[np.where(sol[:, 0] < wmax)]
-    ws = sol[:, 0][np.where(sol[:, 0] < wmax)]
+    n = np.count_nonzero(sol < wmax)
+    if n == len(x):
+        warnings.warn(
+            f"max_length={max_length} is too short to reach width {wmax}, "
+            f"the transition ends at width {sol[-1]:.3f}",
+            stacklevel=2,
+        )
+    xs = x[:n]
+    ws = sol[:n]
+    if 0 < n < len(x):
+        # end at wmax, not at the last sample below it
+        xs = np.append(xs, np.interp(wmax, sol[n - 1 : n + 1], x[n - 1 : n + 1]))
+        ws = np.append(ws, wmax)
 
-    return xs, ws[::order]
+    if order == -1:
+        return xs[-1] - xs[::-1], ws[::-1]
+    return xs, ws
 
 
 def transition(
