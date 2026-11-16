@@ -40,6 +40,8 @@ from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
+    OffsetFunction,
+    WidthFunction,
     WidthTypes,
 )
 
@@ -1109,8 +1111,8 @@ def extrude(
     *,
     add_bbox: bool | None = None,
     ports: dict[int, tuple[str | None, str | None, str]] | None = None,
-    width_function: Callable | dict[int, Callable] | None = None,
-    offset_function: Callable | dict[int, Callable] | None = None,
+    width_function: WidthFunction | dict[int, WidthFunction] | None = None,
+    offset_function: OffsetFunction | dict[int, OffsetFunction] | None = None,
     insets: dict[int, tuple[float, float]] | None = None,
     hidden: Collection[int] | None = None,
 ) -> AnyComponent:
@@ -1185,7 +1187,7 @@ def extrude(
             start_angle=path.start_angle,
             end_angle=path.end_angle,
         )
-        if i not in hidden and path.length() > 1e-3:
+        if i not in hidden and path.length() > c.kcl.dbu:
             upper = (
                 _simplify(points1, tolerance=tolerance)
                 if tolerance is not None
@@ -1269,8 +1271,10 @@ def extrude_transition(
 
     Multiple strips on a layer pair in signed-bound order. ``section_pairs``
     makes other pairings explicit. Unpaired and skipped strips are omitted.
-    ``ports``, ``hidden`` and ``simplify`` default to the extrusion settings of
-    the first cross section, keyed by its strip indices.
+    Main ports span the main strips whenever either is paired, other ports come
+    from auxiliary pairs. ``ports``, ``hidden`` and ``simplify`` default to the
+    extrusion settings of the first cross section, keyed by its strip indices.
+    Raises ``ValueError`` if no pair would be drawn.
     """
     if not isinstance(transition, Transition | TransitionAsymmetric):
         raise TypeError("Expected Transition or TransitionAsymmetric")
@@ -1289,8 +1293,6 @@ def extrude_transition(
             )
     else:
         pairs = list(section_pairs)
-    if not pairs:
-        raise ValueError("transition() found no common layers")
     if isinstance(transition, TransitionAsymmetric):
         wt1, wt2 = transition.width_type1, transition.width_type2
         ot1, ot2 = transition.offset_type1, transition.offset_type2
@@ -1316,6 +1318,19 @@ def extrude_transition(
     selected_ports, _, simplify, hidden, _ = _extrude_settings(
         x1, ports, None, simplify, hidden, None
     )
+    drawn = [
+        (i, j)
+        for i, j in pairs
+        if i not in skip_transition and i not in hidden and s1[i].layer == s2[j].layer
+    ]
+    if not drawn:
+        raise ValueError(
+            f"No strip pair in {pairs} is on a single layer without being hidden "
+            "or skipped, so the transition has nothing to draw. Pair strips on "
+            "the same layer with section_pairs."
+        )
+    if (0, 0) not in pairs and any(0 in pair for pair in pairs):
+        pairs.append((0, 0))  # main ports only
     c = ComponentAllAngle() if all_angle else Component()
     for i, j in pairs:
         if i in skip_transition:
@@ -1336,7 +1351,7 @@ def extrude_transition(
             start_angle=p.start_angle,
             end_angle=p.end_angle,
         )
-        if i not in hidden and a.layer == b.layer and p.length() > 1e-3:
+        if (i, j) in drawn and p.length() > c.kcl.dbu:
             u = (
                 _simplify(points1, tolerance=tolerance)
                 if tolerance is not None
@@ -1348,7 +1363,7 @@ def extrude_transition(
                 else points2
             )
             c.add_polygon(np.concatenate((u, lower_points[::-1])), layer=a.layer)
-        if i in selected_ports:
+        if i in selected_ports and (i == 0) == (j == 0):
             start, end, port_type = selected_ports[i]
             _add_section_port(
                 c,

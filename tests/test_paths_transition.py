@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from typing import Any
+
+import pytest
+
 import gdsfactory as gf
 
 
@@ -93,3 +97,90 @@ def test_taper_cross_section_round_tripped_layer_spec() -> None:
 
     t2 = gf.components.taper_cross_section(xs1_rt, xs2, length=10, linear=True)
     assert any(t2.get_polygons(merge=False).values())
+
+
+def _swapped_stacks() -> tuple[gf.CrossSection, gf.CrossSection]:
+    """A WG core in SLAB90, then a SLAB90 core in WG: the main strips cross layers."""
+
+    def stack(*names: str) -> gf.CrossSection:
+        return gf.cross_section.strip(
+            width=None, sections=[(n, -0.5 - i, 0.5 + i) for i, n in enumerate(names)]
+        )
+
+    return stack("WG", "SLAB90"), stack("SLAB90", "WG")
+
+
+def _main_port(c: gf.Component, name: str) -> tuple[float, str]:
+    port = c.ports[name]
+    return port.width, gf.get_layer_info(port.layer).name
+
+
+def test_transition_main_ports_ignore_explicit_cross_layer_pairs() -> None:
+    a, b = _swapped_stacks()
+
+    c = gf.path.extrude_transition(
+        gf.path.straight(10),
+        gf.path.transition(a, b),
+        section_pairs=[(0, 1), (1, 0)],
+    )
+    assert set(c.get_polygons()) == {gf.get_layer("WG"), gf.get_layer("SLAB90")}
+    assert _main_port(c, "o1") == (1.0, "WG")
+    assert _main_port(c, "o2") == (1.0, "SLAB90")
+
+
+@pytest.mark.parametrize("section_pairs", [None, [(0, 0)], []])
+def test_transition_that_draws_nothing_raises(
+    section_pairs: list[tuple[int, int]] | None,
+) -> None:
+    """Main strips on different layers are not paired with auxiliary strips by default."""
+    a, b = _swapped_stacks()
+
+    with pytest.raises(ValueError, match="nothing to draw"):
+        gf.path.extrude_transition(
+            gf.path.straight(10),
+            gf.path.transition(a, b),
+            section_pairs=section_pairs,
+        )
+
+
+def test_transition_omits_main_ports_when_main_strips_are_unpaired() -> None:
+    a, _ = _swapped_stacks()
+
+    c = gf.path.extrude_transition(
+        gf.path.straight(10), gf.path.transition(a, a), section_pairs=[(1, 1)]
+    )
+    assert set(c.get_polygons()) == {gf.get_layer("SLAB90")}
+    assert not list(c.ports)
+
+
+@pytest.mark.parametrize("omit", [{"hidden": {1}}, {"skip_transition": [1]}])
+def test_transition_omitting_its_only_drawable_strip_raises(
+    omit: dict[str, Any],
+) -> None:
+    """A WG core in SLAB90 to a SLAB90 core: only the slab can be drawn."""
+    a, _ = _swapped_stacks()
+    slab = gf.cross_section.cross_section(width=None, sections=[("SLAB90", -0.5, 0.5)])
+
+    with pytest.raises(ValueError, match="nothing to draw"):
+        gf.path.extrude_transition(
+            gf.path.straight(10),
+            gf.path.transition(a, slab),
+            section_pairs=[(1, 0)],
+            **omit,
+        )
+
+
+def test_transition_rib_to_slab_needs_an_explicit_pair() -> None:
+    rib = gf.cross_section.rib2(width=0.5, width_slab=5.5)
+    slab = gf.cross_section.strip(width=5.5, layer="SLAB90")
+    transition = gf.path.transition(rib, slab)
+
+    with pytest.raises(ValueError, match="nothing to draw"):
+        gf.path.extrude_transition(gf.path.straight(10), transition)
+
+    c = gf.path.extrude_transition(
+        gf.path.straight(10), transition, section_pairs=[(1, 0)]
+    )
+    assert set(c.get_polygons()) == {gf.get_layer("SLAB90")}
+    assert _main_port(c, "o1") == (0.5, "WG")
+    assert _main_port(c, "o2") == (5.5, "SLAB90")
