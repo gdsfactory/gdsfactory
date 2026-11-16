@@ -83,15 +83,21 @@ def boolean(
 def get_ref_shapes(ref: ComponentReference, layer_index: int) -> kf.kdb.Region:
     if ref.is_regular_array():
         base_inst_region = kf.kdb.Region(ref.cell.begin_shapes_rec(layer_index))
-
+        trans = ref.cplx_trans
+        a, b = ref.a, ref.b
+        na, nb = ref.na, ref.nb
+        b_offsets = [ib * b for ib in range(nb)]
+        shapes = kf.kdb.Shapes()
+        for polygon in base_inst_region.each():
+            shapes.insert(polygon)
         br = kf.kdb.Region()
-        for ia in range(ref.na):
-            for ib in range(ref.nb):
-                br.insert(
-                    base_inst_region.transformed(
-                        ref.cplx_trans * kf.kdb.ICplxTrans(ia * ref.a + ib * ref.b)
-                    )
-                )
+        insert = br.insert
+        offset_trans = kf.kdb.ICplxTrans()
+        for ia in range(na) if not shapes.is_empty() else ():
+            a_offset = ia * a
+            for b_offset in b_offsets:
+                offset_trans.disp = a_offset + b_offset
+                insert(shapes, trans * offset_trans)
     else:
         br = kf.kdb.Region(ref.cell.begin_shapes_rec(layer_index)).transformed(
             ref.cplx_trans
