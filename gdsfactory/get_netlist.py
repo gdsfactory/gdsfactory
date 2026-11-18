@@ -613,13 +613,7 @@ def _get_array_config(inst: Instance) -> scm.Array:
                 column_pitch=ax,
                 row_pitch=by,
             )
-        case (True, _, _, True):
-            return scm.OrthogonalGridArray(
-                columns=inst.nb,
-                rows=inst.na,
-                column_pitch=bx,
-                row_pitch=ay,
-            )
+    # Preserve a/b order so element port and connection indices remain valid.
     return scm.GridArray(
         num_a=inst.na,
         num_b=inst.nb,
