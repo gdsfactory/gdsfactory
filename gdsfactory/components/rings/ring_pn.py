@@ -62,6 +62,8 @@ def ring_double_pn(
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 2.175,
     heater_vias: ComponentSpec = "via_stack_heater_ring_pn",
+    pn_vias: ComponentSpec = "via_stack_slab_m3",
+    pn_vias_width: float = 3,
     with_drop: bool = True,
     **kwargs: Any,
 ) -> gf.Component:
@@ -79,7 +81,9 @@ def ring_double_pn(
         doped_heater_layer: doping layer for heater.
         doped_heater_width: width of doped heater.
         doped_heater_waveguide_offset: distance from the center of the ring waveguide to the center of the doped heater.
-        heater_vias: components specifications for heater vias
+        heater_vias: components specifications for heater vias.
+        pn_vias: components specifications for pn vias.
+        pn_vias_width: width of pn vias.
         with_drop: boolean for if we include drop waveguide or not.
         kwargs: cross_section settings.
 
@@ -97,6 +101,8 @@ def ring_double_pn(
         doped_heater_width=doped_heater_width,
         doped_heater_waveguide_offset=doped_heater_waveguide_offset,
         heater_vias=heater_vias,
+        pn_vias=pn_vias,
+        pn_vias_width=pn_vias_width,
         with_drop=with_drop,
         **kwargs,
     )

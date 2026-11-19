@@ -45,6 +45,8 @@ def ring_double_pn(
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 2.175,
     heater_vias: ComponentSpec = "via_stack_heater_ring_pn",
+    pn_vias: ComponentSpec = "via_stack_slab_m3",
+    pn_vias_width: float = 3,
     with_drop: bool = True,
     **kwargs: Any,
 ) -> gf.Component:
@@ -62,7 +64,9 @@ def ring_double_pn(
         doped_heater_layer: doping layer for heater.
         doped_heater_width: width of doped heater.
         doped_heater_waveguide_offset: distance from the center of the ring waveguide to the center of the doped heater.
-        heater_vias: components specifications for heater vias
+        heater_vias: components specifications for heater vias.
+        pn_vias: components specifications for pn vias.
+        pn_vias_width: width of pn vias.
         with_drop: boolean for if we include drop waveguide or not.
         kwargs: cross_section settings.
 
@@ -125,8 +129,28 @@ def ring_double_pn(
         gf.port.core_port(left_doped_ring_ref.ports["o2"]),
     )
 
+    pn_positions = {
+        label: (ref.ports[port_name].x, ref.ports[port_name].y)
+        for label, ref, port_name in (
+            ("sig_left", left_doped_ring_ref, "e2_bot"),
+            ("gnd_left", left_doped_ring_ref, "e1_top"),
+            ("sig_right", right_doped_ring_ref, "e2_bot"),
+            ("gnd_right", right_doped_ring_ref, "e1_top"),
+        )
+    }
+
     ring = c.add_ref_off_grid(r)
+    ring_cx = (ring.xmin + ring.xmax) / 2
+    ring_cy = (ring.ymin + ring.ymax) / 2
     ring.center = (0, 0)
+
+    pn_via = get_component(pn_vias, size=(pn_vias_width, pn_vias_width))
+    for label, (px, py) in pn_positions.items():
+        v = c << pn_via
+        v.x = px - ring_cx
+        v.y = py - ring_cy
+        pn_port = c.add_port(name=label, port=v["e2"])
+        c.create_pin(ports=[pn_port], name=label)
 
     drop_waveguide_dy = (
         radius
