@@ -530,7 +530,7 @@ def diff(
             if out_file is not None:
                 c.write(out_file)
             if show:
-                c.show()
+                c.show(use_libraries=False)
 
         return DiffResult(has_differences=not equivalent, layers=layer_diffs)
     return DiffResult(has_differences=False)

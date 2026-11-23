@@ -175,6 +175,32 @@ def test_difftest_does_not_modify_cached_components(tmp_path: Path) -> None:
     gf.clear_cache()
 
 
+def test_difftest_ignores_duplicate_names_in_active_layout(tmp_path: Path) -> None:
+    """A difference is reported even if the active layout can't be written."""
+    gf.clear_cache()
+    gf.Component("duplicated_name")
+    gf.Component().name = "duplicated_name"
+    dirpath_run = tmp_path / "run"
+
+    with pytest.raises(AssertionError, match="not found"):
+        difftest(
+            gf.components.straight(length=10),
+            test_name="straight",
+            dirpath=tmp_path,
+            dirpath_run=dirpath_run,
+        )
+
+    with pytest.raises(GeometryDifference):
+        difftest(
+            gf.components.straight(length=20),
+            test_name="straight",
+            dirpath=tmp_path,
+            dirpath_run=dirpath_run,
+        )
+
+    gf.clear_cache()
+
+
 def test_difftest_oasis(tmp_path: Path) -> None:
     """Difftest stores and compares OASIS references when file_format="oas"."""
     component = gf.components.straight(length=10)
