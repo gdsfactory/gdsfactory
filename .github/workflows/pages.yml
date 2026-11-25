@@ -5,7 +5,22 @@ on:
   push:
     branches:
       - main
+  release:
+    types: [published]
   workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to build the docs from (e.g. v9.51.0)
+        required: true
+        default: main
+      version:
+        description: Version directory to publish to (e.g. 9.51 or dev)
+        required: true
+        default: dev
+      alias:
+        description: Optional alias to point at this version (e.g. stable)
+        required: false
+        default: ''
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -19,6 +34,8 @@ jobs:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.13.1
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.ref }}
       - uses: actions/cache@v6.1.0
         with:
           path: |
@@ -36,6 +53,16 @@ jobs:
           make install
           sudo apt install graphviz graphviz-dev -y
           uv run gf install-klayout-genericpdk
+      - name: Enable the version selector
+        # older tags predate the selector config; add it so every version shows it
+        run: |
+          if ! grep -q 'provider: mike' docs/zensical.yml; then
+            if grep -q '^extra:' docs/zensical.yml; then
+              echo "::error::docs/zensical.yml has an extra: block without the version selector"
+              exit 1
+            fi
+            printf '\nextra:\n  version:\n    provider: mike\n    default: stable\n' >> docs/zensical.yml
+          fi
       - name: Build the docs
         env:
           GDSFACTORY_DISPLAY_TYPE: klayout
@@ -43,12 +70,76 @@ jobs:
         run: |
           make docs
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
+          name: docs-html
           path: "./docs/_build/html/"
           retention-days: 7
-  deploy-docs:
+  publish-docs:
     needs: build-docs
+    # main -> dev, stable releases -> X.Y + stable, manual runs -> the given version
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && !github.event.release.prerelease) || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: publish-docs
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: src
+      - name: Check out the published site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          remote="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if ! git clone --branch gh-pages --single-branch "$remote" site; then
+            git init -b gh-pages site
+            git -C site remote add origin "$remote"
+          fi
+      - uses: actions/download-artifact@v8
+        with:
+          name: docs-html
+          path: build
+      - name: Choose version
+        id: version
+        env:
+          EVENT: ${{ github.event_name }}
+          TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_ALIAS: ${{ inputs.alias }}
+        run: |
+          case "$EVENT" in
+            push) version=dev; alias="" ;;
+            release) version=$(echo "${TAG#v}" | cut -d. -f1,2); alias=stable ;;
+            *) version="$INPUT_VERSION"; alias="$INPUT_ALIAS" ;;
+          esac
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "alias=$alias" >> "$GITHUB_OUTPUT"
+      - name: Publish version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          ALIAS: ${{ steps.version.outputs.alias }}
+        run: |
+          python src/docs/publish_version.py build site "$VERSION" ${ALIAS:+--alias "$ALIAS"}
+          cd site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git commit -m "docs: publish $VERSION${ALIAS:+ ($ALIAS)}"; then
+            git push origin gh-pages
+          fi
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+          retention-days: 7
+  deploy-docs:
+    needs: publish-docs
+    # the github-pages environment only accepts main; a release updates gh-pages
+    # above and goes live with the next deploy from main
     if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
       pages: write
